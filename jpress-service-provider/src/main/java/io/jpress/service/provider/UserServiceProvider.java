@@ -30,8 +30,10 @@ import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
+import io.jpress.model.UserTag;
 import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
+import io.jpress.service.UserTagService;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -41,6 +43,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     @Inject
     private UserOpenidService openidService;
+
+    @Inject
+    private UserTagService tagService;
 
     @Override
     public boolean deleteByIds(Object... ids) {
@@ -56,19 +61,29 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
 
     @Override
-    public Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId) {
-        if (memberGroupId == null) {
-            return DAO.paginateByColumns(page, pagesize, columns, "id desc");
-        }
+    public Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId, String tag) {
 
         StringBuilder sqlBuilder = new StringBuilder("from `user` u ");
-        sqlBuilder.append(" left join member m on u.id = m.user_id ");
 
-        columns.add("m.group_id", memberGroupId);
+        if (memberGroupId != null) {
+            sqlBuilder.append(" left join member m on u.id = m.user_id ");
+            columns.add("m.group_id", memberGroupId);
+        }
+
+
+        if (StrUtil.isNotBlank(tag)) {
+            UserTag userTag = tagService.findFirstByTag(tag);
+            if (userTag == null) {
+                return null;
+            }
+            sqlBuilder.append("left join user_tag_mapping utm on u.id = utm.user_id");
+            columns.add("utm.tag_id", userTag.getId());
+        }
+
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
         sqlBuilder.append(" order by u.id desc");
 
-        return DAO.paginate(page, pagesize, "select u.* , m.group_id ", sqlBuilder.toString(), columns.getValueArray());
+        return DAO.paginate(page, pagesize, "select u.*  ", sqlBuilder.toString(), columns.getValueArray());
     }
 
     @Override

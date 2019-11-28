@@ -1,0 +1,143 @@
+#@layout()
+
+#define script()
+<script>
+    $('.del-action').on('click', function () {
+        if (confirm('确定要删除该标签吗？删除后不可恢复')) {
+            var id = $(this).attr("data-id");
+            ajaxGet("#(CPATH)/admin/article/doCategoryDel/" + id)
+        }
+    });
+
+
+</script>
+
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            用户标签
+            <small>User Tags</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                          action="#(CPATH)/admin/user/doTagSave"
+                          data-ok-href="#(CPATH)/admin/user/tag"
+                          method="post">
+                        <input type="hidden" name="tag.id" value="#(tag.id ??)">
+                        <input type="hidden" name="tag.type" value="tag">
+                        <div class="box-body ">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">名称</label>
+
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="取个适合的标签名称..."
+                                           value="#(tag.title ??)" name="tag.title">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容</label>
+                                <div class="col-sm-9">
+                                    <textarea rows="3" class="form-control" placeholder="..."
+                                              name="tag.content">#(tag.content ??)</textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">排序</label>
+                                <div class="col-sm-9">
+                                    <input type="input" class="form-control" placeholder="此标签排序的序号"
+                                           value="#(tag.order_number ??)"
+                                           name="tag.order_number">
+                                    <p class="help-block"> 其显示方式决定在模板的读取方式。 </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="box box-primary">
+
+                    <div class="box-header with-border">
+
+                    </div>
+
+                    <div class="box-body no-padding ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 40%">名称</th>
+                                <th>描述</th>
+                                <th>排序</th>
+                            </tr>
+                            #for(tag : page.list ??)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    <strong>
+                                        <a href="#(tag.url ??)" target="_blank">
+                                            #(tag.title ??)
+                                        </a>
+                                        （#(tag.count ?? 0)）
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/user/tag/#(tag.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/user?&tag=#(tag.title)">查看用户</a> |
+                                            <a href="javascript:;" class="del-action red-action"
+                                               data-id="#(tag.id)">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>#(tag.content ??)</td>
+                                <td>#(tag.order_number ??)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

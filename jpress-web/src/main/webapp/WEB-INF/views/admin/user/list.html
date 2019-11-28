@@ -67,18 +67,12 @@
                             <div class="row">
 
                                 <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">登录名</label>
+                                    <label class="col-sm-3 control-label">用户</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" name="username" value="#para('username')">
                                     </div>
                                 </div>
 
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">昵称</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="nickname" value="#para('nickname')">
-                                    </div>
-                                </div>
 
                                 <div class="form-group col-lg-4">
                                     <label class="col-sm-3 control-label">邮箱</label>
@@ -94,20 +88,6 @@
                                     </div>
                                 </div>
 
-                                <!--<div class="form-group col-lg-4">-->
-                                    <!--<label class="col-sm-3 control-label">来源</label>-->
-                                    <!--<div class="col-sm-9">-->
-                                        <!--<select class="form-control" name="create_source">-->
-                                            <!--<option value="">全部</option>-->
-                                            <!--<option value="wechat_web" #selectedIf(para("create_source") == "wechat_web")>微信网页授权</option>-->
-                                            <!--<option value="wechat_message" #selectedIf(para("create_source") == "wechat_message") >微信公众号</option>-->
-                                            <!--<option value="wechat_miniprogram" #selectedIf(para("create_source") == "wechat_miniprogram")>微信小程序</option>-->
-                                            <!--<option value="web_register" #selectedIf(para("create_source") == "web_register")>网页注册</option>-->
-                                            <!--<option value="admin_create" #selectedIf(para("create_source") == "admin_create")>后台创建</option>-->
-                                        <!--</select>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
 
                                 <div class="form-group col-lg-4">
                                     <label class="col-sm-3 control-label">会员组</label>
@@ -120,6 +100,14 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group col-lg-4">
+                                    <label class="col-sm-3 control-label">标签</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="tag" value="#para('tag')">
+                                    </div>
+                                </div>
+
 
                                 <div class="form-group col-lg-4">
                                     <div class="col-sm-12">
@@ -172,14 +160,13 @@
                                 </th>
                                 <th style="width: 40px">ID</th>
                                 <th style="width: 20%">登录名</th>
-                                <th>昵称</th>
-                                <th>邮箱</th>
-                                <th>手机</th>
+                                <th style="width: 10%">昵称</th>
+                                <th>标签</th>
                                 <th>会员组</th>
                                 <th style="width: 130px">来源</th>
                             </tr>
 
-                            #for(user : page.list )
+                            #for(user : page.list ??)
                             <tr class="jp-actiontr">
                                 <td>
                                     <input class="dataItem" type="checkbox" value="#(user.id)"/>
@@ -222,8 +209,14 @@
                                     </div>
                                 </td>
                                 <td>#(user.nickname ??)</td>
-                                <td>#(user.email ??)</td>
-                                <td>#(user.mobile ??)</td>
+                                <td>
+                                    #userTags(userId = user.id)
+                                        #for(t : tags)
+                                            #(m.title ??)
+                                            #if(!for.last) , #end
+                                        #end
+                                    #end
+                                </td>
                                 <td>
                                     #userMembers(userId = user.id)
                                         #for(m : members)

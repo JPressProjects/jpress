@@ -37,6 +37,7 @@ import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.util.*;
@@ -73,12 +74,17 @@ public class _UserController extends AdminControllerBase {
     @Inject
     private MemberJoinedRecordService memberJoinedRecordService;
 
+
+    @Inject
+    private UserTagService userTagService;
+
+
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void index() {
 
         Columns columns = Columns.create("status", getPara("status"));
         columns.likeAppendPercent("username", getPara("username"));
-        columns.likeAppendPercent("nickname", getPara("nickname"));
+//        columns.likeAppendPercent("nickname", getPara("username"));
         columns.likeAppendPercent("email", getPara("email"));
         columns.likeAppendPercent("mobile", getPara("mobile"));
         columns.eq("create_source", getPara("create_source"));
@@ -87,7 +93,7 @@ public class _UserController extends AdminControllerBase {
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
 
-        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"));
+        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"),getPara("tag"));
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);
@@ -105,6 +111,41 @@ public class _UserController extends AdminControllerBase {
 
         render("user/list.html");
     }
+
+    @AdminMenu(text = "用户标签", groupId = JPressConsts.SYSTEM_MENU_USER, order = 1)
+    public void tag() {
+
+        Page<UserTag> page = userTagService.paginate(getPagePara(), 10);
+        setAttr("page", page);
+
+        setAttr("tag", userTagService.findById(getPara()));
+
+        render("user/tag_list.html");
+    }
+
+
+    @EmptyValidate({
+            @Form(name = "tag.title", message = "标签名称不能为空"),
+    })
+    public void doTagSave() {
+        UserTag tag = getModel(UserTag.class, "tag");
+        tag.setSlug(tag.getTitle());
+
+        String slug = tag.getSlug();
+        if (slug == null || slug.contains("-") || StrUtil.isNumeric(slug)){
+            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            return;
+        }
+
+        Object id = userTagService.saveOrUpdate(tag);
+//        categoryService.doUpdateArticleCount(category.getId());
+
+
+        renderOkJson();
+    }
+
+
+
 
 
     public void permissions() {
@@ -282,6 +323,20 @@ public class _UserController extends AdminControllerBase {
         render("user/mgroup.html");
     }
 
+    @AdminMenu(text = "发消息", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
+    public void sendMsg(){
+        render("user/msg_email.html");
+    }
+
+    @ActionKey("/admin/user/sendMsg/wechat")
+    public void sendWechatMsg(){
+        render("user/msg_wechat.html");
+    }
+
+    @ActionKey("/admin/user/sendMsg/sms")
+    public void sendSmsMsg(){
+        render("user/msg_sms.html");
+    }
 
     public void mgroupjoined() {
         Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(),20,getParaToLong());
@@ -327,7 +382,7 @@ public class _UserController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
+    @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 9)
     public void role() {
         List<Role> roles = roleService.findAll();
         setAttr("roles", roles);
@@ -461,6 +516,24 @@ public class _UserController extends AdminControllerBase {
         roleService.doResetUserRoles(userId, roleIds);
         renderOkJson();
     }
+
+
+    public void doUpdateUserTags() {
+        Long[] tagIds = getTagIds(getParaValues("tag"));
+        userTagService.doUpdateTags(getLoginedUser().getId(), tagIds);
+        renderOkJson();
+    }
+
+    private Long[] getTagIds(String[] tags) {
+        if (tags == null || tags.length == 0) {
+            return null;
+        }
+
+        List<UserTag> userTags = userTagService.findOrCreateByTagString(tags);
+        long[] ids = userTags.stream().mapToLong(value -> value.getId()).toArray();
+        return ArrayUtils.toObject(ids);
+    }
+
 
 
     @EmptyValidate({

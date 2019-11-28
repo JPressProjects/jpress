@@ -1,0 +1,92 @@
+#define user_msg_layout(focus)
+
+#@layout()
+#define css()
+#@layout_css?()
+<style>
+    .nav-stacked > li.active > a {
+        color: #fff;
+        border-top: 0;
+        border-left: 0;
+        background: #3c8dbc;
+    }
+
+    .nav-stacked > li.active > a:hover {
+        background: #3c8dbcc4;
+        color: #fff;
+        border-top: 0;
+        border-left: 0;
+    }
+
+    .jp-actiontr {
+        word-break: break-all;
+    }
+</style>
+#end
+
+#define script()
+#@layout_script?()
+<script>
+
+    var action = "##(focus)";
+    $(action).attr("class","active")
+
+
+    $('#userForm').on('submit', function () {
+        ajaxSubmit("#userForm",function () {
+            toastr.success('修改成功');
+        });
+        return false;
+    });
+</script>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            发送消息
+            <small>Send Message</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="box box-primary">
+
+                    <div class="box-body box-profile">
+                        <h3 class="profile-username text-center" style="font-size: 60px"><i class="fa fa-fw fa-envelope-o"></i></h3>
+                        <p class="text-muted text-center">发邮件</p>
+                    </div>
+
+
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked" style="border-top: 1px solid #eee;" id="nav">
+                            <li id="email"><a href="#(CPATH)/admin/user/sendMsg"><i class="fa fa-fw fa-envelope"></i> 发邮件</a></li>
+                            <li id="sms"><a href="#(CPATH)/admin/user/sendMsg/sms"><i class="fa fa-fw fa-file-text"></i> 发短信</a></li>
+                            <li id="wechat"><a href="#(CPATH)/admin/user/sendMsg/wechat"><i class="fa fa-fw fa-wechat"></i> 发微信</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    #@detail?()
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+    </section>
+
+</div>
+#end
+#end

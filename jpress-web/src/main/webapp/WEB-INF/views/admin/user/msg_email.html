@@ -1,0 +1,67 @@
+#include("_user_msg_layout.html")
+#@user_msg_layout("email")
+
+#define layout_script()
+<script src="/static/components/ckeditor/ckeditor.js"></script>
+<script>
+    initEditor('contenteditor', 300);
+</script>
+#end
+
+#define detail()
+    <div class="box-header">
+        <h3 class="box-title"></h3>
+    </div>
+    <!-- /.box-header -->
+
+<form class="form-horizontal" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doSaveUser">
+    <div class="box-body">
+
+
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">用户标签</label>
+            <div class="col-sm-8">
+                <input type="input" class="form-control" value="111" readonly="">
+                <p class="help-block">邮件将会发送给该标签下的所有用户，多个标签请用逗号隔开。</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">标题</label>
+            <div class="col-sm-8">
+                <input type="input" class="form-control" placeholder="取个好听的昵称..." value="111" name="user.nickname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">抄送</label>
+            <div class="col-sm-8">
+                <input type="input" class="form-control" placeholder="取个好听的昵称..." value="111" name="user.nickname">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">内容</label>
+            <div class="col-sm-8">
+             <textarea rows="5" name="group.content" class="form-control" id="contenteditor"
+                                              placeholder="会员描述，包括会员的权益、福利等"><p>啊啊啊啊</p>
+</textarea>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        <div class="col-sm-offset-2 col-sm-10 submit-block">
+            <div class="box-submit">
+                <button type="submit" class="btn btn-primary">发送</button>
+            </div>
+        </div>
+    </div>
+</form>
+    <!-- /.box-footer -->
+#end
+

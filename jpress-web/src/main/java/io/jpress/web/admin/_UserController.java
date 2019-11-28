@@ -73,6 +73,11 @@ public class _UserController extends AdminControllerBase {
     @Inject
     private MemberJoinedRecordService memberJoinedRecordService;
 
+
+    @Inject
+    private UserTagService userTagService;
+
+
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void index() {
 
@@ -105,6 +110,41 @@ public class _UserController extends AdminControllerBase {
 
         render("user/list.html");
     }
+
+    @AdminMenu(text = "用户标签", groupId = JPressConsts.SYSTEM_MENU_USER, order = 1)
+    public void tag() {
+
+        Page<UserTag> page = userTagService.paginate(getPagePara(), 10);
+        setAttr("page", page);
+
+        setAttr("tag", userTagService.findById(getPara()));
+
+        render("user/tag_list.html");
+    }
+
+
+    @EmptyValidate({
+            @Form(name = "tag.title", message = "标签名称不能为空"),
+    })
+    public void doTagSave() {
+        UserTag tag = getModel(UserTag.class, "tag");
+        tag.setSlug(tag.getTitle());
+
+        String slug = tag.getSlug();
+        if (slug == null || slug.contains("-") || StrUtil.isNumeric(slug)){
+            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            return;
+        }
+
+        Object id = userTagService.saveOrUpdate(tag);
+//        categoryService.doUpdateArticleCount(category.getId());
+
+
+        renderOkJson();
+    }
+
+
+
 
 
     public void permissions() {
@@ -282,6 +322,20 @@ public class _UserController extends AdminControllerBase {
         render("user/mgroup.html");
     }
 
+    @AdminMenu(text = "发消息", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
+    public void sendMsg(){
+
+    }
+
+//    @AdminMenu(text = "发短信", groupId = JPressConsts.SYSTEM_MENU_USER, order = 6)
+//    public void sendEmailMsg(){
+//
+//    }
+//
+//    @AdminMenu(text = "发邮件", groupId = JPressConsts.SYSTEM_MENU_USER, order = 7)
+//    public void sendSmsMsg(){
+//
+//    }
 
     public void mgroupjoined() {
         Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(),20,getParaToLong());
@@ -327,7 +381,7 @@ public class _UserController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
+    @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 9)
     public void role() {
         List<Role> roles = roleService.findAll();
         setAttr("roles", roles);

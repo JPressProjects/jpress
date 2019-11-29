@@ -36,6 +36,7 @@ import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.commons.email.AdminMessageSender;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -93,7 +94,7 @@ public class _UserController extends AdminControllerBase {
         List<MemberGroup> memberGroups = memberGroupService.findAll();
         setAttr("memberGroups", memberGroups);
 
-        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"),getPara("tag"));
+        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"), getPara("tag"));
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);
@@ -132,7 +133,7 @@ public class _UserController extends AdminControllerBase {
         tag.setSlug(tag.getTitle());
 
         String slug = tag.getSlug();
-        if (slug == null || slug.contains("-") || StrUtil.isNumeric(slug)){
+        if (slug == null || slug.contains("-") || StrUtil.isNumeric(slug)) {
             renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
             return;
         }
@@ -143,9 +144,6 @@ public class _UserController extends AdminControllerBase {
 
         renderOkJson();
     }
-
-
-
 
 
     public void permissions() {
@@ -324,28 +322,39 @@ public class _UserController extends AdminControllerBase {
     }
 
     @AdminMenu(text = "发消息", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
-    public void sendMsg(){
+    public void sendMsg() {
         List<UserTag> hotTags = userTagService.findHotList(50);
-        setAttr("hotTags",hotTags);
+        setAttr("hotTags", hotTags);
         render("user/msg_email.html");
     }
 
+    public void doSendEmail() {
+        Long[] tagIds = getTagIds(getParaValues("userTags"));
+
+        List<User> users = userService.findListByTagIds(Columns.create(), tagIds);
+        String title = getPara("title");
+        String content = getPara("content");
+        String cc = getPara("cc");
+
+        renderJson(AdminMessageSender.sendEmail(title, content, cc, users));
+    }
+
     @ActionKey("/admin/user/sendMsg/wechat")
-    public void sendWechatMsg(){
+    public void sendWechatMsg() {
         List<UserTag> hotTags = userTagService.findHotList(50);
-        setAttr("hotTags",hotTags);
+        setAttr("hotTags", hotTags);
         render("user/msg_wechat.html");
     }
 
     @ActionKey("/admin/user/sendMsg/sms")
-    public void sendSmsMsg(){
+    public void sendSmsMsg() {
         List<UserTag> hotTags = userTagService.findHotList(50);
-        setAttr("hotTags",hotTags);
+        setAttr("hotTags", hotTags);
         render("user/msg_sms.html");
     }
 
     public void mgroupjoined() {
-        Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(),20,getParaToLong());
+        Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(), 20, getParaToLong());
         setAttr("page", page);
         setAttr("group", memberGroupService.findById(getPara()));
         render("user/mgroupjoined.html");
@@ -539,7 +548,6 @@ public class _UserController extends AdminControllerBase {
         long[] ids = userTags.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
     }
-
 
 
     @EmptyValidate({

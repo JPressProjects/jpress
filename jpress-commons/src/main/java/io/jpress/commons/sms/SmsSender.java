@@ -15,7 +15,7 @@
  */
 package io.jpress.commons.sms;
 
-public interface ISmsSender {
+public interface SmsSender {
 
 	public boolean send(SmsMessage sms);
 

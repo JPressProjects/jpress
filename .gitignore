@@ -22,5 +22,4 @@ logs
 *.patch
 ~$*
 */*.jar
-dbuild.sh
 docker_volumes/

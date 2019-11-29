@@ -116,7 +116,7 @@ public class _UserController extends AdminControllerBase {
     @AdminMenu(text = "用户标签", groupId = JPressConsts.SYSTEM_MENU_USER, order = 1)
     public void tag() {
 
-        Page<UserTag> page = userTagService.paginate(getPagePara(), 10);
+        Page<UserTag> page = userTagService.paginateByColumns(getPagePara(), 10, Columns.EMPTY, "id desc");
         setAttr("page", page);
 
         setAttr("tag", userTagService.findById(getPara()));
@@ -142,6 +142,12 @@ public class _UserController extends AdminControllerBase {
 //        categoryService.doUpdateArticleCount(category.getId());
 
 
+        renderOkJson();
+    }
+
+
+    public void doTagDel() {
+        userTagService.deleteById(getPara());
         renderOkJson();
     }
 
@@ -362,7 +368,7 @@ public class _UserController extends AdminControllerBase {
         String keyword4 = getPara("keyword4");
 
 
-        renderJson(AdminMessageSender.sendWechat(templateId,url,first,remark,keyword1,keyword2,keyword3,keyword4,users,cc));
+        renderJson(AdminMessageSender.sendWechat(templateId, url, first, remark, keyword1, keyword2, keyword3, keyword4, users, cc));
     }
 
 

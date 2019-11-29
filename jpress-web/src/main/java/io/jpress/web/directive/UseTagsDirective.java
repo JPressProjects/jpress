@@ -45,8 +45,8 @@ public class UseTagsDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#userTags(userId=???) userId must not null " + getLocation());
         }
 
-        List<UserTag> members = userTagService.findListByUserId(userId);
-        scope.set("tags", members);
+        List<UserTag> tags = userTagService.findListByUserId(userId);
+        scope.set("tags", tags);
 
         renderBody(env, scope, writer);
     }

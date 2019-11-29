@@ -346,12 +346,41 @@ public class _UserController extends AdminControllerBase {
         render("user/msg_wechat.html");
     }
 
+    public void doSendWechat() {
+        Long[] tagIds = getTagIds(getParaValues("userTags"));
+
+        List<User> users = userService.findListByTagIds(Columns.create(), tagIds);
+        String cc = getPara("cc");
+
+        String title = getPara("title");
+        String content = getPara("content");
+
+
+        renderJson(AdminMessageSender.sendWechat(title, content, cc, users));
+    }
+
+
     @ActionKey("/admin/user/sendMsg/sms")
     public void sendSmsMsg() {
         List<UserTag> hotTags = userTagService.findHotList(50);
         setAttr("hotTags", hotTags);
         render("user/msg_sms.html");
     }
+
+
+    public void doSendSms() {
+        Long[] tagIds = getTagIds(getParaValues("userTags"));
+
+        List<User> users = userService.findListByTagIds(Columns.create(), tagIds);
+        String cc = getPara("cc");
+
+        String smsTemplate = getPara("sms_template");
+        String smsSign = getPara("sms_sign");
+
+
+        renderJson(AdminMessageSender.sendSms(smsTemplate, smsSign, cc, users));
+    }
+
 
     public void mgroupjoined() {
         Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(), 20, getParaToLong());

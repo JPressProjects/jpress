@@ -325,16 +325,22 @@ public class _UserController extends AdminControllerBase {
 
     @AdminMenu(text = "发消息", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
     public void sendMsg(){
+        List<UserTag> hotTags = userTagService.findHotList(50);
+        setAttr("hotTags",hotTags);
         render("user/msg_email.html");
     }
 
     @ActionKey("/admin/user/sendMsg/wechat")
     public void sendWechatMsg(){
+        List<UserTag> hotTags = userTagService.findHotList(50);
+        setAttr("hotTags",hotTags);
         render("user/msg_wechat.html");
     }
 
     @ActionKey("/admin/user/sendMsg/sms")
     public void sendSmsMsg(){
+        List<UserTag> hotTags = userTagService.findHotList(50);
+        setAttr("hotTags",hotTags);
         render("user/msg_sms.html");
     }
 

@@ -85,7 +85,7 @@ public class AdminMessageSender {
             }
         }
 
-        Set<String> emailAddrs = StrUtil.splitToSet(cc,",");
+        Set<String> emailAddrs = StrUtil.splitToSet(cc, ",");
         if (ArrayUtil.isNotEmpty(emailAddrs)) {
             for (String emailAddr : emailAddrs) {
 
@@ -110,80 +110,19 @@ public class AdminMessageSender {
     }
 
 
-    public static Ret sendWechat(String title, String content, String cc, List<User> users) {
+    public static Ret sendWechat(String templateId, String url, String first, String remark, String keyword1, String keyword2, String keyword3, String keyword4, List<User> users, String cc) {
 
-        SimpleEmailSender ses = new SimpleEmailSender();
-
-        if (!ses.isEnable()) {
-            return Ret.fail().set("message", "您未开启邮件功能，无法发送。");
-        }
-
-        if (!ses.isConfigOk()) {
-            return Ret.fail().set("message", "未配置正确，smtp 或 用户名 或 密码 为空。");
-        }
-
-        if (ArrayUtil.isNotEmpty(users)) {
-            for (User user : users) {
-                String emailAddr = user.getEmail();
-
-                if (StrUtil.isBlank(emailAddr) || !StrUtil.isEmail(emailAddr)) {
-                    continue;
-                }
-
-                emailTreadPool.execute(() -> {
-
-                    Map<String, Object> paras = new HashMap();
-                    paras.put("user", user);
-
-                    String emailTitle = Engine.use().getTemplateByString(title).renderToString(paras);
-                    String emailContent = Engine.use().getTemplateByString(content).renderToString(paras);
-
-
-                    Email email = Email.create();
-                    email.subject(emailTitle);
-                    email.content(emailContent);
-                    email.to(emailAddr);
-
-                    if (!ses.send(email)) {
-                        LOG.error("send email error , email " + emailAddr + " title :" + emailTitle);
-                    }
-                });
-            }
-        }
-
-        Set<String> emailAddrs = StrUtil.splitToSet(cc,",");
-        if (ArrayUtil.isNotEmpty(emailAddrs)) {
-            for (String emailAddr : emailAddrs) {
-
-                if (StrUtil.isBlank(emailAddr) || !StrUtil.isEmail(emailAddr)) {
-                    continue;
-                }
-                emailTreadPool.execute(() -> {
-
-                    Email email = Email.create();
-                    email.subject(title);
-                    email.content(content);
-                    email.to(emailAddr);
-
-                    if (!ses.send(email)) {
-                        LOG.error("send email error , email " + emailAddr + " title :" + title);
-                    }
-                });
-            }
-        }
 
         return Ret.ok();
     }
-
 
 
     public static Ret sendSms(String smsTemplate, String smsSign, String cc, List<User> users) {
 
         SmsSender smsSender = SmsSenderFactory.createSender();
-        if (smsSender instanceof NonSmsSender){
+        if (smsSender instanceof NonSmsSender) {
             return Ret.fail().set("message", "您未开启短信功能，无法发送。");
         }
-
 
 
         if (ArrayUtil.isNotEmpty(users)) {
@@ -202,13 +141,13 @@ public class AdminMessageSender {
                     message.setSign(smsSign);
 
                     if (!smsSender.send(message)) {
-                        LOG.error("send sms error from admin , mobile " + mobile );
+                        LOG.error("send sms error from admin , mobile " + mobile);
                     }
                 });
             }
         }
 
-        Set<String> mobiles = StrUtil.splitToSet(cc,",");
+        Set<String> mobiles = StrUtil.splitToSet(cc, ",");
         if (ArrayUtil.isNotEmpty(mobiles)) {
             for (String mobile : mobiles) {
 
@@ -223,7 +162,7 @@ public class AdminMessageSender {
                     message.setSign(smsSign);
 
                     if (!smsSender.send(message)) {
-                        LOG.error("send sms error from admin , mobile " + mobile );
+                        LOG.error("send sms error from admin , mobile " + mobile);
                     }
                 });
             }

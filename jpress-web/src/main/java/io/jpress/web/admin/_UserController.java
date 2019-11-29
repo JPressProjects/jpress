@@ -352,11 +352,17 @@ public class _UserController extends AdminControllerBase {
         List<User> users = userService.findListByTagIds(Columns.create(), tagIds);
         String cc = getPara("cc");
 
-        String title = getPara("title");
-        String content = getPara("content");
+        String templateId = getPara("templateId");
+        String url = getPara("url");
+        String first = getPara("first");
+        String remark = getPara("remark");
+        String keyword1 = getPara("keyword1");
+        String keyword2 = getPara("keyword2");
+        String keyword3 = getPara("keyword3");
+        String keyword4 = getPara("keyword4");
 
 
-        renderJson(AdminMessageSender.sendWechat(title, content, cc, users));
+        renderJson(AdminMessageSender.sendWechat(templateId,url,first,remark,keyword1,keyword2,keyword3,keyword4,users,cc));
     }
 
 

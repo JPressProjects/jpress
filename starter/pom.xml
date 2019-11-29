@@ -47,11 +47,6 @@
                 </exclusion>
 
                 <exclusion>
-                    <groupId>io.zipkin.reporter2</groupId>
-                    <artifactId>zipkin-sender-urlconnection</artifactId>
-                </exclusion>
-
-                <exclusion>
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-core</artifactId>
                 </exclusion>
@@ -59,6 +54,41 @@
                 <exclusion>
                     <groupId>org.apache.curator</groupId>
                     <artifactId>curator-framework</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-tm</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-rm-datasource</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-config-core</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-codec-seata</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-core</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-common</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>io.shardingsphere</groupId>
+                    <artifactId>sharding-jdbc-core</artifactId>
                 </exclusion>
 
             </exclusions>

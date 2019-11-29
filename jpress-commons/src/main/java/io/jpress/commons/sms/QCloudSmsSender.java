@@ -30,7 +30,7 @@ import java.util.Random;
  * 腾讯云短信发送
  * api 接口文档 ：https://cloud.tencent.com/document/product/382/5976
  */
-public class QCloudSmsSender implements ISmsSender {
+public class QCloudSmsSender implements SmsSender {
 
     private static final String SMS_JSON = "{\"ext\":\"\",\"extend\":\"\",\"params\":[\"{code}\",30],\"sig\":\"{sig}\",\"sign\":\"{sign}\",\"tel\":{\"mobile\":\"{mobile}\",\"nationcode\":\"86\"},\"time\":{time},\"tpl_id\":{tpl_id}}";
     private static final String SMS_NO_CODE_JSON = "{\"ext\":\"\",\"extend\":\"\",\"params\":[30],\"sig\":\"{sig}\",\"sign\":\"{sign}\",\"tel\":{\"mobile\":\"{mobile}\",\"nationcode\":\"86\"},\"time\":{time},\"tpl_id\":{tpl_id}}";

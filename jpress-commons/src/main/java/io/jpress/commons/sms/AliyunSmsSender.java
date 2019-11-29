@@ -32,7 +32,7 @@ import java.util.SimpleTimeZone;
  * 阿里云短信发送
  * api 接口文档 ：https://help.aliyun.com/document_detail/56189.html?spm=a2c4g.11186623.6.590.263891ebLwA3nl
  */
-public class AliyunSmsSender implements ISmsSender {
+public class AliyunSmsSender implements SmsSender {
 
     private static final Log log = Log.getLog(AliyunSmsSender.class);
 

@@ -24,7 +24,7 @@ import io.jpress.model.User;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface UserService extends JbootServiceJoiner{
+public interface UserService extends JbootServiceJoiner {
 
     /**
      * find model by primary key
@@ -89,7 +89,8 @@ public interface UserService extends JbootServiceJoiner{
      */
     public boolean update(User model);
 
-    public Page<User> _paginate(int page, int pagesize, Columns columns,Long memberGroupId,String tag);
+    public Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId, String tag);
+
 
     public User findByUsernameOrEmail(String usernameOrEmail);
 
@@ -119,6 +120,9 @@ public interface UserService extends JbootServiceJoiner{
 
     public BigDecimal queryUserAmount(Object userId);
 
-    public boolean updateUserAmount(Object userId,BigDecimal oldAmount,BigDecimal updateAmount);
+    public boolean updateUserAmount(Object userId, BigDecimal oldAmount, BigDecimal updateAmount);
+
+    public List<User> findListByTagIds( Columns columns, Object... tagIds);
+
 
 }

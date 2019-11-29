@@ -26,6 +26,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.JbootDb;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
@@ -37,6 +38,7 @@ import io.jpress.service.UserTagService;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Bean
 public class UserServiceProvider extends JbootServiceBase<User> implements UserService {
@@ -84,6 +86,23 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         sqlBuilder.append(" order by u.id desc");
 
         return DAO.paginate(page, pagesize, "select u.*  ", sqlBuilder.toString(), columns.getValueArray());
+    }
+
+    @Override
+    public List<User> findListByTagIds(Columns columns, Object... tagIds) {
+        if (ArrayUtil.isNullOrEmpty(tagIds)) {
+            return null;
+        }
+
+        StringBuilder sqlBuilder = new StringBuilder("select u.* from `user` u ");
+
+        sqlBuilder.append("left join user_tag_mapping utm on u.id = utm.user_id");
+        columns.in("utm.tag_id", tagIds);
+
+        sqlBuilder.append(SqlUtils.toWhereSql(columns));
+        sqlBuilder.append(" order by u.id desc");
+
+        return DAO.find(sqlBuilder.toString(), columns.getValueArray());
     }
 
     @Override

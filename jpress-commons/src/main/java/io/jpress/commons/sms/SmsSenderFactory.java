@@ -24,7 +24,7 @@ import io.jpress.JPressOptions;
 public class SmsSenderFactory {
 
 
-    public static ISmsSender createSender() {
+    public static SmsSender createSender() {
 
         boolean smsEnable = JPressOptions.getAsBool(JPressConsts.OPTION_CONNECTION_SMS_ENABLE);
 
@@ -47,7 +47,7 @@ public class SmsSenderFactory {
         }
 
         //其他通过SPI扩展机制加载
-        return JbootSpiLoader.load(ISmsSender.class, type);
+        return JbootSpiLoader.load(SmsSender.class, type);
     }
 
 }

@@ -19,7 +19,7 @@ package io.jpress.commons.sms;
  * 当 短信 功能关闭的时候
  * 通过 Factory 创建 Sender 返回此 Sender
  */
-public class NonSmsSender implements ISmsSender {
+public class NonSmsSender implements SmsSender {
 
 
     @Override

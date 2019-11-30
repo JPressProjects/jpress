@@ -19,6 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.web.base.ApiControllerBase;
@@ -29,6 +30,7 @@ import java.util.List;
  * @author michael yang (fuhai999@gmail.com)
  * @Date: 2019/11/30
  */
+@RequestMapping("/api/product")
 public class ProductApiController extends ApiControllerBase {
 
     @Inject

@@ -42,7 +42,11 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
     private static String apiAppId = null;
     private static String apiSecret = null;
-    private static final long timeout = 10 * 60 * 1000; //10分钟
+
+    /**
+     * api 的有效时间，默认为 10 分支
+     */
+    private static final long timeout = 10 * 60 * 1000;
 
     public ApiInterceptor() {
         JPressOptions.addListener(this);
@@ -58,6 +62,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
     @Inject
     private UserService userService;
 
+    @Override
     public void intercept(Invocation inv) {
 
         // API 功能未启用

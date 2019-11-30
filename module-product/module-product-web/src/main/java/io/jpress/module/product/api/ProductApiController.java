@@ -15,7 +15,15 @@
  */
 package io.jpress.module.product.api;
 
+import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
+import io.jboot.db.model.Columns;
+import io.jboot.utils.StrUtil;
+import io.jpress.module.product.model.Product;
+import io.jpress.module.product.service.ProductService;
 import io.jpress.web.base.ApiControllerBase;
+
+import java.util.List;
 
 /**
  * @author michael yang (fuhai999@gmail.com)
@@ -23,17 +31,68 @@ import io.jpress.web.base.ApiControllerBase;
  */
 public class ProductApiController extends ApiControllerBase {
 
+    @Inject
+    private ProductService productService;
+
     /**
      * 获取商品详情
      */
     public void index(){
+        Long id = getParaToLong("id");
+        String slug = getPara("slug");
 
+        Product product = id != null ? productService.findById(id)
+                : (StrUtil.isNotBlank(slug) ? productService.findFirstBySlug(slug) : null);
+
+        if (product == null || !product.isNormal()) {
+            renderFailJson();
+            return;
+        }
+
+        productService.doIncProductViewCount(product.getId());
+        renderJson(Ret.ok("product", product));
     }
+
+
 
     /**
      * 获取文章列表
      */
     public void list(){
+        String flag = getPara("flag");
+        Boolean hasThumbnail = getParaToBoolean("hasThumbnail");
+        String orderBy = getPara("orderBy", "id desc");
+        int count = getParaToInt("count", 10);
 
+
+        Columns columns = Columns.create("flag", flag);
+        if (hasThumbnail != null) {
+            if (hasThumbnail) {
+                columns.is_not_null("thumbnail");
+            } else {
+                columns.is_null("thumbnail");
+            }
+        }
+
+        List<Product> products = productService.findListByColumns(columns, orderBy, count);
+        renderJson(Ret.ok("products", products));
     }
+
+
+    /**
+     * 某个商品的相关商品
+     */
+    public void relevantList() {
+
+        Long id = getParaToLong("productId");
+        if (id == null) {
+            renderFailJson();
+        }
+
+        int count = getParaToInt("count", 3);
+
+        List<Product> relevantArticles = productService.findRelevantListByProductId(id, Product.STATUS_NORMAL, count);
+        renderOkJson("products", relevantArticles);
+    }
+
 }

@@ -74,7 +74,7 @@ public class _OrderController extends AdminControllerBase {
         setAttr("mouthPaymentAmount", mouthPaymentAmount);
         setAttr("mountOrderUserCount", mountOrderUserCount);
 
-
+        keepPara();
         Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("productTitle"), getPara("ns"));
         setAttr("page", userOrderPage);
         render("order/order_list.html");

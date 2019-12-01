@@ -211,11 +211,11 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
         Columns columns = Columns.create();
         columns.in("m.category_id", tagIds.toArray());
-        columns.ne("a.id", productId);
-        columns.eq("a.status", status);
+        columns.ne("p.id", productId);
+        columns.eq("p.status", status);
 
         StringBuilder from = new StringBuilder("select * from product p ");
-        from.append(" left join product_category_mapping m on p.id = m.`article_id` ");
+        from.append(" left join product_category_mapping m on p.id = m.`product_id` ");
         from.append(SqlUtils.toWhereSql(columns));
 
         if (count != null) {

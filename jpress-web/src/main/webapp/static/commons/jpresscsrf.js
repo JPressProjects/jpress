@@ -3,7 +3,7 @@ $(document).ready(function () {
     $("form").each(function () {
         if ($(this).find("input[name=csrf_token]").length == 0) {
             var token = getCookie("csrf_token");
-            if (token != null) {
+            if (token) {
                 $(this).append("<input type='hidden' name='csrf_token' value='" + token + "'/>");
             }
         }
@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     $(document).ajaxSend(function (event, request, option) {
         var token = getCookie("csrf_token");
-        if (token != null) {
+        if (token) {
             var url = option.url;
 
             if (url.indexOf("?") == -1) {

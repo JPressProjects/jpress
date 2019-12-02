@@ -83,7 +83,7 @@ public class CSRFInterceptor implements Interceptor {
     private void renderNormal(Invocation inv) {
         // 不是 ajax 请求，才需要重置本地 的token
         // ajax 请求，需要保证之前的token可以继续使用
-        if (RequestUtil.isAjaxRequest(inv.getController().getRequest()) == false) {
+        if (!RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
             String uuid = StrUtil.uuid();
             inv.getController().setCookie(CSRF_KEY, uuid, -1);
             inv.getController().setAttr(CSRF_ATTR_KEY, uuid);
@@ -98,7 +98,7 @@ public class CSRFInterceptor implements Interceptor {
         if (RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
             inv.getController().renderJson(FAIL_RET);
         } else {
-            inv.getController().renderError(403, new TextRender("bad or missing token!"));
+            inv.getController().renderError(403, new TextRender("bad or missing csrf token!"));
         }
     }
 

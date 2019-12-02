@@ -7,7 +7,7 @@
     $('.del-action').on('click', function () {
         if (confirm('确定要删除该标签吗？删除后不可恢复')) {
             var id = $(this).attr("data-id");
-            ajaxGet("#(CPATH)/admin/product/doCategoryDel/" + id)
+            ajaxGet("#(CPATH)/admin/product/tag/doDel/" + id)
         }
     });
 

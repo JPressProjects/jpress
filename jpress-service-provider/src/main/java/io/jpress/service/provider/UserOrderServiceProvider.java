@@ -46,8 +46,8 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
     }
 
     @Override
-    public Page<UserOrder> paginate(int page, int pageSize, String title, String ns) {
-        Columns columns = Columns.create().likeAppendPercent("title", title).likeAppendPercent("ns", ns);
+    public Page<UserOrder> paginate(int page, int pageSize, String productTitle, String ns) {
+        Columns columns = Columns.create().likeAppendPercent("product_title", productTitle).likeAppendPercent("ns", ns);
         Page<UserOrder> userOrderPage = DAO.paginateByColumns(page, pageSize, columns, "id desc");
 
         for (UserOrder order : userOrderPage.getList()) {

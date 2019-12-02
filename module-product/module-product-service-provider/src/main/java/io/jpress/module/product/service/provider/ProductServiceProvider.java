@@ -13,6 +13,8 @@ import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.product.model.Product;
+import io.jpress.module.product.model.ProductCategory;
+import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.module.product.service.provider.task.ProductCommentsCountUpdateTask;
@@ -21,6 +23,7 @@ import io.jpress.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Bean
 public class ProductServiceProvider extends JbootServiceBase<Product> implements ProductService {
@@ -32,6 +35,9 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
     @Inject
     private ProductCommentService commentService;
+
+    @Inject
+    private ProductCategoryService categoryService;
 
     @Override
     public void doUpdateCategorys(long productId, Long[] categoryIds) {
@@ -192,6 +198,31 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     @Override
     public void doIncProductCommentCount(long productId) {
         ProductCommentsCountUpdateTask.recordCount(productId);
+    }
+
+    @Override
+    public List<Product> findRelevantListByProductId(Long productId, int status, Integer count) {
+        List<ProductCategory> tags = categoryService.findListByProductId(productId, ProductCategory.TYPE_TAG);
+        if (tags == null || tags.isEmpty()) {
+            return null;
+        }
+
+        List<Long> tagIds = tags.stream().map(category -> category.getId()).collect(Collectors.toList());
+
+        Columns columns = Columns.create();
+        columns.in("m.category_id", tagIds.toArray());
+        columns.ne("p.id", productId);
+        columns.eq("p.status", status);
+
+        StringBuilder from = new StringBuilder("select * from product p ");
+        from.append(" left join product_category_mapping m on p.id = m.`product_id` ");
+        from.append(SqlUtils.toWhereSql(columns));
+
+        if (count != null) {
+            from.append(" limit " + count);
+        }
+
+        return joinUserInfo(DAO.find(from.toString(), columns.getValueArray()));
     }
 
 

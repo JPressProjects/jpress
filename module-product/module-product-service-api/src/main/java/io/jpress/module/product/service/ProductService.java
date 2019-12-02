@@ -212,4 +212,5 @@ public interface ProductService extends JbootServiceJoiner {
 
     public void doIncProductCommentCount(long productId);
 
+    public List<Product> findRelevantListByProductId(Long productId, int status, Integer count);
 }

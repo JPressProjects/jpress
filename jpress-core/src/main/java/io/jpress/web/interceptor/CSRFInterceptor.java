@@ -35,16 +35,26 @@ public class CSRFInterceptor implements Interceptor {
     public static final String CSRF_ATTR_KEY = "CSRF_TOKEN";
     public static final String CSRF_KEY = "csrf_token";
 
+    private static final String CSRF_METHOD_PREFIX = "do";
+
 
     @Override
     public void intercept(Invocation inv) {
 
         //不是 do 开头的，让其通过
         //在JPress里有一个共识：只要是 增、删、改的操作，都会用do开头对方法进行命名
-        if (inv.getMethodName().startsWith("do") == false) {
+        String methodName = inv.getMethodName();
+        if (methodName.startsWith(CSRF_METHOD_PREFIX) == false) {
             renderNormal(inv);
             return;
         }
+
+        //是小写字母 或者 数字、中文等非大写字母，这个时候可能是个单词 比如：download
+        if (!Character.isUpperCase(methodName.charAt(2))) {
+            renderNormal(inv);
+            return;
+        }
+
 
         //从cookie中读取token，因为 第三方网站 无法修改 和 获得 cookie
         //所以从cookie获取存储的token是安全的
@@ -73,7 +83,7 @@ public class CSRFInterceptor implements Interceptor {
     private void renderNormal(Invocation inv) {
         // 不是 ajax 请求，才需要重置本地 的token
         // ajax 请求，需要保证之前的token可以继续使用
-        if (RequestUtil.isAjaxRequest(inv.getController().getRequest()) == false) {
+        if (!RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
             String uuid = StrUtil.uuid();
             inv.getController().setCookie(CSRF_KEY, uuid, -1);
             inv.getController().setAttr(CSRF_ATTR_KEY, uuid);
@@ -83,11 +93,12 @@ public class CSRFInterceptor implements Interceptor {
     }
 
     private static final Ret FAIL_RET = Ret.fail().set("message", "token失效，为了安全起见，请刷新后重试。");
+
     private void renderBad(Invocation inv) {
         if (RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
             inv.getController().renderJson(FAIL_RET);
         } else {
-            inv.getController().renderError(403, new TextRender("bad or missing token!"));
+            inv.getController().renderError(403, new TextRender("bad or missing csrf token!"));
         }
     }
 

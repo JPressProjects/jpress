@@ -28,6 +28,7 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.MemberGroup;
+import io.jpress.module.product.ProductFields;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
@@ -99,7 +100,7 @@ public class _ProductController extends AdminControllerBase {
         SortKit.toLayer(categories);
         setAttr("categories", categories);
 
-//        setAttr("fields", ArticleFields.me());
+        setAttr("fields", ProductFields.me());
 
 
         int productId = getParaToInt(0, 0);

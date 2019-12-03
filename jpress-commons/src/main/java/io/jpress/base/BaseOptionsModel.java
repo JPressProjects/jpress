@@ -25,6 +25,7 @@ import java.util.Map;
 
 /**
  * 用于扩展设置有Json字段的Model
+ *
  * @param <M>
  */
 public class BaseOptionsModel<M extends BaseOptionsModel<M>> extends JbootModel<M> {
@@ -49,28 +50,22 @@ public class BaseOptionsModel<M extends BaseOptionsModel<M>> extends JbootModel<
 
     public Boolean getBoolOption(String key) {
         String option = getOption(key);
-        if (StrUtil.isBlank(option)) return null;
-        return Boolean.valueOf(option);
+        return StrUtil.isBlank(option) ? null : Boolean.valueOf(option);
     }
 
     public boolean getBoolOption(String key, boolean defaultValue) {
         String option = getOption(key);
-        if (StrUtil.isBlank(option)) {
-            return defaultValue;
-        }
-        return Boolean.valueOf(option);
+        return StrUtil.isBlank(option) ? defaultValue : Boolean.valueOf(option);
     }
 
     public Integer getIntOption(String key) {
         String option = getOption(key);
-        if (StrUtil.isBlank(option)) return null;
-        return Integer.valueOf(option);
+        return StrUtil.isBlank(option) ? null : Integer.valueOf(option);
     }
 
     public int getIntOption(String key, int defaultValue) {
         String option = getOption(key);
-        if (StrUtil.isBlank(option)) return defaultValue;
-        return Integer.valueOf(option);
+        return StrUtil.isBlank(option) ? defaultValue : Integer.valueOf(option);
     }
 
     public Map<String, String> getOptionMap() {

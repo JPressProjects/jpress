@@ -26,38 +26,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
- * @version V1.0
- * @Title: JPress 常量
- * @Package io.jpress
+ * @Title: JPress 配置
  */
 public class JPressOptions {
 
     private static final Log LOG = Log.getLog(JPressOptions.class);
-    private static OptionStore store = new OptionStore() {
-        private final Map<String, String> cache = new ConcurrentHashMap<>();
 
-        @Override
-        public String get(String key) {
-            return cache.get(key);
-        }
-
-        @Override
-        public void put(String key, String value) {
-            if (StrUtil.isBlank(value)) {
-                remove(key);
-            } else {
-                cache.put(key, value);
-            }
-        }
-
-        @Override
-        public void remove(String key) {
-            cache.remove(key);
-        }
-    };
-
-
-    private static List<OptionChangeListener> LISTENERS = new ArrayList<>();
+    private static OptionStore store = OptionStore.defaultOptionStore;
+    private static List<OptionChangeListener> listeners = new ArrayList<>();
 
     public static void set(String key, String value) {
         if (StrUtil.isBlank(key)) {
@@ -74,7 +50,7 @@ public class JPressOptions {
         store.put(key, value);
 
 
-        for (OptionChangeListener listener : LISTENERS) {
+        for (OptionChangeListener listener : listeners) {
             try {
                 listener.onChanged(key, value, oldValue);
             } catch (Throwable ex) {
@@ -137,11 +113,11 @@ public class JPressOptions {
     }
 
     public static void addListener(OptionChangeListener listener) {
-        LISTENERS.add(listener);
+        listeners.add(listener);
     }
 
     public static void removeListener(OptionChangeListener listener) {
-        LISTENERS.remove(listener);
+        listeners.remove(listener);
     }
 
 
@@ -215,6 +191,30 @@ public class JPressOptions {
         public void put(String key, String value);
 
         public void remove(String key);
+
+        public static final OptionStore defaultOptionStore = new OptionStore() {
+
+            private final Map<String, String> cache = new ConcurrentHashMap<>();
+
+            @Override
+            public String get(String key) {
+                return cache.get(key);
+            }
+
+            @Override
+            public void put(String key, String value) {
+                if (StrUtil.isBlank(value)) {
+                    remove(key);
+                } else {
+                    cache.put(key, value);
+                }
+            }
+
+            @Override
+            public void remove(String key) {
+                cache.remove(key);
+            }
+        };
 
     }
 

@@ -47,11 +47,12 @@ public class CheckboxRender implements SmartFieldRender {
 
     @Override
     public String onRender(SmartField field, Object value) {
-        if (field.getValue() == null || StrUtil.isBlank(field.getValue())) {
+        if (StrUtil.isBlank(field.getValue())) {
             return null;
         }
+
         String[] values = field.getValue().split(",");
-        String[] texts = StrUtil.isBlank(field.getValueText()) ? null : field.getValueText().split(",");
+        String[] texts = StrUtil.isBlank(field.getValueText()) ? values : field.getValueText().split(",");
 
         String[] dbValues = (value == null)  ? null : value.toString().split(",");
 
@@ -72,14 +73,14 @@ public class CheckboxRender implements SmartFieldRender {
 
     private String getCheckedText(String v, String[] values) {
         if (values == null) {
-            return "";
+            return StrUtil.EMPTY;
         }
         for (String value : values) {
             if (Objects.equals(v, value)) {
                 return "checked";
             }
         }
-        return "";
+        return StrUtil.EMPTY;
     }
 
     private String getText(String[] texts, int i, String v) {

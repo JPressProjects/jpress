@@ -47,22 +47,23 @@ public class RadioRender implements SmartFieldRender {
 
     @Override
     public String onRender(SmartField field, Object value) {
-        if (field.getValue() == null || StrUtil.isBlank(field.getValue())) {
+        if (StrUtil.isBlank(field.getValue())) {
             return null;
         }
+
         String[] values = field.getValue().split(",");
-        String[] texts = field.getValueText() == null ? null : field.getValue().split(",");
+        String[] texts = StrUtil.isBlank(field.getValueText()) ? values : field.getValueText().split(",");
+
 
         int index = 0;
         StringBuilder items = new StringBuilder();
         for (String v : values) {
             String item = template_item.replace("{offset}", index == 0 ? "" : "col-sm-offset-2")
-                    .replace("{text}", getText(texts, index, v))
+                    .replace("{text}", getText(texts, index++, v))
                     .replace("{checked}", getCheckedText(v, value))
                     .replace("{name}", field.getName())
                     .replace("{value}",v);
             items.append(item);
-            index++;
         }
 
         return RenderKit.replace(template1, "{label}", field.getLabel()) +

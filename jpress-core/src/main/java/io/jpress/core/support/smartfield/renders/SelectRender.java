@@ -43,11 +43,13 @@ public class SelectRender implements SmartFieldRender {
 
     @Override
     public String onRender(SmartField field, Object value) {
-        if (field.getValue() == null || StrUtil.isBlank(field.getValue())) {
+        if (StrUtil.isBlank(field.getValue())) {
             return null;
         }
+
         String[] values = field.getValue().split(",");
-        String[] texts = field.getValueText() == null ? null : field.getValue().split(",");
+        String[] texts = StrUtil.isBlank(field.getValueText()) ? values : field.getValueText().split(",");
+
 
         int index = 0;
         StringBuilder options = new StringBuilder();

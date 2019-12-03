@@ -51,22 +51,19 @@ public class CheckboxRender implements SmartFieldRender {
             return null;
         }
         String[] values = field.getValue().split(",");
-        String[] texts = field.getValueText() == null ? null : field.getValue().split(",");
+        String[] texts = StrUtil.isBlank(field.getValueText()) ? null : field.getValueText().split(",");
 
-        String[] dbValues = value == null
-                ? null
-                : value.toString().split(",");
+        String[] dbValues = (value == null)  ? null : value.toString().split(",");
 
         int index = 0;
         StringBuilder items = new StringBuilder();
         for (String v : values) {
             String item = template_item.replace("{offset}", index == 0 ? "" : "col-sm-offset-2")
-                    .replace("{text}", getText(texts, index, v))
+                    .replace("{text}", getText(texts, index++, v))
                     .replace("{checked}", getCheckedText(v, dbValues))
                     .replace("{name}", field.getName())
                     .replace("{value}", v);
             items.append(item);
-            index++;
         }
 
         return RenderKit.replace(template1, "{label}", field.getLabel()) +
@@ -78,7 +75,9 @@ public class CheckboxRender implements SmartFieldRender {
             return "";
         }
         for (String value : values) {
-            if (Objects.equals(v, value)) return "checked";
+            if (Objects.equals(v, value)) {
+                return "checked";
+            }
         }
         return "";
     }

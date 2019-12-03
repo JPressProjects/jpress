@@ -38,7 +38,9 @@ public class RenderKit {
     }
 
     public static String replace(String template, String target, Object content) {
-        if (content == null) content = "";
+        if (content == null) {
+            content = "";
+        }
         return template.replace(target, content.toString());
     }
 }

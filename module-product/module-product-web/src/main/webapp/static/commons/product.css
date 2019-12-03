@@ -215,6 +215,9 @@ a.product-btn-cart:hover {
     padding: 0.5rem 1rem;
     cursor: pointer;
     margin-top: 10px;
+    border-radius: 0.22rem;
+    white-space: normal;
+    box-shadow: 0px 5px 20px -3px rgba(255, 148, 0, .8) !important;
 }
 
 .comment-form button:hover {
@@ -234,12 +237,14 @@ a.product-btn-cart:hover {
     height: 100%;
     padding: 0.5rem 1rem;
     box-sizing: border-box;
-    border: 1px solid #dfdfdf;
+    border: none;
+    border-radius: 0.22rem;
+    background-color: #f5f5f5;
 }
 
 .comment-form > div > textarea:focus {
     outline: none;
-    border: 1px solid #999;
+    background-color: #f5f5f5bb;
 }
 
 .comment-page-title {
@@ -261,12 +266,14 @@ a.product-btn-cart:hover {
 .comment-vcode input {
     padding: 0 0.5rem;
     height: 2.6rem;
-    border: 1px solid #dfdfdf;
+    border: none;
+    border-radius: 0.22rem;
+    background-color: #f5f5f5;
     outline: none;
 }
 
 .comment-vcode input:focus {
-    border: 1px solid #999;
+    background-color: #f5f5f5bb;
 }
 
 .comment-item {
@@ -277,7 +284,7 @@ a.product-btn-cart:hover {
 .comment-secondary-panel {
     margin-top: 1rem;
     padding-top: 1rem;
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;
     position: relative;
 }
 
@@ -342,7 +349,7 @@ a.product-btn-cart:hover {
 }
 
 .comment-secondary-panel > .triangle-icon {
-    color: #f4f4f4;
+    color: #f5f5f5;
     position: absolute;
     top: -22px;
     left: 50px;

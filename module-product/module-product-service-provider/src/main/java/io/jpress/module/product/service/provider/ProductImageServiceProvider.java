@@ -39,7 +39,7 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
         }
 
         //这种情况应该不可能出现
-        if (imageIds.length != imageIds.length) {
+        if (imageIds.length != imageSrcs.length) {
             return;
         }
 
@@ -61,9 +61,12 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
             ProductImage image = new ProductImage();
             image.setOrderNumber(i);
-            image.setId(imageId);
             image.setSrc(imageSrcs[i]);
             image.setProductId(productId);
+
+            if (imageId > 0 ){
+                image.setId(imageId);
+            }
 
             saveOrUpdate(image);
         }

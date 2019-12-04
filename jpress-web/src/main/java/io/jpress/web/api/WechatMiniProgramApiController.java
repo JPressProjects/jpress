@@ -195,13 +195,17 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         //优先根据 unioinId 进行查询
         if (StrUtil.isNotBlank(unionId)) {
             user = userService.findFistByWxUnionid(unionId);
-            if (user != null) return user.getId();
+            if (user != null) {
+                return user.getId();
+            }
         }
 
         //之后根据 openId 进行查询
         if (StrUtil.isNotBlank(openId)) {
             user = userService.findFistByWxOpenid(openId);
-            if (user != null) return user.getId();
+            if (user != null) {
+                return user.getId();
+            }
         }
 
         // 都查询不到，说明该用户是一个新的用户，创建一个新的用户

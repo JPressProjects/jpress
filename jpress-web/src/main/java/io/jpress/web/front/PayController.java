@@ -569,13 +569,17 @@ public class PayController extends TemplateControllerBase {
 
     private PayOrder createPayOrder(PaymentRecord payment) {
         PayOrder payOrder = new PayOrder(
-                payment.getProductTitle(),
-                payment.getProductSummary(),
+                tryTrim(payment.getProductTitle()),
+                tryTrim(payment.getProductSummary()),
                 payment.getPayAmount(),
                 payment.getTrxNo());
 
         payOrder.setSpbillCreateIp(getIPAddress());
         return payOrder;
+    }
+
+    private String tryTrim(String string){
+        return string == null ? null : string.trim();
     }
 
 

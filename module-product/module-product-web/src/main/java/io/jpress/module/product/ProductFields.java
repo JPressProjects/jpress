@@ -68,6 +68,7 @@ public class ProductFields {
                 null,
                 12).addAttr("rows", 4));
 
+
         fields.add(new SmartField("meta_keywords",
                 "SEO关键字",
                 "product.meta_keywords",
@@ -76,7 +77,7 @@ public class ProductFields {
                 null,
                 null,
                 null,
-                20).addAttr("rows", 2));
+                20).addAttr("rows", 3));
 
         fields.add(new SmartField("meta_description",
                 "SEO描述",
@@ -86,7 +87,7 @@ public class ProductFields {
                 null,
                 null,
                 null,
-                21).addAttr("rows", 2));
+                21).addAttr("rows", 4));
 
         fields.add(new SmartField("view_count",
                 "访问量",
@@ -117,6 +118,26 @@ public class ProductFields {
                 null,
                 "只是显示达到促进消费者购买欲的作用。",
                 50));
+
+        fields.add(new SmartField("video",
+                "视频链接",
+                "product.video",
+                "请输入",
+                SmartField.TYPE_INPUT,
+                null,
+                null,
+                "",
+                60));
+
+        fields.add(new SmartField("video_cover",
+                "视频封面链接",
+                "product.video_cover",
+                "请输入",
+                SmartField.TYPE_INPUT,
+                null,
+                null,
+                "",
+                61));
 
         fields.add(new SmartField("comment_status",
                 "允许评论",

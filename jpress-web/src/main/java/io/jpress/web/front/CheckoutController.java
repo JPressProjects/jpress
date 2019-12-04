@@ -22,6 +22,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.UrlParaValidate;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
+import io.jpress.commons.pay.PayType;
 import io.jpress.core.finance.ProductManager;
 import io.jpress.model.*;
 import io.jpress.service.*;
@@ -262,7 +263,7 @@ public class CheckoutController extends UcenterControllerBase {
 
 
         String paytype = getPara("paytype");
-        if ("amount".equals(paytype)) {
+        if (PayType.AMOUNT.getType().equals(paytype)) {
             BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
             if (userAmount == null || userAmount.compareTo(orderTotalAmount) < 0) {
                 renderJson(Ret.fail().set("message", "用户余额不足，无法使用余额进行支付。"));
@@ -314,7 +315,7 @@ public class CheckoutController extends UcenterControllerBase {
 
         payment.setProductTitle(userOrder.getProductTitle());
         payment.setProductRelativeType(userOrder.getProductType());
-//        payment.setProductRelativeTypeText(userOrder.getProductType());
+//          payment.setProductRelativeTypeText(userOrder.getProductTypete());
         payment.setProductRelativeId(userOrder.getId().toString());
         payment.setProductSummary(userOrder.getProductSummary());
 

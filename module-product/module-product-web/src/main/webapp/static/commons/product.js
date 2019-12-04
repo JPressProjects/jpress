@@ -38,7 +38,7 @@ function addProductToFavorite(productId, okFunction, failFunction) {
 /*
 购买产品
  */
-function buyPrudct(productId, okFunction, failFunction) {
+function buyProduct(productId, okFunction, failFunction) {
     ajaxPost(getContextPaht() + '/product/doBuy', {
             id: productId,
             spec: productInfo.spec

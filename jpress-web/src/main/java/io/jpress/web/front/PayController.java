@@ -358,7 +358,7 @@ public class PayController extends TemplateControllerBase {
 
         //验证失败的原因：
         // 1 恶意 callback
-        // 2 后台填写的公钥填写成了应用公钥了，而不是支付宝公钥
+        // 2 后台填写的公钥可能填写错了，或者不是支付宝公钥
         if (params == null || !service.verify(params)) {
             callbackFail(service);
             return;

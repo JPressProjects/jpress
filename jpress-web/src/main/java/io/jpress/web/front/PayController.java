@@ -71,6 +71,11 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
+        if (payment.isPaySuccess()){
+            redirect("/pay/success/" + payment.getTrxNo());
+            return;
+        }
+
         setAttr("payment", payment);
 
         PayOrder order = createPayOrder(payment);
@@ -115,7 +120,7 @@ public class PayController extends TemplateControllerBase {
         }
 
         PaymentRecord payment = paymentService.findByTrxNo(getPara("trx"));
-        if (payment == null || notLoginedUserModel(payment, "payer_user_id")) {
+        if (payment == null || notLoginedUserModel(payment, "payer_user_id") || payment.isPaySuccess()) {
             renderFailJson();
             return;
         }
@@ -169,6 +174,11 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
+        if (payment.isPaySuccess()){
+            redirect("/pay/success/" + payment.getTrxNo());
+            return;
+        }
+
         setAttr("payment", payment);
 
         PayOrder order = createPayOrder(payment);
@@ -199,6 +209,11 @@ public class PayController extends TemplateControllerBase {
 
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
+
+        if (payment.isPaySuccess()){
+            redirect("/pay/success/" + payment.getTrxNo());
+            return;
+        }
 
         setAttr("payment", payment);
 
@@ -248,6 +263,11 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
+        if (payment.isPaySuccess()){
+            redirect("/pay/success/" + payment.getTrxNo());
+            return;
+        }
+
         setAttr("payment", payment);
 
         PayOrder order = createPayOrder(payment);
@@ -270,6 +290,12 @@ public class PayController extends TemplateControllerBase {
         render404If(payment == null
                 || notLoginedUserModel(payment, "payer_user_id")
                 || PaymentRecord.TRX_TYPE_RECHARGE.equals(payment.getTrxType()));
+
+
+        if (payment.isPaySuccess()){
+            redirect("/pay/success/" + payment.getTrxNo());
+            return;
+        }
 
 
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
@@ -330,7 +356,9 @@ public class PayController extends TemplateControllerBase {
             LOG.debug("callback : " + JSON.toJSONString(params));
         }
 
-        //验证失败
+        //验证失败的原因：
+        // 1 恶意 callback
+        // 2 后台填写的公钥填写成了应用公钥了，而不是支付宝公钥
         if (params == null || !service.verify(params)) {
             callbackFail(service);
             return;
@@ -346,11 +374,6 @@ public class PayController extends TemplateControllerBase {
             return;
         }
 
-
-//        if (!payment.isPayPre()) {
-//            callbackFail(service);
-//            return;
-//        }
 
         //微信支付
         //https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_7&index=8

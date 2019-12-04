@@ -30,6 +30,7 @@ import io.jpress.web.base.UcenterControllerBase;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -219,15 +220,17 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.setNs(PayKit.genOrderNS());
 
         //设置订单的产品描述
-        StringBuilder productDesc = new StringBuilder();
+        StringJoiner stringJoiner = new StringJoiner(" ");
         for (UserOrderItem item : userOrderItems) {
-            productDesc.append(item.getProductTitle()).append(" ");
+            stringJoiner.add(item.getProductTitle());
         }
+
+        String productDesc = stringJoiner.toString();
         if (productDesc.length() > 200) {
-            productDesc.delete(200, productDesc.length() - 1);
-            productDesc.append("...");
+            productDesc = productDesc.substring(0, 200) + "...";
         }
-        userOrder.setProductSummary(productDesc.toString());
+
+        userOrder.setProductSummary(productDesc.trim());
 
 
         //设置优惠券的相关字段

@@ -29,6 +29,7 @@ public class WeiboConnector extends OauthConnector {
 		super(name, appkey, appSecret);
 	}
 
+	@Override
 	public String createAuthorizeUrl(String state) {
 
 		StringBuilder urlBuilder = new StringBuilder("https://api.weibo.com/oauth2/authorize?");
@@ -40,6 +41,7 @@ public class WeiboConnector extends OauthConnector {
 		return urlBuilder.toString();
 	}
 
+	@Override
 	protected OauthUser getOauthUser(String code) {
 
 		Map<String, Object> params = new HashMap<>();

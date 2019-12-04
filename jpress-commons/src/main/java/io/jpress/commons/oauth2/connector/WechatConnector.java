@@ -34,6 +34,7 @@ public class WechatConnector extends OauthConnector {
 	// setName("wechat");
 	// }
 
+	@Override
 	public String createAuthorizeUrl(String state) {
 
 		// https://open.weixin.qq.com/connect/qrconnect?

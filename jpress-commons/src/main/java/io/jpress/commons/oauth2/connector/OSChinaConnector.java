@@ -37,6 +37,7 @@ public class OSChinaConnector extends OauthConnector {
 	/**
 	 * doc: http://www.oschina.net/openapi/docs/oauth2_authorize
 	 */
+	@Override
 	public String createAuthorizeUrl(String state) {
 
 		StringBuilder urlBuilder = new StringBuilder("http://www.oschina.net/action/oauth2/authorize?");

@@ -49,7 +49,7 @@ function buyProduct(productId, ok, fail) {
                 window.open(data.gotoUrl, '_blank')
             }
         },
-        fail ? fail : function () {
+        fail ? fail : function (data) {
             if (data.gotoUrl) {
                 location.href = data.gotoUrl;
             } else {

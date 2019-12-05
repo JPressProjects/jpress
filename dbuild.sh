@@ -11,10 +11,10 @@ fi
 mvn clean install
 
 
-echo "exec : docker build . -t jpress:"${version}
+echo "exec : docker build . -t fuhai/jpress:"${version}
 docker build . -t fuhai/jpress:${version}
 
 
-echo "exec : docker push jpress:"${version}
+echo "exec : docker push fuhai/jpress:"${version}
 docker push fuhai/jpress:${version}
 

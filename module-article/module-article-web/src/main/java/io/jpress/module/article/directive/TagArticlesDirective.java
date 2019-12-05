@@ -32,7 +32,6 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.module.page.directive
  */
 @JFinalDirective("tagArticles")
 public class TagArticlesDirective extends JbootDirectiveBase {

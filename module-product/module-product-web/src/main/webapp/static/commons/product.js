@@ -6,15 +6,15 @@ var productInfo = {
 /*
 添加到购物车
  */
-function addProductToCart(productId, productSpec, okFunction, failFunction) {
+function addProductToCart(productId, productSpec, ok, fail) {
     ajaxPost(getContextPaht() + '/product/doAddCart', {
             id: productId,
             spec: productSpec
         },
-        okFunction ? okFunction : function () {
+        ok ? ok : function () {
             alert('成功添加到购物车。')
         },
-        failFunction ? failFunction : function (data) {
+        fail ? fail : function (data) {
             alert('添加到购物车失败：' + data.message)
         })
 }
@@ -22,14 +22,14 @@ function addProductToCart(productId, productSpec, okFunction, failFunction) {
 /*
 添加商品到收藏夹
  */
-function addProductToFavorite(productId, okFunction, failFunction) {
+function addProductToFavorite(productId, ok, fail) {
     ajaxPost(getContextPaht() + '/product/doAddFavorite', {
             id: productId
         },
-        okFunction ? okFunction : function () {
+        ok ? ok : function () {
             alert('成功添加到收藏夹。')
         },
-        failFunction ? failFunction : function (data) {
+        fail ? fail : function (data) {
             alert('添加到收藏夹失败：' + data.message)
         })
 }
@@ -38,18 +38,18 @@ function addProductToFavorite(productId, okFunction, failFunction) {
 /*
 购买产品
  */
-function buyProduct(productId, okFunction, failFunction) {
+function buyProduct(productId, ok, fail) {
     ajaxPost(getContextPaht() + '/product/doBuy', {
             id: productId,
             spec: productInfo.spec
         },
-        okFunction ? okFunction : function (data) {
+        ok ? ok : function (data) {
             if (data.gotoUrl) {
                 // location.href = data.gotoUrl;
                 window.open(data.gotoUrl, '_blank')
             }
         },
-        failFunction ? failFunction : function () {
+        fail ? fail : function () {
             if (data.gotoUrl) {
                 location.href = data.gotoUrl;
             } else {
@@ -64,12 +64,12 @@ function getContextPaht() {
 }
 
 
-function ajaxPost(url, data, okFunction, failFunction) {
+function ajaxPost(url, data, ok, fail) {
     $.post(url, data, function (result) {
         if (result.state == 'ok') {
-            okFunction(result);
+            ok(result);
         } else {
-            failFunction(result);
+            fail(result);
         }
     });
 }

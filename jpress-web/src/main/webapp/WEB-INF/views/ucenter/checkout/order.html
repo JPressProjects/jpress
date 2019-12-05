@@ -4,11 +4,9 @@
 <script src="#(CPATH)/static/components/distpicker/distpicker.min.js"></script>
 <script>
 
-
-
-
-
-
+    $(document).ready(function () {
+        $("[name='paytype']:first").attr("checked", "checked");
+    });
 
 </script>
 
@@ -112,7 +110,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-footer">
-                        <small class="pull-right">应支付: <span id="totalPrice">#number(order.orderRealAmount,'0.00')</span>￥</small>
+                        <small class="pull-right">应支付: <span
+                                id="totalPrice">#number(order.orderRealAmount,'0.00')</span>￥</small>
                     </h2>
                 </div>
             </div>
@@ -207,7 +206,7 @@
                                 #if(wechatxConfig.isEnable())
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="paytype" value="wechatx" checked>
+                                        <input type="radio" name="paytype" value="wechatx">
                                         微信转账 （对私转账，相当于线下门店支付）
                                     </label>
                                 </div>

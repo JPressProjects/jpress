@@ -30,8 +30,14 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         return DAO.paginateByColumn(page, pagesize, Column.create("type", type), "order_number asc,id desc");
     }
 
+    /**
+     * 文章在更新的时候，需要清除这个缓存
+     *
+     * @param productId
+     * @return
+     */
     @Override
-    @Cacheable(name = "productCategory")
+    @Cacheable(name = "product-category", key = "id:#(productId)", liveSeconds = 60 * 60 * 2)
     public List<ProductCategory> findListByProductId(long productId) {
         List<Record> mappings = Db.find("select * from product_category_mapping where product_id = ?", productId);
         if (mappings == null || mappings.isEmpty()) {
@@ -73,7 +79,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     }
 
     @Override
-    public List<ProductCategory> findListByType(String type,String orderBy, Integer count) {
+    public List<ProductCategory> findListByType(String type, String orderBy, Integer count) {
         return DAO.findListByColumns(Columns.create("type", type), StrUtil.isNotBlank(orderBy) ? orderBy : "id desc", count);
     }
 
@@ -115,7 +121,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
             productCategories.add(productCategory);
         }
 
-        if (needClearCache){
+        if (needClearCache) {
             AopCache.removeAll("productCategory");
         }
 

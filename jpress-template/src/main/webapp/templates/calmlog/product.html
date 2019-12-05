@@ -31,8 +31,6 @@
     </div>
 
 
-
-
     #@defaultProductCommentPage()
 
 </div>
@@ -56,7 +54,6 @@
             <div class="right-card-title">相关推荐</div>
 
 
-
             <ul class="product-recommended-list">
 
                 #relevantProducts(product)
@@ -64,8 +61,8 @@
                 <li>
                     <a href="#(product.url)">
                         <img src="#(product.showImage ??)" class="" alt="">
+                        <p class="recommended-title">#(product.title ??)</p>
                     </a>
-                    <p class="recommended-title">#(product.title ??)</p>
                 </li>
                 #end
                 #end

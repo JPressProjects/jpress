@@ -16,6 +16,9 @@ function addProductToCart(productId, productSpec, ok, fail) {
         },
         fail ? fail : function (data) {
             alert('添加到购物车失败：' + data.message)
+            if (data.gotoUrl) {
+                location.href = data.gotoUrl;
+            }
         })
 }
 
@@ -31,6 +34,9 @@ function addProductToFavorite(productId, ok, fail) {
         },
         fail ? fail : function (data) {
             alert('添加到收藏夹失败：' + data.message)
+            if (data.gotoUrl) {
+                location.href = data.gotoUrl;
+            }
         })
 }
 
@@ -45,15 +51,13 @@ function buyProduct(productId, ok, fail) {
         },
         ok ? ok : function (data) {
             if (data.gotoUrl) {
-                // location.href = data.gotoUrl;
                 window.open(data.gotoUrl, '_blank')
             }
         },
         fail ? fail : function (data) {
+            alert('无法进行购买：' + data.message)
             if (data.gotoUrl) {
                 location.href = data.gotoUrl;
-            } else {
-                alert('无法进行购买：' + data.message)
             }
         })
 }

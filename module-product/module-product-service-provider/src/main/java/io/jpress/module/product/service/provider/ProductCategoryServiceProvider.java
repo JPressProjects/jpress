@@ -153,6 +153,11 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         }
     }
 
+    @Override
+    public ProductCategory findFirstByFlag(String flag) {
+        return findFirstByColumns(Columns.create("flag", flag));
+    }
+
 
     @Override
     @CacheEvict(name = "productCategory", key = "*")

@@ -19,59 +19,35 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.db.model.Columns;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 
-import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.module.page.directive
  */
-@JFinalDirective("products")
-public class ProductsDirective extends JbootDirectiveBase {
+@JFinalDirective("previousProduct")
+public class PreviousProductDirective extends JbootDirectiveBase {
 
     @Inject
     private ProductService service;
 
-
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
+        Product product = JbootControllerContext.get().getAttr("product");
 
-        String flag = getPara("flag", scope);
-        String style = getPara("style", scope);
-        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
-        String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getParaToInt("count", scope, 10);
-
-
-        Columns columns = Columns.create("flag", flag);
-        columns.add("style", style);
-
-        columns.add("status", Product.STATUS_NORMAL);
-
-        if (hasThumbnail != null) {
-            if (hasThumbnail) {
-                columns.is_not_null("thumbnail");
-            } else {
-                columns.is_null("thumbnail");
-            }
-        }
-
-        List<Product> products = service.findListByColumns(columns, orderBy, count);
-
-        if (products == null || products.isEmpty()) {
+        Product previousProduct = service.findPreviousById(product.getId());
+        if (previousProduct == null) {
             return;
         }
 
-        scope.setLocal("products", products);
+        scope.setLocal("previous", previousProduct);
         renderBody(env, scope, writer);
     }
-
 
     @Override
     public boolean hasEnd() {

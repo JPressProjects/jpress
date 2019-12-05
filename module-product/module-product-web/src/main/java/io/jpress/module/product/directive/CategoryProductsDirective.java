@@ -19,10 +19,12 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.db.model.Columns;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.product.model.Product;
+import io.jpress.module.product.model.ProductCategory;
+import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductService;
 
 import java.util.List;
@@ -32,38 +34,41 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.module.page.directive
  */
-@JFinalDirective("products")
-public class ProductsDirective extends JbootDirectiveBase {
+@JFinalDirective("categoryProducts")
+public class CategoryProductsDirective extends JbootDirectiveBase {
 
     @Inject
     private ProductService service;
+
+    @Inject
+    private ProductCategoryService categoryService;
 
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        String flag = getPara("flag", scope);
-        String style = getPara("style", scope);
-        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
-        String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getParaToInt("count", scope, 10);
+        Long categoryId = getParaToLong("categoryId", scope);
+        String flag = getPara("categoryFlag", scope);
 
-
-        Columns columns = Columns.create("flag", flag);
-        columns.add("style", style);
-
-        columns.add("status", Product.STATUS_NORMAL);
-
-        if (hasThumbnail != null) {
-            if (hasThumbnail) {
-                columns.is_not_null("thumbnail");
-            } else {
-                columns.is_null("thumbnail");
-            }
+        if (StrUtil.isBlank(flag) && categoryId == null) {
+            throw new IllegalArgumentException("#categoryArticles(categoryProducts=xxx，categoryId=xxx) is error, " +
+                    "categoryFlag or categoryId must not be empty. " + getLocation());
         }
 
-        List<Product> products = service.findListByColumns(columns, orderBy, count);
+        Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
+        String orderBy = getPara("orderBy", scope, "order_number desc,id desc");
+        int count = getParaToInt("count", scope, 10);
 
+        ProductCategory category = categoryId != null
+                ? categoryService.findById(categoryId)
+                : categoryService.findFirstByFlag(flag);
+        if (category == null) {
+            return;
+        }
+
+        scope.setLocal("category", category);
+
+        List<Product> products = service.findListByCategoryId(category.getId(), hasThumbnail, orderBy, count);
         if (products == null || products.isEmpty()) {
             return;
         }

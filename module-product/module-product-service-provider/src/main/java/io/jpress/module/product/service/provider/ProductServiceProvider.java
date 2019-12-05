@@ -225,6 +225,55 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
         return joinUserInfo(DAO.find(from.toString(), columns.getValueArray()));
     }
 
+    @Override
+    @Cacheable(name = "products", key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
+    public List<Product> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
+
+        StringBuilder from = new StringBuilder("select * from article a ");
+        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        from.append(" where m.category_id = ? ");
+        from.append(" and a.status = ? ");
+
+
+        if (hasThumbnail != null) {
+            if (hasThumbnail == true) {
+                from.append(" and a.thumbnail is not null");
+            } else {
+                from.append(" and a.thumbnail is null");
+            }
+        }
+
+        from.append(" group by a.id ");
+
+        if (orderBy != null) {
+            from.append(" order by " + orderBy);
+        }
+
+        if (count != null) {
+            from.append(" limit " + count);
+        }
+
+        return joinUserInfo(DAO.find(from.toString(), categoryId, Product.STATUS_NORMAL));
+    }
+
+
+
+    @Override
+    public Product findNextById(long id) {
+        Columns columns = Columns.create();
+        columns.add(Column.create("id", id, Column.LOGIC_GT));
+        columns.add(Column.create("status", Product.STATUS_NORMAL));
+        return joinUserInfo(DAO.findFirstByColumns(columns));
+    }
+
+    @Override
+    public Product findPreviousById(long id) {
+        Columns columns = Columns.create();
+        columns.add(Column.create("id", id, Column.LOGIC_LT));
+        columns.add(Column.create("status", Product.STATUS_NORMAL));
+        return joinUserInfo(DAO.findFirstByColumns(columns, "id desc"));
+    }
+
 
     private Page<Product> joinUserInfo(Page<Product> page) {
         userService.join(page, "user_id");

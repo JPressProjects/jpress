@@ -209,5 +209,7 @@ public interface ProductCategoryService {
 
     public void doUpdateProductCount(long categoryId);
 
+    public ProductCategory findFirstByFlag(String flag);
+
 
 }

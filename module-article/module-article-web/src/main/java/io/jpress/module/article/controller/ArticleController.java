@@ -163,7 +163,7 @@ public class ArticleController extends TemplateControllerBase {
         Boolean vCodeEnable = optionService.findAsBoolByKey("article_comment_vcode_enable");
         if (vCodeEnable != null && vCodeEnable == true) {
             if (validateCaptcha("captcha") == false) {
-                renderJson(Ret.fail().set("message", "验证码错误"));
+                renderJson(Ret.fail().set("message", "验证码错误").set("errorCode",2));
                 return;
             }
         }

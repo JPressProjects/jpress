@@ -15,6 +15,7 @@
  */
 package io.jpress.module.product.controller;
 
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
@@ -25,6 +26,7 @@ import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserCart;
 import io.jpress.module.product.ProductNotifyKit;
+import io.jpress.module.product.interceptor.ProductValidate;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductComment;
@@ -181,7 +183,7 @@ public class ProductController extends TemplateControllerBase {
         Boolean vCodeEnable = optionService.findAsBoolByKey("product_comment_vcode_enable");
         if (vCodeEnable != null && vCodeEnable == true) {
             if (validateCaptcha("captcha") == false) {
-                renderJson(Ret.fail().set("message", "验证码错误").set("errorCode",2));
+                renderJson(Ret.fail().set("message", "验证码错误").set("errorCode", 2));
                 return;
             }
         }
@@ -278,36 +280,13 @@ public class ProductController extends TemplateControllerBase {
     /**
      * 添加到购物车
      */
+    @Before(ProductValidate.class)
     public void doAddCart() {
+
+        Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        if (user == null) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail()
-                        .set("code", 1)
-                        .set("message", "用户未登录")
-                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
-            } else {
-                redirect("/user/login");
-            }
-            return;
-        }
-
-
-        Long productId = getParaToLong("id");
-        Product product = productService.findById(productId);
-
-        if (product == null || !product.isNormal()) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
-            } else {
-                renderError(404);
-            }
-            return;
-        }
-
-        String distUserId = CookieUtil.get(this, buildDistUserCookieName(productId));
+        String distUserId = CookieUtil.get(this, buildDistUserCookieName(product.getId()));
         Long duid = StrUtil.isNotBlank(distUserId) ? Long.valueOf(distUserId) : null;
-
         UserCart userCart = product.toUserCartItem(user.getId(), duid, getPara("spec"));
 
         cartService.save(userCart);
@@ -315,67 +294,22 @@ public class ProductController extends TemplateControllerBase {
     }
 
 
+    @Before(ProductValidate.class)
     public void doAddFavorite() {
+        Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        if (user == null) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail()
-                        .set("code", 1)
-                        .set("message", "用户未登录")
-                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
-            } else {
-                redirect("/user/login");
-            }
-            return;
-        }
-
-
-        Long productId = getParaToLong("id");
-        Product product = productService.findById(productId);
-
-        if (product == null || !product.isNormal()) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
-            } else {
-                renderError(404);
-            }
-            return;
-        }
-
         favoriteService.save(product.toFavorite(user.getId()));
+
         renderOkJson();
     }
 
     /**
      * 购买商品
      */
+    @Before(ProductValidate.class)
     public void doBuy() {
+        Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        if (user == null) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail()
-                        .set("code", 1)
-                        .set("message", "用户未登录")
-                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
-            } else {
-                redirect("/user/login");
-            }
-            return;
-        }
-
-
-        Long productId = getParaToLong("id");
-        Product product = productService.findById(productId);
-
-        if (product == null || !product.isNormal()) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
-            } else {
-                renderError(404);
-            }
-            return;
-        }
-
         Object cartId = cartService.save(product.toUserCartItem(user.getId(), null, getPara("spec")));
         if (isAjaxRequest()) {
             renderJson(Ret.ok().set("gotoUrl", JFinal.me().getContextPath() + "/ucenter/checkout/" + cartId));

@@ -6,13 +6,13 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.AopCache;
+import io.jboot.components.cache.CacheTime;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
-import io.jpress.commons.Copyer;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 @Bean
 public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCategory> implements ProductCategoryService {
-
 
 
     @Override
@@ -39,7 +38,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
      * @return
      */
     @Override
-    @Cacheable(name = "product-category", key = "id:#(productId)", liveSeconds = 60 * 60 * 2)
+    @Cacheable(name = "product-category", key = "id:#(productId)", liveSeconds = 2 * CacheTime.HOUR)
     public List<ProductCategory> findListByProductId(long productId) {
         List<Record> mappings = Db.find("select * from product_category_mapping where product_id = ?", productId);
         if (mappings == null || mappings.isEmpty()) {
@@ -76,11 +75,13 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     }
 
     @Override
+    @Cacheable(name = "productCategory", key = "type:#(type)", returnCopyEnable = true)
     public List<ProductCategory> _findListByType(String type) {
-        return Copyer.copy(findListByTypeInDb(type));
+        return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
 
     @Override
+    @Cacheable(name = "productCategory")
     public List<ProductCategory> findListByType(String type, String orderBy, Integer count) {
         return DAO.findListByColumns(Columns.create("type", type), StrUtil.isNotBlank(orderBy) ? orderBy : "id desc", count);
     }
@@ -130,11 +131,6 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         return productCategories;
     }
 
-
-    @Cacheable(name = "productCategory", key = "type:#(type)")
-    public List<ProductCategory> findListByTypeInDb(String type) {
-        return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
-    }
 
     @Override
     public ProductCategory findFirstByTypeAndSlug(String type, String slug) {

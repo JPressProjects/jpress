@@ -237,7 +237,11 @@ public class _ProductController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(productService.deleteById(id) ? Ret.ok() : Ret.fail());
+        if (productService.deleteById(id)){
+            imageService.deleteByProductId(id);
+        }
+
+        renderOkJson();
     }
 
     public void doTrash() {

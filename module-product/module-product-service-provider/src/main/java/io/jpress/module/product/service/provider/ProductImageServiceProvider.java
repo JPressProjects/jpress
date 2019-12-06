@@ -71,4 +71,9 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
             saveOrUpdate(image);
         }
     }
+
+    @Override
+    public boolean deleteByProductId(Long productId) {
+        return  Db.update("delete from product_image where product_id = ?", productId) > 0;
+    }
 }

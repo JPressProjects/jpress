@@ -43,14 +43,14 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
-    @Cacheable(name = "usercarts:#(userId)")
-    public List<UserCart> findListByUserId(Object userId, int count) {
-        List<UserCart> userCarts = DAO.findListByColumns(Columns.create("user_id", userId), "id desc", count);
+    @Cacheable(name = "usercarts", key = "#(userId)")
+    public List<UserCart> findListByUserId(Object userId) {
+        List<UserCart> userCarts = DAO.findListByColumns(Columns.create("user_id", userId), "id desc", 10);
         return joinMemberPrice(userCarts);
     }
 
     @Override
-    @Cacheable(name = "usercartscount:#(userId)")
+    @Cacheable(name = "usercartscount", key = "#(userId)")
     public long findCountByUserId(Object userId) {
         return DAO.findCountByColumn(Column.create("user_id", userId));
     }
@@ -109,8 +109,8 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
 
     @Override
     @CachesEvict({
-            @CacheEvict(name = "usercarts:#(model.user_id)"),
-            @CacheEvict(name = "usercartscount:#(model.user_id)"),
+            @CacheEvict(name = "usercarts", key = "#(model.user_id)", unless = "model == null"),
+            @CacheEvict(name = "usercartscount", key = "#(model.user_id)", unless = "model == null"),
     })
     public void shouldUpdateCache(int action, Model model, Object id) {
         super.shouldUpdateCache(action, model, id);

@@ -90,7 +90,7 @@ public class UserInterceptor implements Interceptor {
      * @param user
      */
     private void setUserCartInfoAttrs(Invocation inv, User user) {
-        inv.getController().setAttr(ATTR_USER_CARTS, cartService.findListByUserId(user.getId(), 5));
+        inv.getController().setAttr(ATTR_USER_CARTS, cartService.findListByUserId(user.getId()));
         inv.getController().setAttr(ATTR_USER_CARTS_COUNT, cartService.findCountByUserId(user.getId()));
     }
 

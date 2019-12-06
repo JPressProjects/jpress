@@ -68,7 +68,7 @@ public interface UserCartService {
      */
     public Page<UserCart> paginate(int page, int pageSize);
 
-    public List<UserCart> findListByUserId(Object userId, int count);
+    public List<UserCart> findListByUserId(Object userId);
 
     public long findCountByUserId(Object userId);
 

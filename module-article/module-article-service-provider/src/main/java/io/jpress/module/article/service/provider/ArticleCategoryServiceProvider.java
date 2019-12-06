@@ -21,6 +21,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.AopCache;
+import io.jboot.components.cache.CacheTime;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
@@ -76,7 +77,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
-    @Cacheable(name = "articleCategory")
+    @Cacheable(name = "article-category", key = "#(articleId)", liveSeconds = 2 * CacheTime.HOUR)
     public List<ArticleCategory> findListByArticleId(long articleId) {
         List<Record> mappings = Db.find("select * from article_category_mapping where article_id = ?", articleId);
         if (mappings == null || mappings.isEmpty()) {
@@ -168,7 +169,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
             articleCategories.add(articleCategory);
         }
 
-        if (needClearCache){
+        if (needClearCache) {
             AopCache.removeAll("articleCategory");
         }
 

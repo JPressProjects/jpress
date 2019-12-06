@@ -18,11 +18,13 @@ package io.jpress.module.article.service.provider;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
@@ -396,7 +398,10 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
+    @CachesEvict({
+            @CacheEvict(name = "article-category",key = "#(id)"),
+            @CacheEvict(name = "articles", key = "*")
+    })
     public boolean deleteById(Object id) {
 
         ArticleSearcherFactory.getSearcher().deleteArticle(id);
@@ -421,4 +426,12 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
 
+    @Override
+    @CachesEvict({
+            @CacheEvict(name = "articles", key = "*"),
+            @CacheEvict(name = "article-category", key = "#(id)", unless = "id == null"),
+    })
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        super.shouldUpdateCache(action, model, id);
+    }
 }

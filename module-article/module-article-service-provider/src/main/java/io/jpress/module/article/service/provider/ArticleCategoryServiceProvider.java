@@ -77,7 +77,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
-    @Cacheable(name = "article-category", key = "#(articleId)", liveSeconds = 2 * CacheTime.HOUR)
+    @Cacheable(name = "article-category", key = "#(articleId)", liveSeconds = 2 * CacheTime.HOUR, nullCacheEnable = true)
     public List<ArticleCategory> findListByArticleId(long articleId) {
         List<Record> mappings = Db.find("select * from article_category_mapping where article_id = ?", articleId);
         if (mappings == null || mappings.isEmpty()) {

@@ -38,7 +38,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
      * @return
      */
     @Override
-    @Cacheable(name = "product-category", key = "#(productId)", liveSeconds = 2 * CacheTime.HOUR)
+    @Cacheable(name = "product-category", key = "#(productId)", liveSeconds = 2 * CacheTime.HOUR, nullCacheEnable = true)
     public List<ProductCategory> findListByProductId(long productId) {
         List<Record> mappings = Db.find("select * from product_category_mapping where product_id = ?", productId);
         if (mappings == null || mappings.isEmpty()) {

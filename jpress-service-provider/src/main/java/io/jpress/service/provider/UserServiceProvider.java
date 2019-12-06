@@ -225,9 +225,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
 
     @Override
-    public void shouldUpdateCache(int action, Object data) {
-        if (data instanceof User) {
-            User user = (User) data;
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        if (model instanceof User) {
+            User user = (User) model;
 //            if (user.getWxOpenid() != null) {
 //                Jboot.getCache().remove("userOpenIds", user.getWxOpenid());
 //            }

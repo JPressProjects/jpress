@@ -1,6 +1,7 @@
 package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.Cacheable;
@@ -58,9 +59,9 @@ public class UserOpenidServiceProvider extends JbootServiceBase<UserOpenid> impl
     }
 
     @Override
-    public void shouldUpdateCache(int action, Object data) {
-       if (data instanceof UserOpenid){
-           UserOpenid userOpenid = (UserOpenid) data;
+    public void shouldUpdateCache(int action, Model model, Object id) {
+       if (model instanceof UserOpenid){
+           UserOpenid userOpenid = (UserOpenid) model;
            Jboot.getCache().remove("useropenid",userOpenid.getType()+"-"+userOpenid.getValue());
        }
     }

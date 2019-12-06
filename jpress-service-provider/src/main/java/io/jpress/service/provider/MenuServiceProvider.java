@@ -15,6 +15,7 @@
  */
 package io.jpress.service.provider;
 
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
@@ -52,8 +53,8 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     @CacheEvict(name = "menu", key = "*")
-    public void shouldUpdateCache(int action, Object data) {
-        super.shouldUpdateCache(action, data);
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        super.shouldUpdateCache(action, model, id);
     }
 
     @Override

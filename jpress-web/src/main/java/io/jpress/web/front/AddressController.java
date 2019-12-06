@@ -63,14 +63,11 @@ public class AddressController extends UcenterControllerBase {
     public void doDelByIds() {
         Set<String> idsSet = getParaSet("ids");
 
-        User user = getLoginedUser();
-
-        //in 发现有点问题，后续解决
-        for (String s : idsSet) {
-            Columns columns = Columns.create();
-            columns.eq("id", s);
-            columns.eq("user_id", user.getId());
-            userAddressService.deleteByColumns(columns);
+        for (String id : idsSet) {
+            UserAddress address = userAddressService.findById(id);
+            if (address != null && isLoginedUserModel(address)){
+                userAddressService.delete(address);
+            }
         }
 
         renderJson(Ret.ok());
@@ -80,12 +77,11 @@ public class AddressController extends UcenterControllerBase {
      * 单个删除
      */
     public void doDel() {
-        Long id = getIdPara();
-        Columns columns = Columns.create();
-        User user = getLoginedUser();
-        columns.add("id", id);
-        columns.add("user_id", user.getId());
-        renderJson(userAddressService.deleteByColumns(columns) ? Ret.ok() : Ret.fail());
+        UserAddress address = userAddressService.findById(getIdPara());
+        if (address != null && isLoginedUserModel(address)){
+            userAddressService.delete(address);
+        }
+        renderOkJson();
     }
 
     /**

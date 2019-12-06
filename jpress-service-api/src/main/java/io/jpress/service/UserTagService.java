@@ -117,14 +117,6 @@ public interface UserTagService  {
     public boolean batchDeleteByIds(Object... ids);
 
 
-    /**
-     * 根据条件进行删除
-     *
-     * @param columns
-     * @return
-     */
-    public boolean deleteByColumns(Columns columns);
-
 
     /**
      * 保存到数据库

@@ -1,6 +1,7 @@
 package io.jpress.module.product.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Bean
 public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCategory> implements ProductCategoryService {
+
 
 
     @Override
@@ -167,7 +169,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
 
     @Override
     @CacheEvict(name = "productCategory", key = "*")
-    public void shouldUpdateCache(int action, Object data) {
-        super.shouldUpdateCache(action, data);
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        super.shouldUpdateCache(action, model, id);
     }
 }

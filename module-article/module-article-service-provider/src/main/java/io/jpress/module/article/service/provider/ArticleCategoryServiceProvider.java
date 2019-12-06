@@ -16,6 +16,7 @@
 package io.jpress.module.article.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
@@ -48,8 +49,8 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
     @Override
     @CacheEvict(name = "articleCategory", key = "*")
-    public void shouldUpdateCache(int action, Object data) {
-        super.shouldUpdateCache(action, data);
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        super.shouldUpdateCache(action, model, id);
     }
 
     @Override

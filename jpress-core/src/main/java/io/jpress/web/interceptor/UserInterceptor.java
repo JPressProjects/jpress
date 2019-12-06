@@ -24,6 +24,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConsts;
 import io.jpress.model.User;
+import io.jpress.service.UserCartService;
 import io.jpress.service.UserService;
 
 
@@ -38,6 +39,13 @@ public class UserInterceptor implements Interceptor {
     @Inject
     private UserService userService;
 
+    @Inject
+    private UserCartService cartService;
+
+    private static final String ATTR_USER_CARTS = "USER_CARTS";
+    private static final String ATTR_USER_CARTS_COUNT = "USER_CARTS_COUNT";
+
+
     public static User getThreadLocalUser() {
         return JbootControllerContext.get().getAttr(JPressConsts.ATTR_LOGINED_USER);
     }
@@ -45,27 +53,45 @@ public class UserInterceptor implements Interceptor {
     @Override
     public void intercept(Invocation inv) {
 
-        Controller controller = inv.getController();
-        User user = controller.getAttr(JPressConsts.ATTR_LOGINED_USER);
+        Controller c = inv.getController();
+        User user = c.getAttr(JPressConsts.ATTR_LOGINED_USER);
 
         if (user != null) {
+
+            //购物车的相关信息
+            setUserCartInfoAttrs(inv, user);
+
             inv.invoke();
             return;
         }
 
 
-        String uid = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
+        String uid = CookieUtil.get(c, JPressConsts.COOKIE_UID);
         if (StrUtil.isBlank(uid)) {
             inv.invoke();
             return;
         }
 
         user = userService.findById(uid);
+
         if (user != null) {
-            inv.getController().setAttr(JPressConsts.ATTR_LOGINED_USER, user);
+            c.setAttr(JPressConsts.ATTR_LOGINED_USER, user);
+            setUserCartInfoAttrs(inv, user);
+
         }
 
         inv.invoke();
+    }
+
+    /**
+     * 购物车的相关信息
+     *
+     * @param inv
+     * @param user
+     */
+    private void setUserCartInfoAttrs(Invocation inv, User user) {
+        inv.getController().setAttr(ATTR_USER_CARTS, cartService.findListByUserId(user.getId(), 5));
+        inv.getController().setAttr(ATTR_USER_CARTS_COUNT, cartService.findCountByUserId(user.getId()));
     }
 
 }

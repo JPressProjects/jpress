@@ -15,12 +15,10 @@
  */
 package io.jpress.web.interceptor;
 
-import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuManager;
-import io.jpress.service.UserCartService;
 
 import java.util.List;
 
@@ -33,20 +31,14 @@ import java.util.List;
  */
 public class UserCenterInterceptor implements Interceptor {
 
-    @Inject
-    private UserCartService cartService;
-
     @Override
     public void intercept(Invocation inv) {
 
         List<MenuGroup> ucenterMenus = MenuManager.me().getUcenterMenus();
         inv.getController().setAttr("ucenterMenus", ucenterMenus);
         inv.getController().setAttr("user", UserInterceptor.getThreadLocalUser());
-        inv.getController().setAttr("headerUserCarts", cartService.findListByUserId(UserInterceptor.getThreadLocalUser().getId(),5));
-        inv.getController().setAttr("headerUserCartsCount", cartService.findCountByUserId(UserInterceptor.getThreadLocalUser().getId()));
 
         inv.invoke();
-
     }
 
 }

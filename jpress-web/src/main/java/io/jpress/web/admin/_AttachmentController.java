@@ -54,11 +54,11 @@ public class _AttachmentController extends AdminControllerBase {
     private static final Log LOG = Log.getLog(_AttachmentController.class);
 
     @Inject
-    private AttachmentService as;
+    private AttachmentService service;
 
     @AdminMenu(text = "所有附件", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 0)
     public void index() {
-        Page<Attachment> page = as._paginate(getPagePara(), 15, getPara("title"));
+        Page<Attachment> page = service._paginate(getPagePara(), 15, getPara("title"));
         setAttr("page", page);
         render("attachment/list.html");
     }
@@ -192,7 +192,9 @@ public class _AttachmentController extends AdminControllerBase {
             try {
                 FileOwnerAttributeView foav = Files.getFileAttributeView(Paths.get(file.toURI()), FileOwnerAttributeView.class);
                 UserPrincipal owner = foav.getOwner();
-                if (owner != null) return owner.getName();
+                if (owner != null) {
+                    return owner.getName();
+                }
             } catch (Exception e) {
                 LogKit.error(e.toString(), e);
             }
@@ -226,7 +228,7 @@ public class _AttachmentController extends AdminControllerBase {
 
 
     public void browse() {
-        Page<Attachment> page = as._paginate(getPagePara(), 10, getPara("title"));
+        Page<Attachment> page = service._paginate(getPagePara(), 10, getPara("title"));
         setAttr("page", page);
         render("attachment/browse.html");
     }
@@ -235,7 +237,7 @@ public class _AttachmentController extends AdminControllerBase {
     public void detail() {
         Long id = getIdPara();
 
-        Attachment attachment = as.findById(id);
+        Attachment attachment = service.findById(id);
 
         setAttr("attachment", attachment);
 
@@ -271,14 +273,27 @@ public class _AttachmentController extends AdminControllerBase {
             renderError(404);
             return;
         }
-        as.deleteById(id);
+
+        Attachment attachment = service.findById(id);
+        if (attachment == null){
+            renderError(404);
+            return;
+        }
+
+        if (service.delete(attachment)){
+            File attachmentFile = AttachmentUtils.file(attachment.getPath());
+            if (attachmentFile.exists() && attachmentFile.isFile() ){
+                attachmentFile.delete();
+            }
+        }
+
         renderOkJson();
     }
 
 
     public void doUpdate() {
         Attachment attachment = getBean(Attachment.class);
-        as.saveOrUpdate(attachment);
+        service.saveOrUpdate(attachment);
         renderOkJson();
     }
 

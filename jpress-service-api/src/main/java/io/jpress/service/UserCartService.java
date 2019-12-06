@@ -23,16 +23,6 @@ public interface UserCartService {
      */
     public List<UserCart> findAll();
 
-
-    /**
-     * delete model by primary key
-     *
-     * @param id
-     * @return success
-     */
-    public boolean deleteById(Object id);
-
-
     /**
      * delete model
      *

@@ -1,8 +1,12 @@
 package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
@@ -39,12 +43,14 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
+    @Cacheable(name = "usercarts:#(userId)")
     public List<UserCart> findListByUserId(Object userId, int count) {
         List<UserCart> userCarts = DAO.findListByColumns(Columns.create("user_id", userId), "id desc", count);
         return joinMemberPrice(userCarts);
     }
 
     @Override
+    @Cacheable(name = "usercartscount:#(userId)")
     public long findCountByUserId(Object userId) {
         return DAO.findCountByColumn(Column.create("user_id", userId));
     }
@@ -94,10 +100,19 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
 
         // 产品的最新价格 （用户添加商品到购物车后，商品的价格可能会发生变化）
         BigDecimal newestSalePrice = ProductManager.me().querySalePrice(userCart.getProductType(), userCart.getProductId(), userCart.getUserId(), userCart.getDistUserId());
-        if (newestSalePrice != null){
-            userCart.put("newestSalePrice",newestSalePrice);
+        if (newestSalePrice != null) {
+            userCart.put("newestSalePrice", newestSalePrice);
         }
 
         return userCart;
+    }
+
+    @Override
+    @CachesEvict({
+            @CacheEvict(name = "usercarts:#(model.user_id)"),
+            @CacheEvict(name = "usercartscount:#(model.user_id)"),
+    })
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        super.shouldUpdateCache(action, model, id);
     }
 }

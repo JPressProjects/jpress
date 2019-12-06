@@ -296,7 +296,7 @@ public class CheckoutController extends UcenterControllerBase {
         userOrderService.update(userOrder);
 
         for (String cid : cids) {
-            cartService.deleteById(cid);
+            cartService.delete(cartService.findById(cid));
         }
 
         renderJson(Ret.ok().set("orderId", userOrderId).set("paytype", getPara("paytype")));

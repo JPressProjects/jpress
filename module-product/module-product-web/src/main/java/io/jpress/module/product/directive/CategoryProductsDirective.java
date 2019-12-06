@@ -32,7 +32,6 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.module.page.directive
  */
 @JFinalDirective("categoryProducts")
 public class CategoryProductsDirective extends JbootDirectiveBase {
@@ -51,7 +50,7 @@ public class CategoryProductsDirective extends JbootDirectiveBase {
         String flag = getPara("categoryFlag", scope);
 
         if (StrUtil.isBlank(flag) && categoryId == null) {
-            throw new IllegalArgumentException("#categoryArticles(categoryProducts=xxx，categoryId=xxx) is error, " +
+            throw new IllegalArgumentException("#categoryProducts(categoryProducts=xxx，categoryId=xxx) is error, " +
                     "categoryFlag or categoryId must not be empty. " + getLocation());
         }
 

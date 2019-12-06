@@ -190,7 +190,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     @Override
     @CachesEvict({
             @CacheEvict(name = "products", key = "*"),
-            @CacheEvict(name = "product-category", key = "*"),
+            @CacheEvict(name = "product-category", key = "id:#(id)", unless = "id == null"),
     })
     public void shouldUpdateCache(int action, Model model, Object id) {
         super.shouldUpdateCache(action, model, id);

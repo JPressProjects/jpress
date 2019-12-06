@@ -236,21 +236,21 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     @Cacheable(name = "products", liveSeconds = 60 * 60)
     public List<Product> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
-        StringBuilder from = new StringBuilder("select * from article a ");
-        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
+        StringBuilder from = new StringBuilder("select * from product p ");
+        from.append(" left join product_category_mapping m on p.id = m.`product_id` ");
         from.append(" where m.category_id = ? ");
-        from.append(" and a.status = ? ");
+        from.append(" and p.status = ? ");
 
 
         if (hasThumbnail != null) {
             if (hasThumbnail == true) {
-                from.append(" and a.thumbnail is not null");
+                from.append(" and p.thumbnail is not null");
             } else {
-                from.append(" and a.thumbnail is null");
+                from.append(" and p.thumbnail is null");
             }
         }
 
-        from.append(" group by a.id ");
+        from.append(" group by p.id ");
 
         if (orderBy != null) {
             from.append(" order by " + orderBy);
@@ -291,8 +291,8 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
         return list;
     }
 
-    private Product joinUserInfo(Product article) {
-        userService.join(article, "user_id");
-        return article;
+    private Product joinUserInfo(Product product) {
+        userService.join(product, "user_id");
+        return product;
     }
 }

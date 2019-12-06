@@ -6,7 +6,6 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.components.cache.AopCache;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.components.cache.annotation.CachesEvict;
@@ -182,7 +181,6 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
             deleteById(id);
-            AopCache.remove("product-category", "id:" + id);
         }
         return true;
     }
@@ -190,7 +188,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     @Override
     @CachesEvict({
             @CacheEvict(name = "products", key = "*"),
-            @CacheEvict(name = "product-category", key = "id:#(id)", unless = "id == null"),
+            @CacheEvict(name = "product-category", key = "(id)", unless = "id == null"),
     })
     public void shouldUpdateCache(int action, Model model, Object id) {
         super.shouldUpdateCache(action, model, id);

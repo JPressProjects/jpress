@@ -42,6 +42,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     private ProductCategoryService categoryService;
 
     @Override
+    @CacheEvict(name = "product-category", key = "#(productId)")
     public void doUpdateCategorys(long productId, Long[] categoryIds) {
         Db.tx(() -> {
             Db.update("delete from product_category_mapping where product_id = ?", productId);

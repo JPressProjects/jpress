@@ -22,7 +22,6 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.components.cache.AopCache;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.components.cache.annotation.CachesEvict;
@@ -377,7 +376,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
+
+    @CachesEvict({
+            @CacheEvict(name = "articles", key = "*"),
+            @CacheEvict(name = "article-category", key = "#(articleId)"),
+    })
     public void doUpdateCategorys(long articleId, Long[] categoryIds) {
 
         Db.tx(() -> {
@@ -396,12 +399,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
             return true;
         });
-
-        if (categoryIds != null && categoryIds.length > 0) {
-            for (Long pid : categoryIds) {
-                AopCache.remove("article-category", pid);
-            }
-        }
     }
 
     @Override

@@ -47,6 +47,8 @@ public class PayController extends TemplateControllerBase {
     public static final String DEFAULT_FAIL_VIEW = "/WEB-INF/views/front/pay/pay_fail.html";
     public static final String DEFAULT_SUCCESS_VIEW = "/WEB-INF/views/front/pay/pay_success.html";
     public static final String DEFAULT_COMPLETE_VIEW = "/WEB-INF/views/front/pay/pay_complete.html";
+    public static final String DEFAULT_ERROR_VIEW = "/WEB-INF/views/front/pay/pay_error.html";
+
 
     private static final Log LOG = Log.getLog(PayController.class);
 
@@ -550,6 +552,14 @@ public class PayController extends TemplateControllerBase {
 
         setAttr("payment", payment);
         render("pay_complete.html", DEFAULT_COMPLETE_VIEW);
+    }
+
+
+    /**
+     * 支付错误页面，一般情况下后台为做正确的配置
+     */
+    public void error(){
+        render("pay_error.html", DEFAULT_ERROR_VIEW);
     }
 
 

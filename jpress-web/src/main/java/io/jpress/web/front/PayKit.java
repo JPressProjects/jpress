@@ -32,8 +32,14 @@ public class PayKit {
         redirect(JbootControllerContext.get(), paytype, trxno);
     }
 
+
     public static void redirect(Controller controller, String paytype, String trxno) {
         controller.redirect("/pay/" + paytype + "/" + trxno);
+    }
+
+
+    public static void redirectError(String backAction) {
+        JbootControllerContext.get().redirect("/pay/error?gotoUrl=" + backAction);
     }
 
     private static final SnowFlake SNOW_FLAKE = new SnowFlake(1, 1);

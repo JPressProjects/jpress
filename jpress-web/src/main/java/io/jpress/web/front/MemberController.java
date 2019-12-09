@@ -19,6 +19,9 @@ import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
+import io.jboot.web.validate.ValidateRenderType;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.Member;
@@ -84,20 +87,30 @@ public class MemberController extends UcenterControllerBase {
         render("member/member_join.html");
     }
 
+    @EmptyValidate(value = {
+            @Form(name = "paytype")
+    },
+            renderType = ValidateRenderType.REDIRECT,
+            redirectUrl = "/pay/error?gotoUrl=/ucenter/member/join"
+    )
     public void joining() {
 
         MemberGroup memberGroup = memberGroupService.findById(getPara("groupId"));
-        render404If(memberGroup == null);
+        if (memberGroup == null) {
+            PayKit.redirectError("/ucenter/member/join");
+            return;
+        }
 
         BigDecimal joinAmount = memberGroup.getPrice();
-        render404If(joinAmount == null);
-
         BigDecimal limitedPrice = memberGroup.getLimitedPrice();
         if (limitedPrice != null && limitedPrice.subtract(joinAmount).intValue() <= 0) {
             joinAmount = limitedPrice;
         }
 
-        render404If(joinAmount.compareTo(BigDecimal.ZERO) <= 0);
+        if (joinAmount == null || joinAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            PayKit.redirectError("/ucenter/member/join");
+            return;
+        }
 
         PaymentRecord payment = new PaymentRecord();
         payment.setProductTitle("加入会员");

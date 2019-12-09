@@ -1,5 +1,16 @@
 #@ucenter_layout()
 
+#define script()
+<script>
+
+    $(document).ready(function () {
+        $("[name='paytype']:first").attr("checked", "checked");
+    });
+
+</script>
+#end
+
+
 #define content()
 <div class="content-wrapper">
 
@@ -54,7 +65,7 @@
                                     #if(wechatxConfig.isEnable())
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="paytype" value="wechatx" checked>
+                                            <input type="radio" name="paytype" value="wechatx">
                                             微信转账支付
                                         </label>
                                     </div>

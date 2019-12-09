@@ -7,6 +7,10 @@
         $("[name='paytype']:first").attr("checked", "checked");
     });
 
+    function ok(data) {
+        window.open(data.gotoUrl,"_blank");
+    }
+
 </script>
 #end
 
@@ -32,7 +36,10 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off" action="#(CPATH)/ucenter/member/joining" method="post" target="_blank">
+                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off" action="#(CPATH)/ucenter/member/joining" method="post"
+                          method="post"
+                          data-ok-function="ok"
+                    >
                         <input type="hidden" name="groupId" value="#(memberGroup.id)">
                         <div class="box-body ">
 

@@ -17,11 +17,11 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
-import io.jboot.web.validate.ValidateRenderType;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.Member;
@@ -87,17 +87,14 @@ public class MemberController extends UcenterControllerBase {
         render("member/member_join.html");
     }
 
-    @EmptyValidate(value = {
-            @Form(name = "paytype")
-    },
-            renderType = ValidateRenderType.REDIRECT,
-            redirectUrl = "/pay/error?gotoUrl=/ucenter/member/join"
-    )
+    @EmptyValidate({
+            @Form(name = "paytype", message = "支付方式不能为空"),
+    })
     public void joining() {
 
         MemberGroup memberGroup = memberGroupService.findById(getPara("groupId"));
         if (memberGroup == null) {
-            PayKit.redirectError("/ucenter/member/join");
+           renderFailJson("该会员可能已经被管理员下架");
             return;
         }
 
@@ -108,7 +105,7 @@ public class MemberController extends UcenterControllerBase {
         }
 
         if (joinAmount == null || joinAmount.compareTo(BigDecimal.ZERO) <= 0) {
-            PayKit.redirectError("/ucenter/member/join");
+            renderFailJson("该会员无法加入，因为加入金额小于0");
             return;
         }
 
@@ -139,8 +136,7 @@ public class MemberController extends UcenterControllerBase {
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
         paymentService.save(payment);
 
-
-        PayKit.redirect(payment.getPayType(), payment.getTrxNo());
+        renderJson(Ret.ok().set("gotoUrl", PayKit.buildPayUrl(payment.getPayType(), payment.getTrxNo())));
     }
 
 

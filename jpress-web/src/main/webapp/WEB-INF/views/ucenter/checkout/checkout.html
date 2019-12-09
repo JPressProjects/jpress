@@ -102,7 +102,6 @@
             success: function (result) {
                 if (result.state == "ok") {
                     location.href = '#(CPATH)/ucenter/checkout/payorder/' + result.orderId + "?paytype=" + result.paytype;
-                    // window.open(url,'_blanck');
                 }
                 //fail
                 else {

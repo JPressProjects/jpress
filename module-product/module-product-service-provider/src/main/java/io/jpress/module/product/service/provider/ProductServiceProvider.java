@@ -6,6 +6,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.AopCache;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.components.cache.annotation.CachesEvict;
@@ -42,7 +43,6 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     private ProductCategoryService categoryService;
 
     @Override
-    @CacheEvict(name = "product-category", key = "#(productId)")
     public void doUpdateCategorys(long productId, Long[] categoryIds) {
         Db.tx(() -> {
             Db.update("delete from product_category_mapping where product_id = ?", productId);
@@ -60,6 +60,13 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
             return true;
         });
+
+        if (categoryIds != null && categoryIds.length > 0) {
+            for (Long pid : categoryIds){
+                AopCache.remove("product-category",pid);
+            }
+        }
+
     }
 
     @Override
@@ -178,12 +185,21 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     }
 
     @Override
-    @CacheEvict(name = "products", key = "*")
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
             deleteById(id);
         }
         return true;
+    }
+
+
+    @Override
+    @CachesEvict({
+            @CacheEvict(name = "product-category",key = "#(id)"),
+            @CacheEvict(name = "products", key = "*")
+    })
+    public boolean deleteById(Object id) {
+        return super.deleteById(id);
     }
 
     @Override

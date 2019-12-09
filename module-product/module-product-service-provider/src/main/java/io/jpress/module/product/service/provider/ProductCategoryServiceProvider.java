@@ -9,6 +9,7 @@ import io.jboot.components.cache.AopCache;
 import io.jboot.components.cache.CacheTime;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
@@ -164,7 +165,10 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
 
 
     @Override
-    @CacheEvict(name = "productCategory", key = "*")
+    @CachesEvict({
+            @CacheEvict(name = "productCategory", key = "*"),
+            @CacheEvict(name = "product-category", key = "*"),
+    })
     public void shouldUpdateCache(int action, Model model, Object id) {
         super.shouldUpdateCache(action, model, id);
     }

@@ -7,6 +7,10 @@
         $("[name='paytype']:first").attr("checked", "checked");
     });
 
+    function ok(data) {
+        window.open(data.gotoUrl,"_black");
+    }
+
 </script>
 #end
 
@@ -33,7 +37,11 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off" action="#(CPATH)/ucenter/finance/amount/recharging" method="post" target="_blank">
+                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off"
+                          action="#(CPATH)/ucenter/finance/amount/recharging"
+                          method="post"
+                          data-ok-function="ok"
+                    >
                         <div class="box-body ">
 
                             <div class="form-group">

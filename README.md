@@ -158,7 +158,7 @@ curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-c
 
 - 1、在本地安装好 Java、Maven 等开发环境
 - 2、将源码下载、并导入 eclipse 或者 idea 等开发工具
-- 3、在项目的根目录，执行 `mvn clean install` 命令进行编译
+- 3、在项目的**根目录**，执行 `mvn clean install` 命令进行编译
 - 4、在开发工具，右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
 - 5、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
 

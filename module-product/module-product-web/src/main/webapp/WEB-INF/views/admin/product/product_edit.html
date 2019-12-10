@@ -429,40 +429,6 @@
                         </div>
                     </div>
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">模板样式</h3>
-                        </div>
-                        <div class="box-body ">
-
-                            #if(styles && styles.size() > 0 )
-                            <div class="form-group">
-                                <select class="form-control" name="product.style">
-                                    <option value="">默认样式</option>
-                                    #for(style : styles)
-                                    <option value="#(style)" #selectedIf(product && product.style==style)>
-                                        #(style)
-                                    </option>
-                                    #end
-                                </select>
-                            </div>
-                            #end
-
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="product.flag"
-                                       placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
-                                #if(flags && flags.size() > 0)
-                                <p class="help-block">当前模板支持的展示标识有：</p>
-                                <div class="tags">
-                                    #for(flag : flags ??)
-                                    <a href="javascript:;" class="tflag">#(flag)</a>
-                                    #end
-                                </div>
-                                #end
-
-                            </div>
-                        </div>
-                    </div>
 
 
                     <div class="box box-solid">
@@ -514,6 +480,8 @@
                             </div>
                         </div>
                     </div>
+
+
                     <div class="box box-solid">
                         <div class="box-header with-border ">
                             <h3 class="box-title">产品主图</h3>
@@ -531,6 +499,42 @@
                                     for-input="productThumbnail">选择图片
                             </button>
                             <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                        </div>
+                    </div>
+
+
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">模板样式</h3>
+                        </div>
+                        <div class="box-body ">
+
+                            #if(styles && styles.size() > 0 )
+                            <div class="form-group">
+                                <select class="form-control" name="product.style">
+                                    <option value="">默认样式</option>
+                                    #for(style : styles)
+                                    <option value="#(style)" #selectedIf(product && product.style==style)>
+                                        #(style)
+                                    </option>
+                                    #end
+                                </select>
+                            </div>
+                            #end
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="product.flag"
+                                       placeholder="产品标识" value="#(product.flag ??)" id="flag"/>
+                                #if(flags && flags.size() > 0)
+                                <p class="help-block">当前模板支持的展示标识有：</p>
+                                <div class="tags">
+                                    #for(flag : flags ??)
+                                    <a href="javascript:;" class="tflag">#(flag)</a>
+                                    #end
+                                </div>
+                                #end
+
+                            </div>
                         </div>
                     </div>
 

@@ -68,17 +68,6 @@ public class ArticleFields {
                 null,
                 30).addAttr("rows", 2));
 
-        fields.add(new SmartField("flag",
-                "文章标识",
-                "article.flag",
-                "请输入",
-                SmartField.TYPE_INPUT,
-                null,
-                null,
-                "我们可以对此篇文章进行特殊标识，方便前台模板进行读取。",
-                50));
-
-
         fields.add(new SmartField("order_number",
                 "排序序号",
                 "article.order_number",

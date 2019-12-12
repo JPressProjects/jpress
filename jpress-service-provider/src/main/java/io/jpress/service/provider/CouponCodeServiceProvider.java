@@ -1,6 +1,7 @@
 package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
@@ -43,23 +44,23 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
     }
 
     @Override
-    public boolean valid(CouponCode couponCode, BigDecimal orderTotalAmount, long usedUserId) {
+    public Ret valid(CouponCode couponCode, BigDecimal orderTotalAmount, long usedUserId) {
 
         // 该优惠码被标识为：不可用
         if (couponCode == null || !couponCode.isNormal()) {
-            return false;
+            return Ret.fail().set("message", "该优惠码不存在或不可使用");
         }
 
         Coupon coupon = couponService.findById(couponCode.getCouponId());
         // 该优惠券不可用
         if (coupon == null || !coupon.isNormal()) {
-            return false;
+            return Ret.fail().set("message", "该优惠码不存在或不可使用");
         }
 
         //是否是只有优惠券拥有者可用
         Boolean withOwner = coupon.getWithOwner();
         if (withOwner != null && withOwner && !couponCode.getUserId().equals(usedUserId)) {
-            return false;
+            return Ret.fail().set("message", "该优惠码只能自己使用");
         }
 
         //是不是会员可用
@@ -67,7 +68,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
         if (withMember != null && withMember) {
             List<Member> members = memberService.findListByUserId(usedUserId);
             if (members == null || members.isEmpty()) {
-                return false;
+                return Ret.fail().set("message", "该优惠码只能会员使用");
             }
 
             boolean valid = false;
@@ -79,7 +80,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
             }
 
             if (!valid) {
-                return false;
+                return Ret.fail().set("message", "该优惠码只能会员使用");
             }
         }
 
@@ -89,14 +90,21 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
 
         //绝对时间内有效
         if (validtype == Coupon.VALID_TYPE_ABSOLUTELY_EFFECTIVE) {
-            return validTime.getTime() > coupon.getValidStartTime().getTime()
+            boolean timeValide = validTime.getTime() > coupon.getValidStartTime().getTime()
                     && validTime.getTime() < coupon.getValidEndTime().getTime();
+
+            if (!timeValide) {
+                return Ret.fail().set("message", "该优惠码已经过期");
+            }
         }
         //相对时间内有效
         else if (validtype == Coupon.VALID_TYPE_RELATIVELY_EFFECTIVE) {
-            return System.currentTimeMillis() < DateUtils.addDays(validTime, coupon.getValidDays()).getTime();
+            boolean timeValide = System.currentTimeMillis() < DateUtils.addDays(validTime, coupon.getValidDays()).getTime();
+            if (!timeValide) {
+                return Ret.fail().set("message", "该优惠码已经过期");
+            }
         }
 
-        return false;
+        return Ret.ok();
     }
 }

@@ -1,5 +1,6 @@
 package io.jpress.service;
 
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.model.CouponCode;
 
@@ -85,7 +86,7 @@ public interface CouponCodeService {
     public CouponCode findByCode(String code);
 
 
-    public boolean valid(CouponCode couponCode, BigDecimal orderTotalAmount,long usedUserId);
+    public Ret valid(CouponCode couponCode, BigDecimal orderTotalAmount, long usedUserId);
 
 
 }

@@ -243,10 +243,17 @@ public class CheckoutController extends UcenterControllerBase {
 
         //设置优惠券的相关字段
         String codeStr = getPara("coupon_code");
+        CouponCode couponCode = null;
         if (StrUtil.isNotBlank(codeStr)) {
-            CouponCode couponCode = couponCodeService.findByCode(codeStr);
-            if (couponCode == null || !couponCodeService.valid(couponCode, orderTotalAmount, userOrder.getBuyerId())) {
-                renderJson(Ret.fail().set("message", "优惠码不存在或不可用"));
+            couponCode = couponCodeService.findByCode(codeStr);
+            if (couponCode == null) {
+                renderJson(Ret.fail().set("message", "该优惠码不存"));
+                return;
+            }
+
+            Ret ret = couponCodeService.valid(couponCode, orderTotalAmount, userOrder.getBuyerId());
+            if (ret.isFail()){
+                renderJson(ret);
                 return;
             }
 

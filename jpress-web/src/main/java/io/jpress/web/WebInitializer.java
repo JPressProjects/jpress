@@ -67,7 +67,7 @@ public class WebInitializer extends JbootAppListenerBase {
         PaymentManager.me().addListener(new OrderPaymentSuccessListener());
         PaymentManager.me().addListener(new RechargePaymentSuccessListener());
         PaymentManager.me().addListener(new MemberPaymentSuccessListener());
-        PaymentManager.me().addListener(new CouponUsedRecordGenerator());
+        PaymentManager.me().addListener(new CouponInfoProcesser());
 
         OrderManager.me().addOrderFinishedListener(new DistProcessListener());
     }

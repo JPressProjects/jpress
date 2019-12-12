@@ -28,9 +28,9 @@ import io.jpress.service.*;
  * <p>
  * 用于生成优惠码的使用记录
  */
-public class CouponUsedRecordGenerator implements PaymentSuccessListener {
+public class CouponInfoProcesser implements PaymentSuccessListener {
 
-    public static final Log LOG = Log.getLog(CouponUsedRecordGenerator.class);
+    public static final Log LOG = Log.getLog(CouponInfoProcesser.class);
 
     @Inject
     private CouponService couponService;
@@ -70,8 +70,19 @@ public class CouponUsedRecordGenerator implements PaymentSuccessListener {
                 return;
             }
 
+            // 标识该优惠码已经被使用
+            Boolean withMulti = coupon.getWithMulti();
+            if (withMulti != null && !withMulti){
+                couponCode.setStatus(CouponCode.STATUS_USED);
+                couponCodeService.update(couponCode);
+            }
+
             User usedUser = userService.findById(userOrder.getBuyerId());
             User codeUser = userService.findById(couponCode.getUserId());
+
+            if (usedUser == null || codeUser == null){
+                return;
+            }
 
 
             CouponUsedRecord cur = new CouponUsedRecord();

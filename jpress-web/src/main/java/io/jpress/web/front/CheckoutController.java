@@ -243,9 +243,8 @@ public class CheckoutController extends UcenterControllerBase {
 
         //设置优惠券的相关字段
         String codeStr = getPara("coupon_code");
-        CouponCode couponCode = null;
         if (StrUtil.isNotBlank(codeStr)) {
-            couponCode = couponCodeService.findByCode(codeStr);
+            CouponCode couponCode = couponCodeService.findByCode(codeStr);
             if (couponCode == null) {
                 renderJson(Ret.fail().set("message", "该优惠码不存"));
                 return;
@@ -308,7 +307,6 @@ public class CheckoutController extends UcenterControllerBase {
         }
 
         renderJson(Ret.ok().set("orderId", userOrderId).set("paytype", getPara("paytype")));
-
     }
 
     @UrlParaValidate

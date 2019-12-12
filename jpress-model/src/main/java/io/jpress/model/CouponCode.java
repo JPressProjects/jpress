@@ -14,7 +14,16 @@ public class CouponCode extends BaseCouponCode<CouponCode> {
 
     private static final long serialVersionUID = 1L;
 
+    //该优惠码已经有人领取，并且可以正常使用
     public static final int STATUS_NORMAL = 1;
+
+    //该优惠码未有人领取，不能被使用
+    public static final int STATUS_UNCLAIMED = 2;
+
+    //该优惠码已经有人领取，同时已经使用，不能再使用
+    public static final int STATUS_USED = 3;
+
+    //该优惠码已经被标识为不可使用
     public static final int STATUS_INVALID = 9;
 
 
@@ -28,6 +37,8 @@ public class CouponCode extends BaseCouponCode<CouponCode> {
 
     static {
         statusTexts.put(STATUS_NORMAL, "正常");
+        statusTexts.put(STATUS_UNCLAIMED, "未被用户领取");
+        statusTexts.put(STATUS_USED, "已被使用");
         statusTexts.put(STATUS_INVALID, "失效");
     }
 

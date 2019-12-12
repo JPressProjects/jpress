@@ -18,6 +18,7 @@ package io.jpress.web.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -31,6 +32,7 @@ import io.jpress.service.CouponService;
 import io.jpress.service.CouponUsedRecordService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -106,6 +108,32 @@ public class _CouponController extends AdminControllerBase {
         setAttr("coupon", coupon);
         render("finance/coupon_take_edit.html");
     }
+
+
+    public void doCodeSave() {
+        Coupon coupon = couponService.findById(getPara("couponId"));
+        if (coupon == null){
+            renderFailJson("该优惠券不存在或已经被删除。");
+            return;
+        }
+
+
+        CouponCode code = new CouponCode();
+        code.setCouponId(coupon.getId());
+        code.setTitle(code.getTitle());
+        code.setCode(StrUtil.uuid());
+        code.setUserId(getLong("userId"));
+        code.setStatus(getParaToInt("status"));
+        code.setValidTime(new Date());
+        code.setCreated(new Date());
+
+        couponCodeService.save(code);
+
+
+        renderOkJson();
+    }
+
+
 
     public void useds() {
         Page<CouponUsedRecord> page = couponUsedRecordService.paginate(getPagePara(), 10);

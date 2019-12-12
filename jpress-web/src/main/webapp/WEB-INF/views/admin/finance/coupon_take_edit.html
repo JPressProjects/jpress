@@ -25,17 +25,17 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
-                          action="#(CPATH)/admin/finance/coupon/doSave"
+                          action="#(CPATH)/admin/finance/coupon/doCodeSave"
                           method="POST"
-                          data-ok-href="#(CPATH)/admin/finance/coupon"
+                          data-ok-href="#(CPATH)/admin/finance/coupon/takes/#(coupon.id ??)"
                     >
-                        <input type="hidden" name="coupon.id" value="#(coupon.id ??)">
+                        <input type="hidden" name="couponId" value="#(coupon.id ??)">
                         <div class="box-body ">
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">优惠券名称</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.title" class="form-control" value="#(coupon.title ??)" readonly>
+                                    <input type="input" class="form-control" value="#(coupon.title ??)" readonly>
                                 </div>
                             </div>
 
@@ -43,7 +43,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">类型</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.title" class="form-control" value="#(coupon.typeStr ??)" readonly>
+                                    <input type="input"class="form-control" value="#(coupon.typeStr ??)" readonly>
                                 </div>
                             </div>
 
@@ -51,7 +51,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">优惠券金额</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.amount" class="form-control" value="#(coupon.amount ??)" readonly
+                                    <input type="input"  class="form-control" value="#(coupon.amount ??)" readonly
                                            placeholder="">
                                     <p class="help-block">单位：元。 </p>
                                 </div>
@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">分配的用户Id</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="coupon.quota" class="form-control" value="#(coupon.quota ??)"
+                                    <input type="input" name="userId" class="form-control" value=""
                                            placeholder="">
                                     <p class="help-block">请填写用户的 ID 编号。 </p>
                                 </div>
@@ -71,11 +71,11 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="coupon.status">
+                                    <select class="form-control" name="status">
                                         <option value="1">
                                             正常可用
                                         </option>
-                                        <option value="2">
+                                        <option value="9">
                                             失效
                                         </option>
                                     </select>

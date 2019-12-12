@@ -3,6 +3,7 @@ package io.jpress.service;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.model.CouponCode;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface CouponCodeService {
@@ -84,7 +85,7 @@ public interface CouponCodeService {
     public CouponCode findByCode(String code);
 
 
-    public boolean valid(CouponCode couponCode);
+    public boolean valid(CouponCode couponCode, BigDecimal orderTotalAmount,long usedUserId);
 
 
 }

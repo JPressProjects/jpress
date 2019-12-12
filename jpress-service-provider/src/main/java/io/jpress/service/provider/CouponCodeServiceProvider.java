@@ -13,6 +13,7 @@ import io.jpress.service.CouponService;
 import io.jpress.service.UserService;
 import org.apache.commons.lang.time.DateUtils;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Bean
@@ -27,7 +28,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
 
     @Override
     public Page<CouponCode> paginateByCouponId(int page, int pageSize, Long couponId) {
-        return userService.join(paginateByColumns(page, pageSize, Columns.create("coupon_id", couponId), "id desc"),"user_id");
+        return userService.join(paginateByColumns(page, pageSize, Columns.create("coupon_id", couponId), "id desc"), "user_id");
     }
 
     @Override
@@ -36,13 +37,22 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
     }
 
     @Override
-    public boolean valid(CouponCode couponCode) {
+    public boolean valid(CouponCode couponCode, BigDecimal orderTotalAmount,long usedUserId) {
+
+        // 该优惠码被标识为：不可用
         if (couponCode == null || !couponCode.isNormal()) {
             return false;
         }
 
         Coupon coupon = couponService.findById(couponCode.getCouponId());
+        // 该优惠券不可用
         if (coupon == null || !coupon.isNormal()) {
+            return false;
+        }
+
+        //是否是只有优惠券拥有者可用
+        Boolean withOwner =coupon.getWithOwner();
+        if (withOwner != null && withOwner && !couponCode.getUserId().equals(usedUserId)){
             return false;
         }
 

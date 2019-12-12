@@ -59,10 +59,10 @@
                             <tr>
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
-                                </th>
-                                <th style="">名称</th>
-                                <th style="width: 15%">优惠码</th>
-                                <th style="width: 15%">用户</th>
+
+                                <th style="">优惠码</th>
+                                <th style="width: 25%">优惠券名称</th>
+                                <th style="width: 15%">领取用户</th>
                                 <th style="width: 15%">领取时间</th>
                                 <th style="width: 10%">状态</th>
                             </tr>
@@ -72,7 +72,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        #(code.title ??)
+                                        #(code.code ??)
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
@@ -82,7 +82,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>#(code.code ??)</td>
+                                <td>#(code.title ??)</td>
                                 <td>
                                     <a href="#(CPATH)/admin/user/detail/#(code.user.id ??)">#(code.user.nickname ??)</a>
                                 </td>

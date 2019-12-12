@@ -132,19 +132,30 @@ public class _CouponController extends AdminControllerBase {
         code.setCreated(new Date());
 
         couponCodeService.saveOrUpdate(code);
+        couponService.doSyncTakeCount(coupon.getId());
 
         renderOkJson();
     }
 
     public void doCodeDel() {
-        couponCodeService.deleteById(getPara());
+        CouponCode code = couponCodeService.findByCode(getPara());
+        if (code != null){
+            couponCodeService.deleteById(getPara());
+            couponService.doSyncTakeCount(code.getCouponId());
+        }
+
+
         renderOkJson();
     }
 
     public void doCodeDelByIds() {
         Set<String> ids = getParaSet("ids");
         for (String id : ids) {
-            couponCodeService.deleteById(id);
+            CouponCode code = couponCodeService.findByCode(id);
+            if (code != null){
+                couponCodeService.deleteById(getPara());
+                couponService.doSyncTakeCount(code.getCouponId());
+            }
         }
         renderOkJson();
     }

@@ -60,7 +60,7 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
-                                <th style="width: 25%">名称</th>
+                                <th style="">名称</th>
                                 <th style="width: 15%">优惠码</th>
                                 <th style="width: 15%">用户</th>
                                 <th style="width: 15%">领取时间</th>
@@ -76,7 +76,8 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/finance/coupon/takeEdit/#(code.id)?cid=#(coupon.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/finance/coupon/takeEdit/#(code.id)?cid=#(code.coupon_id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/finance/coupon/useds/?codeid=#(code.id)">使用记录</a> |
                                             <a href="javascript:;" class="red-action" onclick="doDel('#(code.id)')">删除</a>
                                         </div>
                                     </div>

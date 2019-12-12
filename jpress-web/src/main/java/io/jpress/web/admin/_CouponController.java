@@ -18,6 +18,7 @@ package io.jpress.web.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -148,7 +149,13 @@ public class _CouponController extends AdminControllerBase {
 
 
     public void useds() {
-        Page<CouponUsedRecord> page = couponUsedRecordService.paginate(getPagePara(), 10);
+
+        Columns columns = Columns.create();
+        columns.add("code_id", getPara("codeid"));
+        columns.add("code_user_id", getPara("cuid"));
+        columns.add("coupon_id", getPara("coid"));
+
+        Page<CouponUsedRecord> page = couponUsedRecordService.paginate(getPagePara(), 10, columns);
         setAttr("page", page);
         render("finance/coupon_useds.html");
     }

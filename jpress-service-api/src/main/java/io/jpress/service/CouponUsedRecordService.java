@@ -80,4 +80,5 @@ public interface CouponUsedRecordService  {
     public Page<CouponUsedRecord> paginate(int page, int pageSize, Columns columns);
 
 
+    public long queryCountByCouponId(long couponId);
 }

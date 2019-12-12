@@ -82,4 +82,9 @@ public interface CouponService  {
     public Page<Coupon> paginate(int page, int pageSize);
 
 
+    public void doSyncTakeCount(long couponId);
+
+    public void doSyncUsedCount(long couponId);
+
+
 }

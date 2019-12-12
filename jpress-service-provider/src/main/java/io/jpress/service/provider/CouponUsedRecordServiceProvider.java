@@ -14,4 +14,9 @@ public class CouponUsedRecordServiceProvider extends JbootServiceBase<CouponUsed
     public Page<CouponUsedRecord> paginate(int page, int pageSize, Columns columns) {
         return paginateByColumns(page, pageSize, columns, "id desc");
     }
+
+    @Override
+    public long queryCountByCouponId(long couponId) {
+        return findCountByColumns(Columns.create("coupon_id",couponId));
+    }
 }

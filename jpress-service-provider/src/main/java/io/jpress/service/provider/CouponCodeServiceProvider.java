@@ -120,4 +120,9 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
 
         return Ret.ok();
     }
+
+    @Override
+    public long queryCountByCouponId(long couponId) {
+        return findCountByColumns(Columns.create("coupon_id",couponId));
+    }
 }

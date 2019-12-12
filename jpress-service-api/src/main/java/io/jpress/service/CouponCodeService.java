@@ -89,4 +89,5 @@ public interface CouponCodeService {
     public Ret valid(CouponCode couponCode, BigDecimal orderTotalAmount, long usedUserId);
 
 
+    public long queryCountByCouponId(long couponId);
 }

@@ -15,7 +15,7 @@
  */
 package io.jpress.web.commons.finance;
 
-import com.jfinal.aop.Aop;
+import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import io.jpress.core.finance.PaymentSuccessListener;
@@ -36,16 +36,21 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
     public static final Log LOG = Log.getLog(MemberPaymentSuccessListener.class);
 
 
+    @Inject
+    private MemberService memberService;
+
+    @Inject
+    private  MemberGroupService groupService;
+
+    @Inject
+    private MemberJoinedRecordService joinedRecordService;
+
     @Override
     public void onSuccess(PaymentRecord payment) {
 
         if (PaymentRecord.TRX_TYPE_MEMBER.equals(payment.getTrxType())) {
 
             boolean updateSucess = Db.tx(() -> {
-
-                MemberService memberService = Aop.get(MemberService.class);
-                MemberGroupService groupService = Aop.get(MemberGroupService.class);
-                MemberJoinedRecordService joinedRecordService = Aop.get(MemberJoinedRecordService.class);
 
                 MemberGroup group = groupService.findById(payment.getProductRelativeId());
 

@@ -15,7 +15,7 @@
  */
 package io.jpress.web.commons.finance;
 
-import com.jfinal.aop.Aop;
+import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import io.jpress.commons.pay.PayStatus;
@@ -34,6 +34,11 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
 
     public static final Log LOG = Log.getLog(OrderPaymentSuccessListener.class);
 
+    @Inject
+    private UserOrderService orderService;
+
+    @Inject
+    private UserOrderItemService itemService;
 
     @Override
     public void onSuccess(PaymentRecord payment) {
@@ -42,7 +47,6 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
 
             boolean updateSucess = Db.tx(() -> {
 
-                UserOrderService orderService = Aop.get(UserOrderService.class);
                 UserOrder userOrder = orderService.findByPaymentId(payment.getId());
 
                 userOrder.setPayStatus(PayStatus.getSuccessIntStatusByType(payment.getPayType()));
@@ -53,7 +57,6 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                 }
 
 
-                UserOrderItemService itemService = Aop.get(UserOrderItemService.class);
                 List<UserOrderItem> userOrderItems = itemService.findListByOrderId(userOrder.getId());
                 for (UserOrderItem item : userOrderItems) {
                     if (item.isVirtualProduct()) {

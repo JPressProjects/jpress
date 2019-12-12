@@ -15,7 +15,7 @@
  */
 package io.jpress.web.commons.finance;
 
-import com.jfinal.aop.Aop;
+import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import io.jpress.core.finance.OrderFinishedListener;
 import io.jpress.model.UserAmountStatement;
@@ -29,6 +29,12 @@ import java.math.BigDecimal;
 public class DistProcessListener implements OrderFinishedListener {
 
     public static final Log LOG = Log.getLog(DistProcessListener.class);
+
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private UserAmountStatementService statementService;
 
 
     @Override
@@ -44,10 +50,6 @@ public class DistProcessListener implements OrderFinishedListener {
                 && orderItem.getDistAmount() != null //分销金额不能为空
                 && orderItem.getPayAmount().compareTo(distAmount) > 0 //支付金额必须大于分销金额
         ) {
-
-
-            UserService userService = Aop.get(UserService.class);
-            UserAmountStatementService statementService = Aop.get(UserAmountStatementService.class);
 
             BigDecimal userAmount = userService.queryUserAmount(orderItem.getDistUserId());
 

@@ -109,7 +109,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        if (!".zip".equals(FileUtil.getSuffix(ufile.getFileName()))) {
+        if (!".zip".equalsIgnoreCase(FileUtil.getSuffix(ufile.getFileName()))) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "只支持 .zip 的压缩模板文件"));
@@ -143,14 +143,9 @@ public class _TemplateController extends AdminControllerBase {
         }
 
 
-        if (!templateZipFile.getParentFile().exists()) {
-            templateZipFile.getParentFile().mkdirs();
-        }
-
         try {
             FileUtils.moveFile(ufile.getFile(), templateZipFile);
-            FileUtil.unzip(templateZipFile.getAbsolutePath(),
-                    templateZipFile.getAbsolutePath());
+            FileUtil.unzip(templateZipFile.getAbsolutePath(), templatePath);
         } catch (Exception e) {
             renderJson(Ret.fail()
                     .set("success", false)
@@ -255,8 +250,9 @@ public class _TemplateController extends AdminControllerBase {
 
         List srcFiles = new ArrayList<String>();
         for (File file : files) {
-            if (!file.isDirectory())
+            if (!file.isDirectory()) {
                 srcFiles.add(file.getName());
+            }
         }
 
         String absPath = template.getAbsolutePathFile().getAbsolutePath();
@@ -264,7 +260,7 @@ public class _TemplateController extends AdminControllerBase {
         setAttr("srcFiles", srcFiles);
         setAttr("prefixPath", absPath.substring(absPath.indexOf(File.separator.concat("templates"))));
 
-        setAttr("files", doGetFileInfos(files));
+        setAttr("files", buildFileInfos(files));
         setAttr("d", dirName);
 
         if (ArrayUtil.isNullOrEmpty(files)) {
@@ -296,24 +292,33 @@ public class _TemplateController extends AdminControllerBase {
         }
     }
 
-    private List<FileInfo> doGetFileInfos(File[] files) {
-        List<FileInfo> fileInfoList = new ArrayList<>();
+    private List<FileInfo> buildFileInfos(File[] files) {
+        List<FileInfo> fileInfoList = new ArrayList<>(files.length);
         for (File file : files) {
             fileInfoList.add(new FileInfo(file));
         }
 
         fileInfoList.sort((o1, o2) -> {
+            if (o1.isDir() && o2.isDir()){
+                return o1.getName().compareTo(o2.getName());
+            }
 
-            if (o1.isDir() && !o2.isDir())
+            if (o1.isDir() && !o2.isDir()) {
                 return -1;
-            if (!o1.isDir() && o2.isDir())
+            }
+            if (!o1.isDir() && o2.isDir()) {
                 return 1;
+            }
 
             if (o2.getName().equals("index.html")) {
                 return 1;
             }
 
-            return o2.getName().compareTo(o1.getName());
+            if (!o2.getName().endsWith(".html")){
+                return -1;
+            }
+
+            return o1.getName().compareTo(o2.getName());
         });
 
         return fileInfoList;
@@ -456,7 +461,7 @@ public class _TemplateController extends AdminControllerBase {
             deleteFileQuietly(uploadFile.getFile());
         }
 
-        if (fileName.toLowerCase().endsWith(".html")){
+        if (fileName.toLowerCase().endsWith(".html")) {
             template.addNewHtml(fileName);
             RenderManager.me().getEngine().removeAllTemplateCache();
         }
@@ -479,7 +484,7 @@ public class _TemplateController extends AdminControllerBase {
         if (delFile.isDirectory() || delFile.delete() == false) {
             renderFailJson();
         } else {
-            if (delFileName.toLowerCase().endsWith(".html")){
+            if (delFileName.toLowerCase().endsWith(".html")) {
                 template.deleteHtml(delFileName);
                 RenderManager.me().getEngine().removeAllTemplateCache();
             }

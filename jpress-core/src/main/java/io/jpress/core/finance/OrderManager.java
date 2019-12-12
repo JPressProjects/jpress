@@ -52,7 +52,7 @@ public class OrderManager {
         this.orderItemStatusChangeListeners = orderItemStatusChangeListeners;
     }
 
-    public void addOrderItemStatusChangeListeners(OrderItemStatusChangeListener listener) {
+    public void addOrderItemStatusChangeListener(OrderItemStatusChangeListener listener) {
         if (orderItemStatusChangeListeners == null) {
             synchronized (OrderManager.class) {
                 orderItemStatusChangeListeners = Collections.synchronizedList(new ArrayList<>());
@@ -69,7 +69,7 @@ public class OrderManager {
         this.orderStatusChangeListeners = orderItemStatusChangeListeners;
     }
 
-    public void addOrderStatusChangeListeners(OrderStatusChangeListener listener) {
+    public void addOrderStatusChangeListener(OrderStatusChangeListener listener) {
         if (orderStatusChangeListeners == null) {
             synchronized (OrderManager.class) {
                 orderStatusChangeListeners = Collections.synchronizedList(new ArrayList<>());

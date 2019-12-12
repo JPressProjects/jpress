@@ -16,13 +16,18 @@
 package io.jpress.core.finance;
 
 
+import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
+import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author michael yang
+ */
 public class OrderManager {
 
     private static final Log LOG = Log.getLog(OrderManager.class);
@@ -36,30 +41,60 @@ public class OrderManager {
         return me;
     }
 
-    private List<OrderFinishedListener> orderFinishedListeners;
+    private List<OrderItemStatusChangeListener> orderItemStatusChangeListeners;
+    private List<OrderStatusChangeListener> orderStatusChangeListeners;
 
-    public List<OrderFinishedListener> getOrderFinishedListeners() {
-        return orderFinishedListeners;
+    public List<OrderItemStatusChangeListener> getOrderItemStatusChangeListeners() {
+        return orderItemStatusChangeListeners;
     }
 
-    public void setOrderFinishedListeners(List<OrderFinishedListener> orderFinishedListeners) {
-        this.orderFinishedListeners = orderFinishedListeners;
+    public void setOrderItemStatusChangeListeners(List<OrderItemStatusChangeListener> orderItemStatusChangeListeners) {
+        this.orderItemStatusChangeListeners = orderItemStatusChangeListeners;
     }
 
-    public void addOrderFinishedListener(OrderFinishedListener listener) {
-        if (orderFinishedListeners == null) {
+    public void addOrderItemStatusChangeListeners(OrderItemStatusChangeListener listener) {
+        if (orderItemStatusChangeListeners == null) {
             synchronized (OrderManager.class) {
-                orderFinishedListeners = Collections.synchronizedList(new ArrayList<>());
+                orderItemStatusChangeListeners = Collections.synchronizedList(new ArrayList<>());
             }
         }
-        orderFinishedListeners.add(listener);
+        orderItemStatusChangeListeners.add(Aop.inject(listener));
     }
 
-    public void notifyStatusChange(UserOrderItem userOrderItem) {
-        if (orderFinishedListeners != null && userOrderItem != null && userOrderItem.isFinished()) {
-            for (OrderFinishedListener listener : orderFinishedListeners) {
+    public List<OrderStatusChangeListener> getOrderStatusChangeListeners() {
+        return orderStatusChangeListeners;
+    }
+
+    public void setOrderStatusChangeListeners(List<OrderStatusChangeListener> orderItemStatusChangeListeners) {
+        this.orderStatusChangeListeners = orderItemStatusChangeListeners;
+    }
+
+    public void addOrderStatusChangeListeners(OrderStatusChangeListener listener) {
+        if (orderStatusChangeListeners == null) {
+            synchronized (OrderManager.class) {
+                orderStatusChangeListeners = Collections.synchronizedList(new ArrayList<>());
+            }
+        }
+        orderStatusChangeListeners.add(Aop.inject(listener));
+    }
+
+    public void notifyItemStatusChanged(UserOrderItem userOrderItem) {
+        if (orderItemStatusChangeListeners != null && userOrderItem != null) {
+            for (OrderItemStatusChangeListener listener : orderItemStatusChangeListeners) {
                 try {
-                    listener.onFinished(userOrderItem);
+                    listener.onStatusChanged(userOrderItem);
+                } catch (Exception ex) {
+                    LOG.error(ex.toString(), ex);
+                }
+            }
+        }
+    }
+
+    public void orderStatusChangeListeners(UserOrder order) {
+        if (orderStatusChangeListeners != null && order != null) {
+            for (OrderStatusChangeListener listener : orderStatusChangeListeners) {
+                try {
+                    listener.onStatusChanged(order);
                 } catch (Exception ex) {
                     LOG.error(ex.toString(), ex);
                 }

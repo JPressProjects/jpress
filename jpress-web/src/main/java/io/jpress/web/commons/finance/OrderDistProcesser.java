@@ -17,7 +17,7 @@ package io.jpress.web.commons.finance;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
-import io.jpress.core.finance.OrderFinishedListener;
+import io.jpress.core.finance.OrderItemStatusChangeListener;
 import io.jpress.model.UserAmountStatement;
 import io.jpress.model.UserOrderItem;
 import io.jpress.service.UserAmountStatementService;
@@ -26,9 +26,9 @@ import io.jpress.service.UserService;
 import java.math.BigDecimal;
 
 
-public class DistProcessListener implements OrderFinishedListener {
+public class OrderDistProcesser implements OrderItemStatusChangeListener {
 
-    public static final Log LOG = Log.getLog(DistProcessListener.class);
+    public static final Log LOG = Log.getLog(OrderDistProcesser.class);
 
     @Inject
     private UserService userService;
@@ -38,7 +38,7 @@ public class DistProcessListener implements OrderFinishedListener {
 
 
     @Override
-    public void onFinished(UserOrderItem orderItem) {
+    public void onStatusChanged(UserOrderItem orderItem) {
         BigDecimal distAmount = orderItem.getDistAmount().multiply(BigDecimal.valueOf(orderItem.getProductCount()));
 
         if (orderItem.isFinished() //交易结束，用户不能申请退款

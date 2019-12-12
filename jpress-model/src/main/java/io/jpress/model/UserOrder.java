@@ -123,6 +123,11 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         return payStatus != null && payStatus >= PayStatus.SUCCESS_ALIPAY.getStatus();
     }
 
+    public boolean isFinished(){
+        Integer tradeStatus = getTradeStatus();
+        return tradeStatus != null && TRADE_STATUS_FINISHED == tradeStatus;
+    }
+
 
     public String getTradeStatusStr() {
         return tradeStatusTexts.get(getTradeStatus());

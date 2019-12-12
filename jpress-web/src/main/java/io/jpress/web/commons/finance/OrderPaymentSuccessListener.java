@@ -68,7 +68,7 @@ public class OrderPaymentSuccessListener implements PaymentSuccessListener {
                         return false;
                     }
 
-                    OrderManager.me().notifyStatusChange(item);
+                    OrderManager.me().notifyItemStatusChanged(item);
                 }
                 return true;
             });

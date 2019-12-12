@@ -171,7 +171,7 @@ public class _OrderController extends AdminControllerBase {
             //保存订单以及订单项的发货信息
             if (orderService.updateOrderAndItems(order, orderItems)) {
                 for (UserOrderItem item : orderItems) {
-                    OrderManager.me().notifyStatusChange(item);
+                    OrderManager.me().notifyItemStatusChanged(item);
                 }
             }
 

@@ -18,8 +18,8 @@ package io.jpress.core.finance;
 import io.jpress.model.UserOrderItem;
 
 
-public interface OrderFinishedListener {
+public interface OrderItemStatusChangeListener {
 
-    public void onFinished(UserOrderItem orderItem);
+    public void onStatusChanged(UserOrderItem orderItem);
 
 }

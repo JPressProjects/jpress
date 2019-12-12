@@ -32,4 +32,8 @@ public class CouponCode extends BaseCouponCode<CouponCode> {
     }
 
 
+    public String getStatusStr(){
+        return statusTexts.get(getStatus());
+    }
+
 }

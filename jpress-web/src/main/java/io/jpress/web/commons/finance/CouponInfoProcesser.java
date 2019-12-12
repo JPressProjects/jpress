@@ -97,6 +97,8 @@ public class CouponInfoProcesser implements PaymentSuccessListener {
             cur.setCouponId(coupon.getId());
 
             curService.save(cur);
+
+            couponService.doSyncUsedCount(coupon.getId());
         }
     }
 }

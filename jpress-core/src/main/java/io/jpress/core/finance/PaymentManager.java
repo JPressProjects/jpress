@@ -16,6 +16,7 @@
 package io.jpress.core.finance;
 
 
+import com.jfinal.aop.Aop;
 import com.jfinal.log.Log;
 import io.jpress.model.PaymentRecord;
 
@@ -52,7 +53,7 @@ public class PaymentManager {
                 listeners = Collections.synchronizedList(new ArrayList<>());
             }
         }
-        listeners.add(listener);
+        listeners.add(Aop.inject(listener));
     }
 
     public void notifySuccess(PaymentRecord payment) {

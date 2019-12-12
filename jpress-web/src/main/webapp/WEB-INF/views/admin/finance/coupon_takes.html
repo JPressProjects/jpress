@@ -4,7 +4,9 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/finance/coupon/doRoleDel/" + id);
+        if (confirm("确定要删除该优惠码吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/finance/coupon/doCodeDel/" + id);
+        }
     }
 
     $("#batchDel").click(function () {
@@ -13,7 +15,9 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/finance/coupon/doRoleDelByIds?ids=" + ids);
+        if (confirm("确定要删除选中的优惠码吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/finance/coupon/doCodeDelByIds?ids=" + ids);
+        }
     })
 
 

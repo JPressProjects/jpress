@@ -112,7 +112,7 @@ public class _CouponController extends AdminControllerBase {
 
     public void doCodeSave() {
         Coupon coupon = couponService.findById(getPara("couponId"));
-        if (coupon == null){
+        if (coupon == null) {
             renderFailJson("该优惠券不存在或已经被删除。");
             return;
         }
@@ -133,6 +133,18 @@ public class _CouponController extends AdminControllerBase {
         renderOkJson();
     }
 
+    public void doCodeDel() {
+        couponCodeService.deleteById(getPara());
+        renderOkJson();
+    }
+
+    public void doCodeDelByIds() {
+        Set<String> ids = getParaSet("ids");
+        for (String id : ids) {
+            couponCodeService.deleteById(id);
+        }
+        renderOkJson();
+    }
 
 
     public void useds() {

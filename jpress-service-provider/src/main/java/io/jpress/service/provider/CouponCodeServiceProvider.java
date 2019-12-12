@@ -1,8 +1,10 @@
 package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.Coupon;
 import io.jpress.model.CouponCode;
@@ -17,6 +19,11 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
 
     @Inject
     private CouponService couponService;
+
+    @Override
+    public Page<CouponCode> paginateByCouponId(int page, int pageSize, Long couponId) {
+        return paginateByColumns(page, pageSize, Columns.create("coupon_id", couponId), "id desc");
+    }
 
     @Override
     public CouponCode findByCode(String code) {
@@ -41,7 +48,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
         }
         //相对时间内有效
         else if (validtype == Coupon.VALID_TYPE_RELATIVELY_EFFECTIVE) {
-            return System.currentTimeMillis() < DateUtils.addDays(validTime,coupon.getValidDays()).getTime();
+            return System.currentTimeMillis() < DateUtils.addDays(validTime, coupon.getValidDays()).getTime();
         }
 
         return false;

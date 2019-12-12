@@ -77,7 +77,7 @@ public class _CouponController extends AdminControllerBase {
         renderOkJson();
     }
 
-    public void doDel(){
+    public void doDel() {
         couponService.deleteById(getIdPara());
         renderOkJson();
     }
@@ -85,16 +85,26 @@ public class _CouponController extends AdminControllerBase {
     @EmptyValidate({
             @Form(name = "ids", message = "删除数据不能为空"),
     })
-    public void doDelByIds(){
+    public void doDelByIds() {
         Set<String> idsSet = getParaSet("ids");
         couponService.batchDeleteByIds(idsSet.toArray());
         renderOkJson();
     }
 
     public void takes() {
-        Page<CouponCode> page = couponCodeService.paginate(getPagePara(), 10);
+        Coupon coupon = couponService.findById(getPara());
+        setAttr("coupon", coupon);
+
+        Page<CouponCode> page = couponCodeService.paginateByCouponId(getPagePara(), 10, getParaToLong());
         setAttr("page", page);
+
         render("finance/coupon_takes.html");
+    }
+
+    public void takeEdit() {
+        Coupon coupon = couponService.findById(getPara("cid"));
+        setAttr("coupon", coupon);
+        render("finance/coupon_take_edit.html");
     }
 
     public void useds() {

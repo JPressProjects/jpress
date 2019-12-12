@@ -39,7 +39,7 @@
 
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <a href="coupon/edit" class="btn btn-primary ">
+                                <a href="#(CPATH)/admin/finance/coupon/takeEdit?cid=#(coupon.id)" class="btn btn-primary ">
                                     <i class="fa fa-fw fa-plus"></i> 新建
                                 </a>
                                 <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
@@ -65,7 +65,7 @@
                             </tr>
                             #for(coupon : page.list ??)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(code.id)" />
+                                <td><input class="dataItem" type="checkbox" value="#(code.id ??)" />
                                 </td>
                                 <td>
                                     <strong>

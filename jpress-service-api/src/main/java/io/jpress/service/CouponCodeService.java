@@ -5,7 +5,7 @@ import io.jpress.model.CouponCode;
 
 import java.util.List;
 
-public interface CouponCodeService  {
+public interface CouponCodeService {
 
     /**
      * find model by primary key
@@ -46,7 +46,7 @@ public interface CouponCodeService  {
      * save model to database
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
     public Object save(CouponCode model);
 
@@ -78,9 +78,13 @@ public interface CouponCodeService  {
      */
     public Page<CouponCode> paginate(int page, int pageSize);
 
+    public Page<CouponCode> paginateByCouponId(int page, int pageSize, Long couponId);
+
 
     public CouponCode findByCode(String code);
 
 
     public boolean valid(CouponCode couponCode);
+
+
 }

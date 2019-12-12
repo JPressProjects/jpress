@@ -21,11 +21,9 @@ public class Coupon extends BaseCoupon<Coupon> {
     public static final int VALID_TYPE_RELATIVELY_EFFECTIVE = 2;
 
 
-    //1未领取 2未使用、3使用中、9不能使用
-    public static final int STATUS_UNCLAIMED = 1;
-    public static final int STATUS_UNUSED = 2;
-    public static final int STATUS_INUSING = 3;
-    public static final int STATUS_USED_OR_ANNUL = 9;
+    //1正常  9不能使用
+    public static final int STATUS_NORMAL = 1;
+    public static final int STATUS_INVALID = 9;
 
     //满减券
     public static final int TYPE_FULL_DISCOUNT = 1;
@@ -44,13 +42,27 @@ public class Coupon extends BaseCoupon<Coupon> {
         typeTexts.put(TYPE_NO_THRESHOLD, "无门槛券");
     }
 
+
+    public static final Map<Integer, String> statusTexts = new HashMap<>();
+
+    static {
+        statusTexts.put(STATUS_NORMAL, "正常");
+        statusTexts.put(STATUS_INVALID, "失效");
+    }
+
+
     public boolean isNormal() {
         Integer status = getStatus();
-        return status != null && (status == STATUS_UNUSED || status == STATUS_INUSING);
+        return status != null && status == STATUS_NORMAL;
     }
 
     public String getTypeStr(){
         return typeTexts.get(getType());
+    }
+
+
+    public String getStatusStr(){
+        return statusTexts.get(getStatus());
     }
 
 }

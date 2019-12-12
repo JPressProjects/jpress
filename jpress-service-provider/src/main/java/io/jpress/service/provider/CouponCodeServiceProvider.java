@@ -17,6 +17,7 @@ import io.jpress.service.UserService;
 import org.apache.commons.lang.time.DateUtils;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -81,6 +82,18 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
 
             if (!valid) {
                 return Ret.fail().set("message", "该优惠码只能会员使用");
+            }
+        }
+
+        Integer couponType = coupon.getType();
+        //满减券
+        if (couponType != null && couponType == Coupon.TYPE_FULL_DISCOUNT) {
+            BigDecimal withAmount = coupon.getWithAmount();
+            if (withAmount == null || withAmount.compareTo(BigDecimal.ZERO) < 0) {
+                return Ret.fail().set("message", "该优惠券配置错误，请联系管理员");
+            }
+            if (orderTotalAmount.compareTo(coupon.getWithAmount()) < 0) {
+                return Ret.fail().set("message", "订单必须购买超过 " + new DecimalFormat("0.00").format(coupon.getWithAmount()) + " 元才能使用。");
             }
         }
 

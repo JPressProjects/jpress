@@ -22,7 +22,7 @@ CREATE TABLE `coupon` (
   `valid_start_time` datetime DEFAULT NULL COMMENT '使用开始时间',
   `valid_end_time` datetime DEFAULT NULL COMMENT '使用结束时间',
   `valid_days` int(11) DEFAULT NULL COMMENT '自领取之日起有效天数',
-  `status` tinyint(2) DEFAULT NULL COMMENT '1生效 2失效 3已结束',
+  `status` tinyint(2) DEFAULT NULL COMMENT '1 正常  9 不能使用',
   `create_user_id` int(11) unsigned DEFAULT NULL COMMENT '创建用户',
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL,

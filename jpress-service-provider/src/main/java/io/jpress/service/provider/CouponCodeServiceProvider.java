@@ -10,6 +10,7 @@ import io.jpress.model.Coupon;
 import io.jpress.model.CouponCode;
 import io.jpress.service.CouponCodeService;
 import io.jpress.service.CouponService;
+import io.jpress.service.UserService;
 import org.apache.commons.lang.time.DateUtils;
 
 import java.util.Date;
@@ -20,9 +21,13 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
     @Inject
     private CouponService couponService;
 
+
+    @Inject
+    private UserService userService;
+
     @Override
     public Page<CouponCode> paginateByCouponId(int page, int pageSize, Long couponId) {
-        return paginateByColumns(page, pageSize, Columns.create("coupon_id", couponId), "id desc");
+        return userService.join(paginateByColumns(page, pageSize, Columns.create("coupon_id", couponId), "id desc"),"user_id");
     }
 
     @Override
@@ -32,6 +37,10 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
 
     @Override
     public boolean valid(CouponCode couponCode) {
+        if (couponCode == null || !couponCode.isNormal()) {
+            return false;
+        }
+
         Coupon coupon = couponService.findById(couponCode.getCouponId());
         if (coupon == null || !coupon.isNormal()) {
             return false;

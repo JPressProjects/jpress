@@ -63,7 +63,7 @@
                                 <th style="width: 10%">状态</th>
                                 <th style="width: 10%">领取时间</th>
                             </tr>
-                            #for(coupon : page.list ??)
+                            #for(code : page.list ??)
                             <tr class="jp-actiontr">
                                 <td><input class="dataItem" type="checkbox" value="#(code.id ??)" />
                                 </td>
@@ -73,10 +73,12 @@
                                     </strong>
                                 </td>
                                 <td>#(code.code ??)</td>
-                                <td>#(code.user.nickname ??)</td>
-                                <td>#(code.valid_time ??)</td>
+                                <td>
+                                    <a href="#(CPATH)/admin/user/detail/#(code.user.id ??)">#(code.user.nickname ??)</a>
+                                </td>
+                                <td>#date(code.valid_time ??)</td>
                                 <td>#(code.status ??)</td>
-                                <td>#(code.created ??)</td>
+                                <td>#date(code.created ??)</td>
                             </tr>
                             #end
                             </tbody>

@@ -120,7 +120,7 @@ public class _CouponController extends AdminControllerBase {
 
         CouponCode code = new CouponCode();
         code.setCouponId(coupon.getId());
-        code.setTitle(code.getTitle());
+        code.setTitle(coupon.getTitle());
         code.setCode(StrUtil.uuid());
         code.setUserId(getLong("userId"));
         code.setStatus(getParaToInt("status"));

@@ -485,7 +485,8 @@ CREATE TABLE `user_amount_statement` (
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '时间',
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `user_relative` (`user_id`,`action_relative_type`,`action_relative_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户余额流水情况';
 
 

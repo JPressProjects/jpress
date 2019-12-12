@@ -75,8 +75,12 @@ CREATE TABLE `coupon_used_record` (
   `code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码名称',
   `code_user_id` int(11) unsigned NOT NULL COMMENT '优惠券归属的用户ID',
   `code_user_nickname` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '优惠券归属的用户昵称',
+  `coupon_id` int(11) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL COMMENT '使用时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `code_user_id` (`code_user_id`),
+  KEY `code_id` (`code_id`),
+  KEY `coupon_id` (`coupon_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券使用记录';
 
 

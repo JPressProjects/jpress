@@ -131,6 +131,14 @@ public abstract class BaseCouponUsedRecord<M extends BaseCouponUsedRecord<M>> ex
 		return getStr("code_user_nickname");
 	}
 
+	public void setCouponId(java.lang.Long couponId) {
+		set("coupon_id", couponId);
+	}
+
+	public java.lang.Long getCouponId() {
+		return getLong("coupon_id");
+	}
+
     /**
      * 使用时间
      */

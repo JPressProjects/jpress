@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">分配的用户Id</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="userId" class="form-control" value=""
+                                    <input type="input" name="userId" class="form-control" value="#(code.user_id ??)" #(code ? 'readonly' : '')
                                            placeholder="">
                                     <p class="help-block">请填写用户的 ID 编号。 </p>
                                 </div>
@@ -72,10 +72,10 @@
                                 <label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="status">
-                                        <option value="1">
+                                        <option value="1" #selectedIf(code && code.status == 1)>
                                             正常可用
                                         </option>
-                                        <option value="9">
+                                        <option value="9" #selectedIf(code && code.status == 9)>
                                             失效
                                         </option>
                                     </select>

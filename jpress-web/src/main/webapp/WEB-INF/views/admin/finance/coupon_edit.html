@@ -153,10 +153,10 @@
                                 <label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="coupon.status">
-                                        <option value="1">
+                                        <option value="1" #selectedIf(coupon && coupon.status == 1)>
                                             正常可用
                                         </option>
-                                        <option value="9">
+                                        <option value="9" #selectedIf(coupon && coupon.status == 9)>
                                             失效
                                         </option>
                                     </select>

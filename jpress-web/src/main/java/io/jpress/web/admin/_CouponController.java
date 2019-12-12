@@ -107,6 +107,8 @@ public class _CouponController extends AdminControllerBase {
     public void takeEdit() {
         Coupon coupon = couponService.findById(getPara("cid"));
         setAttr("coupon", coupon);
+
+        setAttr("code",couponCodeService.findById(getPara()));
         render("finance/coupon_take_edit.html");
     }
 

@@ -150,7 +150,7 @@ public class _TemplateController extends AdminControllerBase {
         try {
             FileUtils.moveFile(ufile.getFile(), templateZipFile);
             FileUtil.unzip(templateZipFile.getAbsolutePath(),
-                    templateZipFile.getParentFile().getAbsolutePath());
+                    templateZipFile.getAbsolutePath());
         } catch (Exception e) {
             renderJson(Ret.fail()
                     .set("success", false)

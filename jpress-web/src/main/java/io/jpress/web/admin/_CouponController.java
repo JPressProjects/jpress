@@ -122,6 +122,7 @@ public class _CouponController extends AdminControllerBase {
 
 
         CouponCode code = new CouponCode();
+        code.setId(getParaToLong("codeId"));
         code.setCouponId(coupon.getId());
         code.setTitle(coupon.getTitle());
         code.setCode(StrUtil.uuid());
@@ -130,8 +131,7 @@ public class _CouponController extends AdminControllerBase {
         code.setValidTime(new Date());
         code.setCreated(new Date());
 
-        couponCodeService.save(code);
-
+        couponCodeService.saveOrUpdate(code);
 
         renderOkJson();
     }

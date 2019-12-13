@@ -18,10 +18,12 @@ package io.jpress.web.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.model.CouponCode;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderDelivery;
 import io.jpress.model.UserOrderItem;
@@ -60,6 +62,9 @@ public class _OrderController extends AdminControllerBase {
     @Inject
     private UserOrderDeliveryService deliveryService;
 
+    @Inject
+    private CouponCodeService couponCodeService;
+
 
     @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
     public void index() {
@@ -84,7 +89,6 @@ public class _OrderController extends AdminControllerBase {
     public void detail() {
         UserOrder order = orderService.findById(getPara());
 
-
         List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
 
         setAttr("order", order);
@@ -98,11 +102,21 @@ public class _OrderController extends AdminControllerBase {
             }
         }
 
+
+
         //如果快递已经发货
         if (order.isDeliveried()) {
             UserOrderDelivery delivery = deliveryService.findById(order.getDeliveryId());
             List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
             setAttr("expressInfos", expressInfos);
+        }
+
+        if (StrUtil.isNotBlank(order.getCouponCode())){
+            CouponCode orderCoupon = couponCodeService.findByCode(order.getCouponCode());
+            if (orderCoupon != null) {
+                setAttr("orderCoupon", orderCoupon);
+                setAttr("orderCouponUser", userService.findById(orderCoupon.getUserId()));
+            }
         }
 
         render("order/order_detail.html");

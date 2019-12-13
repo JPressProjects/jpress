@@ -75,7 +75,6 @@ public class _UserController extends AdminControllerBase {
     @Inject
     private MemberJoinedRecordService memberJoinedRecordService;
 
-
     @Inject
     private UserTagService userTagService;
 

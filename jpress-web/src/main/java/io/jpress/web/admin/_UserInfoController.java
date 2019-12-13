@@ -121,8 +121,8 @@ public class _UserInfoController extends AdminControllerBase {
         setAttr("payAmount",payAmount);
         setAttr("payoutAmount",payoutAmount);
 
-        setAttr("userAmount",userService.queryUserAmount(getLoginedUser().getId()));
-        setAttr("userAmountStatements",amountStatementService.findListByUserId(getLoginedUser().getId(),10));
+        setAttr("userAmount",userService.queryUserAmount(user.getId()));
+        setAttr("userAmountStatements",amountStatementService.findListByUserId(user.getId(),10));
 
         render("user/detail_finance.html");
     }

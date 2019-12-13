@@ -93,7 +93,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
                 return Ret.fail().set("message", "该优惠券配置错误，请联系管理员");
             }
             if (orderTotalAmount.compareTo(coupon.getWithAmount()) < 0) {
-                return Ret.fail().set("message", "订单必须购买超过 " + new DecimalFormat("0.00").format(coupon.getWithAmount()) + " 元才能使用。");
+                return Ret.fail().set("message", "订单总价格必须购买超过 " + new DecimalFormat("0.00").format(coupon.getWithAmount()) + " 元才能使用该优惠码。");
             }
         }
 

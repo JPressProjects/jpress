@@ -31,27 +31,30 @@
                         <table class="table table-striped">
                             <tbody>
                             <tr>
-                                <th style="width: 35%">优惠券</th>
+                                <th style="width: 15%">优惠码</th>
                                 <th style="width: 15%">用户</th>
-                                <th style="width: 10%">优惠码</th>
                                 <th style="width: 10%">订单</th>
+                                <th style="width: 25%">优惠券</th>
                                 <th style="width: 10%">优惠券归属用户</th>
                                 <th style="width: 10%">使用时间</th>
                             </tr>
-                            #for( record : page.list ??)
+                            #for(record : page.list ??)
                             <tr class="jp-actiontr">
                                 <td>
                                     <strong>
-                                        #(record.code.title ??)
+                                        #(record.code ??)
                                     </strong>
                                 </td>
                                 <td>
                                     <a href="#(CPATH)/admin/user/detail/#(record.used_user_id ??)">#(record.used_user_nickname ??)</a>
                                 </td>
-                                <td>#(record.couponCode ??)</td>
-                                <td>#(record.quota ??)</td>
-                                <td>#(record.take_count ??)</td>
-                                <td>#(record.code_user_nickname ??)</td>
+                                <td>
+                                    <a href="#(CPATH)/admin/order/detail/#(record.used_order_id ??)">#(record.userOrder.product_title ??)</a>
+                                </td>
+                                <td>#(record.couponCode.title ??)</td>
+                                <td>
+                                    <a href="#(CPATH)/admin/user/detail/#(record.code_user_id ??)"> #(record.code_user_nickname ??)</a>
+                                </td>
                                 <td>#date(record.created ??)</td>
                             </tr>
                             #end

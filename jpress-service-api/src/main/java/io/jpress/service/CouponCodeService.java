@@ -2,12 +2,13 @@ package io.jpress.service;
 
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.model.CouponCode;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface CouponCodeService {
+public interface CouponCodeService extends JbootServiceJoiner {
 
     /**
      * find model by primary key

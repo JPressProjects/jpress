@@ -1,12 +1,13 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
 
 import java.util.List;
 
-public interface UserOrderService  {
+public interface UserOrderService extends JbootServiceJoiner {
 
     /**
      * find model by primary key

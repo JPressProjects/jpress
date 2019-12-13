@@ -83,6 +83,11 @@ public class CouponAwardProcesser implements OrderStatusChangeListener {
                 return;
             }
 
+            // 自己消费自己的优惠券 不会获得奖励
+            if (couponCode.getUserId().equals(order.getBuyerId())){
+                return;
+            }
+
             // 订单总金额
             BigDecimal orderTotalAmount = order.getOrderTotalAmount();
             if (orderTotalAmount == null || orderTotalAmount.compareTo(BigDecimal.ZERO) < 0){

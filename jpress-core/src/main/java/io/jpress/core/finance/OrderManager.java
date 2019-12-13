@@ -90,7 +90,7 @@ public class OrderManager {
         }
     }
 
-    public void orderStatusChangeListeners(UserOrder order) {
+    public void notifyOrderStatusChanged(UserOrder order) {
         if (orderStatusChangeListeners != null && order != null) {
             for (OrderStatusChangeListener listener : orderStatusChangeListeners) {
                 try {

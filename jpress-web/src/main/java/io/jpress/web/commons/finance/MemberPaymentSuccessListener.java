@@ -30,7 +30,9 @@ import org.apache.commons.lang.time.DateUtils;
 
 import java.util.Date;
 
-
+/**
+ * @author michael yang
+ */
 public class MemberPaymentSuccessListener implements PaymentSuccessListener {
 
     public static final Log LOG = Log.getLog(MemberPaymentSuccessListener.class);

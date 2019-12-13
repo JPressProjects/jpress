@@ -161,8 +161,8 @@ public class _OrderController extends AdminControllerBase {
                 if (deliveryId != null) {
                     order.setDeliveryId((Long) deliveryId);
                 }
-
             }
+
 
             //设置订单的相关发货信息
             order.setDeliveryType(deliveryType);

@@ -23,6 +23,7 @@ import io.jboot.web.validate.UrlParaValidate;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.commons.pay.PayType;
+import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.ProductManager;
 import io.jpress.model.*;
 import io.jpress.service.*;
@@ -301,6 +302,7 @@ public class CheckoutController extends UcenterControllerBase {
         userOrder.setInvoiceStatus(UserOrder.INVOICE_STATUS_NOT_APPLY);//发票开具状态：用户未申请
 
         userOrderService.update(userOrder);
+        OrderManager.me().notifyOrderStatusChanged(userOrder);
 
         for (String cid : cids) {
             cartService.delete(cartService.findById(cid));

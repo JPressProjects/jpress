@@ -2,18 +2,16 @@ package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.IAtom;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
+import io.jboot.service.JbootServiceBase;
+import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
 import io.jpress.service.UserOrderItemService;
 import io.jpress.service.UserOrderService;
-import io.jpress.model.UserOrder;
-import io.jboot.service.JbootServiceBase;
 import org.apache.commons.lang.time.DateUtils;
 
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,21 +25,18 @@ public class UserOrderServiceProvider extends JbootServiceBase<UserOrder> implem
 
     @Override
     public boolean updateOrderAndItems(UserOrder order, List<UserOrderItem> items) {
-        return Db.tx(new IAtom() {
-            @Override
-            public boolean run() throws SQLException {
-                if (update(order)) {
-                    for (UserOrderItem item : items) {
-                        if (!itemService.update(item)) {
-                            return false;
-                        }
-                    }
-                } else {
+        return Db.tx(() -> {
+            if (!update(order)) {
+                return false;
+            }
+
+            for (UserOrderItem item : items) {
+                if (!itemService.update(item)) {
                     return false;
                 }
-
-                return true;
             }
+
+            return true;
         });
     }
 

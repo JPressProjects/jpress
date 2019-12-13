@@ -106,6 +106,12 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         return status!= null && (status == DELIVERY_STATUS_DELIVERIED || status == DELIVERY_STATUS_FINISHED);
     }
 
+    public boolean isNotDeliveried(){
+        Integer status = getDeliveryStatus();
+        return status!= null && status == DELIVERY_STATUS_UNDELIVERY;
+    }
+
+
 
     public boolean isDeliverFinished(){
         Integer status = getDeliveryStatus();

@@ -261,8 +261,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 物流信息. #if(!order.isDeliveried())(尚未发货)#end
-<!--                    <small class="pull-right">最近更新: 2/10/2014</small>-->
+                    <i class="fa fa-globe"></i> 物流信息. #if(order.isNotDeliveried())(尚未发货)#end
                 </h2>
             </div>
             <!-- /.col -->

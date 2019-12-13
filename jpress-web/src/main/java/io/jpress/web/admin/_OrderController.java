@@ -172,13 +172,16 @@ public class _OrderController extends AdminControllerBase {
         //设置订单的相关发货信息
         order.setDeliveryType(deliveryType);
 
+
         //无需发货，直接设置订单为结束
         if (UserOrder.DELIVERY_TYPE_NONEED == deliveryType) {
             order.setTradeStatus(UserOrder.TRADE_STATUS_FINISHED);
+            order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_NONEED);
         }
         // 需要发货，设置订单状态为完成
         else {
             order.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
+            order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_DELIVERIED);
         }
 
         //设置订单项的相关发货信息

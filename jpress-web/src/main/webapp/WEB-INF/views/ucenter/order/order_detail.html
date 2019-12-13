@@ -223,7 +223,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 物流信息 ： #if(!order.isDeliveried())(尚未发货) #else #(order.deliveryTypeStr) #end
+                    <i class="fa fa-globe"></i> 物流信息 ： #if(order.isNotDeliveried())(尚未发货) #else #(order.deliveryTypeStr) #end
                 </h2>
             </div>
             <!-- /.col -->

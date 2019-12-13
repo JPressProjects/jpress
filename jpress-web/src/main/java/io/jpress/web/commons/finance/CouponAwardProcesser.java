@@ -113,6 +113,10 @@ public class CouponAwardProcesser implements OrderStatusChangeListener {
             }
 
             User awardUser = userService.findById(couponCode.getUserId());
+            if (awardUser == null || !awardUser.isStatusOk()){
+                return;
+            }
+
 
             boolean awardSucess = Db.tx(() -> {
 
@@ -130,7 +134,6 @@ public class CouponAwardProcesser implements OrderStatusChangeListener {
                 if (!userService.updateUserAmount(awardUser.getId(), userAmount,
                         awardAmount)) {
                     return false;
-
                 }
 
                 // 生成流水
@@ -148,7 +151,6 @@ public class CouponAwardProcesser implements OrderStatusChangeListener {
                 if (statementService.save(statement) == null) {
                     return false;
                 }
-
 
                 return true;
             });

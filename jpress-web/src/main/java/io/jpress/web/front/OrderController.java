@@ -4,6 +4,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.core.finance.OrderManager;
 import io.jpress.model.CouponCode;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderDelivery;
@@ -101,12 +102,19 @@ public class OrderController extends UcenterControllerBase {
     }
 
 
+    /**
+     * 用户在用户中心确认收货
+     */
     public void doFlagDelivery() {
         UserOrder userOrder = orderService.findById(getPara());
         render404If(notLoginedUserModel(userOrder, "buyer_id"));
 
-        userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
+        if (userOrder.isDeliverFinished()) {
+            renderOkJson();
+            return;
+        }
 
+        userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
         UserOrderDelivery delivery = deliveryService.findById(userOrder.getDeliveryId());
         if (delivery != null) {
             delivery.setFinishTime(new Date());
@@ -114,7 +122,17 @@ public class OrderController extends UcenterControllerBase {
             deliveryService.update(delivery);
         }
 
-        orderService.update(userOrder);
+        boolean needNotifyStatusChaned = false;
+        if (!userOrder.isFinished()) {
+            userOrder.setTradeStatus(UserOrder.TRADE_STATUS_FINISHED);
+            needNotifyStatusChaned = true;
+        }
+
+        if (orderService.update(userOrder) || needNotifyStatusChaned) {
+            OrderManager.me().notifyOrderStatusChanged(userOrder);
+        }
+
+
         renderOkJson();
     }
 

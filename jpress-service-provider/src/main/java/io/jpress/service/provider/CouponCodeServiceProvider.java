@@ -49,13 +49,13 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
 
         // 该优惠码被标识为：不可用
         if (couponCode == null || !couponCode.isNormal()) {
-            return Ret.fail().set("message", "该优惠码不存在或不可使用");
+            return Ret.fail().set("message", "该优惠码不存在或已失效");
         }
 
         Coupon coupon = couponService.findById(couponCode.getCouponId());
         // 该优惠券不可用
         if (coupon == null || !coupon.isNormal()) {
-            return Ret.fail().set("message", "该优惠码不存在或不可使用");
+            return Ret.fail().set("message", "该优惠码不存在或已失效");
         }
 
         //是否是只有优惠券拥有者可用

@@ -150,7 +150,7 @@
             <div class="col-sm-4 invoice-col">
 <!--                <strong>分销情况</strong>-->
 <!--                <address>-->
-<!--                    分销用户：#(distUser.nickname ?? '未设置昵称')<br>-->
+<!--                    分销用户：#(distUser.nickname ??)<br>-->
 <!--                    分销金额：#(order.dist_amount ??)<br>-->
 <!--                </address>-->
             </div>
@@ -175,9 +175,11 @@
                 <button type="button" class="btn btn-primary " onclick="invoice()">
                     <i class="fa fa-fw fa-cc"></i> 开具发票
                 </button>
+                #if(order.isNotDeliveried())
                 <button type="button" class="btn btn-primary " onclick="deliver()">
                     <i class="fa fa-fw fa-location-arrow"></i> 发货
                 </button>
+                #end
                 <button type="button" class="btn btn-primary " onclick="remark()">
                     <i class="fa fa-fw fa-commenting"></i> 备注
                 </button>

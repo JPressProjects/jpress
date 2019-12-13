@@ -101,35 +101,33 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         invoiceStatusTexts.put(INVOICE_STATUS_INVOICED, "发票已开具");
     }
 
-    public boolean isDeliveried(){
+    public boolean isDeliveried() {
         Integer status = getDeliveryStatus();
-        return status!= null && (status == DELIVERY_STATUS_DELIVERIED || status == DELIVERY_STATUS_FINISHED);
+        return status != null && (status == DELIVERY_STATUS_DELIVERIED || status == DELIVERY_STATUS_FINISHED);
     }
 
-    public boolean isNotDeliveried(){
+    public boolean isNotDeliveried() {
         Integer status = getDeliveryStatus();
-        return status!= null && status == DELIVERY_STATUS_UNDELIVERY;
+        return status != null && (status == DELIVERY_STATUS_UNDELIVERY || status == DELIVERY_STATUS_NEED_RE_DELIVERY);
+    }
+
+    public boolean isDeliverFinished() {
+        Integer status = getDeliveryStatus();
+        return status != null && status == DELIVERY_STATUS_FINISHED;
     }
 
 
-
-    public boolean isDeliverFinished(){
-        Integer status = getDeliveryStatus();
-        return status!= null && status == DELIVERY_STATUS_FINISHED;
-    }
-
-
-    public boolean isUnpay(){
+    public boolean isUnpay() {
         Integer payStatus = getPayStatus();
         return payStatus != null && payStatus == PayStatus.UNPAY.getStatus();
     }
 
-    public boolean isPaySuccess(){
+    public boolean isPaySuccess() {
         Integer payStatus = getPayStatus();
         return payStatus != null && payStatus >= PayStatus.SUCCESS_ALIPAY.getStatus();
     }
 
-    public boolean isFinished(){
+    public boolean isFinished() {
         Integer tradeStatus = getTradeStatus();
         return tradeStatus != null && TRADE_STATUS_FINISHED == tradeStatus;
     }

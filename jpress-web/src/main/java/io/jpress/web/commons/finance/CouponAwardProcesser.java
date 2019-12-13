@@ -118,7 +118,7 @@ public class CouponAwardProcesser implements OrderStatusChangeListener {
 
                 // 流水检查
                 UserAmountStatement existStatement = statementService
-                        .findOneByUserIdAndRelative(order.getId(), "user_order", order.getId());
+                        .findOneByUserIdAndRelative(awardUser.getId(), "user_order", order.getId());
                 if (existStatement != null) {
                     return false;
                 }

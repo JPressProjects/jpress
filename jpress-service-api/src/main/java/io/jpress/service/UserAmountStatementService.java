@@ -88,4 +88,6 @@ public interface UserAmountStatementService  {
     public BigDecimal queryPayAmount(Long id);
 
     public BigDecimal queryPayoutAmount(Long id);
+
+    public UserAmountStatement findOneByUserIdAndRelative(Long userId,String relativeType,Long relativeId);
 }

@@ -17,6 +17,7 @@ package io.jpress.web.commons.finance;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Db;
 import io.jpress.core.finance.OrderItemStatusChangeListener;
 import io.jpress.model.UserAmountStatement;
 import io.jpress.model.UserOrderItem;
@@ -51,12 +52,26 @@ public class OrderDistProcesser implements OrderItemStatusChangeListener {
                 && orderItem.getPayAmount().compareTo(distAmount) > 0 //支付金额必须大于分销金额
         ) {
 
-            BigDecimal userAmount = userService.queryUserAmount(orderItem.getDistUserId());
+            boolean distSucess = Db.tx(() -> {
 
-            //更新用于余额
-            if (userService.updateUserAmount(orderItem.getDistUserId(), userAmount,
-                    distAmount)) {
+                // 流水检查
+                UserAmountStatement existStatement = statementService
+                        .findOneByUserIdAndRelative(orderItem.getDistUserId(), "user_order_item", orderItem.getId());
+                if (existStatement != null) {
+                    return false;
+                }
 
+
+                BigDecimal userAmount = userService.queryUserAmount(orderItem.getDistUserId());
+
+                //更新余额
+                if (!userService.updateUserAmount(orderItem.getDistUserId(), userAmount,
+                        distAmount)) {
+                    return false;
+
+                }
+
+                // 生成流水
                 UserAmountStatement statement = new UserAmountStatement();
                 statement.setUserId(orderItem.getDistUserId());
                 statement.setActionDesc(UserAmountStatement.ACTION_DIST);
@@ -68,8 +83,20 @@ public class OrderDistProcesser implements OrderItemStatusChangeListener {
                 statement.setNewAmount(userAmount.add(distAmount));
                 statement.setChangeAmount(distAmount);
 
-                statementService.save(statement);
+                if (statementService.save(statement) == null) {
+                    return false;
+                }
+
+
+                return true;
+            });
+
+
+
+            if (!distSucess) {
+                LOG.error("dist fail !!!");
             }
+
         }
     }
 }

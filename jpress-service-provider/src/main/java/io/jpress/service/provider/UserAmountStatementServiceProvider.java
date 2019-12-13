@@ -43,4 +43,12 @@ public class UserAmountStatementServiceProvider extends JbootServiceBase<UserAmo
                 , UserAmountStatement.ACTION_PAYOUT
                 , DateUtils.truncate(new Date(), Calendar.MONTH));
     }
+
+    @Override
+    public UserAmountStatement findOneByUserIdAndRelative(Long userId, String relativeType, Long relativeId) {
+        return findFirstByColumns(Columns.create("user_id", userId)
+                .eq("action_relative_type", relativeType)
+                .eq("action_relative_id", relativeId)
+        );
+    }
 }

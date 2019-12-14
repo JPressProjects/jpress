@@ -30,13 +30,11 @@
         })
     });
 
-
     $(".tflag").each(function () {
         $(this).on('click', function () {
             $("#flag").val($(this).text());
         })
     });
-
 
     $(".submitBtn").on("click", function () {
         $("#articleStatus").val($(this).attr("data-status"));
@@ -49,7 +47,7 @@
             $("#articleId").attr("value", data.id);
             toastr.success('文章保存成功。');
         });
-    }
+    };
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
@@ -138,7 +136,7 @@
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="article.content"
-                                          style="height: 467px;width: 100%;background-color: white">#EditorContent(article.content ??)</textarea>
+                                          style="height: 467px;width: 100%;background-color: white">#EditorContent(article.orignalContent ??)</textarea>
                             </div>
                         </div>
                         <div class="form-group">

@@ -110,6 +110,10 @@ public class Article extends BaseArticle<Article> {
         return JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode());
     }
 
+    public String getOrignalContent(){
+        return super.getContent();
+    }
+
 
 
     /**

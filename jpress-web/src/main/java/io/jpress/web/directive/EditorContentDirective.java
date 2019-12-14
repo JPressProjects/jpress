@@ -27,8 +27,8 @@ import org.apache.commons.lang3.StringUtils;
  * @version V1.0
  * @Package io.jpress.core.directives
  */
-@JFinalDirective("CKEditorContent")
-public class CKEditorContentDirective extends JbootDirectiveBase {
+@JFinalDirective("EditorContent")
+public class EditorContentDirective extends JbootDirectiveBase {
 
     private static final String[] originalChars = {"&lt;", "&gt;"};
     private static final String[] newChars = {"&amp;lt;", "&amp;gt;"};
@@ -37,7 +37,9 @@ public class CKEditorContentDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String originalContent = getPara(0, scope);
-        if (originalContent == null) return;
+        if (originalContent == null) {
+            return;
+        }
 
         //ckeditor 编辑器有个bug，自动把 &lt; 转化为 < 和 把 &gt; 转化为 >
         //因此，此处需要 把 "&lt;" 替换为 "&amp;lt;" 和 把 "&gt;" 替换为 "&amp;gt;"

@@ -128,13 +128,13 @@ public class User extends BaseUser<User> {
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeHtmlForAllAttrs(this, "salt", "password");
+        CommonsUtils.escapeHtmlForModel(this, "salt", "password");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeHtmlForAllAttrs(this, "salt", "password");
+        CommonsUtils.escapeHtmlForModel(this, "salt", "password");
         return super.update();
     }
 

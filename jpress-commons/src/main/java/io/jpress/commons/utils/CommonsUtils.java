@@ -96,7 +96,7 @@ public class CommonsUtils {
      *
      * @param model
      */
-    public static void escapeHtmlForAllAttrs(Model model, String... ignoreAttrs) {
+    public static void escapeHtmlForModel(Model model, String... ignoreAttrs) {
         String[] attrNames = model._getAttrNames();
         for (String attr : attrNames) {
 

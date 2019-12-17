@@ -49,14 +49,14 @@ public class ProductComment extends BaseProductComment<ProductComment> {
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeHtmlForModel(this, "content");
+        CommonsUtils.escapeModel(this, "content");
         JsoupUtils.clean(this, "content");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeHtmlForModel(this, "content");
+        CommonsUtils.escapeModel(this, "content");
         JsoupUtils.clean(this, "content");
         return super.update();
     }

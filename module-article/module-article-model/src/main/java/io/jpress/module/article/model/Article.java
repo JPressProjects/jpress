@@ -189,13 +189,13 @@ public class Article extends BaseArticle<Article> {
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeHtmlForModel(this, "content", "summary");
+        CommonsUtils.escapeModel(this, "content", "summary");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeHtmlForModel(this, "content", "summary");
+        CommonsUtils.escapeModel(this, "content", "summary");
         return super.update();
     }
 

@@ -48,25 +48,11 @@ public class CommonsUtils {
 
 
     public static String maxLength(String content, int maxLength) {
-        if (StrUtil.isBlank(content)) {
-            return content;
-        }
-
-        if (maxLength <= 0) {
-            throw new IllegalArgumentException("maxLength 必须大于 0 ");
-        }
-
-        return content.length() <= maxLength ? content :
-                content.substring(0, maxLength);
-
+        return maxLength(content, maxLength, null);
     }
 
 
     public static String maxLength(String content, int maxLength, String suffix) {
-        if (StrUtil.isBlank(suffix)) {
-            return maxLength(content, maxLength);
-        }
-
         if (StrUtil.isBlank(content)) {
             return content;
         }
@@ -75,9 +61,17 @@ public class CommonsUtils {
             throw new IllegalArgumentException("maxLength 必须大于 0 ");
         }
 
-        return content.length() <= maxLength ? content :
-                content.substring(0, maxLength) + suffix;
+        if (StrUtil.isNotBlank(suffix)) {
+            return content.length() <= maxLength
+                    ? content :
+                    content.substring(0, maxLength) + suffix;
 
+        } else {
+            return content.length() <= maxLength
+                    ? content :
+                    content.substring(0, maxLength);
+
+        }
     }
 
     public static String removeSuffix(String url) {

@@ -66,7 +66,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
 
 
     public String getText() {
-        return StrUtil.escapeHtml(JsoupUtils.getText(getContent()));
+        return JsoupUtils.getText(getContent());
     }
 
     @Override

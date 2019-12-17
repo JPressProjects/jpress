@@ -53,7 +53,7 @@ public class Product extends BaseProduct<Product> {
     }
 
     public String getText() {
-        return StrUtil.escapeHtml(JsoupUtils.getText(getContent()));
+        return JsoupUtils.getText(getContent());
     }
 
     /**

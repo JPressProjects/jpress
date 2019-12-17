@@ -1,6 +1,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserAmountPayout;
 
 import java.util.HashMap;
@@ -72,8 +73,19 @@ public class UserAmountPayout extends BaseUserAmountPayout<UserAmountPayout> {
         return STATUS_REFUSE == getStatus();
     }
 
-
     public boolean isSuccess(){
         return STATUS_SUCCESS == getStatus();
+    }
+
+    @Override
+    public boolean save() {
+        CommonsUtils.escapeModel(this);
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.escapeModel(this);
+        return super.update();
     }
 }

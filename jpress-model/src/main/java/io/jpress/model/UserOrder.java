@@ -2,6 +2,7 @@ package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
 import io.jpress.commons.pay.PayStatus;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserOrder;
 
 import java.util.HashMap;
@@ -151,6 +152,18 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     public String getInvoiceStatusStr() {
         return invoiceStatusTexts.get(getInvoiceStatus());
+    }
+
+    @Override
+    public boolean save() {
+        CommonsUtils.escapeModel(this);
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.escapeModel(this);
+        return super.update();
     }
 
 }

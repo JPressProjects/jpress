@@ -2,6 +2,7 @@ package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserOrderItem;
 import org.apache.commons.lang.time.DateUtils;
 
@@ -68,6 +69,18 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
     public boolean isVirtualProduct() {
         Boolean v = getWithVirtual();
         return v != null && v;
+    }
+
+    @Override
+    public boolean save() {
+        CommonsUtils.escapeModel(this);
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.escapeModel(this);
+        return super.update();
     }
 
 

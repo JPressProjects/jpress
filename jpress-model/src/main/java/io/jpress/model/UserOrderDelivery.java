@@ -1,6 +1,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserOrderDelivery;
 
 /**
@@ -14,5 +15,16 @@ public class UserOrderDelivery extends BaseUserOrderDelivery<UserOrderDelivery> 
     public static final int STATUS_DELIVERING = 1;
     public static final int STATUS_FINISHED = 9;
 
-	
+
+    @Override
+    public boolean save() {
+        CommonsUtils.escapeModel(this);
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.escapeModel(this);
+        return super.update();
+    }
 }

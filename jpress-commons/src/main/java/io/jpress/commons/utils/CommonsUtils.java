@@ -19,7 +19,9 @@ import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -102,6 +104,25 @@ public class CommonsUtils {
 
             if (value != null && value instanceof String) {
                 model.set(attr, StrUtil.escapeHtml(value.toString()));
+            }
+        }
+    }
+
+    public static void escapeMap(Map map, Object... ignoreKeys) {
+        if (map == null || map.isEmpty()) {
+            return;
+        }
+
+        Set<? extends Object> keys = map.keySet();
+        for (Object key : keys) {
+            if (ArrayUtils.contains(ignoreKeys, key)) {
+                continue;
+            }
+
+            Object value = map.get(key);
+
+            if (value != null && value instanceof String) {
+                map.put(key, StrUtil.escapeHtml(value.toString()));
             }
         }
     }

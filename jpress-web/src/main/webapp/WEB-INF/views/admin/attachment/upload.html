@@ -25,7 +25,14 @@
         dropZone: $('#uploader'),
         url: '#(CPATH)/commons/attachment/upload',
         sequentialUploads: true,
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $(".myPanel").text("上传进度：" + progress + "%")
+        },
         done: function (e, data) {
+
+            $(".myPanel").text("或者拖动文件到这里进行上传...");
+
             if(data.result.state == "ok"){
                 toastr.success("文件上传成功...")
             }else {

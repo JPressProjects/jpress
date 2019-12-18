@@ -15,6 +15,7 @@
  */
 package io.jpress.web;
 
+import com.jfinal.kit.PathKit;
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.finance.OrderManager;
@@ -34,32 +35,24 @@ public class WebInitializer extends JbootAppListenerBase {
     @Override
     public void onEngineConfig(Engine engine) {
 
-        try {
-            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
-            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
-            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_errpage.html");
-            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
-            engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
-            engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout_noleft.html");
-            engine.addSharedStaticMethod(PermissionKits.class);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            printErrorInfoAndExit();
-        }
-    }
 
-    private void printErrorInfoAndExit() {
-        System.err.println("\n\r错误：无法找到必须的资源文件，启动失败! ");
-        System.err.println("请您先使用 maven 编译后，再运行 jpress，编译命令: mvn clean install ");
-        System.exit(-1);
+        engine.setBaseTemplatePath(PathKit.getRootClassPath() + "/webapp");
+
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_errpage.html");
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
+        engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
+        engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout_noleft.html");
+
+
+        engine.addSharedStaticMethod(PermissionKits.class);
     }
 
 
     @Override
     public void onStartBefore() {
-
         OptionInitializer.me().init();
-
     }
 
     @Override
@@ -71,7 +64,7 @@ public class WebInitializer extends JbootAppListenerBase {
 
         OrderManager.me().addOrderItemStatusChangeListener(new OrderDistProcesser());
         OrderManager.me().addOrderItemStatusChangeListener(new OrderFinishedFlagProcesser());
-        
+
         OrderManager.me().addOrderStatusChangeListener(new CouponAwardProcesser());
     }
 }

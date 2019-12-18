@@ -44,7 +44,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
     private static String apiSecret = null;
 
     /**
-     * api 的有效时间，默认为 10 分支
+     * api 的有效时间，默认为 10 分钟
      */
     private static final long timeout = 10 * 60 * 1000;
 

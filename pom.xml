@@ -7,7 +7,7 @@
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.0</version>
+    <version>3.0</version>
 
     <modules>
         <module>codegen</module>
@@ -192,37 +192,37 @@
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-commons</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-core</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-model</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-web</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-api</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-provider</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
@@ -404,6 +404,7 @@
                 </configuration>
             </plugin>
 
+            <!-- 统一修改版本号：mvn versions:set -DnewVersion=3.0  -->
             <!-- mvn -N versions:update-child-modules  -->
             <!-- mvn versions:set -DnewVersion=2.0 -DprocessAllModules=true -DallowSnapshots=true -->
             <plugin>

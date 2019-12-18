@@ -5,12 +5,12 @@
     <parent>
         <groupId>io.jpress</groupId>
         <artifactId>parent</artifactId>
-        <version>2.0</version>
+        <version>3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>pom</packaging>
-    <version>2.0</version>
+    <version>3.0</version>
 
     <groupId>io.jpress</groupId>
     <artifactId>module-product</artifactId>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.jpress</groupId>
         <artifactId>parent</artifactId>
-        <version>2.0</version>
+        <version>3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -111,13 +111,13 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-web</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-template</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
@@ -128,37 +128,37 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-web</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-web</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-service-provider</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-service-provider</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-web</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-service-provider</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>

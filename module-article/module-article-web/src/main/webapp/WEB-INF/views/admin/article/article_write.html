@@ -131,8 +131,13 @@
                                 （<a href="#(article.url)" target="_blank">访问</a>）
                                 #end
                                 <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
-                                <a href="javascript:;" style="float: right;padding: 5px 0"
-                                   onclick="doChangeEditor('#(article.id ?? 0)')">切换编辑器</a>
+                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor('#(article.id ?? 0)')">
+                                    #if(editMode && editMode == 'html')
+                                    使用 markdown 编辑
+                                    #else
+                                    可视化编辑
+                                    #end
+                                </a>
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="article.content"

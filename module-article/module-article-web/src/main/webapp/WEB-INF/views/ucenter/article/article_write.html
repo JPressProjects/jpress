@@ -126,7 +126,13 @@
                                 #if(option("web_fake_static_enable")) #option('web_fake_static_suffix') #end
                                 <input type="hidden" id="article-slug" name="article.slug">
                                 #if(!article)
-                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">切换编辑器</a>
+                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">
+                                    #if(editMode && editMode == 'html')
+                                    使用 markdown 编辑
+                                    #else
+                                    可视化编辑
+                                    #end
+                                </a>
                                 #end
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">

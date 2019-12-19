@@ -89,6 +89,7 @@ public class _ProductCommentController extends AdminControllerBase {
         ProductComment comment = new ProductComment();
         comment.setContent(content);
         comment.setUserId(user.getId());
+        comment.setAuthor(user.getNickname());
         comment.setStatus(ProductComment.STATUS_NORMAL);
         comment.setProductId(productId);
         comment.setPid(pid);

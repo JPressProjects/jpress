@@ -416,6 +416,7 @@ public class _ArticleController extends AdminControllerBase {
         ArticleComment comment = new ArticleComment();
         comment.setContent(content);
         comment.setUserId(user.getId());
+        comment.setAuthor(user.getNickname());
         comment.setStatus(ArticleComment.STATUS_NORMAL);
         comment.setArticleId(articleId);
         comment.setPid(pid);

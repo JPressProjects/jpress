@@ -85,6 +85,11 @@ public class _ProductCommentController extends AdminControllerBase {
         render(commentService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
+
+    public void doCommentStatusChange(Long id, int status) {
+        render(commentService.doChangeStatus(id, status) ? OK : FAIL);
+    }
+
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds(){
         Set<String> idsSet = getParaSet("ids");

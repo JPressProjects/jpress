@@ -18,7 +18,7 @@ public class ProductComment extends BaseProductComment<ProductComment> {
 
     public static final int STATUS_NORMAL = 1; //正常
     public static final int STATUS_UNAUDITED = 2; //待审核
-    public static final int STATUS_TRASH = 3; //垃圾箱
+    public static final int STATUS_TRASH = 9; //垃圾箱
 
     public static final Map<Integer, String> statusStrMap = new HashMap<>();
 

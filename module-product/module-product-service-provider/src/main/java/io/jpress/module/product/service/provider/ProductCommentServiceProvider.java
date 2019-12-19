@@ -107,6 +107,13 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
 
     }
 
+    @Override
+    public boolean doChangeStatus(Long id, int status) {
+        ProductComment comment = findById(id);
+        comment.setStatus(status);
+        return update(comment);
+    }
+
     private void joinParentUser(Page<ProductComment> p) {
         if (p == null || p.getList().isEmpty()) {
             return;

@@ -3,9 +3,13 @@
 #define script()
 <script>
 
+    function doChangeStatus(id, status) {
+        ajaxGet("#(CPATH)/admin/product/comment/doCommentStatusChange?id=" + id + "&status=" + status)
+    }
+
     function doDel(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
-            ajaxGet("/admin/product/comment/doDel/" + id);
+            ajaxGet("#(CPATH)/admin/product/comment/doDel/" + id);
         }
     }
 
@@ -16,7 +20,7 @@
             return
         }
         if (confirm("确定要删除选中的评论吗？删除后不可恢复")) {
-            ajaxGet("/admin/product/comment/doDelByIds?ids=" + ids);
+            ajaxGet("#(CPATH)/admin/product/comment/doDelByIds?ids=" + ids);
         }
     })
 
@@ -38,7 +42,7 @@
         <a href="#(CPATH)/admin/product/comment">全部 (#(totalCount ?? 0))</a> |
         <a href="?status=1">已发布 (#(normalCount ?? 0))</a> |
         <a href="?status=2">待审核 (#(unauditedCount ?? 0))</a> |
-        <a href="?status=3" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+        <a href="?status=9" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
     </section>
 
     <section class="content">
@@ -109,9 +113,20 @@
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="/admin/product/comment/edit/#(comment.id)">编辑</a> |
-                                            <a href="javascript:;" class="red-action"
-                                               onclick="doDel('#(comment.id)')">删除</a>
+                                            <a href="#(CPATH)/admin/product/comment/edit/#(comment.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/product/comment/reply/#(comment.id)">回复</a> |
+                                            #if(comment.isNormal())
+                                            <a href="javascript:;"
+                                               onclick="doChangeStatus('#(comment.id)','2')">待审核</a> |
+                                            #else
+                                            <a href="javascript:;"
+                                               onclick="doChangeStatus('#(comment.id)','1')">审核</a> |
+                                            #end
+                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','9')"
+                                               class="red-action">垃圾箱</a> |
+                                            <a href="javascript:;" onclick="doDel('#(comment.id)')"
+                                               class="red-action">永久删除</a>
+
                                         </div>
                                     </div>
                                 </td>

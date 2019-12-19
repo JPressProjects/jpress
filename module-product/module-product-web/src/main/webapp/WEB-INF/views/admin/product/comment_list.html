@@ -86,40 +86,43 @@
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
-
-                                <th style="width: 30%">内容</th>
-                                <th>评论的产品</th>
                                 <th style="width: 100px">作者</th>
-                                <th>状态</th>
+                                <th style="width: 40%">内容</th>
+                                <th>评论的产品</th>
+
+                                <th style="width: 100px">状态</th>
                                 <th>时间</th>
                             </tr>
-                            #for(entry : page.list)
+                            #for(comment : page.list)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(entry.id)"/>
+                                <td><input class="dataItem" type="checkbox" value="#(comment.id)"/>
                                 </td>
-
                                 <td>
-                                    #(entry.content ??)
-
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
-                                            <a href="/admin/product/comment/edit/#(entry.id)">编辑</a> |
-                                            <a href="javascript:;" class="red-action"
-                                               onclick="doDel('#(entry.id)')">删除</a>
-                                        </div>
-                                    </div>
-
-                                </td>
-
-                                <td>#(entry.product.title ??)</td>
-                                <td>
-                                    <a href="#(CPATH)/admin/user/detail/#(entry.user.id)">
-                                        #(entry.user.nickname ??)
+                                    <a href="#(CPATH)/admin/user/detail/#(comment.user.id)">
+                                        #(comment.user.nickname ??)
                                     </a>
 
+                                <td>
+                                    <strong>
+                                        #(comment.content ??)
+                                        #if(comment.isUnaudited()) (待审核) #end
+                                    </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="/admin/product/comment/edit/#(comment.id)">编辑</a> |
+                                            <a href="javascript:;" class="red-action"
+                                               onclick="doDel('#(comment.id)')">删除</a>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td>#(entry.statusStr ??)</td>
-                                <td>#date(entry.created)</td>
+                                <td>
+                                    <a href="#(comment.product.url ??)" target="_blank">
+                                    #(comment.product.title ??)
+                                    </a>
+                                </td>
+                                </td>
+                                <td>#(comment.statusStr ??)</td>
+                                <td>#date(comment.created)</td>
                             </tr>
                             #end
                             </tbody>

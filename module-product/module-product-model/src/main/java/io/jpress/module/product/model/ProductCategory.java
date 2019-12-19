@@ -127,7 +127,9 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
 
             if (category.getChilds() != null) {
                 boolean isChild = isMyChild(category.getChilds(), id);
-                if (isChild) return true;
+                if (isChild) {
+                    return true;
+                }
             }
         }
         return false;
@@ -139,8 +141,9 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
                 return JFinal.me().getContextPath() + "/product/category/" + getSlug() + JPressOptions.getAppUrlSuffix();
             case TYPE_TAG:
                 return JFinal.me().getContextPath() + "/product/tag/" + getSlug() + JPressOptions.getAppUrlSuffix();
+            default:
+                return "";
         }
-        return "";
     }
 
 

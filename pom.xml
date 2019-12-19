@@ -38,19 +38,19 @@
         <javax.mail.version>1.6.2</javax.mail.version>
         <commons-io.version>2.6</commons-io.version>
         <commonmark.version>0.13.1</commonmark.version>
-        <aliyunoss.version>3.4.2</aliyunoss.version>
+        <aliyunoss.version>3.8.0</aliyunoss.version>
         <httpclient.version>4.5.3</httpclient.version>
         <fasterxml.version>2.10.1</fasterxml.version>
         <pay-java.version>2.12.9</pay-java.version>
         <guava.version>28.1-jre</guava.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>
-        <commons-codec.version>1.10</commons-codec.version>
-        <jsceg.version>2.4.0</jsceg.version>
+        <commons-codec.version>1.13</commons-codec.version>
+        <jsceg.version>2.6.0</jsceg.version>
         <slf4j.version>1.7.29</slf4j.version>
         <fastjson.version>1.2.62</fastjson.version>
-        <lucene.version>8.3.0</lucene.version>
-        <elasticsearch.version>7.4.2</elasticsearch.version>
+        <lucene.version>8.3.1</lucene.version>
+        <elasticsearch.version>7.5.1</elasticsearch.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

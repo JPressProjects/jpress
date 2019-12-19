@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @Package io.jpress.module.article.task
  */
 @FixedRate(period = 60, initialDelay = 60)
-public class CommentReplyCountUpdateTask implements Runnable {
+public class ArticleCommentReplyCountUpdateTask implements Runnable {
 
     private static Map<Long, AtomicLong> countsMap = new ConcurrentHashMap<>();
 

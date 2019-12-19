@@ -27,7 +27,7 @@ import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.module.article.service.task.CommentReplyCountUpdateTask;
+import io.jpress.module.article.service.task.ArticleCommentReplyCountUpdateTask;
 import io.jpress.service.UserService;
 
 import java.util.List;
@@ -198,7 +198,7 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
     @Override
     public void doIncCommentReplyCount(long commentId) {
-        CommentReplyCountUpdateTask.recordCount(commentId);
+        ArticleCommentReplyCountUpdateTask.recordCount(commentId);
     }
 
 //    @Override

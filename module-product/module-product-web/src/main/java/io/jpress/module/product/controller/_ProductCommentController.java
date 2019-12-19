@@ -23,6 +23,7 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.model.User;
 import io.jpress.module.product.model.ProductComment;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.web.base.AdminControllerBase;
@@ -72,6 +73,32 @@ public class _ProductCommentController extends AdminControllerBase {
         set("now", new Date());
         render("product/comment_edit.html");
     }
+
+
+    public void reply() {
+        long id = getIdPara();
+        ProductComment comment = commentService.findById(id);
+        setAttr("comment", comment);
+        render("product/comment_reply.html");
+    }
+
+
+    public void doReply(String content, Long productId, Long pid) {
+        User user = getLoginedUser();
+
+        ProductComment comment = new ProductComment();
+        comment.setContent(content);
+        comment.setUserId(user.getId());
+        comment.setStatus(ProductComment.STATUS_NORMAL);
+        comment.setProductId(productId);
+        comment.setPid(pid);
+
+        commentService.save(comment);
+        renderOkJson();
+    }
+
+
+
 
     public void doSave() {
         ProductComment entry = getModel(ProductComment.class, "productComment");

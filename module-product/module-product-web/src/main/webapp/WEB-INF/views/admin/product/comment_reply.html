@@ -1,0 +1,134 @@
+#@layout()
+#define script()
+<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script>
+    initEditor('contentEditor', 200);
+
+    function doDelComment(id) {
+        if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/product/comment/doDel/" + id, function () {
+                location.href = "#(CPATH)/admin/product/comment";
+            }, function (result) {
+                alert(result.message);
+            })
+        }
+    }
+
+    function doChangeStatus(id, status) {
+        ajaxGet("#(CPATH)/admin/product/comment/doCommentStatusChange?id=" + id + "&status=" + status)
+    }
+
+
+    function ok() {
+        toastr.options.onHidden = function () {
+            location.href = "#(CPATH)/admin/product/comment";
+        }
+        toastr.success('回复成功。');
+    }
+
+</script>
+#end
+
+#define css()
+<style>
+
+    .post {
+        margin: 20px 10px;
+    }
+
+    .comment-content {
+        padding-bottom: 20px;
+    }
+
+    .comment-content p {
+        display: inline;
+    }
+
+</style>
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            评论回复
+            <small>Comment Reply</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+
+                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                          data-ok-function="ok"
+                          method="post"
+                          action="#(CPATH)/admin/product/comment/doReply">
+
+                        <input type="hidden" name="pid" value="#(comment.id)">
+                        <input type="hidden" name="productId" value="#(comment.productId)">
+                        <input type="hidden" name="pid" value="#(comment.id)">
+
+                        <div class="box-body ">
+                            <div class="post">
+                                <div class="user-block">
+                                    <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
+                                    <span class="username">
+                                      <a href="#(CPATH)/admin/user/detail/#(comment.user.id ??)">#(comment.user.nickname ??)</a>
+                                    </span>
+                                    <span class="description">
+                                        #date(comment.created) -  来至对产品
+                                        <a href="#(comment.product.url ??)" target="_blank">《#(comment.product.title ??)》</a> 的评论
+                                    </span>
+                                </div>
+                                <div class="comment-content">
+                                    #(comment.content ??)
+                                </div>
+                                <ul class="list-inline">
+                                    <li>
+                                        <a href="#(CPATH)/admin/product/comment/edit/#(comment.id)"
+                                                                           style="color: #006505">编辑</a>
+                                        |
+                                        #if(comment.isNormal())
+                                        <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','2')"
+                                           style="color: #006505">待审核</a> |
+                                        #else
+                                        <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','1')"
+                                           style="color: #006505">设为正常</a> |
+                                        #end
+                                        <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','9')"
+                                           style="color: #a00">垃圾箱</a> |
+                                        <a href="javascript:;" onclick="doDelComment('#(comment.id)')"
+                                           style="color: #a00">永久删除</a>
+                                    </li>
+                                </ul>
+
+                                <div class="">
+                                    <textarea id="contentEditor" name="content"
+                                              style="height: 200px;width: 100%;background-color: white"></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-11 submit-block" style="padding-left: 20px">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary"> 回 复</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

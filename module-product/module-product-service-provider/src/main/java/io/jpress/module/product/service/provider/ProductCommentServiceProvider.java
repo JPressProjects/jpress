@@ -22,6 +22,14 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
     private ProductService productService;
 
     @Override
+    public ProductComment findById(Object id) {
+        ProductComment comment = super.findById(id);
+        productService.join(comment, "product_id");
+        userService.join(comment, "user_id");
+        return comment;
+    }
+
+    @Override
     public long findCountByProductId(Long productId) {
         return DAO.findCountByColumn(Column.create("product_id",productId));
     }

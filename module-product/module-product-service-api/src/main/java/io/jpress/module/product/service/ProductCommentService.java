@@ -186,6 +186,7 @@ public interface ProductCommentService  {
     public boolean deleteByIds(Object... ids);
 
 
+    public void deleteCacheById(Object id);
     /**
      * count
      * @param status

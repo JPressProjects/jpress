@@ -9,6 +9,7 @@ import io.jboot.service.JbootServiceBase;
 import io.jpress.module.product.model.ProductComment;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
+import io.jpress.module.product.service.provider.task.ProductCommentReplyCountUpdateTask;
 import io.jpress.service.UserService;
 
 @Bean
@@ -31,6 +32,11 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
             deleteById(id);
         }
         return true;
+    }
+
+    @Override
+    public void deleteCacheById(Object id) {
+        DAO.deleteIdCacheById(id);
     }
 
     @Override
@@ -104,7 +110,7 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
 
     @Override
     public void doIncCommentReplyCount(long commentId) {
-
+        ProductCommentReplyCountUpdateTask.recordCount(commentId);
     }
 
     @Override

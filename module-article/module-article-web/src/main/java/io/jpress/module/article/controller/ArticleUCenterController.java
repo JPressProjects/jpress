@@ -45,8 +45,6 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章前台页面Controller
- * @Package io.jpress.module.article.admin
  */
 @RequestMapping(value = "/ucenter/article", viewPath = "/WEB-INF/views/ucenter/")
 public class ArticleUCenterController extends UcenterControllerBase {

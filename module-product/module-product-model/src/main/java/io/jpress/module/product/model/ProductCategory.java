@@ -45,6 +45,7 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
      *
      * @return
      */
+    @Override
     public boolean isTop() {
         return getPid() != null && getPid() == 0;
     }
@@ -103,10 +104,11 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < layerNumber; i++) {
-            if (i == 0)
+            if (i == 0) {
                 sb.append("|—");
-            else
+            } else {
                 sb.append("—");
+            }
         }
         return sb.toString();
     }

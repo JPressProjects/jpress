@@ -68,6 +68,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
      *
      * @return
      */
+    @Override
     public boolean isTop() {
         return getPid() != null && getPid() == 0;
     }
@@ -120,19 +121,23 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     }
 
     public String getLayerString() {
+
         if (layerNumber == 0) {
             return "";
         }
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < layerNumber; i++) {
-            if (i == 0)
+            if (i == 0) {
                 sb.append("|—");
-            else
+            } else {
                 sb.append("—");
+            }
         }
+
         return sb.toString();
     }
+
 
     public boolean isMyChild(long id) {
         if (childs == null || childs.isEmpty()) {

@@ -21,6 +21,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.model.User;
 import io.jpress.module.article.kit.ArticleNotifyKit;
@@ -272,7 +273,7 @@ public class ArticleApiController extends ApiControllerBase {
         }
 
         //是否开启评论功能
-        Boolean commentEnable = optionService.findAsBoolByKey("article_comment_enable");
+        Boolean commentEnable = JPressOptions.isTrueOrEmpty("article_comment_enable");
         if (commentEnable == null || commentEnable == false) {
             renderJson(Ret.fail().set("message", "评论功能已关闭"));
             return;

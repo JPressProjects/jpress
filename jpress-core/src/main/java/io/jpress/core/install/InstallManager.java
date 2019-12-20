@@ -84,7 +84,10 @@ public class InstallManager {
             dbExist = true;
             isJPressDb = false;
         }
+    }
 
+    public boolean isInited(){
+        return dbExecuter != null;
     }
 
 

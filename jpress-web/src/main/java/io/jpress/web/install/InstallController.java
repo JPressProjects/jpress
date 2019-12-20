@@ -121,6 +121,11 @@ public class InstallController extends ControllerBase {
 
     public void step3() {
 
+        if (!InstallManager.me().isInited()){
+            redirect("/install");
+            return;
+        }
+
         //数据库需要升级
         if (InstallManager.me().isDbExist()
                 && InstallManager.me().isJPressDb()
@@ -187,12 +192,14 @@ public class InstallController extends ControllerBase {
 
     public void install() {
 
+        Ret ret;
+
         //数据库需要升级
         if (InstallManager.me().isDbExist()
                 && InstallManager.me().isJPressDb()
                 && InstallManager.me().isNeedUpgrade()) {
 
-            doProcessUpgrade();
+            ret = doProcessUpgrade();
         }
 
         //数据库已经存在
@@ -202,21 +209,26 @@ public class InstallController extends ControllerBase {
                 && InstallManager.me().isJPressDb()
                 && !InstallManager.me().isNeedUpgrade()) {
 
-            doProcessReinstall();
+            ret = doProcessReInstall();
         }
 
         //全新的数据库
         else {
-            doProcessInstall();
+            ret = doProcessInstall();
         }
 
-        OptionService optionService = Aop.get(OptionService.class);
-        optionService.saveOrUpdate("jpress_version", JPressConsts.VERSION);
-        optionService.saveOrUpdate("jpress_version_code", JPressConsts.VERSION_CODE);
+        // 设置 JPress 的版本
+        if (ret.isOk()){
+            OptionService optionService = Aop.get(OptionService.class);
+            optionService.saveOrUpdate("jpress_version", JPressConsts.VERSION);
+            optionService.saveOrUpdate("jpress_version_code", JPressConsts.VERSION_CODE);
+        }
 
+
+        renderJson(ret);
     }
 
-    private void doProcessUpgrade() {
+    private Ret doProcessUpgrade() {
 
         String username = getPara("username");
         String pwd = getPara("pwd");
@@ -225,18 +237,15 @@ public class InstallController extends ControllerBase {
         if (StrUtil.isNotBlank(username)) {
 
             if (StrUtil.isBlank(pwd)) {
-                renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
-                return;
+                return Ret.fail().set("message", "密码不能为空").set("errorCode", 3);
             }
 
             if (StrUtil.isBlank(confirmPwd)) {
-                renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
-                return;
+                return Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4);
             }
 
             if (pwd.equals(confirmPwd) == false) {
-                renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
-                return;
+                return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
             }
 
 
@@ -244,8 +253,7 @@ public class InstallController extends ControllerBase {
                 InstallManager.me().doUpgradeDatabase();
             } catch (SQLException e) {
                 e.printStackTrace();
-                renderFailJson();
-                return;
+                return Ret.fail().set("message", e.getMessage());
             }
 
 
@@ -259,14 +267,14 @@ public class InstallController extends ControllerBase {
 
 
         if (doFinishedInstall()) {
-            renderOkJson();
+            return Ret.ok();
         } else {
-            renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
+            return Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。");
         }
 
     }
 
-    private void doProcessReinstall() {
+    private Ret doProcessReInstall() {
 
         String username = getPara("username");
         String pwd = getPara("pwd");
@@ -275,22 +283,18 @@ public class InstallController extends ControllerBase {
         if (StrUtil.isNotBlank(username)) {
 
             if (StrUtil.isBlank(pwd)) {
-                renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
-                return;
+                return Ret.fail().set("message", "密码不能为空").set("errorCode", 3);
             }
 
             if (StrUtil.isBlank(confirmPwd)) {
-                renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
-                return;
+                return Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4);
             }
 
             if (pwd.equals(confirmPwd) == false) {
-                renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
-                return;
+                return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
             }
 
             initActiveRecordPlugin();
-
             initFirstUser();
 
         } else {
@@ -299,42 +303,55 @@ public class InstallController extends ControllerBase {
 
 
         if (doFinishedInstall()) {
-            renderOkJson();
+            return Ret.ok();
         } else {
-            renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
+            return Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。");
         }
-
     }
 
-    @EmptyValidate({
-            @Form(name = "web_name", message = "网站名称不能为空"),
-            @Form(name = "web_title", message = "网站标题不能为空"),
-            @Form(name = "web_subtitle", message = "网站副标题不能为空"),
-            @Form(name = "username", message = "账号不能为空"),
-            @Form(name = "pwd", message = "密码不能为空"),
-            @Form(name = "confirmPwd", message = "确认密码不能为空"),
-    })
-    private void doProcessInstall() {
+    private Ret doProcessInstall() {
 
         String webName = getPara("web_name");
         String webTitle = getPara("web_title");
         String webSubtitle = getPara("web_subtitle");
 
+        String username = getPara("username");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
+        if (StrUtil.isBlank(webName)) {
+            return Ret.fail().set("message", "网站名称不能为空");
+        }
+
+        if (StrUtil.isBlank(webTitle)) {
+            return Ret.fail().set("message", "网站标题不能为空");
+        }
+
+        if (StrUtil.isBlank(webSubtitle)) {
+            return Ret.fail().set("message", "网站副标题不能为空");
+        }
+
+        if (StrUtil.isBlank(username)) {
+            return Ret.fail().set("message", "账号不能为空");
+        }
+
+        if (StrUtil.isBlank(pwd)) {
+            return Ret.fail().set("message", "密码不能为空");
+        }
+
+        if (StrUtil.isBlank(confirmPwd)) {
+            return Ret.fail().set("message", "确认密码不能为空");
+        }
 
         if (pwd.equals(confirmPwd) == false) {
-            renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
-            return;
+            return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
         }
 
         try {
             InstallManager.me().doInitDatabase();
         } catch (SQLException e) {
             e.printStackTrace();
-            renderFailJson();
-            return;
+            return Ret.fail().set("message", e.getMessage());
         }
 
         initActiveRecordPlugin();
@@ -364,9 +381,9 @@ public class InstallController extends ControllerBase {
         Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
 
         if (doFinishedInstall()) {
-            renderOkJson();
+            return Ret.ok();
         } else {
-            renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
+            return Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。");
         }
 
     }

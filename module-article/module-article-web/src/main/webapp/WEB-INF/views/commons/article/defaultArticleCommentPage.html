@@ -1,7 +1,7 @@
 #define defaultArticleCommentPage()
 <div class="comment-default-block">
 
-    #if(option('article_comment_enable') && article.comment_status)
+    #if(option("article_comment_enable","true") && article.comment_status)
     <form class="comment-form" action="#(CPATH)/article/postComment" id="jpress-comment-form" method="post">
         <input type="hidden" name="articleId" value="#(article.id)">
         <input type="hidden" name="render" value="default">
@@ -12,7 +12,7 @@
         </div>
 
         <div class="comment-vcode">
-            #if(option('article_comment_vcode_enable'))
+            #if(option("article_comment_vcode_enable","true"))
             <input placeholder="请输入验证码" name="captcha" id="comment-captcha">
             <img class="vcode-img" src="#(CPATH)/commons/captcha"
                  onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude id="comment-vcode">

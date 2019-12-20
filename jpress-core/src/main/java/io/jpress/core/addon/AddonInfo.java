@@ -294,7 +294,7 @@ public class AddonInfo implements Serializable {
         return arp;
     }
 
-    public ActiveRecordPlugin createOrGetArp() {
+    public ActiveRecordPlugin getOrCreateArp() {
         if (arp == null) {
             arp = AddonUtil.createRecordPlugin(this);
         }

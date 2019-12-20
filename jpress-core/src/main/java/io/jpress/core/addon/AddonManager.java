@@ -116,10 +116,14 @@ public class AddonManager implements JbootEventListener {
     private void doInitAddons() {
 
         File addonDir = new File(PathKit.getWebRootPath(), "WEB-INF/addons");
-        if (!addonDir.exists()) return;
+        if (!addonDir.exists()) {
+            return;
+        }
 
         File[] addonJarFiles = addonDir.listFiles((dir, name) -> name.endsWith(".jar"));
-        if (addonJarFiles == null || addonJarFiles.length == 0) return;
+        if (addonJarFiles == null || addonJarFiles.length == 0) {
+            return;
+        }
 
         initAddonsMap(addonJarFiles);
         doInstallAddonsInApplicationStarted();
@@ -240,7 +244,7 @@ public class AddonManager implements JbootEventListener {
         //卸载插件可能自带的 本地库
         try {
             unloadNativeLibs(addonInfo.getAddon());
-        }catch (Exception ex){
+        } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
 
@@ -291,7 +295,7 @@ public class AddonManager implements JbootEventListener {
      * @param addon
      */
     private synchronized void unloadNativeLibs(Addon addon) {
-        if (addon == null){
+        if (addon == null) {
             return;
         }
         try {
@@ -404,13 +408,16 @@ public class AddonManager implements JbootEventListener {
         List<Class<? extends JbootModel>> modelClasses = addonInfo.getModels();
         if (modelClasses != null && !modelClasses.isEmpty()) {
 
-            ActiveRecordPlugin arp = addonInfo.createOrGetArp();
+            ActiveRecordPlugin arp = addonInfo.getOrCreateArp();
 
             for (Class<? extends JbootModel> c : modelClasses) {
                 Table table = c.getAnnotation(Table.class);
-                arp.addMapping(AnnotationUtil.get(table.tableName()), (Class<? extends Model<?>>) c);
+                if (StrUtil.isNotBlank(table.primaryKey())) {
+                    arp.addMapping(AnnotationUtil.get(table.tableName()), AnnotationUtil.get(table.primaryKey()), (Class<? extends Model<?>>) c);
+                } else {
+                    arp.addMapping(AnnotationUtil.get(table.tableName()), (Class<? extends Model<?>>) c);
+                }
             }
-
             addonInfo.setArp(arp);
             arp.start();
         }
@@ -431,8 +438,9 @@ public class AddonManager implements JbootEventListener {
     private void addInterceptors(AddonInfo addonInfo) {
         List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
         if (interceptorClasses != null) {
-            for (Class<? extends Interceptor> c : interceptorClasses)
+            for (Class<? extends Interceptor> c : interceptorClasses) {
                 AddonInterceptorManager.addInterceptor(c);
+            }
         }
     }
 
@@ -453,16 +461,18 @@ public class AddonManager implements JbootEventListener {
     private void addHandlers(AddonInfo addonInfo) {
         List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
         if (handlerClasses != null) {
-            for (Class<? extends Handler> c : handlerClasses)
+            for (Class<? extends Handler> c : handlerClasses) {
                 AddonHandlerManager.addHandler(c);
+            }
         }
     }
 
     private void addControllers(AddonInfo addonInfo) {
         List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
-            for (Class<? extends Controller> c : controllerClasses)
+            for (Class<? extends Controller> c : controllerClasses) {
                 AddonControllerManager.addController(c, addonInfo.getId());
+            }
         }
     }
 
@@ -566,7 +576,9 @@ public class AddonManager implements JbootEventListener {
 
     private void invokeAddonStopMethod(AddonInfo addonInfo) {
         Addon addon = addonInfo.getAddon();
-        if (addon != null) addon.onStop(addonInfo);
+        if (addon != null) {
+            addon.onStop(addonInfo);
+        }
     }
 
     private void removeTemplateCache(AddonInfo addonInfo) {
@@ -617,8 +629,9 @@ public class AddonManager implements JbootEventListener {
     private void deleteInteceptors(AddonInfo addonInfo) {
         List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
         if (interceptorClasses != null) {
-            for (Class<? extends Interceptor> c : interceptorClasses)
+            for (Class<? extends Interceptor> c : interceptorClasses) {
                 AddonInterceptorManager.deleteInterceptor(c);
+            }
         }
     }
 
@@ -635,16 +648,18 @@ public class AddonManager implements JbootEventListener {
     private void deleteHandlers(AddonInfo addonInfo) {
         List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
         if (handlerClasses != null) {
-            for (Class<? extends Handler> c : handlerClasses)
+            for (Class<? extends Handler> c : handlerClasses) {
                 AddonHandlerManager.deleteHandler(c);
+            }
         }
     }
 
     private void deleteControllers(AddonInfo addonInfo) {
         List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
-            for (Class<? extends Controller> c : controllerClasses)
+            for (Class<? extends Controller> c : controllerClasses) {
                 AddonControllerManager.deleteController(c);
+            }
         }
     }
 

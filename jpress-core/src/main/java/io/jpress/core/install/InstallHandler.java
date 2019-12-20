@@ -16,6 +16,7 @@
 package io.jpress.core.install;
 
 import com.jfinal.handler.Handler;
+import com.jfinal.kit.HandlerKit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +37,7 @@ public class InstallHandler extends Handler {
         }
 
         if (!target.startsWith("/install")) {
-            next.handle("/install", request, response, isHandled);
+            HandlerKit.redirect("/install",request,response,isHandled);
         } else {
             next.handle(target, request, response, isHandled);
         }

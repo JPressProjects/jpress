@@ -15,7 +15,6 @@
  */
 package io.jpress.web;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.finance.OrderManager;
@@ -35,16 +34,12 @@ public class WebInitializer extends JbootAppListenerBase {
     @Override
     public void onEngineConfig(Engine engine) {
 
-
-        engine.setBaseTemplatePath(PathKit.getRootClassPath() + "/webapp");
-
         engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
         engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
         engine.addSharedFunction("/WEB-INF/views/admin/_layout/_errpage.html");
         engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
         engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
         engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout_noleft.html");
-
 
         engine.addSharedStaticMethod(PermissionKits.class);
     }

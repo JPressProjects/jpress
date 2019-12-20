@@ -295,6 +295,7 @@ public class InstallController extends ControllerBase {
             }
 
             initActiveRecordPlugin();
+
             initFirstUser();
 
         } else {
@@ -367,19 +368,6 @@ public class InstallController extends ControllerBase {
 
         initFirstUser();
 
-        RoleService roleService = Aop.get(RoleService.class);
-        Role role = new Role();
-        role.setId(1L);
-        role.setName("默认角色");
-        role.setDescription("这个是系统自动创建的默认角色");
-        role.setFlag(Role.ADMIN_FLAG);
-        role.setCreated(new Date());
-        role.setModified(new Date());
-
-        roleService.save(role);
-
-        Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
-
         if (doFinishedInstall()) {
             return Ret.ok();
         } else {
@@ -418,8 +406,25 @@ public class InstallController extends ControllerBase {
         }
 
         user.setStatus(User.STATUS_OK);
-
         userService.saveOrUpdate(user);
+
+
+        RoleService roleService = Aop.get(RoleService.class);
+
+        Role role = roleService.findById(1);
+        if (role == null){
+            role = new Role();
+            role.setCreated(new Date());
+        }
+        role.setName("默认角色");
+        role.setDescription("这个是系统自动创建的默认角色");
+        role.setFlag(Role.ADMIN_FLAG);
+        role.setModified(new Date());
+
+        roleService.saveOrUpdate(role);
+
+        Db.update("DELETE FROM `user_role_mapping` WHERE `user_id` = 1");
+        Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
     }
 
 

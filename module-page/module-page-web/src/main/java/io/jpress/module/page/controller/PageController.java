@@ -19,6 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.module.page.PageNotifyKit;
@@ -114,7 +115,7 @@ public class PageController extends TemplateControllerBase {
         }
 
         //是否对用户输入验证码进行验证
-        Boolean vCodeEnable = optionService.findAsBoolByKey("page_comment_vcode_enable");
+        Boolean vCodeEnable = JPressOptions.isTrueOrEmpty("page_comment_vcode_enable");
         if (vCodeEnable != null && vCodeEnable == true) {
             if (validateCaptcha("captcha") == false) {
                 renderJson(Ret.fail().set("message", "验证码错误").set("errorCode",2));
@@ -131,7 +132,7 @@ public class PageController extends TemplateControllerBase {
 
 
         //是否开启评论功能
-        Boolean commentEnable = optionService.findAsBoolByKey("page_comment_enable");
+        Boolean commentEnable = JPressOptions.isTrueOrEmpty("page_comment_enable");
         if (commentEnable == null || commentEnable == false) {
             renderJson(Ret.fail().set("message", "评论功能已关闭"));
             return;

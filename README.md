@@ -173,7 +173,7 @@ curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-c
 **在全新的 Linux 上一键安装**
 
 ```
-yum install -y wget && wget -O install.sh https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
+wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
 ```
 
 **通过 Eclipse 或者 Idea 等开发工具运行**

@@ -28,7 +28,6 @@ import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.sms.SmsKit;
-import io.jpress.commons.utils.JpressCookieUtil;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
@@ -110,7 +109,7 @@ public class UserController extends TemplateControllerBase {
         Ret ret = userService.doValidateUserPwd(loginUser, pwd);
 
         if (ret.isOk()) {
-            JpressCookieUtil.put(this,loginUser.getId());
+            CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 
         String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");

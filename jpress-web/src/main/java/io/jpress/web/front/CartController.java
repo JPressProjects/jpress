@@ -144,17 +144,18 @@ public class CartController extends UcenterControllerBase {
     }
 
 
-    public void doRemoveSelectedItemsToFavorites() {
+ public void doRemoveSelectedItemsToFavorites() {
         List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
         if (userCarts != null) {
             for (UserCart cart : userCarts) {
-                favoriteService.save(cart.toFavorite());
+                if (!favoriteService.isProductFav(cart.getUserId(),cart.getProductId())){
+                    favoriteService.save(cart.toFavorite());
+                }
                 cartService.delete(cart);
             }
         }
         renderOkJson();
     }
-
     /**
      * 对某个购物车商品 +1
      */

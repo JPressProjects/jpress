@@ -36,6 +36,16 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">登录Cookie有效期</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" placeholder="以秒为单位"
+                                           name="maxAgeInSeconds"
+                                           value="#option('maxAgeInSeconds')">
+                                    <p class="help-block"> 默认有效期为7天（604800）</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">启用微信登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_wechat_enable" type="checkbox" #checkedIf(option('login_wechat_enable'))>

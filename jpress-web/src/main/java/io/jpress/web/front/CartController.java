@@ -148,9 +148,7 @@ public class CartController extends UcenterControllerBase {
         List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
         if (userCarts != null) {
             for (UserCart cart : userCarts) {
-                if (!favoriteService.isProductFav(cart.getUserId(),cart.getProductId())){
-                    favoriteService.save(cart.toFavorite());
-                }
+                favoriteService.doAddToFavorite(cart.toFavorite());
                 cartService.delete(cart);
             }
         }
@@ -192,7 +190,7 @@ public class CartController extends UcenterControllerBase {
             userCart.setProductCount(userCart.getProductCount() - 1);
             cartService.update(userCart);
         }
-        
+
         renderJson(Ret.ok().set("shouldPayPrice", new DecimalFormat("0.00").format(userCart.getShouldPayPrice())));
     }
 

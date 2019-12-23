@@ -299,8 +299,7 @@ public class ProductController extends TemplateControllerBase {
     public void doAddFavorite() {
         Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        if (!favoriteService.isProductFav(user.getId(),product.getId())){
-            favoriteService.save(product.toFavorite(user.getId()));
+       if (favoriteService.doAddToFavorite(product.toFavorite(user.getId()))){
             renderOkJson();
         }else {
             renderFailJson("已经收藏过了!");

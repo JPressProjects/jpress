@@ -25,6 +25,7 @@ import io.jboot.app.JbootApplication;
 public class Starter {
 
     public static void main(String[] args) {
+        JbootApplication.setBootArg("undertow.resourcePath", "classpath:webapp");
         JbootApplication.run(args);
     }
 

@@ -170,6 +170,12 @@ wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-comp
 curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
 ```
 
+**在全新的 Linux 上一键安装**
+
+```
+yum install -y wget && wget -O install.sh https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
+```
+
 **通过 Eclipse 或者 Idea 等开发工具运行**
 
 - 1、在本地安装好 Java、Maven 等开发环境
@@ -178,11 +184,6 @@ curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-c
 - 4、在开发工具，右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
 - 5、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
 
-**新 Linux 上一键安装**
-
-```
-yum install -y wget && wget -O install.sh https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
-```
 
 > 可能遇到的问题： 
 > 

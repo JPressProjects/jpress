@@ -176,4 +176,12 @@ public interface UserFavoriteService  {
 
 
     public Page<UserFavorite> paginateByUserIdAndType(int pagePara, int pagesize, Long id, String type);
+
+    boolean isFav(Long userId, String type, Long id);
+
+    boolean isProductFav(Long userId, Long id);
+
+    boolean isArticleFav(Long userId, Long id);
+
+
 }

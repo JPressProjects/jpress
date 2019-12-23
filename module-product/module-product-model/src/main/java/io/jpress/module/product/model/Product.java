@@ -123,8 +123,8 @@ public class Product extends BaseProduct<Product> {
         userCart.setUserId(userId);
         userCart.setSellerId(this.getUserId());
         userCart.setProductId(getId());
-        userCart.setProductType("product");
-        userCart.setProductTypeText("商品");
+        userCart.setProductType(UserFavorite.FAV_TYPE_PRODUCT);
+        userCart.setProductTypeText(UserFavorite.FAV_TYPE_PRODUCT_TEXT);
         userCart.setProductPrice(this.getPrice());
         userCart.setProductCount(1);
         userCart.setProductTitle(getTitle());
@@ -154,8 +154,8 @@ public class Product extends BaseProduct<Product> {
     public UserFavorite toFavorite(Long userId) {
         UserFavorite favorite = new UserFavorite();
         favorite.setUserId(userId);
-        favorite.setType("product");
-        favorite.setTypeText("商品");
+        favorite.setType(UserFavorite.FAV_TYPE_PRODUCT);
+        favorite.setTypeText(UserFavorite.FAV_TYPE_PRODUCT_TEXT);
         favorite.setTypeId(String.valueOf(getId()));
         favorite.setTitle(getTitle());
         favorite.setSummary(getSummary());

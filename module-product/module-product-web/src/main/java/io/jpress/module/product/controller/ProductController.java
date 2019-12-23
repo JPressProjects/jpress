@@ -295,13 +295,15 @@ public class ProductController extends TemplateControllerBase {
     }
 
 
-    @Before(ProductValidate.class)
+   @Before(ProductValidate.class)
     public void doAddFavorite() {
         Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        favoriteService.save(product.toFavorite(user.getId()));
-
-        renderOkJson();
+       if (favoriteService.doAddToFavorite(product.toFavorite(user.getId()))){
+            renderOkJson();
+        }else {
+            renderFailJson("已经收藏过了!");
+        }
     }
 
     /**

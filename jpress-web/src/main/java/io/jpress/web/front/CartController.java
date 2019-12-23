@@ -144,17 +144,16 @@ public class CartController extends UcenterControllerBase {
     }
 
 
-    public void doRemoveSelectedItemsToFavorites() {
+ public void doRemoveSelectedItemsToFavorites() {
         List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
         if (userCarts != null) {
             for (UserCart cart : userCarts) {
-                favoriteService.save(cart.toFavorite());
+                favoriteService.doAddToFavorite(cart.toFavorite());
                 cartService.delete(cart);
             }
         }
         renderOkJson();
     }
-
     /**
      * 对某个购物车商品 +1
      */
@@ -191,7 +190,7 @@ public class CartController extends UcenterControllerBase {
             userCart.setProductCount(userCart.getProductCount() - 1);
             cartService.update(userCart);
         }
-        
+
         renderJson(Ret.ok().set("shouldPayPrice", new DecimalFormat("0.00").format(userCart.getShouldPayPrice())));
     }
 

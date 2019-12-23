@@ -8,8 +8,11 @@ import io.jpress.model.base.BaseUserFavorite;
  */
 @Table(tableName = "user_favorite", primaryKey = "id")
 public class UserFavorite extends BaseUserFavorite<UserFavorite> {
-
+    public static final String FAV_TYPE_PRODUCT = "product";
+    public static final String FAV_TYPE_ARTICLE = "article";
+    public static final String FAV_TYPE_ARTICLE_TEXT = "文章";
+    public static final String FAV_TYPE_PRODUCT_TEXT = "商品";
     private static final long serialVersionUID = 1L;
 
-	
+
 }

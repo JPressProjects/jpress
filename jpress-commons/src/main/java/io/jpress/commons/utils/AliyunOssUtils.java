@@ -38,6 +38,7 @@ public class AliyunOssUtils {
     private static final String KEY_ACCESSKEYID = "attachment_aliyunoss_accesskeyid";
     private static final String KEY_ACCESSKEYSECRET = "attachment_aliyunoss_accesskeysecret";
     private static final String KEY_BUCKETNAME = "attachment_aliyunoss_bucketname";
+    private static final String KEY_OSS_DEL = "attachment_aliyunoss_del";
 
 
     private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"aliyun-oss-upload");
@@ -147,6 +148,22 @@ public class AliyunOssUtils {
         String accessKey = JPressOptions.get(KEY_ACCESSKEYSECRET);
         return new OSSClient(endpoint, new DefaultCredentialProvider(accessId, accessKey), null);
     }
+    /**
+     * 删除一个OSS中的文件
+     * @param objectName
+     */
+    public static void delete(String objectName){
+        boolean asBool = JPressOptions.getAsBool(KEY_OSS_DEL);
+        if (asBool){
+            OSSClient ossClient = newOSSClient();
+            try {
+                ossClient.deleteObject(JPressOptions.get(KEY_BUCKETNAME), objectName);
+            }catch (Exception e){
 
+            }finally {
+                ossClient.shutdown();
+            }
+        }
+    }
 
 }

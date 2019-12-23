@@ -56,6 +56,18 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">OSS删除同步</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_del"
+                                           #checkedIf(option("attachment_aliyunoss_del"))>
+                                    <input type="hidden" id="attachment_aliyunoss_del"
+                                           name="attachment_aliyunoss_del">
+                                    <p class="help-block"> 开启后会在删除附件时同时也删除OSS中的文件</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">API访问域名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="阿里云oss的 endPoint"

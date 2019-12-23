@@ -25,6 +25,7 @@ import com.jfinal.upload.UploadFile;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -284,6 +285,7 @@ public class _AttachmentController extends AdminControllerBase {
             File attachmentFile = AttachmentUtils.file(attachment.getPath());
             if (attachmentFile.exists() && attachmentFile.isFile() ){
                 attachmentFile.delete();
+                AliyunOssUtils.delete(new StringBuilder(attachment.getPath()).delete(0, 1).toString());
             }
         }
 

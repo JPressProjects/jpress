@@ -82,7 +82,9 @@ public class PayController extends TemplateControllerBase {
 
         PayOrder order = createPayOrder(payment);
 
-        order.setTransactionType(WxTransactionType.NATIVE); //扫码付
+        //扫码付
+        order.setTransactionType(WxTransactionType.NATIVE);
+
         //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
 
@@ -221,7 +223,7 @@ public class PayController extends TemplateControllerBase {
 
         PayOrder order = createPayOrder(payment);
 
-        // 手机浏览器
+        // 手机浏览器，直接唤起支付宝 app 进行支付
         if (isMobileBrowser()) {
             order.setTransactionType(AliTransactionType.WAP);
         }
@@ -233,6 +235,7 @@ public class PayController extends TemplateControllerBase {
 
         //获取支付订单信息
         Map orderInfo = service.orderInfo(order);
+
         //组装成html表单信息
         renderHtml(service.buildRequest(orderInfo, MethodType.POST));
 

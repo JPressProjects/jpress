@@ -92,4 +92,5 @@ public interface UserAddressService  {
     public List<UserAddress> findListByUserId(long userId);
 
 
+    void addUserAddress(UserAddress address, long userid);
 }

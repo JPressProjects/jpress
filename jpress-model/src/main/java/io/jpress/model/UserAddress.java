@@ -29,5 +29,4 @@ public class UserAddress extends BaseUserAddress<UserAddress> {
         return super.update();
     }
 
-	
 }

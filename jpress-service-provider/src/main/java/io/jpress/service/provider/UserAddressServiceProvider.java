@@ -24,6 +24,7 @@ public class UserAddressServiceProvider extends JbootServiceBase<UserAddress> im
 
     @Override
     public UserAddress findDefaultAddress(long userId) {
+
         List<UserAddress> userAddresses = findListByUserId(userId);
         if (userAddresses == null || userAddresses.isEmpty()) {
             return null;
@@ -47,6 +48,10 @@ public class UserAddressServiceProvider extends JbootServiceBase<UserAddress> im
             address.setModified(new Date());
         }
         CommonsUtils.escapeModel(address);//xss safe
+        //如果用户只有一个地址，将此地址设为默认
+        if (findListByUserId(userid).size()==0){
+            address.setWidthDefault(true);
+        }
         Long addressId = (Long) saveOrUpdate(address);
         //新设置了默认，那么其他地址改为非默认
         if (address.getWidthDefault()) {

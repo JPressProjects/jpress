@@ -39,6 +39,7 @@ import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
 import io.jpress.web.JPressShareFunctions;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.render.TemplateRender;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -213,7 +214,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        render(template.getRelativePath() + "/setting.html");
+        render(new TemplateRender(template.buildRelativePath("setting.html")));
     }
 
     @AdminMenu(text = "编辑", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 99)

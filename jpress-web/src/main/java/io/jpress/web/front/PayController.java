@@ -33,6 +33,7 @@ import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.commons.finance.PayNotifytKit;
 import io.jpress.web.commons.finance.PrePayNotifytKit;
 import io.jpress.web.interceptor.UserMustLoginedInterceptor;
+import io.jpress.web.interceptor.WechatInterceptor;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -121,7 +122,12 @@ public class PayController extends TemplateControllerBase {
         if (userOpenid != null){
             setAttr("openId",userOpenid.getValue());
         }
-
+        // 没有 openId 的情况下，先进行授权获取
+        else {
+            String gotoUrl = WechatInterceptor.getGotoUrl(this);
+            redirect("/wechat/authorization?goto=" + gotoUrl);
+            return;
+        }
 
         setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
         render("pay_wechatjs.html", DEFAULT_WECHAT_VIEW);

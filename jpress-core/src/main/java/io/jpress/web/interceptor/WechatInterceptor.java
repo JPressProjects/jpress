@@ -18,6 +18,7 @@ package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
@@ -82,19 +83,19 @@ public class WechatInterceptor implements Interceptor, JPressOptions.OptionChang
             return;
         }
 
-        String gotoUrl = getGotoUrl(inv);
+        String gotoUrl = getGotoUrl(inv.getController());
         inv.getController().redirect("/wechat/authorization?goto=" + gotoUrl);
     }
 
     /**
      * 获取当前的url
      *
-     * @param inv
+     * @param controller
      * @return
      */
-    private String getGotoUrl(Invocation inv) {
+    public static String getGotoUrl(Controller controller) {
 
-        HttpServletRequest req = inv.getController().getRequest();
+        HttpServletRequest req =controller.getRequest();
 
         // 获取用户将要去的路径
         String queryString = req.getQueryString();

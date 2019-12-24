@@ -76,15 +76,22 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return;
         }
 
-        //matchTemplateFile：匹配到可以用的view
-        view = template.matchTemplateFile(view, isMobileBrowser());
-        if (view == null) {
-            renderDefault(defaultView);
-            return;
+        boolean isMobile = isMobileBrowser();
+
+        //匹配到可以用的 view
+        view = template.matchView(view, isMobile);
+
+        //匹配不到渲染的模板，尝试使用 default 去匹配
+        if (view == null && defaultView != null && !defaultView.startsWith("/")) {
+            view = template.matchView(defaultView, isMobile);
         }
 
-        view = template.buildRelativePath(view);
-        super.render(new TemplateRender(view));
+        if (view == null) {
+            renderDefault(defaultView);
+        } else {
+            super.render(new TemplateRender(template.buildRelativePath(view)));
+        }
+
     }
 
 
@@ -95,7 +102,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return false;
         }
 
-        return template.matchTemplateFile(view, isMobileBrowser()) != null;
+        return template.matchView(view, isMobileBrowser()) != null;
     }
 
     @Override
@@ -111,7 +118,6 @@ public abstract class TemplateControllerBase extends ControllerBase {
     private void renderDefault(String defaultView) {
         if (defaultView == null) {
             renderText("can not match template view to render");
-            return;
         } else {
             super.render(new TemplateRender(defaultView));
         }
@@ -190,7 +196,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
             ret.set("html", html);
         } else {
             if (template != null) {
-                String matchedHtml = template.matchTemplateFile(render + ".html", isMobileBrowser());
+                String matchedHtml = template.matchView(render + ".html", isMobileBrowser());
                 if (matchedHtml != null) {
                     String html = engine.getTemplate(template.getRelativePath() + "/" + matchedHtml)
                             .renderToString(paras);

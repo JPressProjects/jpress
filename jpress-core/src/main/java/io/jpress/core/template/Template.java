@@ -100,7 +100,7 @@ public class Template {
      * @param template
      * @return
      */
-    public String matchTemplateFile(String template, boolean isMoblieBrowser) {
+    public String matchView(String template, boolean isMoblieBrowser) {
 
         if (isMoblieBrowser) {
             int indexOf = template.indexOf(".");
@@ -119,7 +119,9 @@ public class Template {
         //手机浏览器，优先去找_h5的模板进行渲染
         if (isMoblieBrowser) {
             String h5Template = matchH5Template(template);
-            if (h5Template != null) return h5Template;
+            if (h5Template != null) {
+                return h5Template;
+            }
         }
 
         while (lastIndex > 0) {

@@ -146,13 +146,13 @@ public class TemplateRender extends Render {
         doc.outputSettings().prettyPrint(false);
         doc.outputSettings().outline(false);
 
-        Elements jsElements = doc.select("script[src]");
+        Elements jsElements = doc.select("script");
         replace(jsElements, "src");
 
-        Elements imgElements = doc.select("img[src]");
+        Elements imgElements = doc.select("img");
         replace(imgElements, "src");
 
-        Elements linkElements = doc.select("link[href]");
+        Elements linkElements = doc.select("link");
         replace(linkElements, "href");
 
         return doc.toString();

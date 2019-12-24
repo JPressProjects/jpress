@@ -165,7 +165,8 @@ public class WechatAuthorizationController extends ControllerBase {
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token" + "?appid={appid}"
                 + "&secret={secret}" + "&code={code}" + "&grant_type=authorization_code";
 
-        String getOpenIdUrl = url.replace("{appid}", appId).replace("{secret}", appSecret)
+        String getOpenIdUrl = url.replace("{appid}", appId)
+                .replace("{secret}", appSecret)
                 .replace("{code}", code);
 
         String jsonResult = null;

@@ -21,7 +21,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url : "#(CPATH)/pay/wechatmobile?trx=#(payment.trx_no)",
+            url : "#(CPATH)/pay/getWechatOrderInfo",
             type : "post",
             async: true,
             data : {

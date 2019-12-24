@@ -17,6 +17,19 @@ public class UserFavoriteServiceProvider extends JbootServiceBase<UserFavorite> 
 
 
     /**
+     * 根据 article / product 和 id 取消收藏
+     * @param type
+     * @param userid
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean doDelFavoriteByType(String type, Long userid, Long id){
+        UserFavorite favorite = findFirstByColumns(Columns.create().add("type", type).add("user_id", userid).add("type_id", id));
+        return  delete(favorite);
+    }
+
+    /**
      * 移除收藏
      * @param id
      * @return

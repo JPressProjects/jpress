@@ -138,11 +138,7 @@
                                     #(data.zipcode ??) &nbsp;
                                 </td>
                                 <td>
-                                    #if(data.isDefault)
-                                        是
-                                    #else
-                                        否
-                                    #end
+                                    #(data.width_default?'是':'否')
                                 </td>
                             </tr>
                             #end

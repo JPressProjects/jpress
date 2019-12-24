@@ -71,6 +71,12 @@ public class PayController extends TemplateControllerBase {
      */
     public void wechat() {
 
+        //微信浏览器
+        if (isWechatBrowser()){
+            redirect("/pay/wechatjs/"+getPara());
+            return;
+        }
+
         PayService service = PayConfigUtil.getWxPayService();
         render404If(service == null);
 

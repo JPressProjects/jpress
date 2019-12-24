@@ -51,7 +51,14 @@ function buyProduct(productId, ok, fail) {
         },
         ok ? ok : function (data) {
             if (data.gotoUrl) {
-                window.open(data.gotoUrl, '_blank')
+                var ua = window.navigator.userAgent.toLowerCase();
+
+                //微信页面不支持 window.open 直接跳转
+                if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                    location.href = data.gotoUrl;
+                } else {
+                    window.open(data.gotoUrl, '_blank')
+                }
             }
         },
         fail ? fail : function (data) {
@@ -137,7 +144,7 @@ function initCommentComponent() {
                         location.href = data.gotoUrl;
                     }
                     //验证码错误
-                    else if (data.errorCode == 2){
+                    else if (data.errorCode == 2) {
                         $('#comment-vcode').click();
                         $('#comment-captcha').val("");
                         $('#comment-captcha').focus();

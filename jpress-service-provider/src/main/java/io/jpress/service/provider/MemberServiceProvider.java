@@ -4,6 +4,7 @@ import com.jfinal.aop.Inject;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.ArrayUtil;
 import io.jpress.model.Member;
 import io.jpress.service.MemberGroupService;
 import io.jpress.service.MemberService;
@@ -40,5 +41,24 @@ public class MemberServiceProvider extends JbootServiceBase<Member> implements M
         }
 
         return null;
+    }
+
+    /**
+     * 用户是否是会员
+     * @return
+     */
+    @Override
+    public boolean isMember(long userid){
+        List<Member> members = findListByUserId(userid);
+        if (members.size()==0){
+            return false;
+        }
+        //检查会员是否有效
+        for (Member member : members) {
+            if (member.isNormal()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -4,6 +4,8 @@
 <script src="#(CPATH)/static/components/distpicker/distpicker.min.js"></script>
 <script>
 
+
+    var globalTotalPrice;//总金额
     $(".add").on("click", function () {
         var itemId = $(this).attr("data-value");
         var that = $(this);
@@ -53,6 +55,7 @@
     }
 
 
+
     function doComputeTotalPrice() {
         var rows = $('#tab').find('tr').length;
         var totalPrice = 0;
@@ -60,7 +63,10 @@
             totalPrice += parseFloat(getTableContent(index, 3));
         }
 
-        $('#totalPrice').text(totalPrice.toFixed(2));
+        var tp = totalPrice.toFixed(2);
+        globalTotalPrice = tp;
+        $('#totalPrice').text(tp);
+        $('#payPrice').text(tp);
     }
 
     function getTableContent(row, col) {
@@ -97,25 +103,61 @@
 
 
     $('#checkout').on('submit', function () {
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (result) {
-                if (result.state == "ok") {
-                    location.href = '#(CPATH)/ucenter/checkout/payorder/' + result.orderId + "?paytype=" + result.paytype;
+
+        var self = this;
+        layer.confirm('确认要下单吗？', {
+            btn : [ '确定', '取消' ]//按钮
+        }, function(index) {
+
+            $(self).ajaxSubmit({
+                type: "post",
+                success: function (result) {
+                    if (result.state == "ok") {
+                        location.href = '#(CPATH)/ucenter/checkout/payorder/' + result.orderId + "?paytype=" + result.paytype;
+                    }
+                    //fail
+                    else {
+                        showErrorMessage(result.message);
+                    }
+                },
+                error: function () {
+                    showErrorMessage('系统错误，请稍后重试。');
                 }
-                //fail
-                else {
-                    showErrorMessage(result.message);
-                }
-            },
-            error: function () {
-                showErrorMessage('系统错误，请稍后重试。');
-            }
+            });
+
+            layer.close(index);
+
         });
         return false;
     });
 
 
+    $('#select-coupon-code').click(function () {
+        selectCouponCode(globalTotalPrice);
+    });
+    function selectCouponCode(price) {
+        layer.data = {}
+        layer.open({
+            type: 2,
+            title: "选择优惠码",
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['60%', '90%'],
+            content: '#(CPATH)/ucenter/coupon/layer?price='+price,
+            end: function () {
+                if (layer.data.couponCode){
+                    var payPrice = parseFloat(globalTotalPrice)-parseFloat(layer.data.couponAmount);
+                    $('#payPrice').text(payPrice.toFixed(2));
+                    $('#coupon-price-span').text('优惠券:-'+(parseFloat(layer.data.couponAmount)));
+                    $('#coupon-code-input').val(layer.data.couponCode);
+                    $('#coupon-code-input').attr('readonly',true);
+                    $('#select-coupon-code').text('选择优惠券（已选:'+layer.data.couponTitle+'）');
+
+                }
+            }
+        });
+    }
 
     function seleteAddress() {
         layer.data = {}
@@ -267,7 +309,12 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-footer">
+                        <small class="pull-right" style="font-size: 16px"> <span id="coupon-price-span" class="text-primary"></span> </small>
+                        <br>
                         <small class="pull-right">总价格: <span id="totalPrice">#.##</span> ￥</small>
+                        <br>
+                        <small class="pull-right">需支付: <span id="payPrice">#.##</span> ￥</small>
+
                     </h2>
                 </div>
             </div>
@@ -419,7 +466,8 @@
 
                             <div class="form-group">
                                 <label>优惠码（券）</label>
-                                <input type="text" class="form-control" name="coupon_code" placeholder="请输入优惠码...">
+                                <input type="text" class="form-control" id="coupon-code-input" name="coupon_code" placeholder="请输入优惠码...">
+                                <p class="help-block"><a href="javascript:;" id="select-coupon-code" target="_blank">选择优惠券</a></p>
                             </div>
 
                             <div class="form-group">

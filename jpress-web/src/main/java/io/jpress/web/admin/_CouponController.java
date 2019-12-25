@@ -139,7 +139,7 @@ public class _CouponController extends AdminControllerBase {
     }
 
     public void doCodeDel() {
-        CouponCode code = couponCodeService.findByCode(getPara());
+        CouponCode code = couponCodeService.findById(getPara());
         if (code != null){
             couponCodeService.deleteById(getPara());
             couponService.doSyncTakeCount(code.getCouponId());

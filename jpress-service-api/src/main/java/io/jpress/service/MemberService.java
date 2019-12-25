@@ -83,4 +83,6 @@ public interface MemberService  {
 
 
     public Member findByGroupIdAndUserId(Long groupId, Long payerUserId);
+
+    boolean isMember(long userid);
 }

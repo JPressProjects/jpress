@@ -39,5 +39,8 @@ public abstract class ApiControllerBase extends ControllerBase {
     protected void renderOkJson(String attr, Object value) {
         renderJson(Ret.ok(attr, value));
     }
+    protected void renderOkDataJson(Object value){
+        renderJson(Ret.ok("data", value));
+    }
 
 }

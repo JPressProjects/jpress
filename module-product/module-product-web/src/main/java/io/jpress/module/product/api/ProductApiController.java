@@ -57,7 +57,7 @@ public class ProductApiController extends ApiControllerBase {
 
 
     /**
-     * 获取文章列表
+     * 获取产品列表
      */
     public void list(){
         String flag = getPara("flag");

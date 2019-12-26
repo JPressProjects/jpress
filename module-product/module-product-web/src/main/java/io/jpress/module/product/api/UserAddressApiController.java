@@ -50,7 +50,10 @@ public class UserAddressApiController extends ApiControllerBase {
      */
     @EmptyValidate({@Form(name = "id", message = "收货地址ID不能为空")})
     public void doDelUserAddress(Long id) {
-        userAddressService.deleteById(id);
+        UserAddress address = userAddressService.findById(id);
+        if (isLoginedUserModel(address)) {
+            userAddressService.delete(address);
+        }
         renderOkJson();
     }
 

@@ -170,6 +170,12 @@ wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-comp
 curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
 ```
 
+**在全新的 Linux 上一键安装**
+
+```
+wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
+```
+
 **通过 Eclipse 或者 Idea 等开发工具运行**
 
 - 1、在本地安装好 Java、Maven 等开发环境
@@ -178,16 +184,13 @@ curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-c
 - 4、在开发工具，右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
 - 5、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
 
+
 > 可能遇到的问题： 
 > 
 > 1、执行 `mvn clean` 后，再次运行 JPress，JPress 会重新走安装流程。
 >
 > 解决方案： jpress 在安装过程中，会在 `starter/target/classes` 目录下生成的 `jboot.properties` 和 `install.lock` 文件，我们需要把这两个文件复制到 `starter/src/main/resource` 目录下。 因为，jpress 是否安装决定在这两个文件，当我们执行  `mvn clean` 命令时，maven 会清除 target 下的所有文件，从而使 JPress 会再次走安装流程。
->
->
-> 2、编译成功之后运行，提示无法找到 _layout.html 
->
-> 解决方案：在 jboot.properties 文件里添加配置 undertow.resourcePath=classpath:webapp
+
 
 
 

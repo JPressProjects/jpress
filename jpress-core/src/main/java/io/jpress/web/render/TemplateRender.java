@@ -16,10 +16,12 @@
 package io.jpress.web.render;
 
 import com.jfinal.core.JFinal;
+import com.jfinal.kit.LogKit;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.render.RenderHelpler;
 import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
@@ -81,20 +83,60 @@ public class TemplateRender extends Render {
             data.put(attrName, request.getAttribute(attrName));
         }
 
-        String html = getEngine().getTemplate(view).renderToString(data);
-        html = replaceSrcPath(html);
+        com.jfinal.template.Template template = null;
+        try {
+            template = getEngine().getTemplate(view);
+        } catch (Throwable ex) {
+            LogKit.error(ex.toString(), ex);
+        }
 
-        RenderHelpler.renderHtml(response, html, contentType);
+        // 可能模板不存在
+        if (template == null) {
+            RenderHelpler.renderHtml(response, buildTemplateNotExistsMessage(), contentType);
+        } else {
+            RenderHelpler.renderHtml(response, buildNormalHtml(template.renderToString(data)), contentType);
+        }
+    }
 
+    private String buildTemplateNotExistsMessage() {
+
+        String renderView = view.contains("/") ? view.substring(view.lastIndexOf("/") + 1) : view;
+        String paraView = JbootControllerContext.get().get("v");
+        Template template = TemplateManager.me().getCurrentTemplate();
+
+
+        StringBuilder msgBuilder = new StringBuilder("<html><head><title>错误：模板文件不存在! </title></head>");
+        msgBuilder.append("<body bgcolor='white'>以下模板文件不存在：<br /><br />");
+
+        if (StrUtil.isNotBlank(paraView)) {
+            paraView = paraView + ".html";
+            msgBuilder.append("----");
+            msgBuilder.append(template == null ? paraView : template.buildRelativePath(paraView));
+            msgBuilder.append("<br />");
+        }
+
+        msgBuilder.append("----");
+        msgBuilder.append(template == null ? paraView : template.buildRelativePath(renderView));
+        msgBuilder.append("<br />");
+
+
+        if (!view.equals(template.buildRelativePath(renderView))) {
+            msgBuilder.append("----");
+            msgBuilder.append(view);
+            msgBuilder.append("<br />");
+        }
+
+        return msgBuilder.append("</body></html>").toString();
     }
 
 
+    @Override
     public String toString() {
         return view;
     }
 
 
-    public String replaceSrcPath(String content) {
+    public String buildNormalHtml(String content) {
         if (StrUtil.isBlank(content)) {
             return content;
         }
@@ -104,13 +146,13 @@ public class TemplateRender extends Render {
         doc.outputSettings().prettyPrint(false);
         doc.outputSettings().outline(false);
 
-        Elements jsElements = doc.select("script[src]");
+        Elements jsElements = doc.select("script");
         replace(jsElements, "src");
 
-        Elements imgElements = doc.select("img[src]");
+        Elements imgElements = doc.select("img");
         replace(imgElements, "src");
 
-        Elements linkElements = doc.select("link[href]");
+        Elements linkElements = doc.select("link");
         replace(linkElements, "href");
 
         return doc.toString();

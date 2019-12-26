@@ -5,12 +5,9 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.ArrayUtil;
-import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.UserAddress;
 import io.jpress.service.UserAddressService;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,29 +40,25 @@ public class UserAddressServiceProvider extends JbootServiceBase<UserAddress> im
         if (address==null){
             return;
         }
-        address.setUserId(userid);
-        if (address.getId() != null) {
-            address.setModified(new Date());
-        }
-        CommonsUtils.escapeModel(address);//xss safe
+
+        List<UserAddress> addresses = findListByUserId(userid);
+
         //如果用户只有一个地址，将此地址设为默认
-        if (findListByUserId(userid).size()==0){
+        if (addresses == null || addresses.isEmpty()){
             address.setWidthDefault(true);
         }
-        Long addressId = (Long) saveOrUpdate(address);
-        //新设置了默认，那么其他地址改为非默认
-        if (address.getWidthDefault()) {
-            Columns columns = Columns.create();
-            columns.add("user_id", userid);
-            columns.eq("width_default", true);
-            List<UserAddress> list = findListByColumns(columns);
-            if (list != null && list.size() > 0) {
-                for (UserAddress userAddress : list) {
-                    userAddress.setWidthDefault(userAddress.getId()==addressId);
-                    userAddress.update();
+        // 否则 如果新增的地址已经是默认地址
+        else if (address.getWidthDefault() != null && address.getWidthDefault()){
+            for (UserAddress addr : addresses){
+                if (addr.getWidthDefault() != null && addr.getWidthDefault()){
+                    addr.setWidthDefault(false);
+                    update(addr);
                 }
             }
         }
 
+        address.setUserId(userid);
+
+        saveOrUpdate(address);
     }
 }

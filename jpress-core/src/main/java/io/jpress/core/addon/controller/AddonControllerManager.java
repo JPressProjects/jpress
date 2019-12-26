@@ -47,10 +47,14 @@ public class AddonControllerManager {
 
     public static void addController(Class<? extends Controller> c, String addonId) {
         RequestMapping mapping = c.getAnnotation(RequestMapping.class);
-        if (mapping == null) return;
+        if (mapping == null) {
+            return;
+        }
 
         String value = AnnotationUtil.get(mapping.value());
-        if (value == null) return;
+        if (value == null) {
+            return;
+        }
 
         // 尝试去清除 Controller 以保障绝对安全, 虽然插件在 stop() 的时候会去清除
         // 但是由于可能 stop() 出错等原因，没有执行到 deletController 的操作
@@ -72,10 +76,14 @@ public class AddonControllerManager {
 
     public static void deleteController(Class<? extends Controller> c) {
         RequestMapping mapping = c.getAnnotation(RequestMapping.class);
-        if (mapping == null) return;
+        if (mapping == null) {
+            return;
+        }
 
         String value = AnnotationUtil.get(mapping.value());
-        if (value == null) return;
+        if (value == null) {
+            return;
+        }
 
         addonRoutes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(value));
         Routes.getControllerKeySet().removeIf(actionKey -> Objects.equals(actionKey, value));
@@ -98,9 +106,13 @@ public class AddonControllerManager {
 
     private static void deleteAddonMenus() {
         List<MenuItem> adminMenuItems = buildAdminMenuItems();
-        for (MenuItem menuItem : adminMenuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
+        for (MenuItem menuItem : adminMenuItems) {
+            MenuManager.me().deleteMenuItem(menuItem.getId());
+        }
         List<MenuItem> ucenterMenuItems = buildUcenterMenuItems();
-        for (MenuItem menuItem : ucenterMenuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
+        for (MenuItem menuItem : ucenterMenuItems) {
+            MenuManager.me().deleteMenuItem(menuItem.getId());
+        }
     }
 
 

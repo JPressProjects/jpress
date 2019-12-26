@@ -10,6 +10,7 @@ import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
@@ -23,13 +24,16 @@ import io.jpress.commons.pay.PayStatus;
 import io.jpress.commons.pay.PayType;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountStatement;
+import io.jpress.model.UserOpenid;
 import io.jpress.service.PaymentRecordService;
 import io.jpress.service.UserAmountStatementService;
+import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.commons.finance.PayNotifytKit;
 import io.jpress.web.commons.finance.PrePayNotifytKit;
 import io.jpress.web.interceptor.UserMustLoginedInterceptor;
+import io.jpress.web.interceptor.WechatInterceptor;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -63,9 +67,15 @@ public class PayController extends TemplateControllerBase {
 
 
     /**
-     * 微信扫码支付
+     * 微信扫码支付（扫码支付无法在浏览器里进行）
      */
     public void wechat() {
+
+        //微信浏览器
+        if (isWechatBrowser()){
+            redirect("/pay/wechatjs/"+getPara());
+            return;
+        }
 
         PayService service = PayConfigUtil.getWxPayService();
         render404If(service == null);
@@ -82,7 +92,9 @@ public class PayController extends TemplateControllerBase {
 
         PayOrder order = createPayOrder(payment);
 
-        order.setTransactionType(WxTransactionType.NATIVE); //扫码付
+        //扫码付
+        order.setTransactionType(WxTransactionType.NATIVE);
+
         //获取扫码付的二维码
         BufferedImage image = service.genQrPay(order);
 
@@ -95,26 +107,44 @@ public class PayController extends TemplateControllerBase {
         PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
+
     /**
-     * 微信手机调用js直接支付（无需扫码）
-     * 前端通过 ajax 传入 trx 和 openId 调用此接口，得到返回数据后再调用如下 js
-     * <p>
-     * WeixinJSBridge.invoke(
-     * 'getBrandWCPayRequest', {
-     * "appId": data.orderInfo.appId,
-     * "timeStamp": data.orderInfo.timeStamp,         //自1970年以来的秒数的时间戳
-     * "nonceStr": data.orderInfo.nonceStr,           //随机串
-     * "package": data.orderInfo.package,
-     * "signType": data.orderInfo.signType,           //微信签名方式
-     * "paySign": data.orderInfo.sign                 //微信签名
-     * },function(res){
-     * if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-     * alert("支付成功")
-     * }
-     * }
-     * );
+     * 在微信浏览器里进行支付
      */
-    public void wechatmobile() {
+    public void wechatjs() {
+
+        PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        render404If(payment == null);
+
+        if (payment.isPaySuccess()){
+            redirect("/pay/success/" + payment.getTrxNo());
+            return;
+        }
+
+        setAttr("payment", payment);
+
+        UserOpenidService openidService = Aop.get(UserOpenidService.class);
+        UserOpenid userOpenid = openidService.findByUserIdAndType(getLoginedUser().getId(), UserOpenid.TYPE_WECHAT);
+        if (userOpenid != null){
+            setAttr("openId",userOpenid.getValue());
+        }
+        // 没有 openId 的情况下，先进行授权获取
+        else {
+            String gotoUrl = WechatInterceptor.getGotoUrl(this);
+            redirect("/wechat/authorization?goto=" + gotoUrl);
+            return;
+        }
+
+        setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
+        render("pay_wechatjs.html", DEFAULT_WECHAT_VIEW);
+
+        PrePayNotifytKit.notify(payment, getLoginedUser());
+    }
+
+    /**
+     * 微信手机调用js直接支付（无需扫码），参考 pay_wechatjs.html
+     */
+    public void getWechatOrderInfo() {
         PayService service = PayConfigUtil.getWxPayService();
         if (service == null) {
             renderFailJson();
@@ -221,7 +251,7 @@ public class PayController extends TemplateControllerBase {
 
         PayOrder order = createPayOrder(payment);
 
-        // 手机浏览器
+        // 手机浏览器，直接唤起支付宝 app 进行支付
         if (isMobileBrowser()) {
             order.setTransactionType(AliTransactionType.WAP);
         }
@@ -233,6 +263,7 @@ public class PayController extends TemplateControllerBase {
 
         //获取支付订单信息
         Map orderInfo = service.orderInfo(order);
+
         //组装成html表单信息
         renderHtml(service.buildRequest(orderInfo, MethodType.POST));
 

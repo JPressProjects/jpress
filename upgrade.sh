@@ -36,11 +36,11 @@ bakpath=${oldPath}_bak
 fi
 
 
-# 备份旧的JPress
+# 备份 jpress
 echo "backup old jpress to $bakpath"
 cp -rf ${oldPath} ${bakpath}
 
-# 删除对于的数据
+# 删除旧的文件
 rm -rf ${oldPath}/WEB-INF/lib
 rm -rf ${oldPath}/WEB-INF/install
 rm -rf ${oldPath}/WEB-INF/views

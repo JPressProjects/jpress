@@ -165,7 +165,8 @@ public class WechatAuthorizationController extends ControllerBase {
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token" + "?appid={appid}"
                 + "&secret={secret}" + "&code={code}" + "&grant_type=authorization_code";
 
-        String getOpenIdUrl = url.replace("{appid}", appId).replace("{secret}", appSecret)
+        String getOpenIdUrl = url.replace("{appid}", appId)
+                .replace("{secret}", appSecret)
                 .replace("{code}", code);
 
         String jsonResult = null;
@@ -211,14 +212,35 @@ public class WechatAuthorizationController extends ControllerBase {
         //优先根据 unioinId 进行查询
         if (StrUtil.isNotBlank(unionId)) {
             user = userService.findFistByWxUnionid(unionId);
-            if (user != null) return user.getId();
+            if (user != null) {
+                return user.getId();
+            }
         }
 
         //之后根据 openId 进行查询
         if (StrUtil.isNotBlank(openId)) {
             user = userService.findFistByWxOpenid(openId);
-            if (user != null) return user.getId();
+            if (user != null) {
+                return user.getId();
+            }
         }
+
+        UserOpenidService userOpenidService = Aop.get(UserOpenidService.class);
+
+        String uid = CookieUtil.get(this, JPressConsts.COOKIE_UID);
+        if (StrUtil.isNotBlank(uid)) {
+            user = userService.findById(uid);
+            if (user != null){
+                userOpenidService.saveOrUpdate(user.getId(), UserOpenid.TYPE_WECHAT,openId);
+                if (StrUtil.isNotBlank(unionId)){
+                    userOpenidService.saveOrUpdate(user.getId(),UserOpenid.TYPE_WECHAT_UNIONID,unionId);
+                }
+
+                return user.getId();
+            }
+        }
+
+
 
         // 都查询不到，说明该用户是一个新的用户，创建一个新的用户
         String nickName = apiResult.get("nickname");
@@ -243,10 +265,11 @@ public class WechatAuthorizationController extends ControllerBase {
 
         Long userId = (Long) userService.save(user);
 
-        UserOpenidService userOpenidService = Aop.get(UserOpenidService.class);
-        userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT,openId);
-        userOpenidService.saveOrUpdate(userId,UserOpenid.TYPE_WECHAT_UNIONID,unionId);
 
+        userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT,openId);
+        if (StrUtil.isNotBlank(unionId)){
+            userOpenidService.saveOrUpdate(userId,UserOpenid.TYPE_WECHAT_UNIONID,unionId);
+        }
 
 
         return userId;

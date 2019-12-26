@@ -36,42 +36,47 @@ public class UserAddressApiController extends ApiControllerBase {
 
     @Inject
     private UserAddressService userAddressService;
+
     /**
      * 收货地址列表
      */
-    public void index(){
+    public void index() {
         List<UserAddress> addresses = userAddressService.findListByUserId(getLoginedUser().getId());
-        renderOkDataJson(addresses);
+        renderOkJson("data", addresses);
     }
+
     /**
      * 删除收货地址
      */
-    @EmptyValidate({@Form(name = "id",message = "收货地址ID不能为空")})
-    public void doDelUserAddress(Long id){
-        userAddressService.deleteById(id);
+    @EmptyValidate({@Form(name = "id", message = "收货地址ID不能为空")})
+    public void doDelUserAddress(Long id) {
+        UserAddress address = userAddressService.findById(id);
+        if (isLoginedUserModel(address)) {
+            userAddressService.delete(address);
+        }
         renderOkJson();
     }
+
     /**
      * 添加收货地址
      */
     @EmptyValidate({
-            @Form(name = "address.username",message = "请填写联系人"),
-            @Form(name = "address.mobile",message = "请填写联系方式"),
-            @Form(name = "address.detail",message = "请填写联系地址"),
+            @Form(name = "address.username", message = "请填写联系人"),
+            @Form(name = "address.mobile", message = "请填写联系方式"),
+            @Form(name = "address.detail", message = "请填写联系地址"),
     })
-    public void doAddUserAddress(){
+    public void doAddUserAddress() {
         UserAddress address = getBean(UserAddress.class, "address");
-        userAddressService.addUserAddress(address,getLoginedUser().getId());
+        userAddressService.addUserAddress(address, getLoginedUser().getId());
         renderJson(Ret.ok());
     }
-
 
 
     /**
      * 获取用户默认的收货地址
      */
-    public void  findDefaultAddress(){
-        renderOkDataJson(userAddressService.findDefaultAddress(getLoginedUser().getId()));
+    public void findDefaultAddress() {
+        renderOkJson("data", userAddressService.findDefaultAddress(getLoginedUser().getId()));
     }
 
 

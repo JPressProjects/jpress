@@ -53,7 +53,7 @@ public class JPressRenderFactory extends JbootRenderFactory {
                 .append(".html");
 
 
-        String view = template.matchTemplateFile(errorViewbuilder.toString(),
+        String view = template.matchView(errorViewbuilder.toString(),
                 RequestUtil.isMobileBrowser(JPressHandler.getCurrentRequest()));
         if (view == null) {
             return super.getErrorRender(errorCode);

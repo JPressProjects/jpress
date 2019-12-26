@@ -9,14 +9,16 @@ import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jpress.model.Coupon;
 import io.jpress.model.CouponCode;
-import io.jpress.model.CouponUsedRecord;
 import io.jpress.model.Member;
 import io.jpress.service.*;
 import org.apache.commons.lang.time.DateUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Bean
 public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> implements CouponCodeService {
@@ -123,82 +125,18 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
 
     @Override
     public long queryCountByCouponId(long couponId) {
-        return findCountByColumns(Columns.create("coupon_id",couponId));
+        return findCountByColumns(Columns.create("coupon_id", couponId));
     }
-
-    /**&
-     * 支付时，找出可用的优惠券
-     * @param couponCode
-     * @param currentUserId
-     * @param orderTotalAmount 总价格
-     * @return
-     */
-    private boolean checkCouponCode(CouponCode couponCode,long currentUserId,BigDecimal orderTotalAmount){
-
-        //该优惠码不存在或已失效
-        if (couponCode == null || !couponCode.isNormal()) {
-            return false;
-        }
-        Coupon coupon = couponService.findById(couponCode.getCouponId());
-        // 该优惠券不可用
-        if (coupon == null || !coupon.isNormal()) {
-            return false;
-        }
-        couponCode.put("coupon",coupon);
-        //是否是只有优惠券拥有者可用
-        Boolean withOwner = coupon.getWithOwner();
-        if (withOwner) {
-            if (!couponCode.getUserId().equals(currentUserId)){
-                return false;
-            }
-        }
-        //是不是会员可用
-        if (coupon.getWithMember()){
-            if (!memberService.isMember(currentUserId)){
-                return false;
-            }
-        }
-        if (checkCouponCodeDiscount(orderTotalAmount, coupon)) {
-            return false;
-        }
-
-        if (!isCouponCodeUnExpire(coupon,couponCode)){
-            return false;
-        }
-
-
-        return true;
-    }
-    /**
-     * 检查使用的优惠券价格是否有效；满减券生效
-     * @return
-     */
-    private boolean checkCouponCodeDiscount(BigDecimal orderTotalAmount, Coupon coupon) {
-        //如果是满减券，检查价格是否有效
-        int couponType = coupon.getType();
-        if (couponType == Coupon.TYPE_FULL_DISCOUNT){
-            BigDecimal withAmount = coupon.getWithAmount();
-            if (withAmount == null || withAmount.compareTo(BigDecimal.ZERO) < 0) {
-                return true;
-            }
-
-            if (orderTotalAmount.compareTo(coupon.getWithAmount()) < 0) {
-                return true;
-            }
-
-        }
-        return false;
-    }
-
 
 
     /**
      * 检查优惠券有效期是否正常
+     *
      * @param coupon
      * @param couponCode
      * @return
      */
-    private boolean isCouponCodeUnExpire(Coupon coupon, CouponCode couponCode){
+    private boolean isCouponCodeUnExpire(Coupon coupon, CouponCode couponCode) {
         //检查优惠券时效
         Date validTime = couponCode.getValidTime();
         int validtype = coupon.getValidType();
@@ -227,34 +165,33 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
      * 支付时可选择；获取用户可用的券码
      */
     @Override
-    public List<CouponCode> findAvailableByUserId(Long userid, BigDecimal orderTotalAmount){
+    public List<CouponCode> findAvailableByUserId(long userid, BigDecimal orderTotalAmount) {
         List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid));
-        List<CouponCode> removeList = new ArrayList<>();
-        for(CouponCode code:couponCodes){
-            if (!checkCouponCode(code,userid,orderTotalAmount)){
-                removeList.add(code);
-            }
+        if (couponCodes == null || couponCodes.isEmpty()) {
+            return null;
         }
-        couponCodes.removeAll(removeList);
-        return couponCodes;
+
+        return couponCodes.stream()
+                .filter(couponCode -> valid(couponCode, orderTotalAmount, userid).isOk())
+                .collect(Collectors.toList());
     }
 
     /**
      * 获取有效的优惠券码列表,个人中心中使用
+     *
      * @param userid
      * @return
      */
     @Override
-    public List<CouponCode> findAvailableList(long userid){
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status",CouponCode.STATUS_NORMAL));
+    public List<CouponCode> findAvailableByUserId(long userid) {
+        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status", CouponCode.STATUS_NORMAL));
         List<CouponCode> finalList = new ArrayList<>();
-        for(CouponCode couponCode:couponCodes){
+        for (CouponCode couponCode : couponCodes) {
             //没过期，normal状态的
             Coupon coupon = couponService.findById(couponCode.getCouponId());
-            if (coupon!=null){
-                boolean couponCodeUnExpire = isCouponCodeUnExpire(coupon, couponCode);
-                if (couponCodeUnExpire && coupon.isNormal()){
-                    couponCode.put("coupon",coupon);
+            if (coupon != null) {
+                if (isCouponCodeUnExpire(coupon, couponCode) && coupon.isNormal()) {
+                    couponCode.put("coupon", coupon);
                     finalList.add(couponCode);
                 }
             }
@@ -262,49 +199,5 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
         return finalList;
     }
 
-    /**
-     * 获取过期的优惠券码，个人中心中使用
-     */
-    @Override
-    public List<CouponCode> findExpire(long userid){
-
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status",CouponCode.STATUS_NORMAL));
-        List<CouponCode> finalList = new ArrayList<>();
-        for(CouponCode couponCode:couponCodes){
-            //没过期，normal状态的
-            Coupon coupon = couponService.findById(couponCode.getCouponId());
-            if (coupon!=null){
-                boolean couponCodeUnExpire = isCouponCodeUnExpire(coupon, couponCode);
-                if (!couponCodeUnExpire && coupon.isNormal()){
-                    couponCode.put("coupon",coupon);
-                    finalList.add(couponCode);
-                }
-            }
-        }
-        return finalList;
-    }
-
-    /**
-     * 获取不可用的优惠券
-     * @param userid
-     * @return
-     */
-    @Override
-    public List<CouponCode> findUsed(long userid){
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status", CouponCode.STATUS_USED));
-
-        List<CouponCode> finalList = new ArrayList<>();
-        for(CouponCode couponCode:couponCodes){
-            //没过期，normal状态的
-            Coupon coupon = couponService.findById(couponCode.getCouponId());
-            if (coupon!=null){
-                if (coupon.isNormal()){
-                    couponCode.put("coupon",coupon);
-                    finalList.add(couponCode);
-                }
-            }
-        }
-        return finalList;
-    }
 
 }

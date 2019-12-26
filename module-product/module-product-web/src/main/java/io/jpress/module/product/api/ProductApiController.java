@@ -97,4 +97,14 @@ public class ProductApiController extends ApiControllerBase {
         renderOkJson("products", relevantArticles);
     }
 
+
+    /**
+     * 商品搜索
+     */
+    public void search(){
+
+    }
+
+
+
 }

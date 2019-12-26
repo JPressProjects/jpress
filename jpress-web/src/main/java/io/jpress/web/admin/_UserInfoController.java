@@ -24,6 +24,7 @@ import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,6 +64,10 @@ public class _UserInfoController extends AdminControllerBase {
 
     @Inject
     private UserTagService userTagService;
+
+
+    @Inject
+    private CouponCodeService couponCodeService;
 
 
     public void index() {
@@ -197,5 +202,27 @@ public class _UserInfoController extends AdminControllerBase {
         render("user/detail_utm.html");
     }
 
+    public void coupon(){
+        int action = getParaToInt("action",0);
+        Long uid = getParaToLong();
+        User user = userService.findById(uid);
+        setAttr("user", user);
+        List<CouponCode> renderList = new ArrayList<>();
+        User loginedUser = getLoginedUser();
+        if (action == 2){
+            //已经使用的
+            renderList = couponCodeService.findUsed(user.getId());
+        }
+        if (action == 0){
+            //未过期的，未使用的,正常状态的
+            renderList = couponCodeService.findAvailableList(user.getId());
+        }
+        if (action == 1){
+            //已经过期的
+            renderList = couponCodeService.findExpire(user.getId());
+        }
+        setAttr("couponCodeList",renderList);
+        render("user/detail_coupon.html");
+    }
 
 }

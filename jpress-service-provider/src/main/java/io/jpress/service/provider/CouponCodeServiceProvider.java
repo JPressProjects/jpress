@@ -228,7 +228,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
      */
     @Override
     public List<CouponCode> findAvailableByUserId(Long userid, BigDecimal orderTotalAmount){
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid));
+        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid),"created desc");
         List<CouponCode> removeList = new ArrayList<>();
         for(CouponCode code:couponCodes){
             if (!checkCouponCode(code,userid,orderTotalAmount)){
@@ -246,7 +246,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
      */
     @Override
     public List<CouponCode> findAvailableList(long userid){
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status",CouponCode.STATUS_NORMAL));
+        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status",CouponCode.STATUS_NORMAL),"created desc");
         List<CouponCode> finalList = new ArrayList<>();
         for(CouponCode couponCode:couponCodes){
             //没过期，normal状态的
@@ -268,7 +268,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
     @Override
     public List<CouponCode> findExpire(long userid){
 
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status",CouponCode.STATUS_NORMAL));
+        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status",CouponCode.STATUS_NORMAL),"created desc");
         List<CouponCode> finalList = new ArrayList<>();
         for(CouponCode couponCode:couponCodes){
             //没过期，normal状态的
@@ -291,7 +291,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
      */
     @Override
     public List<CouponCode> findUsed(long userid){
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status", CouponCode.STATUS_USED));
+        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status", CouponCode.STATUS_USED),"created desc");
 
         List<CouponCode> finalList = new ArrayList<>();
         for(CouponCode couponCode:couponCodes){

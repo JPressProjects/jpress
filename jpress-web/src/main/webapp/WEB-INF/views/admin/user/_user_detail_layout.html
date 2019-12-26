@@ -58,7 +58,7 @@
 
                 <div class="box box-primary">
                     <div class="box-body box-profile">
-                        <img class="profile-user-img img-responsive img-circle" src="#(user.avatar ??)">
+                        <a href="#(CPATH)/admin/user/detail/avatar/#(user.id)"><img class="profile-user-img img-responsive img-circle" src="#(user.avatar ??)"></a>
                         <h3 class="profile-username text-center">#(user.nickname ??)</h3>
                         <p class="text-muted text-center">#(user.identity ??)</p>
                     </div>
@@ -71,6 +71,7 @@
                             <li id="role"><a href="#(CPATH)/admin/user/detail/role/#(user.id)"><i class="fa fa-fw fa-group"></i> 角色分配</a></li>
                             #end
                             <li id="finance"><a href="#(CPATH)/admin/user/detail/finance/#(user.id)"><i class="fa fa-fw fa-gg-circle"></i> 财务信息</a></li>
+                            <li id="coupon"><a href="#(CPATH)/admin/user/detail/coupon/#(user.id)"><i class="fa fa-fw fa-indent"></i> 优惠券码 </a></li>
                             <li id="member"><a href="#(CPATH)/admin/user/detail/member/#(user.id)"><i class="fa fa-fw fa-coffee"></i> 会员信息</a></li>
                             <li id="communication"><a href="#(CPATH)/admin/user/detail/communication/#(user.id)"><i class="fa fa-fw fa-phone-square"></i> 通信资料</a></li>
                             <li id="pwd"><a href="#(CPATH)/admin/user/detail/pwd/#(user.id)"><i class="fa fa-fw fa-key"></i> 账号密码</a></li>
@@ -78,6 +79,7 @@
                             <li id="other"><a href="#(CPATH)/admin/user/detail/other/#(user.id)"><i class="fa fa-fw fa-leaf"></i> 其他属性</a></li>
                             <li id="avatar"><a href="#(CPATH)/admin/user/detail/avatar/#(user.id)"><i class="fa fa-fw fa-black-tie"></i> 修改头像 </a></li>
                             <li id="utm"><a href="#(CPATH)/admin/user/detail/utm/#(user.id)"><i class="fa fa-fw fa-hourglass-half"></i> 行为记录 </a></li>
+
                         </ul>
                     </div>
                     <!-- /.box-body -->

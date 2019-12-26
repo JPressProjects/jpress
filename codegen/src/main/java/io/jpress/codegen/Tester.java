@@ -23,14 +23,9 @@ package io.jpress.codegen;
 public class Tester {
 
 
-    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/newjpress";
+    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/jpress3";
     private static String dbUser = "root";
     private static String dbPassword = "";
-
-//    private static String moduleName = "article";
-//    private static String dbTables = "article,article_category,article_category_mapping,article_comment,article_pay_record";
-//    private static String modelPackage = "io.jpress.module.article.model";
-//    private static String servicePackage = "io.jpress.module.article.service";
 
 
     private static String moduleName = "page";

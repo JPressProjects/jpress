@@ -27,7 +27,7 @@ public class PageModuleGenerator {
 
     private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/jpress3";
     private static String dbUser = "root";
-    private static String dbPassword = "123456";
+    private static String dbPassword = "";
 
 
     private static String moduleName = "page";

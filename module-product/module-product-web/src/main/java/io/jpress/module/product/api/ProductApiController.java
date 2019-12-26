@@ -16,7 +16,6 @@
 package io.jpress.module.product.api;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.kit.Ret;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -52,7 +51,7 @@ public class ProductApiController extends ApiControllerBase {
         }
 
         productService.doIncProductViewCount(product.getId());
-        renderJson(Ret.ok("product", product));
+        renderOkJson("product", product);
     }
 
 
@@ -77,7 +76,7 @@ public class ProductApiController extends ApiControllerBase {
         }
 
         List<Product> products = productService.findListByColumns(columns, orderBy, count);
-        renderJson(Ret.ok("products", products));
+        renderOkJson("products", products);
     }
 
 
@@ -93,8 +92,8 @@ public class ProductApiController extends ApiControllerBase {
 
         int count = getParaToInt("count", 3);
 
-        List<Product> relevantArticles = productService.findRelevantListByProductId(id, Product.STATUS_NORMAL, count);
-        renderOkJson("products", relevantArticles);
+        List<Product> relevantProducts = productService.findRelevantListByProductId(id, Product.STATUS_NORMAL, count);
+        renderOkJson("products", relevantProducts);
     }
 
 }

@@ -10,6 +10,8 @@ import io.jpress.service.CouponCodeService;
 import io.jpress.service.CouponUsedRecordService;
 import io.jpress.service.UserOrderService;
 
+import java.util.List;
+
 @Bean
 public class CouponUsedRecordServiceProvider extends JbootServiceBase<CouponUsedRecord> implements CouponUsedRecordService {
 
@@ -34,4 +36,5 @@ public class CouponUsedRecordServiceProvider extends JbootServiceBase<CouponUsed
         orderService.join(page, "used_order_id");
         return page;
     }
+
 }

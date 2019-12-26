@@ -113,6 +113,7 @@ public class _CouponController extends AdminControllerBase {
     }
 
 
+    @EmptyValidate({@Form(name = "userId",message = "用户ID不能为空")})
     public void doCodeSave() {
         Coupon coupon = couponService.findById(getPara("couponId"));
         if (coupon == null) {
@@ -138,7 +139,7 @@ public class _CouponController extends AdminControllerBase {
     }
 
     public void doCodeDel() {
-        CouponCode code = couponCodeService.findByCode(getPara());
+        CouponCode code = couponCodeService.findById(getPara());
         if (code != null){
             couponCodeService.deleteById(getPara());
             couponService.doSyncTakeCount(code.getCouponId());

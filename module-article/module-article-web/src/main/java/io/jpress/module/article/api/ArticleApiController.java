@@ -15,12 +15,15 @@
  */
 package io.jpress.module.article.api;
 
+import com.jfinal.aop.Clear;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.model.User;
@@ -331,5 +334,17 @@ public class ArticleApiController extends ApiControllerBase {
         ArticleNotifyKit.notify(article, comment, user);
     }
 
+    /**
+     * 搜索文章
+     * @param keyword
+     */
+    public void articleSearch(String keyword){
+        int page = getParaToInt("page",1);
+        int pageSize = getParaToInt("size",10);
+        Page<Article> dataPage = StrUtil.isNotBlank(keyword)
+                ? articleService.search(keyword, page, pageSize)
+                : null;
+        renderJson(dataPage);
+    }
 
 }

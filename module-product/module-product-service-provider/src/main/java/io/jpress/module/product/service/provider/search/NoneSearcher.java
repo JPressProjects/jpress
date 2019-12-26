@@ -13,47 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.api;
+package io.jpress.module.product.service.provider.search;
 
-import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.web.base.ApiControllerBase;
+import com.jfinal.plugin.activerecord.Page;
+import io.jpress.module.product.model.Product;
+import io.jpress.module.product.service.search.ProductSearcher;
 
-/**
- * @author haicuan139 (haicuan139@163.com)
- * @Date: 2019/12/24
- */
-@RequestMapping("/api/usercar")
-public class UserCarApiController extends ApiControllerBase {
+public class NoneSearcher implements ProductSearcher {
 
-    /**
-     * 购物车列表
-     */
-    public void index(){
+    @Override
+    public void addProduct(Product product) {
 
     }
 
-    /**
-     * 购物车中删除
-     */
-    public void doDelCar(){
+    @Override
+    public void deleteProduct(Object id) {
 
     }
 
-    /**
-     * 添加到购物车
-     */
-    public void doAddCar(){
+    @Override
+    public void updateProduct(Product product) {
 
     }
 
-    /**
-     * 改变购物车中商品的数量
-     */
-    public void changeCount(){
-
+    @Override
+    public Page<Product> search(String keyword, int pageNum, int pageSize) {
+        return null;
     }
-
-
-
-
 }

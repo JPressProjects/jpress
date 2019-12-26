@@ -1,6 +1,7 @@
 package io.jpress.module.product.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -19,8 +20,10 @@ import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
+import io.jpress.module.product.service.provider.search.ProductSearcherFactory;
 import io.jpress.module.product.service.provider.task.ProductCommentsCountUpdateTask;
 import io.jpress.module.product.service.provider.task.ProductViewsCountUpdateTask;
+import io.jpress.module.product.service.search.ProductSearcher;
 import io.jpress.service.UserService;
 
 import java.util.ArrayList;
@@ -305,5 +308,27 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     private Product joinUserInfo(Product product) {
         userService.join(product, "user_id");
         return product;
+    }
+
+
+
+    @Override
+    public Page<Product> search(String queryString, int pageNum, int pageSize) {
+        try {
+            ProductSearcher searcher = ProductSearcherFactory.getSearcher();
+            Page<Product> page = searcher.search(queryString, pageNum, pageSize);
+            if (page != null) return page;
+        } catch (Exception ex) {
+            LogKit.error(ex.toString(), ex);
+        }
+        return new Page<>(new ArrayList<>(), pageNum, pageSize, 0, 0);
+    }
+
+    @Override
+    @Cacheable(name = "products")
+    public Page<Product> searchIndb(String queryString, int pageNum, int pageSize) {
+        Columns columns = Columns.create("status", Product.STATUS_NORMAL)
+                .likeAppendPercent("title", queryString);
+        return joinUserInfo(paginateByColumns(pageNum, pageSize, columns, "order_number desc,id desc"));
     }
 }

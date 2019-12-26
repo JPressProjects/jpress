@@ -16,6 +16,7 @@
 package io.jpress.module.product.api;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -100,8 +101,13 @@ public class ProductApiController extends ApiControllerBase {
     /**
      * 商品搜索
      */
-    public void search(){
-
+    public void productSearch(String keyword){
+        int page = getParaToInt("page",1);
+        int pageSize = getParaToInt("size",10);
+        Page<Product> dataPage = StrUtil.isNotBlank(keyword)
+                ? productService.search(keyword, page, pageSize)
+                : null;
+        renderJson(dataPage);
     }
 
 

@@ -40,21 +40,7 @@ public class UserCouponApiController extends ApiControllerBase {
      * 用户的优惠券列表
      */
     public void index(){
-        int action = getParaToInt("action",0);
-        List<CouponCode> renderList = new ArrayList<>();
-        User loginedUser = getLoginedUser();
-        if (action == 0){
-            //未过期的，未使用的,正常状态的
-            renderList = couponCodeService.findAvailableList(loginedUser.getId());
-        }
-        if (action == 1){
-            //已经过期的
-            renderList = couponCodeService.findExpire(loginedUser.getId());
-        }
-        if (action == 2){
-            //已经使用的
-            renderList = couponCodeService.findUsed(loginedUser.getId());
-        }
+        List<CouponCode> renderList = couponCodeService.findAvailableByUserId(getLoginedUser().getId());
         renderOkDataJson(renderList);
     }
 
@@ -68,12 +54,6 @@ public class UserCouponApiController extends ApiControllerBase {
         renderOkDataJson(couponCodes);
     }
 
-    /**
-     * 领取优惠券
-     */
-    public void getCoupon(){
-
-    }
 
 
 }

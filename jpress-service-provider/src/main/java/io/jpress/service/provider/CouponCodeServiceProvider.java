@@ -55,6 +55,9 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
         }
 
         Coupon coupon = couponService.findById(couponCode.getCouponId());
+
+        couponCode.put("coupon",coupon);//绑定一个优惠券对象，否则选择优惠券无法展示前端无法展示
+
         // 该优惠券不可用
         if (coupon == null || !coupon.isNormal()) {
             return Ret.fail().set("message", "该优惠码不存在或已失效");
@@ -166,11 +169,10 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
      */
     @Override
     public List<CouponCode> findAvailableByUserId(long userid, BigDecimal orderTotalAmount) {
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid));
+        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid),"id desc");
         if (couponCodes == null || couponCodes.isEmpty()) {
             return null;
         }
-
         return couponCodes.stream()
                 .filter(couponCode -> valid(couponCode, orderTotalAmount, userid).isOk())
                 .collect(Collectors.toList());
@@ -184,7 +186,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
      */
     @Override
     public List<CouponCode> findAvailableByUserId(long userid) {
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status", CouponCode.STATUS_NORMAL));
+        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status", CouponCode.STATUS_NORMAL),"id desc");
         List<CouponCode> finalList = new ArrayList<>();
         for (CouponCode couponCode : couponCodes) {
             //没过期，normal状态的

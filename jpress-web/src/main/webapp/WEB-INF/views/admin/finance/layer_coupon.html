@@ -1,0 +1,86 @@
+#@layer()
+#define script()
+<script>
+
+    function doDel(id) {
+        if (confirm("确定要删除该优惠券吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/finance/coupon/doDel/" + id);
+        }
+    }
+
+    $("#batchDel").click(function () {
+        var ids = getSelectedIds();
+        if (ids == "") {
+            alert('您未选择任何内容');
+            return
+        }
+        if (confirm("确定要删除选中的优惠券吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/finance/coupon/doDelByIds?ids=" + ids);
+        }
+    })
+    $('.takeButton').click(function () {
+        var couponId = $(this).attr("data-coupon-id");
+        var userId = "#para('userid')";
+        ajaxGet('#(CPATH)/admin/finance/coupon/doCodeSave?status=1&couponId='+couponId+'&userId='+userId);
+        parent.layer.closeAll();
+    })
+</script>
+#end
+
+#define content()
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- /.box-header -->
+                <div class="box-body ">
+
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th style="width: 35%">名称</th>
+                            <th style="width: 15%">类型</th>
+                            <th style="width: 10%">金额</th>
+                            <th style="width: 10%">发券量</th>
+                            <th style="width: 10%">领取量</th>
+                            <th style="width: 10%">使用量</th>
+                            <th style="width: 10%">状态</th>
+                            <th style="width: 10%">分配</th>
+                        </tr>
+                        #for(coupon : page.list ??)
+                        <tr class="jp-actiontr">
+                            </td>
+                            <td>
+                                <strong>
+                                    <a target="_blank" href="#(CPATH)/admin/finance/coupon/edit/#(coupon.id)"> #(coupon.title ??) </a>
+                                </strong>
+                                <div class="jp-actionblock">
+                                    <div class="jp-actionitem">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>#(coupon.typeStr ??)</td>
+                            <td>#(coupon.amount ??)</td>
+                            <td>#(coupon.quota ??)</td>
+                            <td><a href="#(CPATH)/admin/finance/coupon/takes/#(coupon.id)">#(coupon.take_count ??)</a></td>
+                            <td><a href="#(CPATH)/admin/finance/coupon/useds?coid=#(coupon.id)">#(coupon.used_count ??)</a></td>
+                            <td>#(coupon.statusStr ??)</td>
+                            <td><button class="btn btn-primary takeButton" data-coupon-id="#(coupon.id)">分配</button></td>
+                        </tr>
+                        #end
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            #@_paginate()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+#end

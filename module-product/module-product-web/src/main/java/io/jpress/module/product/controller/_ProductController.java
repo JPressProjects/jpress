@@ -189,6 +189,9 @@ public class _ProductController extends AdminControllerBase {
             product.setOrderNumber(0);
         }
 
+        if (product.getViewCount() == null){
+            product.setViewCount(0L);
+        }
         long id = (long) productService.saveOrUpdate(product);
         productService.doUpdateCommentCount(id);
 

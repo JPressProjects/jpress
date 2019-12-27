@@ -58,7 +58,7 @@ public class _CouponController extends AdminControllerBase {
 
     @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 8)
     public void index() {
-        Page<Coupon> page = couponService.paginate(getPagePara(), 10);
+        Page<Coupon> page = couponService.paginateByColumns(getPagePara(), 10,Columns.create(),"id desc");
         setAttr("page", page);
         render("finance/coupon.html");
     }
@@ -112,6 +112,11 @@ public class _CouponController extends AdminControllerBase {
         render("finance/coupon_take_edit.html");
     }
 
+    public void layer(){
+        Page<Coupon> page = couponService.paginateByColumns(getPagePara(), 10,Columns.create(),"id desc");
+        setAttr("page", page);
+        render("finance/layer_coupon.html");
+    }
 
     @EmptyValidate({@Form(name = "userId",message = "用户ID不能为空")})
     public void doCodeSave() {

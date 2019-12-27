@@ -1,0 +1,106 @@
+#include("_user_detail_layout.html")
+#@user_detail_layout("coupon")
+#define detail()
+#define layout_script()
+<script>
+    $('.del-action').on('click', function () {
+        if (confirm('确定要删除该标签吗？删除后不可恢复')) {
+            var id = $(this).attr("data-id");
+            ajaxGet("#(CPATH)/admin/finance/coupon/doCodeDel/" + id);
+        }
+    });
+
+    $('#takeCoupon').click(function () {
+       selectCouponCode()
+    });
+    function selectCouponCode() {
+        layer.data = {}
+        layer.open({
+            type: 2,
+            title: "分配券码",
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['60%', '90%'],
+            content: '#(CPATH)/admin/finance/coupon/layer?userid=#(user.id)',
+            end: function () {
+                window.location.reload();
+            }
+        });
+    }
+</script>
+
+#end
+
+<div class="box-header with-border">
+            <a href="javascript:;" id="takeCoupon" class="btn btn-primary "> <i
+                    class="fa fa-fw fa-plus"></i> 分配券码</a>
+</div>
+<!-- /.box-header -->
+<div class="box-body ">
+
+    <table class="table table-striped" id="table-address">
+        <tbody>
+        <tr>
+            <th style="">名称</th>
+            <th style="">金额</th>
+            <th style="">券码</th>
+            <th style="">使用时间</th>
+            <th style="">仅限会员</th>
+            <th style="">券类型</th>
+            <th style="">领取时间</th>
+        </tr>
+
+        #for(data : couponCodeList)
+        <tr class="jp-actiontr">
+            <td>
+                #(data.coupon.title)
+                <div class="jp-actionblock">
+                    <div class="jp-actionitem">
+                        <a href="javascript:;" data-id="#(data.id)" class="del-action red-action"
+                           >删除</a>
+                    </div>
+                </div>
+
+            </td>
+            <td>
+                #(data.coupon.amount)
+            </td>
+            <td>
+                #(data.code)
+            </td>
+            <td>
+                #if(data.coupon.valid_type == 1)
+                #date(data.coupon.valid_start_time) 至 #date(data.coupon.valid_end_time)
+                #end
+
+                #if(data.coupon.valid_type == 2)
+                #(data.coupon.valid_days??)天
+                #end
+            </td>
+            <td>
+                #(data.coupon.with_member?'是':'否')
+            </td>
+            <td>
+                <!--                                    1满减券  2叠加满减券  3无门槛券-->
+                #if(data.coupon.type == 1)
+                满#(data.coupon.with_amount)减#(data.coupon.amount)
+                #end
+                #if(data.coupon.type == 2)
+                叠加满减券
+                #end
+                #if(data.coupon.type == 3)
+                无门槛券
+                #end
+            </td>
+
+
+            <th style="">#date(data.valid_time)</th>
+        </tr>
+        #end
+
+        </tbody>
+    </table>
+</div>
+#end
+

@@ -35,6 +35,35 @@
             <artifactId>module-product-service-api</artifactId>
             <version>3.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-product-search-api</artifactId>
+            <version>3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-product-search-db</artifactId>
+            <version>3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-product-search-lucene</artifactId>
+            <version>3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-product-search-es</artifactId>
+            <version>3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-product-search-opensearch</artifactId>
+            <version>3.0</version>
+        </dependency>
 
     </dependencies>
 

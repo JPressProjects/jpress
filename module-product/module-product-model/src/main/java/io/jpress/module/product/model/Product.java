@@ -166,4 +166,19 @@ public class Product extends BaseProduct<Product> {
     }
 
 
+    public String getHighlightContent() {
+        return getStr("highlightContent");
+    }
+
+    public void setHighlightContent(String highlightContent) {
+        put("highlightContent", highlightContent);
+    }
+
+    public String getHighlightTitle() {
+        return getStr("highlightTitle");
+    }
+
+    public void setHighlightTitle(String highlightTitle) {
+        put("highlightTitle", highlightTitle);
+    }
 }

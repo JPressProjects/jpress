@@ -45,6 +45,12 @@ public class PermissionKits {
         return service.hasPermission(user.getId(), permissionId);
     }
 
+    public static boolean hasPermission(String actionKey) {
+        PermissionService service = Aop.get(PermissionService.class);
+        User user = UserInterceptor.getThreadLocalUser();
+        return service.hasPermission(user.getId(), actionKey);
+    }
+
 
     public static final boolean hasRole(long userId, long roleId) {
         RoleService roleService = Aop.get(RoleService.class);

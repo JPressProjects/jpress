@@ -434,8 +434,8 @@ public class InstallController extends ControllerBase {
         DataSourceConfig config = InstallManager.me().getDataSourceConfig();
 
         // 在只有 jboot.properties 但是没有 install.lock 的情况下
-        // jboot启动的时候会出初始化 jboot.properties 里配置的插件
-        // 此时，会出现 Config already exist 的异常
+        // jboot 启动的时候会出初始化 jboot.properties 里配置的插件
+        // 此时，会出现 config already exist 的异常
         if (DbKit.getConfig(DataSourceConfig.NAME_DEFAULT) == null) {
             config.setName(DataSourceConfig.NAME_DEFAULT);
         } else {
@@ -444,8 +444,8 @@ public class InstallController extends ControllerBase {
 
         DataSourceConfigManager.me().addConfig(config);
 
-        ActiveRecordPlugin activeRecordPlugin = ArpManager.me().createRecordPlugin(config);
-        activeRecordPlugin.start();
+        ActiveRecordPlugin arPlugin = ArpManager.me().createRecordPlugin(config);
+        arPlugin.start();
     }
 
 

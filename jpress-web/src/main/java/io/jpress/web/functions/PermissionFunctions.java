@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.sharekit;
+package io.jpress.web.functions;
 
 import com.jfinal.aop.Aop;
 import io.jpress.model.Member;
@@ -33,7 +33,7 @@ import java.util.List;
  * @Package io.jpress.core.web.sharekit
  */
 
-public class PermissionKits {
+public class PermissionFunctions {
 
     public static boolean hasPermission(Role role, long permissionId) {
         RoleService service = Aop.get(RoleService.class);
@@ -42,13 +42,13 @@ public class PermissionKits {
 
     public static boolean hasPermission(User user, long permissionId) {
         PermissionService service = Aop.get(PermissionService.class);
-        return service.hasPermission(user.getId(), permissionId);
+        return user != null && user.isStatusOk() && service.hasPermission(user.getId(), permissionId);
     }
 
     public static boolean hasPermission(String actionKey) {
         PermissionService service = Aop.get(PermissionService.class);
         User user = UserInterceptor.getThreadLocalUser();
-        return service.hasPermission(user.getId(), actionKey);
+        return user != null && user.isStatusOk() && service.hasPermission(user.getId(), actionKey);
     }
 
 
@@ -60,7 +60,7 @@ public class PermissionKits {
     public static final boolean hasRole(long roleId) {
         User user = UserInterceptor.getThreadLocalUser();
         RoleService roleService = Aop.get(RoleService.class);
-        return roleService.hasRole(user.getId(), roleId);
+        return user != null && user.isStatusOk() && roleService.hasRole(user.getId(), roleId);
     }
 
     public static final boolean hasRole(String roleFlag) {
@@ -77,13 +77,13 @@ public class PermissionKits {
     public static final boolean isSupperAdmin() {
         User user = UserInterceptor.getThreadLocalUser();
         RoleService roleService = Aop.get(RoleService.class);
-        return roleService.isSupperAdmin(user.getId());
+        return user != null && user.isStatusOk() && roleService.isSupperAdmin(user.getId());
     }
 
     public boolean hasMember(String... memberFlags) {
 
         User user = UserInterceptor.getThreadLocalUser();
-        if (user == null) {
+        if (user == null || !user.isStatusOk()) {
             return false;
         }
 
@@ -117,7 +117,7 @@ public class PermissionKits {
     public boolean hasAnyMember(String... memberFlags) {
 
         User user = UserInterceptor.getThreadLocalUser();
-        if (user == null) {
+        if (user == null || !user.isStatusOk()) {
             return false;
         }
 

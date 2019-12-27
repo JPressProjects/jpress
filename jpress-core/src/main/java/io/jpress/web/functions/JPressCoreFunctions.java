@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web;
+package io.jpress.web.functions;
 
 import com.google.common.collect.Lists;
 import io.jboot.utils.StrUtil;
@@ -32,7 +32,7 @@ import java.util.List;
  * @version V1.0
  * @Package io.jpress.core.web.sharekit
  */
-public class JPressShareFunctions {
+public class JPressCoreFunctions {
 
     public static String escape(String html) {
         if (html == null || html.trim().length() == 0) {

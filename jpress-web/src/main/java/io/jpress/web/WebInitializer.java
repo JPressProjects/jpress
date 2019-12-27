@@ -20,7 +20,7 @@ import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.PaymentManager;
 import io.jpress.web.commons.finance.*;
-import io.jpress.web.sharekit.PermissionKits;
+import io.jpress.web.functions.PermissionFunctions;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -41,7 +41,7 @@ public class WebInitializer extends JbootAppListenerBase {
         engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
         engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout_noleft.html");
 
-        engine.addSharedStaticMethod(PermissionKits.class);
+        engine.addSharedStaticMethod(PermissionFunctions.class);
     }
 
 

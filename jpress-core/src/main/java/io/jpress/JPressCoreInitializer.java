@@ -32,8 +32,8 @@ import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.support.ehcache.EhcacheManager;
 import io.jpress.core.wechat.WechatAddonManager;
-import io.jpress.web.JPressShareFunctions;
 import io.jpress.web.captcha.JPressCaptchaCache;
+import io.jpress.web.functions.JPressCoreFunctions;
 import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.JPressInterceptor;
 import io.jpress.web.interceptor.UTMInterceptor;
@@ -98,7 +98,7 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
 
     @Override
     public void onEngineConfig(Engine engine) {
-        engine.addSharedStaticMethod(JPressShareFunctions.class);
+        engine.addSharedStaticMethod(JPressCoreFunctions.class);
     }
 
     @Override

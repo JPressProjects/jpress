@@ -68,6 +68,8 @@ public class _UserInfoController extends AdminControllerBase {
 
     @Inject
     private CouponCodeService couponCodeService;
+    @Inject
+    private UserOrderService orderService;
 
 
     public void index() {
@@ -209,6 +211,14 @@ public class _UserInfoController extends AdminControllerBase {
         List<CouponCode> renderList = couponCodeService.findAvailableByUserId(user.getId());
         setAttr("couponCodeList",renderList);
         render("user/detail_coupon.html");
+    }
+    public void order(){
+        Long uid = getParaToLong();
+        User user = userService.findById(uid);
+        setAttr("user", user);
+        Page<UserOrder> userOrderPage = orderService.paginateByUserId(getPagePara(), 10, user.getId(), getPara("title"), getPara("ns"));
+        setAttr("userOrderPage", userOrderPage);
+        render("user/detail_order.html");
     }
 
 }

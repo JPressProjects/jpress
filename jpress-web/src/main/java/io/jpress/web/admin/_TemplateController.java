@@ -37,8 +37,8 @@ import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
 import io.jpress.service.RoleService;
 import io.jpress.service.UserService;
-import io.jpress.web.JPressCoreFunctions;
 import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.functions.JPressCoreFunctions;
 import io.jpress.web.render.TemplateRender;
 import org.apache.commons.io.FileUtils;
 

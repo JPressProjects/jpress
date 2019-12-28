@@ -266,7 +266,12 @@ public class CheckoutController extends UcenterControllerBase {
 
 
         if (userOrder.getCouponAmount() != null) {
-            orderTotalAmount = orderTotalAmount.subtract(userOrder.getCouponAmount());
+            //优惠劵大于 订单金额会导致 负数
+            if (orderTotalAmount.compareTo(userOrder.getCouponAmount()) <0){
+                orderTotalAmount = new BigDecimal(0);
+            }else {
+                orderTotalAmount = orderTotalAmount.subtract(userOrder.getCouponAmount());
+            }
         }
 
 

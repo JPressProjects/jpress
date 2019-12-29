@@ -72,8 +72,14 @@ public class PayController extends TemplateControllerBase {
     public void wechat() {
 
         //微信浏览器
-        if (isWechatBrowser()){
-            redirect("/pay/wechatjs/"+getPara());
+        if (isWechatBrowser()) {
+            redirect("/pay/wechatjs/" + getPara());
+            return;
+        }
+
+        //手机浏览器
+        if (isMobileBrowser()) {
+            redirect("/pay/wechath5/" + getPara());
             return;
         }
 
@@ -83,7 +89,7 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
-        if (payment.isPaySuccess()){
+        if (payment.isPaySuccess()) {
             redirect("/pay/success/" + payment.getTrxNo());
             return;
         }
@@ -107,16 +113,55 @@ public class PayController extends TemplateControllerBase {
         PrePayNotifytKit.notify(payment, getLoginedUser());
     }
 
+    public void wechath5() {
+
+        if (!isMobileBrowser()) {
+            redirect("/pay/wechat/" + getPara());
+            return;
+        }
+
+        PayService service = PayConfigUtil.getWxPayService();
+        render404If(service == null);
+
+        PaymentRecord payment = paymentService.findByTrxNo(getPara());
+        render404If(payment == null);
+
+        if (payment.isPaySuccess()) {
+            redirect("/pay/success/" + payment.getTrxNo());
+            return;
+        }
+
+        setAttr("payment", payment);
+
+        PayOrder order = createPayOrder(payment);
+
+        // h5 支付
+        order.setTransactionType(WxTransactionType.MWEB);
+
+        //获取支付订单信息
+        Map orderInfo = service.orderInfo(order);
+
+        //组装成html表单信息
+        renderHtml(service.buildRequest(orderInfo, MethodType.POST));
+
+        PrePayNotifytKit.notify(payment, getLoginedUser());
+    }
+
 
     /**
      * 在微信浏览器里进行支付
      */
     public void wechatjs() {
 
+        if (!isWechatBrowser()) {
+            redirect("/pay/wechat/" + getPara());
+            return;
+        }
+
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
-        if (payment.isPaySuccess()){
+        if (payment.isPaySuccess()) {
             redirect("/pay/success/" + payment.getTrxNo());
             return;
         }
@@ -125,8 +170,8 @@ public class PayController extends TemplateControllerBase {
 
         UserOpenidService openidService = Aop.get(UserOpenidService.class);
         UserOpenid userOpenid = openidService.findByUserIdAndType(getLoginedUser().getId(), UserOpenid.TYPE_WECHAT);
-        if (userOpenid != null){
-            setAttr("openId",userOpenid.getValue());
+        if (userOpenid != null) {
+            setAttr("openId", userOpenid.getValue());
         }
         // 没有 openId 的情况下，先进行授权获取
         else {
@@ -206,7 +251,7 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
-        if (payment.isPaySuccess()){
+        if (payment.isPaySuccess()) {
             redirect("/pay/success/" + payment.getTrxNo());
             return;
         }
@@ -242,7 +287,7 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
-        if (payment.isPaySuccess()){
+        if (payment.isPaySuccess()) {
             redirect("/pay/success/" + payment.getTrxNo());
             return;
         }
@@ -296,7 +341,7 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
-        if (payment.isPaySuccess()){
+        if (payment.isPaySuccess()) {
             redirect("/pay/success/" + payment.getTrxNo());
             return;
         }
@@ -325,7 +370,7 @@ public class PayController extends TemplateControllerBase {
                 || PaymentRecord.TRX_TYPE_RECHARGE.equals(payment.getTrxType()));
 
 
-        if (payment.isPaySuccess()){
+        if (payment.isPaySuccess()) {
             redirect("/pay/success/" + payment.getTrxNo());
             return;
         }
@@ -589,7 +634,7 @@ public class PayController extends TemplateControllerBase {
     /**
      * 支付错误页面，一般情况下后台为做正确的配置
      */
-    public void error(){
+    public void error() {
         render("pay_error.html", DEFAULT_ERROR_VIEW);
     }
 
@@ -619,7 +664,7 @@ public class PayController extends TemplateControllerBase {
         return payOrder;
     }
 
-    private String tryTrim(String string){
+    private String tryTrim(String string) {
         return string == null ? null : string.trim();
     }
 

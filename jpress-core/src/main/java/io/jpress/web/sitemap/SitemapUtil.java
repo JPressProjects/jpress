@@ -25,7 +25,9 @@ public class SitemapUtil {
     private static ThreadLocal<SimpleDateFormat> formats =ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
 
     public static final String date2str(Date date){
-        if (date == null) return null;
+        if (date == null) {
+            return null;
+        }
         return formats.get().format(date);
     }
 

@@ -52,7 +52,9 @@ public class JPressJson extends JFinalJson {
      * @param map
      */
     private void roptimizeMapAttrs(Map map) {
-        if (map == null) return;
+        if (map == null) {
+            return;
+        }
         String resDomain = JPressOptions.getResDomain();
         Iterator iter = map.entrySet().iterator();
         while (iter.hasNext()) {

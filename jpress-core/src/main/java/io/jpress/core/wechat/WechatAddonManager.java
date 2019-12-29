@@ -134,7 +134,9 @@ public class WechatAddonManager implements JbootEventListener {
         }
 
         WechatAddonInfo addon = allWechatAddons.get(id);
-        if (addon != null) enableWechatAddons.put(id,addon);
+        if (addon != null) {
+            enableWechatAddons.put(id,addon);
+        }
     }
 
     public boolean isEnable(String id) {

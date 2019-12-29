@@ -100,7 +100,9 @@ public class ElasticSearcher implements ProductSearcher {
         CreateIndexRequest request = new CreateIndexRequest(index);
         try {
             CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
-            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
+            if (LogKit.isDebugEnabled()) {
+                LogKit.debug(response.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,7 +127,9 @@ public class ElasticSearcher implements ProductSearcher {
         indexRequest.source(product.toJson(), XContentType.JSON);
         try {
             IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
-            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
+            if (LogKit.isDebugEnabled()) {
+                LogKit.debug(response.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,7 +141,9 @@ public class ElasticSearcher implements ProductSearcher {
         DeleteRequest request = new DeleteRequest(index, type, id.toString());
         try {
             DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
-            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
+            if (LogKit.isDebugEnabled()) {
+                LogKit.debug(response.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,7 +159,9 @@ public class ElasticSearcher implements ProductSearcher {
 
         try {
             UpdateResponse response = client.update(updateRequest, RequestOptions.DEFAULT);
-            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
+            if (LogKit.isDebugEnabled()) {
+                LogKit.debug(response.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

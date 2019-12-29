@@ -27,7 +27,9 @@ public class RenderList<E> extends ArrayList<E> {
 
     @Override
     public E get(int index) {
-        if (index >= size()) return null;
+        if (index >= size()) {
+            return null;
+        }
         return super.get(index);
     }
 }

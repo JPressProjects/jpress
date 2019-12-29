@@ -31,6 +31,7 @@ public class JPressInterceptor implements Interceptor {
     public static final String ADDON_PATH_KEY = "APATH";
     private static final String ADDON_PATH_VALUE = "";
 
+    @Override
     public void intercept(Invocation inv) {
 
         Controller controller = inv.getController();

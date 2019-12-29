@@ -45,6 +45,7 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
     private SortModel parent;
     private List<SortModel> childs;
 
+    @Override
     public boolean isTop() {
         return getPid() != null && getPid() == 0;
     }
@@ -104,10 +105,11 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < layerNumber; i++) {
-            if (i == 0)
+            if (i == 0) {
                 sb.append("|—");
-            else
+            } else {
                 sb.append("—");
+            }
         }
         return sb.toString();
     }
@@ -128,7 +130,9 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
 
             if (category.getChilds() != null) {
                 boolean isChild = isMyChild(category.getChilds(), id);
-                if (isChild) return true;
+                if (isChild) {
+                    return true;
+                }
             }
         }
         return false;

@@ -153,7 +153,9 @@ public class OauthController extends Oauth2Controller {
 
     private OauthConnector createDingdingConnector() {
         boolean enable = JPressOptions.getAsBool("login_dingding_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_dingding_appkey");
         String appsecret = JPressOptions.get("login_dingding_appsecret");
@@ -162,7 +164,9 @@ public class OauthController extends Oauth2Controller {
 
     private OauthConnector createGiteeConnector() {
         boolean enable = JPressOptions.getAsBool("login_gitee_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_gitee_appkey");
         String appsecret = JPressOptions.get("login_gitee_appsecret");
@@ -171,7 +175,9 @@ public class OauthController extends Oauth2Controller {
 
     private OauthConnector createGithubConnector() {
         boolean enable = JPressOptions.getAsBool("login_github_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_github_appkey");
         String appsecret = JPressOptions.get("login_github_appsecret");
@@ -180,7 +186,9 @@ public class OauthController extends Oauth2Controller {
 
     private OauthConnector createWeiboConnector() {
         boolean enable = JPressOptions.getAsBool("login_weibo_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_weibo_appkey");
         String appsecret = JPressOptions.get("login_weibo_appsecret");
@@ -190,7 +198,9 @@ public class OauthController extends Oauth2Controller {
 
     private OauthConnector createQQConnector() {
         boolean enable = JPressOptions.getAsBool("login_qq_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_qq_appkey");
         String appsecret = JPressOptions.get("login_qq_appsecret");
@@ -199,7 +209,9 @@ public class OauthController extends Oauth2Controller {
 
     private OauthConnector createWechatConnector() {
         boolean enable = JPressOptions.getAsBool("login_wechat_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_wechat_appkey");
         String appsecret = JPressOptions.get("login_wechat_appsecret");

@@ -114,7 +114,7 @@ public class _ProductTagController extends AdminControllerBase {
             displayMenu.setRelativeId((Long) id);
 
             if (displayMenu.getPid() == null) {
-                displayMenu.setPid(0l);
+                displayMenu.setPid(0L);
             }
 
             if (displayMenu.getOrderNumber() == null) {

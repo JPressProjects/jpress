@@ -48,8 +48,9 @@ public class SqlUtils {
                 throw new IllegalArgumentException("id must is numeric");
             }
             b.append(id);
-            if (i == iMax)
+            if (i == iMax) {
                 return b.append(')').toString();
+            }
             b.append(", ");
         }
     }

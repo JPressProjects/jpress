@@ -223,7 +223,9 @@ public class AddonUtil {
         AddonInfo addonInfo = new AddonInfo(addonProp);
         if (addonConfigProp != null) {
             addonConfigProp.forEach((o, o2) -> {
-                if (o != null && o2 != null) addonInfo.addConfig(o.toString(), o2.toString());
+                if (o != null && o2 != null) {
+                    addonInfo.addConfig(o.toString(), o2.toString());
+                }
             });
         }
 

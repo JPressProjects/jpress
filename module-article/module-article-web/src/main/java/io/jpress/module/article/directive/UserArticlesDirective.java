@@ -50,7 +50,9 @@ public class UserArticlesDirective extends JbootDirectiveBase {
             throw new RuntimeException("#userArticles() args is error,userId must not be null." + getLocation());
         }
 
-        if (userId == null) userId = user.getId();
+        if (userId == null) {
+            userId = user.getId();
+        }
 
         String orderBy = getPara("orderBy", scope, "id desc");
         String status = getPara("status", scope, Article.STATUS_NORMAL);

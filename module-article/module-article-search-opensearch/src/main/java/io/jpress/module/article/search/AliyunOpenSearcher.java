@@ -71,7 +71,9 @@ public class AliyunOpenSearcher implements ArticleSearcher {
 
     @Override
     public void addArticle(Article article) {
-        if (autoSync) return;
+        if (autoSync) {
+            return;
+        }
         try {
             String json = Action.addAction(article).toJson();
             OpenSearchResult result = documentClient.push(json, appName, tableName);
@@ -82,7 +84,9 @@ public class AliyunOpenSearcher implements ArticleSearcher {
 
     @Override
     public void deleteArticle(Object id) {
-        if (autoSync) return;
+        if (autoSync) {
+            return;
+        }
         try {
             String json = Action.delAction(id).toJson();
             OpenSearchResult result = documentClient.push(json, appName, tableName);
@@ -93,7 +97,9 @@ public class AliyunOpenSearcher implements ArticleSearcher {
 
     @Override
     public void updateArticle(Article article) {
-        if (autoSync) return;
+        if (autoSync) {
+            return;
+        }
         deleteArticle(article.getId());
         updateArticle(article);
     }

@@ -207,7 +207,9 @@ public class _AttachmentController extends AdminControllerBase {
             try {
                 PosixFileAttributeView posixView = Files.getFileAttributeView(Paths.get(file.toURI()), PosixFileAttributeView.class);
                 PosixFileAttributes attrs = posixView.readAttributes();
-                if (attrs != null) return PosixFilePermissions.toString(attrs.permissions());
+                if (attrs != null) {
+                    return PosixFilePermissions.toString(attrs.permissions());
+                }
             } catch (Exception e) {
                 LogKit.error(e.toString(), e);
             }

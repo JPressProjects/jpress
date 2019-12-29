@@ -299,8 +299,12 @@ public class ImageUtils {
             BufferedImage bi = ImageIO.read(new File(srcImageFile));
             width = Math.min(width, bi.getWidth());
             height = Math.min(height, bi.getHeight());
-            if (width <= 0) width = bi.getWidth();
-            if (height <= 0) height = bi.getHeight();
+            if (width <= 0) {
+                width = bi.getWidth();
+            }
+            if (height <= 0) {
+                height = bi.getHeight();
+            }
 
             left = Math.min(Math.max(0, left), bi.getWidth() - width);
             top = Math.min(Math.max(0, top), bi.getHeight() - height);

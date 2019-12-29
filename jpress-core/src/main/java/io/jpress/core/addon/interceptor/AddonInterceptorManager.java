@@ -35,8 +35,9 @@ public class AddonInterceptorManager {
             Interceptor[] temp = new Interceptor[interceptorClasses.size()];
             int index = 0;
             Iterator<Class<? extends Interceptor>> iterator = interceptorClasses.iterator();
-            while (iterator.hasNext()) temp[index++] = ClassUtil.newInstance(iterator.next());
-
+            while (iterator.hasNext()) {
+                temp[index++] = ClassUtil.newInstance(iterator.next());
+            }
             interceptors = temp;
         }
     }

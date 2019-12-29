@@ -68,6 +68,7 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
     }
 
 
+    @Override
     public void intercept(Invocation inv) {
 
         Controller controller = inv.getController();

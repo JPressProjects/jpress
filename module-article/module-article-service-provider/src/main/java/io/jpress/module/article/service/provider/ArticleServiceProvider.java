@@ -183,7 +183,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         try {
             ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
             Page<Article> page = searcher.search(queryString, pageNum, pageSize);
-            if (page != null) return page;
+            if (page != null) {
+                return page;
+            }
         } catch (Exception ex) {
             LogKit.error(ex.toString(), ex);
         }

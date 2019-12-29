@@ -47,6 +47,7 @@ public class WechatMenu extends BaseWechatMenu<WechatMenu> implements SortModel 
     private SortModel parent;
     private List<SortModel> childs;
 
+    @Override
     public boolean isTop() {
         return getPid() != null && getPid() == 0;
     }
@@ -106,10 +107,11 @@ public class WechatMenu extends BaseWechatMenu<WechatMenu> implements SortModel 
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < layerNumber; i++) {
-            if (i == 0)
+            if (i == 0) {
                 sb.append("|—");
-            else
+            } else {
                 sb.append("—");
+            }
         }
         return sb.toString();
     }

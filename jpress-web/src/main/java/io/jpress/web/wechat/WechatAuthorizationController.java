@@ -176,8 +176,9 @@ public class WechatAuthorizationController extends ControllerBase {
             e.printStackTrace();
         }
 
-        if (jsonResult == null)
+        if (jsonResult == null) {
             return null;
+        }
 
         return new ApiResult(jsonResult);
     }

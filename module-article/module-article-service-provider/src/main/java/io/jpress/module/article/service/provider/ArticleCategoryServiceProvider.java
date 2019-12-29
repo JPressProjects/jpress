@@ -210,8 +210,9 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     @Override
     public Long[] findCategoryIdsByArticleId(long articleId) {
         List<Record> records = Db.find("select * from article_category_mapping where article_id = ?", articleId);
-        if (records == null || records.isEmpty())
+        if (records == null || records.isEmpty()) {
             return null;
+        }
 
         return ArrayUtils.toObject(records.stream().mapToLong(record -> record.get("category_id")).toArray());
     }

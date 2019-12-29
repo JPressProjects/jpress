@@ -14,7 +14,9 @@ public class StrSplit extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         String orginalStr = getPara(0, scope);
-        if (StrUtil.isBlank(orginalStr)) return;
+        if (StrUtil.isBlank(orginalStr)) {
+            return;
+        }
 
         String splitStr = getPara(1, scope, ",");
         Set<String> strs = StrUtil.splitToSet(orginalStr,splitStr);

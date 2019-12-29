@@ -126,7 +126,9 @@ public class ArticleFields {
     }
 
     public void removeField(String id) {
-        if (StrUtil.isBlank(id)) return;
+        if (StrUtil.isBlank(id)) {
+            return;
+        }
         fields.removeIf(field -> id.equals(field.getId()));
         fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
     }
@@ -139,7 +141,9 @@ public class ArticleFields {
         StringBuilder s = new StringBuilder();
         for (SmartField field : fields) {
             String html = field.render();
-            if (html != null) s.append(html);
+            if (html != null) {
+                s.append(html);
+            }
         }
         return s.toString();
     }

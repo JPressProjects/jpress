@@ -60,13 +60,17 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
 
     public Integer getIntOption(String key) {
         String option = getOption(key);
-        if (StrUtil.isBlank(option)) return null;
+        if (StrUtil.isBlank(option)) {
+            return null;
+        }
         return Integer.valueOf(option);
     }
 
     public int getIntOption(String key, int defaultValue) {
         String option = getOption(key);
-        if (StrUtil.isBlank(option)) return defaultValue;
+        if (StrUtil.isBlank(option)) {
+            return defaultValue;
+        }
         return Integer.valueOf(option);
     }
 
@@ -136,7 +140,9 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
 
 
     public String getShowContent() {
-        if (!isJson()) return getContent();
+        if (!isJson()) {
+            return getContent();
+        }
 
         if (isTextType()) {
             return getText();

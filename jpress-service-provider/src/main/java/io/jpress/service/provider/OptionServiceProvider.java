@@ -69,14 +69,18 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
     @Override
     public boolean deleteById(Object id) {
         Option option = findById(id);
-        if (option == null) return true;
+        if (option == null) {
+            return true;
+        }
         return delete(option);
     }
 
     @Override
     public boolean deleteByKey(String key) {
         Option option = DAO.findFirstByColumn("key", key);
-        if (option == null) return true;
+        if (option == null) {
+            return true;
+        }
 
         return deleteById(option.getId());
     }

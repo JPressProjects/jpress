@@ -71,8 +71,9 @@ public class TemplateManager {
                 File[] files = file.listFiles();
                 if (null != files && files.length > 0) {
                     for (File f : files) {
-                        if (f.isDirectory())
+                        if (f.isDirectory()) {
                             scanTemplateFloders(f, list);
+                        }
                     }
                 }
             }
@@ -86,7 +87,9 @@ public class TemplateManager {
             return null;
         }
         for (Template template : templates) {
-            if (id.equals(template.getId())) return template;
+            if (id.equals(template.getId())) {
+                return template;
+            }
         }
         return null;
     }

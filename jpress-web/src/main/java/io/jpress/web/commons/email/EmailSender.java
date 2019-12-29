@@ -41,11 +41,13 @@ public class EmailSender {
      */
     public static void sendForUserActivate(User user) {
         boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
-        if (emailValidate == false)
+        if (emailValidate == false) {
             return;
+        }
 
-        if (StrUtil.isBlank(user.getEmail()))
+        if (StrUtil.isBlank(user.getEmail())) {
             return;
+        }
 
         AuthCode authCode = AuthCode.newCode(user.getId());
         AuthCodeKit.save(authCode);
@@ -86,7 +88,9 @@ public class EmailSender {
         String url = webDomain + "/user/emailactivate?id=" + authCode.getId();
 
         String webName = JPressOptions.get(JPressConsts.ATTR_WEB_NAME);
-        if (webName == null) webName = "";
+        if (webName == null) {
+            webName = "";
+        }
 
         String title = webName + "邮件激活";
         String content = "邮箱激活网址：<a href=\"" + url + "\">" + url + "</a>";

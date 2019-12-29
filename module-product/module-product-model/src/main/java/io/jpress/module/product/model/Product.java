@@ -78,7 +78,9 @@ public class Product extends BaseProduct<Product> {
         }
 
         List<String> newList = new ArrayList<>();
-        for (int i = 0; 0 < count; i++) newList.add(list.get(i));
+        for (int i = 0; 0 < count; i++) {
+            newList.add(list.get(i));
+        }
         return newList;
     }
 

@@ -73,7 +73,9 @@ public class MarkdownUtils {
      * @return html文本
      */
     public static String toHtml(String markdown) {
-        if (StrUtil.isBlank(markdown)) return markdown;
+        if (StrUtil.isBlank(markdown)) {
+            return markdown;
+        }
         Node document = PARSER.parse(markdown);
         return RENDERER.render(document);
     }

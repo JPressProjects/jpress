@@ -87,7 +87,9 @@ public class EhcacheManager {
                 return parent.loadClass(name);
             }
             ClassLoader c = classLoaderCache.get(name);
-            if (c == null) c = parent;
+            if (c == null) {
+                c = parent;
+            }
             return c.loadClass(name);
         }
     }

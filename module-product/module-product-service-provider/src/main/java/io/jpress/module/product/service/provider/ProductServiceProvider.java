@@ -317,7 +317,9 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
         try {
             ProductSearcher searcher = ProductSearcherFactory.getSearcher();
             Page<Product> page = searcher.search(queryString, pageNum, pageSize);
-            if (page != null) return page;
+            if (page != null) {
+                return page;
+            }
         } catch (Exception ex) {
             LogKit.error(ex.toString(), ex);
         }

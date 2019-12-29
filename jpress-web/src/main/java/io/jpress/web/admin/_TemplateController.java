@@ -413,7 +413,7 @@ public class _TemplateController extends AdminControllerBase {
         List<Menu> childMenus = ms.findListByParentId(id);
         if (childMenus != null) {
             for (Menu menu : childMenus) {
-                menu.setPid(0l);
+                menu.setPid(0L);
                 ms.update(menu);
             }
         }

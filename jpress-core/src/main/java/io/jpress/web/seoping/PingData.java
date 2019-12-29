@@ -30,7 +30,9 @@ public class PingData {
 
     public static PingData create(String... data) {
         PingData d = create();
-        for (String s : data) d.add(s);
+        for (String s : data) {
+            d.add(s);
+        }
         return d;
     }
 

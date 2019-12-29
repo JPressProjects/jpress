@@ -44,6 +44,7 @@ public class AdminInterceptor implements Interceptor {
     private RoleService roleService;
 
 
+    @Override
     public void intercept(Invocation inv) {
 
         if (JPressHandler.getCurrentTarget().equals(JPressConfig.me.getAdminLoginPage())) {

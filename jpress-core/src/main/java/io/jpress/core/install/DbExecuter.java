@@ -84,10 +84,11 @@ public class DbExecuter {
                 throw new SQLException("sql is null or empty");
             }
             if (batchSql.contains(";")) {
-                String sqls[] = batchSql.split(";");
+                String[] sqls = batchSql.split(";");
                 for (String sql : sqls) {
-                    if (null != sql && !"".equals(sql.trim()))
+                    if (StrUtil.isNotBlank(sql)) {
                         pst.addBatch(sql);
+                    }
                 }
             } else {
                 pst.addBatch(batchSql);

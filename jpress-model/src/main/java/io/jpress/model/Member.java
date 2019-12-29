@@ -21,7 +21,7 @@ public class Member extends BaseMember<Member> {
     public static final Map<String, String> sourceTexts = new HashMap<>();
 
     static {
-        sourceTexts.put(SOURCE_BUY, "用户自主购买");
+        sourceTexts.put(SOURCE_BUY, "自主购买");
         sourceTexts.put(SOURCE_FREE, "免费赠送");
         sourceTexts.put(SOURCE_OTHER, "其他方式");
     }

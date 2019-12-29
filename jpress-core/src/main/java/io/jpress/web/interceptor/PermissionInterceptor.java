@@ -28,7 +28,6 @@ import io.jpress.service.PermissionService;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: 管理后台的拦截器
- * @Package io.jpress.web
  */
 public class PermissionInterceptor implements Interceptor {
 

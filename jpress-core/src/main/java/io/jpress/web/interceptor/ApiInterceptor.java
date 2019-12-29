@@ -46,7 +46,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
     /**
      * api 的有效时间，默认为 10 分钟
      */
-    private static final long timeout = 10 * 60 * 1000;
+    private static final long TIMEOUT = 10 * 60 * 1000;
 
     public ApiInterceptor() {
         JPressOptions.addListener(this);
@@ -108,7 +108,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         }
 
         // 时间验证，可以防止重放攻击
-        if (Math.abs(System.currentTimeMillis() - time) > timeout) {
+        if (Math.abs(System.currentTimeMillis() - time) > TIMEOUT) {
             controller.renderJson(Ret.fail("message", "请求超时，请重新请求。"));
             return;
         }

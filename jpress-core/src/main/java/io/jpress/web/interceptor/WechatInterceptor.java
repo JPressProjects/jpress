@@ -31,16 +31,9 @@ import javax.servlet.http.HttpServletRequest;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: 微信获取用户相关的拦截器
- * @Package io.jpress.web.handler
  */
 
 public class WechatInterceptor implements Interceptor, JPressOptions.OptionChangeListener {
-
-    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
-
-    public static String getCurrentTarget() {
-        return threadLocal.get();
-    }
 
     /**
      * 是否启用微信拦截

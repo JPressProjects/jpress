@@ -6,7 +6,6 @@ import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserOrderItem;
 import org.apache.commons.lang.time.DateUtils;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +57,7 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
             return true;
         }
 
-        return DateUtils.addSeconds(getCreated(), getViewEffectiveTime().intValue()).getTime() > new Date().getTime();
+        return DateUtils.addSeconds(getCreated(), getViewEffectiveTime().intValue()).getTime() > System.currentTimeMillis();
     }
 
     public boolean isFinished() {

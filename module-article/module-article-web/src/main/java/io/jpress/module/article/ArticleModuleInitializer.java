@@ -18,7 +18,6 @@ package io.jpress.module.article;
 import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
-import io.jboot.Jboot;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
@@ -46,7 +45,7 @@ public class ArticleModuleInitializer extends JbootAppListenerBase implements Mo
         List<Article> articles = Aop.get(ArticleService.class).findListByColumns(Columns.create().eq("status", Article.STATUS_NORMAL), "id desc", 10);
         controller.setAttr("articles", articles);
 
-        ArticleCommentService commentService = Jboot.bean(ArticleCommentService.class);
+        ArticleCommentService commentService = Aop.get(ArticleCommentService.class);
         List<ArticleComment> articleComments = commentService.findListByColumns(Columns.create().ne("status", ArticleComment.STATUS_TRASH), "id desc", 10);
         controller.setAttr("articleComments", articleComments);
 

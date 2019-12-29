@@ -26,7 +26,6 @@ import io.jboot.utils.StrUtil;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: 用于预防 csrf 攻击的拦截器
- * @Package io.jpress.web
  * <p>
  * 备注：此拦截器只对 do 开头的方法进行拦截。例如：127.0.0.1/user/doDel?id=xxx
  */

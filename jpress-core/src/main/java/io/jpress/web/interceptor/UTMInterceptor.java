@@ -32,7 +32,6 @@ import io.jpress.service.UtmService;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: utm拦截器
- * @Package io.jpress.web
  */
 public class UTMInterceptor implements Interceptor {
 

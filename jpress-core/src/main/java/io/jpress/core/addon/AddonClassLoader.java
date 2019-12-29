@@ -165,7 +165,7 @@ public class AddonClassLoader extends URLClassLoader {
         return false;
     }
 
-    static final List supportNativeSuffixes = Lists.newArrayList(".so", ".dylib", ".dll");
+    static final List SUPPORT_NATIVE_SUFFIXES = Lists.newArrayList(".so", ".dylib", ".dll");
 
     @Override
     public InputStream getResourceAsStream(String name) {
@@ -173,7 +173,7 @@ public class AddonClassLoader extends URLClassLoader {
         int dotLastIndex = name.lastIndexOf(".");
         if (dotLastIndex > -1) {
             String suffix = name.substring(dotLastIndex);
-            boolean isSupport = supportNativeSuffixes.contains(suffix);
+            boolean isSupport = SUPPORT_NATIVE_SUFFIXES.contains(suffix);
             if (superStream == null && isSupport) {
                 try {
                     ZipEntry zipEntry = new ZipEntry(name);

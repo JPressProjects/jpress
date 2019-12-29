@@ -312,7 +312,7 @@ public class HtmlToJson {
     private void processPreOl(Element element, JSONObject olNode) {
         String html = element.html();
         //拿到的代码需要按行分割字符串
-        String lines[] = html.split(System.lineSeparator());
+        String[] lines = html.split(System.lineSeparator());
         //没有数据就put空list
         if (lines != null && lines.length > 0) {
             int size = lines.length;

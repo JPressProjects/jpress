@@ -27,7 +27,6 @@ import java.util.List;
  * @version V1.0
  * @Title: 用户中心的拦截器，用户中心要求用户必须登录
  * 该拦截器应该放在 UserInterceptor 之后执行
- * @Package io.jpress.web
  */
 public class UserCenterInterceptor implements Interceptor {
 

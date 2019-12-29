@@ -295,7 +295,7 @@ public class AddonUtil {
             pst = conn.createStatement();
             sql = StrUtil.requireNonBlank(sql, "sql must not be null or blank.");
             if (sql.contains(";")) {
-                String sqls[] = sql.split(";");
+                String[] sqls = sql.split(";");
                 for (String s : sqls) {
                     if (StrUtil.isNotBlank(s)) {
                         pst.addBatch(s);

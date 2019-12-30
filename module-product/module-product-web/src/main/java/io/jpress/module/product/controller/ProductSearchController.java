@@ -24,7 +24,7 @@ public class ProductSearchController extends TemplateControllerBase {
         setAttr("page", page);
 
         setMenuActive(menu -> menu.isUrlStartWidth("/product/search"));
-        render("prdsearch.html");
+        render("prosearch.html");
     }
 
 }

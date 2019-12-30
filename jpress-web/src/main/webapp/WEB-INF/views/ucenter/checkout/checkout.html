@@ -10,7 +10,7 @@
         var itemId = $(this).attr("data-value");
         var that = $(this);
 
-        ajaxPost('/ucenter/cart/addcount', {id: itemId}, function (ret) {
+        ajaxPost('#(CPATH)/ucenter/cart/addcount', {id: itemId}, function (ret) {
             var input = that.prev();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -27,7 +27,7 @@
     $(".subtract").on("click", function () {
         var itemId = $(this).attr("data-value");
         var that = $(this);
-        ajaxPost('/ucenter/cart/subtractcount', {id: itemId}, function (ret) {
+        ajaxPost('#(CPATH)/ucenter/cart/subtractcount', {id: itemId}, function (ret) {
             var input = that.next();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -46,7 +46,7 @@
 
         var row = btn.parent().parent().parent("tr").prevAll().length + 1;
         var col = btn.parent().parent().prevAll().length;
-        //
+
         // var price = parseFloat(getTableContent(row, col - 1));
         // var totalPrice = price * val;
 

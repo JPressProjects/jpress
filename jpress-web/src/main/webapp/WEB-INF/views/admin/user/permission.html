@@ -4,8 +4,7 @@
 <script>
 
     $("#sync").on("click", function () {
-        ajaxGet(
-            "#(CPATH)/admin/permission/syncPermissions",
+        ajaxGet("#(CPATH)/admin/permission/syncPermissions",
             function (result) {
                 toastr.options.onHidden = function () {
                     location.reload();

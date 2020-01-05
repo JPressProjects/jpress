@@ -32,6 +32,9 @@ import java.util.Set;
 /**
  * @author michael yang (fuhai999@gmail.com)
  * @Date: 2020/1/5
+ *
+ * https://github.com/aijingsun6/sensitive-words-filter
+ *
  */
 public class DfaUtil {
 

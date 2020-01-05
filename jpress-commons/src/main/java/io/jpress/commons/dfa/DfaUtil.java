@@ -18,6 +18,9 @@ package io.jpress.commons.dfa;
 import com.jfinal.kit.PathKit;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
+import io.jpress.commons.dfa.algorithm.DFAConfig;
+import io.jpress.commons.dfa.algorithm.DFAFilter;
+import io.jpress.commons.dfa.algorithm.DFAMatch;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -32,12 +35,21 @@ import java.util.Set;
  */
 public class DfaUtil {
 
-    private static DfaFilter sysFilter = new DfaFilter();
+    private static DFAConfig config = new DFAConfig.Builder()
+            .setIgnoreCase(true)
+            .setSupportPinyin(true)
+            .setSupportStopWord(true)
+            .setSupportDbc(true)
+            .setStopWord("、,.。￥$%*&!@#-| ")
+            .build();
+
+    private static DFAFilter sysFilter = new DFAFilter(config);
 
     private static String dynamicFilterTexts;
-    private static DfaFilter dynamicFilter;
+    private static DFAFilter dynamicFilter;
 
     static {
+
         File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(), "WEB-INF/other/sys_sensitive_words.txt");
         try {
             List<String> lines = FileUtils.readLines(sysSensitiveWordsFile, "utf-8");
@@ -45,7 +57,7 @@ public class DfaUtil {
                 if (line.startsWith("--")) {
                     continue;
                 }
-                sysFilter.put(line);
+                sysFilter.putWord(line, 1);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,24 +70,40 @@ public class DfaUtil {
         String filterContent = JPressOptions.get("text_filter_content");
 
         if (StrUtil.isNotBlank(filterContent)) {
-            if (!Objects.equals(dynamicFilter, filterContent)) {
-                if (dynamicFilter.contains(content)) {
+            if (!Objects.equals(dynamicFilterTexts, filterContent)) {
+                if (isContainsSensitiveWords(dynamicFilter,content)) {
                     return true;
                 }
             } else {
                 dynamicFilterTexts = filterContent;
-                dynamicFilter = new DfaFilter();
+                DFAConfig config = new DFAConfig.Builder()
+                        .setIgnoreCase(true)
+                        .setSupportPinyin(true)
+                        .setSupportStopWord(true)
+                        .setSupportDbc(true)
+                        .setStopWord("、,.。￥$%*&!@#-| ")
+                        .build();
+                dynamicFilter = new DFAFilter(config);
                 Set<String> filterTexts = StrUtil.splitToSet(dynamicFilterTexts, ",");
                 for (String keyword : filterTexts) {
-                    dynamicFilter.put(keyword);
+                    dynamicFilter.putWord(keyword,1);
                 }
-                if (dynamicFilter.contains(content)) {
+                if (isContainsSensitiveWords(dynamicFilter,content)) {
                     return true;
                 }
             }
         }
 
-        return sysFilter.contains(content);
+        return isContainsSensitiveWords(sysFilter,content);
+    }
+
+    private static boolean isContainsSensitiveWords(DFAFilter filter, String content) {
+        if (filter == null || StrUtil.isBlank(content)) {
+            return false;
+        }
+        List<DFAMatch> ret = filter.matchWord(content);
+        return ret != null && ret.size() > 0;
+
     }
 
 

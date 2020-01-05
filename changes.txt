@@ -1,3 +1,11 @@
+jpress v3.0.2:
+新增：新增基于 DFA 算法的垃圾内容评论、投稿过滤
+新增：#hasMember 和 #hasAnyMember 的模板标签
+修复：修复 hasMember 和 hasAnyMember 指令无法使用的问题
+修复：优惠劵大于 订单金额会导致 负数的问题，感谢 @orangehs
+
+
+
 jpress v3.0.1:
 新增：OSS 同步删除文件的后台配置，感谢 @haicuan139
 新增：收货地址的 API 接口，感谢 @haicuan139

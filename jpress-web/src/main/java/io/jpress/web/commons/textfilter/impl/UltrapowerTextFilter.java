@@ -20,10 +20,10 @@ import io.jpress.web.commons.textfilter.TextFilter;
 /**
  * @author michael yang (fuhai999@gmail.com)
  * @Date: 2020/1/5
- * 阿里云文本垃圾过滤器
- * https://help.aliyun.com/document_detail/53427.html
+ * 泰岳语义工厂文本垃圾过滤器
+ * https://market.aliyun.com/products/57124001/cmapi033064.html
  */
-public class AliyunTextFilter implements TextFilter {
+public class UltrapowerTextFilter implements TextFilter {
 
     @Override
     public boolean check(String text) {

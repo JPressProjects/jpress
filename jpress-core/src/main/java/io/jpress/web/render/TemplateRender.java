@@ -86,16 +86,16 @@ public class TemplateRender extends Render {
         com.jfinal.template.Template template = null;
         try {
             template = getEngine().getTemplate(view);
-        } catch (Throwable ex) {
-            LogKit.error(ex.toString(), ex);
+        } catch (RuntimeException ex) {
+            if (ex.getMessage().contains("File not found")) {
+                RenderHelpler.renderHtml(response, buildTemplateNotExistsMessage(), contentType);
+                LogKit.error(ex.toString(), ex);
+            }else {
+                throw ex;
+            }
         }
 
-        // 可能模板不存在
-        if (template == null) {
-            RenderHelpler.renderHtml(response, buildTemplateNotExistsMessage(), contentType);
-        } else {
-            RenderHelpler.renderHtml(response, buildNormalHtml(template.renderToString(data)), contentType);
-        }
+        RenderHelpler.renderHtml(response, buildNormalHtml(template.renderToString(data)), contentType);
     }
 
     private String buildTemplateNotExistsMessage() {

@@ -40,6 +40,7 @@ public class DfaUtil {
             .setSupportPinyin(true)
             .setSupportStopWord(true)
             .setSupportDbc(true)
+            .setSupportSimpleTraditional(true)
             .setStopWord("、,.。￥$%*&!@#-| ")
             .build();
 
@@ -81,6 +82,7 @@ public class DfaUtil {
                         .setSupportPinyin(true)
                         .setSupportStopWord(true)
                         .setSupportDbc(true)
+                        .setSupportSimpleTraditional(true)
                         .setStopWord("、,.。￥$%*&!@#-| ")
                         .build();
                 dynamicFilter = new DFAFilter(config);

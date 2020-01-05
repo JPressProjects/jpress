@@ -16,11 +16,15 @@
 package io.jpress.commons.dfa;
 
 import com.jfinal.kit.PathKit;
+import io.jboot.utils.StrUtil;
+import io.jpress.JPressOptions;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author michael yang (fuhai999@gmail.com)
@@ -28,18 +32,20 @@ import java.util.List;
  */
 public class DfaUtil {
 
-    private static DfaFilter filter = new DfaFilter();
+    private static DfaFilter sysFilter = new DfaFilter();
+
     private static String dynamicFilterTexts;
+    private static DfaFilter dynamicFilter;
 
     static {
-        File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(),"WEB-INF/other/sys_sensitive_words.txt");
+        File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(), "WEB-INF/other/sys_sensitive_words.txt");
         try {
-            List<String> lines = FileUtils.readLines(sysSensitiveWordsFile,"utf-8");
-            for (String line : lines){
-                if (line.startsWith("--")){
+            List<String> lines = FileUtils.readLines(sysSensitiveWordsFile, "utf-8");
+            for (String line : lines) {
+                if (line.startsWith("--")) {
                     continue;
                 }
-                filter.put(line);
+                sysFilter.put(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,18 +53,31 @@ public class DfaUtil {
     }
 
 
-    public static boolean isContainsSensitiveWords(String content){
-//       if (StrUtil.isNotBlank())
+    public static boolean isContainsSensitiveWords(String content) {
 
+        String filterContent = JPressOptions.get("text_filter_content");
 
-        return true;
+        if (StrUtil.isNotBlank(filterContent)) {
+
+            if (!Objects.equals(dynamicFilter, filterContent)) {
+                if (dynamicFilter.contains(content)) {
+                    return true;
+                }
+            } else {
+                dynamicFilterTexts = filterContent;
+                dynamicFilter = new DfaFilter();
+                Set<String> filterTexts = StrUtil.splitToSet(dynamicFilterTexts, ",");
+                for (String keyword : filterTexts) {
+                    dynamicFilter.put(keyword);
+                }
+                if (dynamicFilter.contains(content)) {
+                    return true;
+                }
+            }
+        }
+
+        return sysFilter.contains(content);
     }
-
-
-
-
-
-
 
 
 }

@@ -24,10 +24,10 @@ import java.util.Map;
  */
 public class DfaNode {
     private final char _char;
-    /**
-     * 如果为true表示是敏感词的最后一个单词
-     */
+
+    //如果为true表示是敏感词的最后一个单词
     private volatile boolean end;
+
     private volatile Map<Character, DfaNode> childes;
 
     public DfaNode(char _char) {

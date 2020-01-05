@@ -30,14 +30,13 @@ public class DfaFilter  {
 
     private final DfaNode rootNode = new DfaNode(' ');
 
-
     /**
      * 匹配到敏感词的回调接口
      */
     protected interface Callback {
 
         /**
-         * 匹配掉敏感词回调
+         * 匹配敏感词回调
          * @param word 敏感词
          * @return true 立即停止后续任务并返回，false 继续执行
          */
@@ -47,7 +46,8 @@ public class DfaFilter  {
 
     public boolean contains(String content) {
         return processor(true, content, word -> {
-            return true; // 有敏感词立即返回
+            //有敏感词立即返回
+            return true;
         });
     }
 
@@ -61,7 +61,9 @@ public class DfaFilter  {
 
         processor(true, content, word -> {
             ref.set(word);
-            return true; // 匹配到任意一个敏感词后停止继续匹配
+
+            //匹配到任意一个敏感词后停止继续匹配
+            return true;
         });
 
         return ref.get();
@@ -78,7 +80,9 @@ public class DfaFilter  {
 
         processor(partMatch, content, word -> {
             words.add(word);
-            return false; // 继续匹配后面的敏感词
+
+            //继续匹配后面的敏感词
+            return false;
         });
 
         return words;
@@ -103,6 +107,7 @@ public class DfaFilter  {
         return content;
     }
 
+
     private String repeatAppend(String str, int repeatNums){
         StringBuilder sb = new StringBuilder();
         for (int i=0;i<repeatNums;i++) {
@@ -112,6 +117,11 @@ public class DfaFilter  {
         return sb.toString();
     }
 
+    /**
+     * 填写新的词汇
+     * @param word
+     * @return
+     */
     public boolean put(String word) {
         if (StringUtils.isBlank(word)) {
             return false;

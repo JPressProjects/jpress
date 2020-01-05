@@ -102,6 +102,10 @@ public class _SettingController extends AdminControllerBase {
         render("setting/cdn.html");
     }
 
+    @AdminMenu(text = "垃圾过滤", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 44)
+    public void filter() {
+        render("setting/filter.html");
+    }
 
     @AdminMenu(text = "搜索优化", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 111)
     public void seo() {

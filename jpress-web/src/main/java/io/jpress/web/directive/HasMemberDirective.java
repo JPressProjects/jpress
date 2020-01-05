@@ -19,6 +19,7 @@ import com.jfinal.aop.Aop;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.model.Member;
 import io.jpress.model.MemberGroup;
@@ -32,6 +33,7 @@ import java.util.List;
  * @author michael yang (fuhai999@gmail.com)
  * @Date: 2020/1/5
  */
+@JFinalDirective("hasMember")
 public class HasMemberDirective extends JbootDirectiveBase {
 
     @Override
@@ -70,6 +72,10 @@ public class HasMemberDirective extends JbootDirectiveBase {
         renderBody(env, scope, writer);
     }
 
+    @Override
+    public boolean hasEnd() {
+        return true;
+    }
 
     private String[] getParas(Scope scope) {
         if (exprList == null || exprList.length() == 0) {

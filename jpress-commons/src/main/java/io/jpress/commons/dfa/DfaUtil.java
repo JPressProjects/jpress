@@ -15,9 +15,50 @@
  */
 package io.jpress.commons.dfa;
 
+import com.jfinal.kit.PathKit;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 /**
  * @author michael yang (fuhai999@gmail.com)
  * @Date: 2020/1/5
  */
 public class DfaUtil {
+
+    private static DfaFilter filter = new DfaFilter();
+    private static String dynamicFilterTexts;
+
+    static {
+        File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(),"WEB-INF/other/sys_sensitive_words.txt");
+        try {
+            List<String> lines = FileUtils.readLines(sysSensitiveWordsFile,"utf-8");
+            for (String line : lines){
+                if (line.startsWith("--")){
+                    continue;
+                }
+                filter.put(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static boolean isContainsSensitiveWords(String content){
+//       if (StrUtil.isNotBlank())
+
+
+        return true;
+    }
+
+
+
+
+
+
+
+
 }

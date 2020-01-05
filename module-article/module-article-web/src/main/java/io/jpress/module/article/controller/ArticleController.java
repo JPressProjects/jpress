@@ -20,6 +20,7 @@ import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
+import io.jpress.commons.dfa.DfaUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.module.article.kit.ArticleNotifyKit;
@@ -165,6 +166,11 @@ public class ArticleController extends TemplateControllerBase {
                 renderJson(Ret.fail().set("message", "验证码错误").set("errorCode",2));
                 return;
             }
+        }
+
+        if (DfaUtil.isContainsSensitiveWords(content)){
+            renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
+            return;
         }
 
 

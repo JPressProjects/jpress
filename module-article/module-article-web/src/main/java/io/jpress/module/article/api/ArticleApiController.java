@@ -15,16 +15,14 @@
  */
 package io.jpress.module.article.api;
 
-import com.jfinal.aop.Clear;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.validate.EmptyValidate;
-import io.jboot.web.validate.Form;
 import io.jpress.JPressOptions;
+import io.jpress.commons.dfa.DfaUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.model.User;
 import io.jpress.module.article.kit.ArticleNotifyKit;
@@ -260,6 +258,11 @@ public class ArticleApiController extends ApiControllerBase {
             return;
         } else {
             content = StrUtil.escapeHtml(content);
+        }
+
+        if (DfaUtil.isContainsSensitiveWords(content)){
+            renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
+            return;
         }
 
 

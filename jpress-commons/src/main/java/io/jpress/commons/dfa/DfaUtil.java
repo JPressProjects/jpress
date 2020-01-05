@@ -58,7 +58,6 @@ public class DfaUtil {
         String filterContent = JPressOptions.get("text_filter_content");
 
         if (StrUtil.isNotBlank(filterContent)) {
-
             if (!Objects.equals(dynamicFilter, filterContent)) {
                 if (dynamicFilter.contains(content)) {
                     return true;

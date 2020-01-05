@@ -25,6 +25,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.commons.dfa.DfaUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.core.menu.annotation.UCenterMenu;
@@ -184,6 +185,11 @@ public class ArticleUCenterController extends UcenterControllerBase {
                 renderJson(Ret.fail("message", "该slug已经存在"));
                 return;
             }
+        }
+
+        if (DfaUtil.isContainsSensitiveWords(article.getText())){
+            renderJson(Ret.fail().set("message", "投稿内容可能包含非法内容。"));
+            return;
         }
 
         //只保留的基本的html，其他的html比如<script>将会被清除

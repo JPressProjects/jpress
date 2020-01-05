@@ -39,6 +39,7 @@ function initCommentComponent() {
                     //其他
                     else {
                         $('.comment-textarea textarea').val('');
+                        $('#comment-vcode').click();
                     }
                 }
             },

@@ -44,7 +44,7 @@ public class DfaUtil {
             .setSupportStopWord(true)
             .setSupportDbc(true)
             .setSupportSimpleTraditional(true)
-            .setStopWord("、,.。￥$%*&!@#-| ")
+            .setStopWord("、,.。￥$%*&!@#-|[]【】")
             .build();
 
     private static DFAFilter sysFilter = new DFAFilter(config);
@@ -58,10 +58,10 @@ public class DfaUtil {
         try {
             List<String> lines = FileUtils.readLines(sysSensitiveWordsFile, "utf-8");
             for (String line : lines) {
-                if (line.startsWith("--")) {
+                if (line.startsWith("--") || StrUtil.isBlank(line)) {
                     continue;
                 }
-                sysFilter.putWord(line, 1);
+                sysFilter.putWord(line.trim(), 1);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,12 +86,14 @@ public class DfaUtil {
                         .setSupportStopWord(true)
                         .setSupportDbc(true)
                         .setSupportSimpleTraditional(true)
-                        .setStopWord("、,.。￥$%*&!@#-| ")
+                        .setStopWord("、,.。￥$%*&!@#-|[]【】")
                         .build();
                 dynamicFilter = new DFAFilter(config);
                 Set<String> filterTexts = StrUtil.splitToSet(dynamicFilterTexts, ",");
                 for (String keyword : filterTexts) {
-                    dynamicFilter.putWord(keyword,1);
+                    if (StrUtil.isNotBlank(keyword)) {
+                        dynamicFilter.putWord(keyword, 1);
+                    }
                 }
                 if (isContainsSensitiveWords(dynamicFilter,content)) {
                     return true;

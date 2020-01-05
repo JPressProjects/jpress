@@ -80,7 +80,7 @@ public class PermissionFunctions {
         return user != null && user.isStatusOk() && roleService.isSupperAdmin(user.getId());
     }
 
-    public boolean hasMember(String... memberFlags) {
+    public static boolean hasMember(String... memberFlags) {
 
         User user = UserInterceptor.getThreadLocalUser();
         if (user == null || !user.isStatusOk()) {
@@ -114,7 +114,7 @@ public class PermissionFunctions {
         return true;
     }
 
-    public boolean hasAnyMember(String... memberFlags) {
+    public static boolean hasAnyMember(String... memberFlags) {
 
         User user = UserInterceptor.getThreadLocalUser();
         if (user == null || !user.isStatusOk()) {

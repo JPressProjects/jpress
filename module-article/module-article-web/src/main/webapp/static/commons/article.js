@@ -38,8 +38,10 @@ function initCommentComponent() {
                     }
                     //其他
                     else {
-                        $('.comment-textarea textarea').val('');
                         $('#comment-vcode').click();
+                        $('#comment-captcha').val("");
+                        $('.comment-textarea textarea').val('');
+                        $('.comment-textarea textarea').focus();
                     }
                 }
             },

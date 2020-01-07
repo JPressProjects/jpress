@@ -19,11 +19,13 @@ import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.TableMapping;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Directive;
 import com.jfinal.template.expr.ast.FieldKit;
@@ -410,12 +412,28 @@ public class AddonManager implements JbootEventListener {
 
             ActiveRecordPlugin arp = addonInfo.getOrCreateArp();
 
+            List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
+
             for (Class<? extends JbootModel> c : modelClasses) {
-                Table table = c.getAnnotation(Table.class);
-                if (StrUtil.isNotBlank(table.primaryKey())) {
-                    arp.addMapping(AnnotationUtil.get(table.tableName()), AnnotationUtil.get(table.primaryKey()), (Class<? extends Model<?>>) c);
-                } else {
-                    arp.addMapping(AnnotationUtil.get(table.tableName()), (Class<? extends Model<?>>) c);
+
+                Table tableAnnotation = c.getAnnotation(Table.class);
+                boolean needAddMapping = true;
+
+                if (tableList != null && !tableList.isEmpty()){
+                    for (com.jfinal.plugin.activerecord.Table t : tableList){
+                        if (t.getName().equals(AnnotationUtil.get(tableAnnotation.tableName()))){
+                            needAddMapping = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (needAddMapping) {
+                    if (StrUtil.isNotBlank(tableAnnotation.primaryKey())) {
+                        arp.addMapping(AnnotationUtil.get(tableAnnotation.tableName()), AnnotationUtil.get(tableAnnotation.primaryKey()), (Class<? extends Model<?>>) c);
+                    } else {
+                        arp.addMapping(AnnotationUtil.get(tableAnnotation.tableName()), (Class<? extends Model<?>>) c);
+                    }
                 }
             }
             addonInfo.setArp(arp);
@@ -590,11 +608,45 @@ public class AddonManager implements JbootEventListener {
         RenderManager.me().getEngine().removeAllTemplateCache();
     }
 
-    private void stopActiveRecordPlugin(AddonInfo addonInfo) {
+    private void stopActiveRecordPlugin(AddonInfo addonInfo) throws Exception {
         ActiveRecordPlugin arp = addonInfo.getArp();
-        if (arp != null) {
-            arp.stop();
+        if (arp != null && arp.stop()) {
+            clearStopedTableMapping(arp);
         }
+    }
+
+    private void clearStopedTableMapping(ActiveRecordPlugin arp) throws Exception {
+
+        List<com.jfinal.plugin.activerecord.Table> tables = getTableList(arp);
+
+        if (tables == null || tables.isEmpty()) {
+            return;
+        }
+
+
+        Field modelToTableMapField = TableMapping.class.getDeclaredField("modelToTableMap");
+        modelToTableMapField.setAccessible(true);
+        Map<Class<? extends Model<?>>, com.jfinal.plugin.activerecord.Table> modelToTableMap =
+                (Map<Class<? extends Model<?>>, com.jfinal.plugin.activerecord.Table>) modelToTableMapField.get(TableMapping.me());
+
+        if (modelToTableMap == null || modelToTableMap.isEmpty()) {
+            return;
+        }
+
+        for (com.jfinal.plugin.activerecord.Table table : tables) {
+            modelToTableMap.remove(table.getModelClass());
+        }
+    }
+
+    private List<com.jfinal.plugin.activerecord.Table> getTableList(ActiveRecordPlugin arp){
+        try {
+            Field tableListField = ActiveRecordPlugin.class.getDeclaredField("tableList");
+            tableListField.setAccessible(true);
+            return (List<com.jfinal.plugin.activerecord.Table>) tableListField.get(arp);
+        }catch (Exception ex){
+            LogKit.error(ex.toString(),ex);
+        }
+        return null;
     }
 
     /**

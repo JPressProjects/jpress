@@ -41,7 +41,7 @@
         <aliyunoss.version>3.8.0</aliyunoss.version>
         <httpclient.version>4.5.3</httpclient.version>
         <fasterxml.version>2.10.1</fasterxml.version>
-        <pay-java.version>2.12.9</pay-java.version>
+        <pay-java.version>2.13.1</pay-java.version>
         <guava.version>28.1-jre</guava.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>

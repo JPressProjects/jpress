@@ -35,9 +35,9 @@
         </div>
         #end
 
-        <div class="recommend-bottom">
 
-            #articles(hasThumbnail=true,count=2)
+        #articles(hasThumbnail=true,count=2)
+        <div class="recommend-bottom">
             #for(article : articles)
             <div class="recommend-item">
                 <a href="#(article.url)">
@@ -46,8 +46,8 @@
                 <p class="recommend-item-bottom">#(article.title)</p>
             </div>
             #end
-            #end
         </div>
+        #end
 
     </div>
 

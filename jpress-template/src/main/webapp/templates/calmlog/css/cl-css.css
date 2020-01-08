@@ -60,7 +60,7 @@ a:hover{
     max-height: 100%;
 }
 .recommend-index{
-    margin-bottom:20px;
+    /*margin-bottom:20px;*/
 }
 
 .carousel-inner{
@@ -101,6 +101,7 @@ a:hover{
 .recommend-bottom{
     display: flex;
     justify-content: space-between;
+    margin-bottom:20px;
 }
 .recommend-item{
     width: 49%;

@@ -60,9 +60,11 @@ public class JPressCoreFunctions {
 
 
     public static Object option(String key, Object defaulValue) {
+
         String value = JPressOptions.get(key);
-        if (StrUtil.isBlank(value) && defaulValue != null) {
-            value = defaulValue.toString();
+
+        if (StrUtil.isBlank(value)) {
+            value = defaulValue == null ? "" : defaulValue.toString();
         }
         if ("true".equalsIgnoreCase(value)) {
             return true;

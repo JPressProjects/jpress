@@ -174,9 +174,8 @@ a.card-link{
 
 }
 a.card-link:hover{
-    background-color: #f6d392;
     color:#333;
-
+    box-shadow: 0px 5px 20px -3px rgba(204, 204, 204, .8) !important;
 }
 
 .cl-card-main-info{

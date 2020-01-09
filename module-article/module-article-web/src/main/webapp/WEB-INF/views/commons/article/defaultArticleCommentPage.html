@@ -2,7 +2,7 @@
 <div class="comment-default-block">
 
     #if(option("article_comment_enable","true") && article.comment_status)
-    <form class="comment-form" action="#(CPATH)/article/postComment" id="jpress-comment-form" method="post">
+    <form class="comment-form" action="#(CPATH)/article/postComment" id="jpress-comment-form" method="post" autocomplete="off">
         <input type="hidden" name="articleId" value="#(article.id)">
         <input type="hidden" name="render" value="default">
         <input type="hidden" name="pid" id="comment-pid">

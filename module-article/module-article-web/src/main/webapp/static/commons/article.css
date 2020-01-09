@@ -86,7 +86,7 @@
 .comment-vcode input {
     padding: 0 0.5rem;
     height: 2.6rem;
-    border: none;
+    border: solid 1px #f5f5f5;
     border-radius: 0.22rem;
     background-color: #f5f5f5;
     outline: none;
@@ -94,6 +94,7 @@
 
 .comment-vcode input:focus {
     background-color: #f5f5f5bb;
+    border: solid 1px #ddd;
 }
 
 .comment-item {

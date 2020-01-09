@@ -237,14 +237,16 @@ a.product-btn-cart:hover {
     height: 100%;
     padding: 0.5rem 1rem;
     box-sizing: border-box;
-    border: none;
+    border: solid 1px #f5f5f5;
     border-radius: 0.22rem;
     background-color: #f5f5f5;
+    color: #444444;
 }
 
 .comment-form > div > textarea:focus {
     outline: none;
     background-color: #f5f5f5bb;
+    border: solid 1px #ddd;
 }
 
 .comment-page-title {

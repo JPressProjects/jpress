@@ -47,6 +47,7 @@ public class PayController extends TemplateControllerBase {
     public static final String DEFAULT_ALIPAY_VIEW = "/WEB-INF/views/front/pay/pay_alipay.html";
     public static final String DEFAULT_ALIPAYX_VIEW = "/WEB-INF/views/front/pay/pay_alipayx.html";
     public static final String DEFAULT_WECHAT_VIEW = "/WEB-INF/views/front/pay/pay_wechat.html";
+    public static final String DEFAULT_WECHATJS_VIEW = "/WEB-INF/views/front/pay/pay_wechatjs.html";
     public static final String DEFAULT_WECHATX_VIEW = "/WEB-INF/views/front/pay/pay_wechatx.html";
     public static final String DEFAULT_FAIL_VIEW = "/WEB-INF/views/front/pay/pay_fail.html";
     public static final String DEFAULT_SUCCESS_VIEW = "/WEB-INF/views/front/pay/pay_success.html";
@@ -181,7 +182,7 @@ public class PayController extends TemplateControllerBase {
         }
 
         setAttr("payConfig", PayConfigUtil.getWechatPayConfig());
-        render("pay_wechatjs.html", DEFAULT_WECHAT_VIEW);
+        render("pay_wechatjs.html", DEFAULT_WECHATJS_VIEW);
 
         PrePayNotifytKit.notify(payment, getLoginedUser());
     }

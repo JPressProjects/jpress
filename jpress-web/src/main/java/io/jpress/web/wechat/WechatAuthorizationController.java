@@ -76,14 +76,6 @@ public class WechatAuthorizationController extends ControllerBase {
         String gotoUrl = getPara("goto");
 
 
-        String uid = CookieUtil.get(this, JPressConsts.COOKIE_UID);
-
-        //说明当前用户已经登录
-        if (StrUtil.isNotBlank(uid)) {
-            redirect(StrUtil.urlDecode(gotoUrl));
-            return;
-        }
-
         String appId = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPID);
         if (StrUtil.isBlank(appId)) {
             renderText("管理员的微信APPID配置错误，请联系管理在后台 -> 微信 -> 基础设置 配置正确的APPID。");

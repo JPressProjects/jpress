@@ -135,6 +135,12 @@ public class CheckoutController extends UcenterControllerBase {
         for (String cid : cids) {
             UserCart userCart = cartService.findById(cid);
 
+            //用户返回重新提交
+            if (userCart == null){
+                renderFailJson("该购物车信息已经提交，若需再次支付，请进入订单页面进行支付，或者重新下单。");
+                return;
+            }
+
             boolean productNormal = ProductManager.me().queryStatusNormal(userCart.getProductType(), userCart.getProductId(), userCart.getUserId());
             if (!productNormal) {
                 renderFailJson("商品 " + userCart.getProductTitle() + " 已经下架。");

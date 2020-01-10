@@ -25,6 +25,8 @@ function initCommentComponent() {
                 //评论失败
                 else {
                     alert('评论失败：' + data.message);
+
+                    //用户未登录
                     if (data.errorCode == 9 && data.gotoUrl) {
                         location.href = data.gotoUrl;
                     }
@@ -36,7 +38,10 @@ function initCommentComponent() {
                     }
                     //其他
                     else {
+                        $('#comment-vcode').click();
+                        $('#comment-captcha').val("");
                         $('.comment-textarea textarea').val('');
+                        $('.comment-textarea textarea').focus();
                     }
                 }
             },

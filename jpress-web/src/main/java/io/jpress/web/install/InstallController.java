@@ -219,6 +219,7 @@ public class InstallController extends ControllerBase {
 
         // 设置 JPress 的版本
         if (ret.isOk()){
+
             OptionService optionService = Aop.get(OptionService.class);
             optionService.saveOrUpdate("jpress_version", JPressConsts.VERSION);
             optionService.saveOrUpdate("jpress_version_code", JPressConsts.VERSION_CODE);
@@ -384,6 +385,7 @@ public class InstallController extends ControllerBase {
 
         UserService userService = Aop.get(UserService.class);
         User user = userService.findById(1L);
+
         if (user == null) {
             user = new User();
             user.setNickname(username);
@@ -411,11 +413,12 @@ public class InstallController extends ControllerBase {
 
         RoleService roleService = Aop.get(RoleService.class);
 
-        Role role = roleService.findById(1);
+        Role role = roleService.findById(1L);
         if (role == null){
             role = new Role();
             role.setCreated(new Date());
         }
+
         role.setName("默认角色");
         role.setDescription("这个是系统自动创建的默认角色");
         role.setFlag(Role.ADMIN_FLAG);
@@ -424,7 +427,7 @@ public class InstallController extends ControllerBase {
         roleService.saveOrUpdate(role);
 
         Db.update("DELETE FROM `user_role_mapping` WHERE `user_id` = 1");
-        Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
+        Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1)");
     }
 
 

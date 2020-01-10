@@ -19,10 +19,21 @@ fi
 
 if ! [ -x "$(command -v docker)" ]; then
   echo '检测到Docker尚未安装，正在试图安装Docker...所需时间与你的网络环境有关'
-  sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  yum list docker-ce --showduplicates | sort -r
-  sudo yum install docker-ce
+
+  if [ -x "$(command -v yum)" ]; then
+    sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum list docker-ce --showduplicates | sort -r
+    sudo yum install docker-ce
+  else
+    sudo apt-get update
+    sudo dpkg --configure -a
+    sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt-get update
+    sudo apt-get install docker-ce
+  fi
 
   # 启动docker和开机自启动
   sudo systemctl start docker

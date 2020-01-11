@@ -193,20 +193,31 @@ public class PayController extends TemplateControllerBase {
     public void getWechatOrderInfo() {
         PayService service = PayConfigUtil.getWxPayService();
         if (service == null) {
-            renderFailJson();
+            renderFailJson("微信支付未配置正确或未开启");
             return;
         }
 
+
         PaymentRecord payment = paymentService.findByTrxNo(getPara("trx"));
-        if (payment == null || notLoginedUserModel(payment, "payer_user_id") || payment.isPaySuccess()) {
-            renderFailJson();
+        if (payment == null) {
+            renderFailJson("payment is null");
+            return;
+        }
+
+        if (payment.isPaySuccess()) {
+            renderFailJson("payment is pay success");
+            return;
+        }
+
+        if (notLoginedUserModel(payment, "payer_user_id")) {
+            renderFailJson("not logined user payment");
             return;
         }
 
 
         String openId = getPara("openId");
         if (StrUtil.isBlank(openId)) {
-            renderFailJson("openId is empty.");
+            renderFailJson("openId is null or empty.");
             return;
         }
 

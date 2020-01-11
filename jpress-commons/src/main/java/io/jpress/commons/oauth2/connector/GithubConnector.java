@@ -51,7 +51,7 @@ public class GithubConnector extends OauthConnector {
 		user.setNickname(json.getString("login"));
 		user.setSource(getName());
 
-		return null;
+		return user;
 	}
 
 	protected String getAccessToken(String code) {
@@ -63,8 +63,8 @@ public class GithubConnector extends OauthConnector {
 
 		String url = urlBuilder.toString();
 
-		String httpString = httpGet(url);
-		JSONObject json = JSONObject.parseObject(httpString);
-		return json.getString("access_token");
-	}
+        String httpString = httpGet(url);
+        // access_token=b34db140be5ed745a0e8a07f9897d9ee1d8c432c&scope=user&token_type=bearer
+        return httpString.substring(httpString.indexOf("=") + 1, httpString.indexOf("&"));
+    }
 }

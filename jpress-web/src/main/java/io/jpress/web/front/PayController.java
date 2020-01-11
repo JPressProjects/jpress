@@ -13,6 +13,7 @@ import com.egzosn.pay.wx.bean.WxTransactionType;
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import io.jboot.Jboot;
@@ -221,13 +222,17 @@ public class PayController extends TemplateControllerBase {
             return;
         }
 
-        PayOrder order = createPayOrder(payment);
-        order.setTransactionType(WxTransactionType.JSAPI);
-        order.setOpenid(openId);
 
-        renderJson(Ret.ok().set("orderInfo", service.orderInfo(order)));
-
-        PrePayNotifytKit.notify(payment, getLoginedUser());
+        try {
+            PayOrder order = createPayOrder(payment);
+            order.setTransactionType(WxTransactionType.JSAPI);
+            order.setOpenid(openId);
+            renderJson(Ret.ok().set("orderInfo", service.orderInfo(order)));
+            PrePayNotifytKit.notify(payment, getLoginedUser());
+        }catch (Exception ex){
+            LogKit.error(ex.toString(),ex);
+            renderFailJson(ex.getMessage());
+        }
     }
 
 

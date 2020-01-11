@@ -2,8 +2,8 @@
 #@layout("正在打开微信支付")
 
 #define script()
-<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
-<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script>
     var invoke = true;
     var interval = setInterval(function () {
@@ -18,7 +18,8 @@
         }
     }, 1000);
 
-    $(document).ready(function () {
+
+    function onBridgeReady() {
         $.ajax({
             url: "#(CPATH)/pay/getWechatOrderInfo",
             type: "post",
@@ -30,16 +31,7 @@
             dataType: 'json',
             success: function (data) {
                 if (data.state == "ok") {
-                    if (typeof WeixinJSBridge == "undefined") {
-                        if (document.addEventListener) {
-                            document.addEventListener('WeixinJSBridgeReady', onBridgeReady(data.orderInfo), false);
-                        } else if (document.attachEvent) {
-                            document.attachEvent('WeixinJSBridgeReady', onBridgeReady(data.orderInfo));
-                            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady(data.orderInfo));
-                        }
-                    } else {
-                        onBridgeReady(data.orderInfo);
-                    }
+                    callPayBox(data.orderInfo);
                 } else {
                     console.log("getWechatOrderInfo error ", data)
                 }
@@ -48,10 +40,10 @@
                 alert("服务器异常")
             }
         })
+    }
 
-    });
 
-    function onBridgeReady(orderInfo) {
+    function callPayBox(orderInfo) {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
                 "appId": orderInfo.appId,                           //公众号名称，由商户传入
@@ -69,6 +61,23 @@
             }
         );
     }
+
+
+
+    $(document).ready(function () {
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+        }else{
+            onBridgeReady();
+        }
+    });
+
+
 
 
 </script>

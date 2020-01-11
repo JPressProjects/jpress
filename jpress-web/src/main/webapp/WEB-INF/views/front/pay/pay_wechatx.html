@@ -26,11 +26,11 @@
             ￥ #number(payment.pay_amount,'0.00') 元
         </div>
         <div class="pay-content-qrcode">
-            <img src="#(payConfig.qrcode ??'/static/commons/img/pay-qrcode.png')"/>
+            <img src="#(payConfig.qrcode ?? CPATH + '/static/commons/img/pay-qrcode.png')"/>
         </div>
     </div>
     <div class="col-lg-6 pay-content-img">
-        <img src="/static/commons/img/pay-wechat.png"/>
+        <img src="#(CAPTH)/static/commons/img/pay-wechat.png"/>
     </div>
 
     #if(payConfig && payConfig.message)

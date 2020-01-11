@@ -33,6 +33,13 @@ public abstract class OauthConnector {
     private String name;
     private String redirectUri;
 
+    public OauthConnector(String name, String appkey, String appSecret, String redirectUri) {
+        this.clientId = appkey;
+        this.clientSecret = appSecret;
+        this.name = name;
+        this.redirectUri = redirectUri;
+    }
+
     public OauthConnector(String name, String appkey, String appSecret) {
         this.clientId = appkey;
         this.clientSecret = appSecret;

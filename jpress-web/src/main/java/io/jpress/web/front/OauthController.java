@@ -85,12 +85,12 @@ public class OauthController extends Oauth2Controller {
                 return;
         }
 
-        if (dbUser == null){
+        if (dbUser != null) {
             dbUser = UserInterceptor.getThreadLocalUser();
-            if (dbUser != null){
+            if (dbUser != null) {
                 dbUser.setAvatar(ouser.getAvatar());
                 dbUser.setNickname(ouser.getNickname());
-                openidService.saveOrUpdate(dbUser.getId(),ouser.getSource(),ouser.getOpenId());
+                openidService.saveOrUpdate(dbUser.getId(), ouser.getSource(), ouser.getOpenId());
                 userService.update(dbUser);
             }
         }
@@ -104,12 +104,12 @@ public class OauthController extends Oauth2Controller {
             dbUser.setGender(ouser.getGender());
             dbUser.setSalt(HashKit.generateSaltForSha256());
             Object id = userService.save(dbUser);
-            openidService.saveOrUpdate(id,ouser.getSource(),ouser.getOpenId());
+            openidService.saveOrUpdate(id, ouser.getSource(), ouser.getOpenId());
 
         }
 
         CookieUtil.put(this, JPressConsts.COOKIE_UID, dbUser.getId());
-        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
+        String gotoUrl = JPressOptions.get("login_goto_url", "/ucenter");
         redirect(gotoUrl);
     }
 
@@ -201,10 +201,13 @@ public class OauthController extends Oauth2Controller {
         if (enable == false) {
             return null;
         }
+        String para = getPara();
+        String requestUrl = getRequest().getRequestURL().toString();
+        String callBackUrl = requestUrl.replace("/" + para, "/callback/" + para);
 
         String appkey = JPressOptions.get("login_qq_appkey");
         String appsecret = JPressOptions.get("login_qq_appsecret");
-        return new QQConnector("qq", appkey, appsecret);
+        return new QQConnector("qq", appkey, appsecret, callBackUrl);
     }
 
     private OauthConnector createWechatConnector() {
@@ -212,6 +215,7 @@ public class OauthController extends Oauth2Controller {
         if (enable == false) {
             return null;
         }
+
 
         String appkey = JPressOptions.get("login_wechat_appkey");
         String appsecret = JPressOptions.get("login_wechat_appsecret");

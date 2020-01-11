@@ -8,7 +8,12 @@
     });
 
     function ok(data) {
-        window.open(data.gotoUrl,"_blank");
+        //微信页面不支持 window.open 直接跳转
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            location.href = data.gotoUrl;
+        } else {
+            window.open(data.gotoUrl, '_blank')
+        }
     }
 
 </script>

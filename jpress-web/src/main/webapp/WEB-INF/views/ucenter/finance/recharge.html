@@ -9,6 +9,7 @@
 
     function ok(data) {
         //微信页面不支持 window.open 直接跳转
+        var ua = window.navigator.userAgent.toLowerCase();
         if (ua.match(/MicroMessenger/i) == 'micromessenger') {
             location.href = data.gotoUrl;
         } else {

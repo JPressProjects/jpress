@@ -88,7 +88,7 @@ public class WechatInterceptor implements Interceptor, JPressOptions.OptionChang
      */
     public static String getGotoUrl(Controller controller) {
 
-        HttpServletRequest req =controller.getRequest();
+        HttpServletRequest req = controller.getRequest();
 
         // 获取用户将要去的路径
         String queryString = req.getQueryString();

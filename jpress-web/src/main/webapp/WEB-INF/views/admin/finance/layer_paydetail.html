@@ -1,14 +1,14 @@
 #@layer()
 
 #define script()
-<script src="/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<script src="/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script>
 
     $('#cfile').fileupload({
         dropZone: $('#uploader'),
-        url: '/commons/attachment/upload',
+        url: '#(CPATH)/commons/attachment/upload',
         sequentialUploads: true,
         done: function (e, data) {
             if (data.result.state == "ok") {
@@ -23,7 +23,7 @@
 #end
 
 #define css()
-<link rel="stylesheet" href="/static/components/jquery-file-upload/css/jquery.fileupload.css">
+<link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
 <style>
     #uploader {
         height: 180px;
@@ -47,9 +47,7 @@
     <div class="row">
         <div class="col-xs-12">
             <form class="form-horizontal form-setting " autocomplete="off">
-<!--                <input type="hidden" name="payment.id" value="#(payment.id ??)">-->
                 <div class="box-body ">
-
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">流水号</label>
@@ -132,18 +130,7 @@
                     #end
 
 
-
-
                 </div>
-                <!-- /.box-body -->
-<!--                <div class="box-footer">-->
-<!--                    <div class="col-sm-offset-9 col-sm-2 submit-block">-->
-<!--                        <div class="box-submit">-->
-<!--                            <button type="button" class="btn btn-primary" onclick="parent.layer.closeAll()">确定</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-                <!-- /.box-footer -->
             </form>
         </div>
     </div>

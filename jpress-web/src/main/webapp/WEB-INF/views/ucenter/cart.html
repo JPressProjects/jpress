@@ -28,7 +28,7 @@
         height: 60px;
         background-color: #fff;
         border-top: 1px solid #F0F0F0;
-        box-shadow: 0 -1px 8px rgba(0,1,1,.08);
+        box-shadow: 0 -1px 8px rgba(0, 1, 1, .08);
         z-index: 9999;
     }
 
@@ -37,9 +37,9 @@
         width: 100%;
         max-width: 1250px;
         height: 60px;
-        margin:0 auto;
-        padding-left:40px;
-        padding-right:40px;
+        margin: 0 auto;
+        padding-left: 40px;
+        padding-right: 40px;
         box-sizing: border-box;
         z-index: 9999;
     }
@@ -48,44 +48,52 @@
         height: 60px;
         line-height: 60px;
     }
-    .bottom-content-action{
+
+    .bottom-content-action {
         display: flex;
     }
-    .jp-operation a,.cart-checkbox label{
-        font-size:14px;
-        color:#999;
-        margin-right:5px;
+
+    .jp-operation a, .cart-checkbox label {
+        font-size: 14px;
+        color: #999;
+        margin-right: 5px;
         font-weight: 400;
     }
-    .jp-operation a:hover{
-        color:#dd4b39;
+
+    .jp-operation a:hover {
+        color: #dd4b39;
     }
-    .jp-operation .jp-cleaner{
+
+    .jp-operation .jp-cleaner {
         font-weight: 500;
-        color:#666;
+        color: #666;
     }
-    .bottom-content-price{
+
+    .bottom-content-price {
         display: flex;
         justify-content: flex-end;
     }
-    .select-sum,.price-sum{
-        color:#999;
+
+    .select-sum, .price-sum {
+        color: #999;
         font-size: 14px;
-        margin-right:5px;
+        margin-right: 5px;
         font-weight: 400;
     }
-    .select-sum em{
-        color:#dd4b39;
+
+    .select-sum em {
+        color: #dd4b39;
         font-weight: 500;
-        margin:0 5px;
+        margin: 0 5px;
     }
-    .sumprice em{
-        color:#dd4b39;
+
+    .sumprice em {
+        color: #dd4b39;
         font-weight: 500;
         font-size: 18px;
     }
 
-    .table>tbody>tr>td{
+    .table > tbody > tr > td {
         vertical-align: middle;
     }
 
@@ -109,7 +117,7 @@
                 inputVal = 1;
             }
             input.val(inputVal);
-            doCompute(inputVal, that , ret.shouldPayPrice);
+            doCompute(inputVal, that, ret.shouldPayPrice);
         });
     });
 
@@ -127,12 +135,12 @@
                 inputVal = 1;
             }
             input.val(inputVal);
-            doCompute(inputVal, that , ret.shouldPayPrice);
+            doCompute(inputVal, that, ret.shouldPayPrice);
         });
     });
 
 
-    function doCompute(val, btn,shouldPayPrice) {
+    function doCompute(val, btn, shouldPayPrice) {
 
         var row = btn.parent().parent().parent("tr").prevAll().length + 1;
         var col = btn.parent().parent().prevAll().length;
@@ -144,7 +152,6 @@
 
         querySelectedItemCountAndPrice();
     }
-
 
 
     function getTableContent(row, col) {
@@ -195,9 +202,9 @@
 
     function checkAll(checkbox) {
         var itemIds = getSelectedIds();
-        if (itemIds == ""){
+        if (itemIds == "") {
             alert("当前购物车并没有任何内容。");
-            if (checkbox.checked){
+            if (checkbox.checked) {
                 $(checkbox).prop('checked', false);
             }
             return;
@@ -261,20 +268,22 @@
     }
 
     function querySelectedItemCountAndPrice() {
-        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice", function (data) {
             $('#selectedItemCount').text(data.count);
-            $('#selectedItemPrice').text("¥"+data.price);
+            $('#selectedItemPrice').text("¥" + data.price);
         })
     }
 
 
     function doDelSelectedItems() {
-        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
-            if (data.count > 0 && confirm("确定要删除所有选中的商品吗？")){
-                ajaxGet("#(CAPTH)/ucenter/cart/doDelSelectedItems",function () {
-                    location.reload();
-                })
-            }else {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice", function (data) {
+            if (data.count > 0) {
+                if (confirm("确定要删除所有选中的商品吗？")) {
+                    ajaxGet("#(CAPTH)/ucenter/cart/doDelSelectedItems", function () {
+                        location.reload();
+                    })
+                }
+            } else {
                 alert("您未选择任何商品。")
             }
         })
@@ -282,12 +291,14 @@
 
 
     function doRemoveSelectedItemsToFavorites() {
-        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
-            if (data.count > 0 && confirm("确定要把所有选中商品移动到收藏夹吗？")){
-                ajaxGet("#(CAPTH)/ucenter/cart/doRemoveSelectedItemsToFavorites",function () {
-                    location.reload();
-                })
-            }else {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice", function (data) {
+            if (data.count > 0) {
+                if (confirm("确定要把所有选中商品移动到收藏夹吗？")) {
+                    ajaxGet("#(CAPTH)/ucenter/cart/doRemoveSelectedItemsToFavorites", function () {
+                        location.reload();
+                    })
+                }
+            } else {
                 alert("您未选择任何商品，无法进行移动到收藏夹。")
             }
         })
@@ -295,10 +306,10 @@
 
 
     function gotoCheckout() {
-        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice",function (data) {
-            if (data.count > 0){
-                location.href="#(CPATH)/ucenter/checkout"
-            }else {
+        ajaxGet("#(CAPTH)/ucenter/cart/querySelectedItemCountAndPrice", function (data) {
+            if (data.count > 0) {
+                location.href = "#(CPATH)/ucenter/checkout"
+            } else {
                 alert("您未选择任何商品，无法进行结算。")
             }
         })
@@ -327,7 +338,7 @@
                     <thead>
                     <tr>
                         <th style="width: 10px">
-                            <input name="dataItem" onchange="checkAll(this)" type="checkbox" />
+                            <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                         </th>
                         <th style="width: 40%">商品</th>
                         <th>单价 #</th>
@@ -339,7 +350,8 @@
                     <tbody>
 
                     #for(userCart : page.list ??)
-                    <tr #(userCart.selected ? 'style="background-color: #fff4e8;"' : '') >
+                    <tr #(userCart.selected ?
+                    'style="background-color: #fff4e8;"' : '') >
                     <td>
                         <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
                                onchange="dataItemChange(this)"/>
@@ -350,9 +362,9 @@
                     <td>
                         #if(userCart.memberPrice ??)
                         <s>#(userCart.product_price ??)</s>
-                         会员：#(userCart.memberPrice)
+                        会员：#(userCart.memberPrice)
                         #else
-                            #(userCart.product_price ??)
+                        #(userCart.product_price ??)
                         #end
                     </td>
                     <td>
@@ -396,14 +408,14 @@
 
             <div class="select-all">
                 <div class="cart-checkbox">
-                    <input type="checkbox" class="jpcheckbox" onchange="checkAll(this)" >
+                    <input type="checkbox" class="jpcheckbox" onchange="checkAll(this)">
                     <label>全选</label>
                 </div>
             </div>
             <div class="jp-operation">
                 <a href="javascript:;" onclick="doDelSelectedItems()" class="remove-batch">删除选中商品</a>
                 <a href="javascript:;" onclick="doRemoveSelectedItemsToFavorites()" class="follow-batch">移到收藏</a>
-<!--                <a href="#" class="jp-cleaner" title="亲，点我可快速清理购物车商品哦！">清理购物车</a>-->
+                <!--                <a href="#" class="jp-cleaner" title="亲，点我可快速清理购物车商品哦！">清理购物车</a>-->
             </div>
 
 

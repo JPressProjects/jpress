@@ -194,11 +194,20 @@
 
 
     function checkAll(checkbox) {
+        var itemIds = getSelectedIds();
+        if (itemIds == ""){
+            alert("当前购物车并没有任何内容。");
+            if (checkbox.checked){
+                $(checkbox).prop('checked', false);
+            }
+            return;
+        }
+
+
         if (checkbox.checked) {
             $(".dataItem").each(function () {
                 $(this).prop('checked', checkbox.checked);
             });
-            var itemIds = getSelectedIds();
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
                     $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");
@@ -206,7 +215,6 @@
                 });
             })
         } else {
-            var itemIds = getSelectedIds();
             ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
                     $(this).prop('checked', false);
@@ -240,7 +248,7 @@
                 selectedIds += $(this).val() + ",";
             }
         });
-        return selectedIds.substring(0, selectedIds.length - 1);
+        return selectedIds == "" ? "" : selectedIds.substring(0, selectedIds.length - 1);
     }
 
 

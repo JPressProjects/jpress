@@ -136,7 +136,7 @@ function getSelectedIds() {
         }
     });
 
-    return selectedIds.substring(0,selectedIds.length - 1);
+    return selectedIds == "" ? "" : selectedIds.substring(0,selectedIds.length - 1);
 }
 
 

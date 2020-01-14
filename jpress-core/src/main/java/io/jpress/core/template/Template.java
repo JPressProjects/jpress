@@ -280,8 +280,23 @@ public class Template {
         return styles;
     }
 
+    /**
+     * 卸载模板
+     */
     public void uninstall() {
-        FileUtils.deleteQuietly(getAbsolutePathFile());
+        //上传的模板，一般情况下会根据模板的文件名先创建一个文件
+        //然后再解压缩，压缩文件根据压缩的目录不同，可能会在已经创建的目录下再创建一个文件
+
+        File absPathFile = getAbsolutePathFile();
+        File parent = absPathFile.getParentFile();
+
+        if (absPathFile.getName().equals(parent.getName())
+                && !parent.getName().equals("templates")
+                && !parent.getName().equals("dockers")) {
+            FileUtils.deleteQuietly(parent);
+        } else {
+            FileUtils.deleteQuietly(getAbsolutePathFile());
+        }
     }
 
     public File getAbsolutePathFile() {

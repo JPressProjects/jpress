@@ -65,6 +65,13 @@ public class CKEditorController extends UserControllerBase {
 
 
         File file = uploadFile.getFile();
+        if (!getLoginedUser().isStatusOk()){
+            file.delete();
+            renderJson(Ret.create("error", Ret.create("message", "当前用户未激活，不允许上传任何文件。")));
+            return;
+        }
+
+
         if (AttachmentUtils.isUnSafe(file)){
             file.delete();
             renderJson(Ret.create("error", Ret.create("message", "不支持此类文件上传")));

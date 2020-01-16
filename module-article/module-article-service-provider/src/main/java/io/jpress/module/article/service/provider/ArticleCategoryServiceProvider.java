@@ -52,7 +52,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     @Override
     @CachesEvict({
             @CacheEvict(name = "articleCategory", key = "*"),
-            @CacheEvict(name = "article-category", key = "(id)", unless = "id == null"),
+            @CacheEvict(name = "article-category", key = "*"),
     })
     public void shouldUpdateCache(int action, Model model, Object id) {
         super.shouldUpdateCache(action, model, id);

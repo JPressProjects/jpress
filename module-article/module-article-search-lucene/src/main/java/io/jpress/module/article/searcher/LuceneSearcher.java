@@ -30,8 +30,10 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.search.highlight.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
+import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.DictionaryFactory;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -169,16 +171,21 @@ public class LuceneSearcher implements ArticleSearcher {
     }
 
     private static IndexWriter createIndexWriter() throws IOException {
-        Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+        Analyzer analyzer = createAnalyzer();
         IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
         return new IndexWriter(directory, iwc);
     }
 
 
+    private static Analyzer createAnalyzer(){
+        SegmenterConfig config = new SegmenterConfig(true);
+        return new JcsegAnalyzer(ISegment.Type.COMPLEX,config,DictionaryFactory.createSingletonDictionary(config));
+    }
+
     private static Query buildQuery(String keyword) {
         try {
 
-            Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+            Analyzer analyzer = createAnalyzer();
             //这里使用text，防止搜索出html的tag或者tag中属性
             QueryParser queryParser1 = new QueryParser("text", analyzer);
             Query termQuery1 = queryParser1.parse(keyword);
@@ -202,7 +209,7 @@ public class LuceneSearcher implements ArticleSearcher {
 
     private List<Article> toArticleList(IndexSearcher searcher, TopDocs topDocs, Highlighter highlighter, String keyword) throws IOException {
         List<Article> articles = new ArrayList<>();
-        Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+        Analyzer analyzer = createAnalyzer();
         for (ScoreDoc item : topDocs.scoreDocs) {
             Document doc = searcher.doc(item.doc);
             Article article = new Article();

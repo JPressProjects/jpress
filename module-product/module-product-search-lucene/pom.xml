@@ -13,8 +13,6 @@
     <artifactId>module-product-search-lucene</artifactId>
 
     <properties>
-        <jsceg.version>2.4.0</jsceg.version>
-        <lucene.version>7.6.0</lucene.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -42,13 +40,13 @@
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>jcseg-core</artifactId>
-            <version>${jsceg.version}</version>
+            <version>${jcseg.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>jcseg-analyzer</artifactId>
-            <version>${jsceg.version}</version>
+            <version>${jcseg.version}</version>
         </dependency>
 
         <dependency>

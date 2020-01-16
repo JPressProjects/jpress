@@ -46,10 +46,11 @@
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>
         <commons-codec.version>1.13</commons-codec.version>
-        <jsceg.version>2.6.0</jsceg.version>
+        <jcseg.version>2.6.0</jcseg.version>
         <slf4j.version>1.7.29</slf4j.version>
         <fastjson.version>1.2.62</fastjson.version>
         <lucene.version>8.3.1</lucene.version>
+        <jcseg.version>2.6.0</jcseg.version>
         <elasticsearch.version>7.5.1</elasticsearch.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -115,13 +116,13 @@
             <dependency>
                 <groupId>org.lionsoul</groupId>
                 <artifactId>jcseg-core</artifactId>
-                <version>${jsceg.version}</version>
+                <version>${jcseg.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.lionsoul</groupId>
                 <artifactId>jcseg-analyzer</artifactId>
-                <version>${jsceg.version}</version>
+                <version>${jcseg.version}</version>
             </dependency>
 
             <dependency>

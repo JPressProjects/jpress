@@ -37,7 +37,7 @@ public class InstallHandler extends Handler {
         }
 
         if (!target.startsWith("/install")) {
-            HandlerKit.redirect("/install",request,response,isHandled);
+            HandlerKit.redirect(request.getContextPath() + "/install",request,response,isHandled);
         } else {
             next.handle(target, request, response, isHandled);
         }

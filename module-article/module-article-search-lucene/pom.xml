@@ -72,7 +72,7 @@
             <artifactId>lucene-analyzers-common</artifactId>
             <version>${lucene.version}</version>
         </dependency>
-        
+
     </dependencies>
 
 

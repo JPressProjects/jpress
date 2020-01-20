@@ -46,7 +46,7 @@ public class LuceneSearcher implements ProductSearcher {
 
     private static final Log logger = Log.getLog(LuceneSearcher.class);
 
-    public static String INDEX_PATH = "~/indexes/";
+    public static String INDEX_PATH = "lucene/products/";
     private static Directory directory;
 
 
@@ -180,6 +180,8 @@ public class LuceneSearcher implements ProductSearcher {
     private static Analyzer createAnalyzer(){
         SegmenterConfig config = new SegmenterConfig(true);
         return new JcsegAnalyzer(ISegment.Type.COMPLEX,config, DictionaryFactory.createSingletonDictionary(config));
+
+//        return new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
     }
 
 

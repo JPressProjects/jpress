@@ -188,11 +188,11 @@ public class ElasticSearcher implements ProductSearcher {
 
         try {
             SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
-            if (response ==null || response.getHits() == null || response.getHits().totalHits <= 0){
+            if (response ==null || response.getHits() == null || response.getHits().getTotalHits().value <= 0){
                 return null;
             }
 
-            int total = (int) response.getHits().totalHits;
+            int total = (int) response.getHits().getTotalHits().value;
 
             List<Product> products = new ArrayList<>();
             response.getHits().forEach(hit -> {

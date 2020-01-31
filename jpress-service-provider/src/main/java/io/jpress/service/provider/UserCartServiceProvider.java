@@ -32,7 +32,7 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
 
     @Override
     public Object save(UserCart model) {
-        UserCart userCart = findByProductTablendProductId(model.getProductType(), model.getProductId());
+        UserCart userCart = findByProductTypeAndProductId(model.getProductType(), model.getProductId());
         if (userCart == null) {
             return super.save(model);
         } else {
@@ -62,7 +62,7 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
-    public UserCart findByProductTablendProductId(String productType, long productId) {
+    public UserCart findByProductTypeAndProductId(String productType, long productId) {
         UserCart userCart = DAO.findFirstByColumns(Columns.create("product_type", productType).eq("product_id", productId));
         return joinMemberPrice(userCart);
     }

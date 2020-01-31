@@ -461,7 +461,7 @@ CREATE TABLE `product` (
   `stock` int(11) DEFAULT NULL COMMENT '剩余库存',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-  `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询',
+  `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询',
   `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
   `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
   `remarks` text COMMENT '备注信息',
@@ -514,7 +514,7 @@ CREATE TABLE `product_category` (
 # ------------------------------------------------------------
 
 CREATE TABLE `product_category_mapping` (
-  `product_id` int(11) unsigned NOT NULL COMMENT '文章ID',
+  `product_id` int(11) unsigned NOT NULL COMMENT '商品ID',
   `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
   PRIMARY KEY (`product_id`,`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品和分类的多对多关系表';

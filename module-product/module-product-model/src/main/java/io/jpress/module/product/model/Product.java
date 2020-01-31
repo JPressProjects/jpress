@@ -125,8 +125,8 @@ public class Product extends BaseProduct<Product> {
         userCart.setUserId(userId);
         userCart.setSellerId(this.getUserId());
         userCart.setProductId(getId());
-        userCart.setProductType(UserFavorite.FAV_TYPE_PRODUCT);
-        userCart.setProductTypeText(UserFavorite.FAV_TYPE_PRODUCT_TEXT);
+        userCart.setProductType("product");
+        userCart.setProductTypeText("产品");
         userCart.setProductPrice(this.getPrice());
         userCart.setProductCount(1);
         userCart.setProductTitle(getTitle());

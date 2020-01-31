@@ -25,7 +25,7 @@
             ￥ #number(payment.pay_amount,'0.00') 元
         </div>
         <div class="pay-content-qrcode">
-            <img src="#(payConfig.qrcode ?? CPATH + '/static/commons/img/pay-qrcode.png')"/>
+            <img src="#(payConfig.qrcode ?? (CPATH + '/static/commons/img/pay-qrcode.png'))"/>
         </div>
     </div>
     <div class="col-lg-6 pay-content-img">

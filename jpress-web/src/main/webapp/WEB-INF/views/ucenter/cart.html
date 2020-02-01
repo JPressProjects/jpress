@@ -201,6 +201,12 @@
 
 
     function checkAll(checkbox) {
+        if (checkbox.checked) {
+            $(".dataItem").each(function () {
+                $(this).prop('checked', checkbox.checked);
+            });
+        }
+
         var itemIds = getSelectedIds();
         if (itemIds == "") {
             alert("当前购物车并没有任何内容。");
@@ -212,9 +218,6 @@
 
 
         if (checkbox.checked) {
-            $(".dataItem").each(function () {
-                $(this).prop('checked', checkbox.checked);
-            });
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
                     $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");

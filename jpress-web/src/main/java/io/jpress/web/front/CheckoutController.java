@@ -165,6 +165,7 @@ public class CheckoutController extends UcenterControllerBase {
             item.setSellerId(userCart.getSellerId());
 
             item.setProductId(userCart.getProductId());
+            item.setProductType(userCart.getProductType());
             item.setProductTypeText(userCart.getProductType());
             item.setProductTypeText(userCart.getProductTypeText());
             item.setProductSummary(userCart.getProductSummary());

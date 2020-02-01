@@ -124,11 +124,15 @@ public class OrderManager {
         return adminOrderDetailPageRenderMap;
     }
 
-    public Map<String, UCenterOrderDetailPageRender> getuCenterOrderDetailPageRenderMap() {
+    public Map<String, UCenterOrderDetailPageRender> getUCenterOrderDetailPageRenderMap() {
         return uCenterOrderDetailPageRenderMap;
     }
 
     public void renderAdminOrderDetailPage(Controller controller, UserOrder order) {
+        if (order.getProductType() == null) {
+            DefaultAdminOrderDetailPageRender.me.doRender(controller, order);
+            return;
+        }
         AdminOrderDetailPageRender render = adminOrderDetailPageRenderMap.get(order.getProductType());
         if (render == null) {
             render = DefaultAdminOrderDetailPageRender.me;
@@ -138,6 +142,10 @@ public class OrderManager {
 
 
     public void renderUCenterOrderDetailPage(Controller controller, UserOrder order) {
+        if (order.getProductType() == null) {
+            DefaultUCenterOrderDetailPageRender.me.doRender(controller, order);
+            return;
+        }
         UCenterOrderDetailPageRender render = uCenterOrderDetailPageRenderMap.get(order.getProductType());
         if (render == null) {
             render = DefaultUCenterOrderDetailPageRender.me;

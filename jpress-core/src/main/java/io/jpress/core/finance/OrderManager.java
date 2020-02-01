@@ -17,13 +17,20 @@ package io.jpress.core.finance;
 
 
 import com.jfinal.aop.Aop;
+import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import io.jpress.core.finance.render.AdminOrderDetailPageRender;
+import io.jpress.core.finance.render.DefaultAdminOrderDetailPageRender;
+import io.jpress.core.finance.render.DefaultUCenterOrderDetailPageRender;
+import io.jpress.core.finance.render.UCenterOrderDetailPageRender;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author michael yang
@@ -43,6 +50,9 @@ public class OrderManager {
 
     private List<OrderItemStatusChangeListener> orderItemStatusChangeListeners;
     private List<OrderStatusChangeListener> orderStatusChangeListeners;
+
+    private Map<String, AdminOrderDetailPageRender> adminOrderDetailPageRenderMap = new ConcurrentHashMap<>();
+    private Map<String, UCenterOrderDetailPageRender> uCenterOrderDetailPageRenderMap = new ConcurrentHashMap<>();
 
     public List<OrderItemStatusChangeListener> getOrderItemStatusChangeListeners() {
         return orderItemStatusChangeListeners;
@@ -100,5 +110,38 @@ public class OrderManager {
                 }
             }
         }
+    }
+
+    public void registerAdminOrderDetailRender(String forProductType, AdminOrderDetailPageRender render) {
+        adminOrderDetailPageRenderMap.put(forProductType, render);
+    }
+
+    public void registerUCenterOrderDetailRender(String forProductType, UCenterOrderDetailPageRender render) {
+        uCenterOrderDetailPageRenderMap.put(forProductType, render);
+    }
+
+    public Map<String, AdminOrderDetailPageRender> getAdminOrderDetailPageRenderMap() {
+        return adminOrderDetailPageRenderMap;
+    }
+
+    public Map<String, UCenterOrderDetailPageRender> getuCenterOrderDetailPageRenderMap() {
+        return uCenterOrderDetailPageRenderMap;
+    }
+
+    public void renderAdminOrderDetailPage(Controller controller, UserOrder order) {
+        AdminOrderDetailPageRender render = adminOrderDetailPageRenderMap.get(order.getProductType());
+        if (render == null) {
+            render = DefaultAdminOrderDetailPageRender.me;
+        }
+        render.doRender(controller, order);
+    }
+
+
+    public void renderUCenterOrderDetailPage(Controller controller, UserOrder order) {
+        UCenterOrderDetailPageRender render = uCenterOrderDetailPageRenderMap.get(order.getProductType());
+        if (render == null) {
+            render = DefaultUCenterOrderDetailPageRender.me;
+        }
+        render.doRender(controller, order);
     }
 }

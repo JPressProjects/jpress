@@ -34,7 +34,6 @@ import io.jpress.web.commons.express.ExpressInfo;
 import io.jpress.web.commons.express.ExpressUtil;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -107,13 +106,13 @@ public class _OrderController extends AdminControllerBase {
         //如果快递已经发货
         if (order.isDeliveried()) {
             UserOrderDelivery delivery = deliveryService.findById(order.getDeliveryId());
-            List<ExpressInfo> expressInfos= new ArrayList<>();
-            if(delivery!=null){
-                expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
+            if (delivery != null) {
+                List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
+                setAttr("expressInfos", expressInfos);
             }
-            setAttr("expressInfos", expressInfos);
         }
 
+        //如果有优惠码的情况
         if (StrUtil.isNotBlank(order.getCouponCode())) {
             CouponCode orderCoupon = couponCodeService.findByCode(order.getCouponCode());
             if (orderCoupon != null) {
@@ -122,7 +121,10 @@ public class _OrderController extends AdminControllerBase {
             }
         }
 
-        render("order/order_detail.html");
+
+        OrderManager.me().renderAdminOrderDetailPage(this,order);
+
+
     }
 
     /**

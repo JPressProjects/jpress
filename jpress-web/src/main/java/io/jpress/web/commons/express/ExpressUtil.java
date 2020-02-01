@@ -36,6 +36,10 @@ public class ExpressUtil {
         }
 
         String type = JPressOptions.get("express_api_type");
+        //没有设置快递接口的时候
+        if (type == null) {
+            return null;
+        }
         ExpressQuerier querier = ExpressQuerierFactory.get(type);
 
         if (querier == null) {

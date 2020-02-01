@@ -34,6 +34,7 @@ import io.jpress.web.commons.express.ExpressInfo;
 import io.jpress.web.commons.express.ExpressUtil;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -106,7 +107,10 @@ public class _OrderController extends AdminControllerBase {
         //如果快递已经发货
         if (order.isDeliveried()) {
             UserOrderDelivery delivery = deliveryService.findById(order.getDeliveryId());
-            List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
+            List<ExpressInfo> expressInfos= new ArrayList<>();
+            if(delivery!=null){
+                expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
+            }
             setAttr("expressInfos", expressInfos);
         }
 

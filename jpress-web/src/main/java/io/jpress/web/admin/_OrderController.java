@@ -81,7 +81,20 @@ public class _OrderController extends AdminControllerBase {
         setAttr("mountOrderUserCount", mountOrderUserCount);
 
         keepPara();
-        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("productTitle"), getPara("ns"));
+
+        //产品标题
+        String productTitle = getPara("productTitle");
+        if(StrUtil.isNotBlank(productTitle)){
+            productTitle=productTitle.trim();
+        }
+
+        //订单号
+        String ns = getPara("ns");
+        if(StrUtil.isNotBlank(ns)){
+            ns=ns.trim();
+        }
+
+        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, productTitle, ns);
         setAttr("page", userOrderPage);
         render("order/order_list.html");
     }

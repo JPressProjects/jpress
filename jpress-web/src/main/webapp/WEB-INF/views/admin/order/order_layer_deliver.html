@@ -1,7 +1,6 @@
 #@layer()
 
 #define content()
-
 <section class="content">
 
     <div class="row">
@@ -9,7 +8,7 @@
             <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                   action="#(CPATH)/admin/order/doUpdateDeliver"
                   method="POST"
-                  data-ok-function="parent.layer.closeAll()"
+                  data-ok-function="closeLayerAndRefresh()"
             >
                 <input type="hidden" name="orderId" value="#(order.id ??)">
                 <div class="box-body ">

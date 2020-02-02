@@ -23,6 +23,14 @@ function initlayer() {
 }
 
 
+function closeLayerAndRefresh() {
+    if ( typeof parent != "undefined" && parent.layer){
+        parent.layer.data.needRefresh = true;
+        parent.layer.closeAll();
+    }
+}
+
+
 function initDatePicker() {
     if ($('').datepicker) {
         $('.datepicker').datepicker({

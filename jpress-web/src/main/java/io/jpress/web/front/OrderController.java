@@ -66,8 +66,10 @@ public class OrderController extends UcenterControllerBase {
         //如果快递已经发货
         if (order.isDeliveried()) {
             UserOrderDelivery delivery = deliveryService.findById(order.getDeliveryId());
-            List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
-            setAttr("expressInfos", expressInfos);
+            if (delivery != null) {
+                List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
+                setAttr("expressInfos", expressInfos);
+            }
         }
 
 

@@ -176,7 +176,7 @@
                                             </div>
                                             <div class="col-lg-2" style="text-align: right">
                                                 <h3 class="box-title">
-                                                    #if(order.isNotDeliveried())
+                                                    #if(!order.isDeliveried())
                                                     <a href="javascript:;" onclick="deliver('#(order.id)')">发货</a>
                                                     #end
                                                     <a href="#(CPATH)/admin/order/detail/#(order.id)">详情</a>

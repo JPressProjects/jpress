@@ -133,8 +133,8 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
             return;
         }
 
-        for (ProductComment articleComment : p.getList()) {
-            userService.join((ProductComment) articleComment.get("parent"), "user_id");
+        for (ProductComment comment : p.getList()) {
+            userService.join((ProductComment) comment.get("parent"), "user_id");
         }
     }
 }

@@ -23,7 +23,7 @@ import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
-import io.jpress.commons.dfa.DfaUtil;
+import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserCart;
@@ -190,7 +190,7 @@ public class ProductController extends TemplateControllerBase {
             }
         }
 
-        if (DfaUtil.isContainsSensitiveWords(content)){
+        if (DFAUtil.isContainsSensitiveWords(content)){
             renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
             return;
         }

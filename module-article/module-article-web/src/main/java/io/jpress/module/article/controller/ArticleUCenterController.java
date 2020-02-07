@@ -25,7 +25,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
-import io.jpress.commons.dfa.DfaUtil;
+import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.core.menu.annotation.UCenterMenu;
@@ -187,8 +187,8 @@ public class ArticleUCenterController extends UcenterControllerBase {
             }
         }
 
-        if (DfaUtil.isContainsSensitiveWords(article.getText())){
-            renderJson(Ret.fail().set("message", "投稿内容可能包含非法内容。"));
+        if (DFAUtil.isContainsSensitiveWords(article.getText())){
+            renderJson(Ret.fail().set("message", "投稿内容可能包含非法字符。"));
             return;
         }
 

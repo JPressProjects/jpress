@@ -36,7 +36,7 @@ import java.util.Set;
  * https://github.com/aijingsun6/sensitive-words-filter
  *
  */
-public class DfaUtil {
+public class DFAUtil {
 
     private static DFAConfig config = new DFAConfig.Builder()
             .setIgnoreCase(true)

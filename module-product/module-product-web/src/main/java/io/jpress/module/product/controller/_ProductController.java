@@ -178,8 +178,8 @@ public class _ProductController extends AdminControllerBase {
 
 
         if (StrUtil.isNotBlank(product.getSlug())) {
-            Product slugArticle = productService.findFirstBySlug(product.getSlug());
-            if (slugArticle != null && slugArticle.getId().equals(product.getId()) == false) {
+            Product existModel = productService.findFirstBySlug(product.getSlug());
+            if (existModel != null && existModel.getId().equals(product.getId()) == false) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
                 return;
             }

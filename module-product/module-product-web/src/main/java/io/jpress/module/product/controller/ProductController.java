@@ -50,7 +50,7 @@ import java.util.Map;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章前台页面Controller
+ * @Title: 产品前台页面Controller
  * @Package io.jpress.module.product.controller
  */
 @RequestMapping("/product")
@@ -84,7 +84,7 @@ public class ProductController extends TemplateControllerBase {
     public void index() {
         Product product = getProduct();
 
-        //当文章处于审核中、草稿等的时候，显示404
+        //当产品处于下架等的时候，显示404
         render404If(product == null || !product.isNormal());
 
         //设置页面的seo信息
@@ -202,7 +202,7 @@ public class ProductController extends TemplateControllerBase {
             return;
         }
 
-        // 文章关闭了评论的功能
+        // 关闭了评论的功能
         if (!product.isCommentEnable()) {
             renderJson(Ret.fail().set("message", "该产品的评论功能已关闭"));
             return;
@@ -250,7 +250,7 @@ public class ProductController extends TemplateControllerBase {
             comment.setStatus(ProductComment.STATUS_NORMAL);
         }
 
-        //记录文章的评论量
+        //记录产品的评论量
         productService.doIncProductCommentCount(productId);
 
         commentService.saveOrUpdate(comment);

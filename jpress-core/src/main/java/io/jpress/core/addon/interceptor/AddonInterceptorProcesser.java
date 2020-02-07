@@ -18,6 +18,7 @@ package io.jpress.core.addon.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import io.jboot.Jboot;
 import io.jboot.web.fixedinterceptor.FixedInterceptor;
 
 import java.lang.reflect.Method;
@@ -54,7 +55,15 @@ public class AddonInterceptorProcesser implements FixedInterceptor {
         @Override
         public void invoke() {
             if (index < inters.length) {
-                inters[index++].intercept(this);
+                Interceptor interceptor = inters[index++];
+                try {
+                    interceptor.intercept(this);
+                }finally {
+                    if (Jboot.isDevMode()){
+                        System.out.println("addon interceptor intercepted : " + interceptor);
+                    }
+                }
+
             } else if (index++ == inters.length) {
                 invocation.invoke();
             }

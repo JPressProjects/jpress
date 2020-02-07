@@ -52,8 +52,10 @@ public class DfaUtil {
     private static String dynamicFilterTexts;
     private static DFAFilter dynamicFilter;
 
-    static {
-
+    /**
+     * 需要在 App 启动的时候调用 init 进行初始化，方可使用
+     */
+    public static void init(){
         File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(), "WEB-INF/other/sys_sensitive_words.txt");
         try {
             List<String> lines = FileUtils.readLines(sysSensitiveWordsFile, "utf-8");

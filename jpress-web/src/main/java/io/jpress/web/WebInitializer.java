@@ -17,6 +17,7 @@ package io.jpress.web;
 
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jpress.commons.dfa.DfaUtil;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.PaymentManager;
 import io.jpress.web.commons.finance.*;
@@ -61,5 +62,7 @@ public class WebInitializer extends JbootAppListenerBase {
         OrderManager.me().addOrderItemStatusChangeListener(new OrderFinishedFlagProcesser());
 
         OrderManager.me().addOrderStatusChangeListener(new CouponAwardProcesser());
+
+        DfaUtil.init();
     }
 }

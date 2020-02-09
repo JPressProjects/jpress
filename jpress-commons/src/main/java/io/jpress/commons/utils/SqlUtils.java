@@ -15,8 +15,8 @@
  */
 package io.jpress.commons.utils;
 
-import io.jboot.db.dialect.DialectKit;
 import io.jboot.db.model.Columns;
+import io.jboot.db.model.SqlBuilder;
 import io.jboot.utils.StrUtil;
 
 import java.util.Date;
@@ -34,7 +34,7 @@ public class SqlUtils {
         }
 
         StringBuilder sql = new StringBuilder();
-        DialectKit.buildWhereSql(sql,columns.getList(),' ');
+        SqlBuilder.buildWhereSql(sql,columns.getList(),' ');
         return sql.toString();
     }
 

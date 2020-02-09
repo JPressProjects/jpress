@@ -56,9 +56,9 @@ public class ProductsDirective extends JbootDirectiveBase {
 
         if (hasThumbnail != null) {
             if (hasThumbnail) {
-                columns.is_not_null("thumbnail");
+                columns.isNotNull("thumbnail");
             } else {
-                columns.is_null("thumbnail");
+                columns.isNull("thumbnail");
             }
         }
 

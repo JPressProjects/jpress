@@ -32,7 +32,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.0.0</jboot.version>
+        <jboot.version>3.0.1</jboot.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>

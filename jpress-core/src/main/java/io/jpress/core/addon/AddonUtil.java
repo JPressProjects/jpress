@@ -20,6 +20,13 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.render.RenderManager;
+import com.jfinal.template.Engine;
+import com.jfinal.template.EngineConfig;
+import com.jfinal.template.source.FileSourceFactory;
+import com.jfinal.template.source.ISource;
+import com.jfinal.template.stat.Parser;
+import com.jfinal.template.stat.ast.Define;
 import io.jboot.db.ArpManager;
 import io.jboot.db.datasource.DataSourceBuilder;
 import io.jboot.db.datasource.DataSourceConfig;
@@ -27,6 +34,7 @@ import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.core.addon.template.AddonTemplateEnv;
 import io.jpress.core.support.ehcache.EhcacheManager;
 import org.apache.commons.lang3.StringUtils;
 
@@ -310,6 +318,43 @@ public class AddonUtil {
             // remove by lixin 08.23 sql 执行失败时导致连接不释放
             // pst.executeBatch(); 
             CommonsUtils.quietlyClose(pst, conn);
+        }
+    }
+
+
+    public static void addSharedFunction(AddonInfo addonInfo, String path) {
+        if (addonInfo != null && addonInfo.isInstall()) {
+            String filePath = AddonUtil.getAddonBasePath(addonInfo.getId());
+            RenderManager.me().getEngine().addSharedFunction(
+                    new File(filePath, path).getName());
+        } else {
+            RenderManager.me().getEngine().addSharedFunction(path);
+        }
+    }
+
+    public static void removeSharedFunction(AddonInfo addonInfo, String path) {
+        if (addonInfo != null && addonInfo.isInstall()) {
+            String filePath = AddonUtil.getAddonBasePath(addonInfo.getId());
+            path = new File(filePath, path).getName();
+        }
+
+        Engine engine = RenderManager.me().getEngine();
+        try {
+
+            ISource source = new FileSourceFactory().getSource(engine.getBaseTemplatePath(), path, "UTF-8");
+            AddonTemplateEnv env = new AddonTemplateEnv(RenderManager.me().getEngine().getEngineConfig());
+            new Parser(env, source.getContent(), path).parse();
+
+            Map<String, Define> funcMap = env.getFunctionMap();
+            Map<String, Define> sharedFunctionMap = (Map<String, Define>) EngineConfig.class.getField("sharedFunctionMap").get(engine.getEngineConfig());
+            for (Map.Entry<String, Define> e : funcMap.entrySet()) {
+                if (sharedFunctionMap != null && sharedFunctionMap.containsKey(e.getKey())) {
+                    sharedFunctionMap.remove(e.getKey());
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -323,12 +323,12 @@ public class AddonUtil {
 
 
     public static void addSharedFunction(AddonInfo addonInfo, String path) {
+        Engine engine = RenderManager.me().getEngine();
         if (addonInfo != null && addonInfo.isInstall()) {
             String filePath = AddonUtil.getAddonBasePath(addonInfo.getId());
-            RenderManager.me().getEngine().addSharedFunction(
-                    new File(filePath, path).getName());
+            engine.addSharedFunction(new File(filePath, path).getName());
         } else {
-            RenderManager.me().getEngine().addSharedFunction(path);
+            engine.addSharedFunction(path);
         }
     }
 
@@ -338,17 +338,20 @@ public class AddonUtil {
             path = new File(filePath, path).getName();
         }
 
-        Engine engine = RenderManager.me().getEngine();
         try {
+
+            Engine engine = RenderManager.me().getEngine();
+            Map<String, Define> sharedFunctionMap = (Map<String, Define>) EngineConfig.class
+                    .getField("sharedFunctionMap").get(engine.getEngineConfig());
 
             ISource source = new FileSourceFactory().getSource(engine.getBaseTemplatePath(), path, "UTF-8");
             AddonTemplateEnv env = new AddonTemplateEnv(RenderManager.me().getEngine().getEngineConfig());
             new Parser(env, source.getContent(), path).parse();
 
             Map<String, Define> funcMap = env.getFunctionMap();
-            Map<String, Define> sharedFunctionMap = (Map<String, Define>) EngineConfig.class.getField("sharedFunctionMap").get(engine.getEngineConfig());
+
             for (Map.Entry<String, Define> e : funcMap.entrySet()) {
-                if (sharedFunctionMap != null && sharedFunctionMap.containsKey(e.getKey())) {
+                if (sharedFunctionMap != null) {
                     sharedFunctionMap.remove(e.getKey());
                 }
             }

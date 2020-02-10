@@ -198,8 +198,8 @@ public class UserController extends TemplateControllerBase {
 
     public void doRegister() {
 
-        String regEnableString = JPressOptions.get("reg_enable");
-        if ("false".equals(regEnableString)) {
+        boolean regEnable = JPressOptions.getAsBool("reg_enable");
+        if (!regEnable) {
             renderJson(Ret.fail().set("message", "注册功能已经关闭").set("errorCode", 12));
             return;
         }
@@ -236,8 +236,13 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
-        if (validateCaptcha("captcha") == false) {
+        if (StrUtil.isBlank(getPara("captcha"))){
             renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 6));
+            return;
+        }
+
+        if (validateCaptcha("captcha") == false) {
+            renderJson(Ret.fail().set("message", "验证码不正确").set("errorCode", 7));
             return;
         }
 

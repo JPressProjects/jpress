@@ -175,6 +175,11 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
         else if (wechatReply.isImageType()) {
 
             File imageFile = AttachmentUtils.file(wechatReply.getImage());
+            if (!imageFile.exists()) {
+                LOG.error("wechat reply image not exists : " + imageFile);
+                renderNull();
+                return;
+            }
 
             /**
              * 上传临时素材
@@ -184,6 +189,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             if (!apiResult.isSucceed()) {
                 LOG.error("MediaApi.uploadMedia..." + imageFile + " \n" + apiResult.toString());
                 renderNull();
+                return;
             }
 
             String mediaId = apiResult.get("media_id");

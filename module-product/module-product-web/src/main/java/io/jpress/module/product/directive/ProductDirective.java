@@ -29,7 +29,6 @@ import io.jpress.module.product.service.ProductService;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.module.page.directive
  */
 @JFinalDirective("product")
 public class ProductDirective extends JbootDirectiveBase {

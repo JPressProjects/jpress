@@ -30,7 +30,6 @@ import java.util.List;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: 文章分类：分类、专题、标签等
- * @Package io.jpress.module.article.directives
  */
 @JFinalDirective("productTags")
 public class ProductTagsDirective extends JbootDirectiveBase {

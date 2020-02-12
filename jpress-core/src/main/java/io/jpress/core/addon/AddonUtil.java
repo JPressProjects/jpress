@@ -40,6 +40,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -94,7 +95,7 @@ public class AddonUtil {
     }
 
     public static String getViewPath(AddonInfo addonInfo, String path) {
-        if (addonInfo != null && addonInfo.isStarted()) {
+        if (addonInfo != null && addonInfo.isInstall()) {
             StringBuilder basePath = new StringBuilder();
             basePath.append("/addons/")
                     .append(addonInfo.getId())
@@ -336,26 +337,22 @@ public class AddonUtil {
 
     public static void addSharedFunction(AddonInfo addonInfo, String path) {
         Engine engine = RenderManager.me().getEngine();
-        if (addonInfo != null && addonInfo.isInstall()) {
-            String filePath = AddonUtil.getAddonBasePath(addonInfo.getId());
-            engine.addSharedFunction(new File(filePath, path).getName());
-        } else {
-            engine.addSharedFunction(path);
-        }
+        path = getViewPath(addonInfo,path);
+        engine.addSharedFunction(path);
     }
 
     public static void removeSharedFunction(AddonInfo addonInfo, String path) {
-        if (addonInfo != null && addonInfo.isInstall()) {
-            String filePath = AddonUtil.getAddonBasePath(addonInfo.getId());
-            path = new File(filePath, path).getName();
-        }
+
 
         try {
 
-            Engine engine = RenderManager.me().getEngine();
-            Map<String, Define> sharedFunctionMap = (Map<String, Define>) EngineConfig.class
-                    .getField("sharedFunctionMap").get(engine.getEngineConfig());
+            path = getViewPath(addonInfo,path);
 
+            Engine engine = RenderManager.me().getEngine();
+            Field sharedFunctionMapField = EngineConfig.class.getDeclaredField("sharedFunctionMap");
+            sharedFunctionMapField.setAccessible(true);
+
+            Map<String, Define> sharedFunctionMap = (Map<String, Define>) sharedFunctionMapField.get(engine.getEngineConfig());
             if (sharedFunctionMap != null && !sharedFunctionMap.isEmpty()) {
 
                 ISource source = new FileSourceFactory().getSource(engine.getBaseTemplatePath(), path, "UTF-8");

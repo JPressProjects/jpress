@@ -292,9 +292,8 @@ public class ProductController extends TemplateControllerBase {
 
         Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        String distUserId = CookieUtil.get(this, buildDistUserCookieName(product.getId()));
-        Long duid = StrUtil.isNotBlank(distUserId) ? Long.valueOf(distUserId) : null;
-        UserCart userCart = product.toUserCartItem(user.getId(), duid, getPara("spec"));
+        Long distUserId = CookieUtil.getLong(this, buildDistUserCookieName(product.getId()));
+        UserCart userCart = product.toUserCartItem(user.getId(), distUserId, getPara("spec"));
 
         cartService.save(userCart);
         renderOkJson();

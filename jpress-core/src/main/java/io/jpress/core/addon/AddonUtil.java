@@ -272,6 +272,7 @@ public class AddonUtil {
             }
             return new String(baos.toByteArray(), JFinal.me().getConstants().getEncoding());
         } catch (Exception e) {
+            LogKit.error(e.toString(), e);
         } finally {
             CommonsUtils.quietlyClose(baos);
         }
@@ -336,36 +337,32 @@ public class AddonUtil {
 
 
     public static void addSharedFunction(AddonInfo addonInfo, String path) {
-        Engine engine = RenderManager.me().getEngine();
-        path = getViewPath(addonInfo,path);
-        engine.addSharedFunction(path);
+        RenderManager.me().getEngine().addSharedFunction(getViewPath(addonInfo, path));
     }
 
     public static void removeSharedFunction(AddonInfo addonInfo, String path) {
-
-
         try {
 
-            path = getViewPath(addonInfo,path);
+            String viewPath = getViewPath(addonInfo, path);
 
             Engine engine = RenderManager.me().getEngine();
             Field sharedFunctionMapField = EngineConfig.class.getDeclaredField("sharedFunctionMap");
             sharedFunctionMapField.setAccessible(true);
 
-            Map<String, Define> sharedFunctionMap = (Map<String, Define>) sharedFunctionMapField.get(engine.getEngineConfig());
+            Map sharedFunctionMap = (Map) sharedFunctionMapField.get(engine.getEngineConfig());
             if (sharedFunctionMap != null && !sharedFunctionMap.isEmpty()) {
 
-                ISource source = new FileSourceFactory().getSource(engine.getBaseTemplatePath(), path, "UTF-8");
+                ISource source = new FileSourceFactory().getSource(engine.getBaseTemplatePath(), viewPath, "UTF-8");
                 AddonTemplateEnv env = new AddonTemplateEnv(RenderManager.me().getEngine().getEngineConfig());
-                new Parser(env, source.getContent(), path).parse();
+                new Parser(env, source.getContent(), viewPath).parse();
 
                 Map<String, Define> funcMap = env.getFunctionMap();
-
-                for (Map.Entry<String, Define> e : funcMap.entrySet()) {
-                    sharedFunctionMap.remove(e.getKey());
+                if (funcMap != null) {
+                    for (Map.Entry<String, Define> e : funcMap.entrySet()) {
+                        sharedFunctionMap.remove(e.getKey());
+                    }
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -381,7 +378,6 @@ public class AddonUtil {
 
 
     private static DataSourceConfig getDatasourceConfig(AddonInfo addonInfo) {
-
         Map<String, String> config = addonInfo.getConfig();
         if (config == null || config.isEmpty()) {
             return DataSourceConfigManager.me().getMainDatasourceConfig();

@@ -344,14 +344,15 @@ public class AddonUtil {
             Map<String, Define> sharedFunctionMap = (Map<String, Define>) EngineConfig.class
                     .getField("sharedFunctionMap").get(engine.getEngineConfig());
 
-            ISource source = new FileSourceFactory().getSource(engine.getBaseTemplatePath(), path, "UTF-8");
-            AddonTemplateEnv env = new AddonTemplateEnv(RenderManager.me().getEngine().getEngineConfig());
-            new Parser(env, source.getContent(), path).parse();
+            if (sharedFunctionMap != null && !sharedFunctionMap.isEmpty()) {
 
-            Map<String, Define> funcMap = env.getFunctionMap();
+                ISource source = new FileSourceFactory().getSource(engine.getBaseTemplatePath(), path, "UTF-8");
+                AddonTemplateEnv env = new AddonTemplateEnv(RenderManager.me().getEngine().getEngineConfig());
+                new Parser(env, source.getContent(), path).parse();
 
-            for (Map.Entry<String, Define> e : funcMap.entrySet()) {
-                if (sharedFunctionMap != null) {
+                Map<String, Define> funcMap = env.getFunctionMap();
+
+                for (Map.Entry<String, Define> e : funcMap.entrySet()) {
                     sharedFunctionMap.remove(e.getKey());
                 }
             }

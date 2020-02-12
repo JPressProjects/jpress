@@ -83,7 +83,7 @@ public class OrderController extends UcenterControllerBase {
         UserOrderItem item = orderItemService.findById(getPara());
         render404If(notLoginedUserModel(item, "buyer_id"));
 
-        redirect(item.getCommentPath() + "?id=" + item.getProductId() + "&itemId=" + item.getId());
+        redirect(item.getCommentPath() + "?productId=" + item.getProductId() + "&orderItemId=" + item.getId());
     }
 
 

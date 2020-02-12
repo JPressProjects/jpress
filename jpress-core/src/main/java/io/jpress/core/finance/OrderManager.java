@@ -120,6 +120,14 @@ public class OrderManager {
         uCenterOrderDetailPageRenderMap.put(forProductType, render);
     }
 
+    public void unregisterAdminOrderDetailRender(String forProductType) {
+        adminOrderDetailPageRenderMap.remove(forProductType);
+    }
+
+    public void unregisterUCenterOrderDetailRender(String forProductType) {
+        uCenterOrderDetailPageRenderMap.remove(forProductType);
+    }
+
     public Map<String, AdminOrderDetailPageRender> getAdminOrderDetailPageRenderMap() {
         return adminOrderDetailPageRenderMap;
     }

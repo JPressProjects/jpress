@@ -12,20 +12,20 @@ public class UserAddress extends BaseUserAddress<UserAddress> {
 
     private static final long serialVersionUID = 1L;
 
-    public boolean isDefault(){
+    public boolean isDefault() {
         Boolean isDefault = getWidthDefault();
         return isDefault != null && isDefault;
     }
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.update();
     }
 

@@ -41,7 +41,7 @@ public class UserCart extends BaseUserCart<UserCart> {
     }
 
 
-    public BigDecimal getNewProductPrice(){
+    public BigDecimal getNewProductPrice() {
         BigDecimal newestSalePrice = getBigDecimal("newestSalePrice");
         return newestSalePrice == null ? getProductPrice() : newestSalePrice;
     }
@@ -66,13 +66,13 @@ public class UserCart extends BaseUserCart<UserCart> {
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.update();
     }
 

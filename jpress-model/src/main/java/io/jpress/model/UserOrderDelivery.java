@@ -18,13 +18,13 @@ public class UserOrderDelivery extends BaseUserOrderDelivery<UserOrderDelivery> 
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.update();
     }
 }

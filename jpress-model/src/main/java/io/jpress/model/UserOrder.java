@@ -156,13 +156,13 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.update();
     }
 

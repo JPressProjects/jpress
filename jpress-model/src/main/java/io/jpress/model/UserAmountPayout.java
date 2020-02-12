@@ -40,20 +40,21 @@ public class UserAmountPayout extends BaseUserAmountPayout<UserAmountPayout> {
     public static final String PAY_TYPE_ICBC = "icbc";
     public static final String PAY_TYPE_CCB = "ccb";
     public static final String PAY_TYPE_BANKCOMM = "bankcomm";
-    public static final String PAY_TYPE_CMB= "cmb";
+    public static final String PAY_TYPE_CMB = "cmb";
     public static final String PAY_TYPE_OTHERBANK = "otherbank";
 
     public static final Map<String, String> payTypeTexts = new HashMap<>();
+
     static {
-        payTypeTexts.put(PAY_TYPE_ALIPAY,"支付宝账号");
-        payTypeTexts.put(PAY_TYPE_WECHAT,"微信账号");
-        payTypeTexts.put(PAY_TYPE_BOC,"中国银行");
-        payTypeTexts.put(PAY_TYPE_ABC,"农业银行");
-        payTypeTexts.put(PAY_TYPE_ICBC,"工商银行");
-        payTypeTexts.put(PAY_TYPE_CCB,"建设银行");
-        payTypeTexts.put(PAY_TYPE_BANKCOMM,"交通银行");
-        payTypeTexts.put(PAY_TYPE_CMB,"招商银行");
-        payTypeTexts.put(PAY_TYPE_OTHERBANK,"其他银行");
+        payTypeTexts.put(PAY_TYPE_ALIPAY, "支付宝账号");
+        payTypeTexts.put(PAY_TYPE_WECHAT, "微信账号");
+        payTypeTexts.put(PAY_TYPE_BOC, "中国银行");
+        payTypeTexts.put(PAY_TYPE_ABC, "农业银行");
+        payTypeTexts.put(PAY_TYPE_ICBC, "工商银行");
+        payTypeTexts.put(PAY_TYPE_CCB, "建设银行");
+        payTypeTexts.put(PAY_TYPE_BANKCOMM, "交通银行");
+        payTypeTexts.put(PAY_TYPE_CMB, "招商银行");
+        payTypeTexts.put(PAY_TYPE_OTHERBANK, "其他银行");
     }
 
 
@@ -65,27 +66,27 @@ public class UserAmountPayout extends BaseUserAmountPayout<UserAmountPayout> {
         return payTypeTexts.get(getPayType());
     }
 
-    public boolean isApplying(){
+    public boolean isApplying() {
         return STATUS_APPLYING == getStatus();
     }
 
-    public boolean isRefuse(){
+    public boolean isRefuse() {
         return STATUS_REFUSE == getStatus();
     }
 
-    public boolean isSuccess(){
+    public boolean isSuccess() {
         return STATUS_SUCCESS == getStatus();
     }
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeModel(this);
+        CommonsUtils.escapeModel(this, "options");
         return super.update();
     }
 }

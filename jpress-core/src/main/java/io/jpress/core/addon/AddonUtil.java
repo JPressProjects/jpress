@@ -93,6 +93,18 @@ public class AddonUtil {
         return basePath.toString();
     }
 
+    public static String getViewPath(AddonInfo addonInfo, String path) {
+        if (addonInfo != null && addonInfo.isStarted()) {
+            StringBuilder basePath = new StringBuilder();
+            basePath.append("/addons/")
+                    .append(addonInfo.getId())
+                    .append(path);
+            return basePath.toString();
+        } else {
+            return path;
+        }
+    }
+
     /**
      * 解压 zip 或者 jar 的资源文件
      *

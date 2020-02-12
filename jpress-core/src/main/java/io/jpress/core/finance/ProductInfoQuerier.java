@@ -15,6 +15,8 @@
  */
 package io.jpress.core.finance;
 
+import io.jpress.model.UserOrderItem;
+
 import java.math.BigDecimal;
 
 
@@ -23,12 +25,14 @@ public interface ProductInfoQuerier {
     /**
      * 查询该商品的分销价格
      *
+     *
+     * @param userOrderItem
      * @param productId
      * @param buyerUserId
      * @param distUserId
      * @return
      */
-    public BigDecimal queryDistAmount(Object productId, Long buyerUserId, Long distUserId);
+    public BigDecimal queryDistAmount(UserOrderItem userOrderItem, Object productId, Long buyerUserId, Long distUserId);
 
 
     /**

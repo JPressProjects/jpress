@@ -136,7 +136,7 @@ public class CheckoutController extends UcenterControllerBase {
             UserCart userCart = cartService.findById(cid);
 
             //用户返回重新提交
-            if (userCart == null){
+            if (userCart == null) {
                 renderFailJson("该购物车信息已经提交，若需再次支付，请进入订单页面进行支付，或者重新下单。");
                 return;
             }
@@ -180,7 +180,7 @@ public class CheckoutController extends UcenterControllerBase {
 
             //分销的相关信息
             item.setDistUserId(userCart.getDistUserId());
-            item.setDistAmount(ProductManager.me().queryDistAmount(userCart.getProductType(),
+            item.setDistAmount(ProductManager.me().queryDistAmount(item, userCart.getProductType(),
                     userCart.getProductId(),
                     getLoginedUser().getId(),
                     userCart.getDistUserId()));
@@ -259,7 +259,7 @@ public class CheckoutController extends UcenterControllerBase {
             }
 
             Ret ret = couponCodeService.valid(couponCode, orderTotalAmount, userOrder.getBuyerId());
-            if (ret.isFail()){
+            if (ret.isFail()) {
                 renderJson(ret);
                 return;
             }
@@ -274,9 +274,9 @@ public class CheckoutController extends UcenterControllerBase {
 
         if (userOrder.getCouponAmount() != null) {
             //优惠劵大于 订单金额会导致 负数
-            if (orderTotalAmount.compareTo(userOrder.getCouponAmount()) <0){
+            if (orderTotalAmount.compareTo(userOrder.getCouponAmount()) < 0) {
                 orderTotalAmount = new BigDecimal(0);
-            }else {
+            } else {
                 orderTotalAmount = orderTotalAmount.subtract(userOrder.getCouponAmount());
             }
         }

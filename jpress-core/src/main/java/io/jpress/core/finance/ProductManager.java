@@ -16,7 +16,9 @@
 package io.jpress.core.finance;
 
 
+import com.jfinal.aop.Aop;
 import io.jboot.utils.StrUtil;
+import io.jpress.model.UserOrderItem;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -46,11 +48,16 @@ public class ProductManager {
     }
 
     public void registerQuerier(String type, ProductInfoQuerier querier) {
+        Aop.inject(querier);
         queriers.put(type, querier);
     }
 
+    public void unregisterQuerier(String type) {
+        queriers.remove(type);
+    }
 
-    public BigDecimal queryDistAmount(String type, Object productId, Long payerUserId, Long distUserId) {
+
+    public BigDecimal queryDistAmount(UserOrderItem userOrderItem, String type, Object productId, Long payerUserId, Long distUserId) {
         if (StrUtil.isBlank(type)) {
             return BigDecimal.ZERO;
         }
@@ -63,7 +70,7 @@ public class ProductManager {
             return BigDecimal.ZERO;
         }
 
-        BigDecimal distAmount = querier.queryDistAmount(productId, payerUserId, distUserId);
+        BigDecimal distAmount = querier.queryDistAmount(userOrderItem, productId, payerUserId, distUserId);
         return distAmount == null || distAmount.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : distAmount;
     }
 

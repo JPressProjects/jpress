@@ -17,6 +17,7 @@ package io.jpress.module.product;
 
 import com.jfinal.aop.Inject;
 import io.jpress.core.finance.ProductInfoQuerier;
+import io.jpress.model.UserOrderItem;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 
@@ -29,7 +30,7 @@ public class JPressProductInfoQuerier implements ProductInfoQuerier {
     private ProductService productService;
 
     @Override
-    public BigDecimal queryDistAmount(Object productId, Long buyerUserId, Long distUserId) {
+    public BigDecimal queryDistAmount(UserOrderItem userOrderItem, Object productId, Long buyerUserId, Long distUserId) {
         Product product = productService.findById(productId);
         if (product == null || !product.isNormal()) {
             return null;

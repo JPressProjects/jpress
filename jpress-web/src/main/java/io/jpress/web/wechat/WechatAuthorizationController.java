@@ -17,12 +17,12 @@ package io.jpress.web.wechat;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
-import com.jfinal.core.JFinal;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.kit.ParaMap;
 import com.jfinal.weixin.sdk.utils.HttpUtils;
 import io.jboot.utils.CookieUtil;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
@@ -82,21 +82,18 @@ public class WechatAuthorizationController extends ControllerBase {
             return;
         }
 
+
         String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
         if (StrUtil.isBlank(domain)) {
-            domain = getRequest().getScheme() + "://" + getRequest().getServerName();
-        }
-
-        if (StrUtil.isNotBlank(JFinal.me().getContextPath())) {
-            domain = domain + JFinal.me().getContextPath();
+            domain = RequestUtil.getBaseUrl(getRequest());
         }
 
 
-        //这个url是微信执行完毕之后跳转回来的url
-        //也是下方的这个 action
-        String redirecturi = domain + "/wechat/authorization/back?goto=" + gotoUrl;
+        //这个backUrl是微信执行完用户授权之后跳转回来的url
+        String backUrl = domain + "/wechat/authorization/back?goto=" + gotoUrl;
 
-        String wechatUrl = AUTHORIZE_URL.replace("{appid}", appId).replace("{redirecturi}", redirecturi);
+        String wechatUrl = AUTHORIZE_URL.replace("{appid}", appId)
+                .replace("{redirecturi}", backUrl);
 
         redirect(wechatUrl);
     }
@@ -223,16 +220,15 @@ public class WechatAuthorizationController extends ControllerBase {
         String uid = CookieUtil.get(this, JPressConsts.COOKIE_UID);
         if (StrUtil.isNotBlank(uid)) {
             user = userService.findById(uid);
-            if (user != null){
-                userOpenidService.saveOrUpdate(user.getId(), UserOpenid.TYPE_WECHAT,openId);
-                if (StrUtil.isNotBlank(unionId)){
-                    userOpenidService.saveOrUpdate(user.getId(),UserOpenid.TYPE_WECHAT_UNIONID,unionId);
+            if (user != null) {
+                userOpenidService.saveOrUpdate(user.getId(), UserOpenid.TYPE_WECHAT, openId);
+                if (StrUtil.isNotBlank(unionId)) {
+                    userOpenidService.saveOrUpdate(user.getId(), UserOpenid.TYPE_WECHAT_UNIONID, unionId);
                 }
 
                 return user.getId();
             }
         }
-
 
 
         // 都查询不到，说明该用户是一个新的用户，创建一个新的用户
@@ -259,9 +255,9 @@ public class WechatAuthorizationController extends ControllerBase {
         Long userId = (Long) userService.save(user);
 
 
-        userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT,openId);
-        if (StrUtil.isNotBlank(unionId)){
-            userOpenidService.saveOrUpdate(userId,UserOpenid.TYPE_WECHAT_UNIONID,unionId);
+        userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT, openId);
+        if (StrUtil.isNotBlank(unionId)) {
+            userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT_UNIONID, unionId);
         }
 
 

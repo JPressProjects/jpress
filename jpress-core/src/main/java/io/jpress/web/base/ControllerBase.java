@@ -39,7 +39,6 @@ public abstract class ControllerBase extends JbootController {
     public Long getIdPara() {
         Long id = getParaToLong();
         if (id == null) {
-
             //renderError 会直接抛出异常，阻止程序往下执行
             renderError(404);
         }
@@ -48,7 +47,9 @@ public abstract class ControllerBase extends JbootController {
 
 
     protected void render404If(boolean condition) {
-        if (condition) renderError(404);
+        if (condition) {
+            renderError(404);
+        }
     }
 
 
@@ -108,7 +109,7 @@ public abstract class ControllerBase extends JbootController {
         if (value == null || "".equals(value)) {
             return null;
         }
-        return StrUtil.escapeHtml(value);
+        return StrUtil.escapeHtml(value.trim());
     }
 
     protected static final Ret OK = Ret.ok();

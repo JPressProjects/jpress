@@ -83,10 +83,10 @@ public class _UserController extends AdminControllerBase {
     public void index() {
 
         Columns columns = Columns.create("status", getPara("status"));
-        columns.likeAppendPercent("username", getPara("username"));
+        columns.likeAppendPercent("username", getTrimPara("username"));
 //        columns.likeAppendPercent("nickname", getPara("username"));
-        columns.likeAppendPercent("email", getPara("email"));
-        columns.likeAppendPercent("mobile", getPara("mobile"));
+        columns.likeAppendPercent("email", getTrimPara("email"));
+        columns.likeAppendPercent("mobile", getTrimPara("mobile"));
         columns.eq("create_source", getPara("create_source"));
 
 

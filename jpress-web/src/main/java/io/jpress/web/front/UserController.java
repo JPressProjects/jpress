@@ -112,8 +112,8 @@ public class UserController extends TemplateControllerBase {
             CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 
-        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
-        ret.set("gotoUrl",gotoUrl);
+        String gotoUrl = JPressOptions.get("login_goto_url", "/ucenter");
+        ret.set("gotoUrl", gotoUrl);
 
         renderJson(ret);
     }
@@ -236,7 +236,7 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
-        if (StrUtil.isBlank(getPara("captcha"))){
+        if (StrUtil.isBlank(getPara("captcha"))) {
             renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 6));
             return;
         }
@@ -294,6 +294,12 @@ public class UserController extends TemplateControllerBase {
             user.setStatus(User.STATUS_REG);
         } else {
             user.setStatus(User.STATUS_OK);
+        }
+
+        //强制用户状态为未激活
+        boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+        if (isNotActivate) {
+            user.setStatus(User.STATUS_REG);
         }
 
         Object userId = userService.save(user);

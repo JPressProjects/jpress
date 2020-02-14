@@ -225,10 +225,23 @@
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="reg_enable"
                                            #checkedIf(option("reg_enable","true"))>
-                                    <input type="hidden" id="reg_enable"
-                                           name="reg_enable">
+                                    <input type="hidden" id="reg_enable" name="reg_enable">
                                 </div>
                             </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">默认所有注册用户未激活</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="reg_users_is_not_activate"
+                                           #checkedIf(option("reg_users_is_not_activate"))>
+                                    <input type="hidden" id="reg_users_is_not_activate" name="reg_users_is_not_activate">
+                                    <p class="help-block">
+                                        开启此功能后，需要管理员在后台对用户进行手动激活。
+                                    </p>
+                                </div>
+                            </div>
+
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用邮件验证</label>

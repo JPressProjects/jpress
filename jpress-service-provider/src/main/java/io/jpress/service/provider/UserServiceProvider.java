@@ -94,15 +94,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
             return null;
         }
 
-        StringBuilder sqlBuilder = new StringBuilder("select u.* from `user` u ");
+        return DAO.leftJoin("user_tag_mapping").as("m").on("user.id=m.user_id")
+                .findListByColumns(columns.in("m.tag_id", tagIds), "user.id desc");
 
-        sqlBuilder.append("left join user_tag_mapping utm on u.id = utm.user_id");
-        columns.in("utm.tag_id", tagIds);
-
-        sqlBuilder.append(SqlUtils.toWhereSql(columns));
-        sqlBuilder.append(" order by u.id desc");
-
-        return DAO.find(sqlBuilder.toString(), columns.getValueArray());
     }
 
     @Override
@@ -128,7 +122,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         String hashedPass = HashKit.sha256(salt + pwd);
 
         // 未通过密码验证
-        if (user.getPassword().equals(hashedPass) == false) {
+        if (!user.getPassword().equals(hashedPass)) {
             return Ret.fail("message", "用户名或密码不正确");
         }
 

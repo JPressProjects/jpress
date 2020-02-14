@@ -29,7 +29,6 @@ import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
-import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -89,7 +88,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
                 , pagesize
                 , title
                 , categoryId
-                , Columns.create("a.status", status));
+                , Columns.create("article.status", status));
     }
 
     @Override
@@ -99,29 +98,22 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
                 , pagesize
                 , title
                 , categoryId
-                , Columns.create().ne("a.status", Article.STATUS_TRASH));
+                , Columns.create().ne("article.status", Article.STATUS_TRASH));
     }
 
 
     public Page<Article> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId, Columns baseColumns) {
 
-
-        StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        if (categoryId != null) {
-            sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        }
-
         Columns columns = baseColumns;
         columns.add("m.category_id", categoryId);
-        columns.likeAppendPercent("a.title", title);
+        columns.likeAppendPercent("article.title", title);
 
-        sqlBuilder.append(SqlUtils.toWhereSql(columns));
+        Page<Article> dataPage = DAO.leftJoinIf("article_category_mapping", categoryId != null)
+                .as("m")
+                .on("article.id = m.article_id")
+                .paginateByColumns(page, pagesize, columns, "id desc");
 
-        // 前台走默认排序，但是后台必须走 id 排序，
-        // 否当有默认排序的文章很多的时候,发布的新文章可能在后几页
-        sqlBuilder.append(" order by id desc");
 
-        Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserInfo(dataPage);
     }
 
@@ -151,19 +143,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Cacheable(name = "articles")
     public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
 
-        StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-
         Columns columns = new Columns();
         columns.add("m.category_id", categoryId);
-        columns.add("a.status", Article.STATUS_NORMAL);
+        columns.add("article.status", Article.STATUS_NORMAL);
 
-        sqlBuilder.append(SqlUtils.toWhereSql(columns));
-
-        orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
-        sqlBuilder.append(" ORDER BY ").append(orderBy);
-
-        Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
+        Page<Article> dataPage = DAO.leftJoin("article_category_mapping")
+                .as("m").on("article.id=m.`article_id`")
+                .paginateByColumns(page, pagesize, columns, StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY));
         return joinUserInfo(dataPage);
     }
 
@@ -311,19 +297,15 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         Columns columns = Columns.create();
         columns.in("m.category_id", tagIds.toArray());
-        columns.ne("a.id", articleId);
-        columns.eq("a.status", status);
+        columns.ne("article.id", articleId);
+        columns.eq("article.status", status);
 
-        StringBuilder from = new StringBuilder("select * from article a ");
-        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(SqlUtils.toWhereSql(columns));
-        // from.append(" group by a.id");
+        List<Article> articles = DAO.leftJoin("article_category_mapping")
+                .as("m")
+                .on("article.id = m.`article_id`")
+                .findListByColumns(columns, count);
 
-        if (count != null) {
-            from.append(" limit " + count);
-        }
-
-        return joinUserInfo(DAO.find(from.toString(), columns.getValueArray()));
+        return joinUserInfo(articles);
     }
 
 

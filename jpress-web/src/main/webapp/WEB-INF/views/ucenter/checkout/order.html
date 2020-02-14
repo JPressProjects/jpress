@@ -52,6 +52,10 @@
         height: 60px;
     }
 
+    .table > tbody > tr > td {
+        vertical-align: middle;
+    }
+
 </style>
 #end
 
@@ -87,7 +91,19 @@
 
                         #for(item : orderItems)
                         <tr>
-                            <td>#(item.product_title ??)</td>
+                            <td>
+                                #(item.product_title ??)
+                                #if(item.product_spec)
+                                （#(item.product_spec)）
+                                #end
+
+                                <div style="color: #9c9c9c">
+                                    #for(option : item.optionsMap)
+                                    #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
+                                    #end
+                                </div>
+
+                            </td>
                             <td>#(item.product_price ??)</td>
                             <td>
                                 <div class="input-group input-number">

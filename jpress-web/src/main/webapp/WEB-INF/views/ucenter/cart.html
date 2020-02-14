@@ -360,7 +360,18 @@
                                onchange="dataItemChange(this)"/>
                     </td>
                     <td>
-                        <a href="#(userCart.product_link ?? '#')" target="_blank">#(userCart.product_title ??)</a>
+                        <a href="#(userCart.product_link ?? '#')" target="_blank">
+                            #(userCart.product_title ??)
+                            #if(userCart.product_spec)
+                            （#(userCart.product_spec)）
+                            #end
+                        </a>
+
+                        <div style="color: #9c9c9c">
+                            #for(option : userCart.optionsMap)
+                                 #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
+                            #end
+                        </div>
                     </td>
                     <td>
                         #if(userCart.memberPrice ??)

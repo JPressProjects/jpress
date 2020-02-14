@@ -113,11 +113,11 @@ public class OrderManager {
     }
 
     public void registerAdminOrderDetailRender(String forProductType, AdminOrderDetailPageRender render) {
-        adminOrderDetailPageRenderMap.put(forProductType, render);
+        adminOrderDetailPageRenderMap.put(forProductType, Aop.inject(render));
     }
 
     public void registerUCenterOrderDetailRender(String forProductType, UCenterOrderDetailPageRender render) {
-        uCenterOrderDetailPageRenderMap.put(forProductType, render);
+        uCenterOrderDetailPageRenderMap.put(forProductType, Aop.inject(render));
     }
 
     public void unregisterAdminOrderDetailRender(String forProductType) {

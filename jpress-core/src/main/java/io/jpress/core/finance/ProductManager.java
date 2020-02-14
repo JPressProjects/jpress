@@ -50,20 +50,18 @@ public class ProductManager {
     }
 
     public void registerQuerier(String forProductType, ProductInfoQuerier querier) {
-        Aop.inject(querier);
-        productInfoQuerierMap.put(forProductType, querier);
+        productInfoQuerierMap.put(forProductType, Aop.inject(querier));
     }
 
     public void unregisterQuerier(String forProductType) {
         productInfoQuerierMap.remove(forProductType);
     }
 
-    public void registerProductOptionsRender(String forProductType, ProductOptionsRender render) {
-        Aop.inject(render);
-        productOptionsRenderMap.put(forProductType, render);
+    public void registerOptionsRender(String forProductType, ProductOptionsRender render) {
+        productOptionsRenderMap.put(forProductType, Aop.inject(render));
     }
 
-    public void unregisterProductOptionsRender(String forProductType) {
+    public void unregisterOptionsRender(String forProductType) {
         productOptionsRenderMap.remove(forProductType);
     }
 
@@ -78,7 +76,7 @@ public class ProductManager {
         return render.doRenderUserCartOptions(userCart);
     }
 
-    public Map<String, String> renderProductOptions(UserOrderItem userOrderItem) {
+    public Map renderProductOptions(UserOrderItem userOrderItem) {
         if (userOrderItem == null || StrUtil.isBlank(userOrderItem.getProductType())) {
             return null;
         }

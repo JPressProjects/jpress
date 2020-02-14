@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface ProductOptionsRender {
 
-    public Map<String,String> doRenderUserCartOptions(UserCart userCart);
+    public Map doRenderUserCartOptions(UserCart userCart);
 
-    public Map<String,String> doRenderUserCartOptions(UserOrderItem userOrderItem);
+    public Map doRenderUserCartOptions(UserOrderItem userOrderItem);
 }

@@ -75,6 +75,8 @@ public class CheckoutController extends UcenterControllerBase {
      */
     public void index() {
         List<UserCart> userCarts = new ArrayList<>();
+
+        //cid 某个单独的购物车id，此时只对单一产品下单。
         Long cid = getParaToLong();
         if (cid != null) {
             UserCart userCart = cartService.findById(cid);
@@ -94,6 +96,10 @@ public class CheckoutController extends UcenterControllerBase {
             return;
         }
 
+        for (UserCart userCart : userCarts) {
+            userCart.put("optionsMap", ProductManager.me().renderProductOptions(userCart));
+        }
+
 
         PayConfigUtil.setConfigAttrs(this);
 
@@ -110,8 +116,17 @@ public class CheckoutController extends UcenterControllerBase {
 
         PayConfigUtil.setConfigAttrs(this);
 
+        List<UserOrderItem> orderItems = userOrderItemService.findListByOrderId(order.getId());
+
+        if (orderItems != null) {
+            for (UserOrderItem item : orderItems) {
+                item.put("optionsMap", ProductManager.me().renderProductOptions(item));
+            }
+        }
+
+
         setAttr("order", order);
-        setAttr("orderItems", userOrderItemService.findListByOrderId(order.getId()));
+        setAttr("orderItems",orderItems);
         setAttr("defaultAddress", addressService.findDefaultAddress(getLoginedUser().getId()));
         render("order.html");
     }

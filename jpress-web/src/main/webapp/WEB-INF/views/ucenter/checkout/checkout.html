@@ -276,7 +276,11 @@
 
                         #for(userCart : userCarts )
                         <tr>
-                            <td>#(userCart.product_title ??)</td>
+                            <td>#(userCart.product_title ??)
+                            #if(userCart.product_spec)
+                                （#(userCart.product_spec)）
+                            #end
+                            </td>
                             <td>
                                 #if(userCart.memberPrice && userCart.memberPrice < userCart.newProductPrice)
                                 <s>原价：#(userCart.newProductPrice ??)</s>

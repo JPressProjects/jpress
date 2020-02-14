@@ -22,6 +22,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jpress.core.finance.ProductManager;
 import io.jpress.model.UserCart;
 import io.jpress.service.UserAddressService;
 import io.jpress.service.UserCartService;
@@ -60,8 +61,15 @@ public class CartController extends UcenterControllerBase {
      */
     public void index() {
         Page<UserCart> page = cartService.paginateByUser(1, 20, getLoginedUser().getId());
-        setAttr("page", page);
 
+
+        if (page != null && page.getList() != null) {
+            for (UserCart userCart : page.getList()) {
+                userCart.put("optionsMap", ProductManager.me().renderProductOptions(userCart));
+            }
+        }
+
+        setAttr("page", page);
         setAttr("selectItemCount", cartService.querySelectedCount(getLoginedUser().getId()));
 
         List<UserCart> selectedUserCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
@@ -144,7 +152,7 @@ public class CartController extends UcenterControllerBase {
     }
 
 
- public void doRemoveSelectedItemsToFavorites() {
+    public void doRemoveSelectedItemsToFavorites() {
         List<UserCart> userCarts = cartService.findSelectedListByUserId(getLoginedUser().getId());
         if (userCarts != null) {
             for (UserCart cart : userCarts) {
@@ -154,6 +162,7 @@ public class CartController extends UcenterControllerBase {
         }
         renderOkJson();
     }
+
     /**
      * 对某个购物车商品 +1
      */

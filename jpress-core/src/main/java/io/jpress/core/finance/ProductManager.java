@@ -18,6 +18,7 @@ package io.jpress.core.finance;
 
 import com.jfinal.aop.Aop;
 import io.jboot.utils.StrUtil;
+import io.jpress.model.UserCart;
 import io.jpress.model.UserOrderItem;
 
 import java.math.BigDecimal;
@@ -36,32 +37,63 @@ public class ProductManager {
         return me;
     }
 
-    private Map<String, ProductInfoQuerier> queriers = new ConcurrentHashMap<>();
+    private Map<String, ProductInfoQuerier> productInfoQuerierMap = new ConcurrentHashMap<>();
+    private Map<String, ProductOptionsRender> productOptionsRenderMap = new ConcurrentHashMap<>();
 
 
-    public Map<String, ProductInfoQuerier> getQueriers() {
-        return queriers;
+    public Map<String, ProductInfoQuerier> getProductInfoQuerierMap() {
+        return productInfoQuerierMap;
     }
 
-    public void setQueriers(Map<String, ProductInfoQuerier> queriers) {
-        this.queriers = queriers;
+    public void setProductInfoQuerierMap(Map<String, ProductInfoQuerier> productInfoQuerierMap) {
+        this.productInfoQuerierMap = productInfoQuerierMap;
     }
 
-    public void registerQuerier(String type, ProductInfoQuerier querier) {
+    public void registerQuerier(String forProductType, ProductInfoQuerier querier) {
         Aop.inject(querier);
-        queriers.put(type, querier);
+        productInfoQuerierMap.put(forProductType, querier);
     }
 
-    public void unregisterQuerier(String type) {
-        queriers.remove(type);
+    public void unregisterQuerier(String forProductType) {
+        productInfoQuerierMap.remove(forProductType);
     }
 
+    public void registerProductOptionsRender(String forProductType, ProductOptionsRender render) {
+        Aop.inject(render);
+        productOptionsRenderMap.put(forProductType, render);
+    }
+
+    public void unregisterProductOptionsRender(String forProductType) {
+        productOptionsRenderMap.remove(forProductType);
+    }
+
+    public Map<String, String> renderProductOptions(UserCart userCart) {
+        if (userCart == null || StrUtil.isBlank(userCart.getProductType())) {
+            return null;
+        }
+        ProductOptionsRender render = productOptionsRenderMap.get(userCart.getProductType());
+        if (render == null) {
+            return null;
+        }
+        return render.doRenderUserCartOptions(userCart);
+    }
+
+    public Map<String, String> renderProductOptions(UserOrderItem userOrderItem) {
+        if (userOrderItem == null || StrUtil.isBlank(userOrderItem.getProductType())) {
+            return null;
+        }
+        ProductOptionsRender render = productOptionsRenderMap.get(userOrderItem.getProductType());
+        if (render == null) {
+            return null;
+        }
+        return render.doRenderUserCartOptions(userOrderItem);
+    }
 
     public BigDecimal queryDistAmount(UserOrderItem userOrderItem, String type, Object productId, Long payerUserId, Long distUserId) {
         if (StrUtil.isBlank(type)) {
             return BigDecimal.ZERO;
         }
-        ProductInfoQuerier querier = queriers.get(type);
+        ProductInfoQuerier querier = productInfoQuerierMap.get(type);
         if (querier == null) {
             return BigDecimal.ZERO;
         }
@@ -79,7 +111,7 @@ public class ProductManager {
             return true;
         }
 
-        ProductInfoQuerier querier = queriers.get(type);
+        ProductInfoQuerier querier = productInfoQuerierMap.get(type);
         //没有注册 querier，说明该商品任何时候都可以被购买
         if (querier == null) {
             return true;
@@ -93,7 +125,7 @@ public class ProductManager {
         if (StrUtil.isBlank(type)) {
             return null;
         }
-        ProductInfoQuerier querier = queriers.get(type);
+        ProductInfoQuerier querier = productInfoQuerierMap.get(type);
         if (querier == null) {
             return null;
         }
@@ -106,7 +138,7 @@ public class ProductManager {
         if (StrUtil.isBlank(type)) {
             return null;
         }
-        ProductInfoQuerier querier = queriers.get(type);
+        ProductInfoQuerier querier = productInfoQuerierMap.get(type);
         if (querier == null) {
             return null;
         }

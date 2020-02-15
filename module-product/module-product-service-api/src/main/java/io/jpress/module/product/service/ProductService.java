@@ -197,8 +197,6 @@ public interface ProductService extends JbootServiceJoiner {
 
     public long findCountByStatus(int status);
 
-    public boolean deleteByIds(Object... ids);
-
     public void doIncProductViewCount(long productId);
 
     public void doIncProductCommentCount(long productId);

@@ -184,7 +184,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     }
 
     @Override
-    public boolean deleteByIds(Object... ids) {
+    public boolean batchDeleteByIds(Object... ids) {
         for (Object id : ids) {
             deleteById(id);
         }

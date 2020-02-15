@@ -265,7 +265,12 @@ public class _ProductController extends AdminControllerBase {
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
         Set<String> idsSet = getParaSet("ids");
-        render(productService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+        if (productService.batchDeleteByIds(idsSet.toArray())){
+            for (String id : idsSet){
+                imageService.deleteByProductId(Long.valueOf(id));
+            }
+        }
+        renderOkJson();
     }
 
     @AdminMenu(text = "设置", groupId = "product", order = 99)

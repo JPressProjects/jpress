@@ -15,6 +15,7 @@
  */
 package io.jpress.commons.dfa;
 
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
@@ -32,9 +33,8 @@ import java.util.Set;
 /**
  * @author michael yang (fuhai999@gmail.com)
  * @Date: 2020/1/5
- *
+ * <p>
  * https://github.com/aijingsun6/sensitive-words-filter
- *
  */
 public class DFAUtil {
 
@@ -55,7 +55,7 @@ public class DFAUtil {
     /**
      * 需要在 App 启动的时候调用 init 进行初始化，方可使用
      */
-    public static void init(){
+    public static void init() {
         File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(), "WEB-INF/other/sys_sensitive_words.txt");
         try {
             List<String> lines = FileUtils.readLines(sysSensitiveWordsFile, "utf-8");
@@ -77,7 +77,7 @@ public class DFAUtil {
 
         if (StrUtil.isNotBlank(filterContent)) {
             if (!Objects.equals(dynamicFilterTexts, filterContent)) {
-                if (isContainsSensitiveWords(dynamicFilter,content)) {
+                if (isContainsSensitiveWords(dynamicFilter, content)) {
                     return true;
                 }
             } else {
@@ -97,22 +97,41 @@ public class DFAUtil {
                         dynamicFilter.putWord(keyword, 1);
                     }
                 }
-                if (isContainsSensitiveWords(dynamicFilter,content)) {
+                if (isContainsSensitiveWords(dynamicFilter, content)) {
                     return true;
                 }
             }
         }
 
-        return isContainsSensitiveWords(sysFilter,content);
+        return isContainsSensitiveWords(sysFilter, content);
     }
 
     private static boolean isContainsSensitiveWords(DFAFilter filter, String content) {
         if (filter == null || StrUtil.isBlank(content)) {
             return false;
         }
-        List<DFAMatch> ret = filter.matchWord(content);
-        return ret != null && ret.size() > 0;
+        List<DFAMatch> matches = filter.matchWord(content);
+        printDFAMatches(matches);
+        return matches != null && matches.size() > 0;
+    }
 
+
+    private static void printDFAMatches(List<DFAMatch> matches) {
+        if (matches == null || matches.isEmpty()) {
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for (DFAMatch match : matches) {
+            if (match != null) {
+                sb.append(match.getWord());
+            }
+            if (i < matches.size() - 1) {
+                sb.append(",");
+            }
+            i++;
+        }
+        LogKit.error("Matched Sensitive Words : " + sb.toString());
     }
 
 

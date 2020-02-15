@@ -103,10 +103,10 @@ public class _ProductController extends AdminControllerBase {
         setAttr("fields", ProductFields.me());
 
 
-        int productId = getParaToInt(0, 0);
+        Long productId = getParaToLong(0, 0L);
 
         Product product = null;
-        if (productId > 0) {
+        if (productId != null && productId > 0) {
             product = productService.findById(productId);
             if (product == null) {
                 renderError(404);

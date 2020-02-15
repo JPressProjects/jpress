@@ -23,7 +23,7 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
     @Override
     @Cacheable(name = cacheName, key = "productId:#(productId)", nullCacheEnable = true)
-    public List<ProductImage> findListByProductId(Object productId) {
+    public List<ProductImage> findListByProductId(Long productId) {
         List<ProductImage> list = DAO.findListByColumn(Column.create("product_id", productId));
         if (list != null && !list.isEmpty()) {
             list.sort(Comparator.comparingInt(BaseProductImage::getOrderNumber));

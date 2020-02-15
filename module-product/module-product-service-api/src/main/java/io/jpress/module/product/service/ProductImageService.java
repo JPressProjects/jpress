@@ -174,7 +174,7 @@ public interface ProductImageService  {
      */
     public Page<ProductImage> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
-    public List<ProductImage> findListByProductId(Object productId);
+    public List<ProductImage> findListByProductId(Long productId);
 
     public void saveOrUpdateByProductId(Long id, String[] imageIds, String[] imageSrcs);
 

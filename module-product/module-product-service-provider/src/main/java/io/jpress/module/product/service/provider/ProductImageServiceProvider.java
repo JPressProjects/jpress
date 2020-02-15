@@ -1,6 +1,5 @@
 package io.jpress.module.product.service.provider;
 
-import com.jfinal.plugin.activerecord.Db;
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.Cacheable;
@@ -36,7 +35,7 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
         if (imageIds == null || imageSrcs == null || imageIds.length == 0) {
             Jboot.getCache().remove(cacheName, "productId:" + productId);
-            Db.update("delete from product_image where product_id = ?", productId);
+            deleteByProductId(productId);
             return;
         }
 
@@ -51,7 +50,7 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
         if (productImages != null) {
             for (ProductImage image : productImages) {
                 if (!ArrayUtils.contains(imageIds, image.getId().toString())) {
-                    Db.update("delete from product_image where id = ?", image.getId());
+                    DAO.deleteById(image.getId());
                 }
             }
         }
@@ -76,6 +75,6 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
     @Override
     public boolean deleteByProductId(Long productId) {
-        return  Db.update("delete from product_image where product_id = ?", productId) > 0;
+        return  DAO.deleteByColumn(Column.create("product_id",productId));
     }
 }

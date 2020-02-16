@@ -36,7 +36,7 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
         if (userCart == null) {
             return super.save(model);
         } else {
-            userCart.setProductCount(userCart.getProductCount() + 1);
+            userCart.setProductCount(userCart.getProductCount() + model.getProductCount());
         }
         update(userCart);
         return userCart.getId();

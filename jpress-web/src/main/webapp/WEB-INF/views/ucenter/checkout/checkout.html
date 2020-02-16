@@ -282,10 +282,6 @@
                         <tr>
                             <td>
                                 #(userCart.product_title ??)
-                                #if(userCart.product_spec)
-                                    （#(userCart.product_spec)）
-                                #end
-
                                 <div style="color: #9c9c9c">
                                     #for(option : userCart.optionsMap)
                                     #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end

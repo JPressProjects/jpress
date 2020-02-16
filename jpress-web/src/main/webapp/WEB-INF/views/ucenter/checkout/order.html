@@ -93,10 +93,6 @@
                         <tr>
                             <td>
                                 #(item.product_title ??)
-                                #if(item.product_spec)
-                                （#(item.product_spec)）
-                                #end
-
                                 <div style="color: #9c9c9c">
                                     #for(option : item.optionsMap)
                                     #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end

@@ -52,7 +52,7 @@ public class ProductValidate implements Interceptor {
 
         if (product == null || !product.isNormal()) {
             if (RequestUtil.isAjaxRequest(c.getRequest())) {
-                c.renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
+                c.renderJson(Ret.fail().set("code", "2").set("message", "商品不存在或已下架。"));
             } else {
                 c.renderError(404);
             }

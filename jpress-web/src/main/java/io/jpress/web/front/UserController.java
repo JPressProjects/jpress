@@ -198,7 +198,7 @@ public class UserController extends TemplateControllerBase {
 
     public void doRegister() {
 
-        boolean regEnable = JPressOptions.getAsBool("reg_enable");
+        boolean regEnable = JPressOptions.isTrueOrEmpty("reg_enable");
         if (!regEnable) {
             renderJson(Ret.fail().set("message", "注册功能已经关闭").set("errorCode", 12));
             return;

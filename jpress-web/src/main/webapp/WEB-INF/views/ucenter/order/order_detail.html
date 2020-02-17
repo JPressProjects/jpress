@@ -180,6 +180,11 @@
                     <tr>
                         <td style="width: 20%;text-align: center">
                             #(item.product_title ??)
+                            <div style="color: #9c9c9c">
+                                #for(option : item.optionsMap)
+                                #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
+                                #end
+                            </div>
                         </td>
                         <td style="width: 20%;text-align: center">
                             #(item.product_count ??)

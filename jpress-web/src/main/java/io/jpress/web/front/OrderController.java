@@ -5,6 +5,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.finance.OrderManager;
+import io.jpress.core.finance.ProductManager;
 import io.jpress.model.CouponCode;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderDelivery;
@@ -53,9 +54,18 @@ public class OrderController extends UcenterControllerBase {
         UserOrder order = orderService.findById(getIdPara());
         render404If(notLoginedUserModel(order, "buyer_id"));
 
+        List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
+
         setAttr("order", order);
-        setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
+        setAttr("orderItems", orderItems);
         setAttr("orderUser", userService.findById(order.getBuyerId()));
+
+
+        if (orderItems != null) {
+            for (UserOrderItem item : orderItems) {
+                item.put("optionsMap", ProductManager.me().renderProductOptions(item));
+            }
+        }
 
         if (StrUtil.isNotBlank(order.getCouponCode())) {
             CouponCode couponCode = couponCodeService.findByCode(order.getCouponCode());

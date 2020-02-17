@@ -163,7 +163,7 @@
 
         <div class="row no-print">
             <div class="col-xs-2">
-                <a href="#" class="btn btn-default"><i class="fa fa-print"></i> 打印 </a>
+<!--                <a href="#" class="btn btn-default"><i class="fa fa-print"></i> 打印 </a>-->
             </div>
             <div class="col-xs-10"style="text-align: right">
                 <button type="button" class="btn btn-success " onclick="updatePrice()">
@@ -222,6 +222,11 @@
                     <tr>
                         <td style="text-align: center">
                             #(item.product_title ??)
+                            <div style="color: #9c9c9c">
+                                #for(option : item.optionsMap)
+                                    #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
+                                #end
+                            </div>
                         </td>
                         <td style="width: 10%;text-align: center">
                             #(item.product_count ??)

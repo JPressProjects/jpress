@@ -22,6 +22,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.finance.OrderManager;
+import io.jpress.core.finance.ProductManager;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.CouponCode;
 import io.jpress.model.UserOrder;
@@ -101,6 +102,10 @@ public class _OrderController extends AdminControllerBase {
             for (UserOrderItem item : orderItems) {
                 item.put("distUser", userService.findById(item.getId()));
                 item.put("totalDistAmount", item.getDistAmount() == null ? 0 : item.getDistAmount().multiply(BigDecimal.valueOf(item.getProductCount())));
+            }
+
+            for (UserOrderItem item : orderItems) {
+                item.put("optionsMap", ProductManager.me().renderProductOptions(item));
             }
         }
 

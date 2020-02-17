@@ -102,8 +102,10 @@ public class _OrderController extends AdminControllerBase {
 
         if (orderItems != null) {
             for (UserOrderItem item : orderItems) {
-                item.put("distUser", userService.findById(item.getId()));
-                item.put("totalDistAmount", item.getDistAmount() == null ? 0 : item.getDistAmount().multiply(BigDecimal.valueOf(item.getProductCount())));
+                item.put("distUser", userService.findById(item.getDistUserId()));
+                item.put("totalDistAmount", item.getDistAmount() == null || item.getDistAmount().compareTo(BigDecimal.ZERO) <= 0
+                        ? null
+                        : item.getDistAmount().multiply(BigDecimal.valueOf(item.getProductCount())));
             }
 
             for (UserOrderItem item : orderItems) {

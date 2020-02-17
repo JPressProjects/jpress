@@ -112,14 +112,14 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
 	}
 
     /**
-     * 是否多人可用，如果是，拥有者可用分享给任何人
+     * 是否可以多次使用
      */
 	public void setWithMulti(java.lang.Boolean withMulti) {
 		set("with_multi", withMulti);
 	}
 
     /**
-     * 是否多人可用，如果是，拥有者可用分享给任何人
+     * 是否可以多次使用
      */
 	public java.lang.Boolean getWithMulti() {
 		return get("with_multi");
@@ -280,14 +280,14 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
 	}
 
     /**
-     * 1生效 2失效 3已结束
+     * 1 正常  9 不能使用
      */
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
 
     /**
-     * 1生效 2失效 3已结束
+     * 1 正常  9 不能使用
      */
 	public java.lang.Integer getStatus() {
 		return getInt("status");

@@ -76,14 +76,14 @@ public abstract class BaseCouponCode<M extends BaseCouponCode<M>> extends JbootM
 	}
 
     /**
-     * 状态 1未领取 2未使用、3使用中、9不能使用
+     * 状态 1 有人领取、正常使用  2 未有人领取不能使用  3 已经使用，不能被再次使用  9 已经被认为标识不可用
      */
 	public void setStatus(java.lang.Integer status) {
 		set("status", status);
 	}
 
     /**
-     * 状态 1未领取 2未使用、3使用中、9不能使用
+     * 状态 1 有人领取、正常使用  2 未有人领取不能使用  3 已经使用，不能被再次使用  9 已经被认为标识不可用
      */
 	public java.lang.Integer getStatus() {
 		return getInt("status");

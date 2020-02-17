@@ -410,15 +410,15 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
     /**
      * 发票
      */
-	public void setInvoiceId(java.lang.Integer invoiceId) {
+	public void setInvoiceId(java.lang.Long invoiceId) {
 		set("invoice_id", invoiceId);
 	}
 
     /**
      * 发票
      */
-	public java.lang.Integer getInvoiceId() {
-		return getInt("invoice_id");
+	public java.lang.Long getInvoiceId() {
+		return getLong("invoice_id");
 	}
 
     /**

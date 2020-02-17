@@ -29,7 +29,7 @@ import io.jboot.components.event.JbootEventListener;
 import io.jboot.components.mq.JbootmqMessageListener;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.ArrayUtil;
-import io.jpress.core.addon.annotation.NotGlobalInterceptor;
+import io.jpress.core.addon.annotation.GlobalInterceptor;
 import io.jpress.core.wechat.WechatAddon;
 
 import java.io.IOException;
@@ -92,7 +92,7 @@ public class AddonClassLoader extends URLClassLoader {
                 }
                 // interceptors
                 else if (Interceptor.class.isAssignableFrom(loadedClass)) {
-                    if (loadedClass.getAnnotation(NotGlobalInterceptor.class) == null) {
+                    if (loadedClass.getAnnotation(GlobalInterceptor.class) != null) {
                         addonInfo.addInterceptor(loadedClass);
                     }
                 }

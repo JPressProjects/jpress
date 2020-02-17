@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-xs-12">
             <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
-                  action="#(CPATH)/admin/order/doUpdateInvoice"
+                  action="#(CPATH)/ucenter/order/doApplyForInvoice"
                   method="POST"
                   data-ok-function="parent.layer.closeAll()"
             >
@@ -16,8 +16,11 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">发票类型</label>
                         <div class="col-sm-8">
-                            <input type="input"  class="form-control" readonly
-                                   value="#(order.invoice_type ??)">
+                            <select class="form-control" name="invoice.type">
+                                <option value="company" >单位</option>
+                                <option value="personal" >个人</option>
+                            </select>
+
                         </div>
                     </div>
 
@@ -25,8 +28,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">发票抬头</label>
                         <div class="col-sm-8">
-                            <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_title ??)" >
+                            <input type="input" class="form-control" 
+                                   name="invoice.title" >
                         </div>
                     </div>
 
@@ -34,8 +37,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">单位名称</label>
                         <div class="col-sm-8">
-                            <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_name  ??)" >
+                            <input type="input" class="form-control" 
+                                   name="invoice.name" >
                         </div>
                     </div>
 
@@ -43,8 +46,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">纳税人识别号</label>
                         <div class="col-sm-8">
-                            <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_identity ??)" >
+                            <input type="input" class="form-control" 
+                                   name="invoice.identity" >
                         </div>
                     </div>
 
@@ -53,8 +56,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">手机号</label>
                         <div class="col-sm-8">
-                            <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_mobile ??)" >
+                            <input type="input" class="form-control" 
+                                   name="invoice.mobile" >
                         </div>
                     </div>
 
@@ -62,30 +65,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">邮箱</label>
                         <div class="col-sm-8">
-                            <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_email ??)" >
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">发票内容</label>
-                        <div class="col-sm-8">
-                            <input type="input" class="form-control"
-                                   name="invoiceContent" >
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">发票状态</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" name="invoiceStatus">
-                                <option value="1">未申请发票</option>
-                                <option value="2">发票申请中</option>
-                                <option value="3">发票开具中</option>
-                                <option value="8">无需开具发票</option>
-                                <option value="9">发票已经开具</option>
-                            </select>
+                            <input type="input" class="form-control" 
+                                   name="invoice.email" >
                         </div>
                     </div>
 

@@ -6,10 +6,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.ProductManager;
-import io.jpress.model.CouponCode;
-import io.jpress.model.UserOrder;
-import io.jpress.model.UserOrderDelivery;
-import io.jpress.model.UserOrderItem;
+import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
 import io.jpress.web.commons.express.ExpressInfo;
@@ -37,6 +34,9 @@ public class OrderController extends UcenterControllerBase {
     @Inject
     private UserOrderDeliveryService deliveryService;
 
+    @Inject
+    private UserOrderInvoiceService invoiceService;
+
     /**
      * 用户订单列表
      */
@@ -59,6 +59,7 @@ public class OrderController extends UcenterControllerBase {
         setAttr("order", order);
         setAttr("orderItems", orderItems);
         setAttr("orderUser", userService.findById(order.getBuyerId()));
+        setAttr("invoice", invoiceService.findById(order.getInvoiceId()));
 
 
         if (orderItems != null) {
@@ -115,6 +116,33 @@ public class OrderController extends UcenterControllerBase {
         renderOkJson();
     }
 
+
+    public void applyForInvoice(){
+        UserOrder userOrder = orderService.findById(getPara());
+        render404If(notLoginedUserModel(userOrder, "buyer_id"));
+
+        setAttr("order",userOrder);
+        render("order_layer_invoice.html");
+    }
+
+
+    public void doApplyForInvoice(){
+
+        UserOrder userOrder = orderService.findById(getPara("orderId"));
+        render404If(notLoginedUserModel(userOrder, "buyer_id"));
+
+        UserOrderInvoice invoice = getModel(UserOrderInvoice.class,"invoice");
+        invoice.setStatus(UserOrderInvoice.INVOICE_STATUS_APPLYING); //设置状态为申请中
+
+
+        Long id = (Long) invoiceService.save(invoice);
+        userOrder.setInvoiceId(id);
+        userOrder.setInvoiceStatus(UserOrder.INVOICE_STATUS_APPLYING);
+
+        orderService.update(userOrder);
+
+        renderOkJson();
+    }
 
     /**
      * 用户在用户中心确认收货

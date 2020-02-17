@@ -134,6 +134,15 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     }
 
 
+    /**
+     * 是否可以申请发票
+     * @return
+     */
+    public boolean isCanApplyForInvoice(){
+        Integer invoiceStatus = getInvoiceStatus();
+        return isFinished() && invoiceStatus != null && INVOICE_STATUS_NOT_APPLY == invoiceStatus;
+    }
+
     public String getTradeStatusStr() {
         return tradeStatusTexts.get(getTradeStatus());
     }

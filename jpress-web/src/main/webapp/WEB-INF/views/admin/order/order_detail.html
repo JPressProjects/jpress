@@ -240,10 +240,16 @@
                         <td style="width: 10%;text-align: center">
                            #if(item.distUser)
                             <a href="#(CPATH)/admin/user/detail/#(item.distUser.id ??)"> #(item.distUser.nickname ?? item.distUser.username)</a>
+                           #else
+                            --
                            #end
                         </td>
                         <td style="width: 10%;text-align: center">
+                            #if(item.totalDistAmount)
                             #number(item.totalDistAmount,'0.00')
+                            #else
+                            --
+                            #end
                         </td>
                         <td style="width: 10%;text-align: center">
                             <a href="#">编辑</a>

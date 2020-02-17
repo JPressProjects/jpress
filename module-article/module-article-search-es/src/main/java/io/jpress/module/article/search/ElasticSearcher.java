@@ -44,7 +44,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,7 +102,7 @@ public class ElasticSearcher implements ArticleSearcher {
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -112,7 +111,7 @@ public class ElasticSearcher implements ArticleSearcher {
         try {
             Response response = restClient.performRequest(new Request("HEAD", index));
             return response.getStatusLine().getReasonPhrase().equals("OK");
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -130,7 +129,7 @@ public class ElasticSearcher implements ArticleSearcher {
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -144,7 +143,7 @@ public class ElasticSearcher implements ArticleSearcher {
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -162,7 +161,7 @@ public class ElasticSearcher implements ArticleSearcher {
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -203,7 +202,7 @@ public class ElasticSearcher implements ArticleSearcher {
 
             return new Page<>(articles, pageNum, pageSize, total / pageSize, total);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

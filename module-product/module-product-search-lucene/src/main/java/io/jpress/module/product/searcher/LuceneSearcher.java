@@ -36,7 +36,6 @@ import org.lionsoul.jcseg.dic.DictionaryFactory;
 import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,7 +56,7 @@ public class LuceneSearcher implements ProductSearcher {
         }
         try {
             directory = NIOFSDirectory.open(indexDir.toPath());
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -69,7 +68,7 @@ public class LuceneSearcher implements ProductSearcher {
             writer = createIndexWriter();
             Document doc = createDocument(product);
             writer.addDocument(doc);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             CommonsUtils.quietlyClose(writer);
@@ -82,7 +81,7 @@ public class LuceneSearcher implements ProductSearcher {
         try {
             writer = createIndexWriter();
             writer.deleteDocuments(new Term("aid", id.toString()));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             CommonsUtils.quietlyClose(writer);
@@ -116,7 +115,7 @@ public class LuceneSearcher implements ProductSearcher {
             List<Product> products = toProductList(indexSearcher, topDocs, highlighter, keyword);
             int totalRow = getTotalRow(indexSearcher, query);
             return newPage(pageNum, pageSize, totalRow, products);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             CommonsUtils.quietlyClose(indexReader);
@@ -126,7 +125,7 @@ public class LuceneSearcher implements ProductSearcher {
 
 
     private static ScoreDoc getLastScoreDoc(int pageIndex, int pageSize, Query query,
-                                            IndexSearcher indexSearcher) throws IOException {
+                                            IndexSearcher indexSearcher) throws Exception {
         if (pageIndex == 1) {
             return null; // 如果是第一页返回空
         }
@@ -136,7 +135,7 @@ public class LuceneSearcher implements ProductSearcher {
     }
 
     public static int getTotalRow(IndexSearcher searcher, Query query)
-            throws IOException {
+            throws Exception {
         TopDocs topDocs = searcher.search(query, 1000);
         if (topDocs == null || topDocs.scoreDocs == null
                 || topDocs.scoreDocs.length == 0) {
@@ -170,7 +169,7 @@ public class LuceneSearcher implements ProductSearcher {
         return doc;
     }
 
-    private static IndexWriter createIndexWriter() throws IOException {
+    private static IndexWriter createIndexWriter() throws Exception {
         Analyzer analyzer = createAnalyzer();
         IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
         return new IndexWriter(directory, iwc);
@@ -210,7 +209,7 @@ public class LuceneSearcher implements ProductSearcher {
     }
 
 
-    private List<Product> toProductList(IndexSearcher searcher, TopDocs topDocs, Highlighter highlighter, String keyword) throws IOException {
+    private List<Product> toProductList(IndexSearcher searcher, TopDocs topDocs, Highlighter highlighter, String keyword) throws Exception {
         List<Product> products = new ArrayList<>();
         Analyzer analyzer = createAnalyzer();
         for (ScoreDoc item : topDocs.scoreDocs) {

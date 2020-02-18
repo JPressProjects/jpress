@@ -130,7 +130,6 @@ public class _FinanceController extends AdminControllerBase {
     public void doPayoutProcess() {
         UserAmountPayout payout = payoutService.findById(getPara("id"));
 
-
         BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
         if (userAmount == null || userAmount.compareTo(payout.getAmount()) < 0) {
             renderFailJson("用户余额不足，无法提现。");
@@ -149,8 +148,9 @@ public class _FinanceController extends AdminControllerBase {
         payoutService.update(payout);
 
 
+        //生成提现用户的流水信息
         UserAmountStatement statement = new UserAmountStatement();
-        statement.setUserId(getLoginedUser().getId());
+        statement.setUserId(payout.getUserId());
         statement.setAction(UserAmountStatement.ACTION_PAYOUT);
         statement.setActionDesc("用户提现");
         statement.setActionName("用户提现");

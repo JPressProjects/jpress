@@ -72,19 +72,26 @@ public class JPressOptions {
         return StrUtil.isBlank(v) ? defaultvalue : v;
     }
 
-    public static boolean getAsBool(String key) {
-        return Boolean.parseBoolean(store.get(key));
+    public static Boolean getAsBool(String key) {
+        String value = get(key);
+        return StrUtil.isBlank(value) ? null : Boolean.parseBoolean(value);
+    }
+
+    public static boolean getAsBool(String key, boolean defaultValue) {
+        String value = get(key);
+        return StrUtil.isBlank(value) ? defaultValue : Boolean.parseBoolean(value);
     }
 
     @Deprecated
-    public static boolean isTrueOrNull(String key) {
-        return isTrueOrEmpty(key);
+    public static boolean isTrueOrEmpty(String key) {
+        return getAsBool(key, true);
     }
 
-    public static boolean isTrueOrEmpty(String key) {
+    public static Integer getAsInt(String key) {
         String value = get(key);
-        return StrUtil.isBlank(value) || "true".equals(value);
+        return StrUtil.isBlank(value) ? null : Integer.parseInt(value);
     }
+
 
     public static int getAsInt(String key, int defaultValue) {
         String value = get(key);
@@ -97,6 +104,12 @@ public class JPressOptions {
             LOG.warn(ex.toString(), ex);
             return defaultValue;
         }
+    }
+
+
+    public static Float getAsFloat(String key) {
+        String value = get(key);
+        return StrUtil.isBlank(value) ? null : Float.parseFloat(value);
     }
 
     public static float getAsFloat(String key, float defaultValue) {

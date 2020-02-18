@@ -110,7 +110,8 @@ public class _FinanceController extends AdminControllerBase {
         UserAmountPayout payout = payoutService.findById(getPara());
 
         setAttr("payout", payout);
-        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
+        //modified by jializheng 20200218 取提现申请人的余额信息，而非当前登录用户（管理员）
+        setAttr("userAmount", userService.queryUserAmount(payout.getUserId()));
 
         render("finance/payoutdetail.html");
     }
@@ -130,7 +131,8 @@ public class _FinanceController extends AdminControllerBase {
     public void doPayoutProcess() {
         UserAmountPayout payout = payoutService.findById(getPara("id"));
 
-        BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
+        //modified by jializheng 20200218 取提现申请人的余额信息，而非当前登录用户（管理员）
+        BigDecimal userAmount = userService.queryUserAmount(payout.getUserId());
         if (userAmount == null || userAmount.compareTo(payout.getAmount()) < 0) {
             renderFailJson("用户余额不足，无法提现。");
             return;

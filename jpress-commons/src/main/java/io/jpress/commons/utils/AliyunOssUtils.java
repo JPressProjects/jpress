@@ -75,7 +75,7 @@ public class AliyunOssUtils {
         path = path.replace('\\', '/');
 
         String ossBucketName = JPressOptions.get(KEY_BUCKETNAME);
-        OSSClient ossClient = newOSSClient();
+        OSSClient ossClient = createOSSClient();
 
         try {
             ossClient.putObject(ossBucketName, path, file);
@@ -119,7 +119,7 @@ public class AliyunOssUtils {
 
         path = removeFileSeparator(path);
         String ossBucketName = JPressOptions.get(KEY_BUCKETNAME);
-        OSSClient ossClient = newOSSClient();
+        OSSClient ossClient = createOSSClient();
         try {
 
             if (!toFile.getParentFile().exists()) {
@@ -142,7 +142,7 @@ public class AliyunOssUtils {
         }
     }
 
-    private static OSSClient newOSSClient() {
+    private static OSSClient createOSSClient() {
         String endpoint = JPressOptions.get(KEY_ENDPOINT);
         String accessId = JPressOptions.get(KEY_ACCESSKEYID);
         String accessKey = JPressOptions.get(KEY_ACCESSKEYSECRET);
@@ -153,9 +153,9 @@ public class AliyunOssUtils {
      * @param objectName
      */
     public static void delete(String objectName){
-        boolean asBool = JPressOptions.getAsBool(KEY_OSS_DEL);
-        if (asBool){
-            OSSClient ossClient = newOSSClient();
+        boolean ossDelEnable = JPressOptions.getAsBool(KEY_OSS_DEL);
+        if (ossDelEnable){
+            OSSClient ossClient = createOSSClient();
             try {
                 ossClient.deleteObject(JPressOptions.get(KEY_BUCKETNAME), objectName);
             }catch (Exception e){

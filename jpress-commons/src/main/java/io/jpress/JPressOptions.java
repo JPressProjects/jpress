@@ -72,9 +72,8 @@ public class JPressOptions {
         return StrUtil.isBlank(v) ? defaultvalue : v;
     }
 
-    public static Boolean getAsBool(String key) {
-        String value = get(key);
-        return StrUtil.isBlank(value) ? null : Boolean.parseBoolean(value);
+    public static boolean getAsBool(String key) {
+        return getAsBool(key,false);
     }
 
     public static boolean getAsBool(String key, boolean defaultValue) {

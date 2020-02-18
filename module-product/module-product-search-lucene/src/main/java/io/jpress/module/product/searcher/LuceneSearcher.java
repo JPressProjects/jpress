@@ -178,9 +178,7 @@ public class LuceneSearcher implements ProductSearcher {
 
     private static Analyzer createAnalyzer(){
         SegmenterConfig config = new SegmenterConfig(true);
-        return new JcsegAnalyzer(ISegment.Type.COMPLEX,config, DictionaryFactory.createSingletonDictionary(config));
-
-//        return new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+        return new JcsegAnalyzer(ISegment.Type.NLP,config, DictionaryFactory.createSingletonDictionary(config));
     }
 
 

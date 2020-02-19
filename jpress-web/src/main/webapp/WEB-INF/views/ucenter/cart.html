@@ -97,6 +97,13 @@
         vertical-align: middle;
     }
 
+    @media all and (max-width: 768px){
+        .bottom-content{
+            padding-left:0;
+        }
+    }
+
+
 </style>
 #end
 
@@ -415,7 +422,7 @@
 
 <div class="bottom-bar">
     <div class="row bottom-content">
-        <div class="col-lg-4 bottom-content-action">
+        <div class="col-lg-4 bottom-content-action hidden-xs">
 
             <div class="select-all">
                 <div class="cart-checkbox">
@@ -431,7 +438,7 @@
 
 
         </div>
-        <div class="col-lg-7 bottom-content-price">
+        <div class="col-lg-7 col-xs-9 bottom-content-price">
 
             <div class="select-sum">
                 已选择<em id="selectedItemCount">#(selectItemCount ?? '0')</em>件商品<b class="up"></b>
@@ -450,7 +457,7 @@
 
 
         </div>
-        <div class="col-lg-1 bottom-content-buybtn">
+        <div class="col-lg-1 col-xs-3 bottom-content-buybtn">
             <a href="javascript:;" class="btn btn-danger " onclick="gotoCheckout()"><i class="fa fa-credit-card"></i>
                 去结算
             </a>

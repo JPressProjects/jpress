@@ -28,6 +28,7 @@ import io.jpress.JPressOptions;
 import io.jpress.service.UserService;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -83,7 +84,9 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
 
         JbootController controller = (JbootController) inv.getController();
-        String appId = controller.getPara("appId");
+        Map<String, String> parasMap = paramToMap(controller.getRequest().getQueryString());
+
+        String appId = parasMap.get("appId");
         if (StrUtil.isBlank(appId)) {
             inv.getController().renderJson(Ret.fail().set("message", "在Url中获取到appId内容，请注意Url是否正确。"));
             return;
@@ -95,13 +98,14 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        String sign = controller.getPara("sign");
+        String sign = parasMap.get("sign");
         if (StrUtil.isBlank(sign)) {
             controller.renderJson(Ret.fail("message", "签名数据不能为空，请提交 sign 数据。"));
             return;
         }
 
-        Long time = controller.getParaToLong("t");
+        String timeStr = parasMap.get("t");
+        Long time = timeStr == null ? null : Long.valueOf(timeStr);
         if (time == null) {
             controller.renderJson(Ret.fail("message", "时间参数不能为空，请提交 t 参数数据。"));
             return;
@@ -127,8 +131,8 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         inv.invoke();
     }
 
-    private String createLocalSign(Controller controller) {
 
+    private String createLocalSign(Controller controller) {
         String queryString = controller.getRequest().getQueryString();
         Map<String, String[]> params = controller.getRequest().getParameterMap();
 
@@ -150,6 +154,25 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         }
         query.append(apiSecret);
         return HashKit.md5(query.toString());
+    }
+
+
+
+    private static Map<String, String> paramToMap(String queryString) {
+        String[] params = queryString.split("&");
+        Map<String, String> resMap = new HashMap<>();
+        for (int i = 0; i < params.length; i++) {
+            String[] param = params[i].split("=");
+            if (param.length >= 2) {
+                String key = param[0];
+                String value = param[1];
+                for (int j = 2; j < param.length; j++) {
+                    value += "=" + param[j];
+                }
+                resMap.put(key, value);
+            }
+        }
+        return resMap;
     }
 
 

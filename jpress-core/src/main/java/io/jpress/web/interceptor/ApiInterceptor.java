@@ -88,7 +88,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
         String appId = parasMap.get("appId");
         if (StrUtil.isBlank(appId)) {
-            inv.getController().renderJson(Ret.fail().set("message", "在Url中获取到appId内容，请注意Url是否正确。"));
+            inv.getController().renderJson(Ret.fail().set("message", "在Url中未获取到appId内容，请注意Url是否正确。"));
             return;
         }
 

@@ -1,3 +1,39 @@
+jpress v3.1.0:
+新增：新增 GlobalInterceptor 注解，插件拦截器必须通过此声明才能设置为全局拦截器
+新增：AddonUtil 新增 addSharedFunction() 和 removeSharedFunction() 方法，用于对插件共享模板的新增和移除
+新增：AddonUtil 新增 getViewPath() 方法，用于获取插件的文件路径
+新增：用户注册新增 "默认所有注册用户未激活" 功能，用于在某些特殊场景下进行手动激活
+新增：ProductManager 新增 renderProductOptions() 方法，用于在购物车显示产品扩展信息
+新增：DFAUtil 新增 printDFAMatches() 方法，用于打印匹配的非法内容
+新增：当产品购买完成时，新增发票的申请功能
+新增：OrderManager 新增 registerAdminOrderDetailRender 和 registerUCenterOrderDetailRender 方法，用于自定义订单详情的页面显示
+优化：升级 Jboot 到 3.0.1 最新版
+优化：对 DFAUtil 的 init 进行优化，让其在 App 启动的时候进行 init，否则初次使用的时候会有 "卡顿" 现象
+优化：对 API 和 数据提交做很多安全优化
+优化：对 ProductInfoQuerier 进行重构，更加方便的对产品信息进行查询
+优化：对 WechatAuthorizationController 进行重构，使之更加简洁
+优化：对 ArticleServiceProvider 使用 Jboot 3.x 的新 API 进行优化
+优化：删除 deleteByIds(Object... ids) 方法，使用 batchDeleteByIds(Object... ids) 进行代替
+优化：优化产品详情页的相关样式
+优化：对 JPress 的 sql 对索引、字段大小等进行优化
+优化：对 JPressOptions 进行优化，新增若干可以设置默认数据的方法
+优化：对提现功能生成流水的进行事务控制
+修复：注册时，当验证码验证错误的时候提示的内容有误的问题
+修复：微信回复当设置的图片无法上传时，继续发送图片导致异常的问题
+修复：在二级目录下，模板无法正确显示 shortcut icon 的问题
+修复：批量删除产品的时候，无法删除产品图片关联表内容的问题
+修复：添加产品到购物车时，购物车的产品数量可能不正确的问题
+修复：订单详情页里的分销用户显示不正确的问题
+修复：_AttachmentController 在某些极端的情况下可能会出现 NPE 的问题
+修复：修改jcseg分词模式，解决启用lucene后 文章添加图片或者链接保存报错的问题，感谢 @tanghaiyuan
+修复：当开启用户提现功能，提现手续费设置后不显示的问题
+修复：当用户提现时，生成的提现流水不正确的问题
+修复：修复提现的余额判断逻辑错误的问题，感谢 @jializh123
+修复：在手机版下，无法进行余额充值和加入会员的问题
+修复：在手机版下，购物车的结算按钮错位，无法进行正常流程下单的问题
+
+
+
 jpress v3.0.6:
 修复：在某些情况下订单的商品类型错误的问题
 修复：微信个人收款和支付宝个人收款在某些情况下无法显示二维码的问题

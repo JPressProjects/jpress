@@ -9,7 +9,7 @@ jpress v3.1.0:
 新增：OrderManager 新增 registerAdminOrderDetailRender 和 registerUCenterOrderDetailRender 方法，用于自定义订单详情的页面显示
 优化：升级 Jboot 到 3.0.1 最新版
 优化：对 DFAUtil 的 init 进行优化，让其在 App 启动的时候进行 init，否则初次使用的时候会有 "卡顿" 现象
-优化：对 API 和 数据提交做很多安全优化
+优化：对 API 和 数据提交 等功能做若干个安全优化
 优化：对 ProductInfoQuerier 进行重构，更加方便的对产品信息进行查询
 优化：对 WechatAuthorizationController 进行重构，使之更加简洁
 优化：对 ArticleServiceProvider 使用 Jboot 3.x 的新 API 进行优化

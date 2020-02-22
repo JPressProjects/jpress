@@ -135,11 +135,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     public boolean isFinished() {
         Integer tradeStatus = getTradeStatus();
-        if (tradeStatus != null && TRADE_STATUS_FINISHED == tradeStatus) {
-            return true;
-        } else {
-            return isClosed();
-        }
+        return tradeStatus != null && TRADE_STATUS_FINISHED == tradeStatus;
     }
 
     /**

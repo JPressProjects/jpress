@@ -156,21 +156,23 @@
                                                 订单号：#(order.ns ??)
                                                 #if(order.isFinished())
                                                 （<span style="">#(order.tradeStatusStr ??)</span>）
-                                                #elseif(order.isPaySuccess())
+                                                #elseif(order.isPaySuccess() )
                                                 （<span style="color:green">#(order.tradeStatusStr ??)</span>）
+                                                #elseif(order.isClosed())
+                                                <span>#(order.tradeStatusStr ??)</span>）
                                                 #else
                                                 （<span style="color:red">#(order.tradeStatusStr ??)</span>）
                                                 #end
 
                                                 总金额：<span style="padding-right: 20px">#(order.orderRealAmount ??)</span>
 
-                                                #if(order.isPaySuccess())
+                                                #if(order.isPaySuccess() || order.isClosed())
                                                 支付状态：<span style="padding-right: 20px">#(order.payStatusStr ??)</span>
                                                 #else
                                                 支付状态：<span style="color:red;padding-right: 20px">#(order.payStatusStr ??)</span>
                                                 #end
 
-                                                #if(order.isDeliveried())
+                                                #if(order.isDeliveried() || order.isClosed())
                                                 物流状态：<span style="padding-right: 20px">#(order.deliveryStatusStr ??)</span>
                                                 #else
                                                 物流状态：<span style="color:red;padding-right: 20px">#(order.deliveryStatusStr ??)</span>

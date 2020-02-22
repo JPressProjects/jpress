@@ -159,7 +159,7 @@
                                                 #elseif(order.isPaySuccess() )
                                                 （<span style="color:green">#(order.tradeStatusStr ??)</span>）
                                                 #elseif(order.isClosed())
-                                                <span>#(order.tradeStatusStr ??)</span>）
+                                                (<span>#(order.tradeStatusStr ??)</span>）
                                                 #else
                                                 （<span style="color:red">#(order.tradeStatusStr ??)</span>）
                                                 #end
@@ -182,7 +182,7 @@
                                             </div>
                                             <div class="col-lg-2" style="text-align: right">
                                                 <h3 class="box-title">
-                                                    #if(!order.isDeliveried())
+                                                    #if(!order.isUnpay() && !order.isClosed() && !order.isDeliveried())
                                                     <a href="javascript:;" onclick="deliver('#(order.id)')">发货</a>
                                                     #end
                                                     <a href="#(CPATH)/admin/order/detail/#(order.id)">详情</a>

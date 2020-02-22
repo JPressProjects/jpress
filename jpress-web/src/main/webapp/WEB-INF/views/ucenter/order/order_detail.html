@@ -131,7 +131,7 @@
         <div class="row no-print">
             <div class="col-xs-12" style="text-align: right">
 
-                #if(order.isUnpay())
+                #if(order.isUnpay() && !order.isClosed())
                 <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success" target="_blank">
                     <i class="fa fa-credit-card"></i> 去付款
                 </a>

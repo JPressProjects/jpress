@@ -114,6 +114,9 @@ public class CheckoutController extends UcenterControllerBase {
         UserOrder order = userOrderService.findById(getPara());
         render404If(notLoginedUserModel(order, "buyer_id"));
 
+        //无法对已经关闭的订单进行再次支付
+        render404If(order.isClosed());
+
         PayConfigUtil.setConfigAttrs(this);
 
         List<UserOrderItem> orderItems = userOrderItemService.findListByOrderId(order.getId());
@@ -342,6 +345,9 @@ public class CheckoutController extends UcenterControllerBase {
     public void payorder() {
         UserOrder userOrder = userOrderService.findById(getPara());
         render404If(notLoginedUserModel(userOrder, "buyer_id"));
+
+        //无法对已经关闭的订单进行支付
+        render404If(userOrder.isClosed());
 
         PaymentRecord payment = paymentService.findById(userOrder.getPaymentId());
         if (payment == null) {

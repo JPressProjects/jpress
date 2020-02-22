@@ -87,7 +87,12 @@
                                             <div class="col-lg-10">
                                                 订单号：#(order.ns ??)
                                                 总金额：<span style="padding-right: 20px">#(order.orderRealAmount ??)</span>
+
+                                                #if(order.isClosed())
+                                                (长时间未支付，订单已经关闭)
+                                                #else
                                                 支付状态：<span style="padding-right: 20px">#(order.payStatusStr ??)</span>
+                                                #end
 
                                                 #if(order.isPaySuccess())
                                                 物流状态：<span style="padding-right: 20px">#(order.deliveryStatusStr ??)</span>

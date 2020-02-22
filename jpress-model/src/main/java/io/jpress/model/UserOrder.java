@@ -1,10 +1,13 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.JPressOptions;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserOrder;
+import org.apache.commons.lang.time.DateUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +33,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
     public static final int TRADE_STATUS_REFUNDING = 6; //退款中
     public static final int TRADE_STATUS_REFUNDED = 7;//退款完成
     public static final int TRADE_STATUS_FINISHED = 9;//交易结束
+    public static final int TRADE_STATUS_CLOSED = 10;//订单关闭
 
     public static final Map<Integer, String> tradeStatusTexts = new HashMap<>();
 
@@ -42,6 +46,7 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
         tradeStatusTexts.put(TRADE_STATUS_REFUNDING, "退款中");
         tradeStatusTexts.put(TRADE_STATUS_REFUNDED, "退款完成");
         tradeStatusTexts.put(TRADE_STATUS_FINISHED, "交易结束");
+        tradeStatusTexts.put(TRADE_STATUS_CLOSED, "订单关闭");
     }
 
 
@@ -130,20 +135,52 @@ public class UserOrder extends BaseUserOrder<UserOrder> {
 
     public boolean isFinished() {
         Integer tradeStatus = getTradeStatus();
-        return tradeStatus != null && TRADE_STATUS_FINISHED == tradeStatus;
+        if (tradeStatus != null && TRADE_STATUS_FINISHED == tradeStatus) {
+            return true;
+        } else {
+            return isClosed();
+        }
+    }
+
+    /**
+     * 订单是否已经关闭
+     *
+     * @return
+     */
+    public boolean isClosed() {
+        Integer tradeStatus = getTradeStatus();
+        if (tradeStatus != null && TRADE_STATUS_CLOSED == tradeStatus) {
+            return true;
+        }
+
+        //支付成功的订单不关闭
+        if (isPaySuccess()) {
+            return false;
+        }
+
+        int orderTimeout = JPressOptions.getAsInt("order_timeout", 0);
+        if (orderTimeout <= 0) {
+            return false;
+        }
+
+        return DateUtils.addDays(getCreated(), orderTimeout).before(new Date());
     }
 
 
     /**
      * 是否可以申请发票
+     *
      * @return
      */
-    public boolean isCanApplyForInvoice(){
+    public boolean isCanApplyForInvoice() {
         Integer invoiceStatus = getInvoiceStatus();
         return isFinished() && invoiceStatus != null && INVOICE_STATUS_NOT_APPLY == invoiceStatus;
     }
 
     public String getTradeStatusStr() {
+        if (isClosed()) {
+            return tradeStatusTexts.get(TRADE_STATUS_CLOSED);
+        }
         return tradeStatusTexts.get(getTradeStatus());
     }
 

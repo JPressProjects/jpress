@@ -87,8 +87,7 @@ public class OrderController extends UcenterControllerBase {
 
         setAttr("order", order);
 
-        OrderManager.me().renderUCenterOrderDetailPage(this,order);
-
+        render("order_detail.html");
     }
 
     public void comment() {

@@ -132,9 +132,7 @@ public class _OrderController extends AdminControllerBase {
             }
         }
 
-
-        OrderManager.me().renderAdminOrderDetailPage(this, order);
-
+        render("order/order_detail.html");
 
     }
 

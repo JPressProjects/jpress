@@ -17,20 +17,13 @@ package io.jpress.core.finance;
 
 
 import com.jfinal.aop.Aop;
-import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
-import io.jpress.core.finance.render.AdminOrderDetailPageRender;
-import io.jpress.core.finance.render.DefaultAdminOrderDetailPageRender;
-import io.jpress.core.finance.render.DefaultUCenterOrderDetailPageRender;
-import io.jpress.core.finance.render.UCenterOrderDetailPageRender;
 import io.jpress.model.UserOrder;
 import io.jpress.model.UserOrderItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author michael yang
@@ -51,16 +44,16 @@ public class OrderManager {
     private List<OrderItemStatusChangeListener> orderItemStatusChangeListeners;
     private List<OrderStatusChangeListener> orderStatusChangeListeners;
 
-    private Map<String, AdminOrderDetailPageRender> adminOrderDetailPageRenderMap = new ConcurrentHashMap<>();
-    private Map<String, UCenterOrderDetailPageRender> uCenterOrderDetailPageRenderMap = new ConcurrentHashMap<>();
 
     public List<OrderItemStatusChangeListener> getOrderItemStatusChangeListeners() {
         return orderItemStatusChangeListeners;
     }
 
+
     public void setOrderItemStatusChangeListeners(List<OrderItemStatusChangeListener> orderItemStatusChangeListeners) {
         this.orderItemStatusChangeListeners = orderItemStatusChangeListeners;
     }
+
 
     public void addOrderItemStatusChangeListener(OrderItemStatusChangeListener listener) {
         if (orderItemStatusChangeListeners == null) {
@@ -71,13 +64,16 @@ public class OrderManager {
         orderItemStatusChangeListeners.add(Aop.inject(listener));
     }
 
+
     public List<OrderStatusChangeListener> getOrderStatusChangeListeners() {
         return orderStatusChangeListeners;
     }
 
+
     public void setOrderStatusChangeListeners(List<OrderStatusChangeListener> orderItemStatusChangeListeners) {
         this.orderStatusChangeListeners = orderItemStatusChangeListeners;
     }
+
 
     public void addOrderStatusChangeListener(OrderStatusChangeListener listener) {
         if (orderStatusChangeListeners == null) {
@@ -87,6 +83,7 @@ public class OrderManager {
         }
         orderStatusChangeListeners.add(Aop.inject(listener));
     }
+
 
     public void notifyItemStatusChanged(UserOrderItem userOrderItem) {
         if (orderItemStatusChangeListeners != null && userOrderItem != null) {
@@ -112,52 +109,4 @@ public class OrderManager {
         }
     }
 
-    public void registerAdminOrderDetailRender(String forProductType, AdminOrderDetailPageRender render) {
-        adminOrderDetailPageRenderMap.put(forProductType, Aop.inject(render));
-    }
-
-    public void registerUCenterOrderDetailRender(String forProductType, UCenterOrderDetailPageRender render) {
-        uCenterOrderDetailPageRenderMap.put(forProductType, Aop.inject(render));
-    }
-
-    public void unregisterAdminOrderDetailRender(String forProductType) {
-        adminOrderDetailPageRenderMap.remove(forProductType);
-    }
-
-    public void unregisterUCenterOrderDetailRender(String forProductType) {
-        uCenterOrderDetailPageRenderMap.remove(forProductType);
-    }
-
-    public Map<String, AdminOrderDetailPageRender> getAdminOrderDetailPageRenderMap() {
-        return adminOrderDetailPageRenderMap;
-    }
-
-    public Map<String, UCenterOrderDetailPageRender> getUCenterOrderDetailPageRenderMap() {
-        return uCenterOrderDetailPageRenderMap;
-    }
-
-    public void renderAdminOrderDetailPage(Controller controller, UserOrder order) {
-        if (order.getProductType() == null) {
-            DefaultAdminOrderDetailPageRender.me.doRender(controller, order);
-            return;
-        }
-        AdminOrderDetailPageRender render = adminOrderDetailPageRenderMap.get(order.getProductType());
-        if (render == null) {
-            render = DefaultAdminOrderDetailPageRender.me;
-        }
-        render.doRender(controller, order);
-    }
-
-
-    public void renderUCenterOrderDetailPage(Controller controller, UserOrder order) {
-        if (order.getProductType() == null) {
-            DefaultUCenterOrderDetailPageRender.me.doRender(controller, order);
-            return;
-        }
-        UCenterOrderDetailPageRender render = uCenterOrderDetailPageRenderMap.get(order.getProductType());
-        if (render == null) {
-            render = DefaultUCenterOrderDetailPageRender.me;
-        }
-        render.doRender(controller, order);
-    }
 }

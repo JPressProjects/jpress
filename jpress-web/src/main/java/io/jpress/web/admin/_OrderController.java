@@ -98,7 +98,7 @@ public class _OrderController extends AdminControllerBase {
         setAttr("orderItems", orderItems);
         setAttr("orderUser", userService.findById(order.getBuyerId()));
         setAttr("invoice", invoiceService.findById(order.getInvoiceId()));
-
+        setAttr("delivery", deliveryService.findById(order.getDeliveryId()));
 
         if (orderItems != null) {
             for (UserOrderItem item : orderItems) {

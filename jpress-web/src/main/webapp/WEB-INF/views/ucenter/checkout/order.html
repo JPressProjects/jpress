@@ -168,11 +168,11 @@
                                 <label>地址</label>
                                 <div data-toggle="distpicker" class="form-inline" data-autoselect="3">
                                     <select class="form-control" name="order.delivery_addr_province"
-                                            data-province="#(data.province ?? '---- 选择省 ----')"></select>
+                                            data-province="#(defaultAddress.province ?? '---- 选择省 ----')"></select>
                                     <select class="form-control" name="order.delivery_addr_city"
-                                            data-city="#(data.city ?? '---- 选择市 ----')"></select>
+                                            data-city="#(defaultAddress.city ?? '---- 选择市 ----')"></select>
                                     <select class="form-control" name="order.delivery_addr_district"
-                                            data-district="#(data.district ?? '---- 选择区 ----')"></select>
+                                            data-district="#(defaultAddress.district ?? '---- 选择区 ----')"></select>
                                 </div>
                             </div>
 

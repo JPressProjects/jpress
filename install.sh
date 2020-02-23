@@ -8,7 +8,7 @@
 
 # 安装docker
 if ! [ -x "$(command -v docker)" ]; then
-  echo '检测到Docker尚未安装，正在试图安装Docker...'
+  echo '检测到 Docker 尚未安装，正在试图安装 Docker ...'
 
   if [ -x "$(command -v yum)" ]; then
     sudo yum install -y python3-pip yum-utils device-mapper-persistent-data lvm2
@@ -33,7 +33,7 @@ fi
 
  # 安装docker-compose
 if ! [ -x "$(command -v docker-compose)" ]; then
-  echo '检测到Docker-Compose尚未安装，正在试图安装Docker-Compose...所需时间与你的网络环境有关'
+  echo '检测到 Docker-Compose 尚未安装，正在试图安装 Docker-Compose ...'
   if ! [ -x "$(command -v pip3)" ]; then
       curl -L https://github.com/docker/compose/releases/download/1.25.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
       chmod +x /usr/local/bin/docker-compose
@@ -56,11 +56,11 @@ if [ -x "$(command -v docker)" -a -x "$(command -v docker-compose)" ]; then
 else
 
   if ! [ -x "$(command -v docker)" ]; then
-    echo 'Docker安装失败，请检测您当前的环境（或网络）是否正常。'
+    echo 'Docker 安装失败，请检测您当前的环境（或网络）是否正常。'
   fi
 
   if ! [ -x "$(command -v docker-compose)" ]; then
-    echo 'Docker-Compose安装失败，请检测您当前的环境（或网络）是否正常。'
+    echo 'Docker-Compose 安装失败，请检测您当前的环境（或网络）是否正常。'
   fi
 
 fi

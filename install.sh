@@ -8,27 +8,17 @@
 
 # 安装docker
 if ! [ -x "$(command -v docker)" ]; then
-  echo '检测到Docker尚未安装，正在试图安装Docker...所需时间与你的网络环境有关'
-  sudo -s curl -sSL https://get.daocloud.io/docker | sh
-
-  # 启动docker和开机自启动
-  sudo systemctl start docker
-  sudo systemctl enable docker
-fi
-
-
-if ! [ -x "$(command -v docker)" ]; then
-  echo '检测到Docker尚未安装，正在试图安装Docker...所需时间与你的网络环境有关'
+  echo '检测到Docker尚未安装，正在试图安装Docker...'
 
   if [ -x "$(command -v yum)" ]; then
-    sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+    sudo yum install -y python3-pip yum-utils device-mapper-persistent-data lvm2
     sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     yum list docker-ce --showduplicates | sort -r
     sudo yum install docker-ce
   else
     sudo apt-get update
     sudo dpkg --configure -a
-    sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+    sudo apt-get install python3-pip apt-transport-https ca-certificates curl software-properties-common
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo apt-get update
@@ -44,12 +34,12 @@ fi
  # 安装docker-compose
 if ! [ -x "$(command -v docker-compose)" ]; then
   echo '检测到Docker-Compose尚未安装，正在试图安装Docker-Compose...所需时间与你的网络环境有关'
-  if ! [ -x "$(command -v pip)" ]; then
+  if ! [ -x "$(command -v pip3)" ]; then
       curl -L https://github.com/docker/compose/releases/download/1.25.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
       chmod +x /usr/local/bin/docker-compose
   else
-      pip install --upgrade pip
-      pip install docker-compose
+      pip3 install --upgrade pip
+      pip3 install docker-compose
   fi
 fi
 
@@ -75,13 +65,4 @@ else
 
 fi
 
-
-
 rm -f install.sh
-
-
-
-
-
-
-

@@ -38,14 +38,14 @@
         <javax.mail.version>1.6.2</javax.mail.version>
         <commons-io.version>2.6</commons-io.version>
         <commonmark.version>0.14.0</commonmark.version>
-        <aliyunoss.version>3.8.0</aliyunoss.version>
+        <aliyunoss.version>3.8.1</aliyunoss.version>
         <httpclient.version>4.5.3</httpclient.version>
-        <fasterxml.version>2.10.1</fasterxml.version>
+        <fasterxml.version>2.10.2</fasterxml.version>
         <pay-java.version>2.13.1</pay-java.version>
-        <guava.version>28.1-jre</guava.version>
+        <guava.version>28.2-jre</guava.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>
-        <commons-codec.version>1.13</commons-codec.version>
+        <commons-codec.version>1.14</commons-codec.version>
         <slf4j.version>1.7.29</slf4j.version>
         <fastjson.version>1.2.62</fastjson.version>
         <lucene.version>8.3.1</lucene.version>
@@ -74,7 +74,6 @@
                 <version>${commonmark.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.atlassian.commonmark</groupId>
                 <artifactId>commonmark-ext-yaml-front-matter</artifactId>
@@ -98,7 +97,6 @@
                 <artifactId>commons-logging</artifactId>
                 <version>${commons-logging.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -160,16 +158,11 @@
                 </exclusions>
             </dependency>
 
-
-
-
             <dependency>
                 <groupId>io.jboot</groupId>
                 <artifactId>jboot</artifactId>
                 <version>${jboot.version}</version>
             </dependency>
-
-
 
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
@@ -273,13 +266,11 @@
                 <version>${commons-codec.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${fasterxml.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -287,13 +278,11 @@
                 <version>${fasterxml.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${fasterxml.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -307,13 +296,11 @@
                 <version>${fasterxml.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-smile</artifactId>
                 <version>${fasterxml.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.egzosn</groupId>
@@ -363,7 +350,6 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-
         </dependencies>
     </dependencyManagement>
 
@@ -404,6 +390,7 @@
                 </configuration>
             </plugin>
 
+            <!-- 检测依赖最新版本：mvn versions:display-dependency-updates  -->
             <!-- 统一修改版本号：mvn versions:set -DnewVersion=3.0  -->
             <!-- mvn -N versions:update-child-modules  -->
             <!-- mvn versions:set -DnewVersion=2.0 -DprocessAllModules=true -DallowSnapshots=true -->

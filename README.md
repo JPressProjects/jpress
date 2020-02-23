@@ -4,7 +4,7 @@
 <h1 align="center"><a href="http://www.jpress.io" target="_blank"> JPress </a></h1>
 
 <p align="center">
-一个使用 Java 开发的类似 WordPress 的产品，并至此基础上新增了电商的功能。
+一个使用 Java 开发的类似 WordPress 的产品，并在此基础上增加了电商的功能。
 </p>
 
 

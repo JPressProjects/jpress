@@ -4,7 +4,7 @@
 <h1 align="center"><a href="http://www.jpress.io" target="_blank"> JPress </a></h1>
 
 <p align="center">
-一个类似 WordPress 的产品，使用Java开发。
+一个使用 Java 开发的类似 WordPress 的产品，并至此基础上新增了电商的功能。
 </p>
 
 
@@ -20,6 +20,10 @@
 
 #### 内容相关
 - 文章管理
+- 文章分类
+- 文章标签
+- 文章搜索（支持 sql like、Lucene、es、OpenSearch）
+- 用户投稿
 - 页面管理
 - 评论管理
 - 附件管理
@@ -27,6 +31,10 @@
 
 #### 电商相关
 - 产品管理
+- 产品分类
+- 产品标签
+- 产品搜索（支持 sql like、Lucene、es、OpenSearch）
+- 产品分销
 - 会员管理
 - 订单管理
 - 分销管理
@@ -158,19 +166,14 @@
 
 ## 运行JPress
 
-**在 Linux 上运行**
 
-```
-wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
-```
-
-**在 Mac 上运行**
+**在 Docker 上运行**
 
 ```
 curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
 ```
 
-**在全新的 Linux 上一键安装**
+**在 Linux 上一键安装**
 
 ```
 wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
@@ -178,7 +181,7 @@ wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
 
 **通过 Eclipse 或者 Idea 等开发工具运行**
 
-- 1、在本地安装好 Java、Maven 等开发环境
+- 1、在电脑安装好 Java、Maven 等开发环境
 - 2、将源码下载、并导入 eclipse 或者 idea 
 - 3、在项目的**根目录**，执行 `mvn clean install` 命令进行编译
 - 4、在开发工具，右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法

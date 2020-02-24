@@ -47,9 +47,9 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <form class="form-horizontal form-setting" autocomplete="off"
-                          action="#(CPATH)/admin/#(tableMeta.name)/doSave"
+                          action="#(CPATH)/admin/#(moduleName)/#(tableMeta.name)/doSave"
                           method="POST" id="form">
-                        
+
                         <div class="box-body ">
 	                        #for(cm : tableMeta.columnMetas)
 	                            #set(modelAttrName=firstCharToLowerCase(tableMeta.modelName)+"."+cm.name)
@@ -60,7 +60,7 @@
 		                            <div class="form-group">
 		                                <label class="col-sm-2 control-label">#(cm.remarks?? "列名称")</label>
 		                                <div class="col-sm-6">
-		                                 
+
 		                                #if("java.util.Date"==cm.javaType)
 										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
 		                       						name="#(modelAttrName)" value="#('#date(')#(modelAttrName) ?? now,'yyyy-MM-dd')" >

@@ -190,7 +190,7 @@ public class ProductController extends TemplateControllerBase {
             }
         }
 
-        if (DFAUtil.isContainsSensitiveWords(content)){
+        if (DFAUtil.isContainsSensitiveWords(content)) {
             renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
             return;
         }
@@ -276,7 +276,7 @@ public class ProductController extends TemplateControllerBase {
         }
 
 
-        setRetHtml(ret, paras, "/WEB-INF/views/commons/product/defaultProductCommentItem.html");
+        renderHtmltoRet("/WEB-INF/views/commons/product/defaultProductCommentItem.html", paras, ret);
         renderJson(ret);
 
         ProductNotifyKit.doNotifyAdministrator(product, comment, user);
@@ -300,13 +300,13 @@ public class ProductController extends TemplateControllerBase {
     }
 
 
-   @Before(ProductValidate.class)
+    @Before(ProductValidate.class)
     public void doAddFavorite() {
         Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-       if (favoriteService.doAddToFavorite(product.toFavorite(user.getId()))){
+        if (favoriteService.doAddToFavorite(product.toFavorite(user.getId()))) {
             renderOkJson();
-        }else {
+        } else {
             renderFailJson("已经收藏过了!");
         }
     }

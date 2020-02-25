@@ -32,6 +32,7 @@ public class JPressActiveKit {
      * @param model
      */
     public static void makeItActive(Model model) {
+
         model.put(ACTIVE_FLAG, true);
 
         if (model instanceof SortModel) {

@@ -177,7 +177,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
     }
 
 
-    protected void setRetHtml(Ret ret, Map paras, String defaultTemplate) {
+    protected void renderHtmltoRet(String defaultTemplate, Map paras, Ret toRet) {
         String render = getPara("render");
         if (StrUtil.isBlank(render)) {
             return;
@@ -193,14 +193,14 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
         if ("default".equals(render)) {
             String html = engine.getTemplate(defaultTemplate).renderToString(paras);
-            ret.set("html", html);
+            toRet.set("html", html);
         } else {
             if (template != null) {
                 String matchedHtml = template.matchView(render + ".html", isMobileBrowser());
                 if (matchedHtml != null) {
                     String html = engine.getTemplate(template.getRelativePath() + "/" + matchedHtml)
                             .renderToString(paras);
-                    ret.set("html", html);
+                    toRet.set("html", html);
                 }
             }
         }

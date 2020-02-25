@@ -179,6 +179,9 @@ curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-c
 wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
 ```
 
+> 视频教程链接: https://pan.baidu.com/s/1ciA2DglE-JV-YiU3ojtmew 提取码: 37g5
+
+
 **通过 Eclipse 或者 Idea 等开发工具运行**
 
 - 1、在电脑安装好 Java、Maven 等开发环境

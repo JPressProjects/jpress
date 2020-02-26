@@ -185,7 +185,7 @@ public interface ProductCategoryService {
 
     public List<ProductCategory> findListByProductId(long productId, String type);
 
-    public List<ProductCategory> _findListByType(String type);
+    public List<ProductCategory> findListByType(String type);
 
     public List<ProductCategory> findListByType(String type,String orderBy,Integer count);
 

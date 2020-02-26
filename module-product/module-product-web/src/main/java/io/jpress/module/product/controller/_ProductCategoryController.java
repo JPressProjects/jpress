@@ -43,7 +43,7 @@ public class _ProductCategoryController extends AdminControllerBase {
 
     @AdminMenu(text = "分类", groupId = "product", order = 2)
     public void index() {
-        List<ProductCategory> categories = productCategoryService._findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = productCategoryService.findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
         int id = getParaToInt(0, 0);

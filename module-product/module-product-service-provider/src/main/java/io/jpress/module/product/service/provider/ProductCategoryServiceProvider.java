@@ -75,7 +75,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
 
     @Override
     @Cacheable(name = "productCategory", key = "type:#(type)", returnCopyEnable = true)
-    public List<ProductCategory> _findListByType(String type) {
+    public List<ProductCategory> findListByType(String type) {
         return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
     }
 

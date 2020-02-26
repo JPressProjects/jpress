@@ -1,4 +1,4 @@
-package io.jpress.module.product;
+package io.jpress.module.product.directive;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;

@@ -27,7 +27,7 @@ import io.jpress.commons.pay.PayStatus;
 import io.jpress.core.finance.PaymentManager;
 import io.jpress.model.PaymentRecord;
 import io.jpress.service.PaymentRecordService;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;

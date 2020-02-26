@@ -26,7 +26,7 @@ import io.jpress.model.PaymentRecord;
 import io.jpress.service.MemberGroupService;
 import io.jpress.service.MemberJoinedRecordService;
 import io.jpress.service.MemberService;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Date;
 

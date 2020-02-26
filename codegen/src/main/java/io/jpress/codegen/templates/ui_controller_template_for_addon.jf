@@ -18,7 +18,9 @@ package #(controllerPackage);
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
 import #(modelPackage).#(tableMeta.modelName);
 import #(modulePackage).service.#(tableMeta.modelName)Service;
 import io.jpress.core.menu.annotation.AdminMenu;

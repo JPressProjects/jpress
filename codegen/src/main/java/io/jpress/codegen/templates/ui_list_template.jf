@@ -13,9 +13,8 @@
             alert('您未选择任何条目');
             return
         }
-        ajaxGet("#(CPATH)/admin/#(tableMeta.name)/doDelByIds?ids=" + ids);
+        ajaxGet("#(CPATH)/admin/#(moduleName)/#(tableMeta.name)/doDelByIds?ids=" + ids);
     })
-
 
 </script>
 #('#')end

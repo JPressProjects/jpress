@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # author:       yangfuhai
 # email:        fuhai999@gmail.com
-# use : wget -O install.sh https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
+# use : wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
 # ----------------------------------------------------------------------
 
 
@@ -50,7 +50,10 @@ if [ -x "$(command -v docker)" -a -x "$(command -v docker-compose)" ]; then
   docker-compose -version
 
   # 安装jpress
-  wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
+  if [ ! -f "docker-compose.yml" ];then
+    wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
+  fi
+
   docker-compose up -d
 
 else
@@ -58,6 +61,7 @@ else
   if ! [ -x "$(command -v docker)" ]; then
     echo 'Docker 安装失败，请检测您当前的环境（或网络）是否正常。'
   fi
+
 
   if ! [ -x "$(command -v docker-compose)" ]; then
     echo 'Docker-Compose 安装失败，请检测您当前的环境（或网络）是否正常。'

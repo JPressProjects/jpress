@@ -40,7 +40,7 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
         render("#(moduleName)/#(tableMeta.name)_list.html");
     }
 
-   
+
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
@@ -49,7 +49,7 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
         set("now",new Date());
         render("#(moduleName)/#(tableMeta.name)_edit.html");
     }
-   
+
     public void doSave() {
         #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(firstCharToLowerCase(tableMeta.modelName))");
         service.saveOrUpdate(entry);
@@ -61,4 +61,7 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
         Long id = getIdPara();
         render(service.deleteById(id) ? Ret.ok() : Ret.fail());
     }
+
+
+
 }

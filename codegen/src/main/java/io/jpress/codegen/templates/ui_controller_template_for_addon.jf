@@ -38,23 +38,33 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
         render("views/#(tableMeta.name)_list.html");
     }
 
-   
+
     public void edit() {
         int entryId = getParaToInt(0, 0);
         #(tableMeta.modelName) entry = entryId > 0 ? service.findById(entryId) : null;
         setAttr("#(lowerCaseModelName)", entry);
         render("views/#(tableMeta.name)_edit.html");
     }
-   
+
     public void doSave() {
         #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(firstCharToLowerCase(tableMeta.modelName))");
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }
 
-
     public void doDel() {
         Long id = getIdPara();
         render(service.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        if (service.batchDeleteByIds(idsSet.toArray())){
+            for (String id : idsSet){
+                service.deleteById(Long.valueOf(id));
+            }
+        }
+        renderOkJson();
     }
 }

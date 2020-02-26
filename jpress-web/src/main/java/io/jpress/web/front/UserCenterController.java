@@ -178,10 +178,18 @@ public class UserCenterController extends UcenterControllerBase {
     /**
      * 退出登录
      */
-    public void doLogout() {
+    public void logout() {
         CookieUtil.remove(this, JPressConsts.COOKIE_UID);
-        redirect("/user/login");
+        redirect("/");
     }
 
+
+    /**
+     * 退出登录，这个方法存在只是为了兼容之前的模板
+     */
+    @Deprecated
+    public void doLogout() {
+        logout();
+    }
 
 }

@@ -19,6 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import #(modelPackage).#(tableMeta.modelName);
@@ -40,7 +41,7 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
         render("#(moduleName)/#(tableMeta.name)_list.html");
     }
 
-   
+
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
@@ -49,7 +50,7 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
         set("now",new Date());
         render("#(moduleName)/#(tableMeta.name)_edit.html");
     }
-   
+
     public void doSave() {
         #(tableMeta.modelName) entry = getModel(#(tableMeta.modelName).class,"#(firstCharToLowerCase(tableMeta.modelName))");
         service.saveOrUpdate(entry);
@@ -61,4 +62,16 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
         Long id = getIdPara();
         render(service.deleteById(id) ? Ret.ok() : Ret.fail());
     }
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        if (service.batchDeleteByIds(idsSet.toArray())){
+            for (String id : idsSet){
+                service.deleteById(Long.valueOf(id));
+            }
+        }
+        renderOkJson();
+    }
+
 }

@@ -32,7 +32,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.0.1</jboot.version>
+        <jboot.version>3.0.2</jboot.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
@@ -48,9 +48,9 @@
         <commons-codec.version>1.14</commons-codec.version>
         <slf4j.version>1.7.29</slf4j.version>
         <fastjson.version>1.2.62</fastjson.version>
-        <lucene.version>8.3.1</lucene.version>
-        <jcseg.version>2.6.0</jcseg.version>
-        <elasticsearch.version>7.5.1</elasticsearch.version>
+        <lucene.version>8.4.1</lucene.version>
+        <jcseg.version>2.6.2</jcseg.version>
+        <elasticsearch.version>7.6.0</elasticsearch.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -101,13 +101,13 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.10</version>
+                <version>4.5.11</version>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.12</version>
+                <version>4.4.13</version>
             </dependency>
 
             <dependency>

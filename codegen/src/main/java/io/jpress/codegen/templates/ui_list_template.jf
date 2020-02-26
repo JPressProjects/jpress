@@ -16,7 +16,6 @@
         ajaxGet("#(CPATH)/admin/#(moduleName)/#(tableMeta.name)/doDelByIds?ids=" + ids);
     })
 
-
 </script>
 #('#')end
 

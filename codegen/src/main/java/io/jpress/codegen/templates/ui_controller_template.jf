@@ -65,12 +65,7 @@ public class _#(tableMeta.modelName)Controller extends AdminControllerBase {
 
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
-        Set<String> idsSet = getParaSet("ids");
-        if (service.batchDeleteByIds(idsSet.toArray())){
-            for (String id : idsSet){
-                service.deleteById(Long.valueOf(id));
-            }
-        }
+        service.batchDeleteByIds(getParaSet("ids").toArray());
         renderOkJson();
     }
 

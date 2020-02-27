@@ -1,3 +1,20 @@
+jpress v3.1.1:
+新增：订单超时的时间设置功能，超时订单自动被关闭
+新增：新增产品分类的标签 #productCategoryList，用于读取产品分类内容
+优化：优化订单列表的文字样式以及发货按钮的显示逻辑
+优化：移除 AdminOrderDetailPgeRender 和 UCenterOrderDetailPageRender 的配置支持
+优化：优化 install.sh ，在某些时候无法正常安装的问题
+优化：优化 docker-compose.yml ，升级 mysql image 到 5.7
+优化：用户推出方法 doLogout() 修改为 logout()
+优化：优化插件模块，在某些极端情况下出现无法删除插件内容的问题
+优化：升级jboot、fastjson、jcseg等相关依赖到最新版本
+修复：购买产品时，默认地址不正确的问题
+修复：对未支付订单重新支付时，无法选择新地址的问题
+修复：修复代码生成器生成的代码内容编辑的 URL 路径错误的问题，感谢  @安杰
+修复：代码生成器生成的代码中，进行批量删除时出现404的问题，感谢 @安杰
+
+
+
 jpress v3.1.0:
 新增：新增 GlobalInterceptor 注解，插件拦截器必须通过此声明才能设置为全局拦截器
 新增：AddonUtil 新增 addSharedFunction() 和 removeSharedFunction() 方法，用于对插件共享模板的新增和移除

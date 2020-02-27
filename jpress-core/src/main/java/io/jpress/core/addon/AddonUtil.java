@@ -129,11 +129,14 @@ public class AddonUtil {
                             if (!targetFile.getParentFile().exists()) {
                                 targetFile.getParentFile().mkdirs();
                             }
+                            if (targetFile.exists()){
+                                forceDelete(targetFile);
+                            }
                             os = new BufferedOutputStream(new FileOutputStream(targetFile));
                             is = zipFile.getInputStream(zipEntry);
-                            byte[] buffer = new byte[4096];
+                            byte[] buffer = new byte[1024];
                             int readLen = 0;
-                            while ((readLen = is.read(buffer, 0, 4096)) > 0) {
+                            while ((readLen = is.read(buffer, 0, 1024)) > 0) {
                                 os.write(buffer, 0, readLen);
                             }
                         }

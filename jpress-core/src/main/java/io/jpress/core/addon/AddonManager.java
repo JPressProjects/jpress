@@ -197,7 +197,9 @@ public class AddonManager implements JbootEventListener {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
             addonsMap.put(addonInfo.getId(), addonInfo);
             Addon addon = addonInfo.getAddon();
+
             AddonUtil.unzipResources(addonInfo);
+
             if (addon != null) {
                 addon.onInstall(addonInfo);
             }
@@ -811,6 +813,7 @@ public class AddonManager implements JbootEventListener {
     private void doUnzipNewAddon(File newAddonFile, AddonInfo newAddon) throws IOException {
         File destAddonFile = newAddon.buildJarFile();
         FileUtils.moveFile(newAddonFile, destAddonFile);
+
         AddonUtil.unzipResources(newAddon);
     }
 

@@ -45,6 +45,9 @@ services:
       - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
       - "./nginx/cert:/etc/nginx/cert"
       - "./docker_volumes/webapp/attachment:/etc/nginx/statics/attachment"
+      - "./docker_volumes/webapp/addons:/etc/nginx/statics/addons"
+      - "./docker_volumes/webapp/attachment:/etc/nginx/statics/attachment"
+      - "./docker_volumes/webapp/templates:/etc/nginx/statics/templates"
     ports:
       - "80:80"
     restart: always

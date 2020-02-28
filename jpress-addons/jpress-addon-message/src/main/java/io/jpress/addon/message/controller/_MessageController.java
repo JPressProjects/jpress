@@ -30,7 +30,7 @@ import java.util.Set;
 
 
 @RequestMapping(value = "/admin/message/jpress_addon_message", viewPath = "/")
-public class _JpressAddonMessageController extends AdminControllerBase {
+public class _MessageController extends AdminControllerBase {
 
     @Inject
     private JpressAddonMessageService service;

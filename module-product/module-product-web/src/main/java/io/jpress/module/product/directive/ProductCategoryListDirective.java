@@ -105,14 +105,10 @@ public class ProductCategoryListDirective extends JbootDirectiveBase {
      */
     private void setActiveFlagByCurrentCategory(List<ProductCategory> categories) {
 
-        ProductCategory currentCategory = JbootControllerContext.get().getAttr("category");
-
-        //当前页面并不是某个分类页面
-        if (currentCategory == null) {
-            return;
-        }
-
-        doFlagByCurrentCategory(categories, currentCategory);
+         Object data = JbootControllerContext.get().getAttr("category");
+         if (data != null && data instanceof ProductCategory){
+             doFlagByCurrentCategory(categories, (ProductCategory)data);
+         }
 
     }
 

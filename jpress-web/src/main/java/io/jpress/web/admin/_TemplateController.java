@@ -178,7 +178,7 @@ public class _TemplateController extends AdminControllerBase {
 
         JPressOptions.set("web_template", template.getId());
         optionService.saveOrUpdate("web_template", template.getId());
-        TemplateManager.me().setCurrentTemplate(template);
+        TemplateManager.me().setCurrentTemplate(template.getId());
         RenderManager.me().getEngine().removeAllTemplateCache();
 
         renderOkJson();

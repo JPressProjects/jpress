@@ -25,6 +25,7 @@ import io.jpress.module.product.service.provider.task.ProductCommentsCountUpdate
 import io.jpress.module.product.service.provider.task.ProductViewsCountUpdateTask;
 import io.jpress.module.product.service.search.ProductSearcher;
 import io.jpress.service.UserService;
+import io.jpress.web.seoping.SeoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,13 +199,42 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
             @CacheEvict(name = "products", key = "*")
     })
     public boolean deleteById(Object id) {
+        ProductSearcherFactory.getSearcher().deleteProduct(id);
         return super.deleteById(id);
     }
+
+
+
+    @Override
+    public Object save(Product model) {
+        Object id = super.save(model);
+        if (id != null && model.isNormal()) {
+            ProductSearcherFactory.getSearcher().addProduct(model);
+        }
+        return id;
+    }
+
+
+
+    @Override
+    public boolean update(Product model) {
+        boolean success = super.update(model);
+        if (success) {
+            if (model.isNormal()) {
+                ProductSearcherFactory.getSearcher().updateProduct(model);
+                SeoManager.me().baiduUpdate(model.getUrl());
+            } else {
+                ProductSearcherFactory.getSearcher().deleteProduct(model.getId());
+            }
+        }
+        return success;
+    }
+
 
     @Override
     @CachesEvict({
             @CacheEvict(name = "products", key = "*"),
-            @CacheEvict(name = "product-category", key = "(id)", unless = "id == null"),
+            @CacheEvict(name = "product-category", key = "#(id)", unless = "id == null"),
     })
     public void shouldUpdateCache(int action, Model model, Object id) {
         super.shouldUpdateCache(action, model, id);

@@ -59,6 +59,7 @@
 	                                <th>名字</th>
 	                                <th>电话</th>
 	                                <th>邮箱</th>
+	                                <th>标题</th>
 	                                <th>留言</th>
 	                                <th>是否展示</th>
 
@@ -80,11 +81,12 @@
                                     </div>
                                 </td>
 
-	                                <td>#(entry.name)</td>
-	                                <td>#(entry.phone)</td>
-	                                <td>#(entry.email)</td>
-	                                <td>#(entry.message)</td>
-	                                <td>#(entry.isshow)</td>
+	                                <td>#(entry.name ??)</td>
+	                                <td>#(entry.phone ??)</td>
+	                                <td>#(entry.email ??)</td>
+	                                <td>#(entry.title ??)</td>
+	                                <td>#(entry.content ??)</td>
+	                                <td>#(entry.show ??)</td>
                             </tr>
                             #end
                             </tbody>

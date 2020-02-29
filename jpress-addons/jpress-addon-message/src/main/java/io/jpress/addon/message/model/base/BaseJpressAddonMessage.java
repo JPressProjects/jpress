@@ -62,31 +62,45 @@ public abstract class BaseJpressAddonMessage<M extends BaseJpressAddonMessage<M>
 	}
 
     /**
-     * 留言
+     * 标题
      */
-	public void setMessage(java.lang.String message) {
-		set("message", message);
+	public void setTitle(java.lang.String title) {
+		set("title", title);
 	}
 
     /**
-     * 留言
+     * 标题
      */
-	public java.lang.String getMessage() {
-		return getStr("message");
+	public java.lang.String getTitle() {
+		return getStr("title");
+	}
+
+    /**
+     * 留言内容
+     */
+	public void setContent(java.lang.String content) {
+		set("content", content);
+	}
+
+    /**
+     * 留言内容
+     */
+	public java.lang.String getContent() {
+		return getStr("content");
 	}
 
     /**
      * 是否展示
      */
-	public void setIsshow(java.lang.Boolean isshow) {
-		set("isshow", isshow);
+	public void setShow(java.lang.Boolean show) {
+		set("show", show);
 	}
 
     /**
      * 是否展示
      */
-	public java.lang.Boolean getIsshow() {
-		return get("isshow");
+	public java.lang.Boolean getShow() {
+		return get("show");
 	}
 
 }

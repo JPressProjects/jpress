@@ -2,7 +2,7 @@ import io.jpress.codegen.AddonGenerator;
 
 public class Codegen {
 
-    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/jpress";
+    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/jpress3dev";
     private static String dbUser = "root";
     private static String dbPassword = "123456";
 
@@ -15,7 +15,7 @@ public class Codegen {
     public static void main(String[] args) {
 
         AddonGenerator moduleGenerator = new AddonGenerator(addonName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
-        moduleGenerator.setGenUI(true);
+//        moduleGenerator.setGenUI(true);
         moduleGenerator.gen();
 
     }

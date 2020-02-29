@@ -23,7 +23,7 @@ public class MessageDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         Columns columns = new Columns();
-        columns.eq("isshow", true);
+        columns.eq("show", true);
         List<JpressAddonMessage> jpressAddonMessageList = service.findListByColumns(columns);
         scope.setLocal("messageList", jpressAddonMessageList);
         renderBody(env, scope, writer);

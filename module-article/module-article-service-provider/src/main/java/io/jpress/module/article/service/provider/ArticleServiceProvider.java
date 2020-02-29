@@ -310,7 +310,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
     public Object save(Article model) {
         Object id = super.save(model);
         if (id != null && model.isNormal()) {
@@ -323,7 +322,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
     public boolean update(Article model) {
         boolean success = super.update(model);
         if (success) {
@@ -342,7 +340,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
     public boolean delete(Article model) {
         boolean success = super.delete(model);
         if (success) {
@@ -386,10 +383,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CachesEvict({
-            @CacheEvict(name = "article-category", key = "#(id)"),
-            @CacheEvict(name = "articles", key = "*")
-    })
     public boolean deleteById(Object id) {
 
         ArticleSearcherFactory.getSearcher().deleteArticle(id);

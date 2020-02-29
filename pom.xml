@@ -27,6 +27,7 @@
 
         <module>starter</module>
         <module>starter-tomcat</module>
+<!--        <module>starter-ent</module>-->
 <!--        <module>starter-dev</module>-->
     </modules>
 
@@ -39,7 +40,7 @@
         <commons-io.version>2.6</commons-io.version>
         <commonmark.version>0.14.0</commonmark.version>
         <aliyunoss.version>3.8.1</aliyunoss.version>
-        <httpclient.version>4.5.3</httpclient.version>
+        <httpclient.version>4.5.11</httpclient.version>
         <fasterxml.version>2.10.2</fasterxml.version>
         <pay-java.version>2.13.1</pay-java.version>
         <guava.version>28.2-jre</guava.version>
@@ -98,11 +99,6 @@
                 <version>${commons-logging.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>4.5.11</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>

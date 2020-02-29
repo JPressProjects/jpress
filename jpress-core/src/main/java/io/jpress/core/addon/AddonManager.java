@@ -155,7 +155,10 @@ public class AddonManager implements JbootEventListener {
     private void doStartAddonInApplicationStarted() {
         OptionService optionService = Aop.get(OptionService.class);
         for (AddonInfo addonInfo : addonsMap.values()) {
-            if (optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null) {
+            if (optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null
+                    && addonInfo.isInstall()
+                    && !addonInfo.isStarted()
+            ) {
                 try {
                     doStart(addonInfo);
                 } catch (Exception ex) {
@@ -421,9 +424,9 @@ public class AddonManager implements JbootEventListener {
                 Table tableAnnotation = c.getAnnotation(Table.class);
                 boolean needAddMapping = true;
 
-                if (tableList != null && !tableList.isEmpty()){
-                    for (com.jfinal.plugin.activerecord.Table t : tableList){
-                        if (t.getName().equals(AnnotationUtil.get(tableAnnotation.tableName()))){
+                if (tableList != null && !tableList.isEmpty()) {
+                    for (com.jfinal.plugin.activerecord.Table t : tableList) {
+                        if (t.getName().equals(AnnotationUtil.get(tableAnnotation.tableName()))) {
                             needAddMapping = false;
                             break;
                         }
@@ -640,13 +643,13 @@ public class AddonManager implements JbootEventListener {
         }
     }
 
-    private List<com.jfinal.plugin.activerecord.Table> getTableList(ActiveRecordPlugin arp){
+    private List<com.jfinal.plugin.activerecord.Table> getTableList(ActiveRecordPlugin arp) {
         try {
             Field tableListField = ActiveRecordPlugin.class.getDeclaredField("tableList");
             tableListField.setAccessible(true);
             return (List<com.jfinal.plugin.activerecord.Table>) tableListField.get(arp);
-        }catch (Exception ex){
-            LogKit.error(ex.toString(),ex);
+        } catch (Exception ex) {
+            LogKit.error(ex.toString(), ex);
         }
         return null;
     }

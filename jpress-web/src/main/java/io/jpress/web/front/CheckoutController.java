@@ -129,7 +129,7 @@ public class CheckoutController extends UcenterControllerBase {
 
 
         setAttr("order", order);
-        setAttr("orderItems",orderItems);
+        setAttr("orderItems", orderItems);
         setAttr("defaultAddress", addressService.findDefaultAddress(getLoginedUser().getId()));
         render("order.html");
     }
@@ -159,14 +159,18 @@ public class CheckoutController extends UcenterControllerBase {
                 return;
             }
 
-            boolean productNormal = ProductManager.me().queryStatusNormal(userCart.getProductType(), userCart.getProductId(), userCart.getUserId());
+            boolean productNormal = ProductManager.me().queryStatusNormal(userCart
+                    , userCart.getProductId()
+                    , userCart.getProductSpec()
+                    , getLoginedUser().getId());
+
             if (!productNormal) {
                 renderFailJson("商品 " + userCart.getProductTitle() + " 已经下架。");
                 return;
             }
 
             // 如果查询出来的 stock == null，表示 可以购买任意件商品
-            Long stock = ProductManager.me().queryStockAmount(userCart.getProductType(), userCart.getProductId());
+            Long stock = ProductManager.me().queryStockAmount(userCart, userCart.getProductId(), userCart.getProductSpec());
             if (stock != null && stock <= 0) {
                 renderFailJson("商品 " + userCart.getProductTitle() + " 已经库存不足。");
                 return;
@@ -198,10 +202,11 @@ public class CheckoutController extends UcenterControllerBase {
 
             //分销的相关信息
             item.setDistUserId(userCart.getDistUserId());
-            item.setDistAmount(ProductManager.me().queryDistAmount(item, userCart.getProductType(),
-                    userCart.getProductId(),
-                    getLoginedUser().getId(),
-                    userCart.getDistUserId()));
+            item.setDistAmount(ProductManager.me().queryDistAmount(userCart
+                    , userCart.getProductId()
+                    , userCart.getProductSpec()
+                    , getLoginedUser().getId()
+                    , userCart.getDistUserId()));
 
 
             item.setDeliveryCost(BigDecimal.ZERO);//运费，后台设置

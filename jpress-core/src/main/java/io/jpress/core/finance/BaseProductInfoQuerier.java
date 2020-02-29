@@ -15,7 +15,7 @@
  */
 package io.jpress.core.finance;
 
-import io.jpress.model.UserOrderItem;
+import io.jpress.model.UserCart;
 
 import java.math.BigDecimal;
 
@@ -25,23 +25,24 @@ import java.math.BigDecimal;
  */
 public class BaseProductInfoQuerier implements ProductInfoQuerier {
 
+
     @Override
-    public BigDecimal queryDistAmount(UserOrderItem userOrderItem, Object productId, Long buyerUserId, Long distUserId) {
+    public BigDecimal queryDistAmount(UserCart userCart, Long productId, String productSpec, Long payerId, Long distUserId) {
         return null;
     }
 
     @Override
-    public BigDecimal querySalePrice(Object productId, Long buyerUserId, Long distUserId) {
+    public BigDecimal querySalePrice(UserCart userCart, Long productId, String productSpec, Long payerId) {
         return null;
     }
 
     @Override
-    public boolean queryStatusNormal(Object productId, Long buyerUserId) {
+    public boolean queryStatusNormal(UserCart userCart, Long productId, String productSpec, Long payerId) {
         return true;
     }
 
     @Override
-    public Long queryStockAmount(Object productId) {
+    public Long queryStockAmount(UserCart userCart, Long productId, String productSpec) {
         return null;
     }
 }

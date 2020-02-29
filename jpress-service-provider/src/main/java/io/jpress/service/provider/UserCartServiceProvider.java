@@ -103,7 +103,12 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
         }
 
         // 产品的最新价格 （用户添加商品到购物车后，商品的价格可能会发生变化）
-        BigDecimal newestSalePrice = ProductManager.me().querySalePrice(userCart.getProductType(), userCart.getProductId(), userCart.getUserId(), userCart.getDistUserId());
+        BigDecimal newestSalePrice = ProductManager.me().querySalePrice(
+                userCart
+                ,userCart.getProductId()
+                ,userCart.getProductSpec()
+                ,userCart.getUserId());
+
         if (newestSalePrice != null) {
             userCart.put("newestSalePrice", newestSalePrice);
         }

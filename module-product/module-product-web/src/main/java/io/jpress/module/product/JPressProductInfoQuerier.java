@@ -17,7 +17,7 @@ package io.jpress.module.product;
 
 import com.jfinal.aop.Inject;
 import io.jpress.core.finance.ProductInfoQuerier;
-import io.jpress.model.UserOrderItem;
+import io.jpress.model.UserCart;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 
@@ -29,8 +29,9 @@ public class JPressProductInfoQuerier implements ProductInfoQuerier {
     @Inject
     private ProductService productService;
 
+
     @Override
-    public BigDecimal queryDistAmount(UserOrderItem userOrderItem, Object productId, Long buyerUserId, Long distUserId) {
+    public BigDecimal queryDistAmount(UserCart userCart, Long productId, String productSpec, Long payerId, Long distUserId) {
         Product product = productService.findById(productId);
         if (product == null || !product.isNormal()) {
             return null;
@@ -39,20 +40,24 @@ public class JPressProductInfoQuerier implements ProductInfoQuerier {
         return distEnable != null && distEnable ? product.getDistAmount() : null;
     }
 
+
     @Override
-    public BigDecimal querySalePrice(Object productId, Long buyerUserId, Long distUserId) {
+    public BigDecimal querySalePrice(UserCart userCart, Long productId, String productSpec, Long payerId) {
         Product product = productService.findById(productId);
         return product == null ? null : product.getPrice();
     }
 
+
     @Override
-    public boolean queryStatusNormal(Object productId, Long buyerUserId) {
+    public boolean queryStatusNormal(UserCart userCart, Long productId, String productSpec, Long payerId) {
         Product product = productService.findById(productId);
         return product != null && product.isNormal();
     }
 
+
+
     @Override
-    public Long queryStockAmount(Object productId) {
+    public Long queryStockAmount(UserCart userCart, Long productId, String productSpec) {
         return null;
     }
 

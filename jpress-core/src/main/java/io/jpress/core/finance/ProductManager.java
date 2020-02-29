@@ -87,60 +87,95 @@ public class ProductManager {
         return render.doRenderUserCartOptions(userOrderItem);
     }
 
-    public BigDecimal queryDistAmount(UserOrderItem userOrderItem, String type, Object productId, Long payerUserId, Long distUserId) {
-        if (StrUtil.isBlank(type)) {
+    /**
+     * 查询产品的分销金额
+     *
+     * @param userCart
+     * @param payerId
+     * @param distUserId
+     * @return
+     */
+    public BigDecimal queryDistAmount(UserCart userCart, Long productId, String productSpec, Long payerId, Long distUserId) {
+        if (userCart == null || StrUtil.isBlank(userCart.getProductType())) {
             return BigDecimal.ZERO;
         }
-        ProductInfoQuerier querier = productInfoQuerierMap.get(type);
+        ProductInfoQuerier querier = productInfoQuerierMap.get(userCart.getProductType());
         if (querier == null) {
             return BigDecimal.ZERO;
         }
 
-        if (Objects.equals(payerUserId, distUserId)) {
+        if (Objects.equals(distUserId, payerId)) {
             return BigDecimal.ZERO;
         }
 
-        BigDecimal distAmount = querier.queryDistAmount(userOrderItem, productId, payerUserId, distUserId);
+        BigDecimal distAmount = querier.queryDistAmount(userCart, productId, productSpec, payerId, distUserId);
         return distAmount == null || distAmount.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : distAmount;
     }
 
-    public boolean queryStatusNormal(String type, Object productId, Long buyerUserId) {
-        if (StrUtil.isBlank(type)) {
+
+    /**
+     * 查询产品
+     *
+     * @param userCart
+     * @param productId
+     * @param productSpec
+     * @param payerId
+     * @return
+     */
+    public boolean queryStatusNormal(UserCart userCart, Long productId, String productSpec, Long payerId) {
+        if (userCart == null || StrUtil.isBlank(userCart.getProductType())) {
             return true;
         }
 
-        ProductInfoQuerier querier = productInfoQuerierMap.get(type);
+        ProductInfoQuerier querier = productInfoQuerierMap.get(userCart.getProductType());
         //没有注册 querier，说明该商品任何时候都可以被购买
         if (querier == null) {
             return true;
         }
 
-        return querier.queryStatusNormal(productId, buyerUserId);
+        return querier.queryStatusNormal(userCart, productId, productSpec, payerId);
     }
 
 
-    public BigDecimal querySalePrice(String type, Object productId, Long buyerUserId, Long distUserId) {
-        if (StrUtil.isBlank(type)) {
+    /**
+     * 查询产品的价格，当一个商品被添加到购物车后，可能还会变动价格（或者有会员价等）
+     *
+     * @param userCart
+     * @param productId
+     * @param productSpec
+     * @param payerId
+     * @return
+     */
+    public BigDecimal querySalePrice(UserCart userCart, Long productId, String productSpec, Long payerId) {
+        if (userCart == null || StrUtil.isBlank(userCart.getProductType())) {
             return null;
         }
-        ProductInfoQuerier querier = productInfoQuerierMap.get(type);
+        ProductInfoQuerier querier = productInfoQuerierMap.get(userCart.getProductType());
         if (querier == null) {
             return null;
         }
 
-        return querier.querySalePrice(productId, buyerUserId, distUserId);
+        return querier.querySalePrice(userCart, productId, productSpec, payerId);
     }
 
 
-    public Long queryStockAmount(String type, Object productId) {
-        if (StrUtil.isBlank(type)) {
+    /**
+     * 查询产品的库存，当库存不足的时候不让购买
+     *
+     * @param userCart
+     * @param productId
+     * @param productSpec
+     * @return
+     */
+    public Long queryStockAmount(UserCart userCart, Long productId, String productSpec) {
+        if (userCart == null || StrUtil.isBlank(userCart.getProductType())) {
             return null;
         }
-        ProductInfoQuerier querier = productInfoQuerierMap.get(type);
+        ProductInfoQuerier querier = productInfoQuerierMap.get(userCart.getProductType());
         if (querier == null) {
             return null;
         }
 
-        return querier.queryStockAmount(productId);
+        return querier.queryStockAmount(userCart, productId, productSpec);
     }
 }

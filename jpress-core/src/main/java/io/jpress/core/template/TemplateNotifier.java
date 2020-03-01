@@ -21,6 +21,6 @@ package io.jpress.core.template;
  */
 public interface TemplateNotifier {
 
-    public void clearCache();
+    public void notifyClearCache();
 
 }

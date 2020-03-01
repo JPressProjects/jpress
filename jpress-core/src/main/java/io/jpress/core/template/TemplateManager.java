@@ -145,7 +145,7 @@ public class TemplateManager {
     public void clearCache(boolean withNotify){
         RenderManager.me().getEngine().removeAllTemplateCache();
         if (withNotify && notifier != null){
-            notifier.clearCache();
+            notifier.notifyClearCache();
         }
     }
 

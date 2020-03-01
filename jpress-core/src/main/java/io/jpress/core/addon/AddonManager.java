@@ -647,7 +647,7 @@ public class AddonManager implements JbootEventListener {
         // https://gitee.com/fuhai/jpress/issues/IS5YQ
         FieldKit.clearCache();
         MethodKit.clearCache();
-        TemplateManager.me().clearCache();
+        TemplateManager.me().clearCache(false);
     }
 
     private void stopActiveRecordPlugin(AddonInfo addonInfo) throws Exception {

@@ -31,6 +31,7 @@ public class AddonMessage implements Serializable {
     public static final int ACTION_UNINSTALL = 4;
 
     private int action;
+    private String clientId;
     private String addonId;
     private String path;
 
@@ -48,6 +49,14 @@ public class AddonMessage implements Serializable {
 
     public void setAction(int action) {
         this.action = action;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public String getAddonId() {

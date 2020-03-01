@@ -104,6 +104,7 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
     }
 
     private Map<String, AddonInfo> addonsMap = new ConcurrentHashMap<>();
+    private String clientId;
 
     public void init() {
 
@@ -123,11 +124,13 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
 
         File addonDir = new File(PathKit.getWebRootPath(), "WEB-INF/addons");
         if (!addonDir.exists()) {
+            initMqListener();
             return;
         }
 
         File[] addonJarFiles = addonDir.listFiles((dir, name) -> name.endsWith(".jar"));
         if (addonJarFiles == null || addonJarFiles.length == 0) {
+            initMqListener();
             return;
         }
 
@@ -141,7 +144,9 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
     private void initMqListener() {
         Jbootmq mq = getMq();
         if (mq != null) {
+            this.clientId = StrUtil.uuid();
             mq.addMessageListener(this, "addon");
+            mq.startListening();
         }
     }
 
@@ -994,6 +999,7 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         if (mq != null) {
             AddonMessage message = new AddonMessage(AddonMessage.ACTION_INSTALL);
             message.setPath(path);
+            message.setClientId(clientId);
             mq.publish(message, "addon");
         }
     }
@@ -1004,6 +1010,7 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         if (mq != null) {
             AddonMessage message = new AddonMessage(AddonMessage.ACTION_START);
             message.setAddonId(addonId);
+            message.setClientId(clientId);
             mq.publish(message, "addon");
         }
     }
@@ -1014,6 +1021,7 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         if (mq != null) {
             AddonMessage message = new AddonMessage(AddonMessage.ACTION_STOP);
             message.setAddonId(addonId);
+            message.setClientId(clientId);
             mq.publish(message, "addon");
         }
     }
@@ -1024,6 +1032,7 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         if (mq != null) {
             AddonMessage message = new AddonMessage(AddonMessage.ACTION_UNINSTALL);
             message.setAddonId(addonId);
+            message.setClientId(clientId);
             mq.publish(message, "addon");
         }
     }
@@ -1033,6 +1042,12 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
     @Override
     public void onMessage(String channel, Object message) {
         AddonMessage addonMessage = (AddonMessage) message;
+
+        //不处理自己发给自己的消息
+        if (addonMessage.getClientId().equals(this.clientId)){
+            return;
+        }
+
         switch (addonMessage.getAction()) {
             case AddonMessage.ACTION_INSTALL:
                 processAddonInstallByMessage(addonMessage.getPath());

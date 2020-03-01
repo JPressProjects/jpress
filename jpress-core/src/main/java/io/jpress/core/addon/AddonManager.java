@@ -33,7 +33,6 @@ import com.jfinal.template.expr.ast.MethodKit;
 import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
-import io.jboot.components.mq.Jbootmq;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.db.model.JbootModelConfig;
@@ -102,8 +101,7 @@ public class AddonManager implements JbootEventListener {
     }
 
     private Map<String, AddonInfo> addonsMap = new ConcurrentHashMap<>();
-    private Jbootmq mq;
-    private String mqClientId;
+    private AddonNotifier notifier;
 
     public void init() {
 
@@ -123,13 +121,11 @@ public class AddonManager implements JbootEventListener {
 
         File addonDir = new File(PathKit.getWebRootPath(), "WEB-INF/addons");
         if (!addonDir.exists()) {
-            initMqListener();
             return;
         }
 
         File[] addonJarFiles = addonDir.listFiles((dir, name) -> name.endsWith(".jar"));
         if (addonJarFiles == null || addonJarFiles.length == 0) {
-            initMqListener();
             return;
         }
 
@@ -137,17 +133,8 @@ public class AddonManager implements JbootEventListener {
         doInstallAddonsInApplicationStarted();
         doStartAddonInApplicationStarted();
 
-        initMqListener();
     }
 
-
-    private void initMqListener() {
-        Jbootmq mq = getMq();
-        if (mq != null) {
-            this.mqClientId = StrUtil.uuid();
-            mq.startListening();
-        }
-    }
 
     private void initAddonsMap(File[] addonJarFiles) {
         for (File jarFile : addonJarFiles) {
@@ -994,62 +981,43 @@ public class AddonManager implements JbootEventListener {
 
 
     private void notifyAddonInstall(String path) {
-        Jbootmq mq = getMq();
-        if (mq != null) {
-            AddonMessage message = new AddonMessage(AddonMessage.ACTION_INSTALL);
-            message.setPath(path);
-            message.setClientId(mqClientId);
-            mq.publish(message, "addon");
+        if (notifier != null){
+            notifier.notifyAddonInstall(path);
         }
     }
 
 
     private void notifyAddonStarted(String addonId) {
-        Jbootmq mq = getMq();
-        if (mq != null) {
-            AddonMessage message = new AddonMessage(AddonMessage.ACTION_START);
-            message.setAddonId(addonId);
-            message.setClientId(mqClientId);
-            mq.publish(message, "addon");
+        if (notifier != null){
+            notifier.notifyAddonStarted(addonId);
         }
     }
 
 
     private void notifyAddonStoped(String addonId) {
-        Jbootmq mq = getMq();
-        if (mq != null) {
-            AddonMessage message = new AddonMessage(AddonMessage.ACTION_STOP);
-            message.setAddonId(addonId);
-            message.setClientId(mqClientId);
-            mq.publish(message, "addon");
+        if (notifier != null){
+            notifier.notifyAddonStoped(addonId);
         }
     }
 
 
     private void notifyAddonUninstall(String addonId) {
-        Jbootmq mq = getMq();
-        if (mq != null) {
-            AddonMessage message = new AddonMessage(AddonMessage.ACTION_UNINSTALL);
-            message.setAddonId(addonId);
-            message.setClientId(mqClientId);
-            mq.publish(message, "addon");
+        if (notifier != null){
+            notifier.notifyAddonUninstall(addonId);
         }
     }
 
 
-    public void setMq(Jbootmq mq) {
-        this.mq = mq;
+    public AddonNotifier getNotifier() {
+        return notifier;
     }
 
-    private Jbootmq getMq(){
-        return mq;
+    public void setNotifier(AddonNotifier notifier) {
+        this.notifier = notifier;
     }
 
     public Map<String, AddonInfo> getAddonsMap() {
         return addonsMap;
     }
 
-    public String getMqClientId() {
-        return mqClientId;
-    }
 }

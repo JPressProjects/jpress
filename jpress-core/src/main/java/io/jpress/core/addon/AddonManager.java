@@ -33,10 +33,14 @@ import com.jfinal.template.expr.ast.MethodKit;
 import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
+import io.jboot.components.mq.Jbootmq;
+import io.jboot.components.mq.JbootmqConfig;
+import io.jboot.components.mq.JbootmqMessageListener;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.db.model.JbootModelConfig;
 import io.jboot.utils.AnnotationUtil;
+import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jpress.core.addon.controller.AddonControllerManager;
@@ -86,7 +90,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 1、插件的作者可以在 onInstall() 进行数据库表创建等工作
  * 2、插件的作者可以在 onUninstall() 进行数据库表删除和其他资源删除等工作
  */
-public class AddonManager implements JbootEventListener {
+public class AddonManager implements JbootEventListener, JbootmqMessageListener {
 
     private static final Log LOG = Log.getLog(AddonManager.class);
 
@@ -130,6 +134,15 @@ public class AddonManager implements JbootEventListener {
         initAddonsMap(addonJarFiles);
         doInstallAddonsInApplicationStarted();
         doStartAddonInApplicationStarted();
+
+        initMqListener();
+    }
+
+    private void initMqListener() {
+        Jbootmq mq = getMq();
+        if (mq != null) {
+            mq.addMessageListener(this, "addon");
+        }
     }
 
     private void initAddonsMap(File[] addonJarFiles) {
@@ -210,7 +223,11 @@ public class AddonManager implements JbootEventListener {
             addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
             OptionService optionService = Aop.get(OptionService.class);
 
-            return optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + addonInfo.getId(), "true") != null;
+            if (optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + addonInfo.getId(), "true") != null) {
+                notifyAddonInstall(FileUtil.removeRootPath(jarFile.getAbsolutePath()));
+            }
+
+            return true;
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
@@ -221,10 +238,17 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean uninstall(String id) {
-        if (StrUtil.isBlank(id)) {
-            return false;
+        return uninstall(id, true);
+    }
+
+    public boolean uninstall(String id, boolean withNotify) {
+        try {
+            return uninstall(getAddonInfo(id));
+        } finally {
+            if (withNotify) {
+                notifyAddonUninstall(id);
+            }
         }
-        return uninstall(getAddonInfo(id));
     }
 
     /**
@@ -333,7 +357,12 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean start(String addonInfoId) {
-        return start(getAddonInfo(addonInfoId));
+        return start(addonInfoId, true);
+    }
+
+
+    public boolean start(String addonInfoId, boolean withNotify) {
+        return start(getAddonInfo(addonInfoId), withNotify);
     }
 
     /**
@@ -350,13 +379,16 @@ public class AddonManager implements JbootEventListener {
      * @param addonInfo
      * @return
      */
-    public boolean start(AddonInfo addonInfo) {
+    public boolean start(AddonInfo addonInfo, boolean withNotify) {
         try {
             doStart(addonInfo);
+            if (withNotify) {
+                notifyAddonStarted(addonInfo.getId());
+            }
             return true;
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
-            stop(addonInfo);
+            stop(addonInfo.getId(), withNotify);
         }
         return false;
     }
@@ -501,11 +533,24 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean stop(String id) {
-        return stop(getAddonInfo(id));
+        return stop(id, true);
+    }
+
+    public boolean stop(String id, boolean withNotify) {
+        try {
+            return stop(getAddonInfo(id));
+        } finally {
+            if (withNotify) {
+                notifyAddonStoped(id);
+            }
+        }
     }
 
 
     public boolean stop(AddonInfo addonInfo) {
+        if (addonInfo == null){
+            return false;
+        }
 
         //删除插件的所有Controller
         try {
@@ -937,8 +982,134 @@ public class AddonManager implements JbootEventListener {
                 .setIfNotBlank("message", msg);
     }
 
+    //JbootEventListener.onEvent
     @Override
     public void onEvent(JbootEvent jbootEvent) {
         init();
+    }
+
+
+    private void notifyAddonInstall(String path) {
+        Jbootmq mq = getMq();
+        if (mq != null) {
+            AddonMessage message = new AddonMessage(AddonMessage.ACTION_INSTALL);
+            message.setPath(path);
+            mq.publish(message, "addon");
+        }
+    }
+
+
+    private void notifyAddonStarted(String addonId) {
+        Jbootmq mq = getMq();
+        if (mq != null) {
+            AddonMessage message = new AddonMessage(AddonMessage.ACTION_START);
+            message.setAddonId(addonId);
+            mq.publish(message, "addon");
+        }
+    }
+
+
+    private void notifyAddonStoped(String addonId) {
+        Jbootmq mq = getMq();
+        if (mq != null) {
+            AddonMessage message = new AddonMessage(AddonMessage.ACTION_STOP);
+            message.setAddonId(addonId);
+            mq.publish(message, "addon");
+        }
+    }
+
+
+    private void notifyAddonUninstall(String addonId) {
+        Jbootmq mq = getMq();
+        if (mq != null) {
+            AddonMessage message = new AddonMessage(AddonMessage.ACTION_UNINSTALL);
+            message.setAddonId(addonId);
+            mq.publish(message, "addon");
+        }
+    }
+
+
+    //JbootmqMessageListener.onMessage
+    @Override
+    public void onMessage(String channel, Object message) {
+        AddonMessage addonMessage = (AddonMessage) message;
+        switch (addonMessage.getAction()) {
+            case AddonMessage.ACTION_INSTALL:
+                processAddonInstallByMessage(addonMessage.getPath());
+                break;
+            case AddonMessage.ACTION_START:
+                processAddonStartByMessage(addonMessage.getAddonId());
+                break;
+            case AddonMessage.ACTION_STOP:
+                stop(addonMessage.getAddonId(), false);
+                break;
+            case AddonMessage.ACTION_UNINSTALL:
+                uninstall(addonMessage.getAddonId(), false);
+                break;
+        }
+    }
+
+
+    private void processAddonInstallByMessage(String path) {
+        File jarFile = new File(PathKit.getWebRootPath(), path);
+        int tryCount = 0;
+        while (!jarFile.exists() && tryCount < 10) {
+            tryCount++;
+            quietSleep(1000);
+        }
+
+        if (!jarFile.exists()) {
+            LogKit.error(jarFile + " not exists!!!!!!! can not install addon by message");
+            return;
+        }
+
+
+        AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
+
+        //已经安装过
+        if (addonsMap.containsKey(addonInfo.getId())) {
+            return;
+        }
+
+        addonsMap.put(addonInfo.getId(), addonInfo);
+        try {
+            AddonUtil.unzipResources(addonInfo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //不需要再执行 addon.onInstall() 否则可能会出现数据库重复安装等问题
+        //Addon addon = addonInfo.getAddon();
+        //addon.onInstall(addonInfo);
+
+        addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
+    }
+
+
+    private void processAddonStartByMessage(String addonId){
+        int tryCount = 0;
+        while (!addonsMap.containsKey(addonId) && tryCount < 10) {
+            tryCount++;
+            quietSleep(1000);
+        }
+
+        if (addonsMap.containsKey(addonId)){
+            start(addonId,false);
+        }
+    }
+
+
+    private static void quietSleep(long millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private Jbootmq getMq(){
+        JbootmqConfig mqConfig = Jboot.config(JbootmqConfig.class);
+        return StrUtil.isNotBlank(mqConfig.getChannel()) ? Jboot.getMq() : null;
     }
 }

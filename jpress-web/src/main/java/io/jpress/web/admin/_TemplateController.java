@@ -18,7 +18,6 @@ package io.jpress.web.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
-import com.jfinal.render.RenderManager;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.FileUtil;
@@ -178,8 +177,9 @@ public class _TemplateController extends AdminControllerBase {
 
         JPressOptions.set("web_template", template.getId());
         optionService.saveOrUpdate("web_template", template.getId());
+
         TemplateManager.me().setCurrentTemplate(template.getId());
-        RenderManager.me().getEngine().removeAllTemplateCache();
+        TemplateManager.me().clearCache();
 
         renderOkJson();
     }
@@ -372,7 +372,8 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         FileUtil.writeString(file, fileContent);
-        RenderManager.me().getEngine().removeAllTemplateCache();
+
+        TemplateManager.me().clearCache();
 
         renderOkJson();
     }
@@ -464,7 +465,7 @@ public class _TemplateController extends AdminControllerBase {
 
         if (fileName.toLowerCase().endsWith(".html")) {
             template.addNewHtml(fileName);
-            RenderManager.me().getEngine().removeAllTemplateCache();
+            TemplateManager.me().clearCache();
         }
 
         renderOkJson();
@@ -487,7 +488,7 @@ public class _TemplateController extends AdminControllerBase {
         } else {
             if (delFileName.toLowerCase().endsWith(".html")) {
                 template.deleteHtml(delFileName);
-                RenderManager.me().getEngine().removeAllTemplateCache();
+                TemplateManager.me().clearCache();
             }
             renderOkJson();
         }

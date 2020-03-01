@@ -44,6 +44,7 @@ import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
 import io.jpress.core.install.Installer;
+import io.jpress.core.template.TemplateManager;
 import io.jpress.core.wechat.WechatAddon;
 import io.jpress.core.wechat.WechatAddonConfig;
 import io.jpress.core.wechat.WechatAddonInfo;
@@ -646,7 +647,7 @@ public class AddonManager implements JbootEventListener {
         // https://gitee.com/fuhai/jpress/issues/IS5YQ
         FieldKit.clearCache();
         MethodKit.clearCache();
-        RenderManager.me().getEngine().removeAllTemplateCache();
+        TemplateManager.me().clearCache();
     }
 
     private void stopActiveRecordPlugin(AddonInfo addonInfo) throws Exception {

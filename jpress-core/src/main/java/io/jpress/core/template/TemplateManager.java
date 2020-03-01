@@ -17,6 +17,7 @@ package io.jpress.core.template;
 
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
+import com.jfinal.render.RenderManager;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConfig;
 import io.jpress.JPressOptions;
@@ -30,6 +31,7 @@ public class TemplateManager {
 
     private Template currentTemplate;
     private CacheObject currentTemplateId = new CacheObject("template", "id");
+    private TemplateNotifier notifier;
 
     private static final TemplateManager me = new TemplateManager();
 
@@ -133,5 +135,26 @@ public class TemplateManager {
         }
         this.currentTemplateId.set(templateId);
         this.currentTemplate = template;
+    }
+
+
+    public void clearCache(){
+        clearCache(true);
+    }
+
+    public void clearCache(boolean withNotify){
+        RenderManager.me().getEngine().removeAllTemplateCache();
+        if (withNotify && notifier != null){
+            notifier.clearCache();
+        }
+    }
+
+
+    public TemplateNotifier getNotifier() {
+        return notifier;
+    }
+
+    public void setNotifier(TemplateNotifier notifier) {
+        this.notifier = notifier;
     }
 }

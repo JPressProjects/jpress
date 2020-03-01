@@ -34,8 +34,6 @@ import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.components.mq.Jbootmq;
-import io.jboot.components.mq.JbootmqConfig;
-import io.jboot.components.mq.JbootmqMessageListener;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.db.model.JbootModelConfig;
@@ -90,7 +88,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 1、插件的作者可以在 onInstall() 进行数据库表创建等工作
  * 2、插件的作者可以在 onUninstall() 进行数据库表删除和其他资源删除等工作
  */
-public class AddonManager implements JbootEventListener, JbootmqMessageListener {
+public class AddonManager implements JbootEventListener {
 
     private static final Log LOG = Log.getLog(AddonManager.class);
 
@@ -104,7 +102,8 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
     }
 
     private Map<String, AddonInfo> addonsMap = new ConcurrentHashMap<>();
-    private String clientId;
+    private Jbootmq mq;
+    private String mqClientId;
 
     public void init() {
 
@@ -141,11 +140,11 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         initMqListener();
     }
 
+
     private void initMqListener() {
         Jbootmq mq = getMq();
         if (mq != null) {
-            this.clientId = StrUtil.uuid();
-            mq.addMessageListener(this, "addon");
+            this.mqClientId = StrUtil.uuid();
             mq.startListening();
         }
     }
@@ -999,7 +998,7 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         if (mq != null) {
             AddonMessage message = new AddonMessage(AddonMessage.ACTION_INSTALL);
             message.setPath(path);
-            message.setClientId(clientId);
+            message.setClientId(mqClientId);
             mq.publish(message, "addon");
         }
     }
@@ -1010,7 +1009,7 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         if (mq != null) {
             AddonMessage message = new AddonMessage(AddonMessage.ACTION_START);
             message.setAddonId(addonId);
-            message.setClientId(clientId);
+            message.setClientId(mqClientId);
             mq.publish(message, "addon");
         }
     }
@@ -1021,7 +1020,7 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         if (mq != null) {
             AddonMessage message = new AddonMessage(AddonMessage.ACTION_STOP);
             message.setAddonId(addonId);
-            message.setClientId(clientId);
+            message.setClientId(mqClientId);
             mq.publish(message, "addon");
         }
     }
@@ -1032,99 +1031,25 @@ public class AddonManager implements JbootEventListener, JbootmqMessageListener 
         if (mq != null) {
             AddonMessage message = new AddonMessage(AddonMessage.ACTION_UNINSTALL);
             message.setAddonId(addonId);
-            message.setClientId(clientId);
+            message.setClientId(mqClientId);
             mq.publish(message, "addon");
         }
     }
 
 
-    //JbootmqMessageListener.onMessage
-    @Override
-    public void onMessage(String channel, Object message) {
-        AddonMessage addonMessage = (AddonMessage) message;
-
-        //不处理自己发给自己的消息
-        if (addonMessage.getClientId().equals(this.clientId)){
-            return;
-        }
-
-        switch (addonMessage.getAction()) {
-            case AddonMessage.ACTION_INSTALL:
-                processAddonInstallByMessage(addonMessage.getPath());
-                break;
-            case AddonMessage.ACTION_START:
-                processAddonStartByMessage(addonMessage.getAddonId());
-                break;
-            case AddonMessage.ACTION_STOP:
-                stop(addonMessage.getAddonId(), false);
-                break;
-            case AddonMessage.ACTION_UNINSTALL:
-                uninstall(addonMessage.getAddonId(), false);
-                break;
-        }
+    public void setMq(Jbootmq mq) {
+        this.mq = mq;
     }
-
-
-    private void processAddonInstallByMessage(String path) {
-        File jarFile = new File(PathKit.getWebRootPath(), path);
-        int tryCount = 0;
-        while (!jarFile.exists() && tryCount < 10) {
-            tryCount++;
-            quietSleep(1000);
-        }
-
-        if (!jarFile.exists()) {
-            LogKit.error(jarFile + " not exists!!!!!!! can not install addon by message");
-            return;
-        }
-
-
-        AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-
-        //已经安装过
-        if (addonsMap.containsKey(addonInfo.getId())) {
-            return;
-        }
-
-        addonsMap.put(addonInfo.getId(), addonInfo);
-        try {
-            AddonUtil.unzipResources(addonInfo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //不需要再执行 addon.onInstall() 否则可能会出现数据库重复安装等问题
-        //Addon addon = addonInfo.getAddon();
-        //addon.onInstall(addonInfo);
-
-        addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
-    }
-
-
-    private void processAddonStartByMessage(String addonId){
-        int tryCount = 0;
-        while (!addonsMap.containsKey(addonId) && tryCount < 10) {
-            tryCount++;
-            quietSleep(1000);
-        }
-
-        if (addonsMap.containsKey(addonId)){
-            start(addonId,false);
-        }
-    }
-
-
-    private static void quietSleep(long millis){
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private Jbootmq getMq(){
-        JbootmqConfig mqConfig = Jboot.config(JbootmqConfig.class);
-        return StrUtil.isNotBlank(mqConfig.getChannel()) ? Jboot.getMq() : null;
+        return mq;
+    }
+
+    public Map<String, AddonInfo> getAddonsMap() {
+        return addonsMap;
+    }
+
+    public String getMqClientId() {
+        return mqClientId;
     }
 }

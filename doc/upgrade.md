@@ -29,6 +29,8 @@ chmod +x upgrade.sh
 ./upgrade.sh /tmp/jpress /www/tomcat/webapps/jpress
 ```
 
+>upgrade.sh 后面跟两个参数，第一个为新的 war 包解压的目录，第二个参数为需要升级的旧的JPress所在目录。
+
 **第四步**
 
 重启 Tomcat，升级完成。

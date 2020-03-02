@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
 
-    private static Routes addonRoutes = new Routes() {public void config() {}};
+    private static Routes addonRoutes = new AddonRoutes();
     private static AddonActionMapping actionMapping = new AddonActionMapping(addonRoutes);
 
     private static Map<Class, String> controllerAddonMapping = new ConcurrentHashMap<>();
@@ -192,18 +192,14 @@ public class AddonControllerManager {
 
     /**
      * 自定义自己的ActionMapping的原因主要有以下几点
-     *
-     * 1、ActionMapping 的 mapping 是 hashMap，随时对这个 mapping 进行操作可能存在线程不安全的问题
+     * <p>
+     * 1、ActionMapping 的 mapping 是 hashMap，随时对这个 mapping 进行操作可能存在线程不安全的问题，所以需要修改为 ConcurrentHashMap
      * 2、需要把 buildActionMapping() 方法给公布出来，才能在对 mapping 进行操作的时候重新构建 actionKey->Controller 的映射关系
-     * 3、需要给 所有的插件的 Controller 添加一个全局的拦截器 AddonControllerInterceptor，通过拦截器设置每个插件自己的资源路径
-     * 4、需要配置 Routes.setClearAfterMapping(false) 不让 AddonActionMapping 在构建完毕后对 Routes 进行清除的工作
      */
     public static class AddonActionMapping extends ActionMapping {
 
         public AddonActionMapping(Routes routes) {
             super(routes);
-            routes.setClearAfterMapping(false);
-            routes.addInterceptor(new AddonControllerInterceptor());
             this.mapping = new ConcurrentHashMap<>();
         }
 
@@ -216,6 +212,23 @@ public class AddonControllerManager {
         @Override
         public Action getAction(String url, String[] urlPara) {
             return super.getAction(url, urlPara);
+        }
+    }
+
+
+    public static class AddonRoutes extends Routes {
+
+        public AddonRoutes() {
+            //setClearAfterMapping(false) 不让 AddonActionMapping 在构建完毕后对已经添加的 Routes 进行清除的工作
+            setClearAfterMapping(false);
+
+            //通过 AddonControllerInterceptor 拦截器设置每个插件自己的资源路径
+            addInterceptor(new AddonControllerInterceptor());
+        }
+
+        @Override
+        public void config() {
+            //do nothing
         }
     }
 }

@@ -154,6 +154,7 @@
 - [了解JPress](http://www.jpress.io)
 - [快速开始](http://www.jpress.io/article/34)
 - [安装](http://www.jpress.io/article/34)
+- [升级](./doc/upgrade.md)
 - [使用](./doc/manual.md)
 - [模板开发](http://www.jpress.io/article/39)
 - [二次开发](http://www.jpress.io/article/68)

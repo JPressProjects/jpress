@@ -121,7 +121,7 @@ public class TemplateManager {
         String templateId = currentTemplateId.get();
         if (currentTemplate.getId().equals(templateId)) {
             return currentTemplate;
-        } else {
+        } else if (StrUtil.isNotBlank(templateId)){
             setCurrentTemplate(templateId);
         }
         return currentTemplate;

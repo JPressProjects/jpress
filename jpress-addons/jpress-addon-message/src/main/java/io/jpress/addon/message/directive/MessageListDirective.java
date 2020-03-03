@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @JFinalDirective("messageList")
-public class MessageDirective extends JbootDirectiveBase {
+public class MessageListDirective extends JbootDirectiveBase {
 
     @Inject
     private JpressAddonMessageService service;

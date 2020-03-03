@@ -29,7 +29,7 @@ import io.jpress.web.base.AdminControllerBase;
 import java.util.Set;
 
 
-@RequestMapping(value = "/admin/message/jpress_addon_message", viewPath = "/")
+@RequestMapping(value = "/admin/message/jpress_addon_message", viewPath = "/views")
 public class _MessageController extends AdminControllerBase {
 
     @Inject
@@ -39,7 +39,7 @@ public class _MessageController extends AdminControllerBase {
     public void index() {
         Page<JpressAddonMessage> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);
-        render("views/jpress_addon_message_list.html");
+        render("jpress_addon_message_list.html");
     }
 
 
@@ -47,7 +47,7 @@ public class _MessageController extends AdminControllerBase {
         int entryId = getParaToInt(0, 0);
         JpressAddonMessage entry = entryId > 0 ? service.findById(entryId) : null;
         setAttr("jpressAddonMessage", entry);
-        render("views/jpress_addon_message_edit.html");
+        render("jpress_addon_message_edit.html");
     }
 
     public void doSave() {

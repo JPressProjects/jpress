@@ -15,6 +15,7 @@
  */
 package io.jpress.module.page.controller;
 
+import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
@@ -34,6 +35,7 @@ import io.jpress.web.handler.JPressHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -53,6 +55,7 @@ public class PageController extends TemplateControllerBase {
     @Inject
     private OptionService optionService;
 
+    private static final Set<String> excludePage = Sets.newHashSet("setting", "layout", "header", "footer");
 
     public void index() {
 
@@ -63,8 +66,16 @@ public class PageController extends TemplateControllerBase {
                 ? pageService.findById(slugOrId)
                 : pageService.findFirstBySlug(slugOrId);
 
-        render404If(page == null || !page.isNormal());
+        if (page == null || !page.isNormal()) {
+            renderTemplateView(slugOrId, target);
+        } else {
+            renderPage(page, target);
+        }
 
+    }
+
+
+    private void renderPage(SinglePage page, String target) {
         pageService.doIncViewCount(page.getId());
 
         //设置SEO信息
@@ -77,6 +88,24 @@ public class PageController extends TemplateControllerBase {
 
         render(page.getHtmlView());
     }
+
+
+    private void renderTemplateView(String slugOrId, String target) {
+        if (excludePage.contains(slugOrId)) {
+            renderError(404);
+            return;
+        }
+
+        String htmlView = slugOrId + ".html";
+        if (hasTemplate(htmlView)) {
+            //设置菜单高亮
+            setMenuActive(menu -> menu.isUrlStartWidth(target));
+            render(htmlView);
+        } else {
+            renderError(404);
+        }
+    }
+
 
     private void setSeoInfos(SinglePage page) {
         setSeoTitle(page.getTitle());

@@ -43,7 +43,7 @@ import java.util.List;
 
 public class LuceneSearcher implements ProductSearcher {
 
-    private static final Log logger = Log.getLog(LuceneSearcher.class);
+    private static final Log LOG = Log.getLog(LuceneSearcher.class);
 
     public static String INDEX_PATH = "lucene/products/";
     private static Directory directory;
@@ -57,7 +57,7 @@ public class LuceneSearcher implements ProductSearcher {
         try {
             directory = NIOFSDirectory.open(indexDir.toPath());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -69,7 +69,7 @@ public class LuceneSearcher implements ProductSearcher {
             Document doc = createDocument(product);
             writer.addDocument(doc);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         } finally {
             CommonsUtils.quietlyClose(writer);
         }
@@ -82,7 +82,7 @@ public class LuceneSearcher implements ProductSearcher {
             writer = createIndexWriter();
             writer.deleteDocuments(new Term("aid", id.toString()));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         } finally {
             CommonsUtils.quietlyClose(writer);
         }
@@ -116,7 +116,7 @@ public class LuceneSearcher implements ProductSearcher {
             int totalRow = getTotalRow(indexSearcher, query);
             return newPage(pageNum, pageSize, totalRow, products);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         } finally {
             CommonsUtils.quietlyClose(indexReader);
         }
@@ -176,9 +176,9 @@ public class LuceneSearcher implements ProductSearcher {
     }
 
 
-    private static Analyzer createAnalyzer(){
+    private static Analyzer createAnalyzer() {
         SegmenterConfig config = new SegmenterConfig(true);
-        return new JcsegAnalyzer(ISegment.Type.NLP,config, DictionaryFactory.createSingletonDictionary(config));
+        return new JcsegAnalyzer(ISegment.Type.NLP, config, DictionaryFactory.createSingletonDictionary(config));
     }
 
 
@@ -201,7 +201,7 @@ public class LuceneSearcher implements ProductSearcher {
 
             return builder.build();
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
         return null;
     }
@@ -226,7 +226,7 @@ public class LuceneSearcher implements ProductSearcher {
                 String highlightContent = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(text)), text);
                 product.setHighlightContent(highlightContent);
             } catch (InvalidTokenOffsetsException e) {
-                logger.error(e.getMessage(), e);
+                LOG.error(e.getMessage(), e);
             }
             products.add(product);
         }

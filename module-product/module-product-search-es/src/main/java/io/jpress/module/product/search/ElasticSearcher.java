@@ -16,9 +16,9 @@
 package io.jpress.module.product.search;
 
 import com.jfinal.kit.LogKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.aop.annotation.ConfigValue;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.module.product.model.Product;
@@ -52,12 +52,11 @@ import java.util.Map;
 
 public class ElasticSearcher implements ProductSearcher {
 
+    private static final Log LOG = Log.getLog(ElasticSearcher.class);
 
-    @ConfigValue("jpress.elasticsearch.index")
-    private String index = "jpress-index";
 
-    @ConfigValue("jpress.elasticsearch.type")
-    private String type = "jpress-type";
+    private String index = "jpress-product-index";
+    private String type = "jpress-product-type";
 
 
     private RestHighLevelClient client;
@@ -103,7 +102,7 @@ public class ElasticSearcher implements ProductSearcher {
                 LogKit.debug(response.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -112,7 +111,7 @@ public class ElasticSearcher implements ProductSearcher {
             Response response = restClient.performRequest(new Request("HEAD", index));
             return response.getStatusLine().getReasonPhrase().equals("OK");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
 
         return false;
@@ -130,7 +129,7 @@ public class ElasticSearcher implements ProductSearcher {
                 LogKit.debug(response.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -144,7 +143,7 @@ public class ElasticSearcher implements ProductSearcher {
                 LogKit.debug(response.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
 
     }
@@ -162,7 +161,7 @@ public class ElasticSearcher implements ProductSearcher {
                 LogKit.debug(response.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -187,7 +186,7 @@ public class ElasticSearcher implements ProductSearcher {
 
         try {
             SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
-            if (response ==null || response.getHits() == null || response.getHits().getTotalHits().value <= 0){
+            if (response == null || response.getHits() == null || response.getHits().getTotalHits().value <= 0) {
                 return null;
             }
 
@@ -203,7 +202,7 @@ public class ElasticSearcher implements ProductSearcher {
             return new Page<>(products, pageNum, pageSize, total / pageSize, total);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
         return null;
     }

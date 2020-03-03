@@ -16,9 +16,9 @@
 package io.jpress.module.article.search;
 
 import com.jfinal.kit.LogKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.aop.annotation.ConfigValue;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.module.article.model.Article;
@@ -52,16 +52,15 @@ import java.util.Map;
 
 public class ElasticSearcher implements ArticleSearcher {
 
+    private static final Log LOG = Log.getLog(ElasticSearcher.class);
 
-    @ConfigValue("jpress.elasticsearch.index")
-    private String index = "jpress-index";
-
-    @ConfigValue("jpress.elasticsearch.type")
-    private String type = "jpress-type";
+    private String index = "jpress-article-index";
+    private String type = "jpress-article-type";
 
 
     private RestHighLevelClient client;
     private RestClient restClient;
+
 
     public ElasticSearcher() {
         String host = JPressOptions.get("article_search_es_host");
@@ -103,7 +102,7 @@ public class ElasticSearcher implements ArticleSearcher {
                 LogKit.debug(response.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -130,7 +129,7 @@ public class ElasticSearcher implements ArticleSearcher {
                 LogKit.debug(response.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -144,7 +143,7 @@ public class ElasticSearcher implements ArticleSearcher {
                 LogKit.debug(response.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
 
     }
@@ -162,7 +161,7 @@ public class ElasticSearcher implements ArticleSearcher {
                 LogKit.debug(response.toString());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -203,7 +202,7 @@ public class ElasticSearcher implements ArticleSearcher {
             return new Page<>(articles, pageNum, pageSize, total / pageSize, total);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
         return null;
     }

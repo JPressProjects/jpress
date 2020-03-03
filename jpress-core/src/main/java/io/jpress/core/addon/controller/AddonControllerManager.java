@@ -45,28 +45,30 @@ public class AddonControllerManager {
     private static Map<Class, String> controllerAddonMapping = new ConcurrentHashMap<>();
 
 
-    public static void addController(Class<? extends Controller> c, String addonId) {
-        RequestMapping mapping = c.getAnnotation(RequestMapping.class);
+    public static void addController(Class<? extends Controller> controllerClass, String addonId) {
+        RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
         if (mapping == null) {
             return;
         }
 
-        String value = AnnotationUtil.get(mapping.value());
-        if (value == null) {
+        String path = AnnotationUtil.get(mapping.value());
+        if (path == null) {
             return;
         }
 
         // 尝试去清除 Controller 以保障绝对安全, 虽然插件在 stop() 的时候会去清除
         // 但是由于可能 stop() 出错等原因，没有执行到 deletController 的操作
-        deleteController(c);
+        deleteController(controllerClass);
 
         String viewPath = AnnotationUtil.get(mapping.viewPath());
-        if (StrUtil.isBlank(viewPath) || "/".equals(viewPath)) {
-            addonRoutes.add(value, c, "addons/" + addonId);
-        } else {
-            addonRoutes.add(value, c, viewPath);
+        if (StrUtil.isBlank(viewPath)) {
+            viewPath = "/";
+        } else if (viewPath.indexOf("/") != 0) {
+            viewPath = "/" + viewPath;
         }
-        controllerAddonMapping.put(c, addonId);
+
+        addonRoutes.add(path, controllerClass, "/addons/" + addonId + viewPath);
+        controllerAddonMapping.put(controllerClass, addonId);
     }
 
     public static List<String> getAllActionKeys() {

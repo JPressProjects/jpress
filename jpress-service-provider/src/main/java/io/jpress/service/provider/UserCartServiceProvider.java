@@ -32,7 +32,7 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
 
     @Override
     public Object save(UserCart model) {
-        UserCart userCart = findByProductInfo(model.getProductType(), model.getProductId(), model.getProductSpec());
+        UserCart userCart = findByProductInfo(model.getUserId(), model.getProductType(), model.getProductId(), model.getProductSpec());
         if (userCart == null) {
             return super.save(model);
         } else {
@@ -62,8 +62,9 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
-    public UserCart findByProductInfo(String productType, long productId, String productSpec) {
-        Columns columns = Columns.create("product_type", productType)
+    public UserCart findByProductInfo(long userId, String productType, long productId, String productSpec) {
+        Columns columns = Columns.create("user_id", userId)
+                .eq("product_type", productType)
                 .eq("product_id", productId)
                 .eq("product_spec", productSpec);
 
@@ -105,9 +106,9 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
         // 产品的最新价格 （用户添加商品到购物车后，商品的价格可能会发生变化）
         BigDecimal newestSalePrice = ProductManager.me().querySalePrice(
                 userCart
-                ,userCart.getProductId()
-                ,userCart.getProductSpec()
-                ,userCart.getUserId());
+                , userCart.getProductId()
+                , userCart.getProductSpec()
+                , userCart.getUserId());
 
         if (newestSalePrice != null) {
             userCart.put("newestSalePrice", newestSalePrice);

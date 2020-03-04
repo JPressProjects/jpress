@@ -302,8 +302,8 @@ public class ProductController extends TemplateControllerBase {
         Long distUserId = CookieUtil.getLong(this, buildDistUserCookieName(product.getId()));
         UserCart userCart = product.toUserCartItem(user.getId(), distUserId, getPara("spec"));
 
-        cartService.save(userCart);
-        renderOkJson();
+        Object cartId = cartService.save(userCart);
+        renderJson(Ret.ok().put("cartId",cartId));
     }
 
 
@@ -325,7 +325,11 @@ public class ProductController extends TemplateControllerBase {
     public void doBuy() {
         Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        Object cartId = cartService.save(product.toUserCartItem(user.getId(), null, getPara("spec")));
+        Long distUserId = CookieUtil.getLong(this, buildDistUserCookieName(product.getId()));
+        UserCart userCart = product.toUserCartItem(user.getId(), distUserId, getPara("spec"));
+
+        Object cartId = cartService.save(userCart);
+
         if (isAjaxRequest()) {
             renderJson(Ret.ok().set("gotoUrl", JFinal.me().getContextPath() + "/ucenter/checkout/" + cartId));
         } else {

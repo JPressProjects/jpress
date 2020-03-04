@@ -20,6 +20,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
@@ -86,6 +87,12 @@ public class ProductController extends TemplateControllerBase {
 
         //当产品处于下架等的时候，显示404
         render404If(product == null || !product.isNormal());
+
+        if (getLoginedUser() == null) {
+            setAttr("productShareUrl", RequestUtil.getBaseUrl() + product.getUrl());
+        }else {
+            setAttr("productShareUrl", RequestUtil.getBaseUrl() + product.getUrl() + "?did=" + getLoginedUser().getId());
+        }
 
         //设置页面的seo信息
         setSeoInfos(product);

@@ -180,6 +180,15 @@ function initCommentComponent() {
 }
 
 
+function initClipboardJSComponent(){
+    if (typeof ClipboardJS != "undefined") {
+        var clipboard = new ClipboardJS('.copy');
+        clipboard.on('success', function(e) {
+            alert("复制成功，可以去分享给您的朋友啦~~");
+        });
+    }
+}
+
 $(document).ready(function () {
 
     $(".product-specs li").click(function () {
@@ -193,5 +202,7 @@ $(document).ready(function () {
 
     initSwiperComponent();
     initCommentComponent();
+    initClipboardJSComponent()
+
 
 });

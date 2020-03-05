@@ -206,4 +206,6 @@ public interface ProductCommentService  {
     public void doIncCommentReplyCount(long commentId);
 
     public boolean doChangeStatus(Long id, int status);
+
+    public boolean deleteByProductId(Object productId);
 }

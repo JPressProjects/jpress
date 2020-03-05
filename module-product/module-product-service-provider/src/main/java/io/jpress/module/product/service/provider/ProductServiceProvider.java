@@ -199,8 +199,29 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
             @CacheEvict(name = "products", key = "*")
     })
     public boolean deleteById(Object id) {
+
+        //搜索搜索引擎的内容
         ProductSearcherFactory.getSearcher().deleteProduct(id);
-        return super.deleteById(id);
+
+        return Db.tx(() -> {
+            boolean delOk = ProductServiceProvider.super.deleteById(id);
+            if (delOk == false) {
+                return false;
+            }
+
+            //删除文章的管理分类
+            List<Record> records = Db.find("select * from product_category_mapping where product_id = ? ", id);
+            if (records != null && !records.isEmpty()) {
+                //更新文章数量
+                Db.update("delete from product_category_mapping where product_id = ?", id);
+                records.forEach(record -> categoryService.doUpdateProductCount(record.get("category_id")));
+            }
+
+
+            //删除产品的所有评论
+            commentService.deleteByProductId(id);
+            return true;
+        });
     }
 
 

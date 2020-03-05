@@ -199,15 +199,27 @@ public class _ProductController extends AdminControllerBase {
         setAttr("product", product);
 
 
+        Long[] saveBeforeCategoryIds = null;
+        if (product.getId() != null){
+            saveBeforeCategoryIds = categoryService.findCategoryIdsByProductId(product.getId());
+        }
+
+
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
 
-        Long[] allIds = ArrayUtils.addAll(categoryIds, tagIds);
+        Long[] updateCategoryIds = ArrayUtils.addAll(categoryIds, tagIds);
 
-        productService.doUpdateCategorys(id, allIds);
+        productService.doUpdateCategorys(id, updateCategoryIds);
 
-        if (allIds != null && allIds.length > 0) {
-            for (Long categoryId : allIds) {
+        if (updateCategoryIds != null && updateCategoryIds.length > 0) {
+            for (Long categoryId : updateCategoryIds) {
+                categoryService.doUpdateProductCount(categoryId);
+            }
+        }
+
+        if (saveBeforeCategoryIds != null && saveBeforeCategoryIds.length > 0) {
+            for (Long categoryId : saveBeforeCategoryIds) {
                 categoryService.doUpdateProductCount(categoryId);
             }
         }

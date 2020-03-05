@@ -359,6 +359,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return success;
     }
 
+
     @Override
     public boolean delete(Article model) {
         boolean success = super.delete(model);
@@ -405,6 +406,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Override
     public boolean deleteById(Object id) {
 
+        //搜索搜索引擎的内容
         ArticleSearcherFactory.getSearcher().deleteArticle(id);
 
         return Db.tx(() -> {
@@ -413,14 +415,17 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
                 return false;
             }
 
+            //删除文章的管理分类
             List<Record> records = Db.find("select * from article_category_mapping where article_id = ? ", id);
-            if (records == null || records.isEmpty()) {
-                return true;
+            if (records != null &&  !records.isEmpty()) {
+                //更新文章数量
+                Db.update("delete from article_category_mapping where article_id = ?", id);
+                records.forEach(record -> categoryService.doUpdateArticleCount(record.get("category_id")));
             }
 
-            Db.update("delete from article_category_mapping where article_id = ?", id);
 
-            records.forEach(record -> categoryService.doUpdateArticleCount(record.get("category_id")));
+            //删除文章的所有评论
+            commentService.deleteByArticleId(id);
 
             return true;
         });

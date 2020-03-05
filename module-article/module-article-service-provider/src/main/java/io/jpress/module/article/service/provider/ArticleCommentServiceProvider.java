@@ -201,6 +201,11 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
         ArticleCommentReplyCountUpdateTask.recordCount(commentId);
     }
 
+    @Override
+    public boolean deleteByArticleId(Object articleId) {
+        return DAO.deleteByColumn(Column.create("article_id",articleId));
+    }
+
 //    @Override
 //    public boolean isOwn(ArticleComment comment, long userId) {
 //        if (comment.getId() == null) {

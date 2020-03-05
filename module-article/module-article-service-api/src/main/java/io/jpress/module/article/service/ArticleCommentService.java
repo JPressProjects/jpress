@@ -129,7 +129,7 @@ public interface ArticleCommentService {
 
     public void doIncCommentReplyCount(long commentId);
 
-//    public boolean isOwn(ArticleComment comment, long userId);
+    public boolean deleteByArticleId(Object articleId);
 
 
 }

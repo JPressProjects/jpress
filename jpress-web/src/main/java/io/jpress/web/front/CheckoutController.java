@@ -87,6 +87,9 @@ public class CheckoutController extends UcenterControllerBase {
             userCarts.addAll(cartService.findSelectedListByUserId(getLoginedUser().getId()));
         }
 
+        //移除不是自己订单的产品，这种情况可能是别人发了链接给自己
+        userCarts.removeIf(this::notLoginedUserModel);
+
 
         if (userCarts.isEmpty()) {
             /**
@@ -158,6 +161,13 @@ public class CheckoutController extends UcenterControllerBase {
                 renderFailJson("该购物车信息已经提交，若需再次支付，请进入订单页面进行支付，或者重新下单。");
                 return;
             }
+
+            //有人去支付别人的产品？
+            if (notLoginedUserModel(userCart)){
+                renderFailJson("发生错误，无法正确生成订单。");
+                return;
+            }
+
 
             boolean productNormal = ProductManager.me().queryStatusNormal(userCart
                     , userCart.getProductId()

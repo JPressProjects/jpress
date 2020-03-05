@@ -38,16 +38,6 @@ import io.jpress.web.interceptor.UserInterceptor;
 })
 public abstract class AdminControllerBase extends ControllerBase {
 
-//    @Override
-//    @NotAction
-//    public void render(String view) {
-//        if (view.startsWith("/")) {
-//            super.render(view);
-//        } else {
-//            super.render("/WEB-INF/views/admin/" + view);
-//        }
-//    }
-
     @NotAction
     public void render(Ret ret) {
         renderJson(ret);

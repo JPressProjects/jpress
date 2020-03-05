@@ -182,5 +182,7 @@ public interface UserOpenidService  {
 
     public UserOpenid findByUserIdAndType(Object userId,String type);
 
+    public void batchDeleteByUserId(Object userId);
+
 
 }

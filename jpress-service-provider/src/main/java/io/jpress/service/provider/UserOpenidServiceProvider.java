@@ -4,6 +4,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
@@ -80,6 +81,12 @@ public class UserOpenidServiceProvider extends JbootServiceBase<UserOpenid> impl
         }
 
         return null;
+    }
+
+    @Override
+    @CacheEvict(name = "useropenid")
+    public void batchDeleteByUserId(Object userId) {
+        DAO.deleteByColumn(Column.create("user_id", userId));
     }
 
 

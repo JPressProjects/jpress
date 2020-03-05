@@ -217,6 +217,11 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         }
     }
 
+    @Override
+    public boolean delete(User model) {
+        openidService.batchDeleteByUserId(model.getId());
+        return super.delete(model);
+    }
 
     @Override
     public void shouldUpdateCache(int action, Model model, Object id) {

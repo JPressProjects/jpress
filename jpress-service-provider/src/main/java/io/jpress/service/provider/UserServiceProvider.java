@@ -52,13 +52,16 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     @Override
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
-            User user = findById(id);
-            if (user != null) {
-                //必须通过  delete(user) 才能清除缓存
-                delete(user);
-            }
+            deleteById(id);
         }
         return true;
+    }
+
+
+    @Override
+    public boolean deleteById(Object id) {
+        openidService.batchDeleteByUserId(id);
+        return delete(findById(id));
     }
 
 

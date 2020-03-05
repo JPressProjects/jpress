@@ -152,7 +152,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         ProductCategory category = findById(categoryId);
         if (category != null) {
             category.setCount(productCount);
-            category.update();
+            update(category);
         }
     }
 

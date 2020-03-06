@@ -257,30 +257,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Cacheable(name = "articles", key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
     public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
-//        StringBuilder from = new StringBuilder("select * from article a ");
-//        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-//        from.append(" where m.category_id = ? ");
-//        from.append(" and a.status = ? ");
-//
-//
-//        if (hasThumbnail != null) {
-//            if (hasThumbnail == true) {
-//                from.append(" and a.thumbnail is not null");
-//            } else {
-//                from.append(" and a.thumbnail is null");
-//            }
-//        }
-//
-//        from.append(" group by a.id ");
-//
-//        if (orderBy != null) {
-//            from.append(" order by " + orderBy);
-//        }
-//
-//        if (count != null) {
-//            from.append(" limit " + count);
-//        }
-
         Columns columns = Columns
                 .create("m.category_id",categoryId)
                 .eq("article.status",Article.STATUS_NORMAL);
@@ -292,9 +268,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
                 columns.isNull("article.thumbnail");
             }
         }
-
-        columns.string("group by article.id");
-
 
         List<Article> articles = DAO
                 .leftJoin("article_category_mapping").as("m")

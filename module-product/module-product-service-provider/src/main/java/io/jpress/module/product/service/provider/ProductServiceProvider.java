@@ -14,7 +14,6 @@ import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
-import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
@@ -94,7 +93,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
         return _paginateByBaseColumns(page
                 , pagesize
-                , Columns.create("p.status", status).likeAppendPercent("p.title", title)
+                , Columns.create("product.status", status).likeAppendPercent("product.title", title)
                 , categoryId
                 , null);
     }
@@ -104,7 +103,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
         return _paginateByBaseColumns(page
                 , pagesize
-                , Columns.create().ne("p.status", Product.STATUS_TRASH).likeAppendPercent("p.title", title)
+                , Columns.create().ne("product.status", Product.STATUS_TRASH).likeAppendPercent("product.title", title)
                 , categoryId
                 , null);
     }
@@ -134,7 +133,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
         Columns columns = new Columns();
         columns.add("m.category_id", categoryId);
-        columns.add("p.status", Product.STATUS_NORMAL);
+        columns.add("product.status", Product.STATUS_NORMAL);
 
         return _paginateByBaseColumns(page, pagesize, columns, categoryId, orderBy);
     }
@@ -142,22 +141,13 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
     public Page<Product> _paginateByBaseColumns(int page, int pagesize, Columns baseColumns, Long categoryId, String orderBy) {
 
-        StringBuilder sqlBuilder = new StringBuilder("from product p ");
-        if (categoryId != null) {
-            sqlBuilder.append(" left join product_category_mapping m on p.id = m.`product_id` ");
-        }
-
-
         Columns columns = baseColumns;
         columns.add("m.category_id", categoryId);
 
-        sqlBuilder.append(SqlUtils.toWhereSql(columns));
+        Page<Product> dataPage = DAO.leftJoinIf("product_category_mapping",categoryId != null).as("m")
+                .on("product.id = m.`product_id`")
+                .paginateByColumns(page,pagesize,columns,StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY));
 
-        // 前台走默认排序，但是后台必须走 id 排序，
-        // 否当有默认排序的文章很多的时候,发布的新文章可能在后几页
-        sqlBuilder.append(" ORDER BY " + StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY));
-
-        Page<Product> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserInfo(dataPage);
     }
 
@@ -283,49 +273,31 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
 
         Columns columns = Columns.create();
         columns.in("m.category_id", tagIds.toArray());
-        columns.ne("p.id", productId);
-        columns.eq("p.status", status);
+        columns.ne("product.id", productId);
+        columns.eq("product.status", status);
 
-        StringBuilder from = new StringBuilder("select * from product p ");
-        from.append(" left join product_category_mapping m on p.id = m.`product_id` ");
-        from.append(SqlUtils.toWhereSql(columns));
+        List<Product> list = DAO.leftJoin("product_category_mapping").as("m")
+                .on("product.id = m.`product_id`")
+                .findListByColumns(columns,count);
 
-        if (count != null) {
-            from.append(" limit " + count);
-        }
-
-        return joinUserInfo(DAO.find(from.toString(), columns.getValueArray()));
+        return joinUserInfo(list);
     }
 
     @Override
     @Cacheable(name = "products", liveSeconds = 60 * 60)
     public List<Product> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
-        StringBuilder from = new StringBuilder("select * from product p ");
-        from.append(" left join product_category_mapping m on p.id = m.`product_id` ");
-        from.append(" where m.category_id = ? ");
-        from.append(" and p.status = ? ");
+        Columns columns = Columns.create()
+                .eq("m.category_id",categoryId)
+                .eq("product.status",Product.STATUS_NORMAL)
+                .isNotNullIf("product.thumbnail",hasThumbnail != null && hasThumbnail)
+                .isNullIf("product.thumbnail",hasThumbnail != null && !hasThumbnail);
 
+        List<Product> list = DAO.leftJoin("product_category_mapping").as("m")
+                .on("product.id = m.`product_id`")
+                .findListByColumns(columns,orderBy,count);
 
-        if (hasThumbnail != null) {
-            if (hasThumbnail == true) {
-                from.append(" and p.thumbnail is not null");
-            } else {
-                from.append(" and p.thumbnail is null");
-            }
-        }
-
-        from.append(" group by p.id ");
-
-        if (orderBy != null) {
-            from.append(" order by " + orderBy);
-        }
-
-        if (count != null) {
-            from.append(" limit " + count);
-        }
-
-        return joinUserInfo(DAO.find(from.toString(), categoryId, Product.STATUS_NORMAL));
+        return joinUserInfo(list);
     }
 
 

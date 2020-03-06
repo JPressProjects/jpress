@@ -258,21 +258,14 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
         Columns columns = Columns
-                .create("m.category_id",categoryId)
-                .eq("article.status",Article.STATUS_NORMAL);
+                .create("m.category_id", categoryId)
+                .eq("article.status", Article.STATUS_NORMAL)
+                .isNotNullIf("article.thumbnail", hasThumbnail != null && hasThumbnail)
+                .isNullIf("article.thumbnail", hasThumbnail != null && !hasThumbnail);
 
-        if (hasThumbnail != null){
-            if (hasThumbnail){
-                columns.isNotNull("article.thumbnail");
-            }else {
-                columns.isNull("article.thumbnail");
-            }
-        }
-
-        List<Article> articles = DAO
-                .leftJoin("article_category_mapping").as("m")
+        List<Article> articles = DAO.leftJoin("article_category_mapping").as("m")
                 .on("article.id = m.`article_id`")
-                .findListByColumns(columns,orderBy);
+                .findListByColumns(columns, orderBy);
 
         return joinUserInfo(articles);
     }
@@ -293,8 +286,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         columns.ne("article.id", articleId);
         columns.eq("article.status", status);
 
-        List<Article> articles = DAO.leftJoin("article_category_mapping")
-                .as("m")
+        List<Article> articles = DAO.leftJoin("article_category_mapping").as("m")
                 .on("article.id = m.`article_id`")
                 .findListByColumns(columns, count);
 
@@ -390,7 +382,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
             //删除文章的管理分类
             List<Record> records = Db.find("select * from article_category_mapping where article_id = ? ", id);
-            if (records != null &&  !records.isEmpty()) {
+            if (records != null && !records.isEmpty()) {
                 //更新文章数量
                 Db.update("delete from article_category_mapping where article_id = ?", id);
                 records.forEach(record -> categoryService.doUpdateArticleCount(record.get("category_id")));

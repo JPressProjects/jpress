@@ -161,7 +161,7 @@ public class TemplateRender extends Render {
         Elements linkElements = doc.select("link");
         replace(linkElements, "href");
 
-        //开启模板依赖功能
+        //开启模板预览功能
         if (templatePreviewEnable) {
             Elements aElements = doc.select("a");
             replacePreviewHref(aElements);
@@ -184,8 +184,7 @@ public class TemplateRender extends Render {
                     || url.startsWith("//")
                     || url.toLowerCase().startsWith("http")
                     || (attrName.equals("src") && url.startsWith("data:image/"))
-                    || element.hasAttr("cdn-exclude")
-            ) {
+                    || element.hasAttr("cdn-exclude")) {
                 continue;
             }
 
@@ -220,17 +219,15 @@ public class TemplateRender extends Render {
         while (iterator.hasNext()) {
             Element element = iterator.next();
             String url = element.attr("href");
-            element.attr("href", rebuildHrefAttr(url));
+            element.attr("href", buildUrl(url));
         }
     }
 
 
-    private String rebuildHrefAttr(String originalUrl) {
-        if (StrUtil.isBlank(originalUrl)) {
-            return originalUrl;
-        }
-
-        if (originalUrl.toLowerCase().startsWith("http") || originalUrl.startsWith("//")) {
+    private String buildUrl(String originalUrl) {
+        if (StrUtil.isBlank(originalUrl)
+                || originalUrl.toLowerCase().startsWith("http")
+                || originalUrl.startsWith("//")) {
             return originalUrl;
         }
 
@@ -244,7 +241,6 @@ public class TemplateRender extends Render {
         }
 
         StringBuilder urlBuilder = new StringBuilder(url);
-
 
         if (url.contains("?")) {
             urlBuilder.append("&template=").append(currentTemplate.getId());

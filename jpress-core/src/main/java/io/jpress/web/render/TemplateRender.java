@@ -20,9 +20,11 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.render.RenderHelpler;
+import io.jpress.JPressConfig;
 import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -47,7 +49,11 @@ public class TemplateRender extends Render {
     private static final String contentType = "text/html; charset=" + getEncoding();
     private static String contextPath = JFinal.me().getContextPath();
     private int errorCode = 0;
+
+
+    private Template currentTemplate = TemplateManager.me().getCurrentTemplate();
     private String cdnDomain = JPressOptions.getCDNDomain();
+    private boolean templatePreviewEnable = JPressConfig.me.isTemplatePreviewEnable();
 
     private Engine getEngine() {
         if (engine == null) {
@@ -90,7 +96,7 @@ public class TemplateRender extends Render {
             if (ex.getMessage().contains("File not found")) {
                 RenderHelpler.renderHtml(response, buildTemplateNotExistsMessage(), contentType);
                 LogKit.error(ex.toString(), ex);
-            }else {
+            } else {
                 throw ex;
             }
         }
@@ -155,14 +161,18 @@ public class TemplateRender extends Render {
         Elements linkElements = doc.select("link");
         replace(linkElements, "href");
 
-        return doc.toString();
+        //开启模板依赖功能
+        if (templatePreviewEnable) {
+            Elements aElements = doc.select("a");
+            replacePreviewHref(aElements);
+        }
 
+        return doc.toString();
     }
 
     private void replace(Elements elements, String attrName) {
         Iterator<Element> iterator = elements.iterator();
-        Template template = TemplateManager.me().getCurrentTemplate();
-        if (template == null) {
+        if (currentTemplate == null) {
             return;
         }
         while (iterator.hasNext()) {
@@ -188,12 +198,12 @@ public class TemplateRender extends Render {
 
             // 以 ./ 开头的文件，需要添加模板路径
             else if (url.startsWith("./")) {
-                url = contextPath + template.getRelativePath() + url.substring(1);
+                url = contextPath + currentTemplate.getRelativePath() + url.substring(1);
             }
 
             // 直接是文件目录名开头
             else {
-                url = contextPath + template.getRelativePath() + "/" + url;
+                url = contextPath + currentTemplate.getRelativePath() + "/" + url;
             }
 
             if (StrUtil.isNotBlank(cdnDomain)) {
@@ -202,6 +212,51 @@ public class TemplateRender extends Render {
 
             element.attr(attrName, url);
         }
+    }
+
+    private void replacePreviewHref(Elements elements) {
+        Iterator<Element> iterator = elements.iterator();
+        RequestUtil.getCurrentUrl();
+        while (iterator.hasNext()) {
+            Element element = iterator.next();
+            String url = element.attr("href");
+            element.attr("href", rebuildHrefAttr(url));
+        }
+    }
+
+
+    private String rebuildHrefAttr(String originalUrl) {
+        if (StrUtil.isBlank(originalUrl)) {
+            return originalUrl;
+        }
+
+        if (originalUrl.toLowerCase().startsWith("http") || originalUrl.startsWith("//")) {
+            return originalUrl;
+        }
+
+        String url = originalUrl;
+        String anchor = null;
+
+        int anchorIndex = url.indexOf("#");
+        if (anchorIndex > 0) {
+            url = originalUrl.substring(0, anchorIndex);
+            anchor = originalUrl.substring(anchorIndex);
+        }
+
+        StringBuilder urlBuilder = new StringBuilder(url);
+
+
+        if (url.contains("?")) {
+            urlBuilder.append("&template=").append(currentTemplate.getId());
+        } else {
+            urlBuilder.append("?template=").append(currentTemplate.getId());
+        }
+
+        if (StrUtil.isNotBlank(anchor)) {
+            urlBuilder.append(anchor);
+        }
+
+        return urlBuilder.toString();
     }
 
 }

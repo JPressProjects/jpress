@@ -15,10 +15,12 @@
  */
 package io.jpress.core.template;
 
+import com.jfinal.core.Controller;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.render.RenderManager;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConfig;
 import io.jpress.JPressOptions;
 import io.jpress.commons.CacheObject;
@@ -118,6 +120,10 @@ public class TemplateManager {
 
 
     public Template getCurrentTemplate() {
+        Template previewTemplate = getPreviewTemplate();
+        if (previewTemplate != null){
+            return previewTemplate;
+        }
         String templateId = currentTemplateId.get();
         if (currentTemplate.getId().equals(templateId)) {
             return currentTemplate;
@@ -125,6 +131,30 @@ public class TemplateManager {
             setCurrentTemplate(templateId);
         }
         return currentTemplate;
+    }
+
+
+    /**
+     * 获取预览的模板
+     * @return
+     */
+    public Template getPreviewTemplate(){
+
+        if (!JPressConfig.me.isTemplatePreviewEnable()){
+            return null;
+        }
+
+        Controller controller = JbootControllerContext.get();
+        if (controller == null){
+            return null;
+        }
+
+        String tId = controller.getPara("template");
+        if (StrUtil.isBlank(tId)){
+            return null;
+        }
+
+        return getTemplateById(tId);
     }
 
 

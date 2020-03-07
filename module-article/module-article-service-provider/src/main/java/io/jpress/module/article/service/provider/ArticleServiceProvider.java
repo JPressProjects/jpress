@@ -265,7 +265,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         List<Article> articles = DAO.leftJoin("article_category_mapping").as("m")
                 .on("article.id = m.`article_id`")
-                .findListByColumns(columns, orderBy);
+                .findListByColumns(columns, orderBy, count);
 
         return joinUserInfo(articles);
     }

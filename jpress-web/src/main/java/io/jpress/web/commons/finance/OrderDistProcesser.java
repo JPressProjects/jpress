@@ -45,7 +45,7 @@ public class OrderDistProcesser implements OrderItemStatusChangeListener {
         if (orderItem.isFinished() //交易结束，用户不能申请退款
                 && orderItem.getDistUserId() != null //分销用户不能为空
                 && orderItem.getBuyerId() != null  //支付用户不能为空
-                && orderItem.getDistUserId().equals(orderItem.getBuyerId()) //分销用户和支付用户不能是同一个人
+                && !orderItem.getDistUserId().equals(orderItem.getBuyerId()) //分销用户和支付用户不能是同一个人
                 && orderItem.getPayAmount() != null //支付金额不能为空
                 && orderItem.getPayAmount().compareTo(BigDecimal.ZERO) > 0 //支付金额必须大于0
                 && orderItem.getDistAmount() != null //分销金额不能为空

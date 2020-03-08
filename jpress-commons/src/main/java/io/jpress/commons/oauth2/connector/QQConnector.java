@@ -52,10 +52,16 @@ public class QQConnector extends OauthConnector {
 		sb.append("&redirect_uri=" + getRedirectUri());
 
 		String httpString = httpGet(sb.toString());
-		// access_token=2D6FE76*****24AB&expires_in=7776000&refresh_token=7CD56****218
+
+		//callback( {"error":100010,"error_description":"redirect uri is illegal"} );
+		//access_token=2D6FE76*****24AB&expires_in=7776000&refresh_token=7CD56****218
 
 		if (StrUtil.isBlank(httpString)) {
 			return null;
+		}
+
+		if (httpString.contains("\"error\":")){
+			throw new IllegalStateException(httpString);
 		}
 
 		return httpString.substring(httpString.indexOf("=") + 1, httpString.indexOf("&"));
@@ -74,6 +80,11 @@ public class QQConnector extends OauthConnector {
 		if (StrUtil.isBlank(httpString)) {
 			return null;
 		}
+
+		if (httpString.contains("\"error\":")){
+			throw new IllegalStateException(httpString);
+		}
+
 		return httpString.substring(httpString.lastIndexOf(":") + 2, httpString.lastIndexOf("\""));
 	}
 

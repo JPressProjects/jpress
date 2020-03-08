@@ -704,7 +704,7 @@ public class AddonManager implements JbootEventListener {
             modelClasses.forEach(aClass -> {
                 Table table = aClass.getAnnotation(Table.class);
                 String tableName = AnnotationUtil.get(table.tableName());
-                JbootModelConfig.getConfig().getCache().removeAll(tableName);
+                JbootModelConfig.getConfig().getIdCache().removeAll(tableName);
                 Jboot.getCache().removeAll(tableName);
             });
         }

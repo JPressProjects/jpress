@@ -67,6 +67,7 @@ public class PaypalPayConfig extends PayConfigBase{
         storage.setClientSecret(getClientSecret());
         storage.setNotifyUrl(getCallbackUrl());
         storage.setReturnUrl(getReturnUrl());
+//        storage.setTest(true);
         return storage;
     }
 }

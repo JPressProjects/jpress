@@ -17,6 +17,7 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import io.jboot.Jboot;
+import io.jboot.components.cache.CacheTime;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
@@ -229,8 +230,8 @@ public class PayController extends TemplateControllerBase {
             order.setOpenid(openId);
             renderJson(Ret.ok().set("orderInfo", service.orderInfo(order)));
             PrePayNotifytKit.notify(payment, getLoginedUser());
-        }catch (Exception ex){
-            LogKit.error(ex.toString(),ex);
+        } catch (Exception ex) {
+            LogKit.error(ex.toString(), ex);
             renderFailJson(ex.getMessage());
         }
     }
@@ -368,10 +369,16 @@ public class PayController extends TemplateControllerBase {
         PayOrder order = createPayOrder(payment);
         order.setTransactionType(PayPalTransactionType.sale); //电脑网页支付
 
-        //获取支付订单信息
-        Map orderInfo = service.orderInfo(order);
+        //redirect html
+        String html = service.toPay(order);
+
         //组装成html表单信息
-        renderHtml(service.buildRequest(orderInfo, MethodType.POST));
+        renderHtml(html);
+
+
+        //某些支付下单时无法设置单号，通过下单后返回对应单号，如 paypal，友店。
+        String outTradeNo = order.getOutTradeNo();
+        Jboot.getCache().put("paypal", outTradeNo, payment.getTrxNo(), CacheTime.HOUR * 2);
 
         PrePayNotifytKit.notify(payment, getLoginedUser());
     }
@@ -454,12 +461,12 @@ public class PayController extends TemplateControllerBase {
         //验证失败的原因：
         // 1 恶意 callback
         // 2 后台填写的公钥可能填写错了，或者不是支付宝公钥
-        if (params == null || !service.verify(params)) {
+        if (params == null || !tryVerify(service, params)) {
             callbackFail(service);
             return;
         }
 
-        String trxNo = getTrxNo(params);
+        String trxNo = getTrxNo(service, params);
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
         render404If(payment == null);
 
@@ -520,18 +527,9 @@ public class PayController extends TemplateControllerBase {
             }
         }
 
-        //Paypal支付
-        //https://blog.csdn.net/weixin_42152023/article/details/93097326
+        //Paypal支付 不走异步接口，直接通过浏览器返回到 back() 方法了
         else if (service instanceof PayPalPayService) {
-
-            if ("Completed".equals(params.get("payment_status"))) {
-                payment.setPayStatus(PayStatus.SUCCESS_PAYPAL.getStatus());
-                payment.setThirdpartyType("paypal");
-                payment.setThirdpartyUserOpenid(getPara("payer_id"));
-            } else {
-                callbackFail(service);
-                return;
-            }
+            return;
         }
 
         if (payment.getPaySuccessAmount() == null) {
@@ -558,6 +556,15 @@ public class PayController extends TemplateControllerBase {
         renderText(service.getPayOutMessage("fail", "失败").toMessage());
     }
 
+    private boolean tryVerify(PayService payService, Map<String, Object> params) {
+        try {
+            return payService.verify(params);
+        } catch (Exception ex) {
+            LogKit.error(ex.toString(), ex);
+        }
+        return false;
+    }
+
 
     private PayService getPayService() {
         switch (getPara()) {
@@ -573,9 +580,9 @@ public class PayController extends TemplateControllerBase {
     }
 
 
-    private String getTrxNo(Map<String, Object> params) {
-        return getPayService() instanceof PayPalPayService
-                ? getPara("invoice")
+    private String getTrxNo(PayService service, Map<String, Object> params) {
+        return service instanceof PayPalPayService
+                ? Jboot.getCache().get("paypal", params.get("paymentId"))
                 : String.valueOf(params.get("out_trade_no"));
     }
 
@@ -590,14 +597,41 @@ public class PayController extends TemplateControllerBase {
             LOG.debug("back:" + JSON.toJSONString(params));
         }
 
-        String trxNo = getTrxNo(params);
+        String trxNo = getTrxNo(service, params);
+        if (StrUtil.isBlank(trxNo)){
+            redirect("/pay/fail");
+            return;
+        }
 
-        if (params == null || !service.verify(params) || StrUtil.isBlank(trxNo)) {
+        if (params == null || !service.verify(params)) {
             redirect("/pay/fail/" + trxNo);
             return;
         }
 
+        // paypal 不走异步回调，需要在这进行处理，只要 service.verify(params) 验证通过
+        // 就代表 paypal 支付成功了
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
+        if (service instanceof PayPalPayService){
+
+            if (payment.getPaySuccessAmount() == null) {
+                payment.setPaySuccessAmount(payment.getPayAmount());
+            }
+
+            payment.setPayStatus(PayStatus.SUCCESS_PAYPAL.getStatus());
+            payment.setThirdpartyType("paypal");
+            payment.setThirdpartyUserOpenid(params.get("PayerID").toString());
+            payment.setThirdpartyTransactionId(params.get("paymentId").toString());
+
+            payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS);
+            payment.setPayCompleteTime(new Date());
+            payment.setPaySuccessTime(new Date());
+
+
+            if (paymentService.update(payment)) {
+                paymentService.notifySuccess(payment.getId());
+            }
+        }
+
 
         if (payment.isPaySuccess()) {
             redirect("/pay/success/" + trxNo);
@@ -632,8 +666,6 @@ public class PayController extends TemplateControllerBase {
 
     public void fail() {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
-        render404If(payment == null);
-
         setAttr("payment", payment);
         render("pay_fail.html", DEFAULT_FAIL_VIEW);
     }

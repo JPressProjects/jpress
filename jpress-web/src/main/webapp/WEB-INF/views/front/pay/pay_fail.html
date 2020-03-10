@@ -31,9 +31,9 @@
             我们将在24小时内把资金充值到您的账户余额，谢谢。
         </div>
         <div style="padding: 60px">
-            #if("recharge" == payment.trx_type)
+            #if(payment && "recharge" == payment.trx_type)
             <a href="#(CPATH)/ucenter/finance/amount" class="btn btn-success btn-flat"> 返回我的余额 </a>
-            #elseif("member" == payment.trx_type)
+            #elseif(payment &&  "member" == payment.trx_type)
             <a href="#(CPATH)/ucenter/member" class="btn btn-success btn-flat"> 返回我的会员 </a>
             #else
             <a href="#(CPATH)/ucenter/order" class="btn btn-success btn-flat"> 返回我的订单 </a>

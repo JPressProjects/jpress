@@ -121,8 +121,8 @@ public class AddonClassLoader extends URLClassLoader {
                     addonInfo.setUpgraderClass(loadedClass);
                 }
 
-            } catch (ClassNotFoundException e) {
-                LOG.error(e.toString(), e);
+            } catch (Exception ex) {
+                LOG.error(ex.toString(), ex);
             }
         }
     }

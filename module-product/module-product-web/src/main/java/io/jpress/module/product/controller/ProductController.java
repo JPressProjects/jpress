@@ -303,7 +303,7 @@ public class ProductController extends TemplateControllerBase {
         UserCart userCart = product.toUserCartItem(user.getId(), distUserId, getPara("spec"));
 
         Object cartId = cartService.save(userCart);
-        renderJson(Ret.ok().put("cartId",cartId));
+        renderJson(Ret.ok().set("cartId",cartId));
     }
 
 

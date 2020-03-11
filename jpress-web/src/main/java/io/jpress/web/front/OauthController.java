@@ -60,55 +60,55 @@ public class OauthController extends Oauth2Controller {
      */
     @Override
     public void onAuthorizeSuccess(OauthUser ouser) {
-        User dbUser = null;
+        User user = null;
         switch (ouser.getSource()) {
             case "qq":
-                dbUser = userService.findFistByQQOpenid(ouser.getOpenId());
+                user = userService.findFistByQQOpenid(ouser.getOpenId());
                 break;
             case "wechat":
-                dbUser = userService.findFistByWxOpenid(ouser.getOpenId());
+                user = userService.findFistByWxOpenid(ouser.getOpenId());
                 break;
             case "weibo":
-                dbUser = userService.findFistByWeiboOpenid(ouser.getOpenId());
+                user = userService.findFistByWeiboOpenid(ouser.getOpenId());
                 break;
             case "github":
-                dbUser = userService.findFistByGithubOpenid(ouser.getOpenId());
+                user = userService.findFistByGithubOpenid(ouser.getOpenId());
                 break;
             case "gitee":
-                dbUser = userService.findFistByGiteeOpenid(ouser.getOpenId());
+                user = userService.findFistByGiteeOpenid(ouser.getOpenId());
                 break;
             case "dingding":
-                dbUser = userService.findFistByDingdingOpenid(ouser.getOpenId());
+                user = userService.findFistByDingdingOpenid(ouser.getOpenId());
                 break;
             default:
                 redirect("/user/login");
                 return;
         }
 
-        if (dbUser == null){
-            dbUser = UserInterceptor.getThreadLocalUser();
-            if (dbUser != null){
-                dbUser.setAvatar(ouser.getAvatar());
-                dbUser.setNickname(ouser.getNickname());
-                openidService.saveOrUpdate(dbUser.getId(),ouser.getSource(),ouser.getOpenId());
-                userService.update(dbUser);
+        if (user == null){
+            user = UserInterceptor.getThreadLocalUser();
+            if (user != null){
+                user.setAvatar(ouser.getAvatar());
+                user.setNickname(ouser.getNickname());
+                openidService.saveOrUpdate(user.getId(),ouser.getSource(),ouser.getOpenId());
+                userService.update(user);
             }
         }
 
-        if (dbUser == null) {
-            dbUser = new User();
-            dbUser.setAvatar(ouser.getAvatar());
-            dbUser.setNickname(ouser.getNickname());
-            dbUser.setCreateSource(ouser.getSource());
-            dbUser.setCreated(new Date());
-            dbUser.setGender(ouser.getGender());
-            dbUser.setSalt(HashKit.generateSaltForSha256());
-            Object id = userService.save(dbUser);
+        if (user == null) {
+            user = new User();
+            user.setAvatar(ouser.getAvatar());
+            user.setNickname(ouser.getNickname());
+            user.setCreateSource(ouser.getSource());
+            user.setCreated(new Date());
+            user.setGender(ouser.getGender());
+            user.setSalt(HashKit.generateSaltForSha256());
+            Object id = userService.save(user);
             openidService.saveOrUpdate(id,ouser.getSource(),ouser.getOpenId());
 
         }
 
-        CookieUtil.put(this, JPressConsts.COOKIE_UID, dbUser.getId());
+        CookieUtil.put(this, JPressConsts.COOKIE_UID, user.getId());
         String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
         redirect(gotoUrl);
     }

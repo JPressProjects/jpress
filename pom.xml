@@ -33,7 +33,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.0.4</jboot.version>
+        <jboot.version>3.0.5</jboot.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
@@ -354,7 +354,7 @@
     <repositories>
         <repository>
             <id>central</id>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -370,7 +370,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>central</id>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
         </pluginRepository>
     </pluginRepositories>
 

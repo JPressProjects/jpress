@@ -214,7 +214,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        render(new TemplateRender(template.buildRelativePath("setting.html")));
+        render(new TemplateRender(template.buildRelativePath("setting.html"), false));
     }
 
     @AdminMenu(text = "编辑", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 99)
@@ -300,7 +300,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         fileInfoList.sort((o1, o2) -> {
-            if (o1.isDir() && o2.isDir()){
+            if (o1.isDir() && o2.isDir()) {
                 return o1.getName().compareTo(o2.getName());
             }
 
@@ -315,7 +315,7 @@ public class _TemplateController extends AdminControllerBase {
                 return 1;
             }
 
-            if (!o2.getName().endsWith(".html")){
+            if (!o2.getName().endsWith(".html")) {
                 return -1;
             }
 

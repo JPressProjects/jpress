@@ -67,6 +67,11 @@ public class TemplateRender extends Render {
         this.view = view;
     }
 
+    public TemplateRender(String view, boolean templatePreviewEnable) {
+        this.view = view;
+        this.templatePreviewEnable = templatePreviewEnable;
+    }
+
     public TemplateRender(String view, int code) {
         this.view = view;
         this.errorCode = code;
@@ -162,7 +167,7 @@ public class TemplateRender extends Render {
         replace(linkElements, "href");
 
         //开启模板预览功能
-        if (templatePreviewEnable) {
+        if (templatePreviewEnable && TemplateManager.me().getPreviewTemplate() != null) {
             Elements aElements = doc.select("a");
             replacePreviewHref(aElements);
         }
@@ -227,6 +232,7 @@ public class TemplateRender extends Render {
     private String buildUrl(String originalUrl) {
         if (StrUtil.isBlank(originalUrl)
                 || originalUrl.toLowerCase().startsWith("http")
+                || originalUrl.toLowerCase().startsWith("javascript:")
                 || originalUrl.startsWith("//")) {
             return originalUrl;
         }

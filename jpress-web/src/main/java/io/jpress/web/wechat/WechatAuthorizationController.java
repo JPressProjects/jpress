@@ -248,8 +248,14 @@ public class WechatAuthorizationController extends ControllerBase {
         user.setCreated(new Date());
         user.setLogged(new Date());
         user.setCreateSource(User.SOURCE_WECHAT_WEB);
-        user.setStatus(User.STATUS_OK);
         user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
+
+        boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+        if (isNotActivate) {
+            user.setStatus(User.STATUS_REG);
+        }else {
+            user.setStatus(User.STATUS_OK);
+        }
 
 
         Long userId = (Long) userService.save(user);

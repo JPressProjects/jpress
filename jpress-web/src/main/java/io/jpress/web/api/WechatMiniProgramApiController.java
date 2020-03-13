@@ -28,6 +28,7 @@ import com.jfinal.wxaapp.api.WxaUserApi;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
 import io.jpress.service.UserOpenidService;
@@ -225,7 +226,13 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         user.setCreated(new Date());
         user.setLogged(new Date());
         user.setCreateSource(User.SOURCE_WECHAT_MINIPROGRAM);
-        user.setStatus(User.STATUS_OK);
+
+        boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+        if (isNotActivate) {
+            user.setStatus(User.STATUS_REG);
+        }else {
+            user.setStatus(User.STATUS_OK);
+        }
 
 
         Long userId = (Long) userService.save(user);

@@ -103,6 +103,22 @@ public class OauthController extends Oauth2Controller {
             user.setCreated(new Date());
             user.setGender(ouser.getGender());
             user.setSalt(HashKit.generateSaltForSha256());
+            user.setLogged(new Date());
+
+            // 是否启用邮件验证
+            boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
+            if (emailValidate) {
+                user.setStatus(User.STATUS_REG);
+            } else {
+                user.setStatus(User.STATUS_OK);
+            }
+
+            //强制用户状态为未激活
+            boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+            if (isNotActivate) {
+                user.setStatus(User.STATUS_REG);
+            }
+
             Object id = userService.save(user);
             openidService.saveOrUpdate(id, ouser.getSource(), ouser.getOpenId());
 

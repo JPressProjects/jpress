@@ -24,8 +24,8 @@ import java.util.Map;
 
 public class DingdingConnector extends OauthConnector {
 
-    public DingdingConnector(String name, String appkey, String appSecret) {
-        super(name, appkey, appSecret);
+    public DingdingConnector(String appkey, String appSecret) {
+        super("dingding", appkey, appSecret);
     }
 
     @Override

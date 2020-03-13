@@ -18,8 +18,6 @@ package io.jpress.commons.oauth2;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 
-import java.util.UUID;
-
 public abstract class Oauth2Controller extends JbootController {
 
     // www.xxx.com/xxx/qq
@@ -40,11 +38,8 @@ public abstract class Oauth2Controller extends JbootController {
             return;
         }
 
-        String state = UUID.randomUUID().toString().replace("-", "");
-
-        String requestUrl = getRequest().getRequestURL().toString();
-        String callBackUrl = requestUrl.replace("/" + para, "/callback/" + para);
-        String url = connector.getAuthorizeUrl(state, callBackUrl);
+        String state = StrUtil.uuid();
+        String url = connector.getAuthorizeUrl(state);
 
         setSessionAttr("oauth_state", state);
         redirect(url);

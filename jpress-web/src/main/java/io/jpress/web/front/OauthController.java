@@ -85,12 +85,12 @@ public class OauthController extends Oauth2Controller {
                 return;
         }
 
-        if (user == null){
+        if (user == null) {
             user = UserInterceptor.getThreadLocalUser();
-            if (user != null){
+            if (user != null) {
                 user.setAvatar(ouser.getAvatar());
                 user.setNickname(ouser.getNickname());
-                openidService.saveOrUpdate(user.getId(),ouser.getSource(),ouser.getOpenId());
+                openidService.saveOrUpdate(user.getId(), ouser.getSource(), ouser.getOpenId());
                 userService.update(user);
             }
         }
@@ -104,12 +104,12 @@ public class OauthController extends Oauth2Controller {
             user.setGender(ouser.getGender());
             user.setSalt(HashKit.generateSaltForSha256());
             Object id = userService.save(user);
-            openidService.saveOrUpdate(id,ouser.getSource(),ouser.getOpenId());
+            openidService.saveOrUpdate(id, ouser.getSource(), ouser.getOpenId());
 
         }
 
         CookieUtil.put(this, JPressConsts.COOKIE_UID, user.getId());
-        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
+        String gotoUrl = JPressOptions.get("login_goto_url", "/ucenter");
         redirect(gotoUrl);
     }
 
@@ -159,7 +159,7 @@ public class OauthController extends Oauth2Controller {
 
         String appkey = JPressOptions.get("login_dingding_appkey");
         String appsecret = JPressOptions.get("login_dingding_appsecret");
-        return new DingdingConnector("dingding", appkey, appsecret);
+        return new DingdingConnector(appkey, appsecret);
     }
 
     private OauthConnector createGiteeConnector() {
@@ -170,7 +170,7 @@ public class OauthController extends Oauth2Controller {
 
         String appkey = JPressOptions.get("login_gitee_appkey");
         String appsecret = JPressOptions.get("login_gitee_appsecret");
-        return new OSChinaConnector("gitee", appkey, appsecret);
+        return new OSChinaConnector(appkey, appsecret);
     }
 
     private OauthConnector createGithubConnector() {
@@ -181,7 +181,7 @@ public class OauthController extends Oauth2Controller {
 
         String appkey = JPressOptions.get("login_github_appkey");
         String appsecret = JPressOptions.get("login_github_appsecret");
-        return new GithubConnector("github", appkey, appsecret);
+        return new GithubConnector(appkey, appsecret);
     }
 
     private OauthConnector createWeiboConnector() {
@@ -192,7 +192,7 @@ public class OauthController extends Oauth2Controller {
 
         String appkey = JPressOptions.get("login_weibo_appkey");
         String appsecret = JPressOptions.get("login_weibo_appsecret");
-        return new WeiboConnector("weibo", appkey, appsecret);
+        return new WeiboConnector(appkey, appsecret);
     }
 
 
@@ -204,7 +204,7 @@ public class OauthController extends Oauth2Controller {
 
         String appkey = JPressOptions.get("login_qq_appkey");
         String appsecret = JPressOptions.get("login_qq_appsecret");
-        return new QQConnector("qq", appkey, appsecret);
+        return new QQConnector(appkey, appsecret);
     }
 
     private OauthConnector createWechatConnector() {
@@ -215,7 +215,7 @@ public class OauthController extends Oauth2Controller {
 
         String appkey = JPressOptions.get("login_wechat_appkey");
         String appsecret = JPressOptions.get("login_wechat_appsecret");
-        return new WechatConnector("wechat", appkey, appsecret);
+        return new WechatConnector(appkey, appsecret);
     }
 
 

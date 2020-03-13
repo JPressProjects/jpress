@@ -17,6 +17,7 @@ package io.jpress.commons.oauth2;
 
 import com.jfinal.log.Log;
 import io.jboot.utils.HttpUtil;
+import io.jboot.utils.RequestUtil;
 
 import java.util.Map;
 
@@ -37,6 +38,7 @@ public abstract class OauthConnector {
         this.clientId = appkey;
         this.clientSecret = appSecret;
         this.name = name;
+        this.redirectUri = RequestUtil.getBaseUrl() + "/oauth/callback/" + name;
     }
 
     public String getClientId() {
@@ -67,8 +69,7 @@ public abstract class OauthConnector {
         return redirectUri;
     }
 
-    public String getAuthorizeUrl(String state, String redirectUri) {
-        this.redirectUri = redirectUri;
+    public String getAuthorizeUrl(String state) {
         return createAuthorizeUrl(state);
     }
 

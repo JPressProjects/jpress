@@ -21,100 +21,100 @@ import io.jpress.commons.oauth2.OauthUser;
 
 public class WechatConnector extends OauthConnector {
 
-	public WechatConnector(String name, String appkey, String appSecret) {
-		super(name, appkey, appSecret);
-	}
+    public WechatConnector(String appkey, String appSecret) {
+        super("wechat", appkey, appSecret);
+    }
 
-	// DOC
-	// https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1419316505
+    // DOC
+    // https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&id=open1419316505
 
-	// public WechatConnector() {
-	// setClientId(OptionQuery.findValue("oauth2_wechat_appkey"));
-	// setClientSecret(OptionQuery.findValue("oauth2_wechat_appsecret"));
-	// setName("wechat");
-	// }
+    // public WechatConnector() {
+    // setClientId(OptionQuery.findValue("oauth2_wechat_appkey"));
+    // setClientSecret(OptionQuery.findValue("oauth2_wechat_appsecret"));
+    // setName("wechat");
+    // }
 
-	@Override
-	public String createAuthorizeUrl(String state) {
+    @Override
+    public String createAuthorizeUrl(String state) {
 
-		// https://open.weixin.qq.com/connect/qrconnect?
-		// appid=APPID
-		// &redirect_uri=REDIRECT_URI
-		// &response_type=code
-		// &scope=SCOPE
-		// &state=STATE#wechat_redirect
+        // https://open.weixin.qq.com/connect/qrconnect?
+        // appid=APPID
+        // &redirect_uri=REDIRECT_URI
+        // &response_type=code
+        // &scope=SCOPE
+        // &state=STATE#wechat_redirect
 
-		StringBuilder urlBuilder = new StringBuilder("https://open.weixin.qq.com/connect/qrconnect?");
-		urlBuilder.append("response_type=code");
-		urlBuilder.append("&scope=snsapi_login");
-		urlBuilder.append("&appid=" + getClientId());
-		urlBuilder.append("&redirect_uri=" + getRedirectUri());
-		urlBuilder.append("&state=" + state);
-		urlBuilder.append("#wechat_redirect");
+        StringBuilder urlBuilder = new StringBuilder("https://open.weixin.qq.com/connect/qrconnect?");
+        urlBuilder.append("response_type=code");
+        urlBuilder.append("&scope=snsapi_login");
+        urlBuilder.append("&appid=" + getClientId());
+        urlBuilder.append("&redirect_uri=" + getRedirectUri());
+        urlBuilder.append("&state=" + state);
+        urlBuilder.append("#wechat_redirect");
 
-		return urlBuilder.toString();
-	}
+        return urlBuilder.toString();
+    }
 
-	protected JSONObject getAccessToken(String code) {
+    protected JSONObject getAccessToken(String code) {
 
-		// https://api.weixin.qq.com/sns/oauth2/access_token?
-		// appid=APPID
-		// &secret=SECRET
-		// &code=CODE
-		// &grant_type=authorization_code
+        // https://api.weixin.qq.com/sns/oauth2/access_token?
+        // appid=APPID
+        // &secret=SECRET
+        // &code=CODE
+        // &grant_type=authorization_code
 
-		StringBuilder urlBuilder = new StringBuilder("https://api.weixin.qq.com/sns/oauth2/access_token?");
-		urlBuilder.append("grant_type=authorization_code");
-		urlBuilder.append("&appid=" + getClientId());
-		urlBuilder.append("&secret=" + getClientSecret());
-		urlBuilder.append("&code=" + code);
+        StringBuilder urlBuilder = new StringBuilder("https://api.weixin.qq.com/sns/oauth2/access_token?");
+        urlBuilder.append("grant_type=authorization_code");
+        urlBuilder.append("&appid=" + getClientId());
+        urlBuilder.append("&secret=" + getClientSecret());
+        urlBuilder.append("&code=" + code);
 
-		String url = urlBuilder.toString();
+        String url = urlBuilder.toString();
 
-		String httpString = httpGet(url);
+        String httpString = httpGet(url);
 
-		/**
-		 * { "access_token":"ACCESS_TOKEN", "expires_in":7200,
-		 * "refresh_token":"REFRESH_TOKEN", "openid":"OPENID", "scope":"SCOPE",
-		 * "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL" }
-		 */
+        /**
+         * { "access_token":"ACCESS_TOKEN", "expires_in":7200,
+         * "refresh_token":"REFRESH_TOKEN", "openid":"OPENID", "scope":"SCOPE",
+         * "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL" }
+         */
 
-		return JSONObject.parseObject(httpString);
-	}
+        return JSONObject.parseObject(httpString);
+    }
 
-	@Override
-	protected OauthUser getOauthUser(String code) {
+    @Override
+    protected OauthUser getOauthUser(String code) {
 
-		JSONObject tokenJson = getAccessToken(code);
-		String accessToken = tokenJson.getString("access_token");
-		String openId = tokenJson.getString("openid");
+        JSONObject tokenJson = getAccessToken(code);
+        String accessToken = tokenJson.getString("access_token");
+        String openId = tokenJson.getString("openid");
 
-		// https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID
+        // https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID
 
-		String url = "https://api.weixin.qq.com/sns/userinfo?" + "access_token=" + accessToken + "&openid=" + openId;
+        String url = "https://api.weixin.qq.com/sns/userinfo?" + "access_token=" + accessToken + "&openid=" + openId;
 
-		String httpString = httpGet(url);
+        String httpString = httpGet(url);
 
-		/**
-		 * { "openid":"OPENID", "nickname":"NICKNAME", "sex":1,
-		 * "province":"PROVINCE", "city":"CITY", "country":"COUNTRY",
-		 * "headimgurl":
-		 * "http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0",
-		 * "privilege":[ "PRIVILEGE1", "PRIVILEGE2" ], "unionid":
-		 * " o6_bmasdasdsad6_2sgVt7hMZOPfL" }
-		 */
+        /**
+         * { "openid":"OPENID", "nickname":"NICKNAME", "sex":1,
+         * "province":"PROVINCE", "city":"CITY", "country":"COUNTRY",
+         * "headimgurl":
+         * "http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0",
+         * "privilege":[ "PRIVILEGE1", "PRIVILEGE2" ], "unionid":
+         * " o6_bmasdasdsad6_2sgVt7hMZOPfL" }
+         */
 
-		OauthUser user = new OauthUser();
-		JSONObject json = JSONObject.parseObject(httpString);
-		user.setAvatar(json.getString("headimgurl"));
-		user.setNickname(json.getString("nickname"));
-		user.setOpenId(openId);
-		int sex = json.getIntValue("sex");
-		user.setGender(sex == 1 ? "male" : "female");
+        OauthUser user = new OauthUser();
+        JSONObject json = JSONObject.parseObject(httpString);
+        user.setAvatar(json.getString("headimgurl"));
+        user.setNickname(json.getString("nickname"));
+        user.setOpenId(openId);
+        int sex = json.getIntValue("sex");
+        user.setGender(sex == 1 ? "male" : "female");
 
-		user.setSource(getName());
+        user.setSource(getName());
 
-		return user;
-	}
+        return user;
+    }
 
 }

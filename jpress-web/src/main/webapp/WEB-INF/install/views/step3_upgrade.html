@@ -37,7 +37,7 @@
 
     <div class="row">
         <div class="col-xs-offset-4 col-xs-4 " style="padding-top: 15px">
-            <button type="button" id="submit" class="btn btn-primary btn-block btn-flat"> 确认并安装</button>
+            <button type="button" id="submit" class="btn btn-primary btn-block btn-flat"> 确认并安装 </button>
         </div>
     </div>
 
@@ -51,6 +51,11 @@
 <script>
 
     $("#submit").on("click", function () {
+        var btn = $(this);
+
+        btn.attr('disabled','disabled');
+        btn.text('正在安装中... 请稍等');
+
         $("#form").ajaxSubmit({
             type: "post",
             success: function (data) {
@@ -58,6 +63,8 @@
                     alert("恭喜您，JPress安装成功！登录后台可以进行更多的设置...");
                     location.href = "#(CPATH)/admin/login";
                 } else {
+                    btn.removeAttr('disabled');
+                    btn.text('确认并安装');
                     alert(data.message);
                 }
             },
@@ -65,6 +72,7 @@
                 alert("系统错误，请联系管理员。");
             }
         });
-    })
+    });
+
 </script>
 #end

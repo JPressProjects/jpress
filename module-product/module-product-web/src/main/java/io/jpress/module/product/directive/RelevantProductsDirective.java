@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 相关文章
+ * @Title: 相关产品
  */
 @JFinalDirective("relevantProducts")
 public class RelevantProductsDirective extends JbootDirectiveBase {

@@ -97,6 +97,10 @@ function setProductSpec(spec) {
 
 function initSwiperComponent() {
 
+    if (typeof Swiper == "undefined") {
+        return;
+    }
+
     var galleryThumbs = new Swiper('.gallery-thumbs', {
         spaceBetween: 10,
         slidesPerView: 5,

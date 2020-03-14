@@ -95,9 +95,11 @@
     }
 
 
-    function doDel(id) {
-        if (confirm('确定要删除该记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/cart/doDel/" + id)
+    function doDelCart(id) {
+        if (confirm("确定要删除该商品吗？")) {
+            ajaxGet('#(CAPTH)/ucenter/cart/doDel?id=' + id, function () {
+                location.reload()
+            })
         }
     }
 
@@ -306,7 +308,7 @@
                             </td>
                             <td>#(userCart.shouldPayPrice ??)</td>
                             <td>
-                                <a href="javascript:;" onclick="doDel('#(userCart.id)')">删除</a>
+                                <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
                             </td>
                         </tr>
                         #end

@@ -187,26 +187,6 @@
     }
 
 
-    function doDel(id) {
-        if (confirm('确定要删除该记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/address/doDel/" + id)
-        }
-    }
-
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-
-        if (confirm('确定要删除选中的记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/address/doDelByIds?ids=" + ids);
-        }
-
-    });
-
-
     function checkAll(checkbox) {
         if (checkbox.checked) {
             $(".dataItem").each(function () {
@@ -269,7 +249,7 @@
     }
 
 
-    function del(id) {
+    function doDelCart(id) {
         if (confirm("确定要删除该商品吗？")) {
             ajaxGet('#(CAPTH)/ucenter/cart/doDel?id=' + id, function () {
                 location.reload()
@@ -395,7 +375,7 @@
                     <td>#(userCart.shouldPayPrice ??)</td>
                     <td>
                         <a href="#(CPATH)/ucenter/checkout/#(userCart.id ??)">结算</a>
-                        <a href="javascript:;" onclick="del('#(userCart.id)')">删除</a>
+                        <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
                     </td>
                     </tr>
                     #end

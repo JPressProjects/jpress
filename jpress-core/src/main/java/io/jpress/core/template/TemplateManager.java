@@ -121,36 +121,41 @@ public class TemplateManager {
 
     public Template getCurrentTemplate() {
         Template previewTemplate = getPreviewTemplate();
-        if (previewTemplate != null){
+        if (previewTemplate != null) {
             return previewTemplate;
         }
+
         String templateId = currentTemplateId.get();
-        if (currentTemplate.getId().equals(templateId)) {
+        if (currentTemplate != null && currentTemplate.getId().equals(templateId)) {
             return currentTemplate;
-        } else if (StrUtil.isNotBlank(templateId)){
+        } else if (StrUtil.isNotBlank(templateId)) {
             setCurrentTemplate(templateId);
+        } else {
+            initDefaultTemplate(JPressOptions.get("web_template"));
         }
+
         return currentTemplate;
     }
 
 
     /**
      * 获取预览的模板
+     *
      * @return
      */
-    public Template getPreviewTemplate(){
+    public Template getPreviewTemplate() {
 
-        if (!JPressConfig.me.isTemplatePreviewEnable()){
+        if (!JPressConfig.me.isTemplatePreviewEnable()) {
             return null;
         }
 
         Controller controller = JbootControllerContext.get();
-        if (controller == null){
+        if (controller == null) {
             return null;
         }
 
         String tId = controller.getPara("template");
-        if (StrUtil.isBlank(tId)){
+        if (StrUtil.isBlank(tId)) {
             return null;
         }
 
@@ -168,13 +173,13 @@ public class TemplateManager {
     }
 
 
-    public void clearCache(){
+    public void clearCache() {
         clearCache(true);
     }
 
-    public void clearCache(boolean withNotify){
+    public void clearCache(boolean withNotify) {
         RenderManager.me().getEngine().removeAllTemplateCache();
-        if (withNotify && notifier != null){
+        if (withNotify && notifier != null) {
             notifier.notifyClearCache();
         }
     }

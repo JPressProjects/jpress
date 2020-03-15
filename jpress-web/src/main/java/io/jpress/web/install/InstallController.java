@@ -121,7 +121,7 @@ public class InstallController extends ControllerBase {
 
     public void step3() {
 
-        if (!InstallManager.me().isInited()){
+        if (!InstallManager.me().isInited()) {
             redirect("/install");
             return;
         }
@@ -218,7 +218,7 @@ public class InstallController extends ControllerBase {
         }
 
         // 设置 JPress 的版本
-        if (ret.isOk()){
+        if (ret.isOk()) {
 
             OptionService optionService = Aop.get(OptionService.class);
             optionService.saveOrUpdate("jpress_version", JPressConsts.VERSION);
@@ -248,24 +248,18 @@ public class InstallController extends ControllerBase {
             if (pwd.equals(confirmPwd) == false) {
                 return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
             }
-
-
-            try {
-                InstallManager.me().doUpgradeDatabase();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return Ret.fail().set("message", e.getMessage());
-            }
-
-
-            initActiveRecordPlugin();
-
-            initFirstUser();
-
-        } else {
-            initActiveRecordPlugin();
         }
 
+        try {
+            InstallManager.me().doUpgradeDatabase();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Ret.fail().set("message", e.getMessage());
+        }
+
+        initActiveRecordPlugin();
+
+        initFirstUser(username, pwd);
 
         if (doFinishedInstall()) {
             return Ret.ok();
@@ -294,14 +288,12 @@ public class InstallController extends ControllerBase {
             if (pwd.equals(confirmPwd) == false) {
                 return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
             }
-
-            initActiveRecordPlugin();
-
-            initFirstUser();
-
-        } else {
-            initActiveRecordPlugin();
         }
+
+
+        initActiveRecordPlugin();
+
+        initFirstUser(username, pwd);
 
 
         if (doFinishedInstall()) {
@@ -367,7 +359,7 @@ public class InstallController extends ControllerBase {
         JPressOptions.set("web_title", webTitle);
         JPressOptions.set("web_subtitle", webSubtitle);
 
-        initFirstUser();
+        initFirstUser(username, pwd);
 
         if (doFinishedInstall()) {
             return Ret.ok();
@@ -377,11 +369,17 @@ public class InstallController extends ControllerBase {
 
     }
 
-    private void initFirstUser() {
+    /**
+     * 初始化第一个用户
+     *
+     * @param username
+     * @param pwd
+     */
+    private void initFirstUser(String username, String pwd) {
 
-        String username = getPara("username");
-        String pwd = getPara("pwd");
-
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(pwd)) {
+            return;
+        }
 
         UserService userService = Aop.get(UserService.class);
         User user = userService.findById(1L);
@@ -414,7 +412,7 @@ public class InstallController extends ControllerBase {
         RoleService roleService = Aop.get(RoleService.class);
 
         Role role = roleService.findById(1L);
-        if (role == null){
+        if (role == null) {
             role = new Role();
             role.setCreated(new Date());
         }

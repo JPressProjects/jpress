@@ -252,7 +252,8 @@ public class InstallController extends ControllerBase {
 
         try {
             InstallManager.me().doUpgradeDatabase();
-        } catch (SQLException e) {
+            Thread.sleep(2000);
+        } catch (Exception e) {
             e.printStackTrace();
             return Ret.fail().set("message", e.getMessage());
         }
@@ -343,7 +344,8 @@ public class InstallController extends ControllerBase {
 
         try {
             InstallManager.me().doInitDatabase();
-        } catch (SQLException e) {
+            Thread.sleep(2000);
+        } catch (Exception e) {
             e.printStackTrace();
             return Ret.fail().set("message", e.getMessage());
         }

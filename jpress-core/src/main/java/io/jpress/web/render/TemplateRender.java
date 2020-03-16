@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,15 @@
 package io.jpress.web.render;
 
 import com.jfinal.core.JFinal;
+import com.jfinal.kit.LogKit;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.render.RenderHelpler;
+import io.jpress.JPressConfig;
 import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -45,7 +49,11 @@ public class TemplateRender extends Render {
     private static final String contentType = "text/html; charset=" + getEncoding();
     private static String contextPath = JFinal.me().getContextPath();
     private int errorCode = 0;
+
+
+    private Template currentTemplate = TemplateManager.me().getCurrentTemplate();
     private String cdnDomain = JPressOptions.getCDNDomain();
+    private boolean templatePreviewEnable = JPressConfig.me.isTemplatePreviewEnable();
 
     private Engine getEngine() {
         if (engine == null) {
@@ -57,6 +65,11 @@ public class TemplateRender extends Render {
 
     public TemplateRender(String view) {
         this.view = view;
+    }
+
+    public TemplateRender(String view, boolean templatePreviewEnable) {
+        this.view = view;
+        this.templatePreviewEnable = templatePreviewEnable;
     }
 
     public TemplateRender(String view, int code) {
@@ -81,20 +94,60 @@ public class TemplateRender extends Render {
             data.put(attrName, request.getAttribute(attrName));
         }
 
-        String html = getEngine().getTemplate(view).renderToString(data);
-        html = replaceSrcPath(html);
+        com.jfinal.template.Template template = null;
+        try {
+            template = getEngine().getTemplate(view);
+        } catch (RuntimeException ex) {
+            if (ex.getMessage().contains("File not found")) {
+                RenderHelpler.renderHtml(response, buildTemplateNotExistsMessage(), contentType);
+                LogKit.error(ex.toString(), ex);
+            } else {
+                throw ex;
+            }
+        }
 
-        RenderHelpler.renderHtml(response, html, contentType);
+        RenderHelpler.renderHtml(response, buildNormalHtml(template.renderToString(data)), contentType);
+    }
 
+    private String buildTemplateNotExistsMessage() {
+
+        String renderView = view.contains("/") ? view.substring(view.lastIndexOf("/") + 1) : view;
+        String paraView = JbootControllerContext.get().get("v");
+        Template template = TemplateManager.me().getCurrentTemplate();
+
+
+        StringBuilder msgBuilder = new StringBuilder("<html><head><title>错误：模板文件不存在! </title></head>");
+        msgBuilder.append("<body bgcolor='white'>以下模板文件不存在：<br /><br />");
+
+        if (StrUtil.isNotBlank(paraView)) {
+            paraView = paraView + ".html";
+            msgBuilder.append("----");
+            msgBuilder.append(template == null ? paraView : template.buildRelativePath(paraView));
+            msgBuilder.append("<br />");
+        }
+
+        msgBuilder.append("----");
+        msgBuilder.append(template == null ? paraView : template.buildRelativePath(renderView));
+        msgBuilder.append("<br />");
+
+
+        if (!view.equals(template.buildRelativePath(renderView))) {
+            msgBuilder.append("----");
+            msgBuilder.append(view);
+            msgBuilder.append("<br />");
+        }
+
+        return msgBuilder.append("</body></html>").toString();
     }
 
 
+    @Override
     public String toString() {
         return view;
     }
 
 
-    public String replaceSrcPath(String content) {
+    public String buildNormalHtml(String content) {
         if (StrUtil.isBlank(content)) {
             return content;
         }
@@ -104,23 +157,27 @@ public class TemplateRender extends Render {
         doc.outputSettings().prettyPrint(false);
         doc.outputSettings().outline(false);
 
-        Elements jsElements = doc.select("script[src]");
+        Elements jsElements = doc.select("script");
         replace(jsElements, "src");
 
-        Elements imgElements = doc.select("img[src]");
+        Elements imgElements = doc.select("img");
         replace(imgElements, "src");
 
-        Elements linkElements = doc.select("link[href]");
+        Elements linkElements = doc.select("link");
         replace(linkElements, "href");
 
-        return doc.toString();
+        //开启模板预览功能
+        if (templatePreviewEnable && TemplateManager.me().getPreviewTemplate() != null) {
+            Elements aElements = doc.select("a");
+            replacePreviewHref(aElements);
+        }
 
+        return doc.toString();
     }
 
     private void replace(Elements elements, String attrName) {
         Iterator<Element> iterator = elements.iterator();
-        Template template = TemplateManager.me().getCurrentTemplate();
-        if (template == null) {
+        if (currentTemplate == null) {
             return;
         }
         while (iterator.hasNext()) {
@@ -132,8 +189,7 @@ public class TemplateRender extends Render {
                     || url.startsWith("//")
                     || url.toLowerCase().startsWith("http")
                     || (attrName.equals("src") && url.startsWith("data:image/"))
-                    || element.hasAttr("cdn-exclude")
-            ) {
+                    || element.hasAttr("cdn-exclude")) {
                 continue;
             }
 
@@ -146,12 +202,12 @@ public class TemplateRender extends Render {
 
             // 以 ./ 开头的文件，需要添加模板路径
             else if (url.startsWith("./")) {
-                url = contextPath + template.getRelativePath() + url.substring(1);
+                url = contextPath + currentTemplate.getRelativePath() + url.substring(1);
             }
 
             // 直接是文件目录名开头
             else {
-                url = contextPath + template.getRelativePath() + "/" + url;
+                url = contextPath + currentTemplate.getRelativePath() + "/" + url;
             }
 
             if (StrUtil.isNotBlank(cdnDomain)) {
@@ -160,6 +216,49 @@ public class TemplateRender extends Render {
 
             element.attr(attrName, url);
         }
+    }
+
+    private void replacePreviewHref(Elements elements) {
+        Iterator<Element> iterator = elements.iterator();
+        RequestUtil.getCurrentUrl();
+        while (iterator.hasNext()) {
+            Element element = iterator.next();
+            String url = element.attr("href");
+            element.attr("href", buildUrl(url));
+        }
+    }
+
+
+    private String buildUrl(String originalUrl) {
+        if (StrUtil.isBlank(originalUrl)
+                || originalUrl.toLowerCase().startsWith("http")
+                || originalUrl.toLowerCase().startsWith("javascript:")
+                || originalUrl.startsWith("//")) {
+            return originalUrl;
+        }
+
+        String url = originalUrl;
+        String anchor = null;
+
+        int anchorIndex = url.indexOf("#");
+        if (anchorIndex > 0) {
+            url = originalUrl.substring(0, anchorIndex);
+            anchor = originalUrl.substring(anchorIndex);
+        }
+
+        StringBuilder urlBuilder = new StringBuilder(url);
+
+        if (url.contains("?")) {
+            urlBuilder.append("&template=").append(currentTemplate.getId());
+        } else {
+            urlBuilder.append("?template=").append(currentTemplate.getId());
+        }
+
+        if (StrUtil.isNotBlank(anchor)) {
+            urlBuilder.append(anchor);
+        }
+
+        return urlBuilder.toString();
     }
 
 }

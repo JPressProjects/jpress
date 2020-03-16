@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,13 +52,16 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     @Override
     public boolean deleteByIds(Object... ids) {
         for (Object id : ids) {
-            User user = findById(id);
-            if (user != null) {
-                //必须通过  delete(user) 才能清除缓存
-                delete(user);
-            }
+            deleteById(id);
         }
         return true;
+    }
+
+
+    @Override
+    public boolean deleteById(Object id) {
+        openidService.batchDeleteByUserId(id);
+        return delete(findById(id));
     }
 
 
@@ -94,15 +97,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
             return null;
         }
 
-        StringBuilder sqlBuilder = new StringBuilder("select u.* from `user` u ");
+        return DAO.leftJoin("user_tag_mapping").as("m").on("user.id=m.user_id")
+                .findListByColumns(columns.in("m.tag_id", tagIds), "user.id desc");
 
-        sqlBuilder.append("left join user_tag_mapping utm on u.id = utm.user_id");
-        columns.in("utm.tag_id", tagIds);
-
-        sqlBuilder.append(SqlUtils.toWhereSql(columns));
-        sqlBuilder.append(" order by u.id desc");
-
-        return DAO.find(sqlBuilder.toString(), columns.getValueArray());
     }
 
     @Override
@@ -128,7 +125,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         String hashedPass = HashKit.sha256(salt + pwd);
 
         // 未通过密码验证
-        if (user.getPassword().equals(hashedPass) == false) {
+        if (!user.getPassword().equals(hashedPass)) {
             return Ret.fail("message", "用户名或密码不正确");
         }
 
@@ -223,11 +220,16 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
         }
     }
 
+    @Override
+    public boolean delete(User model) {
+        openidService.batchDeleteByUserId(model.getId());
+        return super.delete(model);
+    }
 
     @Override
-    public void shouldUpdateCache(int action, Object data) {
-        if (data instanceof User) {
-            User user = (User) data;
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        if (model instanceof User) {
+            User user = (User) model;
 //            if (user.getWxOpenid() != null) {
 //                Jboot.getCache().remove("userOpenIds", user.getWxOpenid());
 //            }

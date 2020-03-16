@@ -298,6 +298,25 @@ screenshot = screenshot.png
 | #articleSearchPage() | 文章搜索结果页 artsearch.html | 用于渲染搜索结果 |  
 
 
+产品相关指令：
+
+| 指令名称 | 可用页面 |描述 |  
+| --- | --- | --- | 
+| #products() | 任意 | 获取产品的列表 |  
+| #categoryProducts() | 任意 | 用根据分类获取产品内容 | 
+| #nextProduct() | 产品详情：product.htm | 下一个产品 | 
+| #previousProduct() | 产品详情：product.htm| 上一个产品 | 
+| #productCategories() | 任意 | 获取某个产品对应的分类或者标签 | 
+| #productCategoryList() | 任意 | 产品分类列表 | 
+| #productCommentPage() | 产品详情：product.htm | 产品评论分页 | 
+| #product() | 任意 | 根据产品id或者slug读取产品信息 | 
+| #productPage() | 任意 | 产品分页 |
+| #productSearchPage() | 任意 | 产品搜索分页 | 
+| #productTags() | 任意 | 产品标签 |  
+| #relevantProducts() | 任意 | 某个产品的相关产品（相同tag的产品） |  
+
+
+
 页面相关指令：
 
 | 指令名称 | 可用页面 |描述 |  
@@ -674,7 +693,7 @@ public class PageModuleGenerator {
 
     private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/newjpress";
     private static String dbUser = "root";
-    private static String dbPassword = "";
+    private static String dbPassword = "123456";
 
 
     private static String moduleName = "club";

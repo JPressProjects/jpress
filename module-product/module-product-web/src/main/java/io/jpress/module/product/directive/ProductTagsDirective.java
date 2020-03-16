@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,7 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章分类：分类、专题、标签等
- * @Package io.jpress.module.article.directives
+ * @Title: 某个产品的标签
  */
 @JFinalDirective("productTags")
 public class ProductTagsDirective extends JbootDirectiveBase {
@@ -42,10 +41,14 @@ public class ProductTagsDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        String orderBy = getPara("orderBy", scope, "id desc");
-        int count = getParaToInt("count", scope, 10);
+        Long id = getParaToLong(0, scope);
 
-        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_TAG,orderBy,count);
+        if (id == null) {
+            throw new IllegalArgumentException("#productTags(id) args error. id must not be null." + getLocation());
+        }
+
+
+        List<ProductCategory> categories = categoryService.findListByProductId(id, ProductCategory.TYPE_TAG);
         if (categories == null || categories.isEmpty()) {
             return;
         }

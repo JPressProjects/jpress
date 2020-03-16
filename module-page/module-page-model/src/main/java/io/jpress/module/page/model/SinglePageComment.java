@@ -63,14 +63,14 @@ public class SinglePageComment extends BaseSinglePageComment<SinglePageComment> 
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
+        CommonsUtils.escapeModel(this, "content");
         JsoupUtils.clean(this, "content");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeHtmlForAllAttrs(this, "content");
+        CommonsUtils.escapeModel(this, "content");
         JsoupUtils.clean(this, "content");
         return super.update();
     }

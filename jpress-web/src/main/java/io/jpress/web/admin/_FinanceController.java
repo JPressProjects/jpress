@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -88,7 +89,7 @@ public class _FinanceController extends AdminControllerBase {
 
     @AdminMenu(text = "提现管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 4)
     public void payout() {
-        Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(), 10, Columns.create("status",getPara("status")), "id desc");
+        Page<UserAmountPayout> page = payoutService.paginateByColumns(getPagePara(), 10, Columns.create("status", getPara("status")), "id desc");
         userService.join(page, "user_id");
         setAttr("page", page);
 
@@ -110,7 +111,8 @@ public class _FinanceController extends AdminControllerBase {
         UserAmountPayout payout = payoutService.findById(getPara());
 
         setAttr("payout", payout);
-        setAttr("userAmount", userService.queryUserAmount(getLoginedUser().getId()));
+        //modified by jializheng 20200218 取提现申请人的余额信息，而非当前登录用户（管理员）
+        setAttr("userAmount", userService.queryUserAmount(payout.getUserId()));
 
         render("finance/payoutdetail.html");
     }
@@ -130,8 +132,8 @@ public class _FinanceController extends AdminControllerBase {
     public void doPayoutProcess() {
         UserAmountPayout payout = payoutService.findById(getPara("id"));
 
-
-        BigDecimal userAmount = userService.queryUserAmount(getLoginedUser().getId());
+        //modified by jializheng 20200218 取提现申请人的余额信息，而非当前登录用户（管理员）
+        BigDecimal userAmount = userService.queryUserAmount(payout.getUserId());
         if (userAmount == null || userAmount.compareTo(payout.getAmount()) < 0) {
             renderFailJson("用户余额不足，无法提现。");
             return;
@@ -144,25 +146,37 @@ public class _FinanceController extends AdminControllerBase {
             return;
         }
 
-        payout.setStatus(UserAmountPayout.STATUS_SUCCESS);
-        payout.setPaySuccessProof(getPara("proof"));
-        payoutService.update(payout);
+        Db.tx(() -> {
+            payout.setStatus(UserAmountPayout.STATUS_SUCCESS);
+            payout.setPaySuccessProof(getPara("proof"));
+            if (!payoutService.update(payout)) {
+                return false;
+            }
 
+            //生成提现用户的流水信息
+            UserAmountStatement statement = new UserAmountStatement();
+            statement.setUserId(payout.getUserId());
+            statement.setAction(UserAmountStatement.ACTION_PAYOUT);
+            statement.setActionDesc("用户提现");
+            statement.setActionName("用户提现");
+            statement.setActionRelativeType("user_amount_payout");
+            statement.setActionRelativeId(payout.getId());
+            statement.setOldAmount(userAmount);
+            statement.setChangeAmount(BigDecimal.ZERO.subtract(payout.getAmount()));
+            statement.setNewAmount(userAmount.subtract(payout.getAmount()));
 
-        UserAmountStatement statement = new UserAmountStatement();
-        statement.setUserId(getLoginedUser().getId());
-        statement.setAction(UserAmountStatement.ACTION_PAYOUT);
-        statement.setActionDesc("用户提现");
-        statement.setActionName("用户提现");
-        statement.setActionRelativeType("user_amount_payout");
-        statement.setActionRelativeId(payout.getId());
-        statement.setOldAmount(userAmount);
-        statement.setChangeAmount(BigDecimal.ZERO.subtract(payout.getAmount()));
-        statement.setNewAmount(userAmount.subtract(payout.getAmount()));
-        statementService.save(statement);
+            if (statementService.save(statement) == null) {
+                return false;
+            }
 
-        userService.updateUserAmount(payout.getUserId(), userAmount, BigDecimal.ZERO.subtract(payout.getAmount()));
+            if (userService.updateUserAmount(payout.getUserId()
+                    , userAmount
+                    , BigDecimal.ZERO.subtract(payout.getAmount()))) {
+                return false;
+            }
 
+            return true;
+        });
         renderOkJson();
     }
 

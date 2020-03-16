@@ -4,10 +4,9 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.model.CouponCode;
-import io.jpress.model.UserOrder;
-import io.jpress.model.UserOrderDelivery;
-import io.jpress.model.UserOrderItem;
+import io.jpress.core.finance.OrderManager;
+import io.jpress.core.finance.ProductManager;
+import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
 import io.jpress.web.commons.express.ExpressInfo;
@@ -35,6 +34,9 @@ public class OrderController extends UcenterControllerBase {
     @Inject
     private UserOrderDeliveryService deliveryService;
 
+    @Inject
+    private UserOrderInvoiceService invoiceService;
+
     /**
      * 用户订单列表
      */
@@ -52,9 +54,20 @@ public class OrderController extends UcenterControllerBase {
         UserOrder order = orderService.findById(getIdPara());
         render404If(notLoginedUserModel(order, "buyer_id"));
 
+        List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
+
         setAttr("order", order);
-        setAttr("orderItems", orderItemService.findListByOrderId(order.getId()));
+        setAttr("orderItems", orderItems);
         setAttr("orderUser", userService.findById(order.getBuyerId()));
+        setAttr("invoice", invoiceService.findById(order.getInvoiceId()));
+        setAttr("delivery", deliveryService.findById(order.getDeliveryId()));
+
+
+        if (orderItems != null) {
+            for (UserOrderItem item : orderItems) {
+                item.put("optionsMap", ProductManager.me().renderProductOptions(item));
+            }
+        }
 
         if (StrUtil.isNotBlank(order.getCouponCode())) {
             CouponCode couponCode = couponCodeService.findByCode(order.getCouponCode());
@@ -65,12 +78,15 @@ public class OrderController extends UcenterControllerBase {
         //如果快递已经发货
         if (order.isDeliveried()) {
             UserOrderDelivery delivery = deliveryService.findById(order.getDeliveryId());
-            List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
-            setAttr("expressInfos", expressInfos);
+            if (delivery != null) {
+                List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
+                setAttr("expressInfos", expressInfos);
+            }
         }
 
 
         setAttr("order", order);
+
         render("order_detail.html");
     }
 
@@ -78,7 +94,7 @@ public class OrderController extends UcenterControllerBase {
         UserOrderItem item = orderItemService.findById(getPara());
         render404If(notLoginedUserModel(item, "buyer_id"));
 
-        redirect(item.getCommentPath() + "?id=" + item.getProductId() + "&itemId=" + item.getId());
+        redirect(item.getCommentPath() + "?productId=" + item.getProductId() + "&orderItemId=" + item.getId());
     }
 
 
@@ -101,12 +117,46 @@ public class OrderController extends UcenterControllerBase {
     }
 
 
+    public void applyForInvoice(){
+        UserOrder userOrder = orderService.findById(getPara());
+        render404If(notLoginedUserModel(userOrder, "buyer_id"));
+
+        setAttr("order",userOrder);
+        render("order_layer_invoice.html");
+    }
+
+
+    public void doApplyForInvoice(){
+
+        UserOrder userOrder = orderService.findById(getPara("orderId"));
+        render404If(notLoginedUserModel(userOrder, "buyer_id"));
+
+        UserOrderInvoice invoice = getModel(UserOrderInvoice.class,"invoice");
+        invoice.setStatus(UserOrderInvoice.INVOICE_STATUS_APPLYING); //设置状态为申请中
+
+
+        Long id = (Long) invoiceService.save(invoice);
+        userOrder.setInvoiceId(id);
+        userOrder.setInvoiceStatus(UserOrder.INVOICE_STATUS_APPLYING);
+
+        orderService.update(userOrder);
+
+        renderOkJson();
+    }
+
+    /**
+     * 用户在用户中心确认收货
+     */
     public void doFlagDelivery() {
         UserOrder userOrder = orderService.findById(getPara());
         render404If(notLoginedUserModel(userOrder, "buyer_id"));
 
-        userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
+        if (userOrder.isDeliverFinished()) {
+            renderOkJson();
+            return;
+        }
 
+        userOrder.setDeliveryStatus(UserOrder.DELIVERY_STATUS_FINISHED);
         UserOrderDelivery delivery = deliveryService.findById(userOrder.getDeliveryId());
         if (delivery != null) {
             delivery.setFinishTime(new Date());
@@ -114,7 +164,17 @@ public class OrderController extends UcenterControllerBase {
             deliveryService.update(delivery);
         }
 
-        orderService.update(userOrder);
+        boolean needNotifyStatusChaned = false;
+        if (!userOrder.isFinished()) {
+            userOrder.setTradeStatus(UserOrder.TRADE_STATUS_FINISHED);
+            needNotifyStatusChaned = true;
+        }
+
+        if (orderService.update(userOrder) || needNotifyStatusChaned) {
+            OrderManager.me().notifyOrderStatusChanged(userOrder);
+        }
+
+
         renderOkJson();
     }
 

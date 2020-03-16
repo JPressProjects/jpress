@@ -4,11 +4,13 @@
 <script src="#(CPATH)/static/components/distpicker/distpicker.min.js"></script>
 <script>
 
+
+    var globalTotalPrice;//总金额
     $(".add").on("click", function () {
         var itemId = $(this).attr("data-value");
         var that = $(this);
 
-        ajaxPost('/ucenter/cart/addcount', {id: itemId}, function (ret) {
+        ajaxPost('#(CPATH)/ucenter/cart/addcount', {id: itemId}, function (ret) {
             var input = that.prev();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -25,7 +27,7 @@
     $(".subtract").on("click", function () {
         var itemId = $(this).attr("data-value");
         var that = $(this);
-        ajaxPost('/ucenter/cart/subtractcount', {id: itemId}, function (ret) {
+        ajaxPost('#(CPATH)/ucenter/cart/subtractcount', {id: itemId}, function (ret) {
             var input = that.next();
             var inputVal = input.val();
             if (inputVal && inputVal != "") {
@@ -44,13 +46,14 @@
 
         var row = btn.parent().parent().parent("tr").prevAll().length + 1;
         var col = btn.parent().parent().prevAll().length;
-        //
+
         // var price = parseFloat(getTableContent(row, col - 1));
         // var totalPrice = price * val;
 
         setTableContent(row, col + 1, shouldPayPrice);
         doComputeTotalPrice();
     }
+
 
 
     function doComputeTotalPrice() {
@@ -60,7 +63,10 @@
             totalPrice += parseFloat(getTableContent(index, 3));
         }
 
-        $('#totalPrice').text(totalPrice.toFixed(2));
+        var tp = totalPrice.toFixed(2);
+        globalTotalPrice = tp;
+        $('#totalPrice').text(tp);
+        $('#payPrice').text(tp);
     }
 
     function getTableContent(row, col) {
@@ -89,34 +95,72 @@
     }
 
 
-    function doDel(id) {
-        if (confirm('确定要删除该记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/cart/doDel/" + id)
+    function doDelCart(id) {
+        if (confirm("确定要删除该商品吗？")) {
+            ajaxGet('#(CAPTH)/ucenter/cart/doDel?id=' + id, function () {
+                location.reload()
+            })
         }
     }
 
 
     $('#checkout').on('submit', function () {
-        $(this).ajaxSubmit({
-            type: "post",
-            success: function (result) {
-                if (result.state == "ok") {
-                    location.href = '#(CPATH)/ucenter/checkout/payorder/' + result.orderId + "?paytype=" + result.paytype;
-                    // window.open(url,'_blanck');
+
+        var self = this;
+        layer.confirm('确认要下单吗？', {
+            btn : [ '确定', '取消' ]//按钮
+        }, function(index) {
+
+            $(self).ajaxSubmit({
+                type: "post",
+                success: function (result) {
+                    if (result.state == "ok") {
+                        location.href = '#(CPATH)/ucenter/checkout/payorder/' + result.orderId + "?paytype=" + result.paytype;
+                    }
+                    //fail
+                    else {
+                        showErrorMessage(result.message);
+                    }
+                },
+                error: function () {
+                    showErrorMessage('系统错误，请稍后重试。');
                 }
-                //fail
-                else {
-                    showErrorMessage(result.message);
-                }
-            },
-            error: function () {
-                showErrorMessage('系统错误，请稍后重试。');
-            }
+            });
+
+            layer.close(index);
+
         });
         return false;
     });
 
-    doComputeTotalPrice();
+
+    $('#select-coupon-code').click(function () {
+        selectCouponCode(globalTotalPrice);
+    });
+
+
+    function selectCouponCode(price) {
+        layer.data = {}
+        layer.open({
+            type: 2,
+            title: "选择优惠码",
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['60%', '60%'],
+            content: '#(CPATH)/ucenter/coupon/layer?price='+price,
+            end: function () {
+                if (layer.data.couponCode){
+                    var payPrice = parseFloat(globalTotalPrice)-parseFloat(layer.data.couponAmount);
+                    $('#payPrice').text(payPrice.toFixed(2));
+                    $('#coupon-price-span').text('优惠券:-'+(parseFloat(layer.data.couponAmount)));
+                    $('#coupon-code-input').val(layer.data.couponCode);
+                    $('#coupon-code-input').attr('readonly',true);
+                    $('#select-coupon-code').text('选择优惠券（已选:'+layer.data.couponTitle+'）');
+                }
+            }
+        });
+    }
 
     function seleteAddress() {
         layer.data = {}
@@ -145,6 +189,11 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        doComputeTotalPrice();
+        $("[name='paytype']:first").attr("checked", "checked");
+    });
 
 
 </script>
@@ -192,6 +241,10 @@
         height: 60px;
     }
 
+    .table > tbody > tr > td {
+        vertical-align: middle;
+    }
+
 </style>
 #end
 
@@ -229,7 +282,14 @@
 
                         #for(userCart : userCarts )
                         <tr>
-                            <td>#(userCart.product_title ??)</td>
+                            <td>
+                                #(userCart.product_title ??)
+                                <div style="color: #9c9c9c">
+                                    #for(option : userCart.optionsMap)
+                                    #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
+                                    #end
+                                </div>
+                            </td>
                             <td>
                                 #if(userCart.memberPrice && userCart.memberPrice < userCart.newProductPrice)
                                 <s>原价：#(userCart.newProductPrice ??)</s>
@@ -248,7 +308,7 @@
                             </td>
                             <td>#(userCart.shouldPayPrice ??)</td>
                             <td>
-                                <a href="javascript:;" onclick="doDel('#(userCart.id)')">删除</a>
+                                <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
                             </td>
                         </tr>
                         #end
@@ -263,7 +323,12 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-footer">
+                        <small class="pull-right" style="font-size: 16px"> <span id="coupon-price-span" class="text-primary"></span> </small>
+                        <br>
                         <small class="pull-right">总价格: <span id="totalPrice">#.##</span> ￥</small>
+                        <br>
+                        <small class="pull-right">需支付: <span id="payPrice">#.##</span> ￥</small>
+
                     </h2>
                 </div>
             </div>
@@ -285,7 +350,7 @@
 
             <div class="row">
                 <!-- accepted payments column -->
-                <div class="col-xs-6">
+                <div class="col-lg-6">
                     <div class="box box-dashboard">
                         <div class="box-header with-border">
                             <h3 class="box-title">收件人信息</h3>
@@ -311,11 +376,11 @@
                                 <label>地址</label>
                                 <div data-toggle="distpicker" class="form-inline" data-autoselect="3" id="distpicker">
                                     <select class="form-control" name="order.delivery_addr_province" id="addr_province"
-                                            data-province="#(data.province ?? '---- 选择省 ----')"></select>
+                                            data-province="#(defaultAddress.province ?? '---- 选择省 ----')"></select>
                                     <select class="form-control" name="order.delivery_addr_city" id="addr_city"
-                                            data-city="#(data.city ?? '---- 选择市 ----')"></select>
+                                            data-city="#(defaultAddress.city ?? '---- 选择市 ----')"></select>
                                     <select class="form-control" name="order.delivery_addr_district" id="addr_district"
-                                            data-district="#(data.district ?? '---- 选择区 ----')"></select>
+                                            data-district="#(defaultAddress.district ?? '---- 选择区 ----')"></select>
                                 </div>
                             </div>
 
@@ -337,7 +402,7 @@
                             <div class="col-xs-12">
                                 <button type="button" class="btn btn-primary pull-right" onclick="seleteAddress()">
                                     <i class="fa fa-fw fa-street-view"></i>
-                                    选择我之前的地址
+                                    选择其他地址
                                 </button>
                             </div>
 
@@ -348,7 +413,7 @@
 
                 </div>
                 <!-- /.col -->
-                <div class="col-xs-6">
+                <div class="col-lg-6">
                     <div class="box box-dashboard">
                         <div class="box-header with-border">
                             <h3 class="box-title">支付信息</h3>
@@ -361,7 +426,7 @@
                                 #if(wechatxConfig.isEnable())
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="paytype" value="wechatx" checked>
+                                        <input type="radio" name="paytype" value="wechatx">
                                         微信转账支付
                                     </label>
                                 </div>
@@ -380,7 +445,7 @@
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="wechat">
-                                        微信扫码支付
+                                        微信支付
                                     </label>
                                 </div>
                                 #end
@@ -389,7 +454,7 @@
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="alipay">
-                                        支付宝扫码支付
+                                        支付宝支付
                                     </label>
                                 </div>
                                 #end
@@ -415,8 +480,10 @@
 
                             <div class="form-group">
                                 <label>优惠码（券）</label>
-                                <input type="text" class="form-control" name="coupon_code" placeholder="请输入优惠码...">
+                                <input type="text" class="form-control" id="coupon-code-input" name="coupon_code" placeholder="请输入优惠码...">
+                                <p class="help-block"><a href="javascript:;" id="select-coupon-code">选择优惠券</a></p>
                             </div>
+
 
                             <div class="form-group">
                                 <label>买家留言</label>

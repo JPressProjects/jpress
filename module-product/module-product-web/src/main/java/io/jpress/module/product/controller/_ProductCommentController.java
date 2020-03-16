@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.model.User;
 import io.jpress.module.product.model.ProductComment;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.web.base.AdminControllerBase;
@@ -73,6 +74,33 @@ public class _ProductCommentController extends AdminControllerBase {
         render("product/comment_edit.html");
     }
 
+
+    public void reply() {
+        long id = getIdPara();
+        ProductComment comment = commentService.findById(id);
+        setAttr("comment", comment);
+        render("product/comment_reply.html");
+    }
+
+
+    public void doReply(String content, Long productId, Long pid) {
+        User user = getLoginedUser();
+
+        ProductComment comment = new ProductComment();
+        comment.setContent(content);
+        comment.setUserId(user.getId());
+        comment.setAuthor(user.getNickname());
+        comment.setStatus(ProductComment.STATUS_NORMAL);
+        comment.setProductId(productId);
+        comment.setPid(pid);
+
+        commentService.save(comment);
+        renderOkJson();
+    }
+
+
+
+
     public void doSave() {
         ProductComment entry = getModel(ProductComment.class, "productComment");
         commentService.saveOrUpdate(entry);
@@ -83,6 +111,11 @@ public class _ProductCommentController extends AdminControllerBase {
     public void doDel() {
         Long id = getIdPara();
         render(commentService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+
+    public void doCommentStatusChange(Long id, int status) {
+        render(commentService.doChangeStatus(id, status) ? OK : FAIL);
     }
 
     @EmptyValidate(@Form(name = "ids"))

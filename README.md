@@ -4,7 +4,7 @@
 <h1 align="center"><a href="http://www.jpress.io" target="_blank"> JPress </a></h1>
 
 <p align="center">
-一个类似 WordPress 的产品，使用Java开发。
+一个使用 Java 开发的类似 WordPress 的产品，并在此基础上增加了电商的功能。
 </p>
 
 
@@ -20,15 +20,39 @@
 
 #### 内容相关
 - 文章管理
+- 文章分类
+- 文章标签
+- 文章搜索（支持 sql like、Lucene、es、OpenSearch）
+- 用户投稿
 - 页面管理
-- 产品管理
+- 评论管理
 - 附件管理
+
+
+#### 电商相关
+- 产品管理
+- 产品分类
+- 产品标签
+- 产品搜索（支持 sql like、Lucene、es、OpenSearch）
+- 产品分销
+- 会员管理
+- 订单管理
+- 分销管理
+- 提现管理
+- 优惠券管理
+- 支付配置
+- 物流配置
+
 
 #### 用户相关
 - 用户管理
 - 会员管理
 - 权限管理
 - 订单管理
+- 用户标签
+- 短信群发
+- 邮件群发
+
 
 #### 系统相关
 - 模板管理
@@ -70,7 +94,7 @@
 - 独立登录、注册入口
 - 手机短信、邮箱激活功能
 - 用户中心（投稿、文章管理、评论管理、个人资料管理等）
-- 第三方登录：微信、QQ等
+- 第三方登录：微信、QQ、钉钉、oschina、GitHub等
 - 微信浏览时，通过微信授权自动获取用户信息
 
 
@@ -130,6 +154,7 @@
 - [了解JPress](http://www.jpress.io)
 - [快速开始](http://www.jpress.io/article/34)
 - [安装](http://www.jpress.io/article/34)
+- [升级](./doc/upgrade.md)
 - [使用](./doc/manual.md)
 - [模板开发](http://www.jpress.io/article/39)
 - [二次开发](http://www.jpress.io/article/68)
@@ -142,30 +167,39 @@
 
 ## 运行JPress
 
-**在 Linux 上运行**
 
-```
-wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
-```
-
-**在 Mac 上运行**
+**在 Docker 上运行**
 
 ```
 curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
 ```
 
+**在 Linux 上一键安装**
+
+```
+wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
+```
+
+> 视频教程链接: https://pan.baidu.com/s/1ciA2DglE-JV-YiU3ojtmew 提取码: 37g5
+
+
 **通过 Eclipse 或者 Idea 等开发工具运行**
 
-- 1、安装好 Java、Maven 等工具
-- 2、源码导入开发工具后，在项目根目录执行 `mvn clean install` 命令进行编译
-- 3、右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
-- 4、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
+- 1、在电脑安装好 Java、Maven 等开发环境
+- 2、将源码下载、并导入 eclipse 或者 idea 
+- 3、在项目的**根目录**，执行 `mvn clean install` 命令进行编译
+- 4、在开发工具，右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
+- 5、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
+
 
 > 可能遇到的问题： 
 > 
 > 1、执行 `mvn clean` 后，再次运行 JPress，JPress 会重新走安装流程。
 >
 > 解决方案： jpress 在安装过程中，会在 `starter/target/classes` 目录下生成的 `jboot.properties` 和 `install.lock` 文件，我们需要把这两个文件复制到 `starter/src/main/resource` 目录下。 因为，jpress 是否安装决定在这两个文件，当我们执行  `mvn clean` 命令时，maven 会清除 target 下的所有文件，从而使 JPress 会再次走安装流程。
+
+
+
 
 ## 微信交流群
 

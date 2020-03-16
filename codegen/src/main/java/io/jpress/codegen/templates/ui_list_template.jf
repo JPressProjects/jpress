@@ -1,10 +1,10 @@
 #('#')@layout()
-	
+
 #('#')define script()
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/#(tableMeta.name)/doDel/" + id);
+        ajaxGet("#(CPATH)/admin/#(moduleName)/#(tableMeta.name)/doDel/" + id);
     }
 
     $("#('#')batchDel").click(function () {
@@ -13,9 +13,8 @@
             alert('您未选择任何条目');
             return
         }
-        ajaxGet("#(CPATH)/admin/#(tableMeta.name)/doDelByIds?ids=" + ids);
+        ajaxGet("#(CPATH)/admin/#(moduleName)/#(tableMeta.name)/doDelByIds?ids=" + ids);
     })
-
 
 </script>
 #('#')end
@@ -59,7 +58,7 @@
                                 #for(cm : tableMeta.columnMetas)
 	                                <th>#(cm.remarks?? "列名称")</th>
                                 #end
-                                
+
                             </tr>
                             #('#')for(entry : page.list)
                             <tr class="jp-actiontr">
@@ -79,7 +78,7 @@
                                 </td>
                                  #for(cm : tableMeta.columnMetas)
                                     #if(cm.name=="id")
-                                    
+
                                     #else
 	                                <td>#('#')(entry.#(cm.name))</td>
 	                                #end

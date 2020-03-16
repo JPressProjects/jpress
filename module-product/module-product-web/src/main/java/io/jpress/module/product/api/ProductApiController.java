@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 package io.jpress.module.product.api;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -52,13 +52,13 @@ public class ProductApiController extends ApiControllerBase {
         }
 
         productService.doIncProductViewCount(product.getId());
-        renderJson(Ret.ok("product", product));
+        renderOkJson("product", product);
     }
 
 
 
     /**
-     * 获取文章列表
+     * 获取产品列表
      */
     public void list(){
         String flag = getPara("flag");
@@ -70,14 +70,14 @@ public class ProductApiController extends ApiControllerBase {
         Columns columns = Columns.create("flag", flag);
         if (hasThumbnail != null) {
             if (hasThumbnail) {
-                columns.is_not_null("thumbnail");
+                columns.isNotNull("thumbnail");
             } else {
-                columns.is_null("thumbnail");
+                columns.isNull("thumbnail");
             }
         }
 
         List<Product> products = productService.findListByColumns(columns, orderBy, count);
-        renderJson(Ret.ok("products", products));
+        renderOkJson("products", products);
     }
 
 
@@ -93,8 +93,23 @@ public class ProductApiController extends ApiControllerBase {
 
         int count = getParaToInt("count", 3);
 
-        List<Product> relevantArticles = productService.findRelevantListByProductId(id, Product.STATUS_NORMAL, count);
-        renderOkJson("products", relevantArticles);
+        List<Product> relevantProducts = productService.findRelevantListByProductId(id, Product.STATUS_NORMAL, count);
+        renderOkJson("products", relevantProducts);
     }
+
+
+    /**
+     * 商品搜索
+     */
+    public void productSearch(String keyword){
+        int page = getParaToInt("page",1);
+        int pageSize = getParaToInt("size",10);
+        Page<Product> dataPage = StrUtil.isNotBlank(keyword)
+                ? productService.search(keyword, page, pageSize)
+                : null;
+        renderJson(dataPage);
+    }
+
+
 
 }

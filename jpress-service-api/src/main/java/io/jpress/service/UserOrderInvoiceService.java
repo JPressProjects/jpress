@@ -118,15 +118,6 @@ public interface UserOrderInvoiceService  {
 
 
     /**
-     * 根据条件进行删除
-     *
-     * @param columns
-     * @return
-     */
-    public boolean deleteByColumns(Columns columns);
-
-
-    /**
      * 保存到数据库
      *
      * @param model

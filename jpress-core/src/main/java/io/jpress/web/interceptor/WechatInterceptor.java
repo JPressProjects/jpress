@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.core.Controller;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
@@ -30,16 +31,9 @@ import javax.servlet.http.HttpServletRequest;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: 微信获取用户相关的拦截器
- * @Package io.jpress.web.handler
  */
 
 public class WechatInterceptor implements Interceptor, JPressOptions.OptionChangeListener {
-
-    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
-
-    public static String getCurrentTarget() {
-        return threadLocal.get();
-    }
 
     /**
      * 是否启用微信拦截
@@ -82,19 +76,19 @@ public class WechatInterceptor implements Interceptor, JPressOptions.OptionChang
             return;
         }
 
-        String gotoUrl = getGotoUrl(inv);
+        String gotoUrl = getGotoUrl(inv.getController());
         inv.getController().redirect("/wechat/authorization?goto=" + gotoUrl);
     }
 
     /**
      * 获取当前的url
      *
-     * @param inv
+     * @param controller
      * @return
      */
-    private String getGotoUrl(Invocation inv) {
+    public static String getGotoUrl(Controller controller) {
 
-        HttpServletRequest req = inv.getController().getRequest();
+        HttpServletRequest req = controller.getRequest();
 
         // 获取用户将要去的路径
         String queryString = req.getQueryString();

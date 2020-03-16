@@ -41,7 +41,7 @@
                                 <div class="col-sm-6">
                                     <div class="switchery-item">
                                         <input type="checkbox" class="switchery" data-for="product_comment_enable"
-                                               #checkedIf(option("product_comment_enable"))>
+                                               #checkedIf(option("product_comment_enable","true"))>
                                         <input type="hidden" id="product_comment_enable" name="product_comment_enable">
                                         开启评论功能
                                     </div>
@@ -59,7 +59,7 @@
                                     </div>
                                     <div class="switchery-item">
                                         <input type="checkbox" class="switchery" data-for="product_comment_vcode_enable"
-                                               #checkedIf(option("product_comment_vcode_enable"))>
+                                               #checkedIf(option("product_comment_vcode_enable","true"))>
                                         <input type="hidden" id="product_comment_vcode_enable"
                                                name="product_comment_vcode_enable"> 启用评论验证码功能
                                     </div>

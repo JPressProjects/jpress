@@ -1,6 +1,7 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.model.CouponUsedRecord;
 
 import java.util.List;
@@ -76,7 +77,8 @@ public interface CouponUsedRecordService  {
      * @param pageSize
      * @return
      */
-    public Page<CouponUsedRecord> paginate(int page, int pageSize);
+    public Page<CouponUsedRecord> paginate(int page, int pageSize, Columns columns);
 
 
+    public long queryCountByCouponId(long couponId);
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,13 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.render.RenderManager;
+import com.jfinal.template.Engine;
+import com.jfinal.template.EngineConfig;
+import com.jfinal.template.source.FileSourceFactory;
+import com.jfinal.template.source.ISource;
+import com.jfinal.template.stat.Parser;
+import com.jfinal.template.stat.ast.Define;
 import io.jboot.db.ArpManager;
 import io.jboot.db.datasource.DataSourceBuilder;
 import io.jboot.db.datasource.DataSourceConfig;
@@ -27,11 +34,13 @@ import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.core.addon.template.AddonTemplateEnv;
 import io.jpress.core.support.ehcache.EhcacheManager;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -85,6 +94,18 @@ public class AddonUtil {
         return basePath.toString();
     }
 
+    public static String getViewPath(AddonInfo addonInfo, String path) {
+        if (addonInfo != null && addonInfo.isInstall()) {
+            StringBuilder basePath = new StringBuilder();
+            basePath.append("/addons/")
+                    .append(addonInfo.getId())
+                    .append(path);
+            return basePath.toString();
+        } else {
+            return path;
+        }
+    }
+
     /**
      * 解压 zip 或者 jar 的资源文件
      *
@@ -108,11 +129,14 @@ public class AddonUtil {
                             if (!targetFile.getParentFile().exists()) {
                                 targetFile.getParentFile().mkdirs();
                             }
+                            if (targetFile.exists()){
+                                forceDelete(targetFile);
+                            }
                             os = new BufferedOutputStream(new FileOutputStream(targetFile));
                             is = zipFile.getInputStream(zipEntry);
-                            byte[] buffer = new byte[4096];
+                            byte[] buffer = new byte[1024];
                             int readLen = 0;
-                            while ((readLen = is.read(buffer, 0, 4096)) > 0) {
+                            while ((readLen = is.read(buffer, 0, 1024)) > 0) {
                                 os.write(buffer, 0, readLen);
                             }
                         }
@@ -223,7 +247,9 @@ public class AddonUtil {
         AddonInfo addonInfo = new AddonInfo(addonProp);
         if (addonConfigProp != null) {
             addonConfigProp.forEach((o, o2) -> {
-                if (o != null && o2 != null) addonInfo.addConfig(o.toString(), o2.toString());
+                if (o != null && o2 != null) {
+                    addonInfo.addConfig(o.toString(), o2.toString());
+                }
             });
         }
 
@@ -249,6 +275,7 @@ public class AddonUtil {
             }
             return new String(baos.toByteArray(), JFinal.me().getConstants().getEncoding());
         } catch (Exception e) {
+            LogKit.error(e.toString(), e);
         } finally {
             CommonsUtils.quietlyClose(baos);
         }
@@ -293,7 +320,7 @@ public class AddonUtil {
             pst = conn.createStatement();
             sql = StrUtil.requireNonBlank(sql, "sql must not be null or blank.");
             if (sql.contains(";")) {
-                String sqls[] = sql.split(";");
+                String[] sqls = sql.split(";");
                 for (String s : sqls) {
                     if (StrUtil.isNotBlank(s)) {
                         pst.addBatch(s);
@@ -312,6 +339,39 @@ public class AddonUtil {
     }
 
 
+    public static void addSharedFunction(AddonInfo addonInfo, String path) {
+        RenderManager.me().getEngine().addSharedFunction(getViewPath(addonInfo, path));
+    }
+
+    public static void removeSharedFunction(AddonInfo addonInfo, String path) {
+        try {
+
+            String viewPath = getViewPath(addonInfo, path);
+
+            Engine engine = RenderManager.me().getEngine();
+            Field sharedFunctionMapField = EngineConfig.class.getDeclaredField("sharedFunctionMap");
+            sharedFunctionMapField.setAccessible(true);
+
+            Map sharedFunctionMap = (Map) sharedFunctionMapField.get(engine.getEngineConfig());
+            if (sharedFunctionMap != null && !sharedFunctionMap.isEmpty()) {
+
+                ISource source = new FileSourceFactory().getSource(engine.getBaseTemplatePath(), viewPath, "UTF-8");
+                AddonTemplateEnv env = new AddonTemplateEnv(RenderManager.me().getEngine().getEngineConfig());
+                new Parser(env, source.getContent(), viewPath).parse();
+
+                Map<String, Define> funcMap = env.getFunctionMap();
+                if (funcMap != null) {
+                    for (Map.Entry<String, Define> e : funcMap.entrySet()) {
+                        sharedFunctionMap.remove(e.getKey());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static ActiveRecordPlugin createRecordPlugin(AddonInfo addonInfo) {
         DataSourceConfig config = getDatasourceConfig(addonInfo);
         config.setName(addonInfo.getId());
@@ -321,7 +381,6 @@ public class AddonUtil {
 
 
     private static DataSourceConfig getDatasourceConfig(AddonInfo addonInfo) {
-
         Map<String, String> config = addonInfo.getConfig();
         if (config == null || config.isEmpty()) {
             return DataSourceConfigManager.me().getMainDatasourceConfig();

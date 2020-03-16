@@ -2,6 +2,7 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
@@ -54,7 +55,7 @@ public class FinanceController extends UcenterControllerBase {
     }
 
     public void payout() {
-        Page<UserAmountPayout> page = payoutService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId(),getParaToInt("status"));
+        Page<UserAmountPayout> page = payoutService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId(), getParaToInt("status"));
         setAttr("page", page);
 
         long totalCount = payoutService.findCountByColumns(Columns.create("user_id", getLoginedUser().getId()));
@@ -148,6 +149,10 @@ public class FinanceController extends UcenterControllerBase {
     /**
      * 进行充值
      */
+    @EmptyValidate({
+            @Form(name = "paytype", message = "支付方式不能为空"),
+            @Form(name = "recharge_amount", message = "充值金额不能空"),
+    })
     public void recharging() {
 
         PaymentRecord payment = new PaymentRecord();
@@ -178,8 +183,7 @@ public class FinanceController extends UcenterControllerBase {
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
         paymentService.save(payment);
 
-
-        PayKit.redirect(payment.getPayType(), payment.getTrxNo());
+        renderJson(Ret.ok().set("gotoUrl", PayKit.buildPayUrl(payment.getPayType(), payment.getTrxNo())));
     }
 
 

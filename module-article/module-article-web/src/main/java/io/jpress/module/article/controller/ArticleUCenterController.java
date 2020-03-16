@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.core.menu.annotation.UCenterMenu;
@@ -45,8 +46,6 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章前台页面Controller
- * @Package io.jpress.module.article.admin
  */
 @RequestMapping(value = "/ucenter/article", viewPath = "/WEB-INF/views/ucenter/")
 public class ArticleUCenterController extends UcenterControllerBase {
@@ -166,7 +165,9 @@ public class ArticleUCenterController extends UcenterControllerBase {
     public void doWriteSave() {
 
         Article article = getModel(Article.class, "article");
-        article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description", "user_id");
+        article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description");
+        article.setUserId(getLoginedUser().getId());
+
 
         if (article.getId() != null && notLoginedUserModel(article)) {
             renderJson(Ret.fail().set("message", "非法操作"));
@@ -184,6 +185,11 @@ public class ArticleUCenterController extends UcenterControllerBase {
                 renderJson(Ret.fail("message", "该slug已经存在"));
                 return;
             }
+        }
+
+        if (DFAUtil.isContainsSensitiveWords(article.getText())){
+            renderJson(Ret.fail().set("message", "投稿内容可能包含非法字符。"));
+            return;
         }
 
         //只保留的基本的html，其他的html比如<script>将会被清除

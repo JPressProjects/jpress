@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,14 +69,18 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
     @Override
     public boolean deleteById(Object id) {
         Option option = findById(id);
-        if (option == null) return true;
+        if (option == null) {
+            return true;
+        }
         return delete(option);
     }
 
     @Override
     public boolean deleteByKey(String key) {
         Option option = DAO.findFirstByColumn("key", key);
-        if (option == null) return true;
+        if (option == null) {
+            return true;
+        }
 
         return deleteById(option.getId());
     }

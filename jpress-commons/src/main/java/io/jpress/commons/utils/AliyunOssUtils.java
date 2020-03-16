@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ public class AliyunOssUtils {
     private static final String KEY_ACCESSKEYID = "attachment_aliyunoss_accesskeyid";
     private static final String KEY_ACCESSKEYSECRET = "attachment_aliyunoss_accesskeysecret";
     private static final String KEY_BUCKETNAME = "attachment_aliyunoss_bucketname";
+    private static final String KEY_OSS_DEL = "attachment_aliyunoss_del";
 
 
     private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"aliyun-oss-upload");
@@ -74,7 +75,7 @@ public class AliyunOssUtils {
         path = path.replace('\\', '/');
 
         String ossBucketName = JPressOptions.get(KEY_BUCKETNAME);
-        OSSClient ossClient = newOSSClient();
+        OSSClient ossClient = createOSSClient();
 
         try {
             ossClient.putObject(ossBucketName, path, file);
@@ -118,7 +119,7 @@ public class AliyunOssUtils {
 
         path = removeFileSeparator(path);
         String ossBucketName = JPressOptions.get(KEY_BUCKETNAME);
-        OSSClient ossClient = newOSSClient();
+        OSSClient ossClient = createOSSClient();
         try {
 
             if (!toFile.getParentFile().exists()) {
@@ -141,12 +142,28 @@ public class AliyunOssUtils {
         }
     }
 
-    private static OSSClient newOSSClient() {
+    private static OSSClient createOSSClient() {
         String endpoint = JPressOptions.get(KEY_ENDPOINT);
         String accessId = JPressOptions.get(KEY_ACCESSKEYID);
         String accessKey = JPressOptions.get(KEY_ACCESSKEYSECRET);
         return new OSSClient(endpoint, new DefaultCredentialProvider(accessId, accessKey), null);
     }
+    /**
+     * 删除一个OSS中的文件
+     * @param objectName
+     */
+    public static void delete(String objectName){
+        boolean ossDelEnable = JPressOptions.getAsBool(KEY_OSS_DEL);
+        if (ossDelEnable){
+            OSSClient ossClient = createOSSClient();
+            try {
+                ossClient.deleteObject(JPressOptions.get(KEY_BUCKETNAME), objectName);
+            }catch (Exception e){
 
+            }finally {
+                ossClient.shutdown();
+            }
+        }
+    }
 
 }

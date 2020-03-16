@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,11 +30,12 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.search.highlight.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
+import org.lionsoul.jcseg.ISegment;
 import org.lionsoul.jcseg.analyzer.JcsegAnalyzer;
-import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
+import org.lionsoul.jcseg.dic.DictionaryFactory;
+import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,9 +43,9 @@ import java.util.List;
 
 public class LuceneSearcher implements ArticleSearcher {
 
-    private static final Log logger = Log.getLog(LuceneSearcher.class);
+    private static final Log LOG = Log.getLog(LuceneSearcher.class);
 
-    public static String INDEX_PATH = "~/indexes/";
+    public static String INDEX_PATH = "lucene/articles/";
     private static Directory directory;
 
 
@@ -55,8 +56,8 @@ public class LuceneSearcher implements ArticleSearcher {
         }
         try {
             directory = NIOFSDirectory.open(indexDir.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -67,8 +68,8 @@ public class LuceneSearcher implements ArticleSearcher {
             writer = createIndexWriter();
             Document doc = createDocument(article);
             writer.addDocument(doc);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         } finally {
             CommonsUtils.quietlyClose(writer);
         }
@@ -80,7 +81,7 @@ public class LuceneSearcher implements ArticleSearcher {
         try {
             writer = createIndexWriter();
             writer.deleteDocuments(new Term("aid", id.toString()));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             CommonsUtils.quietlyClose(writer);
@@ -114,8 +115,8 @@ public class LuceneSearcher implements ArticleSearcher {
             List<Article> articles = toArticleList(indexSearcher, topDocs, highlighter, keyword);
             int totalRow = getTotalRow(indexSearcher, query);
             return newPage(pageNum, pageSize, totalRow, articles);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         } finally {
             CommonsUtils.quietlyClose(indexReader);
         }
@@ -124,7 +125,7 @@ public class LuceneSearcher implements ArticleSearcher {
 
 
     private static ScoreDoc getLastScoreDoc(int pageIndex, int pageSize, Query query,
-                                            IndexSearcher indexSearcher) throws IOException {
+                                            IndexSearcher indexSearcher) throws Exception {
         if (pageIndex == 1) {
             return null; // 如果是第一页返回空
         }
@@ -134,7 +135,7 @@ public class LuceneSearcher implements ArticleSearcher {
     }
 
     public static int getTotalRow(IndexSearcher searcher, Query query)
-            throws IOException {
+            throws Exception {
         TopDocs topDocs = searcher.search(query, 1000);
         if (topDocs == null || topDocs.scoreDocs == null
                 || topDocs.scoreDocs.length == 0) {
@@ -168,17 +169,22 @@ public class LuceneSearcher implements ArticleSearcher {
         return doc;
     }
 
-    private static IndexWriter createIndexWriter() throws IOException {
-        Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+    private static IndexWriter createIndexWriter() throws Exception {
+        Analyzer analyzer = createAnalyzer();
         IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
         return new IndexWriter(directory, iwc);
     }
 
 
+    private static Analyzer createAnalyzer() {
+        SegmenterConfig config = new SegmenterConfig(true);
+        return new JcsegAnalyzer(ISegment.Type.NLP, config, DictionaryFactory.createSingletonDictionary(config));
+    }
+
     private static Query buildQuery(String keyword) {
         try {
 
-            Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+            Analyzer analyzer = createAnalyzer();
             //这里使用text，防止搜索出html的tag或者tag中属性
             QueryParser queryParser1 = new QueryParser("text", analyzer);
             Query termQuery1 = queryParser1.parse(keyword);
@@ -194,15 +200,15 @@ public class LuceneSearcher implements ArticleSearcher {
 
             return builder.build();
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         }
         return null;
     }
 
 
-    private List<Article> toArticleList(IndexSearcher searcher, TopDocs topDocs, Highlighter highlighter, String keyword) throws IOException {
+    private List<Article> toArticleList(IndexSearcher searcher, TopDocs topDocs, Highlighter highlighter, String keyword) throws Exception {
         List<Article> articles = new ArrayList<>();
-        Analyzer analyzer = new JcsegAnalyzer(JcsegTaskConfig.COMPLEX_MODE);
+        Analyzer analyzer = createAnalyzer();
         for (ScoreDoc item : topDocs.scoreDocs) {
             Document doc = searcher.doc(item.doc);
             Article article = new Article();
@@ -219,7 +225,7 @@ public class LuceneSearcher implements ArticleSearcher {
                 String highlightContent = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(text)), text);
                 article.setHighlightContent(highlightContent);
             } catch (InvalidTokenOffsetsException e) {
-                logger.error(e.getMessage(), e);
+                LOG.error(e.getMessage(), e);
             }
             articles.add(article);
         }

@@ -6,7 +6,7 @@
 CKEDITOR.plugins.add("wordcount",
     {
         lang: "ar,bg,ca,cs,da,de,el,en,es,eu,fa,fi,fr,he,hr,hu,it,ko,ja,nl,no,pl,pt,pt-br,ru,sk,sv,tr,uk,zh-cn,zh,ro", // %REMOVE_LINE_CORE%
-        version: "1.17.4",
+        version: "1.17.6",
         requires: 'htmlwriter,notification,undo',
         bbcodePluginLoaded: false,
         onLoad: function() {
@@ -66,6 +66,7 @@ CKEDITOR.plugins.add("wordcount",
                 countHTML: false,
                 countLineBreaks: false,
                 hardLimit: true,
+                warnOnLimitOnly: false,
 
                 //MAXLENGTH Properties
                 maxWordCount: -1,
@@ -205,7 +206,7 @@ CKEDITOR.plugins.add("wordcount",
 
             function countCharacters(text) {
                 if (config.countHTML) {
-                    return (filter(text).length);
+                    return config.countBytesAsChars ? countBytes(filter(text)) : filter(text).length;
                 }
 
                 var normalizedText;
@@ -234,7 +235,7 @@ CKEDITOR.plugins.add("wordcount",
 
                 normalizedText = strip(normalizedText).replace(/^([\t\r\n]*)$/, "");
 
-                return config.countBytesAsChars ? (countBytes(normalizedText)) : (normalizedText.length);
+                return config.countBytesAsChars ? countBytes(normalizedText) : normalizedText.length;
             }
 
             function countBytes(text) {
@@ -273,8 +274,10 @@ CKEDITOR.plugins.add("wordcount",
                 limitReachedNotified = true;
                 limitRestoredNotified = false;
 
-                if (config.hardLimit) {
-                    editorInstance.execCommand('undo');
+                if (!config.warnOnLimitOnly) {
+                    if (config.hardLimit) {
+                        editorInstance.execCommand('undo');
+                    }
                 }
 
                 if (!notify) {
@@ -286,7 +289,10 @@ CKEDITOR.plugins.add("wordcount",
             function limitRestored(editorInstance) {
                 limitRestoredNotified = true;
                 limitReachedNotified = false;
-                editorInstance.fire('saveSnapshot');
+
+                if (!config.warnOnLimitOnly) {
+                    editorInstance.fire('saveSnapshot');
+                }
 
                 counterElement(editorInstance).className = "cke_path_item";
             }
@@ -511,7 +517,7 @@ CKEDITOR.plugins.add("wordcount",
 
             editor.on("paste",
                 function(event) {
-                    if (config.maxWordCount > 0 || config.maxCharCount > 0 || config.maxParagraphs > 0) {
+                    if (!config.warnOnLimitOnly && (config.maxWordCount > 0 || config.maxCharCount > 0 || config.maxParagraphs > 0)) {
 
                         // Check if pasted content is above the limits
                         var wordCount = -1,

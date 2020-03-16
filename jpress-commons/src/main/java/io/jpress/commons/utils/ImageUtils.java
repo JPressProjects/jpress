@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -299,8 +299,12 @@ public class ImageUtils {
             BufferedImage bi = ImageIO.read(new File(srcImageFile));
             width = Math.min(width, bi.getWidth());
             height = Math.min(height, bi.getHeight());
-            if (width <= 0) width = bi.getWidth();
-            if (height <= 0) height = bi.getHeight();
+            if (width <= 0) {
+                width = bi.getWidth();
+            }
+            if (height <= 0) {
+                height = bi.getHeight();
+            }
 
             left = Math.min(Math.max(0, left), bi.getWidth() - width);
             top = Math.min(Math.max(0, top), bi.getHeight() - height);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +20,16 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.module.page.directive
  */
 @JFinalDirective("products")
 public class ProductsDirective extends JbootDirectiveBase {
@@ -53,24 +49,15 @@ public class ProductsDirective extends JbootDirectiveBase {
 
 
         Columns columns = Columns.create("flag", flag);
-
-        if (StrUtil.isNotBlank(style)) {
-            if (style.contains(",")) {
-                List<String> styleParas = Arrays.stream(style.split(","))
-                        .filter(StrUtil::notBlank).map(s -> s.trim()).collect(Collectors.toList());
-                columns.in("style", styleParas.toArray());
-            } else {
-                columns.add("style", style);
-            }
-        }
+        columns.add("style", style);
 
         columns.add("status", Product.STATUS_NORMAL);
 
         if (hasThumbnail != null) {
             if (hasThumbnail) {
-                columns.is_not_null("thumbnail");
+                columns.isNotNull("thumbnail");
             } else {
-                columns.is_null("thumbnail");
+                columns.isNull("thumbnail");
             }
         }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ public class _AdminController extends AdminControllerBase {
     // 必须清除PermissionInterceptor，
     // 防止在没有授权的情况下，用户无法退出的问题
     @Clear(PermissionInterceptor.class)
-    public void doLogout() {
+    public void logout() {
         CookieUtil.remove(this, JPressConsts.COOKIE_UID);
         redirect("/");
     }

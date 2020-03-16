@@ -52,14 +52,6 @@ public interface UserAddressService  {
 
 
     /**
-     * 根据条件删除
-     * @param columns
-     * @return
-     */
-    public boolean deleteByColumns(Columns columns);
-
-
-    /**
      * save model to database
      *
      * @param model
@@ -100,4 +92,5 @@ public interface UserAddressService  {
     public List<UserAddress> findListByUserId(long userId);
 
 
+    void addUserAddress(UserAddress address, long userid);
 }

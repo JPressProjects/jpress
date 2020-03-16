@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,6 +68,7 @@ public class ProductFields {
                 null,
                 12).addAttr("rows", 4));
 
+
         fields.add(new SmartField("meta_keywords",
                 "SEO关键字",
                 "product.meta_keywords",
@@ -76,7 +77,7 @@ public class ProductFields {
                 null,
                 null,
                 null,
-                20).addAttr("rows", 2));
+                20).addAttr("rows", 3));
 
         fields.add(new SmartField("meta_description",
                 "SEO描述",
@@ -86,7 +87,7 @@ public class ProductFields {
                 null,
                 null,
                 null,
-                21).addAttr("rows", 2));
+                21).addAttr("rows", 4));
 
         fields.add(new SmartField("view_count",
                 "访问量",
@@ -118,6 +119,26 @@ public class ProductFields {
                 "只是显示达到促进消费者购买欲的作用。",
                 50));
 
+        fields.add(new SmartField("video",
+                "视频链接",
+                "product.video",
+                "请输入",
+                SmartField.TYPE_INPUT,
+                null,
+                null,
+                "",
+                60));
+
+        fields.add(new SmartField("video_cover",
+                "视频封面链接",
+                "product.video_cover",
+                "请输入",
+                SmartField.TYPE_INPUT,
+                null,
+                null,
+                "",
+                61));
+
         fields.add(new SmartField("comment_status",
                 "允许评论",
                 "product.comment_status",
@@ -143,7 +164,9 @@ public class ProductFields {
     }
 
     public void removeField(String id) {
-        if (StrUtil.isBlank(id)) return;
+        if (StrUtil.isBlank(id)) {
+            return;
+        }
         fields.removeIf(field -> id.equals(field.getId()));
         fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
     }
@@ -156,7 +179,9 @@ public class ProductFields {
         StringBuilder s = new StringBuilder();
         for (SmartField field : fields) {
             String html = field.render();
-            if (html != null) s.append(html);
+            if (html != null) {
+                s.append(html);
+            }
         }
         return s.toString();
     }

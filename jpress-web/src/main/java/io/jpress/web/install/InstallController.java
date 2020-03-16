@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,6 +121,11 @@ public class InstallController extends ControllerBase {
 
     public void step3() {
 
+        if (!InstallManager.me().isInited()) {
+            redirect("/install");
+            return;
+        }
+
         //数据库需要升级
         if (InstallManager.me().isDbExist()
                 && InstallManager.me().isJPressDb()
@@ -187,12 +192,14 @@ public class InstallController extends ControllerBase {
 
     public void install() {
 
+        Ret ret;
+
         //数据库需要升级
         if (InstallManager.me().isDbExist()
                 && InstallManager.me().isJPressDb()
                 && InstallManager.me().isNeedUpgrade()) {
 
-            doProcessUpgrade();
+            ret = doProcessUpgrade();
         }
 
         //数据库已经存在
@@ -202,21 +209,27 @@ public class InstallController extends ControllerBase {
                 && InstallManager.me().isJPressDb()
                 && !InstallManager.me().isNeedUpgrade()) {
 
-            doProcessReinstall();
+            ret = doProcessReInstall();
         }
 
         //全新的数据库
         else {
-            doProcessInstall();
+            ret = doProcessInstall();
         }
 
-        OptionService optionService = Aop.get(OptionService.class);
-        optionService.saveOrUpdate("jpress_version", JPressConsts.VERSION);
-        optionService.saveOrUpdate("jpress_version_code", JPressConsts.VERSION_CODE);
+        // 设置 JPress 的版本
+        if (ret.isOk()) {
 
+            OptionService optionService = Aop.get(OptionService.class);
+            optionService.saveOrUpdate("jpress_version", JPressConsts.VERSION);
+            optionService.saveOrUpdate("jpress_version_code", JPressConsts.VERSION_CODE);
+        }
+
+
+        renderJson(ret);
     }
 
-    private void doProcessUpgrade() {
+    private Ret doProcessUpgrade() {
 
         String username = getPara("username");
         String pwd = getPara("pwd");
@@ -225,48 +238,39 @@ public class InstallController extends ControllerBase {
         if (StrUtil.isNotBlank(username)) {
 
             if (StrUtil.isBlank(pwd)) {
-                renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
-                return;
+                return Ret.fail().set("message", "密码不能为空").set("errorCode", 3);
             }
 
             if (StrUtil.isBlank(confirmPwd)) {
-                renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
-                return;
+                return Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4);
             }
 
             if (pwd.equals(confirmPwd) == false) {
-                renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
-                return;
+                return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
             }
-
-
-            try {
-                InstallManager.me().doUpgradeDatabase();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                renderFailJson();
-                return;
-            }
-
-
-            initActiveRecordPlugin();
-
-            initFirstUser();
-
-        } else {
-            initActiveRecordPlugin();
         }
 
+        try {
+            InstallManager.me().doUpgradeDatabase();
+            Thread.sleep(2000);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Ret.fail().set("message", e.getMessage());
+        }
+
+        initActiveRecordPlugin();
+
+        initFirstUser(username, pwd);
 
         if (doFinishedInstall()) {
-            renderOkJson();
+            return Ret.ok();
         } else {
-            renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
+            return Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。");
         }
 
     }
 
-    private void doProcessReinstall() {
+    private Ret doProcessReInstall() {
 
         String username = getPara("username");
         String pwd = getPara("pwd");
@@ -275,66 +279,75 @@ public class InstallController extends ControllerBase {
         if (StrUtil.isNotBlank(username)) {
 
             if (StrUtil.isBlank(pwd)) {
-                renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
-                return;
+                return Ret.fail().set("message", "密码不能为空").set("errorCode", 3);
             }
 
             if (StrUtil.isBlank(confirmPwd)) {
-                renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
-                return;
+                return Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4);
             }
 
             if (pwd.equals(confirmPwd) == false) {
-                renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
-                return;
+                return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
             }
-
-            initActiveRecordPlugin();
-
-            initFirstUser();
-
-        } else {
-            initActiveRecordPlugin();
         }
+
+
+        initActiveRecordPlugin();
+
+        initFirstUser(username, pwd);
 
 
         if (doFinishedInstall()) {
-            renderOkJson();
+            return Ret.ok();
         } else {
-            renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
+            return Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。");
         }
-
     }
 
-    @EmptyValidate({
-            @Form(name = "web_name", message = "网站名称不能为空"),
-            @Form(name = "web_title", message = "网站标题不能为空"),
-            @Form(name = "web_subtitle", message = "网站副标题不能为空"),
-            @Form(name = "username", message = "账号不能为空"),
-            @Form(name = "pwd", message = "密码不能为空"),
-            @Form(name = "confirmPwd", message = "确认密码不能为空"),
-    })
-    private void doProcessInstall() {
+    private Ret doProcessInstall() {
 
         String webName = getPara("web_name");
         String webTitle = getPara("web_title");
         String webSubtitle = getPara("web_subtitle");
 
+        String username = getPara("username");
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
+        if (StrUtil.isBlank(webName)) {
+            return Ret.fail().set("message", "网站名称不能为空");
+        }
+
+        if (StrUtil.isBlank(webTitle)) {
+            return Ret.fail().set("message", "网站标题不能为空");
+        }
+
+        if (StrUtil.isBlank(webSubtitle)) {
+            return Ret.fail().set("message", "网站副标题不能为空");
+        }
+
+        if (StrUtil.isBlank(username)) {
+            return Ret.fail().set("message", "账号不能为空");
+        }
+
+        if (StrUtil.isBlank(pwd)) {
+            return Ret.fail().set("message", "密码不能为空");
+        }
+
+        if (StrUtil.isBlank(confirmPwd)) {
+            return Ret.fail().set("message", "确认密码不能为空");
+        }
 
         if (pwd.equals(confirmPwd) == false) {
-            renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
-            return;
+            return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
         }
 
         try {
             InstallManager.me().doInitDatabase();
-        } catch (SQLException e) {
+            Thread.sleep(2000);
+        } catch (Exception e) {
             e.printStackTrace();
-            renderFailJson();
-            return;
+            return Ret.fail().set("message", e.getMessage());
         }
 
         initActiveRecordPlugin();
@@ -348,37 +361,31 @@ public class InstallController extends ControllerBase {
         JPressOptions.set("web_title", webTitle);
         JPressOptions.set("web_subtitle", webSubtitle);
 
-        initFirstUser();
-
-        RoleService roleService = Aop.get(RoleService.class);
-        Role role = new Role();
-        role.setId(1L);
-        role.setName("默认角色");
-        role.setDescription("这个是系统自动创建的默认角色");
-        role.setFlag(Role.ADMIN_FLAG);
-        role.setCreated(new Date());
-        role.setModified(new Date());
-
-        roleService.save(role);
-
-        Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1);");
+        initFirstUser(username, pwd);
 
         if (doFinishedInstall()) {
-            renderOkJson();
+            return Ret.ok();
         } else {
-            renderJson(Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。"));
+            return Ret.fail().set("message", "classes目录没有写入权限，请查看服务器配置是否正确。");
         }
 
     }
 
-    private void initFirstUser() {
+    /**
+     * 初始化第一个用户
+     *
+     * @param username
+     * @param pwd
+     */
+    private void initFirstUser(String username, String pwd) {
 
-        String username = getPara("username");
-        String pwd = getPara("pwd");
-
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(pwd)) {
+            return;
+        }
 
         UserService userService = Aop.get(UserService.class);
         User user = userService.findById(1L);
+
         if (user == null) {
             user = new User();
             user.setNickname(username);
@@ -401,8 +408,26 @@ public class InstallController extends ControllerBase {
         }
 
         user.setStatus(User.STATUS_OK);
-
         userService.saveOrUpdate(user);
+
+
+        RoleService roleService = Aop.get(RoleService.class);
+
+        Role role = roleService.findById(1L);
+        if (role == null) {
+            role = new Role();
+            role.setCreated(new Date());
+        }
+
+        role.setName("默认角色");
+        role.setDescription("这个是系统自动创建的默认角色");
+        role.setFlag(Role.ADMIN_FLAG);
+        role.setModified(new Date());
+
+        roleService.saveOrUpdate(role);
+
+        Db.update("DELETE FROM `user_role_mapping` WHERE `user_id` = 1");
+        Db.update("INSERT INTO `user_role_mapping` (`user_id`, `role_id`) VALUES (1, 1)");
     }
 
 
@@ -412,8 +437,8 @@ public class InstallController extends ControllerBase {
         DataSourceConfig config = InstallManager.me().getDataSourceConfig();
 
         // 在只有 jboot.properties 但是没有 install.lock 的情况下
-        // jboot启动的时候会出初始化 jboot.properties 里配置的插件
-        // 此时，会出现 Config already exist 的异常
+        // jboot 启动的时候会出初始化 jboot.properties 里配置的插件
+        // 此时，会出现 config already exist 的异常
         if (DbKit.getConfig(DataSourceConfig.NAME_DEFAULT) == null) {
             config.setName(DataSourceConfig.NAME_DEFAULT);
         } else {
@@ -422,8 +447,8 @@ public class InstallController extends ControllerBase {
 
         DataSourceConfigManager.me().addConfig(config);
 
-        ActiveRecordPlugin activeRecordPlugin = ArpManager.me().createRecordPlugin(config);
-        activeRecordPlugin.start();
+        ActiveRecordPlugin arPlugin = ArpManager.me().createRecordPlugin(config);
+        arPlugin.start();
     }
 
 

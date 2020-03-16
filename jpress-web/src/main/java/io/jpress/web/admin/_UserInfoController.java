@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,6 +64,12 @@ public class _UserInfoController extends AdminControllerBase {
 
     @Inject
     private UserTagService userTagService;
+
+
+    @Inject
+    private CouponCodeService couponCodeService;
+    @Inject
+    private UserOrderService orderService;
 
 
     public void index() {
@@ -121,8 +128,8 @@ public class _UserInfoController extends AdminControllerBase {
         setAttr("payAmount",payAmount);
         setAttr("payoutAmount",payoutAmount);
 
-        setAttr("userAmount",userService.queryUserAmount(getLoginedUser().getId()));
-        setAttr("userAmountStatements",amountStatementService.findListByUserId(getLoginedUser().getId(),10));
+        setAttr("userAmount",userService.queryUserAmount(user.getId()));
+        setAttr("userAmountStatements",amountStatementService.findListByUserId(user.getId(),10));
 
         render("user/detail_finance.html");
     }
@@ -197,5 +204,21 @@ public class _UserInfoController extends AdminControllerBase {
         render("user/detail_utm.html");
     }
 
+    public void coupon(){
+        Long uid = getParaToLong();
+        User user = userService.findById(uid);
+        setAttr("user", user);
+        List<CouponCode> renderList = couponCodeService.findAvailableByUserId(user.getId());
+        setAttr("couponCodeList",renderList);
+        render("user/detail_coupon.html");
+    }
+    public void order(){
+        Long uid = getParaToLong();
+        User user = userService.findById(uid);
+        setAttr("user", user);
+        Page<UserOrder> userOrderPage = orderService.paginateByUserId(getPagePara(), 10, user.getId(), getPara("title"), getPara("ns"));
+        setAttr("userOrderPage", userOrderPage);
+        render("user/detail_order.html");
+    }
 
 }

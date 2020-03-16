@@ -1,0 +1,123 @@
+#@ucenter_layout()
+
+
+#define script()
+<script>
+
+
+
+</script>
+#end
+
+
+#define css()
+<style>
+
+    .box-dashboard {
+        position: relative;
+        border-radius: 3px;
+        background: #ffffff;
+        border: 1px solid #d2d6de;
+        margin-bottom: 20px;
+        width: 100%;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+    }
+
+    .box-dashboard .box-header .box-title {
+        display: inline-block;
+        font-size: 14px;
+        margin: 0;
+        line-height: 1;
+    }
+
+</style>
+
+#end
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            我的优惠券
+            <small>My Coupon</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body ">
+
+                        <table class="table table-striped" id="table-address">
+                            <tbody>
+                            <tr>
+                                <th style="">名称</th>
+                                <th style="">金额</th>
+                                <th style="">券码</th>
+                                <th style="">使用时间</th>
+                                <th style="">仅限会员</th>
+                                <th style="">券类型</th>
+                                <th style="">领取时间</th>
+                            </tr>
+
+                            #for(data : couponCodeList)
+                            <tr class="jp-actiontr">
+                                <td>
+                                    #(data.coupon.title)
+                                </td>
+                                <td>
+                                    #(data.coupon.amount)
+                                </td>
+                                <td>
+                                    #(data.code)
+                                </td>
+                                <td>
+                                    #if(data.coupon.valid_type == 1)
+                                        #date(data.coupon.valid_start_time) 至 #date(data.coupon.valid_end_time)
+                                    #end
+
+                                    #if(data.coupon.valid_type == 2)
+                                    #(data.coupon.valid_days??) 天
+                                    #end
+                                </td>
+                                <td>
+                                    #(data.coupon.with_member ? '是':'否')
+                                </td>
+                                <td>
+<!--                                    1满减券  2叠加满减券  3无门槛券-->
+                                    #if(data.coupon.type == 1)
+                                    满#(data.coupon.with_amount)减#(data.coupon.amount)
+                                    #end
+                                    #if(data.coupon.type == 2)
+                                    叠加满减券
+                                    #end
+                                    #if(data.coupon.type == 3)
+                                    无门槛券
+                                    #end
+                                </td>
+
+
+                                <th>#date(data.valid_time)</th>
+                            </tr>
+                            #end
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+#end

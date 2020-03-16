@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import io.jpress.service.UtmService;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: utm拦截器
- * @Package io.jpress.web
  */
 public class UTMInterceptor implements Interceptor {
 
@@ -50,18 +49,18 @@ public class UTMInterceptor implements Interceptor {
     }
 
     private void doRecordUTM(Invocation inv) {
-        Controller ctr = inv.getController();
+        Controller controller = inv.getController();
 
         Utm utm = new Utm();
         utm.setId(StrUtil.uuid());
-        utm.setActionKey(ctr.getRequest().getRequestURI());
-        utm.setActionQuery(ctr.getRequest().getQueryString());
-        utm.setIp(RequestUtil.getIpAddress(ctr.getRequest()));
-        utm.setAgent(RequestUtil.getUserAgent(ctr.getRequest()));
-        utm.setReferer(RequestUtil.getReferer(ctr.getRequest()));
+        utm.setActionKey(controller.getRequest().getRequestURI());
+        utm.setActionQuery(controller.getRequest().getQueryString());
+        utm.setIp(RequestUtil.getIpAddress(controller.getRequest()));
+        utm.setAgent(RequestUtil.getUserAgent(controller.getRequest()));
+        utm.setReferer(RequestUtil.getReferer(controller.getRequest()));
 
 
-        String uid = CookieUtil.get(ctr, JPressConsts.COOKIE_UID);
+        String uid = CookieUtil.get(controller, JPressConsts.COOKIE_UID);
         if (StrUtil.isNotBlank(uid)) {
             utm.setUserId(Long.valueOf(uid));
         }
@@ -69,10 +68,12 @@ public class UTMInterceptor implements Interceptor {
         /**
          * 可能是API的用户，API 通过 jwt 获取用户信息
          */
-        else if (ctr instanceof JbootController) {
-            JbootController c = (JbootController) ctr;
-            Long userId = c.getJwtAttr(JPressConsts.JWT_USERID);
-            if (userId != null) utm.setUserId(userId);
+        else if (controller instanceof JbootController) {
+            JbootController c = (JbootController) controller;
+            Number userId = c.getJwtPara(JPressConsts.JWT_USERID);
+            if (userId != null) {
+                utm.setUserId(userId.longValue());
+            }
         }
 
         /**
@@ -80,19 +81,19 @@ public class UTMInterceptor implements Interceptor {
          */
         else {
             //anonym
-            String anonym = CookieUtil.get(ctr, JPressConsts.COOKIE_ANONYM);
+            String anonym = CookieUtil.get(controller, JPressConsts.COOKIE_ANONYM);
             if (StrUtil.isNotBlank(anonym)) {
                 utm.setAnonym(anonym);
             } else {
-                CookieUtil.put(ctr, JPressConsts.COOKIE_ANONYM, StrUtil.uuid(), 60 * 60 * 24 * 365);
+                CookieUtil.put(controller, JPressConsts.COOKIE_ANONYM, StrUtil.uuid(), 60 * 60 * 24 * 365);
             }
         }
 
-        utm.setSource(ctr.getPara("source"));
-        utm.setMedium(ctr.getPara("medium"));
-        utm.setCampaign(ctr.getPara("campaign"));
-        utm.setContent(ctr.getPara("content"));
-        utm.setTerm(ctr.getPara("term"));
+        utm.setSource(controller.getPara("source"));
+        utm.setMedium(controller.getPara("medium"));
+        utm.setCampaign(controller.getPara("campaign"));
+        utm.setContent(controller.getPara("content"));
+        utm.setTerm(controller.getPara("term"));
 
         utmService.doRecord(utm);
     }

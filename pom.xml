@@ -7,7 +7,7 @@
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.0</version>
+    <version>3.0</version>
 
     <modules>
         <module>codegen</module>
@@ -27,29 +27,31 @@
 
         <module>starter</module>
         <module>starter-tomcat</module>
+<!--        <module>starter-ent</module>-->
 <!--        <module>starter-dev</module>-->
     </modules>
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>2.2.8</jboot.version>
+        <jboot.version>3.0.5</jboot.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
         <commons-io.version>2.6</commons-io.version>
-        <commonmark.version>0.13.1</commonmark.version>
-        <aliyunoss.version>3.4.2</aliyunoss.version>
-        <httpclient.version>4.5.3</httpclient.version>
-        <fasterxml.version>2.10.1</fasterxml.version>
-        <pay-java.version>2.12.9</pay-java.version>
-        <guava.version>28.1-jre</guava.version>
+        <commonmark.version>0.14.0</commonmark.version>
+        <aliyunoss.version>3.8.1</aliyunoss.version>
+        <httpclient.version>4.5.11</httpclient.version>
+        <jackson.version>2.10.3</jackson.version>
+        <pay-java.version>2.13.1</pay-java.version>
+        <guava.version>28.2-jre</guava.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>
-        <commons-codec.version>1.10</commons-codec.version>
-        <jsceg.version>2.4.0</jsceg.version>
-
-        <lucene.version>8.3.0</lucene.version>
-        <elasticsearch.version>7.4.2</elasticsearch.version>
+        <commons-codec.version>1.14</commons-codec.version>
+        <slf4j.version>1.7.29</slf4j.version>
+        <fastjson.version>1.2.66</fastjson.version>
+        <lucene.version>8.4.1</lucene.version>
+        <jcseg.version>2.6.2</jcseg.version>
+        <elasticsearch.version>7.6.0</elasticsearch.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -72,7 +74,6 @@
                 <artifactId>commonmark-ext-gfm-tables</artifactId>
                 <version>${commonmark.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.atlassian.commonmark</groupId>
@@ -101,26 +102,20 @@
 
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>4.5.10</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.12</version>
+                <version>4.4.13</version>
             </dependency>
 
             <dependency>
                 <groupId>org.lionsoul</groupId>
                 <artifactId>jcseg-core</artifactId>
-                <version>${jsceg.version}</version>
+                <version>${jcseg.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.lionsoul</groupId>
                 <artifactId>jcseg-analyzer</artifactId>
-                <version>${jsceg.version}</version>
+                <version>${jcseg.version}</version>
             </dependency>
 
             <dependency>
@@ -160,15 +155,11 @@
             </dependency>
 
 
-
-
             <dependency>
                 <groupId>io.jboot</groupId>
                 <artifactId>jboot</artifactId>
                 <version>${jboot.version}</version>
             </dependency>
-
-
 
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
@@ -191,37 +182,37 @@
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-commons</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-core</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-model</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-web</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-api</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-provider</artifactId>
-                <version>2.0</version>
+                <version>3.0</version>
             </dependency>
 
             <dependency>
@@ -272,47 +263,41 @@
                 <version>${commons-codec.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-cbor</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-smile</artifactId>
-                <version>${fasterxml.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.egzosn</groupId>
@@ -332,6 +317,35 @@
                 <version>${pay-java.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -340,7 +354,7 @@
     <repositories>
         <repository>
             <id>central</id>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -356,7 +370,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>central</id>
-            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -373,6 +387,8 @@
                 </configuration>
             </plugin>
 
+            <!-- 检测依赖最新版本：mvn versions:display-dependency-updates  -->
+            <!-- 统一修改版本号：mvn versions:set -DnewVersion=3.0  -->
             <!-- mvn -N versions:update-child-modules  -->
             <!-- mvn versions:set -DnewVersion=2.0 -DprocessAllModules=true -DallowSnapshots=true -->
             <plugin>

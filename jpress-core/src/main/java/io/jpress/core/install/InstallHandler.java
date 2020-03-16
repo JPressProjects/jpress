@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package io.jpress.core.install;
 
 import com.jfinal.handler.Handler;
+import com.jfinal.kit.HandlerKit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +37,7 @@ public class InstallHandler extends Handler {
         }
 
         if (!target.startsWith("/install")) {
-            next.handle("/install", request, response, isHandled);
+            HandlerKit.redirect(request.getContextPath() + "/install",request,response,isHandled);
         } else {
             next.handle(target, request, response, isHandled);
         }

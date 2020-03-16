@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,17 +68,6 @@ public class ArticleFields {
                 null,
                 30).addAttr("rows", 2));
 
-        fields.add(new SmartField("flag",
-                "文章标识",
-                "article.flag",
-                "请输入",
-                SmartField.TYPE_INPUT,
-                null,
-                null,
-                "我们可以对此篇文章进行特殊标识，方便前台模板进行读取。",
-                50));
-
-
         fields.add(new SmartField("order_number",
                 "排序序号",
                 "article.order_number",
@@ -137,7 +126,9 @@ public class ArticleFields {
     }
 
     public void removeField(String id) {
-        if (StrUtil.isBlank(id)) return;
+        if (StrUtil.isBlank(id)) {
+            return;
+        }
         fields.removeIf(field -> id.equals(field.getId()));
         fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
     }
@@ -150,7 +141,9 @@ public class ArticleFields {
         StringBuilder s = new StringBuilder();
         for (SmartField field : fields) {
             String html = field.render();
-            if (html != null) s.append(html);
+            if (html != null) {
+                s.append(html);
+            }
         }
         return s.toString();
     }

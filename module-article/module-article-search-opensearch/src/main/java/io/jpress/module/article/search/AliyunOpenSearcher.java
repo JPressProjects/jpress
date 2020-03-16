@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,9 @@ public class AliyunOpenSearcher implements ArticleSearcher {
 
     @Override
     public void addArticle(Article article) {
-        if (autoSync) return;
+        if (autoSync) {
+            return;
+        }
         try {
             String json = Action.addAction(article).toJson();
             OpenSearchResult result = documentClient.push(json, appName, tableName);
@@ -82,7 +84,9 @@ public class AliyunOpenSearcher implements ArticleSearcher {
 
     @Override
     public void deleteArticle(Object id) {
-        if (autoSync) return;
+        if (autoSync) {
+            return;
+        }
         try {
             String json = Action.delAction(id).toJson();
             OpenSearchResult result = documentClient.push(json, appName, tableName);
@@ -93,7 +97,9 @@ public class AliyunOpenSearcher implements ArticleSearcher {
 
     @Override
     public void updateArticle(Article article) {
-        if (autoSync) return;
+        if (autoSync) {
+            return;
+        }
         deleteArticle(article.getId());
         updateArticle(article);
     }

@@ -23,15 +23,7 @@
                     <form class="form-horizontal form-setting" autocomplete="off"
                           id="optionForm">
                         <div class="box-body ">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">网站域名</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="填写网站的域名"
-                                           name="web_domain" value="#option('web_domain')">
-                                    <p class="help-block"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://www.jpress.io ，
-                                        <span style="color: red">要开启支付功能，必须正确填写此项内容。</span> </p>
-                                </div>
-                            </div>
+
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">开启提现功能</label>
@@ -43,11 +35,21 @@
                                 </div>
                             </div>
 
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">提现手续费</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="payout_fee" value="">
+                                    <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="payout_fee" value="#option('payout_fee')">
                                     <p class="help-block"> 填写 0 ~ 1 小数点，每笔提现，按提现额乘以填写的小数点为总提现金额。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">订单关闭时间</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="order_timeout" value="#option('order_timeout','0')">
+                                    <p class="help-block"> 当某个订单在多少天内未支付，自动关闭。填写 0 为永久不关闭。 </p>
                                 </div>
                             </div>
 

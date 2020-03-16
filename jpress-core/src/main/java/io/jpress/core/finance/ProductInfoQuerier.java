@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,48 +15,55 @@
  */
 package io.jpress.core.finance;
 
+import io.jpress.model.UserCart;
+
 import java.math.BigDecimal;
 
 
 public interface ProductInfoQuerier {
 
     /**
-     * 查询该商品的分销价格
+     * 查询产品的销售分成金额
      *
-     * @param productId
-     * @param buyerUserId
-     * @param distUserId
+     * @param userCart
+     * @param payerId
      * @return
      */
-    public BigDecimal queryDistAmount(Object productId, Long buyerUserId, Long distUserId);
+    public BigDecimal queryDistAmount(UserCart userCart, Long productId, String productSpec, Long payerId, Long distUserId);
 
 
     /**
      * 查询该商品的销售价格
      *
+     * @param userCart
      * @param productId
-     * @param buyerUserId
-     * @param distUserId
+     * @param productSpec
+     * @param payerId
      * @return
      */
-    public BigDecimal querySalePrice(Object productId, Long buyerUserId, Long distUserId);
+    public BigDecimal querySalePrice(UserCart userCart, Long productId, String productSpec, Long payerId);
 
 
     /**
      * 查询该商品是否正常销售
      *
+     * @param userCart
      * @param productId
-     * @param buyerUserId
-     * @return return true if product can be pruchased
+     * @param productSpec
+     * @param payerId
+     * @return
      */
-    public boolean queryStatusNormal(Object productId, Long buyerUserId);
+    public boolean queryStatusNormal(UserCart userCart, Long productId, String productSpec, Long payerId);
 
 
     /**
      * 查询商品库存数量
+     *
+     * @param userCart
      * @param productId
+     * @param productSpec
      * @return
      */
-    public Long queryStockAmount(Object productId);
+    public Long queryStockAmount(UserCart userCart, Long productId, String productSpec);
 
 }

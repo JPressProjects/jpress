@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,8 +112,8 @@ public class UserController extends TemplateControllerBase {
             CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 
-        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
-        ret.set("gotoUrl",gotoUrl);
+        String gotoUrl = JPressOptions.get("login_goto_url", "/ucenter");
+        ret.set("gotoUrl", gotoUrl);
 
         renderJson(ret);
     }
@@ -198,8 +198,8 @@ public class UserController extends TemplateControllerBase {
 
     public void doRegister() {
 
-        String regEnableString = JPressOptions.get("reg_enable");
-        if ("false".equals(regEnableString)) {
+        boolean regEnable = JPressOptions.isTrueOrEmpty("reg_enable");
+        if (!regEnable) {
             renderJson(Ret.fail().set("message", "注册功能已经关闭").set("errorCode", 12));
             return;
         }
@@ -236,8 +236,13 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
-        if (validateCaptcha("captcha") == false) {
+        if (StrUtil.isBlank(getPara("captcha"))) {
             renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 6));
+            return;
+        }
+
+        if (validateCaptcha("captcha") == false) {
+            renderJson(Ret.fail().set("message", "验证码不正确").set("errorCode", 7));
             return;
         }
 
@@ -289,6 +294,12 @@ public class UserController extends TemplateControllerBase {
             user.setStatus(User.STATUS_REG);
         } else {
             user.setStatus(User.STATUS_OK);
+        }
+
+        //强制用户状态为未激活
+        boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+        if (isNotActivate) {
+            user.setStatus(User.STATUS_REG);
         }
 
         Object userId = userService.save(user);

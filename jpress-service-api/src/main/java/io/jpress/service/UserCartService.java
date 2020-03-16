@@ -23,16 +23,6 @@ public interface UserCartService {
      */
     public List<UserCart> findAll();
 
-
-    /**
-     * delete model by primary key
-     *
-     * @param id
-     * @return success
-     */
-    public boolean deleteById(Object id);
-
-
     /**
      * delete model
      *
@@ -78,15 +68,15 @@ public interface UserCartService {
      */
     public Page<UserCart> paginate(int page, int pageSize);
 
-    public List<UserCart> findListByUserId(Object userId, int count);
+    public List<UserCart> findListByUserId(Object userId);
 
     public long findCountByUserId(Object userId);
 
     public List<UserCart> findSelectedListByUserId(Long id);
 
-    public UserCart findByProductTablendProductId(String productType, long productId);
+    public UserCart findByProductInfo(long userId, String productType, long productId, String productSpec);
 
     public Page<UserCart> paginateByUser(int page, int pageSize, Long userId);
 
-    public long  querySelectedCount(Long userId);
+    public long querySelectedCount(Long userId);
 }

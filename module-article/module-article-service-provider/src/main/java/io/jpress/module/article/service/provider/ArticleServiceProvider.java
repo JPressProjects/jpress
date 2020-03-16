@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +18,17 @@ package io.jpress.module.article.service.provider;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.LogKit;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
-import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -87,7 +88,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
                 , pagesize
                 , title
                 , categoryId
-                , Columns.create("a.status", status));
+                , Columns.create("article.status", status));
     }
 
     @Override
@@ -97,29 +98,22 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
                 , pagesize
                 , title
                 , categoryId
-                , Columns.create().ne("a.status", Article.STATUS_TRASH));
+                , Columns.create().ne("article.status", Article.STATUS_TRASH));
     }
 
 
     public Page<Article> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId, Columns baseColumns) {
 
-
-        StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        if (categoryId != null) {
-            sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        }
-
         Columns columns = baseColumns;
         columns.add("m.category_id", categoryId);
-        columns.likeAppendPercent("a.title", title);
+        columns.likeAppendPercent("article.title", title);
 
-        sqlBuilder.append(SqlUtils.toWhereSql(columns));
+        Page<Article> dataPage = DAO.leftJoinIf("article_category_mapping", categoryId != null)
+                .as("m")
+                .on("article.id = m.article_id")
+                .paginateByColumns(page, pagesize, columns, "id desc");
 
-        // 前台走默认排序，但是后台必须走 id 排序，
-        // 否当有默认排序的文章很多的时候,发布的新文章可能在后几页
-        sqlBuilder.append(" order by id desc");
 
-        Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
         return joinUserInfo(dataPage);
     }
 
@@ -149,19 +143,13 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Cacheable(name = "articles")
     public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
 
-        StringBuilder sqlBuilder = new StringBuilder("from article a ");
-        sqlBuilder.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-
         Columns columns = new Columns();
         columns.add("m.category_id", categoryId);
-        columns.add("a.status", Article.STATUS_NORMAL);
+        columns.add("article.status", Article.STATUS_NORMAL);
 
-        sqlBuilder.append(SqlUtils.toWhereSql(columns));
-
-        orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
-        sqlBuilder.append(" ORDER BY ").append(orderBy);
-
-        Page<Article> dataPage = DAO.paginate(page, pagesize, "select * ", sqlBuilder.toString(), columns.getValueArray());
+        Page<Article> dataPage = DAO.leftJoin("article_category_mapping")
+                .as("m").on("article.id=m.`article_id`")
+                .paginateByColumns(page, pagesize, columns, StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY));
         return joinUserInfo(dataPage);
     }
 
@@ -181,7 +169,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         try {
             ArticleSearcher searcher = ArticleSearcherFactory.getSearcher();
             Page<Article> page = searcher.search(queryString, pageNum, pageSize);
-            if (page != null) return page;
+            if (page != null) {
+                return page;
+            }
         } catch (Exception ex) {
             LogKit.error(ex.toString(), ex);
         }
@@ -267,31 +257,17 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     @Cacheable(name = "articles", key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
     public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
-        StringBuilder from = new StringBuilder("select * from article a ");
-        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(" where m.category_id = ? ");
-        from.append(" and a.status = ? ");
+        Columns columns = Columns
+                .create("m.category_id", categoryId)
+                .eq("article.status", Article.STATUS_NORMAL)
+                .isNotNullIf("article.thumbnail", hasThumbnail != null && hasThumbnail)
+                .isNullIf("article.thumbnail", hasThumbnail != null && !hasThumbnail);
 
+        List<Article> articles = DAO.leftJoin("article_category_mapping").as("m")
+                .on("article.id = m.`article_id`")
+                .findListByColumns(columns, orderBy, count);
 
-        if (hasThumbnail != null) {
-            if (hasThumbnail == true) {
-                from.append(" and a.thumbnail is not null");
-            } else {
-                from.append(" and a.thumbnail is null");
-            }
-        }
-
-        from.append(" group by a.id ");
-
-        if (orderBy != null) {
-            from.append(" order by " + orderBy);
-        }
-
-        if (count != null) {
-            from.append(" limit " + count);
-        }
-
-        return joinUserInfo(DAO.find(from.toString(), categoryId, Article.STATUS_NORMAL));
+        return joinUserInfo(articles);
     }
 
     @Override
@@ -307,24 +283,18 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
         Columns columns = Columns.create();
         columns.in("m.category_id", tagIds.toArray());
-        columns.ne("a.id", articleId);
-        columns.eq("a.status", status);
+        columns.ne("article.id", articleId);
+        columns.eq("article.status", status);
 
-        StringBuilder from = new StringBuilder("select * from article a ");
-        from.append(" left join article_category_mapping m on a.id = m.`article_id` ");
-        from.append(SqlUtils.toWhereSql(columns));
-        // from.append(" group by a.id");
+        List<Article> articles = DAO.leftJoin("article_category_mapping").as("m")
+                .on("article.id = m.`article_id`")
+                .findListByColumns(columns, count);
 
-        if (count != null) {
-            from.append(" limit " + count);
-        }
-
-        return joinUserInfo(DAO.find(from.toString(), columns.getValueArray()));
+        return joinUserInfo(articles);
     }
 
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
     public Object save(Article model) {
         Object id = super.save(model);
         if (id != null && model.isNormal()) {
@@ -337,7 +307,6 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
     public boolean update(Article model) {
         boolean success = super.update(model);
         if (success) {
@@ -355,8 +324,8 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
         return success;
     }
 
+
     @Override
-    @CacheEvict(name = "articles", key = "*")
     public boolean delete(Article model) {
         boolean success = super.delete(model);
         if (success) {
@@ -374,7 +343,11 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
 
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
+
+    @CachesEvict({
+            @CacheEvict(name = "articles", key = "*"),
+            @CacheEvict(name = "article-category", key = "#(articleId)"),
+    })
     public void doUpdateCategorys(long articleId, Long[] categoryIds) {
 
         Db.tx(() -> {
@@ -396,9 +369,9 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     }
 
     @Override
-    @CacheEvict(name = "articles", key = "*")
     public boolean deleteById(Object id) {
 
+        //搜索搜索引擎的内容
         ArticleSearcherFactory.getSearcher().deleteArticle(id);
 
         return Db.tx(() -> {
@@ -407,18 +380,29 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
                 return false;
             }
 
+            //删除文章的管理分类
             List<Record> records = Db.find("select * from article_category_mapping where article_id = ? ", id);
-            if (records == null || records.isEmpty()) {
-                return true;
+            if (records != null && !records.isEmpty()) {
+                //更新文章数量
+                Db.update("delete from article_category_mapping where article_id = ?", id);
+                records.forEach(record -> categoryService.doUpdateArticleCount(record.get("category_id")));
             }
 
-            Db.update("delete from article_category_mapping where article_id = ?", id);
 
-            records.forEach(record -> categoryService.doUpdateArticleCount(record.get("category_id")));
+            //删除文章的所有评论
+            commentService.deleteByArticleId(id);
 
             return true;
         });
     }
 
 
+    @Override
+    @CachesEvict({
+            @CacheEvict(name = "articles", key = "*"),
+            @CacheEvict(name = "article-category", key = "#(id)", unless = "id == null"),
+    })
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        super.shouldUpdateCache(action, model, id);
+    }
 }

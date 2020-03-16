@@ -13,8 +13,10 @@ public class UserAmountStatement extends BaseUserAmountStatement<UserAmountState
 
     public static final String ACTION_PAY_ORDER = "pay_order";//支付订单（支出）
     public static final String ACTION_PAYOUT = "payout";//提现（支出）
+
     public static final String ACTION_RECHARGE = "recharge";//充值（收入）
     public static final String ACTION_DIST = "dist"; //分销（收入）
+    public static final String ACTION_COUPON = "coupon"; //奖励类型优惠码（收入）
 
 
 }

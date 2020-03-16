@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +42,9 @@ public class JsoupUtils {
     }
 
     public static String getFirstQuerySrc(String html, String query) {
-        if (StrUtil.isBlank(html))
+        if (StrUtil.isBlank(html)) {
             return null;
+        }
 
         Elements es = Jsoup.parseBodyFragment(html).select(query);
         if (es != null && es.size() > 0) {
@@ -67,7 +68,9 @@ public class JsoupUtils {
         if (es != null && es.size() > 0) {
             for (Element e : es) {
                 String src = e.attr("src");
-                if (StrUtil.isNotBlank(src)) list.add(src);
+                if (StrUtil.isNotBlank(src)) {
+                    list.add(src);
+                }
             }
         }
         return list.isEmpty() ? null : list;
@@ -82,11 +85,15 @@ public class JsoupUtils {
     }
 
     public static void clean(Model model, String... attrs) {
-        if (attrs != null && attrs.length == 0) return;
+        if (attrs != null && attrs.length == 0) {
+            return;
+        }
 
         for (String attr : attrs) {
             Object data = model.get(attr);
-            if (data == null || !(data instanceof String)) continue;
+            if (data == null || !(data instanceof String)) {
+                continue;
+            }
 
             model.set(attr, clean((String) data));
         }
@@ -95,8 +102,9 @@ public class JsoupUtils {
     private static MyWhitelist whitelist = new MyWhitelist();
 
     public static String clean(String html) {
-        if (StrUtil.isNotBlank(html))
+        if (StrUtil.isNotBlank(html)) {
             return Jsoup.clean(html, whitelist);
+        }
 
         return html;
     }
@@ -147,13 +155,14 @@ public class JsoupUtils {
         @Override
         protected boolean isSafeAttribute(String tagName, Element el, Attribute attr) {
 
-            //不允许 javascript 开头的 src
-            if ("src".equalsIgnoreCase(attr.getKey())) {
-                String src = attr.getValue();
-                if (StrUtil.isNotBlank(src) && src.toLowerCase().startsWith("javascript")) {
+            //不允许 javascript 开头的 src 和 href
+            if ("src".equalsIgnoreCase(attr.getKey()) || "href".equalsIgnoreCase(attr.getKey())) {
+                String value = attr.getValue();
+                if (StrUtil.isNotBlank(value) && value.toLowerCase().startsWith("javascript")) {
                     return false;
                 }
             }
+
 
             //允许 base64 的图片内容
             if ("img".equals(tagName) && "src".equals(attr.getKey()) && attr.getValue().startsWith("data:;base64")){

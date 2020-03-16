@@ -1,6 +1,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserCart;
 
 import java.math.BigDecimal;
@@ -40,7 +41,7 @@ public class UserCart extends BaseUserCart<UserCart> {
     }
 
 
-    public BigDecimal getNewProductPrice(){
+    public BigDecimal getNewProductPrice() {
         BigDecimal newestSalePrice = getBigDecimal("newestSalePrice");
         return newestSalePrice == null ? getProductPrice() : newestSalePrice;
     }
@@ -62,5 +63,17 @@ public class UserCart extends BaseUserCart<UserCart> {
         return userFavorite;
     }
 
+
+    @Override
+    public boolean save() {
+        CommonsUtils.escapeModel(this, "options");
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.escapeModel(this, "options");
+        return super.update();
+    }
 
 }

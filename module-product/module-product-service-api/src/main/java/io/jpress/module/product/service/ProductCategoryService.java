@@ -118,15 +118,6 @@ public interface ProductCategoryService {
 
 
     /**
-     * 根据条件进行删除
-     *
-     * @param columns
-     * @return
-     */
-    public boolean deleteByColumns(Columns columns);
-
-
-    /**
      * 保存到数据库
      *
      * @param model
@@ -194,7 +185,7 @@ public interface ProductCategoryService {
 
     public List<ProductCategory> findListByProductId(long productId, String type);
 
-    public List<ProductCategory> _findListByType(String type);
+    public List<ProductCategory> findListByType(String type);
 
     public List<ProductCategory> findListByType(String type,String orderBy,Integer count);
 
@@ -208,6 +199,8 @@ public interface ProductCategoryService {
 
 
     public void doUpdateProductCount(long categoryId);
+
+    public ProductCategory findFirstByFlag(String flag);
 
 
 }

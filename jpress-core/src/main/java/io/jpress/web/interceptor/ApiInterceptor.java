@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import io.jpress.JPressOptions;
 import io.jpress.service.UserService;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,9 +45,9 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
     private static String apiSecret = null;
 
     /**
-     * api 的有效时间，默认为 10 分支
+     * api 的有效时间，默认为 10 分钟
      */
-    private static final long timeout = 10 * 60 * 1000;
+    private static final long TIMEOUT = 10 * 60 * 1000;
 
     public ApiInterceptor() {
         JPressOptions.addListener(this);
@@ -83,9 +84,11 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
 
         JbootController controller = (JbootController) inv.getController();
-        String appId = controller.getPara("appId");
+        Map<String, String> parasMap = paramToMap(controller.getRequest().getQueryString());
+
+        String appId = parasMap.get("appId");
         if (StrUtil.isBlank(appId)) {
-            inv.getController().renderJson(Ret.fail().set("message", "在Url中获取到appId内容，请注意Url是否正确。"));
+            inv.getController().renderJson(Ret.fail().set("message", "在Url中未获取到appId内容，请注意Url是否正确。"));
             return;
         }
 
@@ -95,20 +98,21 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        String sign = controller.getPara("sign");
+        String sign = parasMap.get("sign");
         if (StrUtil.isBlank(sign)) {
             controller.renderJson(Ret.fail("message", "签名数据不能为空，请提交 sign 数据。"));
             return;
         }
 
-        Long time = controller.getParaToLong("t");
+        String timeStr = parasMap.get("t");
+        Long time = timeStr == null ? null : Long.valueOf(timeStr);
         if (time == null) {
             controller.renderJson(Ret.fail("message", "时间参数不能为空，请提交 t 参数数据。"));
             return;
         }
 
         // 时间验证，可以防止重放攻击
-        if (Math.abs(System.currentTimeMillis() - time) > timeout) {
+        if (Math.abs(System.currentTimeMillis() - time) > TIMEOUT) {
             controller.renderJson(Ret.fail("message", "请求超时，请重新请求。"));
             return;
         }
@@ -127,8 +131,8 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         inv.invoke();
     }
 
-    private String createLocalSign(Controller controller) {
 
+    private String createLocalSign(Controller controller) {
         String queryString = controller.getRequest().getQueryString();
         Map<String, String[]> params = controller.getRequest().getParameterMap();
 
@@ -150,6 +154,25 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         }
         query.append(apiSecret);
         return HashKit.md5(query.toString());
+    }
+
+
+
+    private static Map<String, String> paramToMap(String queryString) {
+        String[] params = queryString.split("&");
+        Map<String, String> resMap = new HashMap<>();
+        for (int i = 0; i < params.length; i++) {
+            String[] param = params[i].split("=");
+            if (param.length >= 2) {
+                String key = param[0];
+                String value = param[1];
+                for (int j = 2; j < param.length; j++) {
+                    value += "=" + param[j];
+                }
+                resMap.put(key, value);
+            }
+        }
+        return resMap;
     }
 
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,13 @@
  */
 package io.jpress.module.page.controller;
 
+import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
+import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.module.page.PageNotifyKit;
@@ -32,6 +35,7 @@ import io.jpress.web.handler.JPressHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -51,6 +55,7 @@ public class PageController extends TemplateControllerBase {
     @Inject
     private OptionService optionService;
 
+    private static final Set<String> excludePage = Sets.newHashSet("setting", "layout", "header", "footer");
 
     public void index() {
 
@@ -61,8 +66,16 @@ public class PageController extends TemplateControllerBase {
                 ? pageService.findById(slugOrId)
                 : pageService.findFirstBySlug(slugOrId);
 
-        render404If(page == null || !page.isNormal());
+        if (page == null || !page.isNormal()) {
+            renderTemplateView(slugOrId, target);
+        } else {
+            renderPage(page, target);
+        }
 
+    }
+
+
+    private void renderPage(SinglePage page, String target) {
         pageService.doIncViewCount(page.getId());
 
         //设置SEO信息
@@ -76,6 +89,24 @@ public class PageController extends TemplateControllerBase {
         render(page.getHtmlView());
     }
 
+
+    private void renderTemplateView(String slugOrId, String target) {
+        if (excludePage.contains(slugOrId)) {
+            renderError(404);
+            return;
+        }
+
+        String htmlView = slugOrId + ".html";
+        if (hasTemplate(htmlView)) {
+            //设置菜单高亮
+            setMenuActive(menu -> menu.isUrlStartWidth(target));
+            render(htmlView);
+        } else {
+            renderError(404);
+        }
+    }
+
+
     private void setSeoInfos(SinglePage page) {
         setSeoTitle(page.getTitle());
         setSeoKeywords(page.getMetaKeywords());
@@ -83,9 +114,6 @@ public class PageController extends TemplateControllerBase {
                 ? CommonsUtils.maxLength(page.getText(), 100)
                 : page.getMetaDescription());
     }
-
-
-
 
 
     /**
@@ -114,12 +142,17 @@ public class PageController extends TemplateControllerBase {
         }
 
         //是否对用户输入验证码进行验证
-        Boolean vCodeEnable = optionService.findAsBoolByKey("page_comment_vcode_enable");
+        Boolean vCodeEnable = JPressOptions.isTrueOrEmpty("page_comment_vcode_enable");
         if (vCodeEnable != null && vCodeEnable == true) {
             if (validateCaptcha("captcha") == false) {
-                renderJson(Ret.fail().set("message", "验证码错误"));
+                renderJson(Ret.fail().set("message", "验证码错误").set("errorCode", 2));
                 return;
             }
+        }
+
+        if (DFAUtil.isContainsSensitiveWords(content)) {
+            renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
+            return;
         }
 
 
@@ -131,7 +164,7 @@ public class PageController extends TemplateControllerBase {
 
 
         //是否开启评论功能
-        Boolean commentEnable = optionService.findAsBoolByKey("page_comment_enable");
+        Boolean commentEnable = JPressOptions.isTrueOrEmpty("page_comment_enable");
         if (commentEnable == null || commentEnable == false) {
             renderJson(Ret.fail().set("message", "评论功能已关闭"));
             return;
@@ -183,12 +216,12 @@ public class PageController extends TemplateControllerBase {
             commentService.doIncCommentReplyCount(pid);
 
             SinglePageComment parent = commentService.findById(pid);
-            if (parent != null && parent.isNormal()){
-                comment.put("parent",parent);
+            if (parent != null && parent.isNormal()) {
+                comment.put("parent", parent);
             }
         }
 
-        Ret ret = Ret.ok().set("code",0);
+        Ret ret = Ret.ok().set("code", 0);
 
 
         Map<String, Object> paras = new HashMap<>();
@@ -198,7 +231,7 @@ public class PageController extends TemplateControllerBase {
             paras.put("user", user.keepSafe());
         }
 
-        setRetHtml(ret,paras,"/WEB-INF/views/commons/page/defaultPageCommentItem.html");
+        renderHtmltoRet("/WEB-INF/views/commons/page/defaultPageCommentItem.html", paras, ret);
 
         PageNotifyKit.notify(page, comment, user);
 

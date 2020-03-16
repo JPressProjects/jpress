@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,26 +47,24 @@ public class CheckboxRender implements SmartFieldRender {
 
     @Override
     public String onRender(SmartField field, Object value) {
-        if (field.getValue() == null || StrUtil.isBlank(field.getValue())) {
+        if (StrUtil.isBlank(field.getValue())) {
             return null;
         }
-        String[] values = field.getValue().split(",");
-        String[] texts = field.getValueText() == null ? null : field.getValue().split(",");
 
-        String[] dbValues = value == null
-                ? null
-                : value.toString().split(",");
+        String[] values = field.getValue().split(",");
+        String[] texts = StrUtil.isBlank(field.getValueText()) ? values : field.getValueText().split(",");
+
+        String[] dbValues = (value == null)  ? null : value.toString().split(",");
 
         int index = 0;
         StringBuilder items = new StringBuilder();
         for (String v : values) {
             String item = template_item.replace("{offset}", index == 0 ? "" : "col-sm-offset-2")
-                    .replace("{text}", getText(texts, index, v))
+                    .replace("{text}", getText(texts, index++, v))
                     .replace("{checked}", getCheckedText(v, dbValues))
                     .replace("{name}", field.getName())
                     .replace("{value}", v);
             items.append(item);
-            index++;
         }
 
         return RenderKit.replace(template1, "{label}", field.getLabel()) +
@@ -75,12 +73,14 @@ public class CheckboxRender implements SmartFieldRender {
 
     private String getCheckedText(String v, String[] values) {
         if (values == null) {
-            return "";
+            return StrUtil.EMPTY;
         }
         for (String value : values) {
-            if (Objects.equals(v, value)) return "checked";
+            if (Objects.equals(v, value)) {
+                return "checked";
+            }
         }
-        return "";
+        return StrUtil.EMPTY;
     }
 
     private String getText(String[] texts, int i, String v) {

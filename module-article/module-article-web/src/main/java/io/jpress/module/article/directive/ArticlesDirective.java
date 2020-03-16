@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.module.page.directive
  */
 @JFinalDirective("articles")
 public class ArticlesDirective extends JbootDirectiveBase {
@@ -57,9 +56,9 @@ public class ArticlesDirective extends JbootDirectiveBase {
 
         if (hasThumbnail != null) {
             if (hasThumbnail) {
-                columns.is_not_null("thumbnail");
+                columns.isNotNull("thumbnail");
             } else {
-                columns.is_null("thumbnail");
+                columns.isNull("thumbnail");
             }
         }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,56 +60,72 @@ public class OauthController extends Oauth2Controller {
      */
     @Override
     public void onAuthorizeSuccess(OauthUser ouser) {
-        User dbUser = null;
+        User user = null;
         switch (ouser.getSource()) {
             case "qq":
-                dbUser = userService.findFistByQQOpenid(ouser.getOpenId());
+                user = userService.findFistByQQOpenid(ouser.getOpenId());
                 break;
             case "wechat":
-                dbUser = userService.findFistByWxOpenid(ouser.getOpenId());
+                user = userService.findFistByWxOpenid(ouser.getOpenId());
                 break;
             case "weibo":
-                dbUser = userService.findFistByWeiboOpenid(ouser.getOpenId());
+                user = userService.findFistByWeiboOpenid(ouser.getOpenId());
                 break;
             case "github":
-                dbUser = userService.findFistByGithubOpenid(ouser.getOpenId());
+                user = userService.findFistByGithubOpenid(ouser.getOpenId());
                 break;
             case "gitee":
-                dbUser = userService.findFistByGiteeOpenid(ouser.getOpenId());
+                user = userService.findFistByGiteeOpenid(ouser.getOpenId());
                 break;
             case "dingding":
-                dbUser = userService.findFistByDingdingOpenid(ouser.getOpenId());
+                user = userService.findFistByDingdingOpenid(ouser.getOpenId());
                 break;
             default:
                 redirect("/user/login");
                 return;
         }
 
-        if (dbUser == null){
-            dbUser = UserInterceptor.getThreadLocalUser();
-            if (dbUser != null){
-                dbUser.setAvatar(ouser.getAvatar());
-                dbUser.setNickname(ouser.getNickname());
-                openidService.saveOrUpdate(dbUser.getId(),ouser.getSource(),ouser.getOpenId());
-                userService.update(dbUser);
+        if (user == null) {
+            user = UserInterceptor.getThreadLocalUser();
+            if (user != null) {
+                user.setAvatar(ouser.getAvatar());
+                user.setNickname(ouser.getNickname());
+                openidService.saveOrUpdate(user.getId(), ouser.getSource(), ouser.getOpenId());
+                userService.update(user);
             }
         }
 
-        if (dbUser == null) {
-            dbUser = new User();
-            dbUser.setAvatar(ouser.getAvatar());
-            dbUser.setNickname(ouser.getNickname());
-            dbUser.setCreateSource(ouser.getSource());
-            dbUser.setCreated(new Date());
-            dbUser.setGender(ouser.getGender());
-            dbUser.setSalt(HashKit.generateSaltForSha256());
-            Object id = userService.save(dbUser);
-            openidService.saveOrUpdate(id,ouser.getSource(),ouser.getOpenId());
+        if (user == null) {
+            user = new User();
+            user.setAvatar(ouser.getAvatar());
+            user.setNickname(ouser.getNickname());
+            user.setCreateSource(ouser.getSource());
+            user.setCreated(new Date());
+            user.setGender(ouser.getGender());
+            user.setSalt(HashKit.generateSaltForSha256());
+            user.setLogged(new Date());
+
+            // 是否启用邮件验证
+            boolean emailValidate = JPressOptions.getAsBool("reg_email_validate_enable");
+            if (emailValidate) {
+                user.setStatus(User.STATUS_REG);
+            } else {
+                user.setStatus(User.STATUS_OK);
+            }
+
+            //强制用户状态为未激活
+            boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+            if (isNotActivate) {
+                user.setStatus(User.STATUS_REG);
+            }
+
+            Object id = userService.save(user);
+            openidService.saveOrUpdate(id, ouser.getSource(), ouser.getOpenId());
 
         }
 
-        CookieUtil.put(this, JPressConsts.COOKIE_UID, dbUser.getId());
-        String gotoUrl = JPressOptions.get("login_goto_url","/ucenter");
+        CookieUtil.put(this, JPressConsts.COOKIE_UID, user.getId());
+        String gotoUrl = JPressOptions.get("login_goto_url", "/ucenter");
         redirect(gotoUrl);
     }
 
@@ -153,57 +169,69 @@ public class OauthController extends Oauth2Controller {
 
     private OauthConnector createDingdingConnector() {
         boolean enable = JPressOptions.getAsBool("login_dingding_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_dingding_appkey");
         String appsecret = JPressOptions.get("login_dingding_appsecret");
-        return new DingdingConnector("dingding", appkey, appsecret);
+        return new DingdingConnector(appkey, appsecret);
     }
 
     private OauthConnector createGiteeConnector() {
         boolean enable = JPressOptions.getAsBool("login_gitee_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_gitee_appkey");
         String appsecret = JPressOptions.get("login_gitee_appsecret");
-        return new OSChinaConnector("gitee", appkey, appsecret);
+        return new OSChinaConnector(appkey, appsecret);
     }
 
     private OauthConnector createGithubConnector() {
         boolean enable = JPressOptions.getAsBool("login_github_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_github_appkey");
         String appsecret = JPressOptions.get("login_github_appsecret");
-        return new GithubConnector("github", appkey, appsecret);
+        return new GithubConnector(appkey, appsecret);
     }
 
     private OauthConnector createWeiboConnector() {
         boolean enable = JPressOptions.getAsBool("login_weibo_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_weibo_appkey");
         String appsecret = JPressOptions.get("login_weibo_appsecret");
-        return new WeiboConnector("weibo", appkey, appsecret);
+        return new WeiboConnector(appkey, appsecret);
     }
 
 
     private OauthConnector createQQConnector() {
         boolean enable = JPressOptions.getAsBool("login_qq_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_qq_appkey");
         String appsecret = JPressOptions.get("login_qq_appsecret");
-        return new QQConnector("qq", appkey, appsecret);
+        return new QQConnector(appkey, appsecret);
     }
 
     private OauthConnector createWechatConnector() {
         boolean enable = JPressOptions.getAsBool("login_wechat_enable");
-        if (enable == false) return null;
+        if (enable == false) {
+            return null;
+        }
 
         String appkey = JPressOptions.get("login_wechat_appkey");
         String appsecret = JPressOptions.get("login_wechat_appsecret");
-        return new WechatConnector("wechat", appkey, appsecret);
+        return new WechatConnector(appkey, appsecret);
     }
 
 

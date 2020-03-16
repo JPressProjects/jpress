@@ -117,14 +117,6 @@ public interface ProductImageService  {
     public boolean batchDeleteByIds(Object... ids);
 
 
-    /**
-     * 根据条件进行删除
-     *
-     * @param columns
-     * @return
-     */
-    public boolean deleteByColumns(Columns columns);
-
 
     /**
      * 保存到数据库
@@ -182,8 +174,9 @@ public interface ProductImageService  {
      */
     public Page<ProductImage> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
-    public List<ProductImage> findListByProductId(Object productId);
-
+    public List<ProductImage> findListByProductId(Long productId);
 
     public void saveOrUpdateByProductId(Long id, String[] imageIds, String[] imageSrcs);
+
+    public boolean deleteByProductId(Long productId);
 }

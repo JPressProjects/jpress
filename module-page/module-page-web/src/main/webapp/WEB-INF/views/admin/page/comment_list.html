@@ -105,7 +105,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" />
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
                                 <th style="width: 100px">作者</th>
                                 <th style="width: 40%">内容</th>
@@ -117,7 +117,7 @@
                             #for(comment : page.list??)
                             <tr class="jp-actiontr">
                                 <td>
-                                    <input class="dataItem" type="checkbox" value="#(comment.id)" />
+                                    <input class="dataItem" type="checkbox" value="#(comment.id)"/>
                                 </td>
                                 <td>
                                     <a href="#(comment.user.detailUrl ??)">
@@ -125,13 +125,13 @@
                                     </a>
                                 </td>
                                 <td>
+                                    #(comment.text ??)
                                     <strong>
-                                        <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)">#(comment.text ??)</a>
                                         #if(comment.isUnaudited()) (待审核) #end
                                     </strong>
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)">编辑</a>  |
+                                            <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)">编辑</a> |
                                             <a href="#(CPATH)/admin/page/commentReply/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
                                             <a href="javascript:;"

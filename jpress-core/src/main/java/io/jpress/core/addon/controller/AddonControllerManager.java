@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,30 +39,36 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
 
-    private static Routes addonRoutes = new Routes() {public void config() {}};
+    private static Routes addonRoutes = new AddonRoutes();
     private static AddonActionMapping actionMapping = new AddonActionMapping(addonRoutes);
 
     private static Map<Class, String> controllerAddonMapping = new ConcurrentHashMap<>();
 
 
-    public static void addController(Class<? extends Controller> c, String addonId) {
-        RequestMapping mapping = c.getAnnotation(RequestMapping.class);
-        if (mapping == null) return;
+    public static void addController(Class<? extends Controller> controllerClass, String addonId) {
+        RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
+        if (mapping == null) {
+            return;
+        }
 
-        String value = AnnotationUtil.get(mapping.value());
-        if (value == null) return;
+        String path = AnnotationUtil.get(mapping.value());
+        if (path == null) {
+            return;
+        }
 
         // 尝试去清除 Controller 以保障绝对安全, 虽然插件在 stop() 的时候会去清除
         // 但是由于可能 stop() 出错等原因，没有执行到 deletController 的操作
-        deleteController(c);
+        deleteController(controllerClass);
 
         String viewPath = AnnotationUtil.get(mapping.viewPath());
-        if (StrUtil.isBlank(viewPath) || "/".equals(viewPath)) {
-            addonRoutes.add(value, c, "addons/" + addonId);
-        } else {
-            addonRoutes.add(value, c, viewPath);
+        if (StrUtil.isBlank(viewPath)) {
+            viewPath = "/";
+        } else if (viewPath.indexOf("/") != 0) {
+            viewPath = "/" + viewPath;
         }
-        controllerAddonMapping.put(c, addonId);
+
+        addonRoutes.add(path, controllerClass, "/addons/" + addonId + viewPath);
+        controllerAddonMapping.put(controllerClass, addonId);
     }
 
     public static List<String> getAllActionKeys() {
@@ -72,10 +78,14 @@ public class AddonControllerManager {
 
     public static void deleteController(Class<? extends Controller> c) {
         RequestMapping mapping = c.getAnnotation(RequestMapping.class);
-        if (mapping == null) return;
+        if (mapping == null) {
+            return;
+        }
 
         String value = AnnotationUtil.get(mapping.value());
-        if (value == null) return;
+        if (value == null) {
+            return;
+        }
 
         addonRoutes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(value));
         Routes.getControllerKeySet().removeIf(actionKey -> Objects.equals(actionKey, value));
@@ -98,9 +108,13 @@ public class AddonControllerManager {
 
     private static void deleteAddonMenus() {
         List<MenuItem> adminMenuItems = buildAdminMenuItems();
-        for (MenuItem menuItem : adminMenuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
+        for (MenuItem menuItem : adminMenuItems) {
+            MenuManager.me().deleteMenuItem(menuItem.getId());
+        }
         List<MenuItem> ucenterMenuItems = buildUcenterMenuItems();
-        for (MenuItem menuItem : ucenterMenuItems) MenuManager.me().deleteMenuItem(menuItem.getId());
+        for (MenuItem menuItem : ucenterMenuItems) {
+            MenuManager.me().deleteMenuItem(menuItem.getId());
+        }
     }
 
 
@@ -180,18 +194,14 @@ public class AddonControllerManager {
 
     /**
      * 自定义自己的ActionMapping的原因主要有以下几点
-     *
-     * 1、ActionMapping 的 mapping 是 hashMap，随时对这个 mapping 进行操作可能存在线程不安全的问题
+     * <p>
+     * 1、ActionMapping 的 mapping 是 hashMap，随时对这个 mapping 进行操作可能存在线程不安全的问题，所以需要修改为 ConcurrentHashMap
      * 2、需要把 buildActionMapping() 方法给公布出来，才能在对 mapping 进行操作的时候重新构建 actionKey->Controller 的映射关系
-     * 3、需要给 所有的插件的 Controller 添加一个全局的拦截器 AddonControllerInterceptor，通过拦截器设置每个插件自己的资源路径
-     * 4、需要配置 Routes.setClearAfterMapping(false) 不让 AddonActionMapping 在构建完毕后对 Routes 进行清除的工作
      */
     public static class AddonActionMapping extends ActionMapping {
 
         public AddonActionMapping(Routes routes) {
             super(routes);
-            routes.setClearAfterMapping(false);
-            routes.addInterceptor(new AddonControllerInterceptor());
             this.mapping = new ConcurrentHashMap<>();
         }
 
@@ -204,6 +214,23 @@ public class AddonControllerManager {
         @Override
         public Action getAction(String url, String[] urlPara) {
             return super.getAction(url, urlPara);
+        }
+    }
+
+
+    public static class AddonRoutes extends Routes {
+
+        public AddonRoutes() {
+            //setClearAfterMapping(false) 不让 AddonActionMapping 在构建完毕后对已经添加的 Routes 进行清除的工作
+            setClearAfterMapping(false);
+
+            //通过 AddonControllerInterceptor 拦截器设置每个插件自己的资源路径
+            addInterceptor(new AddonControllerInterceptor());
+        }
+
+        @Override
+        public void config() {
+            //do nothing
         }
     }
 }

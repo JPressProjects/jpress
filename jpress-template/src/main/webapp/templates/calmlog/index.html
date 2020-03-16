@@ -18,7 +18,7 @@
                 <div class="carousel-inner">
                     #for(slide : linesOption('calmlog_slides','\|'))
                     <div class="carousel-item #(for.index == 0 ? 'active' : '')">
-                        <a href="#(slide[1])"><img class="d-block w-100" src="#(slide[0])" alt="First slide"></a>
+                        <a href="#(slide[1])"><img class="d-block w-100" src="#(slide[0])"></a>
                         <p class="cl-inner-footer">#(slide[2])</p>
                     </div>
                     #end
@@ -35,9 +35,9 @@
         </div>
         #end
 
-        <div class="recommend-bottom">
 
-            #articles(hasThumbnail=true,count=2)
+        #articles(hasThumbnail=true,count=2)
+        <div class="recommend-bottom">
             #for(article : articles)
             <div class="recommend-item">
                 <a href="#(article.url)">
@@ -46,8 +46,8 @@
                 <p class="recommend-item-bottom">#(article.title)</p>
             </div>
             #end
-            #end
         </div>
+        #end
 
     </div>
 

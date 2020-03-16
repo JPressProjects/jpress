@@ -3,10 +3,10 @@ package io.jpress.service.provider;
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
-import io.jpress.service.UserAmountStatementService;
-import io.jpress.model.UserAmountStatement;
 import io.jboot.service.JbootServiceBase;
-import org.apache.commons.lang.time.DateUtils;
+import io.jpress.model.UserAmountStatement;
+import io.jpress.service.UserAmountStatementService;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -42,5 +42,13 @@ public class UserAmountStatementServiceProvider extends JbootServiceBase<UserAmo
                 , userId
                 , UserAmountStatement.ACTION_PAYOUT
                 , DateUtils.truncate(new Date(), Calendar.MONTH));
+    }
+
+    @Override
+    public UserAmountStatement findOneByUserIdAndRelative(Long userId, String relativeType, Long relativeId) {
+        return findFirstByColumns(Columns.create("user_id", userId)
+                .eq("action_relative_type", relativeType)
+                .eq("action_relative_id", relativeId)
+        );
     }
 }

@@ -53,7 +53,7 @@ public class Product extends BaseProduct<Product> {
     }
 
     public String getText() {
-        return StrUtil.escapeHtml(JsoupUtils.getText(getContent()));
+        return JsoupUtils.getText(getContent());
     }
 
     /**
@@ -78,7 +78,9 @@ public class Product extends BaseProduct<Product> {
         }
 
         List<String> newList = new ArrayList<>();
-        for (int i = 0; 0 < count; i++) newList.add(list.get(i));
+        for (int i = 0; 0 < count; i++) {
+            newList.add(list.get(i));
+        }
         return newList;
     }
 
@@ -124,7 +126,7 @@ public class Product extends BaseProduct<Product> {
         userCart.setSellerId(this.getUserId());
         userCart.setProductId(getId());
         userCart.setProductType("product");
-        userCart.setProductTypeText("商品");
+        userCart.setProductTypeText("产品");
         userCart.setProductPrice(this.getPrice());
         userCart.setProductCount(1);
         userCart.setProductTitle(getTitle());
@@ -154,8 +156,8 @@ public class Product extends BaseProduct<Product> {
     public UserFavorite toFavorite(Long userId) {
         UserFavorite favorite = new UserFavorite();
         favorite.setUserId(userId);
-        favorite.setType("product");
-        favorite.setTypeText("商品");
+        favorite.setType(UserFavorite.FAV_TYPE_PRODUCT);
+        favorite.setTypeText(UserFavorite.FAV_TYPE_PRODUCT_TEXT);
         favorite.setTypeId(String.valueOf(getId()));
         favorite.setTitle(getTitle());
         favorite.setSummary(getSummary());
@@ -166,4 +168,19 @@ public class Product extends BaseProduct<Product> {
     }
 
 
+    public String getHighlightContent() {
+        return getStr("highlightContent");
+    }
+
+    public void setHighlightContent(String highlightContent) {
+        put("highlightContent", highlightContent);
+    }
+
+    public String getHighlightTitle() {
+        return getStr("highlightTitle");
+    }
+
+    public void setHighlightTitle(String highlightTitle) {
+        put("highlightTitle", highlightTitle);
+    }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +35,9 @@ public class AddonInterceptorManager {
             Interceptor[] temp = new Interceptor[interceptorClasses.size()];
             int index = 0;
             Iterator<Class<? extends Interceptor>> iterator = interceptorClasses.iterator();
-            while (iterator.hasNext()) temp[index++] = ClassUtil.newInstance(iterator.next());
-
+            while (iterator.hasNext()) {
+                temp[index++] = ClassUtil.newInstance(iterator.next());
+            }
             interceptors = temp;
         }
     }

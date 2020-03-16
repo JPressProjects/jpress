@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,13 @@ package io.jpress.web.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.finance.OrderManager;
+import io.jpress.core.finance.ProductManager;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.model.UserOrder;
-import io.jpress.model.UserOrderDelivery;
-import io.jpress.model.UserOrderItem;
+import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.commons.express.ExpressCompany;
@@ -60,6 +60,12 @@ public class _OrderController extends AdminControllerBase {
     @Inject
     private UserOrderDeliveryService deliveryService;
 
+    @Inject
+    private CouponCodeService couponCodeService;
+
+    @Inject
+    private UserOrderInvoiceService invoiceService;
+
 
     @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
     public void index() {
@@ -75,7 +81,9 @@ public class _OrderController extends AdminControllerBase {
         setAttr("mountOrderUserCount", mountOrderUserCount);
 
         keepPara();
-        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10, getPara("productTitle"), getPara("ns"));
+
+        Page<UserOrder> userOrderPage = orderService.paginate(getPagePara(), 10,
+                getTrimPara("productTitle"), getTrimPara("ns"));
         setAttr("page", userOrderPage);
         render("order/order_list.html");
     }
@@ -84,28 +92,48 @@ public class _OrderController extends AdminControllerBase {
     public void detail() {
         UserOrder order = orderService.findById(getPara());
 
-
         List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
 
         setAttr("order", order);
         setAttr("orderItems", orderItems);
         setAttr("orderUser", userService.findById(order.getBuyerId()));
+        setAttr("invoice", invoiceService.findById(order.getInvoiceId()));
+        setAttr("delivery", deliveryService.findById(order.getDeliveryId()));
 
         if (orderItems != null) {
             for (UserOrderItem item : orderItems) {
-                item.put("distUser", userService.findById(item.getId()));
-                item.put("totalDistAmount", item.getDistAmount() == null ? 0 : item.getDistAmount().multiply(BigDecimal.valueOf(item.getProductCount())));
+                item.put("distUser", userService.findById(item.getDistUserId()));
+                item.put("totalDistAmount", item.getDistAmount() == null || item.getDistAmount().compareTo(BigDecimal.ZERO) <= 0
+                        ? null
+                        : item.getDistAmount().multiply(BigDecimal.valueOf(item.getProductCount())));
+            }
+
+            for (UserOrderItem item : orderItems) {
+                item.put("optionsMap", ProductManager.me().renderProductOptions(item));
             }
         }
+
 
         //如果快递已经发货
         if (order.isDeliveried()) {
             UserOrderDelivery delivery = deliveryService.findById(order.getDeliveryId());
-            List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
-            setAttr("expressInfos", expressInfos);
+            if (delivery != null) {
+                List<ExpressInfo> expressInfos = ExpressUtil.queryExpress(delivery.getCompany(), delivery.getNumber());
+                setAttr("expressInfos", expressInfos);
+            }
+        }
+
+        //如果有优惠码的情况
+        if (StrUtil.isNotBlank(order.getCouponCode())) {
+            CouponCode orderCoupon = couponCodeService.findByCode(order.getCouponCode());
+            if (orderCoupon != null) {
+                setAttr("orderCoupon", orderCoupon);
+                setAttr("orderCouponUser", userService.findById(orderCoupon.getUserId()));
+            }
         }
 
         render("order/order_detail.html");
+
     }
 
     /**
@@ -117,73 +145,92 @@ public class _OrderController extends AdminControllerBase {
         render("order/order_layer_deliver.html");
     }
 
+    /**
+     * 更新发货信息
+     */
     public void doUpdateDeliver() {
         UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
-        } else {
+            return;
 
-            int deliveryType = getParaToInt("deliveryType");
-
-
-            //不是无需发货，需要生成发货信息
-            if (UserOrder.DELIVERY_TYPE_NONEED != deliveryType) {
-
-                UserOrderDelivery delivery = new UserOrderDelivery();
-
-                delivery.setNumber(getPara("deliveryNo"));
-                delivery.setCompany(getPara("deliveryCompany"));
-                delivery.setStartTime(getParaToDate("deliveryStartTime"));
-
-                delivery.setAddrUsername(order.getDeliveryAddrUsername());
-                delivery.setAddrMobile(order.getDeliveryAddrMobile());
-                delivery.setAddrProvince(order.getDeliveryAddrProvince());
-                delivery.setAddrCity(order.getDeliveryAddrCity());
-                delivery.setAddrDistrict(order.getDeliveryAddrDistrict());
-                delivery.setAddrDetail(order.getDeliveryAddrDetail());
-                delivery.setAddrZipcode(order.getDeliveryAddrZipcode());
-
-                Object deliveryId = deliveryService.save(delivery);
-                if (deliveryId != null) {
-                    order.setDeliveryId((Long) deliveryId);
-                }
-
-            }
-
-            //设置订单的相关发货信息
-            order.setDeliveryType(deliveryType);
-            if (UserOrder.DELIVERY_TYPE_NONEED == deliveryType) {
-                order.setTradeStatus(UserOrder.TRADE_STATUS_FINISHED);
-            } else {
-                order.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
-            }
-
-            //设置订单项的相关发货信息
-            List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
-            for (UserOrderItem item : orderItems) {
-                if (item.isVirtualProduct()) {
-                    item.setStatus(UserOrderItem.STATUS_FINISHED);
-                } else {
-                    item.setStatus(order.getTradeStatus());
-                }
-            }
-
-            //保存订单以及订单项的发货信息
-            if (orderService.updateOrderAndItems(order, orderItems)) {
-                for (UserOrderItem item : orderItems) {
-                    OrderManager.me().notifyStatusChange(item);
-                }
-            }
-
-            renderOkJson();
         }
+
+        // 发货的类型
+        int deliveryType = getParaToInt("deliveryType");
+
+
+        //不是无需发货，需要生成发货信息
+        if (UserOrder.DELIVERY_TYPE_NONEED != deliveryType) {
+
+            UserOrderDelivery delivery = new UserOrderDelivery();
+
+            delivery.setNumber(getPara("deliveryNo"));
+            delivery.setCompany(getPara("deliveryCompany"));
+            delivery.setStartTime(getParaToDate("deliveryStartTime"));
+
+            delivery.setAddrUsername(order.getDeliveryAddrUsername());
+            delivery.setAddrMobile(order.getDeliveryAddrMobile());
+            delivery.setAddrProvince(order.getDeliveryAddrProvince());
+            delivery.setAddrCity(order.getDeliveryAddrCity());
+            delivery.setAddrDistrict(order.getDeliveryAddrDistrict());
+            delivery.setAddrDetail(order.getDeliveryAddrDetail());
+            delivery.setAddrZipcode(order.getDeliveryAddrZipcode());
+
+            Object deliveryId = deliveryService.save(delivery);
+            if (deliveryId != null) {
+                order.setDeliveryId((Long) deliveryId);
+            }
+        }
+
+
+        //设置订单的相关发货信息
+        order.setDeliveryType(deliveryType);
+
+
+        //无需发货，直接设置订单为结束
+        if (UserOrder.DELIVERY_TYPE_NONEED == deliveryType) {
+            order.setTradeStatus(UserOrder.TRADE_STATUS_FINISHED);
+            order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_NONEED);
+        }
+        // 需要发货，设置订单状态为完成
+        else {
+            order.setTradeStatus(UserOrder.TRADE_STATUS_COMPLETED);
+            order.setDeliveryStatus(UserOrder.DELIVERY_STATUS_DELIVERIED);
+        }
+
+        //设置订单项的相关发货信息
+        List<UserOrderItem> orderItems = orderItemService.findListByOrderId(order.getId());
+        for (UserOrderItem item : orderItems) {
+
+            //如果是虚拟产品，设置该订单项的状态为完成
+            if (item.isVirtualProduct()) {
+                item.setStatus(UserOrderItem.STATUS_FINISHED);
+            }
+            //否则设置订单项的状态和订单的状态相同
+            else {
+                item.setStatus(order.getTradeStatus());
+            }
+        }
+
+        //保存订单以及订单项的发货信息
+        if (orderService.updateOrderAndItems(order, orderItems)) {
+            for (UserOrderItem item : orderItems) {
+                OrderManager.me().notifyItemStatusChanged(item);
+            }
+        }
+
+        OrderManager.me().notifyOrderStatusChanged(order);
+        renderOkJson();
     }
 
     /**
      * 发票设置
      */
     public void invoice() {
-        setAttr("order", orderService.findById(getPara()));
+        UserOrder order = orderService.findById(getPara());
+        setAttr("order", order);
+        setAttr("invoice", invoiceService.findById(order.getInvoiceId()));
         render("order/order_layer_invoice.html");
     }
 
@@ -191,11 +238,19 @@ public class _OrderController extends AdminControllerBase {
         UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {
             renderFailJson();
-        } else {
-            order.setInvoiceStatus(getParaToInt("invoiceStatus"));
-            orderService.update(order);
-            renderOkJson();
+            return;
         }
+        order.setInvoiceStatus(getParaToInt("invoiceStatus"));
+
+        UserOrderInvoice invoice = invoiceService.findById(getPara("invoiceId"));
+        invoice.setStatus(getParaToInt("invoiceStatus"));
+        invoice.setContent(getPara("invoiceContent"));
+
+        orderService.update(order);
+        invoiceService.update(invoice);
+
+        renderOkJson();
+
     }
 
     /**

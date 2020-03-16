@@ -26,7 +26,14 @@
         dropZone: $('#uploader'),
         url: '#(CPATH)/admin/template/doInstall',
         sequentialUploads: true,
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $(".myPanel").text("上传进度：" + progress + "%")
+        },
         done: function (e, data) {
+
+            $(".myPanel").text("或者模板文件到这里进行安装...");
+
             if (data.result.state == "ok") {
                 toastr.options.onHidden = function () {
                     location.href = "#(CPATH)/admin/template";

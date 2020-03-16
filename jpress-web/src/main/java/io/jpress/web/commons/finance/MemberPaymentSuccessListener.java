@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package io.jpress.web.commons.finance;
 
-import com.jfinal.aop.Aop;
+import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import io.jpress.core.finance.PaymentSuccessListener;
@@ -26,15 +26,26 @@ import io.jpress.model.PaymentRecord;
 import io.jpress.service.MemberGroupService;
 import io.jpress.service.MemberJoinedRecordService;
 import io.jpress.service.MemberService;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.util.Date;
 
-
+/**
+ * @author michael yang
+ */
 public class MemberPaymentSuccessListener implements PaymentSuccessListener {
 
     public static final Log LOG = Log.getLog(MemberPaymentSuccessListener.class);
 
+
+    @Inject
+    private MemberService memberService;
+
+    @Inject
+    private  MemberGroupService groupService;
+
+    @Inject
+    private MemberJoinedRecordService joinedRecordService;
 
     @Override
     public void onSuccess(PaymentRecord payment) {
@@ -42,10 +53,6 @@ public class MemberPaymentSuccessListener implements PaymentSuccessListener {
         if (PaymentRecord.TRX_TYPE_MEMBER.equals(payment.getTrxType())) {
 
             boolean updateSucess = Db.tx(() -> {
-
-                MemberService memberService = Aop.get(MemberService.class);
-                MemberGroupService groupService = Aop.get(MemberGroupService.class);
-                MemberJoinedRecordService joinedRecordService = Aop.get(MemberJoinedRecordService.class);
 
                 MemberGroup group = groupService.findById(payment.getProductRelativeId());
 

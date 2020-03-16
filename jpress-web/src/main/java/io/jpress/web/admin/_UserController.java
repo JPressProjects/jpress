@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@ import io.jpress.service.*;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
 import io.jpress.web.commons.email.AdminMessageSender;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.io.File;
 import java.util.*;
@@ -75,7 +75,6 @@ public class _UserController extends AdminControllerBase {
     @Inject
     private MemberJoinedRecordService memberJoinedRecordService;
 
-
     @Inject
     private UserTagService userTagService;
 
@@ -84,10 +83,10 @@ public class _UserController extends AdminControllerBase {
     public void index() {
 
         Columns columns = Columns.create("status", getPara("status"));
-        columns.likeAppendPercent("username", getPara("username"));
+        columns.likeAppendPercent("username", getTrimPara("username"));
 //        columns.likeAppendPercent("nickname", getPara("username"));
-        columns.likeAppendPercent("email", getPara("email"));
-        columns.likeAppendPercent("mobile", getPara("mobile"));
+        columns.likeAppendPercent("email", getTrimPara("email"));
+        columns.likeAppendPercent("mobile", getTrimPara("mobile"));
         columns.eq("create_source", getPara("create_source"));
 
 
@@ -576,7 +575,7 @@ public class _UserController extends AdminControllerBase {
 
     public void doUpdateUserTags() {
         Long[] tagIds = getTagIds(getParaValues("tag"));
-        userTagService.doUpdateTags(getLoginedUser().getId(), tagIds);
+        userTagService.doUpdateTags(getParaToLong("userId"), tagIds);
         renderOkJson();
     }
 

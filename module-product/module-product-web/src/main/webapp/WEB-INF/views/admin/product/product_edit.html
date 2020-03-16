@@ -223,7 +223,7 @@
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="contentEditor" name="product.content"
-                                          style="height: 467px;width: 100%;background-color: white">#CKEditorContent(product.content ??)</textarea>
+                                          style="height: 467px;width: 100%;background-color: white">#EditorContent(product.content ??)</textarea>
                             </div>
                         </div>
 
@@ -252,7 +252,7 @@
                                             #end
 
                                             <div class="img-wrapper img-hover" style="cursor: pointer">
-                                                <img src="/static/commons/img/chose-image-btn.png" class="choseImage">
+                                                <img src="#(CPATH)/static/commons/img/chose-image-btn.png" class="choseImage">
                                             </div>
                                         </div>
                                     </div>
@@ -429,40 +429,6 @@
                         </div>
                     </div>
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">模板样式</h3>
-                        </div>
-                        <div class="box-body ">
-
-                            #if(styles && styles.size() > 0 )
-                            <div class="form-group">
-                                <select class="form-control" name="product.style">
-                                    <option value="">默认样式</option>
-                                    #for(style : styles)
-                                    <option value="#(style)" #selectedIf(product && product.style==style)>
-                                        #(style)
-                                    </option>
-                                    #end
-                                </select>
-                            </div>
-                            #end
-
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="product.flag"
-                                       placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
-                                #if(flags && flags.size() > 0)
-                                <p class="help-block">当前模板支持的展示标识有：</p>
-                                <div class="tags">
-                                    #for(flag : flags ??)
-                                    <a href="javascript:;" class="tflag">#(flag)</a>
-                                    #end
-                                </div>
-                                #end
-
-                            </div>
-                        </div>
-                    </div>
 
 
                     <div class="box box-solid">
@@ -506,7 +472,7 @@
                             <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
 
                             <div class="tags">
-                                #tags(count = 20)
+                                #productTags(count = 20)
                                 #for(tag : tags)
                                 <a href="javascript:;" class="newTag">#(tag.title)</a>
                                 #end
@@ -514,6 +480,8 @@
                             </div>
                         </div>
                     </div>
+
+
                     <div class="box box-solid">
                         <div class="box-header with-border ">
                             <h3 class="box-title">产品主图</h3>
@@ -534,24 +502,42 @@
                         </div>
                     </div>
 
+
                     <div class="box box-solid">
                         <div class="box-header with-border ">
-                            <h3 class="box-title">产品视频</h3>
+                            <h3 class="box-title">模板样式</h3>
                         </div>
-                        <div class="box-body no-padding">
-                            <img src="#(CPATH)#(product.video_cover ?? '/static/commons/img/nothumbnail.jpg')"
-                                 style="width: 100%;height: 200px"
-                                 id="videoimg">
-                            <input type="hidden" value="#(product.video ??)" name="product.video" id="videoinput">
-                        </div>
-                        <div class="box-footer">
-                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
-                                    for-src="videoimg"
-                                    for-input="videoinput">选择视频
-                            </button>
-                            <a href="javascript:;" style="padding-left: 15px" id="removeVideo">移除</a>
+                        <div class="box-body ">
+
+                            #if(styles && styles.size() > 0 )
+                            <div class="form-group">
+                                <select class="form-control" name="product.style">
+                                    <option value="">默认样式</option>
+                                    #for(style : styles)
+                                    <option value="#(style)" #selectedIf(product && product.style==style)>
+                                        #(style)
+                                    </option>
+                                    #end
+                                </select>
+                            </div>
+                            #end
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="product.flag"
+                                       placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
+                                #if(flags && flags.size() > 0)
+                                <p class="help-block">当前模板支持的展示标识有：</p>
+                                <div class="tags">
+                                    #for(flag : flags ??)
+                                    <a href="javascript:;" class="tflag">#(flag)</a>
+                                    #end
+                                </div>
+                                #end
+
+                            </div>
                         </div>
                     </div>
+
 
                 </div>
             </div>

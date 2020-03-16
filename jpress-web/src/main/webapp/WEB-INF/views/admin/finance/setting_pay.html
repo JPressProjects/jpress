@@ -24,8 +24,18 @@
                           id="optionForm">
                         <div class="box-body ">
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">网站域名</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="填写网站的域名"
+                                           name="web_domain" value="#option('web_domain')">
+                                    <p class="help-block"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://www.jpress.io ，
+                                        <span style="color: red">要开启支付功能，必须正确填写此项内容。</span> </p>
+                                </div>
+                            </div>
 
-                            <h4 class="page-first-header">对私收款</h4>
+
+                            <h4 class="page-header">对私收款</h4>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">个人微信收款</label>
                                 <div class="col-sm-6">
@@ -45,7 +55,7 @@
                                         <i class="fa fa-fw fa-image"></i> 选择图片
                                     </button>
                                     <br/>
-                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/nothumbnail.jpg')" id="wechatx_pay_qrcode_img">
+                                    <img src="#(CPATH)#option('wechatx_pay_qrcode','/static/commons/img/nothumbnail.jpg')" id="wechatx_pay_qrcode_img">
                                     <input type="hidden" id="wechatx_pay_qrcode_input" name="wechatx_pay_qrcode" value="#option('wechatx_pay_qrcode')">
                                 </div>
                             </div>
@@ -62,7 +72,7 @@
 
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">个人支付收款</label>
+                                <label class="col-sm-2 control-label">个人支付宝收款</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="alipayx_pay_enable" #checkedIf(option("alipayx_pay_enable"))>
                                     <input type="hidden" id="alipayx_pay_enable" name="alipayx_pay_enable">
@@ -79,7 +89,7 @@
                                         <i class="fa fa-fw fa-image"></i> 选择图片
                                     </button>
                                     <br/>
-                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/nothumbnail.jpg')" id="alipayx_pay_qrcode_img">
+                                    <img src="#(CPATH)#option('alipayx_pay_qrcode','/static/commons/img/nothumbnail.jpg')" id="alipayx_pay_qrcode_img">
                                     <input type="hidden" id="alipayx_pay_qrcode_input" name="alipayx_pay_qrcode" value="#option('alipayx_pay_qrcode')">
                                 </div>
                             </div>
@@ -101,7 +111,12 @@
                                     <input type="checkbox" class="switchery"  data-for="wechat_pay_enable"
                                            #checkedIf(option("wechat_pay_enable"))>
                                     <input type="hidden" id="wechat_pay_enable" name="wechat_pay_enable">
-                                    <p class="help-block">PC 扫码支付需要开通 Native 支付功能才能正常使用 。</p>
+                                    <p class="help-block">
+                                        1、PC 扫码支付需要开通 Native 支付功能才能正常使用 。<br/>
+                                        2、微信浏览器内支付，需要配置服务号，并开启支付功能 。<br/>
+                                        3、手机端、非微信浏览器支付，需要开启 H5 支付才能正常使用 。
+
+                                    </p>
                                 </div>
                             </div>
 
@@ -122,7 +137,9 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="wechat_pay_appid" class="form-control" value="#option('wechat_pay_appid')"
                                            placeholder="">
-
+                                    <p class="help-block">
+                                        一般情况下是微信服务号的 appid 。
+                                    </p>
                                 </div>
                             </div>
 
@@ -132,6 +149,9 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="wechat_pay_secretkey" class="form-control" value="#option('wechat_pay_secretkey')"
                                            placeholder="">
+                                    <p class="help-block">
+                                    密钥需要到微信的商户后台里，找到 API安全，然后再里面进行手动创建 。
+                                    </p>
                                 </div>
                             </div>
 
@@ -181,6 +201,7 @@
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="alipay_pay_publicKey">#option("alipay_pay_publicKey")</textarea>
+                                    <p class="help-block"><span style="color: red"> 注意：不是自己创建的公钥，需要通过支付宝商户后台获取。</span> </p>
                                 </div>
                             </div>
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,12 @@ package io.jpress.web.wechat;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
-import com.jfinal.core.JFinal;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.kit.ParaMap;
 import com.jfinal.weixin.sdk.utils.HttpUtils;
 import io.jboot.utils.CookieUtil;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
@@ -76,35 +76,24 @@ public class WechatAuthorizationController extends ControllerBase {
         String gotoUrl = getPara("goto");
 
 
-        String uid = CookieUtil.get(this, JPressConsts.COOKIE_UID);
-
-        //说明当前用户已经登录
-        if (StrUtil.isNotBlank(uid)) {
-            redirect(StrUtil.urlDecode(gotoUrl));
-            return;
-        }
-
         String appId = JPressOptions.get(JPressConsts.OPTION_WECHAT_APPID);
         if (StrUtil.isBlank(appId)) {
             renderText("管理员的微信APPID配置错误，请联系管理在后台 -> 微信 -> 基础设置 配置正确的APPID。");
             return;
         }
 
+
         String domain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
         if (StrUtil.isBlank(domain)) {
-            domain = getRequest().getScheme() + "://" + getRequest().getServerName();
-        }
-
-        if (StrUtil.isNotBlank(JFinal.me().getContextPath())) {
-            domain = domain + JFinal.me().getContextPath();
+            domain = RequestUtil.getBaseUrl(getRequest());
         }
 
 
-        //这个url是微信执行完毕之后跳转回来的url
-        //也是下方的这个 action
-        String redirecturi = domain + "/wechat/authorization/back?goto=" + gotoUrl;
+        //这个backUrl是微信执行完用户授权之后跳转回来的url
+        String backUrl = domain + "/wechat/authorization/back?goto=" + gotoUrl;
 
-        String wechatUrl = AUTHORIZE_URL.replace("{appid}", appId).replace("{redirecturi}", redirecturi);
+        String wechatUrl = AUTHORIZE_URL.replace("{appid}", appId)
+                .replace("{redirecturi}", backUrl);
 
         redirect(wechatUrl);
     }
@@ -165,7 +154,8 @@ public class WechatAuthorizationController extends ControllerBase {
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token" + "?appid={appid}"
                 + "&secret={secret}" + "&code={code}" + "&grant_type=authorization_code";
 
-        String getOpenIdUrl = url.replace("{appid}", appId).replace("{secret}", appSecret)
+        String getOpenIdUrl = url.replace("{appid}", appId)
+                .replace("{secret}", appSecret)
                 .replace("{code}", code);
 
         String jsonResult = null;
@@ -175,8 +165,9 @@ public class WechatAuthorizationController extends ControllerBase {
             e.printStackTrace();
         }
 
-        if (jsonResult == null)
+        if (jsonResult == null) {
             return null;
+        }
 
         return new ApiResult(jsonResult);
     }
@@ -211,14 +202,34 @@ public class WechatAuthorizationController extends ControllerBase {
         //优先根据 unioinId 进行查询
         if (StrUtil.isNotBlank(unionId)) {
             user = userService.findFistByWxUnionid(unionId);
-            if (user != null) return user.getId();
+            if (user != null) {
+                return user.getId();
+            }
         }
 
         //之后根据 openId 进行查询
         if (StrUtil.isNotBlank(openId)) {
             user = userService.findFistByWxOpenid(openId);
-            if (user != null) return user.getId();
+            if (user != null) {
+                return user.getId();
+            }
         }
+
+        UserOpenidService userOpenidService = Aop.get(UserOpenidService.class);
+
+        String uid = CookieUtil.get(this, JPressConsts.COOKIE_UID);
+        if (StrUtil.isNotBlank(uid)) {
+            user = userService.findById(uid);
+            if (user != null) {
+                userOpenidService.saveOrUpdate(user.getId(), UserOpenid.TYPE_WECHAT, openId);
+                if (StrUtil.isNotBlank(unionId)) {
+                    userOpenidService.saveOrUpdate(user.getId(), UserOpenid.TYPE_WECHAT_UNIONID, unionId);
+                }
+
+                return user.getId();
+            }
+        }
+
 
         // 都查询不到，说明该用户是一个新的用户，创建一个新的用户
         String nickName = apiResult.get("nickname");
@@ -237,16 +248,23 @@ public class WechatAuthorizationController extends ControllerBase {
         user.setCreated(new Date());
         user.setLogged(new Date());
         user.setCreateSource(User.SOURCE_WECHAT_WEB);
-        user.setStatus(User.STATUS_OK);
         user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
+
+        boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+        if (isNotActivate) {
+            user.setStatus(User.STATUS_REG);
+        }else {
+            user.setStatus(User.STATUS_OK);
+        }
 
 
         Long userId = (Long) userService.save(user);
 
-        UserOpenidService userOpenidService = Aop.get(UserOpenidService.class);
-        userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT,openId);
-        userOpenidService.saveOrUpdate(userId,UserOpenid.TYPE_WECHAT_UNIONID,unionId);
 
+        userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT, openId);
+        if (StrUtil.isNotBlank(unionId)) {
+            userOpenidService.saveOrUpdate(userId, UserOpenid.TYPE_WECHAT_UNIONID, unionId);
+        }
 
 
         return userId;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,11 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.model.Member;
@@ -84,20 +87,27 @@ public class MemberController extends UcenterControllerBase {
         render("member/member_join.html");
     }
 
+    @EmptyValidate({
+            @Form(name = "paytype", message = "支付方式不能为空"),
+    })
     public void joining() {
 
         MemberGroup memberGroup = memberGroupService.findById(getPara("groupId"));
-        render404If(memberGroup == null);
+        if (memberGroup == null) {
+           renderFailJson("该会员可能已经被管理员下架");
+            return;
+        }
 
         BigDecimal joinAmount = memberGroup.getPrice();
-        render404If(joinAmount == null);
-
         BigDecimal limitedPrice = memberGroup.getLimitedPrice();
         if (limitedPrice != null && limitedPrice.subtract(joinAmount).intValue() <= 0) {
             joinAmount = limitedPrice;
         }
 
-        render404If(joinAmount.compareTo(BigDecimal.ZERO) <= 0);
+        if (joinAmount == null || joinAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            renderFailJson("该会员无法加入，因为加入金额小于0");
+            return;
+        }
 
         PaymentRecord payment = new PaymentRecord();
         payment.setProductTitle("加入会员");
@@ -126,8 +136,7 @@ public class MemberController extends UcenterControllerBase {
         PaymentRecordService paymentService = Aop.get(PaymentRecordService.class);
         paymentService.save(payment);
 
-
-        PayKit.redirect(payment.getPayType(), payment.getTrxNo());
+        renderJson(Ret.ok().set("gotoUrl", PayKit.buildPayUrl(payment.getPayType(), payment.getTrxNo())));
     }
 
 

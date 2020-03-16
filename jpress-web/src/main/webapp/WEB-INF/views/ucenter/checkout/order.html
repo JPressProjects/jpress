@@ -4,14 +4,39 @@
 <script src="#(CPATH)/static/components/distpicker/distpicker.min.js"></script>
 <script>
 
+    $(document).ready(function () {
+        $("[name='paytype']:first").attr("checked", "checked");
+    });
 
+    function seleteAddress() {
+        layer.data = {}
+        layer.open({
+            type: 2,
+            title: "选择地址",
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['60%', '60%'],
+            content: '#(CPATH)/ucenter/address/layer',
+            end: function () {
+                if (layer.data.addrUsername) {
+                    $('#addr_username').val(layer.data.addrUsername);
+                    $('#addr_mobile').val(layer.data.addrMobile);
+                    $('#addr_detail').val(layer.data.addrDetail);
+                    $('#addr_zipcode').val(layer.data.addrZipcode);
 
-
-
-
+                    $("#distpicker").distpicker('destroy');
+                    $("#distpicker").distpicker({
+                        province: layer.data.addrProvince,
+                        city: layer.data.addrCity,
+                        district: layer.data.addrDistrict
+                    });
+                }
+            }
+        });
+    }
 
 </script>
-
 #end
 
 
@@ -55,6 +80,10 @@
         height: 60px;
     }
 
+    .table > tbody > tr > td {
+        vertical-align: middle;
+    }
+
 </style>
 #end
 
@@ -90,7 +119,15 @@
 
                         #for(item : orderItems)
                         <tr>
-                            <td>#(item.product_title ??)</td>
+                            <td>
+                                #(item.product_title ??)
+                                <div style="color: #9c9c9c">
+                                    #for(option : item.optionsMap)
+                                    #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
+                                    #end
+                                </div>
+
+                            </td>
                             <td>#(item.product_price ??)</td>
                             <td>
                                 <div class="input-group input-number">
@@ -112,7 +149,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-footer">
-                        <small class="pull-right">应支付: <span id="totalPrice">#number(order.orderRealAmount,'0.00')</span>￥</small>
+                        <small class="pull-right">应支付: <span
+                                id="totalPrice">#number(order.orderRealAmount,'0.00')</span>￥</small>
                     </h2>
                 </div>
             </div>
@@ -134,7 +172,7 @@
 
             <div class="row">
                 <!-- accepted payments column -->
-                <div class="col-xs-6">
+                <div class="col-lg-6">
                     <div class="box box-dashboard">
                         <div class="box-header with-border">
                             <h3 class="box-title">收件人信息</h3>
@@ -145,30 +183,32 @@
                             <div class="form-group">
                                 <label>联系人</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_username"
+                                       id="addr_username"
                                        placeholder="收件人的姓名..." value="#(defaultAddress.username ??)">
                             </div>
 
                             <div class="form-group">
                                 <label>联系电话</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_mobile"
+                                       id="addr_mobile"
                                        placeholder="收件人的电话..." value="#(defaultAddress.mobile ??)">
                             </div>
 
                             <div class="form-group">
                                 <label>地址</label>
-                                <div data-toggle="distpicker" class="form-inline" data-autoselect="3">
-                                    <select class="form-control" name="order.delivery_addr_province"
-                                            data-province="#(data.province ?? '---- 选择省 ----')"></select>
-                                    <select class="form-control" name="order.delivery_addr_city"
-                                            data-city="#(data.city ?? '---- 选择市 ----')"></select>
-                                    <select class="form-control" name="order.delivery_addr_district"
-                                            data-district="#(data.district ?? '---- 选择区 ----')"></select>
+                                <div data-toggle="distpicker" class="form-inline" data-autoselect="3" id="distpicker">
+                                    <select class="form-control" name="order.delivery_addr_province" id="addr_province"
+                                            data-province="#(defaultAddress.province ?? '---- 选择省 ----')"></select>
+                                    <select class="form-control" name="order.delivery_addr_city" id="addr_city"
+                                            data-city="#(defaultAddress.city ?? '---- 选择市 ----')"></select>
+                                    <select class="form-control" name="order.delivery_addr_district" id="addr_district"
+                                            data-district="#(defaultAddress.district ?? '---- 选择区 ----')"></select>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label>详细地址</label>
-                                <textarea class="form-control" name="order.delivery_addr_detail"
+                                <textarea class="form-control" name="order.delivery_addr_detail" id="addr_detail"
                                           placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"
                                           rows="2">#(defaultAddress.detail ??)</textarea>
                             </div>
@@ -176,14 +216,15 @@
                             <div class="form-group">
                                 <label>邮政编码</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_zipcode"
+                                       id="addr_zipcode"
                                        placeholder="邮政编码..." value="#(defaultAddress.zipcode ??)">
                             </div>
 
 
                             <div class="col-xs-12">
-                                <button type="button" class="btn btn-primary pull-right"><i
-                                        class="fa fa-fw fa-street-view"></i>
-                                    选择我之前的地址
+                                <button type="button" class="btn btn-primary pull-right" onclick="seleteAddress()">
+                                    <i class="fa fa-fw fa-street-view"></i>
+                                    选择其他地址
                                 </button>
                             </div>
 
@@ -194,7 +235,7 @@
 
                 </div>
                 <!-- /.col -->
-                <div class="col-xs-6">
+                <div class="col-lg-6">
                     <div class="box box-dashboard">
                         <div class="box-header with-border">
                             <h3 class="box-title">支付信息</h3>
@@ -207,8 +248,8 @@
                                 #if(wechatxConfig.isEnable())
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="paytype" value="wechatx" checked>
-                                        微信转账 （对私转账，相当于线下门店支付）
+                                        <input type="radio" name="paytype" value="wechatx">
+                                        微信转账
                                     </label>
                                 </div>
                                 #end
@@ -217,7 +258,7 @@
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="alipayx">
-                                        支付宝转账 （对私转账，相当于线下门店支付）
+                                        支付宝转账
                                     </label>
                                 </div>
                                 #end
@@ -226,7 +267,7 @@
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="wechat">
-                                        微信扫码支付（手机打开微信APP，通过扫码支付）
+                                        微信支付
                                     </label>
                                 </div>
                                 #end
@@ -235,7 +276,7 @@
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="alipay">
-                                        支付宝扫码支付（手机打开支付宝APP，通过扫码支付）
+                                        支付宝支付
                                     </label>
                                 </div>
                                 #end
@@ -244,7 +285,7 @@
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="paytype" value="paypal">
-                                        Paypal支付（通过网页进行支付）
+                                        Paypal支付
                                     </label>
                                 </div>
                                 #end
@@ -260,10 +301,6 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label>优惠码（券）</label>
-                                <input type="text" class="form-control" name="coupon_code" placeholder="请输入优惠码...">
-                            </div>
 
                             <div class="form-group">
                                 <label>买家留言</label>

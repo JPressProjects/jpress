@@ -2,10 +2,10 @@ package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserOrderItem;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,7 +57,7 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
             return true;
         }
 
-        return DateUtils.addSeconds(getCreated(), getViewEffectiveTime().intValue()).getTime() > new Date().getTime();
+        return DateUtils.addSeconds(getCreated(), getViewEffectiveTime().intValue()).getTime() > System.currentTimeMillis();
     }
 
     public boolean isFinished() {
@@ -68,6 +68,18 @@ public class UserOrderItem extends BaseUserOrderItem<UserOrderItem> {
     public boolean isVirtualProduct() {
         Boolean v = getWithVirtual();
         return v != null && v;
+    }
+
+    @Override
+    public boolean save() {
+        CommonsUtils.escapeModel(this, "options");
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.escapeModel(this, "options");
+        return super.update();
     }
 
 

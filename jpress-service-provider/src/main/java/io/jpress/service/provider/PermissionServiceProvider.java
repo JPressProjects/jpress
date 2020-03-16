@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,6 +143,7 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     }
 
 
+    @Override
     @Cacheable(name = "user_permission", key = "user_permissions:#(userId)", nullCacheEnable = true)
     public List<Permission> findPermissionListByUserId(long userId) {
 
@@ -162,6 +163,7 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
     }
 
 
+    @Override
     @Cacheable(name = "user_permission", key = "role:#(roleId)", nullCacheEnable = true)
     public List<Permission> findPermissionListByRoleId(long roleId) {
         String sql = "select * from role_permission_mapping where role_id = ? ";
@@ -173,7 +175,9 @@ public class PermissionServiceProvider extends JbootServiceBase<Permission> impl
         List<Permission> permissionList = new ArrayList<>();
         for (Record rolePermissionRecord : rolePermissionRecords) {
             Permission permission = findById(rolePermissionRecord.getLong("permission_id"));
-            if (permission != null) permissionList.add(permission);
+            if (permission != null) {
+                permissionList.add(permission);
+            }
         }
 
         return permissionList;

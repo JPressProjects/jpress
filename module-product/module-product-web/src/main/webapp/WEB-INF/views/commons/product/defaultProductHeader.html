@@ -60,10 +60,17 @@
 
         <div class="product-btn">
             <a class="product-btn-buy" href="javascript:;" onclick="addProductToCart('#(product.id ??)')"> <i class="fa fa-shopping-cart"></i> 加入购物车</a>
-            <a class="product-btn-cart" href="javascript:;" onclick="buyPrudct('#(product.id ??)')"> <i class="fa fa-credit-card-alt"></i> 立即购买</a>
+            <a class="product-btn-cart" href="javascript:;" onclick="buyProduct('#(product.id ??)')"> <i class="fa fa-credit-card-alt"></i> 立即购买</a>
         </div>
 
-        <p class="product-btn-star"><a href="javascript:;" onclick="addProductToFavorite('#(product.id ??)')"><i class="fa fa-heart-o"></i> 添加收藏</a></p>
+        <p class="product-btn-star">
+
+            <a href="javascript:;" onclick="addProductToFavorite('#(product.id ??)')"><i class="fa fa-heart-o"></i> 添加收藏</a>
+            <a href="javascript:;" class="copy"
+                    data-clipboard-action="copy"
+                    data-clipboard-text="我觉得这个产品不错，分享给你...   #(productShareUrl ??)"><i class="fa fa-fw fa-share-square-o"></i>分享产品链接</a>
+
+        </p>
 
         <div class="product-tag">
             #productCategories(product.id,'category')

@@ -2,7 +2,7 @@
 #@layout("微信扫一扫付款")
 
 #define script()
-<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="#(CAPTH)/static/components/jquery/jquery.min.js"></script>
 <script>
     var invoke = true;
     var interval = setInterval(function () {
@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="col-lg-6 pay-content-img">
-        <img src="/static/commons/img/pay-wechat.png"/>
+        <img src="#(CAPTH)/static/commons/img/pay-wechat.png"/>
     </div>
 
 </div>

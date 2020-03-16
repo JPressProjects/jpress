@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import com.jfinal.wxaapp.api.WxaUserApi;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
 import io.jpress.service.UserOpenidService;
@@ -195,13 +196,17 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         //优先根据 unioinId 进行查询
         if (StrUtil.isNotBlank(unionId)) {
             user = userService.findFistByWxUnionid(unionId);
-            if (user != null) return user.getId();
+            if (user != null) {
+                return user.getId();
+            }
         }
 
         //之后根据 openId 进行查询
         if (StrUtil.isNotBlank(openId)) {
             user = userService.findFistByWxOpenid(openId);
-            if (user != null) return user.getId();
+            if (user != null) {
+                return user.getId();
+            }
         }
 
         // 都查询不到，说明该用户是一个新的用户，创建一个新的用户
@@ -221,7 +226,13 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
         user.setCreated(new Date());
         user.setLogged(new Date());
         user.setCreateSource(User.SOURCE_WECHAT_MINIPROGRAM);
-        user.setStatus(User.STATUS_OK);
+
+        boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+        if (isNotActivate) {
+            user.setStatus(User.STATUS_REG);
+        }else {
+            user.setStatus(User.STATUS_OK);
+        }
 
 
         Long userId = (Long) userService.save(user);

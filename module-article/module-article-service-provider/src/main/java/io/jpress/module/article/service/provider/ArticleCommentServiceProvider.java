@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.module.article.service.task.CommentReplyCountUpdateTask;
+import io.jpress.module.article.service.task.ArticleCommentReplyCountUpdateTask;
 import io.jpress.service.UserService;
 
 import java.util.List;
@@ -198,20 +198,14 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
     @Override
     public void doIncCommentReplyCount(long commentId) {
-        CommentReplyCountUpdateTask.recordCount(commentId);
+        ArticleCommentReplyCountUpdateTask.recordCount(commentId);
     }
 
-//    @Override
-//    public boolean isOwn(ArticleComment comment, long userId) {
-//        if (comment.getId() == null) {
-//            return true;
-//        }
-//
-//        if (comment == null || comment.getUserId() == null) {
-//            return false;
-//        }
-//        return comment.getUserId().equals(userId);
-//    }
+
+    @Override
+    public boolean deleteByArticleId(Object articleId) {
+        return DAO.deleteByColumn(Column.create("article_id",articleId));
+    }
 
 
 }

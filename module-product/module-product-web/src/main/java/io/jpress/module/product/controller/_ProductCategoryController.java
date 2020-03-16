@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class _ProductCategoryController extends AdminControllerBase {
 
     @AdminMenu(text = "分类", groupId = "product", order = 2)
     public void index() {
-        List<ProductCategory> categories = productCategoryService._findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = productCategoryService.findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
         int id = getParaToInt(0, 0);
@@ -103,7 +103,7 @@ public class _ProductCategoryController extends AdminControllerBase {
             displayMenu.setRelativeId((Long) id);
 
             if (displayMenu.getPid() == null) {
-                displayMenu.setPid(0l);
+                displayMenu.setPid(0L);
             }
 
             if (displayMenu.getOrderNumber() == null) {

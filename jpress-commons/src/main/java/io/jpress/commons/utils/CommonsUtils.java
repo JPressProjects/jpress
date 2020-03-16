@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,9 @@ import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -48,25 +50,11 @@ public class CommonsUtils {
 
 
     public static String maxLength(String content, int maxLength) {
-        if (StrUtil.isBlank(content)) {
-            return content;
-        }
-
-        if (maxLength <= 0) {
-            throw new IllegalArgumentException("maxLength 必须大于 0 ");
-        }
-
-        return content.length() <= maxLength ? content :
-                content.substring(0, maxLength);
-
+        return maxLength(content, maxLength, null);
     }
 
 
     public static String maxLength(String content, int maxLength, String suffix) {
-        if (StrUtil.isBlank(suffix)) {
-            return maxLength(content, maxLength);
-        }
-
         if (StrUtil.isBlank(content)) {
             return content;
         }
@@ -75,9 +63,17 @@ public class CommonsUtils {
             throw new IllegalArgumentException("maxLength 必须大于 0 ");
         }
 
-        return content.length() <= maxLength ? content :
-                content.substring(0, maxLength) + suffix;
+        if (StrUtil.isNotBlank(suffix)) {
+            return content.length() <= maxLength
+                    ? content :
+                    content.substring(0, maxLength) + suffix;
 
+        } else {
+            return content.length() <= maxLength
+                    ? content :
+                    content.substring(0, maxLength);
+
+        }
     }
 
     public static String removeSuffix(String url) {
@@ -96,7 +92,7 @@ public class CommonsUtils {
      *
      * @param model
      */
-    public static void escapeHtmlForAllAttrs(Model model, String... ignoreAttrs) {
+    public static void escapeModel(Model model, String... ignoreAttrs) {
         String[] attrNames = model._getAttrNames();
         for (String attr : attrNames) {
 
@@ -108,6 +104,25 @@ public class CommonsUtils {
 
             if (value != null && value instanceof String) {
                 model.set(attr, StrUtil.escapeHtml(value.toString()));
+            }
+        }
+    }
+
+    public static void escapeMap(Map map, Object... ignoreKeys) {
+        if (map == null || map.isEmpty()) {
+            return;
+        }
+
+        Set<? extends Object> keys = map.keySet();
+        for (Object key : keys) {
+            if (ArrayUtils.contains(ignoreKeys, key)) {
+                continue;
+            }
+
+            Object value = map.get(key);
+
+            if (value != null && value instanceof String) {
+                map.put(key, StrUtil.escapeHtml(value.toString()));
             }
         }
     }

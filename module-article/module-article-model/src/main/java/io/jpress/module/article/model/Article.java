@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,7 +92,7 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getText() {
-        return StrUtil.escapeHtml(JsoupUtils.getText(getContent()));
+        return JsoupUtils.getText(getContent());
     }
 
     @Override
@@ -108,6 +108,10 @@ public class Article extends BaseArticle<Article> {
 
     public boolean _isMarkdownMode() {
         return JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode());
+    }
+
+    public String getOrignalContent(){
+        return super.getContent();
     }
 
 
@@ -134,7 +138,9 @@ public class Article extends BaseArticle<Article> {
         }
 
         List<String> newList = new ArrayList<>();
-        for (int i = 0; 0 < count; i++) newList.add(list.get(i));
+        for (int i = 0; 0 < count; i++) {
+            newList.add(list.get(i));
+        }
         return newList;
     }
 
@@ -185,13 +191,13 @@ public class Article extends BaseArticle<Article> {
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeHtmlForAllAttrs(this, "content", "summary");
+        CommonsUtils.escapeModel(this, "content", "summary");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeHtmlForAllAttrs(this, "content", "summary");
+        CommonsUtils.escapeModel(this, "content", "summary");
         return super.update();
     }
 

@@ -4,7 +4,9 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/finance/coupon/doRoleDel/" + id);
+        if (confirm("确定要删除该优惠码吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/finance/coupon/doCodeDel/" + id);
+        }
     }
 
     $("#batchDel").click(function () {
@@ -13,7 +15,9 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/finance/coupon/doRoleDelByIds?ids=" + ids);
+        if (confirm("确定要删除选中的优惠码吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/finance/coupon/doCodeDelByIds?ids=" + ids);
+        }
     })
 
 
@@ -39,8 +43,8 @@
 
                         <div class="row actionPanel">
                             <div class="col-xs-12">
-                                <a href="coupon/edit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                <a href="#(CPATH)/admin/finance/coupon/takeEdit?cid=#(coupon.id)" class="btn btn-primary ">
+                                    <i class="fa fa-fw fa-plus"></i> 新分配
                                 </a>
                                 <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
@@ -55,28 +59,37 @@
                             <tr>
                                 <th style="width: 10px">
                                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
-                                </th>
-                                <th style="width: 35%">名称</th>
-                                <th style="width: 15%">优惠码</th>
-                                <th style="width: 10%">用户</th>
-                                <th style="width: 10%">有效期至</th>
+
+                                <th style="">优惠码</th>
+                                <th style="width: 25%">优惠券名称</th>
+                                <th style="width: 15%">领取用户</th>
+                                <th style="width: 15%">领取时间</th>
                                 <th style="width: 10%">状态</th>
-                                <th style="width: 10%">领取时间</th>
                             </tr>
-                            #for(coupon : page.list ??)
+                            #for(code : page.list ??)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(code.id)" />
+                                <td><input class="dataItem" type="checkbox" value="#(code.id ??)" />
                                 </td>
                                 <td>
                                     <strong>
-                                        #(code.title ??)
+                                        #(code.code ??)
                                     </strong>
+                                    <div class="jp-actionblock">
+                                        <div class="jp-actionitem">
+                                            <a href="#(CPATH)/admin/finance/coupon/takeEdit/#(code.id)?cid=#(code.coupon_id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/finance/coupon/useds/?codeid=#(code.id)">使用记录</a> |
+                                            <a href="javascript:;" class="red-action" onclick="doDel('#(code.id)')">删除</a>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td>#(code.code ??)</td>
-                                <td>#(code.user.nickname ??)</td>
-                                <td>#(code.valid_time ??)</td>
-                                <td>#(code.status ??)</td>
-                                <td>#(code.created ??)</td>
+                                <td>#(code.title ??)</td>
+                                <td>
+                                    <a href="#(CPATH)/admin/user/detail/#(code.user.id ??)">#(code.user.nickname ??)</a>
+                                </td>
+                                <td>
+                                    #date(code.valid_time ??)
+                                </td>
+                                <td>#(code.statusStr ??)</td>
                             </tr>
                             #end
                             </tbody>

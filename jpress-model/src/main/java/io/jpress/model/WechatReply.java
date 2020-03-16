@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,13 +60,17 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
 
     public Integer getIntOption(String key) {
         String option = getOption(key);
-        if (StrUtil.isBlank(option)) return null;
+        if (StrUtil.isBlank(option)) {
+            return null;
+        }
         return Integer.valueOf(option);
     }
 
     public int getIntOption(String key, int defaultValue) {
         String option = getOption(key);
-        if (StrUtil.isBlank(option)) return defaultValue;
+        if (StrUtil.isBlank(option)) {
+            return defaultValue;
+        }
         return Integer.valueOf(option);
     }
 
@@ -136,7 +140,9 @@ public class WechatReply extends BaseWechatReply<WechatReply> {
 
 
     public String getShowContent() {
-        if (!isJson()) return getContent();
+        if (!isJson()) {
+            return getContent();
+        }
 
         if (isTextType()) {
             return getText();

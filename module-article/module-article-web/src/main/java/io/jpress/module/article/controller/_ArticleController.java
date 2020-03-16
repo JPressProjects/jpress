@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -193,8 +193,8 @@ public class _ArticleController extends AdminControllerBase {
 
 
         if (StrUtil.isNotBlank(article.getSlug())) {
-            Article slugArticle = articleService.findFirstBySlug(article.getSlug());
-            if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
+            Article existArticle = articleService.findFirstBySlug(article.getSlug());
+            if (existArticle != null && existArticle.getId().equals(article.getId()) == false) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
                 return;
             }
@@ -204,6 +204,9 @@ public class _ArticleController extends AdminControllerBase {
             article.setOrderNumber(0);
         }
 
+
+
+
         long id = (long) articleService.saveOrUpdate(article);
         articleService.doUpdateCommentCount(id);
 
@@ -211,15 +214,28 @@ public class _ArticleController extends AdminControllerBase {
         setAttr("article", article);
 
 
+        Long[] saveBeforeCategoryIds = null;
+        if (article.getId() != null){
+            saveBeforeCategoryIds = categoryService.findCategoryIdsByArticleId(article.getId());
+        }
+
+
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
 
-        Long[] allIds = ArrayUtils.addAll(categoryIds, tagIds);
+        Long[] updateCategoryIds = ArrayUtils.addAll(categoryIds, tagIds);
 
-        articleService.doUpdateCategorys(id, allIds);
+        articleService.doUpdateCategorys(id, updateCategoryIds);
 
-        if (allIds != null && allIds.length > 0) {
-            for (Long categoryId : allIds) {
+
+        if (updateCategoryIds != null && updateCategoryIds.length > 0) {
+            for (Long categoryId : updateCategoryIds) {
+                categoryService.doUpdateArticleCount(categoryId);
+            }
+        }
+
+        if (saveBeforeCategoryIds != null && saveBeforeCategoryIds.length > 0) {
+            for (Long categoryId : saveBeforeCategoryIds) {
                 categoryService.doUpdateArticleCount(categoryId);
             }
         }
@@ -307,7 +323,7 @@ public class _ArticleController extends AdminControllerBase {
             displayMenu.setRelativeId((Long) id);
 
             if (displayMenu.getPid() == null) {
-                displayMenu.setPid(0l);
+                displayMenu.setPid(0L);
             }
 
             if (displayMenu.getOrderNumber() == null) {
@@ -416,6 +432,7 @@ public class _ArticleController extends AdminControllerBase {
         ArticleComment comment = new ArticleComment();
         comment.setContent(content);
         comment.setUserId(user.getId());
+        comment.setAuthor(user.getNickname());
         comment.setStatus(ArticleComment.STATUS_NORMAL);
         comment.setArticleId(articleId);
         comment.setPid(pid);

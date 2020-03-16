@@ -1,18 +1,18 @@
 #define defaultPageCommentPage()
 <div class="comment-default-block">
 
-    #if(option('page_comment_enable'))
-    <form class="comment-form" action="#(CPATH)/page/postComment" id="jpress-comment-form" method="post">
+    #if(option("page_comment_enable","true"))
+    <form class="comment-form" action="#(CPATH)/page/postComment" id="jpress-comment-form" method="post" autocomplete="off">
         <input type="hidden" name="pageId" value="#(page.id ??)">
         <input type="hidden" name="render" value="default">
         <input type="hidden" name="pid" id="comment-pid">
 
         <div class="comment-textarea">
-            <textarea placeholder="我们相信，您的评论能够一针见血...." rows="4" name="content"></textarea>
+            <textarea placeholder="您的留言，对我们来说非常重要...." rows="4" name="content"></textarea>
         </div>
 
         <div class="comment-vcode">
-            #if(option('page_comment_vcode_enable'))
+            #if(option("page_comment_vcode_enable","true"))
             <input placeholder="请输入验证码" name="captcha" id="comment-captcha">
             <img class="vcode-img" src="#(CPATH)/commons/captcha"
                  onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude id="comment-vcode">

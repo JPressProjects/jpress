@@ -5,7 +5,7 @@
     <parent>
         <artifactId>module-article</artifactId>
         <groupId>io.jpress</groupId>
-        <version>2.0</version>
+        <version>3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,8 +13,6 @@
     <artifactId>module-article-search-lucene</artifactId>
 
     <properties>
-        <jsceg.version>2.4.0</jsceg.version>
-        <lucene.version>7.6.0</lucene.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -24,31 +22,31 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-search-api</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-model</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-service-api</artifactId>
-            <version>2.0</version>
+            <version>3.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>jcseg-core</artifactId>
-            <version>${jsceg.version}</version>
+            <version>${jcseg.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>jcseg-analyzer</artifactId>
-            <version>${jsceg.version}</version>
+            <version>${jcseg.version}</version>
         </dependency>
 
         <dependency>
@@ -74,7 +72,7 @@
             <artifactId>lucene-analyzers-common</artifactId>
             <version>${lucene.version}</version>
         </dependency>
-        
+
     </dependencies>
 
 

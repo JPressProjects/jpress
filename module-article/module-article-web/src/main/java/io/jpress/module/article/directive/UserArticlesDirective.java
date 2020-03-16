@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.module.page.directive
  */
 @JFinalDirective("userArticles")
 public class UserArticlesDirective extends JbootDirectiveBase {
@@ -51,7 +50,9 @@ public class UserArticlesDirective extends JbootDirectiveBase {
             throw new RuntimeException("#userArticles() args is error,userId must not be null." + getLocation());
         }
 
-        if (userId == null) userId = user.getId();
+        if (userId == null) {
+            userId = user.getId();
+        }
 
         String orderBy = getPara("orderBy", scope, "id desc");
         String status = getPara("status", scope, Article.STATUS_NORMAL);

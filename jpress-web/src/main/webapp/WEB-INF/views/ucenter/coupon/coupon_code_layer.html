@@ -1,0 +1,66 @@
+#@layer()
+#define script()
+<script>
+
+    $(".useButton").on('click', function () {
+        parent.layer.data = this.dataset;
+        parent.layer.closeAll();
+    })
+
+</script>
+#end
+
+
+#define content()
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <table class="table table-striped" id="table-address">
+                <tbody>
+                <tr>
+                    <th>名称</th>
+                    <th>金额</th>
+                    <th>类型</th>
+                    <th>选择</th>
+                </tr>
+
+                #for(data : couponCodeList)
+                <tr class="jp-actiontr">
+                    <td>
+                        #(data.title)
+                    </td>
+                    <td>
+                        #(data.coupon.amount)
+                    </td>
+                    <td>
+                        #if(data.coupon.type == 1)
+                        满#(data.coupon.with_amount)减#(data.coupon.amount)
+                        #end
+                        #if(data.coupon.type == 2)
+                        叠加满减券
+                        #end
+                        #if(data.coupon.type == 3)
+                        无门槛券
+                        #end
+                    </td>
+                    <td><button class="btn btn-primary useButton" data-coupon-code="#(data.code)" data-coupon-amount="#(data.coupon.amount)" data-coupon-title="#(data.title) -#(data.coupon.amount)">使用</button></td>
+                </tr>
+                #end
+
+
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+#end

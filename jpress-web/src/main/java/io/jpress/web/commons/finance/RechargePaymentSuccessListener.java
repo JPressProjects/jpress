@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package io.jpress.web.commons.finance;
 
-import com.jfinal.aop.Aop;
+import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import io.jpress.core.finance.PaymentSuccessListener;
@@ -31,6 +31,11 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
 
     public static final Log LOG = Log.getLog(RechargePaymentSuccessListener.class);
 
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private UserAmountStatementService statementService;
 
     @Override
     public void onSuccess(PaymentRecord payment) {
@@ -38,8 +43,6 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
         if (PaymentRecord.TRX_TYPE_RECHARGE.equals(payment.getTrxType())) {
 
             boolean updateSucess = Db.tx(() -> {
-
-                UserService userService = Aop.get(UserService.class);
 
                 BigDecimal userAmount = userService.queryUserAmount(payment.getPayerUserId());
                 userService.updateUserAmount(payment.getPayerUserId(), userAmount, payment.getPayAmount());
@@ -60,7 +63,6 @@ public class RechargePaymentSuccessListener implements PaymentSuccessListener {
                     return false;
                 }
 
-                UserAmountStatementService statementService = Aop.get(UserAmountStatementService.class);
                 if (statementService.save(statement) == null) {
                     return false;
                 }

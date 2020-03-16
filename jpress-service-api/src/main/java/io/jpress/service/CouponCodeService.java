@@ -1,11 +1,14 @@
 package io.jpress.service;
 
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.service.JbootServiceJoiner;
 import io.jpress.model.CouponCode;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-public interface CouponCodeService  {
+public interface CouponCodeService extends JbootServiceJoiner {
 
     /**
      * find model by primary key
@@ -46,7 +49,7 @@ public interface CouponCodeService  {
      * save model to database
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
     public Object save(CouponCode model);
 
@@ -78,9 +81,20 @@ public interface CouponCodeService  {
      */
     public Page<CouponCode> paginate(int page, int pageSize);
 
+    public Page<CouponCode> paginateByCouponId(int page, int pageSize, Long couponId);
+
 
     public CouponCode findByCode(String code);
 
 
-    public boolean valid(CouponCode couponCode);
+    public Ret valid(CouponCode couponCode, BigDecimal orderTotalAmount, long usedUserId);
+
+
+    public long queryCountByCouponId(long couponId);
+
+
+    public List<CouponCode> findAvailableByUserId(long userid, BigDecimal orderTotalAmount);
+
+    public List<CouponCode> findAvailableByUserId(long userid);
+
 }

@@ -1,0 +1,7 @@
+id=io.jpress.addon.message
+title=留言插件
+description=JPress留言扩展功能
+author=安杰
+authorWebsite=
+version=1.0.1
+versionCode=2

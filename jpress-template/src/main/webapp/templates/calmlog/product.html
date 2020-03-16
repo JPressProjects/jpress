@@ -4,12 +4,13 @@
 #define script()
 <script src="/static/components/jquery/jquery.form.min.js"></script>
 <script src="/static/components/swiper/swiper.min.js"></script>
+<script src="/static/components/clipboard/clipboard.min.js"></script>
 <script src="/static/commons/product.js"></script>
 #end
 
 #define css()
-<link href="/static/commons/product.css" rel="stylesheet">
 <link href="/static/components/swiper/swiper.min.css" rel="stylesheet">
+<link href="/static/commons/product.css" rel="stylesheet">
 #end
 
 #define content()
@@ -29,8 +30,6 @@
             #(product.content)
         </div>
     </div>
-
-
 
 
     #@defaultProductCommentPage()
@@ -53,32 +52,21 @@
     <div class="right-card">
 
         <div class="right-card-main">
-            <div class="right-card-title">商品推荐</div>
-
+            <div class="right-card-title">相关推荐</div>
 
 
             <ul class="product-recommended-list">
 
+                #relevantProducts(product)
+                #for(product : relevantProducts)
                 <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
+                    <a href="#(product.url)">
+                        <img src="#(product.showImage ??)" class="" alt="">
+                        <p class="recommended-title">#(product.title ??)</p>
                     </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
                 </li>
-
-                <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
-                    </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <img src="img/default-img.jpg" class="" alt="">
-                    </a>
-                    <p class="recommended-title">三巷自制 毛呢格子半裙女 高腰显瘦显腿长中长款开叉 1212冬上新海量新品</p>
-                </li>
+                #end
+                #end
 
 
             </ul>

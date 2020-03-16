@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ public class _ProductTagController extends AdminControllerBase {
             displayMenu.setRelativeId((Long) id);
 
             if (displayMenu.getPid() == null) {
-                displayMenu.setPid(0l);
+                displayMenu.setPid(0L);
             }
 
             if (displayMenu.getOrderNumber() == null) {

@@ -1,8 +1,12 @@
 package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.CacheEvict;
+import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
@@ -28,23 +32,25 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
 
     @Override
     public Object save(UserCart model) {
-        UserCart userCart = findByProductTablendProductId(model.getProductType(), model.getProductId());
+        UserCart userCart = findByProductInfo(model.getUserId(), model.getProductType(), model.getProductId(), model.getProductSpec());
         if (userCart == null) {
             return super.save(model);
         } else {
-            userCart.setProductCount(userCart.getProductCount() + 1);
+            userCart.setProductCount(userCart.getProductCount() + model.getProductCount());
         }
         update(userCart);
         return userCart.getId();
     }
 
     @Override
-    public List<UserCart> findListByUserId(Object userId, int count) {
-        List<UserCart> userCarts = DAO.findListByColumns(Columns.create("user_id", userId), "id desc", count);
+    @Cacheable(name = "usercarts", key = "#(userId)")
+    public List<UserCart> findListByUserId(Object userId) {
+        List<UserCart> userCarts = DAO.findListByColumns(Columns.create("user_id", userId), "id desc", 10);
         return joinMemberPrice(userCarts);
     }
 
     @Override
+    @Cacheable(name = "usercartscount", key = "#(userId)")
     public long findCountByUserId(Object userId) {
         return DAO.findCountByColumn(Column.create("user_id", userId));
     }
@@ -56,8 +62,13 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
     }
 
     @Override
-    public UserCart findByProductTablendProductId(String productType, long productId) {
-        UserCart userCart = DAO.findFirstByColumns(Columns.create("product_type", productType).eq("product_id", productId));
+    public UserCart findByProductInfo(long userId, String productType, long productId, String productSpec) {
+        Columns columns = Columns.create("user_id", userId)
+                .eq("product_type", productType)
+                .eq("product_id", productId)
+                .eq("product_spec", productSpec);
+
+        UserCart userCart = DAO.findFirstByColumns(columns);
         return joinMemberPrice(userCart);
     }
 
@@ -93,11 +104,25 @@ public class UserCartServiceProvider extends JbootServiceBase<UserCart> implemen
         }
 
         // 产品的最新价格 （用户添加商品到购物车后，商品的价格可能会发生变化）
-        BigDecimal newestSalePrice = ProductManager.me().querySalePrice(userCart.getProductType(), userCart.getProductId(), userCart.getUserId(), userCart.getDistUserId());
-        if (newestSalePrice != null){
-            userCart.put("newestSalePrice",newestSalePrice);
+        BigDecimal newestSalePrice = ProductManager.me().querySalePrice(
+                userCart
+                , userCart.getProductId()
+                , userCart.getProductSpec()
+                , userCart.getUserId());
+
+        if (newestSalePrice != null) {
+            userCart.put("newestSalePrice", newestSalePrice);
         }
 
         return userCart;
+    }
+
+    @Override
+    @CachesEvict({
+            @CacheEvict(name = "usercarts", key = "#(model.user_id)", unless = "model == null"),
+            @CacheEvict(name = "usercartscount", key = "#(model.user_id)", unless = "model == null"),
+    })
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        super.shouldUpdateCache(action, model, id);
     }
 }

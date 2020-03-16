@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 package io.jpress.module.article.search;
 
 import com.jfinal.kit.LogKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Page;
-import io.jboot.aop.annotation.ConfigValue;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.module.article.model.Article;
@@ -44,7 +44,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,16 +52,15 @@ import java.util.Map;
 
 public class ElasticSearcher implements ArticleSearcher {
 
+    private static final Log LOG = Log.getLog(ElasticSearcher.class);
 
-    @ConfigValue("jpress.elasticsearch.index")
-    private String index = "jpress-index";
-
-    @ConfigValue("jpress.elasticsearch.type")
-    private String type = "jpress-type";
+    private String index = "jpress-article-index";
+    private String type = "jpress-article-type";
 
 
     private RestHighLevelClient client;
     private RestClient restClient;
+
 
     public ElasticSearcher() {
         String host = JPressOptions.get("article_search_es_host");
@@ -100,9 +98,11 @@ public class ElasticSearcher implements ArticleSearcher {
         CreateIndexRequest request = new CreateIndexRequest(index);
         try {
             CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
-            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (LogKit.isDebugEnabled()) {
+                LogKit.debug(response.toString());
+            }
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -110,7 +110,7 @@ public class ElasticSearcher implements ArticleSearcher {
         try {
             Response response = restClient.performRequest(new Request("HEAD", index));
             return response.getStatusLine().getReasonPhrase().equals("OK");
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -125,9 +125,11 @@ public class ElasticSearcher implements ArticleSearcher {
         indexRequest.source(article.toJson(), XContentType.JSON);
         try {
             IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
-            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (LogKit.isDebugEnabled()) {
+                LogKit.debug(response.toString());
+            }
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -137,9 +139,11 @@ public class ElasticSearcher implements ArticleSearcher {
         DeleteRequest request = new DeleteRequest(index, type, id.toString());
         try {
             DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
-            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (LogKit.isDebugEnabled()) {
+                LogKit.debug(response.toString());
+            }
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         }
 
     }
@@ -153,9 +157,11 @@ public class ElasticSearcher implements ArticleSearcher {
 
         try {
             UpdateResponse response = client.update(updateRequest, RequestOptions.DEFAULT);
-            if (LogKit.isDebugEnabled())LogKit.debug(response.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (LogKit.isDebugEnabled()) {
+                LogKit.debug(response.toString());
+            }
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         }
     }
 
@@ -180,11 +186,11 @@ public class ElasticSearcher implements ArticleSearcher {
 
         try {
             SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
-            if (response ==null || response.getHits() == null || response.getHits().totalHits <= 0){
+            if (response ==null || response.getHits() == null || response.getHits().getTotalHits().value <= 0){
                 return null;
             }
 
-            int total = (int) response.getHits().totalHits;
+            int total = (int) response.getHits().getTotalHits().value;
 
             List<Article> articles = new ArrayList<>();
             response.getHits().forEach(hit -> {
@@ -195,8 +201,8 @@ public class ElasticSearcher implements ArticleSearcher {
 
             return new Page<>(articles, pageNum, pageSize, total / pageSize, total);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            LOG.error(e.toString(), e);
         }
         return null;
     }

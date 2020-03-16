@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,11 @@ package io.jpress.web;
 
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.PaymentManager;
-import io.jpress.web.commons.finance.DistProcessListener;
-import io.jpress.web.commons.finance.MemberPaymentSuccessListener;
-import io.jpress.web.commons.finance.OrderPaymentSuccessListener;
-import io.jpress.web.commons.finance.RechargePaymentSuccessListener;
-import io.jpress.web.sharekit.PermissionKits;
+import io.jpress.web.commons.finance.*;
+import io.jpress.web.functions.PermissionFunctions;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -37,32 +35,20 @@ public class WebInitializer extends JbootAppListenerBase {
     @Override
     public void onEngineConfig(Engine engine) {
 
-        try {
-            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
-            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
-            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_errpage.html");
-            engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
-            engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
-            engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout_noleft.html");
-            engine.addSharedStaticMethod(PermissionKits.class);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            printErrorInfoAndExit();
-        }
-    }
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layout.html");
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_layer.html");
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_errpage.html");
+        engine.addSharedFunction("/WEB-INF/views/admin/_layout/_paginate.html");
+        engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
+        engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout_noleft.html");
 
-    private void printErrorInfoAndExit() {
-        System.err.println("\n\r错误：无法找到必须的资源文件，启动失败! ");
-        System.err.println("请您先使用 maven 编译后，再运行 jpress，编译命令: mvn clean install ");
-        System.exit(-1);
+        engine.addSharedStaticMethod(PermissionFunctions.class);
     }
 
 
     @Override
     public void onStartBefore() {
-
         OptionInitializer.me().init();
-
     }
 
     @Override
@@ -70,7 +56,13 @@ public class WebInitializer extends JbootAppListenerBase {
         PaymentManager.me().addListener(new OrderPaymentSuccessListener());
         PaymentManager.me().addListener(new RechargePaymentSuccessListener());
         PaymentManager.me().addListener(new MemberPaymentSuccessListener());
+        PaymentManager.me().addListener(new CouponInfoProcesser());
 
-        OrderManager.me().addOrderFinishedListener(new DistProcessListener());
+        OrderManager.me().addOrderItemStatusChangeListener(new OrderDistProcesser());
+        OrderManager.me().addOrderItemStatusChangeListener(new OrderFinishedFlagProcesser());
+
+        OrderManager.me().addOrderStatusChangeListener(new CouponAwardProcesser());
+
+        DFAUtil.init();
     }
 }

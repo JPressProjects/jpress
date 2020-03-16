@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,15 @@
 package io.jpress.module.article.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.AopCache;
+import io.jboot.components.cache.CacheTime;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
@@ -47,9 +50,12 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
-    @CacheEvict(name = "articleCategory", key = "*")
-    public void shouldUpdateCache(int action, Object data) {
-        super.shouldUpdateCache(action, data);
+    @CachesEvict({
+            @CacheEvict(name = "articleCategory", key = "*"),
+            @CacheEvict(name = "article-category", key = "*"),
+    })
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        super.shouldUpdateCache(action, model, id);
     }
 
     @Override
@@ -75,7 +81,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
-    @Cacheable(name = "articleCategory")
+    @Cacheable(name = "article-category", key = "#(articleId)", liveSeconds = 2 * CacheTime.HOUR, nullCacheEnable = true)
     public List<ArticleCategory> findListByArticleId(long articleId) {
         List<Record> mappings = Db.find("select * from article_category_mapping where article_id = ?", articleId);
         if (mappings == null || mappings.isEmpty()) {
@@ -167,7 +173,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
             articleCategories.add(articleCategory);
         }
 
-        if (needClearCache){
+        if (needClearCache) {
             AopCache.removeAll("articleCategory");
         }
 
@@ -204,8 +210,9 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     @Override
     public Long[] findCategoryIdsByArticleId(long articleId) {
         List<Record> records = Db.find("select * from article_category_mapping where article_id = ?", articleId);
-        if (records == null || records.isEmpty())
+        if (records == null || records.isEmpty()) {
             return null;
+        }
 
         return ArrayUtils.toObject(records.stream().mapToLong(record -> record.get("category_id")).toArray());
     }

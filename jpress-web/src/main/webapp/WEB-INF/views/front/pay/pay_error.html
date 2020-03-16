@@ -1,0 +1,35 @@
+#include("layout.html")
+#@layout("支付错误")
+
+#define css()
+<style>
+    .pay-content-failmsg {
+        font-size: 14px;
+        color: #666;
+        line-height: 25px;
+    }
+</style>
+#end
+
+#define content()
+
+<div class="pay-header">
+    支付错误
+</div>
+
+<div class="row pay-content">
+    <div class="col-lg-12 pay-content-info">
+        <div class="pay-content-title" style="padding: 30px 0">
+            <i class="fa fa-fw fa-warning" style="color: red"></i> 支付错误啦 ~~~
+        </div>
+        <div class="pay-content-failmsg">
+            可能是网站管理员支未对付功能进行正确配置配置，<br />
+            如果您的账户已经扣款，请联系我们。我们将在24小时内<br />
+            把资金充值到您的账户余额，谢谢。
+        </div>
+        <div style="padding: 60px">
+            <a href="#(CPATH)#para('gotoUrl')" class="btn btn-success btn-flat"> 返 回 </a>
+        </div>
+    </div>
+</div>
+#end

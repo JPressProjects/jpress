@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,7 +80,7 @@ public class MenuManager implements JbootEventListener {
         MenuGroup orderMenuGroup = new MenuGroup();
         orderMenuGroup.setId(JPressConsts.SYSTEM_MENU_ORDER);
         orderMenuGroup.setText("财务");
-        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-money\"></i>");
+        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-gg-circle\"></i>");
         systemMenus.add(orderMenuGroup);
 
 
@@ -142,16 +142,19 @@ public class MenuManager implements JbootEventListener {
 
     public void deleteMenuItem(String id) {
         for (MenuGroup group : systemMenus) {
-            if (group.getItems() != null)
+            if (group.getItems() != null) {
                 group.getItems().removeIf(item -> item.getId().equals(id));
+            }
         }
         for (MenuGroup group : moduleMenus) {
-            if (group.getItems() != null)
+            if (group.getItems() != null) {
                 group.getItems().removeIf(item -> item.getId().equals(id));
+            }
         }
         for (MenuGroup group : ucenterMenus) {
-            if (group.getItems() != null)
+            if (group.getItems() != null) {
                 group.getItems().removeIf(item -> item.getId().equals(id));
+            }
         }
     }
 
@@ -173,16 +176,19 @@ public class MenuManager implements JbootEventListener {
     public void addMenuItem(MenuItem item) {
         String ctxPath = JFinal.me().getContextPath();
         for (MenuGroup group : systemMenus) {
-            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin"))
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin")) {
                 group.addItem(item);
+            }
         }
         for (MenuGroup group : moduleMenus) {
-            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin"))
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin")) {
                 group.addItem(item);
+            }
         }
         for (MenuGroup group : ucenterMenus) {
-            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/ucenter"))
+            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/ucenter")) {
                 group.addItem(item);
+            }
         }
     }
 

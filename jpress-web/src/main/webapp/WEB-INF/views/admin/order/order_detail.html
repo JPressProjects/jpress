@@ -130,10 +130,10 @@
             <div class="col-sm-4 invoice-col">
                 <strong>发票信息</strong>
                 <address>
-                    类型：#(order.invoice_type ??)<br>
-                    抬头：#(order.invoice_title ??)<br>
-                    内容：#(order.invoice_content ??)<br>
-                    纳税人识别号：#(order.invoice_identity ??)
+                    类型：#(invoice.type ??)<br>
+                    抬头：#(invoice.title ??)<br>
+                    内容：#(invoice.content ??)<br>
+                    纳税人识别号：#(invoice.identity ??)
                 </address>
             </div>
             <!-- /.col -->
@@ -150,7 +150,7 @@
             <div class="col-sm-4 invoice-col">
 <!--                <strong>分销情况</strong>-->
 <!--                <address>-->
-<!--                    分销用户：#(distUser.nickname ?? '未设置昵称')<br>-->
+<!--                    分销用户：#(distUser.nickname ??)<br>-->
 <!--                    分销金额：#(order.dist_amount ??)<br>-->
 <!--                </address>-->
             </div>
@@ -163,7 +163,7 @@
 
         <div class="row no-print">
             <div class="col-xs-2">
-                <a href="#" class="btn btn-default"><i class="fa fa-print"></i> 打印 </a>
+<!--                <a href="#" class="btn btn-default"><i class="fa fa-print"></i> 打印 </a>-->
             </div>
             <div class="col-xs-10"style="text-align: right">
                 <button type="button" class="btn btn-success " onclick="updatePrice()">
@@ -175,9 +175,11 @@
                 <button type="button" class="btn btn-primary " onclick="invoice()">
                     <i class="fa fa-fw fa-cc"></i> 开具发票
                 </button>
+                #if(order.isNotDeliveried())
                 <button type="button" class="btn btn-primary " onclick="deliver()">
                     <i class="fa fa-fw fa-location-arrow"></i> 发货
                 </button>
+                #end
                 <button type="button" class="btn btn-primary " onclick="remark()">
                     <i class="fa fa-fw fa-commenting"></i> 备注
                 </button>
@@ -220,6 +222,11 @@
                     <tr>
                         <td style="text-align: center">
                             #(item.product_title ??)
+                            <div style="color: #9c9c9c">
+                                #for(option : item.optionsMap)
+                                    #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
+                                #end
+                            </div>
                         </td>
                         <td style="width: 10%;text-align: center">
                             #(item.product_count ??)
@@ -233,10 +240,16 @@
                         <td style="width: 10%;text-align: center">
                            #if(item.distUser)
                             <a href="#(CPATH)/admin/user/detail/#(item.distUser.id ??)"> #(item.distUser.nickname ?? item.distUser.username)</a>
+                           #else
+                            --
                            #end
                         </td>
                         <td style="width: 10%;text-align: center">
+                            #if(item.totalDistAmount)
                             #number(item.totalDistAmount,'0.00')
+                            #else
+                            --
+                            #end
                         </td>
                         <td style="width: 10%;text-align: center">
                             <a href="#">编辑</a>
@@ -261,8 +274,11 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 物流信息. #if(!order.isDeliveried())(尚未发货)#end
-<!--                    <small class="pull-right">最近更新: 2/10/2014</small>-->
+                    <i class="fa fa-globe"></i> 物流信息.
+                    #if(order.isNotDeliveried())(尚未发货)
+                    #else
+                    #(delivery.company ??)（#(delivery.number ??)）
+                    #end
                 </h2>
             </div>
             <!-- /.col -->

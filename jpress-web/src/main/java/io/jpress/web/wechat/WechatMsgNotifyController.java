@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -175,6 +175,11 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
         else if (wechatReply.isImageType()) {
 
             File imageFile = AttachmentUtils.file(wechatReply.getImage());
+            if (!imageFile.exists()) {
+                LOG.error("wechat reply image not exists : " + imageFile);
+                renderNull();
+                return;
+            }
 
             /**
              * 上传临时素材
@@ -184,6 +189,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
             if (!apiResult.isSucceed()) {
                 LOG.error("MediaApi.uploadMedia..." + imageFile + " \n" + apiResult.toString());
                 renderNull();
+                return;
             }
 
             String mediaId = apiResult.get("media_id");

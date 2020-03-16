@@ -38,8 +38,8 @@
         <div class="login-box-body">
             <form action="#(CPATH)/user/doLogin" method="post"
                   class="autoAjaxSubmit"
-                  data-ok-href="#(CPATH)#option('login_goto_url','/ucenter')"
-            >
+                  data-ok-function="loginSuccess">
+
                 <div class="form-group">
                     <label>账号</label>
                     <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user">
@@ -78,6 +78,15 @@
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
 <script src="#(CPATH)/static/commons/jpresscommons.js"></script>
+<script>
+    function loginSuccess() {
+        var gotoUrl = "#para('gotoUrl')";
+        if (gotoUrl == ""){
+            gotoUrl = "#(CPATH)#option('login_goto_url','/ucenter')"
+        }
+        location.href = gotoUrl;
+    }
+</script>
 
 </body>
 </html>

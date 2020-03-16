@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,7 +100,7 @@ public class Template {
      * @param template
      * @return
      */
-    public String matchTemplateFile(String template, boolean isMoblieBrowser) {
+    public String matchView(String template, boolean isMoblieBrowser) {
 
         if (isMoblieBrowser) {
             int indexOf = template.indexOf(".");
@@ -119,7 +119,9 @@ public class Template {
         //手机浏览器，优先去找_h5的模板进行渲染
         if (isMoblieBrowser) {
             String h5Template = matchH5Template(template);
-            if (h5Template != null) return h5Template;
+            if (h5Template != null) {
+                return h5Template;
+            }
         }
 
         while (lastIndex > 0) {
@@ -278,8 +280,30 @@ public class Template {
         return styles;
     }
 
+    /**
+     * 卸载模板
+     */
     public void uninstall() {
-        FileUtils.deleteQuietly(getAbsolutePathFile());
+        StringBuilder newFileName = new StringBuilder(PathKit.getWebRootPath());
+        newFileName.append(File.separator);
+        newFileName.append("templates");
+        newFileName.append(File.separator);
+        newFileName.append("dockers");
+        File templateRootPath = new File(newFileName.toString());
+
+        File delPath = findInstallPath(templateRootPath,getAbsolutePathFile());
+        FileUtils.deleteQuietly(delPath);
+    }
+
+
+    private File findInstallPath(File templateRootPath,File file) {
+        File parent = file.getParentFile();
+        if (parent.getAbsolutePath().equals(templateRootPath.getAbsolutePath())
+                || parent.getAbsolutePath().equals(templateRootPath.getParentFile().getAbsolutePath())) {
+            return file;
+        }
+
+        return findInstallPath(templateRootPath,file.getParentFile());
     }
 
     public File getAbsolutePathFile() {

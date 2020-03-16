@@ -1,6 +1,5 @@
 package io.jpress.module.product.service.provider;
 
-import com.jfinal.plugin.activerecord.Db;
 import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.Cacheable;
@@ -23,9 +22,11 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
     @Override
     @Cacheable(name = cacheName, key = "productId:#(productId)", nullCacheEnable = true)
-    public List<ProductImage> findListByProductId(Object productId) {
+    public List<ProductImage> findListByProductId(Long productId) {
         List<ProductImage> list = DAO.findListByColumn(Column.create("product_id", productId));
-        if (list != null && !list.isEmpty()) list.sort(Comparator.comparingInt(BaseProductImage::getOrderNumber));
+        if (list != null && !list.isEmpty()) {
+            list.sort(Comparator.comparingInt(BaseProductImage::getOrderNumber));
+        }
         return list == null || list.isEmpty() ? null : list;
     }
 
@@ -34,12 +35,12 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
         if (imageIds == null || imageSrcs == null || imageIds.length == 0) {
             Jboot.getCache().remove(cacheName, "productId:" + productId);
-            Db.update("delete from product_image where product_id = ?", productId);
+            deleteByProductId(productId);
             return;
         }
 
         //这种情况应该不可能出现
-        if (imageIds.length != imageIds.length) {
+        if (imageIds.length != imageSrcs.length) {
             return;
         }
 
@@ -49,7 +50,7 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
         if (productImages != null) {
             for (ProductImage image : productImages) {
                 if (!ArrayUtils.contains(imageIds, image.getId().toString())) {
-                    Db.update("delete from product_image where id = ?", image.getId());
+                    DAO.deleteById(image.getId());
                 }
             }
         }
@@ -61,11 +62,19 @@ public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> 
 
             ProductImage image = new ProductImage();
             image.setOrderNumber(i);
-            image.setId(imageId);
             image.setSrc(imageSrcs[i]);
             image.setProductId(productId);
 
+            if (imageId > 0 ){
+                image.setId(imageId);
+            }
+
             saveOrUpdate(image);
         }
+    }
+
+    @Override
+    public boolean deleteByProductId(Long productId) {
+        return  DAO.deleteByColumn(Column.create("product_id",productId));
     }
 }

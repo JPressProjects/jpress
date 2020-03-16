@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package io.jpress.commons.oauth2;
 
 import com.jfinal.log.Log;
 import io.jboot.utils.HttpUtil;
+import io.jboot.utils.RequestUtil;
 
 import java.util.Map;
 
@@ -37,6 +38,7 @@ public abstract class OauthConnector {
         this.clientId = appkey;
         this.clientSecret = appSecret;
         this.name = name;
+        this.redirectUri = RequestUtil.getBaseUrl() + "/oauth/callback/" + name;
     }
 
     public String getClientId() {
@@ -67,8 +69,7 @@ public abstract class OauthConnector {
         return redirectUri;
     }
 
-    public String getAuthorizeUrl(String state, String redirectUri) {
-        this.redirectUri = redirectUri;
+    public String getAuthorizeUrl(String state) {
         return createAuthorizeUrl(state);
     }
 

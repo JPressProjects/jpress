@@ -26,8 +26,8 @@
                 <li class="dropdown messages-menu" style="border-left: 1px solid #ccc;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-fw fa-shopping-cart"></i>
-                        #if(headerUserCartsCount && headerUserCartsCount>0)
-                        <span class="label label-danger">#(headerUserCartsCount)</span>
+                        #if(USER_CARTS_COUNT && USER_CARTS_COUNT > 0)
+                        <span class="label label-danger">#(USER_CARTS_COUNT)</span>
                         #end
                     </a>
                     <ul class="dropdown-menu">
@@ -35,7 +35,7 @@
                         <li>
                             <ul class="menu" style="background-color: #f7f7f7">
 
-                                #for(userCart : headerUserCarts)
+                                #for(userCart : USER_CARTS)
                                 <li>
                                     <a href="#(userCart.product_link ?? '#')" target="_blank">
                                         #if(userCart.product_thumbnail)
@@ -69,7 +69,7 @@
                 </li>
 
                 <li style="border-left: 1px solid #ccc;">
-                    <a href="#(CPATH)/ucenter/doLogout?csrf_token=#(CSRF_TOKEN)">
+                    <a href="#(CPATH)/ucenter/logout">
                         <i class="fa fa-fw fa-circle-o-notch"></i>退出
                     </a>
                 </li>

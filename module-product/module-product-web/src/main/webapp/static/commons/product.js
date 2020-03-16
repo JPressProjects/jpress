@@ -6,31 +6,37 @@ var productInfo = {
 /*
 添加到购物车
  */
-function addProductToCart(productId, productSpec, okFunction, failFunction) {
+function addProductToCart(productId, productSpec, ok, fail) {
     ajaxPost(getContextPaht() + '/product/doAddCart', {
             id: productId,
             spec: productSpec
         },
-        okFunction ? okFunction : function () {
+        ok ? ok : function () {
             alert('成功添加到购物车。')
         },
-        failFunction ? failFunction : function (data) {
+        fail ? fail : function (data) {
             alert('添加到购物车失败：' + data.message)
+            if (data.gotoUrl) {
+                location.href = data.gotoUrl;
+            }
         })
 }
 
 /*
 添加商品到收藏夹
  */
-function addProductToFavorite(productId, okFunction, failFunction) {
+function addProductToFavorite(productId, ok, fail) {
     ajaxPost(getContextPaht() + '/product/doAddFavorite', {
             id: productId
         },
-        okFunction ? okFunction : function () {
+        ok ? ok : function () {
             alert('成功添加到收藏夹。')
         },
-        failFunction ? failFunction : function (data) {
+        fail ? fail : function (data) {
             alert('添加到收藏夹失败：' + data.message)
+            if (data.gotoUrl) {
+                location.href = data.gotoUrl;
+            }
         })
 }
 
@@ -38,24 +44,34 @@ function addProductToFavorite(productId, okFunction, failFunction) {
 /*
 购买产品
  */
-function buyPrudct(productId, okFunction, failFunction) {
+function buyProduct(productId, ok, fail) {
     ajaxPost(getContextPaht() + '/product/doBuy', {
             id: productId,
             spec: productInfo.spec
         },
-        okFunction ? okFunction : function (data) {
+        ok ? ok : function (data) {
             if (data.gotoUrl) {
-                // location.href = data.gotoUrl;
-                window.open(data.gotoUrl, '_blank')
+                if (isMobileBrowser()) {
+                    location.href = data.gotoUrl;
+                } else {
+                    window.open(data.gotoUrl, '_blank')
+                }
             }
         },
-        failFunction ? failFunction : function () {
+        fail ? fail : function (data) {
+            alert('无法进行购买：' + data.message)
             if (data.gotoUrl) {
                 location.href = data.gotoUrl;
-            } else {
-                alert('无法进行购买：' + data.message)
             }
         })
+}
+
+function isMobileBrowser(){
+    if(window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
+        return true; // 移动端
+    }else{
+        return false; // PC端
+    }
 }
 
 
@@ -64,12 +80,12 @@ function getContextPaht() {
 }
 
 
-function ajaxPost(url, data, okFunction, failFunction) {
+function ajaxPost(url, data, ok, fail) {
     $.post(url, data, function (result) {
         if (result.state == 'ok') {
-            okFunction(result);
+            ok(result);
         } else {
-            failFunction(result);
+            fail(result);
         }
     });
 }
@@ -80,6 +96,10 @@ function setProductSpec(spec) {
 }
 
 function initSwiperComponent() {
+
+    if (typeof Swiper == "undefined") {
+        return;
+    }
 
     var galleryThumbs = new Swiper('.gallery-thumbs', {
         spaceBetween: 10,
@@ -131,8 +151,19 @@ function initCommentComponent() {
                     alert('评论失败：' + data.message);
                     if (data.errorCode == 9 && data.gotoUrl) {
                         location.href = data.gotoUrl;
-                    } else {
+                    }
+                    //验证码错误
+                    else if (data.errorCode == 2) {
+                        $('#comment-vcode').click();
+                        $('#comment-captcha').val("");
+                        $('#comment-captcha').focus();
+                    }
+                    //其他
+                    else {
+                        $('#comment-vcode').click();
+                        $('#comment-captcha').val("");
                         $('.comment-textarea textarea').val('');
+                        $('.comment-textarea textarea').focus();
                     }
                 }
             },
@@ -153,6 +184,15 @@ function initCommentComponent() {
 }
 
 
+function initClipboardJSComponent(){
+    if (typeof ClipboardJS != "undefined") {
+        var clipboard = new ClipboardJS('.copy');
+        clipboard.on('success', function(e) {
+            alert("复制成功，可以去分享给您的朋友啦~~");
+        });
+    }
+}
+
 $(document).ready(function () {
 
     $(".product-specs li").click(function () {
@@ -166,5 +206,7 @@ $(document).ready(function () {
 
     initSwiperComponent();
     initCommentComponent();
+    initClipboardJSComponent()
+
 
 });

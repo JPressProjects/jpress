@@ -119,15 +119,6 @@ public interface ProductService extends JbootServiceJoiner {
 
 
     /**
-     * 根据条件进行删除
-     *
-     * @param columns
-     * @return
-     */
-    public boolean deleteByColumns(Columns columns);
-
-
-    /**
      * 保存到数据库
      *
      * @param model
@@ -206,11 +197,19 @@ public interface ProductService extends JbootServiceJoiner {
 
     public long findCountByStatus(int status);
 
-    public boolean deleteByIds(Object... ids);
-
     public void doIncProductViewCount(long productId);
 
     public void doIncProductCommentCount(long productId);
 
     public List<Product> findRelevantListByProductId(Long productId, int status, Integer count);
+
+    public List<Product> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
+
+    public Product findNextById(long id);
+
+    public Product findPreviousById(long id);
+
+    public Page<Product> search(String queryString, int pageNum, int pageSize);
+
+    public Page<Product> searchIndb(String queryString, int pageNum, int pageSize);
 }

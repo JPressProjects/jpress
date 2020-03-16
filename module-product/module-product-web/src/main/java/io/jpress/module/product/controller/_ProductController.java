@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ public class _ProductController extends AdminControllerBase {
         setAttr("page", page);
 
 
-        List<ProductCategory> categories = categoryService._findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
         flagCheck(categories, categoryId);
@@ -96,17 +96,17 @@ public class _ProductController extends AdminControllerBase {
 
 
     public void edit() {
-        List<ProductCategory> categories = categoryService._findListByType(ProductCategory.TYPE_CATEGORY);
+        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
 
         setAttr("fields", ProductFields.me());
 
 
-        int productId = getParaToInt(0, 0);
+        Long productId = getParaToLong(0, 0L);
 
         Product product = null;
-        if (productId > 0) {
+        if (productId != null && productId > 0) {
             product = productService.findById(productId);
             if (product == null) {
                 renderError(404);
@@ -178,8 +178,8 @@ public class _ProductController extends AdminControllerBase {
 
 
         if (StrUtil.isNotBlank(product.getSlug())) {
-            Product slugArticle = productService.findFirstBySlug(product.getSlug());
-            if (slugArticle != null && slugArticle.getId().equals(product.getId()) == false) {
+            Product existModel = productService.findFirstBySlug(product.getSlug());
+            if (existModel != null && existModel.getId().equals(product.getId()) == false) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
                 return;
             }
@@ -189,6 +189,9 @@ public class _ProductController extends AdminControllerBase {
             product.setOrderNumber(0);
         }
 
+        if (product.getViewCount() == null){
+            product.setViewCount(0L);
+        }
         long id = (long) productService.saveOrUpdate(product);
         productService.doUpdateCommentCount(id);
 
@@ -196,15 +199,27 @@ public class _ProductController extends AdminControllerBase {
         setAttr("product", product);
 
 
+        Long[] saveBeforeCategoryIds = null;
+        if (product.getId() != null){
+            saveBeforeCategoryIds = categoryService.findCategoryIdsByProductId(product.getId());
+        }
+
+
         Long[] categoryIds = getParaValuesToLong("category");
         Long[] tagIds = getTagIds(getParaValues("tag"));
 
-        Long[] allIds = ArrayUtils.addAll(categoryIds, tagIds);
+        Long[] updateCategoryIds = ArrayUtils.addAll(categoryIds, tagIds);
 
-        productService.doUpdateCategorys(id, allIds);
+        productService.doUpdateCategorys(id, updateCategoryIds);
 
-        if (allIds != null && allIds.length > 0) {
-            for (Long categoryId : allIds) {
+        if (updateCategoryIds != null && updateCategoryIds.length > 0) {
+            for (Long categoryId : updateCategoryIds) {
+                categoryService.doUpdateProductCount(categoryId);
+            }
+        }
+
+        if (saveBeforeCategoryIds != null && saveBeforeCategoryIds.length > 0) {
+            for (Long categoryId : saveBeforeCategoryIds) {
                 categoryService.doUpdateProductCount(categoryId);
             }
         }
@@ -237,7 +252,11 @@ public class _ProductController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(productService.deleteById(id) ? Ret.ok() : Ret.fail());
+        if (productService.deleteById(id)){
+            imageService.deleteByProductId(id);
+        }
+
+        renderOkJson();
     }
 
     public void doTrash() {
@@ -258,7 +277,12 @@ public class _ProductController extends AdminControllerBase {
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
         Set<String> idsSet = getParaSet("ids");
-        render(productService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+        if (productService.batchDeleteByIds(idsSet.toArray())){
+            for (String id : idsSet){
+                imageService.deleteByProductId(Long.valueOf(id));
+            }
+        }
+        renderOkJson();
     }
 
     @AdminMenu(text = "设置", groupId = "product", order = 99)

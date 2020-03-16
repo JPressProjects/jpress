@@ -1,0 +1,97 @@
+#include("_user_detail_layout.html")
+#@user_detail_layout("order")
+#define detail()
+#define layout_script()
+
+#end
+<div class="box-header with-border">
+    <form class="form-horizontal actionPanel" action="#(CPATH)/admin/user/detail/order/#(user.id)" method="get">
+        <div class="row">
+            <div class="form-group col-xs-5">
+                <label class="col-sm-3 control-label">商品</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="productTitle" value="#para('productTitle')">
+                </div>
+            </div>
+            <div class="form-group col-xs-5">
+                <label class="col-sm-3 control-label">订单号</label>
+                <div class="col-sm-9">
+                    <input class="form-control" name="ns" value="#para('ns')">
+                </div>
+            </div>
+            <div class="form-group col-xs-2">
+                <button type="submit" class="btn btn-primary ">查询</button>
+                <a href="#(CPATH)/admin/user/detail/order/#(user.id)" type="reset" class="btn btn-default">重置</a>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </form>
+
+
+</div>
+<!-- /.box-header -->
+<div class="box-body ">
+
+    <table class="table table-striped">
+        <tbody>
+        <tr >
+            <th style="text-align: center">商品</th>
+            <th style="text-align: center">数量</th>
+            <th style="text-align: center">单价</th>
+            <th style="text-align: center">总价</th>
+        </tr>
+
+
+        #for(order : userOrderPage.list ??)
+        <tr>
+            <td colspan="5" bgcolor="#fff">
+                <div class="box box-dashboard" style="margin-bottom: 0px">
+                    <div class="box-header with-border">
+                        <div class="col-lg-10">
+                            订单号：#(order.ns ??)
+                            总金额：<span style="padding-right: 20px">#(order.orderRealAmount ??)</span>
+                            支付状态：<span style="padding-right: 20px">#(order.payStatusStr ??)</span>
+
+                            #if(order.isPaySuccess())
+                            物流状态：<span style="padding-right: 20px">#(order.deliveryStatusStr ??)</span>
+                            #end
+
+                        </div>
+                        <div class="col-lg-2" style="text-align: right">
+                            <h3 class="box-title">
+                            </h3>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <table class="table table-striped">
+                            <tbody>
+                            #for(item : order.items)
+                            <tr>
+                                <td style="width: 20%;text-align: center">#(item.product_title ??)</td>
+                                <td style="width: 20%;text-align: center">#(item.product_count ??)</td>
+                                <td style="width: 20%;text-align: center">#(item.product_price ??)</td>
+                                <td style="width: 20%;text-align: center">#(item.product_price *  item.product_count ??)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        #end
+
+        </tbody>
+    </table>
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+    <div class="row">
+        <div class="col-sm-12">
+            #@_paginate()
+        </div>
+    </div>
+</div>
+#end
+

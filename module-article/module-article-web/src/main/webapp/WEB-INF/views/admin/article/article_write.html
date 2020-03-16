@@ -30,13 +30,11 @@
         })
     });
 
-
     $(".tflag").each(function () {
         $(this).on('click', function () {
             $("#flag").val($(this).text());
         })
     });
-
 
     $(".submitBtn").on("click", function () {
         $("#articleStatus").val($(this).attr("data-status"));
@@ -49,7 +47,7 @@
             $("#articleId").attr("value", data.id);
             toastr.success('文章保存成功。');
         });
-    }
+    };
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
@@ -133,12 +131,17 @@
                                 （<a href="#(article.url)" target="_blank">访问</a>）
                                 #end
                                 <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
-                                <a href="javascript:;" style="float: right;padding: 5px 0"
-                                   onclick="doChangeEditor('#(article.id ?? 0)')">切换编辑器</a>
+                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor('#(article.id ?? 0)')">
+                                    #if(editMode && editMode == 'html')
+                                    使用 markdown 编辑
+                                    #else
+                                    可视化编辑
+                                    #end
+                                </a>
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <textarea id="editor1" name="article.content"
-                                          style="height: 467px;width: 100%;background-color: white">#CKEditorContent(article.content ??)</textarea>
+                                          style="height: 467px;width: 100%;background-color: white">#EditorContent(article.orignalContent ??)</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -181,12 +184,89 @@
                         </div>
                     </div>
 
-                    #if(styles && styles.size() > 0 )
+
+
+
+
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">分类</h3>
+                        </div>
+                        <div class="box-body ">
+                            <div class="form-group">
+                                #for(category : categories)
+                                <div class="checkbox">
+                                    <label>
+                                        #for(i = 0; i < category.layerNumber; i++)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        #end
+
+                                        #if(category.isCheck)
+                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                        #else
+                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                        #end
+
+
+                                        #(category.title ??)
+                                    </label>
+                                </div>
+                                #end
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">标签</h3>
+                        </div>
+                        <div class="box-body">
+                            <select class="form-control article-tags" multiple="multiple" name="tag">
+                                #for(tag : tags)
+                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                                #end
+                            </select>
+                            <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+
+                            <div class="tags">
+                                #tags(count = 20)
+                                #for(tag : tags)
+                                <a href="javascript:;" class="newTag">#(tag.title)</a>
+                                #end
+                                #end
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="box box-solid">
+                        <div class="box-header with-border ">
+                            <h3 class="box-title">缩略图</h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+                                 style="width: 100%;height: 200px"
+                                 id="thumbnail">
+                            <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
+                                   id="articleThumbnail">
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
+                                    for-src="thumbnail"
+                                    for-input="articleThumbnail">选择图片
+                            </button>
+                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                        </div>
+                    </div>
+
+
                     <div class="box box-solid">
                         <div class="box-header with-border ">
                             <h3 class="box-title">模板样式</h3>
                         </div>
                         <div class="box-body ">
+
+                            #if(styles && styles.size() > 0 )
                             <div class="form-group">
                                 <select class="form-control" name="article.style">
                                     <option value="">默认样式</option>
@@ -197,80 +277,27 @@
                                     #end
                                 </select>
                             </div>
-                        </div>
-                        #end
+                            #end
 
-
-                        <div class="box box-solid">
-                            <div class="box-header with-border ">
-                                <h3 class="box-title">分类</h3>
-                            </div>
-                            <div class="box-body ">
-                                <div class="form-group">
-                                    #for(category : categories)
-                                    <div class="checkbox">
-                                        <label>
-                                            #for(i = 0; i < category.layerNumber; i++)
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            #end
-
-                                            #if(category.isCheck)
-                                            <input type="checkbox" name="category" value="#(category.id)" checked/>
-                                            #else
-                                            <input type="checkbox" name="category" value="#(category.id)"/>
-                                            #end
-
-
-                                            #(category.title ??)
-                                        </label>
-                                    </div>
-                                    #end
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="box box-solid">
-                            <div class="box-header with-border ">
-                                <h3 class="box-title">标签</h3>
-                            </div>
-                            <div class="box-body">
-                                <select class="form-control article-tags" multiple="multiple" name="tag">
-                                    #for(tag : tags)
-                                    <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
-                                    #end
-                                </select>
-                                <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
-
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="article.flag"
+                                       placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
+                                #if(flags && flags.size() > 0)
+                                <p class="help-block">当前模板支持的展示标识有：</p>
                                 <div class="tags">
-                                    #tags(count = 20)
-                                    #for(tag : tags)
-                                    <a href="javascript:;" class="newTag">#(tag.title)</a>
-                                    #end
+                                    #for(flag : flags ??)
+                                    <a href="javascript:;" class="tflag">#(flag)</a>
                                     #end
                                 </div>
-                            </div>
-                        </div>
-                        <div class="box box-solid">
-                            <div class="box-header with-border ">
-                                <h3 class="box-title">缩略图</h3>
-                            </div>
-                            <div class="box-body no-padding">
-                                <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
-                                     style="width: 100%;height: 200px"
-                                     id="thumbnail">
-                                <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
-                                       id="articleThumbnail">
-                            </div>
-                            <div class="box-footer">
-                                <button type="button" class="btn-image-browser btn btn-default btn-sm "
-                                        for-src="thumbnail"
-                                        for-input="articleThumbnail">选择图片
-                                </button>
-                                <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                                #end
                             </div>
                         </div>
                     </div>
+
+
+
                 </div>
+            </div>
         </form>
     </section>
 

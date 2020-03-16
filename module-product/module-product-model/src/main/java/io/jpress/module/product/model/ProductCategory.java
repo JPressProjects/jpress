@@ -45,6 +45,7 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
      *
      * @return
      */
+    @Override
     public boolean isTop() {
         return getPid() != null && getPid() == 0;
     }
@@ -103,10 +104,11 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < layerNumber; i++) {
-            if (i == 0)
+            if (i == 0) {
                 sb.append("|—");
-            else
+            } else {
                 sb.append("—");
+            }
         }
         return sb.toString();
     }
@@ -127,7 +129,9 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
 
             if (category.getChilds() != null) {
                 boolean isChild = isMyChild(category.getChilds(), id);
-                if (isChild) return true;
+                if (isChild) {
+                    return true;
+                }
             }
         }
         return false;
@@ -139,8 +143,9 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
                 return JFinal.me().getContextPath() + "/product/category/" + getSlug() + JPressOptions.getAppUrlSuffix();
             case TYPE_TAG:
                 return JFinal.me().getContextPath() + "/product/tag/" + getSlug() + JPressOptions.getAppUrlSuffix();
+            default:
+                return "";
         }
-        return "";
     }
 
 

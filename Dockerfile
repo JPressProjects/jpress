@@ -3,7 +3,7 @@ LABEL maintainer="Michael Yang<fuhai999@gmail.com>"
 
 WORKDIR /opt/jpress
 
-COPY ./starter/target/starter-2.0/ /opt/jpress/
+COPY ./starter/target/starter-3.0/ /opt/jpress/
 COPY ./docker/files/jpress.sh /opt/jpress/jpress.sh
 COPY ./docker/files/jboot.properties /opt/jpress/config/jboot.properties
 

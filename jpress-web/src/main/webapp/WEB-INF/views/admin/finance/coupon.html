@@ -79,17 +79,18 @@
                                     <div class="jp-actionblock">
                                         <div class="jp-actionitem">
                                             <a href="#(CPATH)/admin/finance/coupon/edit/#(coupon.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/finance/coupon/takeEdit?cid=#(coupon.id)">分配</a> |
                                             <a href="javascript:;" class="red-action"
                                                onclick="doDel('#(coupon.id)')">删除</a>
                                         </div>
                                     </div>
                                 </td>
-                                <td>#(coupon.type ??)</td>
+                                <td>#(coupon.typeStr ??)</td>
                                 <td>#(coupon.amount ??)</td>
                                 <td>#(coupon.quota ??)</td>
                                 <td><a href="#(CPATH)/admin/finance/coupon/takes/#(coupon.id)">#(coupon.take_count ??)</a></td>
-                                <td><a href="#(CPATH)/admin/finance/coupon/useds/#(coupon.id)">#(coupon.used_count ??)</a></td>
-                                <td>#(coupon.status ??)</td>
+                                <td><a href="#(CPATH)/admin/finance/coupon/useds?coid=#(coupon.id)">#(coupon.used_count ??)</a></td>
+                                <td>#(coupon.statusStr ??)</td>
                             </tr>
                             #end
                             </tbody>

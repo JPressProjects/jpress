@@ -1,0 +1,124 @@
+#@layout()
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+            垃圾信息过滤
+            <small>Text Filter</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          id="optionForm">
+                        <div class="box-body ">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">自定义非法关键字</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="5" class="form-control"
+                                              placeholder="自定义的非法关键字..."
+                                              name="text_filter_content">#option("text_filter_content")</textarea>
+                                    <p class="help-block"> 此处请填写要进行过滤的自定义关键字，多个用英文逗号（,）隔开。 </p>
+                                </div>
+                            </div>
+
+
+                            <h4 class="page-header">云端AI过滤</h4>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开启云过滤功能</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="text_filter_service_enable" #checkedIf(option("text_filter_service_enable"))>
+                                    <input type="hidden" id="text_filter_service_enable" name="text_filter_service_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">云过滤服务商</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="text_filter_service">
+                                        <option value="aliyun" #selectedIf(option('text_filter_service') == 'aliyun') >阿里云</option>
+                                        <option value="qcloud" #selectedIf(option('text_filter_service') == 'qcloud') >腾讯云</option>
+                                        <option value="xiaohuaerai" #selectedIf(option('text_filter_service') == 'xiaohuaerai') >小花儿AI</option>
+                                        <option value="ultrapower" #selectedIf(option('text_filter_service') == 'ultrapower') >泰岳语义工厂</option>
+                                    </select>
+
+                                    <p class="help-block">
+                                        阿里云请参考 <a href="https://help.aliyun.com/document_detail/53427.html" target="_blank">https://help.aliyun.com/document_detail/53427.html</a><br />
+                                        腾讯云请参考 <a href="https://cloud.tencent.com/product/tms" target="_blank">https://cloud.tencent.com/product/tms</a><br />
+                                        小花儿AI请参考 <a href="https://market.aliyun.com/products/57124001/cmapi029968.html" target="_blank">https://market.aliyun.com/products/57124001/cmapi029968.html</a><br />
+                                        泰岳语义工厂请参考 <a href="https://market.aliyun.com/products/57124001/cmapi033064.html" target="_blank">https://market.aliyun.com/products/57124001/cmapi033064.html</a>
+                                    </p>
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">App Id</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="从服务商获取的 appId ..."
+                                           name="text_filter_appid"
+                                           value="#option('text_filter_appid')">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">App Secret</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="及 appSecret"
+                                           name="text_filter_appsecret"
+                                           value="#option('text_filter_appsecret')">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">App Code</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="App Code"
+                                           name="text_filter_appcode"
+                                           value="#option('text_filter_appcode')">
+                                    <p class="help-block">
+                                        App Code 的认知方式为阿里云市场的认证方式，倘若通过 AppId 和 AppSecret 认证，就没必要再设置 App Code 认证了。反过来，若填写了 App Code
+                                    就没必要填写 AppId 和 AppSecret 了。
+                                    </p>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

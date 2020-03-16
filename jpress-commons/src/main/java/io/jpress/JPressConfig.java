@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * <p>
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * <p>
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * <p>
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@
  * limitations under the License.
  */
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,6 +93,11 @@ public class JPressConfig {
     private String attachmentRoot; // attachment 目录，在未配置的情况下，在 webapp 目录下
     private String adminLoginPage = DEFAULT_LOGIN_PAGE;         //登录的页面
     private String adminLoginAction = "/admin/doLogin";     //登录的方法
+
+    /**
+     * 是否开启模板预览的功能
+     */
+    private boolean templatePreviewEnable = false;
 
 
     public String getIndexAction() {
@@ -134,6 +139,14 @@ public class JPressConfig {
 
     public void setAdminLoginAction(String adminLoginAction) {
         this.adminLoginAction = adminLoginAction;
+    }
+
+    public boolean isTemplatePreviewEnable() {
+        return templatePreviewEnable;
+    }
+
+    public void setTemplatePreviewEnable(boolean templatePreviewEnable) {
+        this.templatePreviewEnable = templatePreviewEnable;
     }
 
     public String getAttachmentRootOrWebRoot() {

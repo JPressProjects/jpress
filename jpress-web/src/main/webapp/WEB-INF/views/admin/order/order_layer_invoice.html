@@ -11,13 +11,14 @@
                   data-ok-function="parent.layer.closeAll()"
             >
                 <input type="hidden" name="orderId" value="#(order.id ??)">
+                <input type="hidden" name="invoiceId" value="#(invoice.id ??)">
                 <div class="box-body ">
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">发票类型</label>
                         <div class="col-sm-8">
                             <input type="input"  class="form-control" readonly
-                                   value="#(order.invoice_type ??)">
+                                   value="#(invoice.type ??)">
                         </div>
                     </div>
 
@@ -26,16 +27,7 @@
                         <label class="col-sm-2 control-label">发票抬头</label>
                         <div class="col-sm-8">
                             <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_title ??)" >
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">发票内容</label>
-                        <div class="col-sm-8">
-                            <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_content ??)" >
+                                   value="#(invoice.title ??)" >
                         </div>
                     </div>
 
@@ -44,7 +36,7 @@
                         <label class="col-sm-2 control-label">单位名称</label>
                         <div class="col-sm-8">
                             <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_name  ??)" >
+                                   value="#(invoice.name  ??)" >
                         </div>
                     </div>
 
@@ -53,7 +45,7 @@
                         <label class="col-sm-2 control-label">纳税人识别号</label>
                         <div class="col-sm-8">
                             <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_identity ??)" >
+                                   value="#(invoice.identity ??)" >
                         </div>
                     </div>
 
@@ -63,7 +55,7 @@
                         <label class="col-sm-2 control-label">手机号</label>
                         <div class="col-sm-8">
                             <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_mobile ??)" >
+                                   value="#(invoice.mobile ??)" >
                         </div>
                     </div>
 
@@ -72,11 +64,18 @@
                         <label class="col-sm-2 control-label">邮箱</label>
                         <div class="col-sm-8">
                             <input type="input" class="form-control" readonly
-                                   value="#(order.invoice_email ??)" >
+                                   value="#(invoice.email ??)" >
                         </div>
                     </div>
 
 
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">发票内容</label>
+                        <div class="col-sm-8">
+                            <input type="input" class="form-control"
+                                   name="invoiceContent" >
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label">发票状态</label>

@@ -10,7 +10,7 @@
 #end
 
 #define script()
-<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="#(CAPTH)/static/components/jquery/jquery.min.js"></script>
 <script>
     var invoke = true;
     var interval = setInterval(function () {
@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="col-lg-6 pay-content-img">
-        <img src="/static/commons/img/pay-alipay.png" />
+        <img src="#(CAPTH)/static/commons/img/pay-alipay.png" />
 
         <div class="btn-web-alipay">
             <a href="#(CAPTH)/pay/alipayweb/#(payment.trx_no)" class="btn btn-primary"> 或登录支付宝账户支付 </a>

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,21 @@
  */
 package io.jpress.module.product.controller;
 
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
+import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserCart;
 import io.jpress.module.product.ProductNotifyKit;
+import io.jpress.module.product.interceptor.ProductValidate;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductComment;
@@ -46,7 +51,7 @@ import java.util.Map;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章前台页面Controller
+ * @Title: 产品前台页面Controller
  * @Package io.jpress.module.product.controller
  */
 @RequestMapping("/product")
@@ -80,8 +85,14 @@ public class ProductController extends TemplateControllerBase {
     public void index() {
         Product product = getProduct();
 
-        //当文章处于审核中、草稿等的时候，显示404
+        //当产品处于下架等的时候，显示404
         render404If(product == null || !product.isNormal());
+
+        if (getLoginedUser() == null) {
+            setAttr("productShareUrl", RequestUtil.getBaseUrl() + product.getUrl());
+        }else {
+            setAttr("productShareUrl", RequestUtil.getBaseUrl() + product.getUrl() + "?did=" + getLoginedUser().getId());
+        }
 
         //设置页面的seo信息
         setSeoInfos(product);
@@ -178,12 +189,17 @@ public class ProductController extends TemplateControllerBase {
         }
 
         //是否对用户输入验证码进行验证
-        Boolean vCodeEnable = optionService.findAsBoolByKey("product_comment_vcode_enable");
+        Boolean vCodeEnable = JPressOptions.isTrueOrEmpty("product_comment_vcode_enable");
         if (vCodeEnable != null && vCodeEnable == true) {
             if (validateCaptcha("captcha") == false) {
-                renderJson(Ret.fail().set("message", "验证码错误"));
+                renderJson(Ret.fail().set("message", "验证码错误").set("errorCode", 2));
                 return;
             }
+        }
+
+        if (DFAUtil.isContainsSensitiveWords(content)) {
+            renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
+            return;
         }
 
 
@@ -193,14 +209,14 @@ public class ProductController extends TemplateControllerBase {
             return;
         }
 
-        // 文章关闭了评论的功能
+        // 关闭了评论的功能
         if (!product.isCommentEnable()) {
             renderJson(Ret.fail().set("message", "该产品的评论功能已关闭"));
             return;
         }
 
         //是否开启评论功能
-        Boolean commentEnable = optionService.findAsBoolByKey("product_comment_enable");
+        Boolean commentEnable = JPressOptions.isTrueOrEmpty("product_comment_enable");
         if (commentEnable == null || commentEnable == false) {
             renderJson(Ret.fail().set("message", "评论功能已关闭"));
             return;
@@ -241,7 +257,7 @@ public class ProductController extends TemplateControllerBase {
             comment.setStatus(ProductComment.STATUS_NORMAL);
         }
 
-        //记录文章的评论量
+        //记录产品的评论量
         productService.doIncProductCommentCount(productId);
 
         commentService.saveOrUpdate(comment);
@@ -267,7 +283,7 @@ public class ProductController extends TemplateControllerBase {
         }
 
 
-        setRetHtml(ret, paras, "/WEB-INF/views/commons/product/defaultProductCommentItem.html");
+        renderHtmltoRet("/WEB-INF/views/commons/product/defaultProductCommentItem.html", paras, ret);
         renderJson(ret);
 
         ProductNotifyKit.doNotifyAdministrator(product, comment, user);
@@ -278,105 +294,42 @@ public class ProductController extends TemplateControllerBase {
     /**
      * 添加到购物车
      */
+    @Before(ProductValidate.class)
     public void doAddCart() {
+
+        Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        if (user == null) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail()
-                        .set("code", 1)
-                        .set("message", "用户未登录")
-                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
-            } else {
-                redirect("/user/login");
-            }
-            return;
-        }
+        Long distUserId = CookieUtil.getLong(this, buildDistUserCookieName(product.getId()));
+        UserCart userCart = product.toUserCartItem(user.getId(), distUserId, getPara("spec"));
 
-
-        Long productId = getParaToLong("id");
-        Product product = productService.findById(productId);
-
-        if (product == null || !product.isNormal()) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
-            } else {
-                renderError(404);
-            }
-            return;
-        }
-
-        String distUserId = CookieUtil.get(this, buildDistUserCookieName(productId));
-        Long duid = StrUtil.isNotBlank(distUserId) ? Long.valueOf(distUserId) : null;
-
-        UserCart userCart = product.toUserCartItem(user.getId(), duid, getPara("spec"));
-
-        cartService.save(userCart);
-        renderOkJson();
+        Object cartId = cartService.save(userCart);
+        renderJson(Ret.ok().set("cartId",cartId));
     }
 
 
+    @Before(ProductValidate.class)
     public void doAddFavorite() {
+        Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        if (user == null) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail()
-                        .set("code", 1)
-                        .set("message", "用户未登录")
-                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
-            } else {
-                redirect("/user/login");
-            }
-            return;
+        if (favoriteService.doAddToFavorite(product.toFavorite(user.getId()))) {
+            renderOkJson();
+        } else {
+            renderFailJson("已经收藏过了!");
         }
-
-
-        Long productId = getParaToLong("id");
-        Product product = productService.findById(productId);
-
-        if (product == null || !product.isNormal()) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
-            } else {
-                renderError(404);
-            }
-            return;
-        }
-
-        favoriteService.save(product.toFavorite(user.getId()));
-        renderOkJson();
     }
 
     /**
      * 购买商品
      */
+    @Before(ProductValidate.class)
     public void doBuy() {
+        Product product = ProductValidate.getThreadLocalProduct();
         User user = getLoginedUser();
-        if (user == null) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail()
-                        .set("code", 1)
-                        .set("message", "用户未登录")
-                        .set("gotoUrl", JFinal.me().getContextPath() + "/user/login"));
-            } else {
-                redirect("/user/login");
-            }
-            return;
-        }
+        Long distUserId = CookieUtil.getLong(this, buildDistUserCookieName(product.getId()));
+        UserCart userCart = product.toUserCartItem(user.getId(), distUserId, getPara("spec"));
 
+        Object cartId = cartService.save(userCart);
 
-        Long productId = getParaToLong("id");
-        Product product = productService.findById(productId);
-
-        if (product == null || !product.isNormal()) {
-            if (isAjaxRequest()) {
-                renderJson(Ret.fail().set("code", "2").set("message", "商品不存在。"));
-            } else {
-                renderError(404);
-            }
-            return;
-        }
-
-        Object cartId = cartService.save(product.toUserCartItem(user.getId(), null, getPara("spec")));
         if (isAjaxRequest()) {
             renderJson(Ret.ok().set("gotoUrl", JFinal.me().getContextPath() + "/ucenter/checkout/" + cartId));
         } else {

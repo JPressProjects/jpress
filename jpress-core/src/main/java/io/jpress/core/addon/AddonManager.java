@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,13 @@ import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.TableMapping;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Directive;
 import com.jfinal.template.expr.ast.FieldKit;
@@ -35,12 +37,14 @@ import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.db.model.JbootModelConfig;
 import io.jboot.utils.AnnotationUtil;
+import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
 import io.jpress.core.addon.interceptor.AddonInterceptorManager;
 import io.jpress.core.install.Installer;
+import io.jpress.core.template.TemplateManager;
 import io.jpress.core.wechat.WechatAddon;
 import io.jpress.core.wechat.WechatAddonConfig;
 import io.jpress.core.wechat.WechatAddonInfo;
@@ -98,6 +102,7 @@ public class AddonManager implements JbootEventListener {
     }
 
     private Map<String, AddonInfo> addonsMap = new ConcurrentHashMap<>();
+    private AddonNotifier notifier;
 
     public void init() {
 
@@ -116,15 +121,21 @@ public class AddonManager implements JbootEventListener {
     private void doInitAddons() {
 
         File addonDir = new File(PathKit.getWebRootPath(), "WEB-INF/addons");
-        if (!addonDir.exists()) return;
+        if (!addonDir.exists()) {
+            return;
+        }
 
         File[] addonJarFiles = addonDir.listFiles((dir, name) -> name.endsWith(".jar"));
-        if (addonJarFiles == null || addonJarFiles.length == 0) return;
+        if (addonJarFiles == null || addonJarFiles.length == 0) {
+            return;
+        }
 
         initAddonsMap(addonJarFiles);
         doInstallAddonsInApplicationStarted();
         doStartAddonInApplicationStarted();
+
     }
+
 
     private void initAddonsMap(File[] addonJarFiles) {
         for (File jarFile : addonJarFiles) {
@@ -149,7 +160,10 @@ public class AddonManager implements JbootEventListener {
     private void doStartAddonInApplicationStarted() {
         OptionService optionService = Aop.get(OptionService.class);
         for (AddonInfo addonInfo : addonsMap.values()) {
-            if (optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null) {
+            if (optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null
+                    && addonInfo.isInstall()
+                    && !addonInfo.isStarted()
+            ) {
                 try {
                     doStart(addonInfo);
                 } catch (Exception ex) {
@@ -191,7 +205,9 @@ public class AddonManager implements JbootEventListener {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
             addonsMap.put(addonInfo.getId(), addonInfo);
             Addon addon = addonInfo.getAddon();
+
             AddonUtil.unzipResources(addonInfo);
+
             if (addon != null) {
                 addon.onInstall(addonInfo);
             }
@@ -199,7 +215,11 @@ public class AddonManager implements JbootEventListener {
             addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
             OptionService optionService = Aop.get(OptionService.class);
 
-            return optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + addonInfo.getId(), "true") != null;
+            if (optionService.saveOrUpdate(ADDON_INSTALL_PREFFIX + addonInfo.getId(), "true") != null) {
+                notifyAddonInstall(FileUtil.removeRootPath(jarFile.getAbsolutePath()));
+            }
+
+            return true;
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
@@ -210,10 +230,17 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean uninstall(String id) {
-        if (StrUtil.isBlank(id)) {
-            return false;
+        return uninstall(id, true);
+    }
+
+    public boolean uninstall(String id, boolean withNotify) {
+        try {
+            return uninstall(getAddonInfo(id));
+        } finally {
+            if (withNotify) {
+                notifyAddonUninstall(id);
+            }
         }
-        return uninstall(getAddonInfo(id));
     }
 
     /**
@@ -240,7 +267,7 @@ public class AddonManager implements JbootEventListener {
         //卸载插件可能自带的 本地库
         try {
             unloadNativeLibs(addonInfo.getAddon());
-        }catch (Exception ex){
+        } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
 
@@ -291,7 +318,7 @@ public class AddonManager implements JbootEventListener {
      * @param addon
      */
     private synchronized void unloadNativeLibs(Addon addon) {
-        if (addon == null){
+        if (addon == null) {
             return;
         }
         try {
@@ -322,7 +349,12 @@ public class AddonManager implements JbootEventListener {
 
 
     public boolean start(String addonInfoId) {
-        return start(getAddonInfo(addonInfoId));
+        return start(addonInfoId, true);
+    }
+
+
+    public boolean start(String addonInfoId, boolean withNotify) {
+        return start(getAddonInfo(addonInfoId), withNotify);
     }
 
     /**
@@ -339,13 +371,16 @@ public class AddonManager implements JbootEventListener {
      * @param addonInfo
      * @return
      */
-    public boolean start(AddonInfo addonInfo) {
+    public boolean start(AddonInfo addonInfo, boolean withNotify) {
         try {
             doStart(addonInfo);
+            if (withNotify) {
+                notifyAddonStarted(addonInfo.getId());
+            }
             return true;
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
-            stop(addonInfo);
+            stop(addonInfo.getId(), withNotify);
         }
         return false;
     }
@@ -404,13 +439,32 @@ public class AddonManager implements JbootEventListener {
         List<Class<? extends JbootModel>> modelClasses = addonInfo.getModels();
         if (modelClasses != null && !modelClasses.isEmpty()) {
 
-            ActiveRecordPlugin arp = addonInfo.createOrGetArp();
+            ActiveRecordPlugin arp = addonInfo.getOrCreateArp();
+
+            List<com.jfinal.plugin.activerecord.Table> tableList = getTableList(arp);
 
             for (Class<? extends JbootModel> c : modelClasses) {
-                Table table = c.getAnnotation(Table.class);
-                arp.addMapping(AnnotationUtil.get(table.tableName()), (Class<? extends Model<?>>) c);
-            }
 
+                Table tableAnnotation = c.getAnnotation(Table.class);
+                boolean needAddMapping = true;
+
+                if (tableList != null && !tableList.isEmpty()) {
+                    for (com.jfinal.plugin.activerecord.Table t : tableList) {
+                        if (t.getName().equals(AnnotationUtil.get(tableAnnotation.tableName()))) {
+                            needAddMapping = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (needAddMapping) {
+                    if (StrUtil.isNotBlank(tableAnnotation.primaryKey())) {
+                        arp.addMapping(AnnotationUtil.get(tableAnnotation.tableName()), AnnotationUtil.get(tableAnnotation.primaryKey()), (Class<? extends Model<?>>) c);
+                    } else {
+                        arp.addMapping(AnnotationUtil.get(tableAnnotation.tableName()), (Class<? extends Model<?>>) c);
+                    }
+                }
+            }
             addonInfo.setArp(arp);
             arp.start();
         }
@@ -431,8 +485,9 @@ public class AddonManager implements JbootEventListener {
     private void addInterceptors(AddonInfo addonInfo) {
         List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
         if (interceptorClasses != null) {
-            for (Class<? extends Interceptor> c : interceptorClasses)
+            for (Class<? extends Interceptor> c : interceptorClasses) {
                 AddonInterceptorManager.addInterceptor(c);
+            }
         }
     }
 
@@ -453,26 +508,41 @@ public class AddonManager implements JbootEventListener {
     private void addHandlers(AddonInfo addonInfo) {
         List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
         if (handlerClasses != null) {
-            for (Class<? extends Handler> c : handlerClasses)
+            for (Class<? extends Handler> c : handlerClasses) {
                 AddonHandlerManager.addHandler(c);
+            }
         }
     }
 
     private void addControllers(AddonInfo addonInfo) {
         List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
-            for (Class<? extends Controller> c : controllerClasses)
+            for (Class<? extends Controller> c : controllerClasses) {
                 AddonControllerManager.addController(c, addonInfo.getId());
+            }
         }
     }
 
 
     public boolean stop(String id) {
-        return stop(getAddonInfo(id));
+        return stop(id, true);
+    }
+
+    public boolean stop(String id, boolean withNotify) {
+        try {
+            return stop(getAddonInfo(id));
+        } finally {
+            if (withNotify) {
+                notifyAddonStoped(id);
+            }
+        }
     }
 
 
     public boolean stop(AddonInfo addonInfo) {
+        if (addonInfo == null){
+            return false;
+        }
 
         //删除插件的所有Controller
         try {
@@ -566,7 +636,9 @@ public class AddonManager implements JbootEventListener {
 
     private void invokeAddonStopMethod(AddonInfo addonInfo) {
         Addon addon = addonInfo.getAddon();
-        if (addon != null) addon.onStop(addonInfo);
+        if (addon != null) {
+            addon.onStop(addonInfo);
+        }
     }
 
     private void removeTemplateCache(AddonInfo addonInfo) {
@@ -575,14 +647,48 @@ public class AddonManager implements JbootEventListener {
         // https://gitee.com/fuhai/jpress/issues/IS5YQ
         FieldKit.clearCache();
         MethodKit.clearCache();
-        RenderManager.me().getEngine().removeAllTemplateCache();
+        TemplateManager.me().clearCache(false);
     }
 
-    private void stopActiveRecordPlugin(AddonInfo addonInfo) {
+    private void stopActiveRecordPlugin(AddonInfo addonInfo) throws Exception {
         ActiveRecordPlugin arp = addonInfo.getArp();
-        if (arp != null) {
-            arp.stop();
+        if (arp != null && arp.stop()) {
+            clearStopedTableMapping(arp);
         }
+    }
+
+    private void clearStopedTableMapping(ActiveRecordPlugin arp) throws Exception {
+
+        List<com.jfinal.plugin.activerecord.Table> tables = getTableList(arp);
+
+        if (tables == null || tables.isEmpty()) {
+            return;
+        }
+
+
+        Field modelToTableMapField = TableMapping.class.getDeclaredField("modelToTableMap");
+        modelToTableMapField.setAccessible(true);
+        Map<Class<? extends Model<?>>, com.jfinal.plugin.activerecord.Table> modelToTableMap =
+                (Map<Class<? extends Model<?>>, com.jfinal.plugin.activerecord.Table>) modelToTableMapField.get(TableMapping.me());
+
+        if (modelToTableMap == null || modelToTableMap.isEmpty()) {
+            return;
+        }
+
+        for (com.jfinal.plugin.activerecord.Table table : tables) {
+            modelToTableMap.remove(table.getModelClass());
+        }
+    }
+
+    private List<com.jfinal.plugin.activerecord.Table> getTableList(ActiveRecordPlugin arp) {
+        try {
+            Field tableListField = ActiveRecordPlugin.class.getDeclaredField("tableList");
+            tableListField.setAccessible(true);
+            return (List<com.jfinal.plugin.activerecord.Table>) tableListField.get(arp);
+        } catch (Exception ex) {
+            LogKit.error(ex.toString(), ex);
+        }
+        return null;
     }
 
     /**
@@ -598,7 +704,7 @@ public class AddonManager implements JbootEventListener {
             modelClasses.forEach(aClass -> {
                 Table table = aClass.getAnnotation(Table.class);
                 String tableName = AnnotationUtil.get(table.tableName());
-                JbootModelConfig.getConfig().getCache().removeAll(tableName);
+                JbootModelConfig.getConfig().getIdCache().removeAll(tableName);
                 Jboot.getCache().removeAll(tableName);
             });
         }
@@ -617,8 +723,9 @@ public class AddonManager implements JbootEventListener {
     private void deleteInteceptors(AddonInfo addonInfo) {
         List<Class<? extends Interceptor>> interceptorClasses = addonInfo.getInterceptors();
         if (interceptorClasses != null) {
-            for (Class<? extends Interceptor> c : interceptorClasses)
+            for (Class<? extends Interceptor> c : interceptorClasses) {
                 AddonInterceptorManager.deleteInterceptor(c);
+            }
         }
     }
 
@@ -635,16 +742,18 @@ public class AddonManager implements JbootEventListener {
     private void deleteHandlers(AddonInfo addonInfo) {
         List<Class<? extends Handler>> handlerClasses = addonInfo.getHandlers();
         if (handlerClasses != null) {
-            for (Class<? extends Handler> c : handlerClasses)
+            for (Class<? extends Handler> c : handlerClasses) {
                 AddonHandlerManager.deleteHandler(c);
+            }
         }
     }
 
     private void deleteControllers(AddonInfo addonInfo) {
         List<Class<? extends Controller>> controllerClasses = addonInfo.getControllers();
         if (controllerClasses != null) {
-            for (Class<? extends Controller> c : controllerClasses)
+            for (Class<? extends Controller> c : controllerClasses) {
                 AddonControllerManager.deleteController(c);
+            }
         }
     }
 
@@ -744,6 +853,7 @@ public class AddonManager implements JbootEventListener {
     private void doUnzipNewAddon(File newAddonFile, AddonInfo newAddon) throws IOException {
         File destAddonFile = newAddon.buildJarFile();
         FileUtils.moveFile(newAddonFile, destAddonFile);
+
         AddonUtil.unzipResources(newAddon);
     }
 
@@ -864,8 +974,51 @@ public class AddonManager implements JbootEventListener {
                 .setIfNotBlank("message", msg);
     }
 
+    //JbootEventListener.onEvent
     @Override
     public void onEvent(JbootEvent jbootEvent) {
         init();
     }
+
+
+    private void notifyAddonInstall(String path) {
+        if (notifier != null){
+            notifier.notifyAddonInstall(path);
+        }
+    }
+
+
+    private void notifyAddonStarted(String addonId) {
+        if (notifier != null){
+            notifier.notifyAddonStarted(addonId);
+        }
+    }
+
+
+    private void notifyAddonStoped(String addonId) {
+        if (notifier != null){
+            notifier.notifyAddonStoped(addonId);
+        }
+    }
+
+
+    private void notifyAddonUninstall(String addonId) {
+        if (notifier != null){
+            notifier.notifyAddonUninstall(addonId);
+        }
+    }
+
+
+    public AddonNotifier getNotifier() {
+        return notifier;
+    }
+
+    public void setNotifier(AddonNotifier notifier) {
+        this.notifier = notifier;
+    }
+
+    public Map<String, AddonInfo> getAddonsMap() {
+        return addonsMap;
+    }
+
 }

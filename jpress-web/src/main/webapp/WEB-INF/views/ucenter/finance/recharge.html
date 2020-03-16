@@ -1,5 +1,24 @@
 #@ucenter_layout()
 
+#define script()
+<script>
+
+    $(document).ready(function () {
+        $("[name='paytype']:first").attr("checked", "checked");
+    });
+
+    function ok(data) {
+        if (isMobileBrowser()) {
+            location.href = data.gotoUrl;
+        } else {
+            window.open(data.gotoUrl, '_blank')
+        }
+    }
+
+</script>
+#end
+
+
 #define content()
 <div class="content-wrapper">
 
@@ -22,7 +41,11 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off" action="#(CPATH)/ucenter/finance/amount/recharging" method="post" target="_blank">
+                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off"
+                          action="#(CPATH)/ucenter/finance/amount/recharging"
+                          method="post"
+                          data-ok-function="ok"
+                    >
                         <div class="box-body ">
 
                             <div class="form-group">
@@ -54,8 +77,8 @@
                                     #if(wechatxConfig.isEnable())
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="paytype" value="wechatx" checked>
-                                            微信转账支付
+                                            <input type="radio" name="paytype" value="wechatx">
+                                            微信转账
                                         </label>
                                     </div>
                                     #end
@@ -64,7 +87,7 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="paytype" value="alipayx">
-                                            支付宝转账支付
+                                            支付宝转账
                                         </label>
                                     </div>
                                     #end
@@ -73,7 +96,7 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="paytype" value="wechat">
-                                            微信扫码支付
+                                            微信支付
                                         </label>
                                     </div>
                                     #end
@@ -82,7 +105,7 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="paytype" value="alipay">
-                                            支付宝扫码支付
+                                            支付宝支付
                                         </label>
                                     </div>
                                     #end

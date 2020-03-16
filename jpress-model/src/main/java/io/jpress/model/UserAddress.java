@@ -1,6 +1,7 @@
 package io.jpress.model;
 
 import io.jboot.db.annotation.Table;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUserAddress;
 
 /**
@@ -11,10 +12,21 @@ public class UserAddress extends BaseUserAddress<UserAddress> {
 
     private static final long serialVersionUID = 1L;
 
-    public boolean isDefault(){
+    public boolean isDefault() {
         Boolean isDefault = getWidthDefault();
         return isDefault != null && isDefault;
     }
 
-	
+    @Override
+    public boolean save() {
+        CommonsUtils.escapeModel(this, "options");
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        CommonsUtils.escapeModel(this, "options");
+        return super.update();
+    }
+
 }

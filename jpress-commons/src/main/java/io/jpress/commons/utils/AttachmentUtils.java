@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,8 +38,9 @@ public class AttachmentUtils {
      * @return new file relative path
      */
     public static String moveFile(UploadFile uploadFile) {
-        if (uploadFile == null)
+        if (uploadFile == null) {
             return null;
+        }
 
         File file = uploadFile.getFile();
         if (!file.exists()) {
@@ -103,8 +104,9 @@ public class AttachmentUtils {
 
     public static boolean isImage(String path) {
         String sufffix = FileUtil.getSuffix(path);
-        if (StrUtil.isNotBlank(sufffix))
+        if (StrUtil.isNotBlank(sufffix)) {
             return imageSuffix.contains(sufffix.toLowerCase());
+        }
         return false;
     }
 
@@ -127,8 +129,9 @@ public class AttachmentUtils {
 
     public static boolean isUnSafe(File file) {
         String sufffix = FileUtil.getSuffix(file.getName());
-        if (StrUtil.isNotBlank(sufffix))
+        if (StrUtil.isNotBlank(sufffix)) {
             return unSafeFilesSuffix.contains(sufffix.toLowerCase());
+        }
         return false;
     }
 

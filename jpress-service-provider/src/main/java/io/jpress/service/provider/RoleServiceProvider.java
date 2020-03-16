@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -208,7 +208,9 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
         }
 
         for (Permission permission : permissions) {
-            if (permission.getId().equals(permissionId)) return true;
+            if (permission.getId().equals(permissionId)) {
+                return true;
+            }
         }
 
         return false;
@@ -243,6 +245,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
     }
 
 
+    @Override
     @Cacheable(name = "user_role", key = "user_roles:#(userId)", nullCacheEnable = true)
     public List<Role> findRoleListByUserId(long userId) {
         List<Record> records = findAllUserRoleMapping();
@@ -260,11 +263,14 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
         List<Role> roles = new ArrayList<>();
         for (Record record : records) {
             Role role = findById(record.getLong("role_id"));
-            if (role != null) roles.add(role);
+            if (role != null) {
+                roles.add(role);
+            }
         }
         return roles;
     }
 
+    @Override
     @Cacheable(name = "user_role", key = "all", nullCacheEnable = true)
     public List<Record> findAllUserRoleMapping() {
         return Db.findAll("user_role_mapping");

@@ -1,0 +1,100 @@
+#include("layout.html")
+#@layout("正在打开微信支付")
+
+#define script()
+<script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script>
+    var invoke = true;
+    var interval = setInterval(function () {
+        if (invoke) {
+            $.get("#(CPATH)/pay/query?trx=#(payment.trx_no)", function (result) {
+                if (result && result.state == 'ok') {
+                    invoke = false;
+                    clearInterval(interval);
+                    location.href = "#(CPATH)/pay/success/#(payment.trx_no)"
+                }
+            });
+        }
+    }, 1000);
+
+
+    function onBridgeReady() {
+        $.ajax({
+            url: "#(CPATH)/pay/getWechatOrderInfo",
+            type: "post",
+            async: true,
+            data: {
+                trx: "#(payment.trx_no)",
+                openId: "#(openId)"
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.state == "ok") {
+                    callPayBox(data.orderInfo);
+                } else {
+                    console.log("getWechatOrderInfo error ", data)
+                }
+            },
+            error: function (data) {
+                alert("服务器异常")
+            }
+        })
+    }
+
+
+    function callPayBox(orderInfo) {
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', {
+                "appId": orderInfo.appId,                           //公众号名称，由商户传入
+                "timeStamp": orderInfo.timeStamp.toString(),         //时间戳，自1970年以来的秒数
+                "nonceStr": orderInfo.nonceStr,                     //随机串
+                "package": orderInfo.package,
+                "signType": orderInfo.signType,                     //微信签名方式：
+                "paySign": orderInfo.sign                           //微信签名
+            },
+            function (res) {
+                // 这部分通过上面的定时器进行查询和跳转
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    console.log("pay success....")
+                }
+            }
+        );
+    }
+
+
+    $(document).ready(function () {
+        if (typeof WeixinJSBridge == "undefined") {
+            if (document.addEventListener) {
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            }
+        } else {
+            onBridgeReady();
+        }
+    });
+
+
+</script>
+#end
+
+#define content()
+<div class="pay-header">
+    正在打开微信支付....
+</div>
+
+<div class="row pay-content">
+
+    <div class="col-lg-12 pay-content-info">
+        <div class="pay-content-title">
+            正在打开微信支付....
+        </div>
+        <div class="pay-content-money">
+            ￥ #number(payment.pay_amount,'0.00') 元
+        </div>
+    </div>
+
+</div>
+#end

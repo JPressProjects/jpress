@@ -141,7 +141,7 @@ CREATE TABLE `coupon` (
   `with_member` tinyint(1) DEFAULT NULL COMMENT '会员可用',
   `with_award` tinyint(1) DEFAULT NULL COMMENT '是否是推广奖励券',
   `with_owner` tinyint(1) DEFAULT NULL COMMENT '是不是只有领取人可用，如果不是，领取人可以随便给其他人用',
-  `with_multi` tinyint(1) DEFAULT NULL COMMENT '是否多人可用，如果是，拥有者可用分享给任何人',
+  `with_multi` tinyint(1) DEFAULT NULL COMMENT '是否可以多次使用',
   `amount` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '优惠券金额',
   `award_amount` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '奖励金额，大咖可以使用自己的优惠码推广用户，用户获得优惠，大咖获得奖励金额',
   `quota` int(11) unsigned NOT NULL COMMENT '配额：发券数量',
@@ -153,7 +153,7 @@ CREATE TABLE `coupon` (
   `valid_start_time` datetime DEFAULT NULL COMMENT '使用开始时间',
   `valid_end_time` datetime DEFAULT NULL COMMENT '使用结束时间',
   `valid_days` int(11) DEFAULT NULL COMMENT '自领取之日起有效天数',
-  `status` tinyint(2) DEFAULT NULL COMMENT '1生效 2失效 3已结束',
+  `status` tinyint(2) DEFAULT NULL COMMENT '1 正常  9 不能使用',
   `create_user_id` int(11) unsigned DEFAULT NULL COMMENT '创建用户',
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE `coupon_code` (
   `title` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠券标题',
   `code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码',
   `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
-  `status` tinyint(2) DEFAULT NULL COMMENT '状态 1未领取 2未使用、3使用中、9不能使用',
+  `status` tinyint(2) DEFAULT NULL COMMENT '状态 1 有人领取、正常使用  2 未有人领取不能使用  3 已经使用，不能被再次使用  9 已经被认为标识不可用',
   `valid_time` datetime DEFAULT NULL COMMENT '领取时间',
   `created` datetime DEFAULT NULL COMMENT '创建时间，创建时可能不会有人领取',
   PRIMARY KEY (`id`),
@@ -206,8 +206,12 @@ CREATE TABLE `coupon_used_record` (
   `code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '优惠码名称',
   `code_user_id` int(11) unsigned NOT NULL COMMENT '优惠券归属的用户ID',
   `code_user_nickname` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '优惠券归属的用户昵称',
+  `coupon_id` int(11) unsigned DEFAULT NULL,
   `created` datetime DEFAULT NULL COMMENT '使用时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `code_user_id` (`code_user_id`),
+  KEY `code_id` (`code_id`),
+  KEY `coupon_id` (`coupon_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='优惠券使用记录';
 
 
@@ -457,7 +461,7 @@ CREATE TABLE `product` (
   `stock` int(11) DEFAULT NULL COMMENT '剩余库存',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-  `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询',
+  `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询',
   `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
   `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
   `remarks` text COMMENT '备注信息',
@@ -510,7 +514,7 @@ CREATE TABLE `product_category` (
 # ------------------------------------------------------------
 
 CREATE TABLE `product_category_mapping` (
-  `product_id` int(11) unsigned NOT NULL COMMENT '文章ID',
+  `product_id` int(11) unsigned NOT NULL COMMENT '商品ID',
   `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
   PRIMARY KEY (`product_id`,`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品和分类的多对多关系表';
@@ -762,7 +766,8 @@ CREATE TABLE `user_amount_statement` (
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '时间',
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `user_relative` (`user_id`,`action_relative_type`,`action_relative_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户余额流水情况';
 
 
@@ -780,7 +785,7 @@ CREATE TABLE `user_cart` (
   `product_id` int(11) unsigned DEFAULT NULL,
   `product_title` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '商品标题',
   `product_summary` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `product_spec` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品规格',
+  `product_spec` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品规格',
   `product_thumbnail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品缩略图',
   `product_link` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '产品详情页',
   `product_price` decimal(10,2) NOT NULL COMMENT '商品加入购物车时的价格',
@@ -796,8 +801,8 @@ CREATE TABLE `user_cart` (
   `modified` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `product_type` (`product_type`,`product_id`,`product_spec`),
   KEY `user_id` (`user_id`),
-  KEY `pinfo` (`product_type`,`product_id`),
   KEY `userselected` (`user_id`,`selected`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='购物车';
 
@@ -880,7 +885,7 @@ CREATE TABLE `user_order` (
   `delivery_addr_district` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人的区（县）',
   `delivery_addr_detail` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人的详细地址',
   `delivery_addr_zipcode` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人地址邮政编码',
-  `invoice_id` int(11) DEFAULT NULL COMMENT '发票',
+  `invoice_id` int(11) unsigned DEFAULT NULL COMMENT '发票',
   `invoice_status` tinyint(2) DEFAULT NULL COMMENT '发票开具状态：1 未申请发票、 2 发票申请中、 3 发票开具中、 8 无需开具发票、 9发票已经开具',
   `remarks` text COLLATE utf8mb4_unicode_ci COMMENT '管理员后台憋住',
   `options` text COLLATE utf8mb4_unicode_ci COMMENT 'json字段扩展',
@@ -978,7 +983,7 @@ CREATE TABLE `user_order_item` (
   `view_text` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '查看的文章内容，比如：查看、下载',
   `view_effective_time` int(11) unsigned DEFAULT NULL COMMENT '可访问的有效时间，单位秒',
   `comment_path` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '评论的路径',
-  `invoice_id` int(11) unsigned DEFAULT NULL,
+  `invoice_id` int(11) unsigned DEFAULT NULL COMMENT '发票',
   `invoice_status` tinyint(2) DEFAULT NULL,
   `status` tinyint(2) DEFAULT NULL COMMENT '状态：1交易中、 2交易完成（但是可以申请退款） 、3取消交易 、4申请退款、 5拒绝退款、 6退款中、 7退款完成、 9交易结束',
   `refund_no` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '退款订单号',

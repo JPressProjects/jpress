@@ -16,7 +16,7 @@
             area: ['60%', '60%'],
             content: url,
             end: function () {
-
+                location.reload();
             }
         });
     }
@@ -27,6 +27,10 @@
                 location.reload()
             })
         }
+    }
+
+    function applyForInvoice() {
+        openlayer("申请发票", "#(CPATH)/ucenter/order/applyForInvoice/#(order.id)");
     }
 
 </script>
@@ -114,10 +118,10 @@
             <div class="col-sm-4 invoice-col">
                 <strong>发票信息</strong>
                 <address>
-                    类型：#(order.invoice_type ??)<br>
-                    抬头：#(order.invoice_title ??)<br>
-                    内容：#(order.invoice_content ??)<br>
-                    纳税人识别号：#(order.invoice_identity ??)
+                    类型：#(invoice.type ??)<br>
+                    抬头：#(invoice.title ??)<br>
+                    内容：#(invoice.content ??)<br>
+                    纳税人识别号：#(invoice.identity ??)
                 </address>
             </div>
 
@@ -127,7 +131,7 @@
         <div class="row no-print">
             <div class="col-xs-12" style="text-align: right">
 
-                #if(order.isUnpay())
+                #if(order.isUnpay() && !order.isClosed())
                 <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success" target="_blank">
                     <i class="fa fa-credit-card"></i> 去付款
                 </a>
@@ -136,6 +140,12 @@
                 #if(order.isDeliveried() && !order.isDeliverFinished())
                 <a href="javascript:;" class="btn btn-success " onclick="doFlagDelivery()">
                     <i class="fa fa-fw fa-check"></i> 确认收货
+                </a>
+                #end
+
+                #if(order.isCanApplyForInvoice())
+                <a href="javascript:;" class="btn btn-success " onclick="applyForInvoice()">
+                    <i class="fa fa-fw fa-cc"></i> 申请发票
                 </a>
                 #end
 
@@ -180,6 +190,11 @@
                     <tr>
                         <td style="width: 20%;text-align: center">
                             #(item.product_title ??)
+                            <div style="color: #9c9c9c">
+                                #for(option : item.optionsMap)
+                                #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
+                                #end
+                            </div>
                         </td>
                         <td style="width: 20%;text-align: center">
                             #(item.product_count ??)
@@ -223,7 +238,12 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 物流信息 ： #if(!order.isDeliveried())(尚未发货) #else #(order.deliveryTypeStr) #end
+                    <i class="fa fa-globe"></i>
+                    物流信息 ：
+                    #if(order.isNotDeliveried())(尚未发货)
+                    #else
+                    #(delivery.company ??)（#(delivery.number ??)）
+                    #end
                 </h2>
             </div>
             <!-- /.col -->

@@ -19,6 +19,7 @@ package io.jpress.core.install;
 import io.jboot.db.datasource.DataSourceBuilder;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.exception.JbootException;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
 
 import javax.sql.DataSource;
@@ -79,14 +80,15 @@ public class DbExecuter {
         Statement pst = null;
         try {
             pst = conn.createStatement();
-            if (null == batchSql) {
-                throw new SQLException("SQL IS NULL");
+            if (StrUtil.isBlank(batchSql)) {
+                throw new SQLException("sql is null or empty");
             }
             if (batchSql.contains(";")) {
-                String sqls[] = batchSql.split(";");
+                String[] sqls = batchSql.split(";");
                 for (String sql : sqls) {
-                    if (null != sql && !"".equals(sql.trim()))
+                    if (StrUtil.isNotBlank(sql)) {
                         pst.addBatch(sql);
+                    }
                 }
             } else {
                 pst.addBatch(batchSql);

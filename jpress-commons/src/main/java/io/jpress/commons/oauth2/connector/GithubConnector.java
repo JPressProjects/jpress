@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,50 +21,53 @@ import io.jpress.commons.oauth2.OauthUser;
 
 public class GithubConnector extends OauthConnector {
 
-	public GithubConnector(String name, String appkey, String appSecret) {
-		super(name, appkey, appSecret);
-	}
+    public GithubConnector(String appkey, String appSecret) {
+        super("github", appkey, appSecret);
+    }
 
-	@Override
-	public String createAuthorizeUrl(String state) {
-		StringBuilder sb = new StringBuilder("https://github.com/login/oauth/authorize?");
-		sb.append("scope=user");
-		sb.append("&client_id=" + getClientId());
-		sb.append("&redirect_uri=" + getRedirectUri());
-		sb.append("&state=" + state);
+    @Override
+    public String createAuthorizeUrl(String state) {
+        StringBuilder sb = new StringBuilder("https://github.com/login/oauth/authorize?");
+        sb.append("scope=user");
+        sb.append("&client_id=" + getClientId());
+        sb.append("&redirect_uri=" + getRedirectUri());
+        sb.append("&state=" + state);
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	@Override
-	protected OauthUser getOauthUser(String code) {
-		String accessToken = getAccessToken(code);
+    @Override
+    protected OauthUser getOauthUser(String code) {
+        String accessToken = getAccessToken(code);
 
-		String url = "https://api.github.com/user?access_token=" + accessToken;
+        String url = "https://api.github.com/user?access_token=" + accessToken;
 
-		String httpString = httpGet(url);
-		JSONObject json = JSONObject.parseObject(httpString);
+        String httpString = httpGet(url);
+        JSONObject json = JSONObject.parseObject(httpString);
 
-		OauthUser user = new OauthUser();
-		user.setAvatar(json.getString("avatar_url"));
-		user.setOpenId(json.getString("id"));
-		user.setNickname(json.getString("login"));
-		user.setSource(getName());
+        OauthUser user = new OauthUser();
+        user.setAvatar(json.getString("avatar_url"));
+        user.setOpenId(json.getString("id"));
+        user.setNickname(json.getString("login"));
+        user.setSource(getName());
 
-		return null;
-	}
+        return user;
+    }
 
-	protected String getAccessToken(String code) {
+    protected String getAccessToken(String code) {
 
-		StringBuilder urlBuilder = new StringBuilder("https://github.com/login/oauth/access_token?");
-		urlBuilder.append("client_id=" + getClientId());
-		urlBuilder.append("&client_secret=" + getClientSecret());
-		urlBuilder.append("&code=" + code);
+        StringBuilder urlBuilder = new StringBuilder("https://github.com/login/oauth/access_token?");
+        urlBuilder.append("client_id=" + getClientId());
+        urlBuilder.append("&client_secret=" + getClientSecret());
+        urlBuilder.append("&code=" + code);
 
-		String url = urlBuilder.toString();
+        String url = urlBuilder.toString();
 
-		String httpString = httpGet(url);
-		JSONObject json = JSONObject.parseObject(httpString);
-		return json.getString("access_token");
-	}
+        String httpString = httpGet(url);
+//		JSONObject json = JSONObject.parseObject(httpString);
+//		return json.getString("access_token");
+
+        // access_token=b34db140be5ed745a0e8a07f9897d9ee1d8c432c&scope=user&token_type=bearer
+        return httpString.substring(httpString.indexOf("=") + 1, httpString.indexOf("&"));
+    }
 }

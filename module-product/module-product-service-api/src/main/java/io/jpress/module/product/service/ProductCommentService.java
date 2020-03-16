@@ -119,15 +119,6 @@ public interface ProductCommentService  {
 
 
     /**
-     * 根据条件进行删除
-     *
-     * @param columns
-     * @return
-     */
-    public boolean deleteByColumns(Columns columns);
-
-
-    /**
      * 保存到数据库
      *
      * @param model
@@ -195,6 +186,7 @@ public interface ProductCommentService  {
     public boolean deleteByIds(Object... ids);
 
 
+    public void deleteCacheById(Object id);
     /**
      * count
      * @param status
@@ -212,4 +204,8 @@ public interface ProductCommentService  {
     public Page<ProductComment> paginateByProductIdInNormal(int page, int pagesize, long productId);
 
     public void doIncCommentReplyCount(long commentId);
+
+    public boolean doChangeStatus(Long id, int status);
+
+    public boolean deleteByProductId(Object productId);
 }

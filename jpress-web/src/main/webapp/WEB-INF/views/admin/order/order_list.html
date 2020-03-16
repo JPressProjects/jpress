@@ -1,4 +1,5 @@
 #@layout()
+
 #define script()
 <script>
 
@@ -7,6 +8,7 @@
     }
 
     function openlayer(title,url) {
+        layer.data = {};
         layer.open({
             type: 2,
             title: title,
@@ -16,7 +18,9 @@
             area: ['70%', '90%'],
             content: url,
             end: function () {
-
+                if (layer.data.needRefresh){
+                    location.reload();
+                }
             }
         });
     }
@@ -128,31 +132,6 @@
                             <!-- /.box-body -->
                         </form>
 
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <button type="submit" class="btn btn-primary "><i class="fa fa-fw fa-plus"></i> 新建
-                                </button>
-                                <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-refresh"></i> 同步
-                                </button>
-                                <button type="submit" class="btn btn-default checkAction"> 批量删除</button>
-                                <div class="btn-group checkAction">
-                                    <button type="button" class="btn btn-default">更多</button>
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                            aria-expanded="false">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body ">
@@ -174,15 +153,36 @@
                                     <div class="box box-dashboard" style="margin-bottom: 0px">
                                         <div class="box-header with-border row">
                                             <div class="col-lg-10">
-                                                订单号：#(order.ns ??)（<span style="color:red">#(order.tradeStatusStr ??)</span>）
-                                                总金额：<span style="color:red;padding-right: 20px">#(order.orderRealAmount ??)</span>
+                                                订单号：#(order.ns ??)
+                                                #if(order.isFinished())
+                                                （<span style="">#(order.tradeStatusStr ??)</span>）
+                                                #elseif(order.isPaySuccess() )
+                                                （<span style="color:green">#(order.tradeStatusStr ??)</span>）
+                                                #elseif(order.isClosed())
+                                                (<span>#(order.tradeStatusStr ??)</span>）
+                                                #else
+                                                （<span style="color:red">#(order.tradeStatusStr ??)</span>）
+                                                #end
+
+                                                总金额：<span style="padding-right: 20px">#(order.orderRealAmount ??)</span>
+
+                                                #if(order.isPaySuccess() || order.isClosed())
+                                                支付状态：<span style="padding-right: 20px">#(order.payStatusStr ??)</span>
+                                                #else
                                                 支付状态：<span style="color:red;padding-right: 20px">#(order.payStatusStr ??)</span>
+                                                #end
+
+                                                #if(order.isDeliveried() || order.isClosed())
+                                                物流状态：<span style="padding-right: 20px">#(order.deliveryStatusStr ??)</span>
+                                                #else
                                                 物流状态：<span style="color:red;padding-right: 20px">#(order.deliveryStatusStr ??)</span>
-                                                发票状态：<span style="color:red;padding-right: 20px">#(order.invoiceStatusStr ??)</span>
+                                                #end
+
+                                                发票状态：<span style="padding-right: 20px">#(order.invoiceStatusStr ??)</span>
                                             </div>
                                             <div class="col-lg-2" style="text-align: right">
                                                 <h3 class="box-title">
-                                                    #if(!order.isDeliveried())
+                                                    #if(!order.isUnpay() && !order.isClosed() && !order.isDeliveried())
                                                     <a href="javascript:;" onclick="deliver('#(order.id)')">发货</a>
                                                     #end
                                                     <a href="#(CPATH)/admin/order/detail/#(order.id)">详情</a>
@@ -208,7 +208,7 @@
                                                         #(item.product_price * item.product_count ??)
                                                     </td>
                                                     <td style="width: 20%;text-align: center">
-                                                        <a href="#">编辑</a>
+                                                        --
                                                     </td>
                                                 </tr>
                                                 #end

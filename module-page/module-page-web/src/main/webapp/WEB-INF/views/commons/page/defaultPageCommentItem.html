@@ -7,7 +7,7 @@
             <div class="comment-author">#(comment.author)</div>
             <div class="comment-time">#date(comment.created )</div>
 
-            #if(option('page_comment_enable'))
+            #if(option("page_comment_enable","true"))
             <div class="comment-reply-btn">
                 <a href="javascript:;"
                    data-cid="#(comment.id)"

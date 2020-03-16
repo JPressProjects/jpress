@@ -118,15 +118,6 @@ public interface UserFavoriteService  {
 
 
     /**
-     * 根据条件进行删除
-     *
-     * @param columns
-     * @return
-     */
-    public boolean deleteByColumns(Columns columns);
-
-
-    /**
      * 保存到数据库
      *
      * @param model
@@ -185,4 +176,18 @@ public interface UserFavoriteService  {
 
 
     public Page<UserFavorite> paginateByUserIdAndType(int pagePara, int pagesize, Long id, String type);
+
+    boolean doDelFavoriteByType(String type, Long userid, Long id);
+
+    boolean doDelFavorite(Long id);
+
+    boolean doAddToFavorite(UserFavorite favorite);
+
+    boolean isFav(Long userId, String type, Long id);
+
+    boolean isProductFav(Long userId, Long id);
+
+    boolean isArticleFav(Long userId, Long id);
+
+
 }

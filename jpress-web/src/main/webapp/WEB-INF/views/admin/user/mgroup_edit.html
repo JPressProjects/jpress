@@ -56,7 +56,7 @@ initEditor('contenteditor', 300);
                                 <label class="col-sm-2 control-label">描述</label>
                                 <div class="col-sm-8">
                                     <textarea rows="5" name="group.content" class="form-control" id="contenteditor"
-                                              placeholder="会员描述，包括会员的权益、福利等">#CKEditorContent(group.content ??)</textarea>
+                                              placeholder="会员描述，包括会员的权益、福利等">#EditorContent(group.content ??)</textarea>
                                 </div>
                             </div>
 
@@ -163,7 +163,7 @@ initEditor('contenteditor', 300);
                                 <div class="col-sm-6">
                                     <input type="input" name="group.flag" class="form-control" value="#(group.flag ??)"
                                            placeholder="">
-                                    <p class="help-block"> 设立标识后，模板可以通过 <span style="color: red"> #('#')if(isMember("标识")) </span> 来判断当前用户是否是该会员组成员。 </p>
+                                    <p class="help-block"> 设立标识后，模板可以通过 <span style="color: red"> #('#')if(hasMember("标识")) </span>  或者 <span style="color: red"> #('#')if(hasAnyMember("标识")) </span> 来判断当前用户是否是该会员组成员。 </p>
                                 </div>
                             </div>
 

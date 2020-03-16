@@ -1,0 +1,124 @@
+
+#@layout()
+#define css()
+#@layout_css?()
+<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+#end
+#define script()
+#@layout_script?()
+<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script>
+    $("input[hint='date']").datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
+
+  function doSubmit() {
+    ajaxSubmit("#form", function (data) {
+        $("#entryId").attr("value", data.id);
+        toastr.success('内容保存成功。');
+    })
+  }
+
+    $("#submit").on("click", function () {
+        doSubmit();
+    })
+    </script>
+#end
+
+
+#define content()
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h1>
+                        编辑/新增
+            <small>Edit</small>
+        </h1>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header ">
+                        <h3 class="box-title"></h3>
+                    </div>
+                    <form class="form-horizontal form-setting" autocomplete="off"
+                          action="/admin/message/jpress_addon_message/doSave"
+                          method="POST" id="form">
+
+                        <div class="box-body ">
+	                                <input type="hidden" id="entryId" name="jpressAddonMessage.id" value="#(jpressAddonMessage.id ??)">
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">名字</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="jpressAddonMessage.name" class="form-control" value="#(jpressAddonMessage.name ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">电话</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="jpressAddonMessage.phone" class="form-control" value="#(jpressAddonMessage.phone ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">邮箱</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="jpressAddonMessage.email" class="form-control" value="#(jpressAddonMessage.email ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">标题</label>
+								<div class="col-sm-6">
+
+									<input type="input" name="jpressAddonMessage.title" class="form-control" value="#(jpressAddonMessage.title ??)"
+										   placeholder="">
+								</div>
+							</div>
+
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">留言</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="jpressAddonMessage.content" class="form-control" value="#(jpressAddonMessage.content ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label class="col-sm-2 control-label">是否展示</label>
+		                                <div class="col-sm-6">
+
+										   <input type="checkbox" class="switchery" data-for="jpressAddonMessage_isshow" #checkedIf(jpressAddonMessage.show ??)>
+                                           <input type="hidden" id="jpressAddonMessage_isshow" name="jpressAddonMessage.show">
+		                                </div>
+		                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            <div class="col-sm-offset-2 col-sm-10 submit-block">
+                                <div class="box-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+#end

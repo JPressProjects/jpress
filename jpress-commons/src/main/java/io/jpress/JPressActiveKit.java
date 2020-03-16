@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,13 +32,16 @@ public class JPressActiveKit {
      * @param model
      */
     public static void makeItActive(Model model) {
+
         model.put(ACTIVE_FLAG, true);
 
         if (model instanceof SortModel) {
             SortModel parent = ((SortModel) model).getParent();
             //理论上，parent == model 这种情况不可能存在，
             //目前只是为了防止万一哪个兔崽子的代码有问题，从而会出现死循环
-            if (parent != null && parent != model) makeItActive((Model) parent);
+            if (parent != null && parent != model) {
+                makeItActive((Model) parent);
+            }
         }
     }
 

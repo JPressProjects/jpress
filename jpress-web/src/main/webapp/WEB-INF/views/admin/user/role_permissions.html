@@ -29,8 +29,7 @@
     });
 
     function addRolePermission(roleId, permissionId) {
-        ajaxGet(
-            "#(CPATH)/admin/user/doAddRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
+        ajaxGet("#(CPATH)/admin/user/doAddRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
             function () {
                 toastr.success('操作成功。');
             }
@@ -38,8 +37,7 @@
     }
 
     function delRolePermission(roleId, permissionId) {
-        ajaxGet(
-            "#(CPATH)/admin/user/doDelRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
+        ajaxGet("#(CPATH)/admin/user/doDelRolePermission?roleId=" + roleId + "&permissionId=" + permissionId,
             function () {
                 toastr.success('操作成功。');
             }
@@ -56,8 +54,7 @@
     }
 
     function addGroupRolePermission(groupId,roleId) {
-        ajaxGet(
-            "#(CPATH)/admin/user/doAddGroupRolePermission?roleId=" + roleId  + "&groupId=" + groupId,
+        ajaxGet("#(CPATH)/admin/user/doAddGroupRolePermission?roleId=" + roleId  + "&groupId=" + groupId,
             function (data) {
                 //返回permissionid的list,用于改变页面样式
                 /**
@@ -79,8 +76,7 @@
     }
 
     function delGroupRolePermission(groupId,roleId) {
-        ajaxGet(
-            "#(CPATH)/admin/user/doDelGroupRolePermission?roleId=" + roleId  + "&groupId=" + groupId,
+        ajaxGet("#(CPATH)/admin/user/doDelGroupRolePermission?roleId=" + roleId  + "&groupId=" + groupId,
             function (data) {
                 //返回permissionid的list,用于改变页面样式
                 /**

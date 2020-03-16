@@ -1,6 +1,7 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.model.Coupon;
 
 import java.util.List;
@@ -80,6 +81,12 @@ public interface CouponService  {
      * @return
      */
     public Page<Coupon> paginate(int page, int pageSize);
+    public Page<Coupon> paginateByColumns(int page, int pageSize, Columns columns,String orderBy);
+
+
+    public void doSyncTakeCount(long couponId);
+
+    public void doSyncUsedCount(long couponId);
 
 
 }

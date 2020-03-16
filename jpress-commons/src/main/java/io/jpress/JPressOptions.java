@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, Michael Yang 杨福海 (fuhai999@gmail.com).
+ * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,38 +26,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
- * @version V1.0
- * @Title: JPress 常量
- * @Package io.jpress
+ * @Title: JPress 配置
  */
 public class JPressOptions {
 
     private static final Log LOG = Log.getLog(JPressOptions.class);
-    private static OptionStore store = new OptionStore() {
-        private final Map<String, String> cache = new ConcurrentHashMap<>();
 
-        @Override
-        public String get(String key) {
-            return cache.get(key);
-        }
-
-        @Override
-        public void put(String key, String value) {
-            if (StrUtil.isBlank(value)) {
-                remove(key);
-            } else {
-                cache.put(key, value);
-            }
-        }
-
-        @Override
-        public void remove(String key) {
-            cache.remove(key);
-        }
-    };
-
-
-    private static List<OptionChangeListener> LISTENERS = new ArrayList<>();
+    private static OptionStore store = OptionStore.defaultOptionStore;
+    private static List<OptionChangeListener> listeners = new ArrayList<>();
 
     public static void set(String key, String value) {
         if (StrUtil.isBlank(key)) {
@@ -74,7 +50,7 @@ public class JPressOptions {
         store.put(key, value);
 
 
-        for (OptionChangeListener listener : LISTENERS) {
+        for (OptionChangeListener listener : listeners) {
             try {
                 listener.onChanged(key, value, oldValue);
             } catch (Throwable ex) {
@@ -97,18 +73,24 @@ public class JPressOptions {
     }
 
     public static boolean getAsBool(String key) {
-        return Boolean.parseBoolean(store.get(key));
+        return getAsBool(key,false);
+    }
+
+    public static boolean getAsBool(String key, boolean defaultValue) {
+        String value = get(key);
+        return StrUtil.isBlank(value) ? defaultValue : Boolean.parseBoolean(value);
     }
 
     @Deprecated
-    public static boolean isTrueOrNull(String key) {
-        return isTrueOrEmpty(key);
+    public static boolean isTrueOrEmpty(String key) {
+        return getAsBool(key, true);
     }
 
-    public static boolean isTrueOrEmpty(String key) {
+    public static Integer getAsInt(String key) {
         String value = get(key);
-        return StrUtil.isBlank(value) || "true".equals(value);
+        return StrUtil.isBlank(value) ? null : Integer.parseInt(value);
     }
+
 
     public static int getAsInt(String key, int defaultValue) {
         String value = get(key);
@@ -121,6 +103,12 @@ public class JPressOptions {
             LOG.warn(ex.toString(), ex);
             return defaultValue;
         }
+    }
+
+
+    public static Float getAsFloat(String key) {
+        String value = get(key);
+        return StrUtil.isBlank(value) ? null : Float.parseFloat(value);
     }
 
     public static float getAsFloat(String key, float defaultValue) {
@@ -137,11 +125,11 @@ public class JPressOptions {
     }
 
     public static void addListener(OptionChangeListener listener) {
-        LISTENERS.add(listener);
+        listeners.add(listener);
     }
 
     public static void removeListener(OptionChangeListener listener) {
-        LISTENERS.remove(listener);
+        listeners.remove(listener);
     }
 
 
@@ -215,6 +203,30 @@ public class JPressOptions {
         public void put(String key, String value);
 
         public void remove(String key);
+
+        public static final OptionStore defaultOptionStore = new OptionStore() {
+
+            private final Map<String, String> cache = new ConcurrentHashMap<>();
+
+            @Override
+            public String get(String key) {
+                return cache.get(key);
+            }
+
+            @Override
+            public void put(String key, String value) {
+                if (StrUtil.isBlank(value)) {
+                    remove(key);
+                } else {
+                    cache.put(key, value);
+                }
+            }
+
+            @Override
+            public void remove(String key) {
+                cache.remove(key);
+            }
+        };
 
     }
 

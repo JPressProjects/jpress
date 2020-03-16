@@ -47,21 +47,21 @@
                     <!-- form start -->
                     <form class="form-horizontal" id="addressForm" method="post" action="#(CPATH)/ucenter/address/doAdd">
 
-                        <input type="hidden" class="form-control" name="address.id" value="#(data.id ??)"/>
+                        <input type="hidden" class="form-control" name="address.id" value="#(address.id ??)"/>
 
                         <div class="box-body ">
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">联系人</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" placeholder="联系人" name="address.username" value="#(data.username ??)">
+                                    <input type="text" class="form-control" placeholder="联系人" name="address.username" value="#(address.username ??)">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">联系电话</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="联系电话" name="address.mobile" value="#(data.mobile ??)">
+                                    <input type="input" class="form-control" placeholder="联系电话" name="address.mobile" value="#(address.mobile ??)">
                                 </div>
                             </div>
 
@@ -69,9 +69,9 @@
                                 <label class="col-sm-2 control-label">地址管理</label>
                                 <div class="col-sm-6">
                                     <div data-toggle="distpicker"  class="form-inline" data-autoselect="3">
-                                        <select class="form-control" data-province="#(data.province ?? '---- 选择省 ----')" name="address.province" ></select>
-                                        <select class="form-control" data-city="#(data.city ?? '---- 选择市 ----')" name="address.city" ></select>
-                                        <select class="form-control" data-district="#(data.district ?? '---- 选择区 ----')" name="address.district" ></select>
+                                        <select class="form-control" data-province="#(address.province ?? '---- 选择省 ----')" name="address.province" ></select>
+                                        <select class="form-control" data-city="#(address.city ?? '---- 选择市 ----')" name="address.city" ></select>
+                                        <select class="form-control" data-district="#(address.district ?? '---- 选择区 ----')" name="address.district" ></select>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control"
                                               placeholder="详细地址..."
-                                              name="address.detail">#(data.detail ??)</textarea>
+                                              name="address.detail">#(address.detail ??)</textarea>
                                     <p class="help-block"> 请具体到街道、楼层以及门牌号 </p>
                                 </div>
                             </div>
@@ -89,19 +89,17 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">邮政编码</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="" name="address.zipcode" value="#(data.zipcode ??)">
+                                    <input type="input" class="form-control" placeholder="" name="address.zipcode" value="#(address.zipcode ??)">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">是否默认</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" name="address.isDefault" >
-                                        <option value="true" #selectedIf(data.isDefault ??)>是</option>
-                                        <option value="false" #selectedIf(!data.isDefault ??)>否</option>
-                                    </select>
-                                </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">设为默认</label>
+                                <div class="col-sm-6">
+                                    <input class="switchery" data-for="address_default" type="checkbox" #checkedIf(address.width_default??)>
+                                    <input type="hidden" id="address_default" name="address.widthDefault">
+                                </div>
                             </div>
 
                         </div>

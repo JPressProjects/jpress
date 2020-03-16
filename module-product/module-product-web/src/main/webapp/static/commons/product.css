@@ -31,6 +31,34 @@
     max-height: 80px;
 }
 
+
+.swiper-slide {
+    background-size: cover;
+    background-position: center;
+}
+
+.gallery-top {
+    width: 100%;
+    height: 400px;
+}
+
+.gallery-thumbs {
+    height: 70px;
+    width: 100%;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.gallery-thumbs .swiper-slide {
+    width: 20%;
+    height: 100%;
+}
+
+.gallery-thumbs .swiper-slide-thumb-active {
+    border: #f38d00 2px solid;
+}
+
 .product-title {
     padding: 0;
     font-size: 1.8rem;
@@ -152,33 +180,6 @@ a.product-btn-cart:hover {
     margin-bottom: 4px;
 }
 
-.swiper-slide {
-    background-size: cover;
-    background-position: center;
-}
-
-.gallery-top {
-    width: 100%;
-    height: 400px;
-}
-
-.gallery-thumbs {
-    height: 70px;
-    width: 100%;
-    margin-top: 5%;
-    box-sizing: border-box;
-    padding: 10px 0;
-}
-
-.gallery-thumbs .swiper-slide {
-    width: 20%;
-    height: 100%;
-}
-
-.gallery-thumbs .swiper-slide-thumb-active {
-    border: #f38d00 2px solid;
-}
-
 /******************************* comments ********************************/
 .comment-default-block {
     background: #fff;
@@ -215,6 +216,9 @@ a.product-btn-cart:hover {
     padding: 0.5rem 1rem;
     cursor: pointer;
     margin-top: 10px;
+    border-radius: 0.22rem;
+    white-space: normal;
+    box-shadow: 0px 5px 20px -3px rgba(255, 148, 0, .8) !important;
 }
 
 .comment-form button:hover {
@@ -234,12 +238,16 @@ a.product-btn-cart:hover {
     height: 100%;
     padding: 0.5rem 1rem;
     box-sizing: border-box;
-    border: 1px solid #dfdfdf;
+    border: solid 1px #f5f5f5;
+    border-radius: 0.22rem;
+    background-color: #f5f5f5;
+    color: #444444;
 }
 
 .comment-form > div > textarea:focus {
     outline: none;
-    border: 1px solid #999;
+    background-color: #f5f5f5bb;
+    border: solid 1px #ddd;
 }
 
 .comment-page-title {
@@ -261,12 +269,15 @@ a.product-btn-cart:hover {
 .comment-vcode input {
     padding: 0 0.5rem;
     height: 2.6rem;
-    border: 1px solid #dfdfdf;
+    border: solid 1px #f5f5f5;
+    border-radius: 0.22rem;
+    background-color: #f5f5f5;
     outline: none;
 }
 
 .comment-vcode input:focus {
-    border: 1px solid #999;
+    background-color: #f5f5f5bb;
+    border: solid 1px #ddd;
 }
 
 .comment-item {
@@ -277,7 +288,7 @@ a.product-btn-cart:hover {
 .comment-secondary-panel {
     margin-top: 1rem;
     padding-top: 1rem;
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;
     position: relative;
 }
 
@@ -330,7 +341,7 @@ a.product-btn-cart:hover {
 
 .comment-item .comment-item-content .comment-item-content-main {
     color: #666;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eee;
     padding: 12px 0 1.5rem;
 }
 
@@ -342,7 +353,7 @@ a.product-btn-cart:hover {
 }
 
 .comment-secondary-panel > .triangle-icon {
-    color: #f4f4f4;
+    color: #f5f5f5;
     position: absolute;
     top: -22px;
     left: 50px;

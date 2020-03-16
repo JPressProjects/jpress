@@ -21,6 +21,7 @@ public class UserAddressServiceProvider extends JbootServiceBase<UserAddress> im
 
     @Override
     public UserAddress findDefaultAddress(long userId) {
+
         List<UserAddress> userAddresses = findListByUserId(userId);
         if (userAddresses == null || userAddresses.isEmpty()) {
             return null;
@@ -32,5 +33,32 @@ public class UserAddressServiceProvider extends JbootServiceBase<UserAddress> im
     @Override
     public List<UserAddress> findListByUserId(long userId) {
         return DAO.findListByColumn(Column.create("user_id", userId));
+    }
+
+    @Override
+    public void addUserAddress(UserAddress address, long userid){
+        if (address==null){
+            return;
+        }
+
+        List<UserAddress> addresses = findListByUserId(userid);
+
+        //如果用户只有一个地址，将此地址设为默认
+        if (addresses == null || addresses.isEmpty()){
+            address.setWidthDefault(true);
+        }
+        // 否则 如果新增的地址已经是默认地址
+        else if (address.getWidthDefault() != null && address.getWidthDefault()){
+            for (UserAddress addr : addresses){
+                if (addr.getWidthDefault() != null && addr.getWidthDefault()){
+                    addr.setWidthDefault(false);
+                    update(addr);
+                }
+            }
+        }
+
+        address.setUserId(userid);
+
+        saveOrUpdate(address);
     }
 }

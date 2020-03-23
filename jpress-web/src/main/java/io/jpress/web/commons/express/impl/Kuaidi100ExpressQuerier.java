@@ -50,7 +50,7 @@ public class Kuaidi100ExpressQuerier implements ExpressQuerier {
         String appSecret = JPressOptions.get("express_api_appsecret");
 
         String param = "{\"com\":\"" + company.getCode() + "\",\"num\":\"" + num + "\"}";
-        String sign = HashKit.md5(param + appSecret + appId);
+        String sign = HashKit.md5(param + appSecret + appId).toUpperCase();
         HashMap params = new HashMap();
         params.put("param", param);
         params.put("sign", sign);

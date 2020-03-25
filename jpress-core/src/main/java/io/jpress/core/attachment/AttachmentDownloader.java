@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutorService;
  */
 public class AttachmentDownloader {
 
-    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"attachment-download");
+    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3, "attachment-download");
 
     /**
      * 用于下载 WordPress 的附件，下载成功后 更新 attachment 本身的路径
@@ -57,7 +57,7 @@ public class AttachmentDownloader {
             return;
         }
 
-        String path = URI.create(url).getPath();
+        String path = "/attachment" + URI.create(url).getPath();
 
         File downloadToFile = AttachmentUtils.file(path);
 

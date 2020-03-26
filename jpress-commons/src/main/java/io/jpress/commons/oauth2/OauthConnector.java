@@ -18,6 +18,8 @@ package io.jpress.commons.oauth2;
 import com.jfinal.log.Log;
 import io.jboot.utils.HttpUtil;
 import io.jboot.utils.RequestUtil;
+import io.jboot.utils.StrUtil;
+import io.jpress.JPressOptions;
 
 import java.util.Map;
 
@@ -38,7 +40,11 @@ public abstract class OauthConnector {
         this.clientId = appkey;
         this.clientSecret = appSecret;
         this.name = name;
-        this.redirectUri = RequestUtil.getBaseUrl() + "/oauth/callback/" + name;
+        String webDomain = JPressOptions.get("web_domain");
+        if (StrUtil.isBlank(webDomain)) {
+            webDomain = RequestUtil.getBaseUrl();
+        }
+        this.redirectUri = webDomain + "/oauth/callback/" + name;
     }
 
     public String getClientId() {

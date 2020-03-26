@@ -36,7 +36,7 @@ public class AttachmentDownloader {
     private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3, "attachment-download");
 
     /**
-     * 用于下载 WordPress 的附件，下载成功后 更新 attachment 本身的路径
+     * 用于下载远程附件，下载成功后 更新 attachment 本身的路径
      *
      * @param attachment
      */

@@ -90,6 +90,7 @@ public class UserOpenidServiceProvider extends JbootServiceBase<UserOpenid> impl
     }
 
 
+    @Override
     public List<UserOpenid> findListByUserId(Object userId) {
         return DAO.findListByColumn(Column.create("user_id", userId));
     }

@@ -15,11 +15,13 @@
  */
 package io.jpress.web.front;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.FileUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -29,10 +31,14 @@ import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.User;
+import io.jpress.model.UserOpenid;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -114,8 +120,34 @@ public class UserCenterController extends UcenterControllerBase {
         render("pwd.html");
     }
 
+
+    /**
+     * 账号绑定
+     */
     public void bind() {
+        UserOpenidService openidService = Aop.get(UserOpenidService.class);
+        List<UserOpenid> list = openidService.findListByUserId(getLoginedUser().getId());
+        Map<String, UserOpenid> map = new HashMap<>();
+        if (list != null) {
+            list.forEach(userOpenid -> map.put(userOpenid.getType(), userOpenid));
+        }
+        setAttr("userOpenidMap", map);
         render("bind.html");
+    }
+
+    /**
+     * 取消账号绑定
+     */
+    public void unbind() {
+        String type = getPara("type");
+        if (StrUtil.isNotBlank(type)) {
+            UserOpenidService openidService = Aop.get(UserOpenidService.class);
+            UserOpenid userOpenid = openidService.findByUserIdAndType(getLoginedUser().getId(), type);
+            if (userOpenid != null) {
+                openidService.delete(userOpenid);
+            }
+        }
+        redirect("/ucenter/bind");
     }
 
 

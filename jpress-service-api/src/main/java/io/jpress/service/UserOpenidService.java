@@ -184,5 +184,7 @@ public interface UserOpenidService  {
 
     public void batchDeleteByUserId(Object userId);
 
+    public List<UserOpenid> findListByUserId(Object userId);
+
 
 }

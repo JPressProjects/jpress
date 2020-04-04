@@ -57,8 +57,12 @@ public class DFAUtil {
      */
     public static void init() {
         File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(), "WEB-INF/other/sys_sensitive_words.txt");
+        initBy(sysSensitiveWordsFile);
+    }
+
+    public static void initBy(File sensitiveWordsFile) {
         try {
-            List<String> lines = FileUtils.readLines(sysSensitiveWordsFile, "utf-8");
+            List<String> lines = FileUtils.readLines(sensitiveWordsFile, "utf-8");
             for (String line : lines) {
                 if (line.startsWith("--") || StrUtil.isBlank(line)) {
                     continue;
@@ -132,6 +136,14 @@ public class DFAUtil {
             i++;
         }
         LogKit.error("Matched Sensitive Words : " + sb.toString());
+    }
+
+
+    public static void main(String[] args) {
+        String text = "";
+        File file = new File(PathKit.getRootClassPath(),"../../../jpress-web/src/main/webapp/WEB-INF/other/sys_sensitive_words.txt");
+        initBy(file);
+        System.out.println(isContainsSensitiveWords(text));
     }
 
 

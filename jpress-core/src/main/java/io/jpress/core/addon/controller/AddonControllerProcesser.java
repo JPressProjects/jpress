@@ -18,9 +18,15 @@ package io.jpress.core.addon.controller;
 import com.jfinal.core.Action;
 import io.jboot.web.handler.JbootActionHandler;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 public class AddonControllerProcesser extends JbootActionHandler {
 
+    @Override
+    public Action getAction(String target, String[] urlPara, HttpServletRequest request) {
+        return getAction(target, urlPara);
+    }
 
     @Override
     public Action getAction(String target, String[] urlPara) {

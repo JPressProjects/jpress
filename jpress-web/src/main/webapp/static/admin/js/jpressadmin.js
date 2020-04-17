@@ -8,14 +8,11 @@ $(document).ready(function () {
 
     initListDataItemEvents();
 
-    initComponents();
+    initLayerComponents();
+
+    initResetBtn();
 
 });
-
-
-function initComponents() {
-    initLayerComponents();
-}
 
 
 
@@ -362,9 +359,9 @@ function initOptionSubmit() {
 }
 
 
-
-
-
-
-
-
+function initResetBtn() {
+    $('[type="reset"]').on('click',function (e) {
+        $(this).closest('form').find('[type="text"]').val("");
+        e.preventDefault();
+    });
+}

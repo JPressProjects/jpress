@@ -124,7 +124,7 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
 
     private boolean isMyChild(List<SortModel> categories, long id) {
         for (SortModel category : categories) {
-            if (category.getId() == id) {
+            if (category.getId().equals(id)) {
                 return true;
             }
 

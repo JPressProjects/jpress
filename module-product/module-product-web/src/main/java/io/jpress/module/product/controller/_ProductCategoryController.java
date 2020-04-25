@@ -49,7 +49,7 @@ public class _ProductCategoryController extends AdminControllerBase {
         int id = getParaToInt(0, 0);
         if (id > 0 && categories != null) {
             for (ProductCategory category : categories) {
-                if (category.getId() == id) {
+                if (category.getId().equals(id)) {
                     setAttr("category", category);
                     setAttr("isDisplayInMenu", menuService.findFirstByRelatives("product_category", id) != null);
                 }

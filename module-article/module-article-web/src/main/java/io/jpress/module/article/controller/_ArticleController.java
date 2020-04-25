@@ -263,7 +263,7 @@ public class _ArticleController extends AdminControllerBase {
         int id = getParaToInt(0, 0);
         if (id > 0 && categories != null) {
             for (ArticleCategory category : categories) {
-                if (category.getId() == id) {
+                if (category.getId().equals(id)) {
                     setAttr("category", category);
                     setAttr("isDisplayInMenu", menuService.findFirstByRelatives("article_category", id) != null);
                 }

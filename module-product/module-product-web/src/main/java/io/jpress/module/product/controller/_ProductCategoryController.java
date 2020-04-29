@@ -46,7 +46,7 @@ public class _ProductCategoryController extends AdminControllerBase {
         List<ProductCategory> categories = productCategoryService.findListByType(ProductCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
-        int id = getParaToInt(0, 0);
+        long id = getParaToLong(0, 0L);
         if (id > 0 && categories != null) {
             for (ProductCategory category : categories) {
                 if (category.getId().equals(id)) {

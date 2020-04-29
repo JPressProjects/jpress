@@ -260,7 +260,7 @@ public class _ArticleController extends AdminControllerBase {
         List<ArticleCategory> categories = categoryService.findListByType(ArticleCategory.TYPE_CATEGORY);
         SortKit.toLayer(categories);
         setAttr("categories", categories);
-        int id = getParaToLong(0, 0L);
+        long id = getParaToLong(0, 0L);
         if (id > 0 && categories != null) {
             for (ArticleCategory category : categories) {
                 if (category.getId().equals(id)) {

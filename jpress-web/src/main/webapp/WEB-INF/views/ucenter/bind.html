@@ -51,12 +51,12 @@
                                     您已经绑定了账号微博账号：#(userOpenidMap.get('weibo').nickname ??)
                                     ，点击<a href="#(CPATH)/ucenter/unbind?type=weibo"> 这里 </a>取消绑定。
                                     #else
-                                    #else
                                     您当前没有绑定微博账号，点击 <a href="#(CPATH)/oauth/weibo" target="_blank">这里</a> 进行绑定。
                                     #end
                                 </div>
                             </div>
                             #end
+
 
                             #if(option("login_qq_enable"))
                             <div class="form-group">

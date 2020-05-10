@@ -69,6 +69,8 @@ public class UserFavoriteServiceProvider extends JbootServiceBase<UserFavorite> 
     public boolean isProductFav(Long userId, Long id){
         return isFav(userId,"product",id);
     }
+
+
     @Override
     public boolean isArticleFav(Long userId, Long id){
         return isFav(userId,"article",id);

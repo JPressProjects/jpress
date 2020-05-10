@@ -17,6 +17,7 @@ public class UserAmountStatement extends BaseUserAmountStatement<UserAmountState
     public static final String ACTION_RECHARGE = "recharge";//充值（收入）
     public static final String ACTION_DIST = "dist"; //分销（收入）
     public static final String ACTION_COUPON = "coupon"; //奖励类型优惠码（收入）
+    public static final String ACTION_OTHER = "other"; //其他收入 或 支出
 
 
 }

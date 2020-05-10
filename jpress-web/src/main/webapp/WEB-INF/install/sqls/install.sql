@@ -712,7 +712,7 @@ CREATE TABLE `user_address` (
 
 CREATE TABLE `user_amount` (
   `user_id` int(11) unsigned NOT NULL,
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `amount` decimal(20,6) NOT NULL DEFAULT '0.000000',
   `modified` datetime NOT NULL,
   `created` datetime DEFAULT NULL,
   UNIQUE KEY `user_id` (`user_id`)
@@ -760,9 +760,9 @@ CREATE TABLE `user_amount_statement` (
   `action_relative_id` int(11) unsigned DEFAULT NULL COMMENT '相关的id',
   `action_order_id` int(11) unsigned DEFAULT NULL COMMENT '相关的订单ID',
   `action_payment_id` int(11) unsigned DEFAULT NULL COMMENT '相关的支付ID',
-  `old_amount` decimal(10,2) NOT NULL COMMENT '用户之前的余额',
-  `change_amount` decimal(10,2) NOT NULL COMMENT '变动金额',
-  `new_amount` decimal(10,2) NOT NULL COMMENT '变动之后的余额',
+  `old_amount` decimal(20,6) NOT NULL COMMENT '用户之前的余额',
+  `change_amount` decimal(20,6) NOT NULL COMMENT '变动金额',
+  `new_amount` decimal(20,6) NOT NULL COMMENT '变动之后的余额',
   `options` text COLLATE utf8mb4_unicode_ci,
   `created` datetime DEFAULT NULL COMMENT '时间',
   PRIMARY KEY (`id`),

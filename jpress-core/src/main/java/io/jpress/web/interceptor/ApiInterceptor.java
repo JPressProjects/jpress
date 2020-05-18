@@ -82,9 +82,13 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-
         JbootController controller = (JbootController) inv.getController();
-        Map<String, String> parasMap = paramToMap(controller.getRequest().getQueryString());
+        String queryString = controller.getRequest().getQueryString();
+        if (StrUtil.isBlank(queryString)) {
+            inv.getController().renderJson(Ret.fail().set("message", "请求参数错误。"));
+            return;
+        }
+        Map<String, String> parasMap = paramToMap(queryString);
 
         String appId = parasMap.get("appId");
         if (StrUtil.isBlank(appId)) {

@@ -20,6 +20,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import #(modelPackage).#(tableMeta.modelName);

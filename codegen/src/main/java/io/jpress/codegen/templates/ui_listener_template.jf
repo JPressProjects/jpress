@@ -29,7 +29,7 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.#(moduleName)
  */
-public class #(upcasedModuleName)ModuleListener extends JbootAppListenerBase implements ModuleListener {
+public class #(upcasedModuleName)ModuleInitializer extends JbootAppListenerBase implements ModuleListener {
 
 
     @Override

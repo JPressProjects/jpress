@@ -23,6 +23,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import #(modelPackage).#(tableMeta.modelName);
 import #(modulePackage).service.#(tableMeta.modelName)Service;
+import io.jboot.web.validate.Form;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.web.base.AdminControllerBase;
 

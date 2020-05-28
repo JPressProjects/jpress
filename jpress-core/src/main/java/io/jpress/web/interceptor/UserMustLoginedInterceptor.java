@@ -17,6 +17,8 @@ package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.kit.Ret;
+import io.jboot.utils.RequestUtil;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -29,7 +31,11 @@ public class UserMustLoginedInterceptor implements Interceptor {
     public void intercept(Invocation inv) {
 
         if (UserInterceptor.getThreadLocalUser() == null) {
-            inv.getController().redirect("/user/login");
+            if (RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
+                inv.getController().renderJson(Ret.fail("message", "用户未登录"));
+            } else {
+                inv.getController().redirect("/user/login");
+            }
             return;
         }
 

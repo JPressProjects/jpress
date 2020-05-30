@@ -19,7 +19,6 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.validate.UrlParaValidate;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
 import io.jpress.commons.pay.PayType;
@@ -356,7 +355,6 @@ public class CheckoutController extends UcenterControllerBase {
         renderJson(Ret.ok().set("orderId", userOrderId).set("paytype", getPara("paytype")));
     }
 
-    @UrlParaValidate
     public void payorder() {
         UserOrder userOrder = userOrderService.findById(getPara());
         render404If(notLoginedUserModel(userOrder, "buyer_id"));

@@ -23,8 +23,8 @@ package io.jpress;
  */
 public class JPressConsts {
 
-    public static final String VERSION = "v3.2.4";
-    public static final String VERSION_CODE = "24";
+    public static final String VERSION = "v3.2.5";
+    public static final String VERSION_CODE = "25";
 
     /**
      * 后台系统菜单的 ID

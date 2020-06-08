@@ -78,7 +78,7 @@ function initSwitchery(config) {
     elems.forEach(function (elem) {
         var switchery = config ? new Switchery(elem, config) : new Switchery(elem, {size: 'small'});
         var datafor = elem.getAttribute("data-for");
-        if (datafor != null && datafor != null) {
+        if (datafor) {
             $("#" + datafor).val(elem.checked);
             elem.onchange = function () {
                 $("#" + datafor).val(elem.checked);

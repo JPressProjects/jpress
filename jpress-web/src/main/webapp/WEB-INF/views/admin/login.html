@@ -70,6 +70,9 @@
 <script>
     function loginFail(result) {
         showErrorMessage(result.message);
+        // 清空验证码输入框
+        $('input[name="captcha"]').val('');
+        // 刷新验证码
         $('#captchaImg').attr('src', '#(CPATH)/commons/captcha?d='+Math.random())
     }
 </script>

@@ -59,7 +59,7 @@ public class JPressJson extends JbootJson {
         }
 
         Map<String, Object> attrs = CPI.getAttrs(value.copyModel());
-        optimizeMapAttrs((Map) value);
+        optimizeMapAttrs(attrs);
 
         JFinalJsonKit.modelAndRecordToJson(attrs, depth, ret);
     };

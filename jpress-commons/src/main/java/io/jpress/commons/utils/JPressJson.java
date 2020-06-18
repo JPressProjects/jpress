@@ -18,6 +18,7 @@ package io.jpress.commons.utils;
 import com.google.common.collect.Lists;
 import com.jfinal.json.JFinalJsonKit;
 import com.jfinal.plugin.activerecord.CPI;
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.JbootJson;
@@ -36,41 +37,19 @@ import java.util.Map;
 public class JPressJson extends JbootJson {
 
     private static final List<String> needAddDomainAttrs = Lists.newArrayList("avatar", "thumbnail");
-    String resDomain = JPressOptions.getResDomain();
+    private static final String resDomain = JPressOptions.getResDomain();
 
     public JPressJson() {
-
         super();
-
-        setToJsonFactory(o -> {
-            if (o instanceof JbootModel) {
-                return jbootModelJson;
-            } else {
-                return null;
-            }
-        });
     }
-
-
-    private JFinalJsonKit.ToJson<JbootModel> jbootModelJson = (value, depth, ret) -> {
-
-        if (JFinalJsonKit.checkDepth(depth--, ret)) {
-            return;
-        }
-
-        Map<String, Object> attrs = CPI.getAttrs(value.copy());
-        optimizeMapAttrs(attrs);
-
-        JFinalJsonKit.modelAndRecordToJson(attrs, depth, ret);
-    };
-
 
     /**
      * 优化 map 的属性
      *
      * @param map
      */
-    private void optimizeMapAttrs(Map map) {
+    @Override
+    protected void optimizeMapAttrs(Model model, Map map) {
         if (map == null || map.isEmpty()) {
             return;
         }

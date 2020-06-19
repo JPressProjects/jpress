@@ -16,10 +16,7 @@
 package io.jpress.commons.utils;
 
 import com.google.common.collect.Lists;
-import com.jfinal.json.JFinalJsonKit;
-import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Model;
-import io.jboot.db.model.JbootModel;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.JbootJson;
 import io.jpress.JPressOptions;

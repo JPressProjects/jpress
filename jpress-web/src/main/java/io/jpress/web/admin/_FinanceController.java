@@ -169,7 +169,7 @@ public class _FinanceController extends AdminControllerBase {
                 return false;
             }
 
-            if (userService.updateUserAmount(payout.getUserId()
+            if (!userService.updateUserAmount(payout.getUserId()
                     , userAmount
                     , BigDecimal.ZERO.subtract(payout.getAmount()))) {
                 return false;

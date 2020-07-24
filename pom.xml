@@ -33,18 +33,18 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.2.6</jboot.version>
-        <jfinal-weixin.version>2.5</jfinal-weixin.version>
+        <jboot.version>3.3.0</jboot.version>
+        <jfinal-weixin.version>2.6</jfinal-weixin.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
-        <commons-io.version>2.6</commons-io.version>
-        <commonmark.version>0.14.0</commonmark.version>
-        <aliyunoss.version>3.8.1</aliyunoss.version>
+        <commons-io.version>2.7</commons-io.version>
+        <commonmark.version>0.15.2</commonmark.version>
+        <aliyunoss.version>3.10.2</aliyunoss.version>
         <httpclient.version>4.5.11</httpclient.version>
         <jackson.version>2.11.1</jackson.version>
-        <pay-java.version>2.13.1</pay-java.version>
-        <guava.version>28.2-jre</guava.version>
+        <pay-java.version>2.13.2</pay-java.version>
+        <guava.version>29.0-jre</guava.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>
         <commons-codec.version>1.14</commons-codec.version>

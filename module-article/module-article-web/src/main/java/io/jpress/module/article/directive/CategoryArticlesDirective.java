@@ -68,12 +68,11 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
         scope.setLocal("category", category);
 
         List<Article> articles = service.findListByCategoryId(category.getId(), hasThumbnail, orderBy, count);
-        if (articles == null || articles.isEmpty()) {
-            return;
+        if (articles != null && !articles.isEmpty()){
+            scope.setLocal("articles", articles);
+            renderBody(env, scope, writer);
         }
 
-        scope.setLocal("articles", articles);
-        renderBody(env, scope, writer);
     }
 
 

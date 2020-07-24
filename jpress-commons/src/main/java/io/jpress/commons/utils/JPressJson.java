@@ -16,7 +16,6 @@
 package io.jpress.commons.utils;
 
 import com.google.common.collect.Lists;
-import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.JbootJson;
 import io.jpress.JPressOptions;
@@ -46,7 +45,7 @@ public class JPressJson extends JbootJson {
      * @param map
      */
     @Override
-    protected void optimizeMapAttrs(Model model, Map map) {
+    protected void optimizeMapAttrs(Map map) {
         if (map == null || map.isEmpty()) {
             return;
         }

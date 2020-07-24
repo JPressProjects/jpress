@@ -170,9 +170,9 @@ public class _CouponController extends AdminControllerBase {
     public void useds() {
 
         Columns columns = Columns.create();
-        columns.add("code_id", getPara("codeid"));
-        columns.add("code_user_id", getPara("cuid"));
-        columns.add("coupon_id", getPara("coid"));
+        columns.eq("code_id", getPara("codeid"));
+        columns.eq("code_user_id", getPara("cuid"));
+        columns.eq("coupon_id", getPara("coid"));
 
         Page<CouponUsedRecord> page = couponUsedRecordService.paginate(getPagePara(), 10, columns);
         setAttr("page", page);

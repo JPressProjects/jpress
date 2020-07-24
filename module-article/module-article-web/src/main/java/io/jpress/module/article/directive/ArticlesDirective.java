@@ -50,9 +50,9 @@ public class ArticlesDirective extends JbootDirectiveBase {
 
         Columns columns = Columns.create();
 
-        columns.add("flag", flag);
-        columns.add("style", style);
-        columns.add("status", Article.STATUS_NORMAL);
+        columns.eq("flag", flag);
+        columns.eq("style", style);
+        columns.eq("status", Article.STATUS_NORMAL);
 
         if (hasThumbnail != null) {
             if (hasThumbnail) {

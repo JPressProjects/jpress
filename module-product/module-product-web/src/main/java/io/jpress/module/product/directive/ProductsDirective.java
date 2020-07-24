@@ -49,9 +49,9 @@ public class ProductsDirective extends JbootDirectiveBase {
 
 
         Columns columns = Columns.create("flag", flag);
-        columns.add("style", style);
+        columns.eq("style", style);
 
-        columns.add("status", Product.STATUS_NORMAL);
+        columns.eq("status", Product.STATUS_NORMAL);
 
         if (hasThumbnail != null) {
             if (hasThumbnail) {

@@ -60,7 +60,7 @@ public class UserArticlesDirective extends JbootDirectiveBase {
 
 
         Columns columns = Columns.create("user_id", userId);
-        columns.add("status", status);
+        columns.eq("status", status);
 
         List<Article> articles = service.findListByColumns(columns, orderBy, count);
 

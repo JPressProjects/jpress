@@ -40,7 +40,7 @@ public class SinglePageCommentServiceProvider extends JbootServiceBase<SinglePag
     @Override
     public Page<SinglePageComment> _paginateByStatus(int page, int pagesize, Long articleId, String keyword, String status) {
         Columns columns = Columns.create("article_id", articleId)
-                .add("status", status)
+                .eq("status", status)
                 .likeAppendPercent("content", keyword);
 
         Page<SinglePageComment> p = DAO.paginateByColumns(page,
@@ -74,7 +74,7 @@ public class SinglePageCommentServiceProvider extends JbootServiceBase<SinglePag
     @Override
     public Page<SinglePageComment> paginateByPageIdInNormal(int page, int pagesize, long pageId) {
         Columns columns = Columns.create("page_id", pageId);
-        columns.add("status", SinglePageComment.STATUS_NORMAL);
+        columns.eq("status", SinglePageComment.STATUS_NORMAL);
 
 
         Page<SinglePageComment> p = DAO.paginateByColumns(

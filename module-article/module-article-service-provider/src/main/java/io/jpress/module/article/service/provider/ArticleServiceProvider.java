@@ -105,7 +105,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId, Columns baseColumns) {
 
         Columns columns = baseColumns;
-        columns.add("m.category_id", categoryId);
+        columns.eq("m.category_id", categoryId);
         columns.likeAppendPercent("article.title", title);
 
         Page<Article> dataPage = DAO.leftJoinIf("article_category_mapping", categoryId != null)
@@ -133,7 +133,7 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> paginateInNormal(int page, int pagesize, String orderBy) {
         orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
         Columns columns = new Columns();
-        columns.add("status", Article.STATUS_NORMAL);
+        columns.eq("status", Article.STATUS_NORMAL);
         Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
         return joinUserInfo(dataPage);
     }
@@ -144,8 +144,8 @@ public class ArticleServiceProvider extends JbootServiceBase<Article> implements
     public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
 
         Columns columns = new Columns();
-        columns.add("m.category_id", categoryId);
-        columns.add("article.status", Article.STATUS_NORMAL);
+        columns.eq("m.category_id", categoryId);
+        columns.eq("article.status", Article.STATUS_NORMAL);
 
         Page<Article> dataPage = DAO.leftJoin("article_category_mapping")
                 .as("m").on("article.id=m.`article_id`")

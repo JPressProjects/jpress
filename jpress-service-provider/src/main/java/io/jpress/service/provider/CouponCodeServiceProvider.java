@@ -169,7 +169,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
      */
     @Override
     public List<CouponCode> findAvailableByUserId(long userid, BigDecimal orderTotalAmount) {
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid),"id desc");
+        List<CouponCode> couponCodes = findListByColumns(Columns.safeCreate("user_id", userid),"id desc");
         if (couponCodes == null || couponCodes.isEmpty()) {
             return null;
         }
@@ -186,7 +186,7 @@ public class CouponCodeServiceProvider extends JbootServiceBase<CouponCode> impl
      */
     @Override
     public List<CouponCode> findAvailableByUserId(long userid) {
-        List<CouponCode> couponCodes = findListByColumns(Columns.create().add("user_id", userid).add("status", CouponCode.STATUS_NORMAL),"id desc");
+        List<CouponCode> couponCodes = findListByColumns(Columns.safeCreate("user_id", userid).eq("status", CouponCode.STATUS_NORMAL),"id desc");
         List<CouponCode> finalList = new ArrayList<>();
         for (CouponCode couponCode : couponCodes) {
             //没过期，normal状态的

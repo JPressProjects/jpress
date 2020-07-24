@@ -121,7 +121,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     public Page<Product> paginateInNormal(int page, int pagesize, String orderBy) {
         orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
         Columns columns = new Columns();
-        columns.add("status", Product.STATUS_NORMAL);
+        columns.eq("status", Product.STATUS_NORMAL);
         Page<Product> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
         return joinUserInfo(dataPage);
     }
@@ -132,8 +132,8 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     public Page<Product> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
 
         Columns columns = new Columns();
-        columns.add("m.category_id", categoryId);
-        columns.add("product.status", Product.STATUS_NORMAL);
+        columns.eq("m.category_id", categoryId);
+        columns.eq("product.status", Product.STATUS_NORMAL);
 
         return _paginateByBaseColumns(page, pagesize, columns, categoryId, orderBy);
     }
@@ -142,7 +142,7 @@ public class ProductServiceProvider extends JbootServiceBase<Product> implements
     public Page<Product> _paginateByBaseColumns(int page, int pagesize, Columns baseColumns, Long categoryId, String orderBy) {
 
         Columns columns = baseColumns;
-        columns.add("m.category_id", categoryId);
+        columns.eq("m.category_id", categoryId);
 
         Page<Product> dataPage = DAO.leftJoinIf("product_category_mapping",categoryId != null).as("m")
                 .on("product.id = m.`product_id`")

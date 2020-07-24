@@ -69,13 +69,13 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     public List<Menu> findListByRelatives(String table, Object id) {
-        Columns columns = Columns.create("relative_id", id).add("relative_table", table);
+        Columns columns = Columns.create("relative_id", id).eq("relative_table", table);
         return DAO.findListByColumns(columns);
     }
 
     @Override
     public Menu findFirstByRelatives(String table, Object id) {
-        Columns columns = Columns.create("relative_id", id).add("relative_table", table);
+        Columns columns = Columns.create("relative_id", id).eq("relative_table", table);
         return DAO.findFirstByColumns(columns);
     }
 

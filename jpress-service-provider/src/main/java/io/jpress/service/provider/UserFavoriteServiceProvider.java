@@ -25,7 +25,7 @@ public class UserFavoriteServiceProvider extends JbootServiceBase<UserFavorite> 
      */
     @Override
     public boolean doDelFavoriteByType(String type, Long userid, Long id){
-        UserFavorite favorite = findFirstByColumns(Columns.create().add("type", type).add("user_id", userid).add("type_id", id));
+        UserFavorite favorite = findFirstByColumns(Columns.create().eq("type", type).eq("user_id", userid).eq("type_id", id));
         return  delete(favorite);
     }
 

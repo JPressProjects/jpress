@@ -25,6 +25,7 @@ import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.JbootDb;
 import io.jboot.db.model.Columns;
+import io.jboot.db.model.JbootModel;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
@@ -72,7 +73,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
         if (memberGroupId != null) {
             sqlBuilder.append(" left join member m on u.id = m.user_id ");
-            columns.add("m.group_id", memberGroupId);
+            columns.eq("m.group_id", memberGroupId);
         }
 
 
@@ -82,7 +83,7 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
                 return null;
             }
             sqlBuilder.append("left join user_tag_mapping utm on u.id = utm.user_id");
-            columns.add("utm.tag_id", userTag.getId());
+            columns.eq("utm.tag_id", userTag.getId());
         }
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));
@@ -238,8 +239,9 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
 
     private static final String[] defaultJoinAttrs = new String[]{"id", "username", "nickname", "avatar", "created", "signature"};
 
+
     @Override
-    public <M extends Model> M join(M model, String joinOnField) {
-        return super.join(model, joinOnField, defaultJoinAttrs);
+    public <M extends JbootModel> M join(M model, String columnName) {
+        return super.join(model, columnName,defaultJoinAttrs);
     }
 }

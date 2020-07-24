@@ -56,7 +56,7 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
     public Page<ProductComment> _paginateByStatus(int page, int pagesize, Long productId, String keyword, int status) {
 
         Columns columns = Columns.create("product_id", productId)
-                .add("status", status)
+                .eq("status", status)
                 .likeAppendPercent("content", keyword);
 
         Page<ProductComment> p = DAO.paginateByColumns(page,
@@ -100,7 +100,7 @@ public class ProductCommentServiceProvider extends JbootServiceBase<ProductComme
     @Override
     public Page<ProductComment> paginateByProductIdInNormal(int page, int pagesize, long productId) {
         Columns columns = Columns.create("product_id", productId);
-        columns.add("status", ProductComment.STATUS_NORMAL);
+        columns.eq("status", ProductComment.STATUS_NORMAL);
 
 
         Page<ProductComment> p = DAO.paginateByColumns(

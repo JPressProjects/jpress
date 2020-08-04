@@ -27,12 +27,13 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.authcode.AuthCode;
+import io.jpress.commons.authcode.AuthCodeKit;
 import io.jpress.commons.sms.SmsKit;
+import io.jpress.commons.utils.SessionUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
-import io.jpress.commons.authcode.AuthCode;
-import io.jpress.commons.authcode.AuthCodeKit;
 import io.jpress.web.commons.email.EmailSender;
 
 import java.util.Date;
@@ -96,7 +97,7 @@ public class UserController extends TemplateControllerBase {
     public void doLogin(String user, String pwd) {
 
         if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {
-            LogKit.error("你当前的 idea 或者 eclipse 可能有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
+            LogKit.error("你当前的 idea 或者 eclipse 配置有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
             return;
         }
 
@@ -109,6 +110,7 @@ public class UserController extends TemplateControllerBase {
         Ret ret = userService.doValidateUserPwd(loginUser, pwd);
 
         if (ret.isOk()) {
+            SessionUtils.record(loginUser.getId());
             CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 

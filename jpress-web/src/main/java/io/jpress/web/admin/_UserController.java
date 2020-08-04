@@ -31,6 +31,7 @@ import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
+import io.jpress.commons.utils.SessionUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.*;
 import io.jpress.service.*;
@@ -626,6 +627,9 @@ public class _UserController extends AdminControllerBase {
 
         user.setPassword(hashedPass);
         userService.update(user);
+
+        //移除用户登录 session
+        SessionUtils.forget(uid);
 
         renderOkJson();
     }

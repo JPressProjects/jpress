@@ -23,6 +23,7 @@ import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.SessionUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserCartService;
 import io.jpress.service.UserService;
@@ -70,6 +71,14 @@ public class UserInterceptor implements Interceptor {
             inv.invoke();
             return;
         }
+
+
+        if (!SessionUtils.isLoginedOk(Long.valueOf(uid))){
+            CookieUtil.remove(c,JPressConsts.COOKIE_UID);
+            inv.invoke();
+            return;
+        }
+
 
         user = userService.findById(uid);
 

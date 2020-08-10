@@ -33,7 +33,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.3.3</jboot.version>
+        <jboot.version>3.3.4</jboot.version>
         <jfinal-weixin.version>2.6</jfinal-weixin.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
@@ -63,12 +63,6 @@
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>com.jfinal</groupId>
-                <artifactId>jfinal</artifactId>
-                <version>4.9</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.atlassian.commonmark</groupId>

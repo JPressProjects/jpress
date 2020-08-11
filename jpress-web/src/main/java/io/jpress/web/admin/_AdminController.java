@@ -26,6 +26,7 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.SessionUtils;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
 import io.jpress.model.User;
@@ -98,6 +99,7 @@ public class _AdminController extends AdminControllerBase {
         Ret ret = userService.doValidateUserPwd(loginUser, pwd);
 
         if (ret.isOk()) {
+            SessionUtils.record(loginUser.getId());
             CookieUtil.put(this, JPressConsts.COOKIE_UID, loginUser.getId());
         }
 

@@ -22,6 +22,7 @@ import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.SessionUtils;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.model.User;
 import io.jpress.service.RoleService;
@@ -70,6 +71,12 @@ public class AdminInterceptor implements Interceptor {
                 inv.getController().renderError(404);
             }
 
+            return;
+        }
+
+        if (!SessionUtils.isLoginedOk(Long.valueOf(uid))){
+            CookieUtil.remove(inv.getController(),JPressConsts.COOKIE_UID);
+            inv.invoke();
             return;
         }
 

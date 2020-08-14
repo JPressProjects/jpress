@@ -15,6 +15,7 @@
  */
 package io.jpress.web.commons.controller;
 
+import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import io.jboot.web.controller.annotation.RequestMapping;
 
@@ -26,10 +27,9 @@ import io.jboot.web.controller.annotation.RequestMapping;
 @RequestMapping("/commons/captcha")
 public class CaptchaController extends Controller {
 
-
+    @Clear
     public void index() {
         renderCaptcha();
     }
-
 
 }

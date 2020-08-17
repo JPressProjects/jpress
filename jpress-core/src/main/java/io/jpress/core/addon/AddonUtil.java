@@ -168,18 +168,23 @@ public class AddonUtil {
             AddonClassLoader classLoader = null;
             try {
                 classLoader = new AddonClassLoader(addonInfo);
+                addonInfo.setClassLoader(classLoader);
+
                 List<String> classNameList = classLoader.getClassNameList();
                 for (String className : classNameList) {
                     EhcacheManager.addMapping(className, classLoader);
                 }
                 classLoader.load();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 LogKit.error(e.toString(), e);
-            } finally {
-                //必须关闭，在Windows下才能卸载插件的时候删除jar包
-                //否则一旦被 AddonClassLoader load之后，无法被删除
-                CommonsUtils.quietlyClose(classLoader);
             }
+
+//            finally {
+//                //必须关闭，在Windows下才能卸载插件的时候删除jar包
+//                //否则一旦被 AddonClassLoader load之后，无法被删除
+//                CommonsUtils.quietlyClose(classLoader);
+//            }
+
             addonInfoCache.put(addonFile.getAbsolutePath(), addonInfo);
         }
         return addonInfo;

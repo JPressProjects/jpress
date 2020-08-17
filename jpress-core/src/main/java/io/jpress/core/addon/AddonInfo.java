@@ -58,6 +58,8 @@ public class AddonInfo implements Serializable {
     private List<Class<? extends Directive>> directives;
     private List<Class<? extends WechatAddon>> wechatAddons;
 
+
+    private AddonClassLoader classLoader;
     private ActiveRecordPlugin arp;
     private Map<String, String> config;
 
@@ -288,6 +290,15 @@ public class AddonInfo implements Serializable {
 
     public void setWechatAddons(List<Class<? extends WechatAddon>> wechatAddons) {
         this.wechatAddons = wechatAddons;
+    }
+
+
+    public AddonClassLoader getClassLoader() {
+        return classLoader;
+    }
+
+    public void setClassLoader(AddonClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
 
     public ActiveRecordPlugin getArp() {

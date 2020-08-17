@@ -31,6 +31,7 @@ import io.jboot.db.model.JbootModel;
 import io.jboot.utils.ArrayUtil;
 import io.jpress.core.addon.annotation.GlobalInterceptor;
 import io.jpress.core.wechat.WechatAddon;
+import javassist.ClassPool;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,11 +50,21 @@ public class AddonClassLoader extends URLClassLoader {
     private static final Log LOG = Log.getLog(AddonClassLoader.class);
 
     private AddonInfo addonInfo;
+    private AddonClassPath addonClassPath;
     private List<String> classNameList;
 
-    public AddonClassLoader(AddonInfo addonInfo) throws IOException {
+    public AddonClassLoader(AddonInfo addonInfo) throws Exception {
         super(new URL[]{}, Thread.currentThread().getContextClassLoader());
-        this.addURL(addonInfo.buildJarFile().toURI().toURL());
+
+        URL addPath = addonInfo.buildJarFile().toURI().toURL();
+        this.addonClassPath = new AddonClassPath(addonInfo.buildJarFile().getCanonicalPath());
+
+        //fixed
+        //at javassist.ClassPool.get(ClassPool.java:430)
+        //at io.jboot.web.handler.JbootActionReporter.report(JbootActionReporter.java:85)
+        ClassPool.getDefault().appendClassPath(addonClassPath);
+
+        this.addURL(addPath);
         this.addonInfo = addonInfo;
         this.classNameList = new ArrayList<>();
         this.initClassNameList();
@@ -190,4 +201,8 @@ public class AddonClassLoader extends URLClassLoader {
         return superStream;
     }
 
+
+    public AddonClassPath getAddonClassPath() {
+        return addonClassPath;
+    }
 }

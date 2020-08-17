@@ -33,7 +33,9 @@ import java.util.Map;
 public class JPressJson extends JbootJson {
 
     private static final List<String> needAddDomainAttrs = Lists.newArrayList("avatar", "thumbnail");
-    private static final String resDomain = JPressOptions.getResDomain();
+
+    //不能定义为静态的，每次应该从 JPress 获取最新的后台配置
+    String resDomain = JPressOptions.getResDomain();
 
     public JPressJson() {
         super();

@@ -84,7 +84,7 @@ public class ElasticSearcher implements ArticleSearcher {
         }
 
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, username));
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(username, password));
         builder.setHttpClientConfigCallback(httpAsyncClientBuilder ->
                 httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
     }

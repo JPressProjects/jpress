@@ -177,7 +177,7 @@ curl -O https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml &&
 **在 Linux 上一键安装**
 
 ```
-wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
+wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh
 ```
 
 > 视频教程链接: https://pan.baidu.com/s/1ciA2DglE-JV-YiU3ojtmew 提取码: 37g5

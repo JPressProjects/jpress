@@ -51,7 +51,7 @@ if [ -x "$(command -v docker)" -a -x "$(command -v docker-compose)" ]; then
 
   # 安装jpress
   if [ ! -f "docker-compose.yml" ];then
-    wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
+    wget https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml
   fi
 
   docker-compose up -d

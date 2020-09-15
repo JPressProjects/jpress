@@ -171,7 +171,7 @@
 **在 Docker 上运行**
 
 ```
-curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml && docker-compose up -d
+curl -O https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml && docker-compose up -d
 ```
 
 **在 Linux 上一键安装**

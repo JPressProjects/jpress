@@ -22,6 +22,7 @@
     <modules>
         <module>jpress-addon-helloworld</module>
         <module>jpress-addon-message</module>
+<!--        <module>jpress-addon-igetstock</module>-->
 <!--        <module>jpress-addon-nkzx</module>-->
 <!--        <module>jpress-addon-newprod</module>-->
 <!--        <module>jpress-addon-keygen</module>-->

@@ -31,12 +31,16 @@ import com.jfinal.template.Directive;
 import com.jfinal.template.expr.ast.FieldKit;
 import com.jfinal.template.expr.ast.MethodKit;
 import io.jboot.Jboot;
+import io.jboot.aop.InterceptorBuilder;
+import io.jboot.aop.InterceptorBuilderManager;
+import io.jboot.aop.cglib.JbootCglibProxyFactory;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.db.model.JbootModelConfig;
 import io.jboot.utils.AnnotationUtil;
+import io.jboot.utils.ClassUtil;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
@@ -60,6 +64,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 /**
  * 插件管理器：安装、卸载、启用、停用
@@ -396,8 +401,11 @@ public class AddonManager implements JbootEventListener {
         //添加插件的 指令
         addDirectives(addonInfo);
 
-        //添加插件的拦截器
+        //添加插件的全局拦截器
         addInterceptors(addonInfo);
+
+        //添加拦截器构建
+        addInterceptorBuilders(addonInfo);
 
         //添加微信消息插件
         addWechatAddons(addonInfo);
@@ -491,6 +499,16 @@ public class AddonManager implements JbootEventListener {
         }
     }
 
+
+    private void addInterceptorBuilders(AddonInfo addonInfo) {
+        List<Class<? extends InterceptorBuilder>> builderClasses = addonInfo.getInterceptorBuilders();
+        if (builderClasses != null) {
+            for (Class<? extends InterceptorBuilder> c : builderClasses) {
+                InterceptorBuilderManager.me().addInterceptorBuilder(ClassUtil.newInstance(c,false));
+            }
+        }
+    }
+
     private void addDirectives(AddonInfo addonInfo) {
         List<Class<? extends Directive>> directives = addonInfo.getDirectives();
         if (directives != null) {
@@ -571,6 +589,13 @@ public class AddonManager implements JbootEventListener {
         //删除插件的所有拦截器
         try {
             deleteInteceptors(addonInfo);
+        } catch (Exception ex) {
+            LOG.error(ex.toString(), ex);
+        }
+
+        //删除插件的所有拦截器构建
+        try {
+            deleteInteceptorBuilders(addonInfo);
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
         }
@@ -742,6 +767,17 @@ public class AddonManager implements JbootEventListener {
             for (Class<? extends Interceptor> c : interceptorClasses) {
                 AddonInterceptorManager.deleteInterceptor(c);
             }
+        }
+    }
+
+    private void deleteInteceptorBuilders(AddonInfo addonInfo) {
+        List<Class<? extends InterceptorBuilder>> interceptorBuilderClasses = addonInfo.getInterceptorBuilders();
+        if (interceptorBuilderClasses != null) {
+            for (Class<? extends InterceptorBuilder> c : interceptorBuilderClasses) {
+                List<InterceptorBuilder> builders = InterceptorBuilderManager.me().getInterceptorBuilders();
+                builders.removeIf(interceptorBuilder -> interceptorBuilder.getClass() == c);
+            }
+            JbootCglibProxyFactory.IntersCache.clear();
         }
     }
 

@@ -22,6 +22,7 @@ import com.jfinal.handler.Handler;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.template.Directive;
+import io.jboot.aop.InterceptorBuilder;
 import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.StrUtil;
@@ -53,6 +54,7 @@ public class AddonInfo implements Serializable {
 
     private List<Class<? extends Controller>> controllers;
     private List<Class<? extends Interceptor>> interceptors;
+    private List<Class<? extends InterceptorBuilder>> interceptorBuilders;
     private List<Class<? extends Handler>> handlers;
     private List<Class<? extends JbootModel>> models;
     private List<Class<? extends Directive>> directives;
@@ -215,6 +217,22 @@ public class AddonInfo implements Serializable {
 
     public void setInterceptors(List<Class<? extends Interceptor>> interceptors) {
         this.interceptors = interceptors;
+    }
+
+    public void addInterceptorBuilder(Class<? extends InterceptorBuilder> clazz){
+        if (interceptorBuilders == null){
+            interceptorBuilders = new ArrayList<>();
+        }
+        interceptorBuilders.add(clazz);
+    }
+
+
+    public List<Class<? extends InterceptorBuilder>> getInterceptorBuilders() {
+        return interceptorBuilders;
+    }
+
+    public void setInterceptorBuilders(List<Class<? extends InterceptorBuilder>> interceptorBuilders) {
+        this.interceptorBuilders = interceptorBuilders;
     }
 
     public void addHandler(Class<? extends Handler> clazz) {

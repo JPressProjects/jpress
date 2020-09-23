@@ -23,6 +23,8 @@ import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.log.Log;
 import com.jfinal.template.Directive;
+import io.jboot.aop.InterceptorBuilder;
+import io.jboot.aop.annotation.AutoLoad;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.aop.annotation.BeanExclude;
 import io.jboot.components.event.JbootEventListener;
@@ -105,6 +107,12 @@ public class AddonClassLoader extends URLClassLoader {
                 else if (Interceptor.class.isAssignableFrom(loadedClass)) {
                     if (loadedClass.getAnnotation(GlobalInterceptor.class) != null) {
                         addonInfo.addInterceptor(loadedClass);
+                    }
+                }
+                // interceptorBuilders
+                else if (InterceptorBuilder.class.isAssignableFrom(loadedClass)){
+                    if (loadedClass.getAnnotation(AutoLoad.class) != null){
+                        addonInfo.addInterceptorBuilder(loadedClass);
                     }
                 }
                 // handlers

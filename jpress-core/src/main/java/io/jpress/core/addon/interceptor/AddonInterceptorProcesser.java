@@ -19,11 +19,14 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import io.jboot.Jboot;
-import io.jboot.web.fixedinterceptor.FixedInterceptor;
+import io.jboot.aop.InterceptorBuilder;
+import io.jboot.aop.Interceptors;
+import io.jboot.aop.annotation.AutoLoad;
 
 import java.lang.reflect.Method;
 
-public class AddonInterceptorProcesser implements FixedInterceptor {
+@AutoLoad
+public class AddonInterceptorProcesser implements Interceptor, InterceptorBuilder {
 
     @Override
     public void intercept(Invocation invocation) {
@@ -34,6 +37,13 @@ public class AddonInterceptorProcesser implements FixedInterceptor {
             invocation.invoke();
         } else {
             new AddonInvocation(invocation, interceptors).invoke();
+        }
+    }
+
+    @Override
+    public void build(Class<?> serviceClass, Method method, Interceptors interceptors) {
+        if (Controller.class.isAssignableFrom(serviceClass)){
+            interceptors.add(this);
         }
     }
 

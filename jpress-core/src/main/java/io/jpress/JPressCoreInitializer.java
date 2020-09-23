@@ -22,12 +22,10 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
-import io.jboot.web.fixedinterceptor.FixedInterceptors;
 import io.jpress.commons.utils.JPressJson;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
 import io.jpress.core.addon.handler.AddonHandlerProcesser;
-import io.jpress.core.addon.interceptor.AddonInterceptorProcesser;
 import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.support.ehcache.EhcacheManager;
@@ -80,10 +78,10 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
         routes.setClearAfterMapping(false);
     }
 
-    @Override
-    public void onFixedInterceptorConfig(FixedInterceptors fixedInterceptors) {
-        fixedInterceptors.add(new AddonInterceptorProcesser());
-    }
+//    @Override
+//    public void onFixedInterceptorConfig(FixedInterceptors fixedInterceptors) {
+//        fixedInterceptors.add(new AddonInterceptorProcesser());
+//    }
 
 
     @Override

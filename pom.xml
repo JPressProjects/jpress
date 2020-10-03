@@ -33,7 +33,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.5.1</jboot.version>
+        <jboot.version>3.5.4-SNAPSHOT</jboot.version>
         <jfinal-weixin.version>2.6</jfinal-weixin.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
@@ -100,6 +100,11 @@
                 <version>${commons-logging.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>2.10.6</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>

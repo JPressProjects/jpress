@@ -32,7 +32,7 @@ public class IndexController extends TemplateControllerBase {
 
     public void index() {
 
-        //不是首页 / ，使用 page 模块去处理
+        //如果不是首页 / ，使用 page 模块去处理
         if (!"/".equals(JPressHandler.getCurrentTarget())) {
             forwardAction("/page");
             return;

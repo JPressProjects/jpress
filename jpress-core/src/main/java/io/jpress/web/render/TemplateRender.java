@@ -1,4 +1,4 @@
-/**
+ /**
  * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
@@ -20,10 +20,10 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
+import io.jboot.ext.MixedByteArrayOutputStream;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
-import io.jboot.web.render.RenderHelpler;
 import io.jpress.JPressConfig;
 import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
@@ -33,6 +33,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,6 +47,7 @@ import java.util.Map;
  */
 public class TemplateRender extends Render {
 
+    private static String charSet =  JFinal.me().getConstants().getEncoding();
     private static Engine engine;
     private static final String contentType = "text/html; charset=" + getEncoding();
     private static String contextPath = JFinal.me().getContextPath();
@@ -99,14 +102,31 @@ public class TemplateRender extends Render {
             template = getEngine().getTemplate(view);
         } catch (RuntimeException ex) {
             if (ex.getMessage().contains("File not found")) {
-                RenderHelpler.renderHtml(response, buildTemplateNotExistsMessage(), contentType);
+                renderHtml(buildTemplateNotExistsMessage());
                 LogKit.error(ex.toString(), ex);
+                return;
             } else {
                 throw ex;
             }
         }
 
-        RenderHelpler.renderHtml(response, buildNormalHtml(template.renderToString(data)), contentType);
+
+        try {
+            MixedByteArrayOutputStream baos = new MixedByteArrayOutputStream();
+            template.render(data, baos);
+            response.getWriter().write(buildNormalHtml(baos.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void renderHtml(String html){
+        try {
+            response.getWriter().write(html);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String buildTemplateNotExistsMessage() {
@@ -147,13 +167,10 @@ public class TemplateRender extends Render {
     }
 
 
-    public String buildNormalHtml(String content) {
-        if (StrUtil.isBlank(content)) {
-            return content;
-        }
+    public String buildNormalHtml(InputStream content) throws IOException {
 
+        Document doc = Jsoup.parse(content,charSet,"");
 
-        Document doc = Jsoup.parse(content);
         doc.outputSettings().prettyPrint(false);
         doc.outputSettings().outline(false);
 

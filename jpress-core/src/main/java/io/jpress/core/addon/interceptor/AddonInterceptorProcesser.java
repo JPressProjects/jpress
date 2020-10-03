@@ -22,6 +22,7 @@ import io.jboot.Jboot;
 import io.jboot.aop.InterceptorBuilder;
 import io.jboot.aop.Interceptors;
 import io.jboot.aop.annotation.AutoLoad;
+import io.jboot.utils.ClassUtil;
 
 import java.lang.reflect.Method;
 
@@ -70,7 +71,7 @@ public class AddonInterceptorProcesser implements Interceptor, InterceptorBuilde
                     interceptor.intercept(this);
                 }finally {
                     if (Jboot.isDevMode()){
-                        System.out.println("addon interceptor intercepted : " + interceptor);
+                        System.out.println("addon interceptor invoked: " + ClassUtil.getUsefulClass(interceptor.getClass()));
                     }
                 }
 

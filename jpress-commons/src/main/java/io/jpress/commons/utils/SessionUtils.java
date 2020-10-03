@@ -1,5 +1,6 @@
 package io.jpress.commons.utils;
 
+import io.jboot.Jboot;
 import io.jboot.utils.CacheUtil;
 
 /**
@@ -20,6 +21,7 @@ public class SessionUtils {
 
 
     public static boolean isLoginedOk(Object userId) {
-        return SESSION_VALUE.equals(CacheUtil.get(SESSION_NAME, String.valueOf(userId)));
+        // 开发模式下，不通过 Session 控制，否则使用内存缓存时，每次重启都需要重新登录
+        return Jboot.isDevMode() || SESSION_VALUE.equals(CacheUtil.get(SESSION_NAME, String.valueOf(userId)));
     }
 }

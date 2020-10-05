@@ -7,7 +7,7 @@
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>3.0</version>
+    <version>4.0</version>
 
     <modules>
         <module>codegen</module>
@@ -194,37 +194,37 @@
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-commons</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-core</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-model</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-web</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-api</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-provider</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>

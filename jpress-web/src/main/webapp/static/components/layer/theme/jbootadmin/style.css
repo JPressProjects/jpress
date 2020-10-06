@@ -1,0 +1,28 @@
+body .layer-ext-jbootadmin .layui-layer-title {
+    background: #007bff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: none;
+    border-radius: 0;
+}
+
+body .layui-ext-jbootadmin .layui-layer-btn {
+    border-color: #007bff;
+    background-color: #007bff;
+    color: #fff;
+}
+
+body .layui-ext-jbootadmin .layui-layer-btn a {
+    border-color: #007bff;
+    background-color: #007bff;
+    color: #fff;
+}
+
+body .layer-ext-jbootadmin .layui-layer-btn- .layui-layer-btn0 {
+    border-color: #007bff;
+    background-color: #007bff;
+    color: #fff;
+}
+
+

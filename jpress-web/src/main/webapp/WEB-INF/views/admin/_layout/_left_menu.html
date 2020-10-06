@@ -1,49 +1,109 @@
-<aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar" >
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree" id="sidebar-menu">
-            <li class="block"></li>
-            <li class="link">
-                <a href="#(CPATH)/admin/index"><i class="fa fa-dashboard"></i> <span>面板</span></a>
-            </li>
+<aside class="main-sidebar sidebar-dark-primary">
+    <!-- Brand Logo -->
+    <a href="javascript:;" class="brand-link">
+        <img src="#(APP_LOGO_PATH ??)" class="brand-image"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">#(APP_NAME ??)</span>
+    </a>
 
-            <li class="block"></li>
-            #for(group : moduleMenuGroups)
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        #@leftMenuTopPanel?()
+
+
+        <!--在 adminlte 3.0.5 中，搜索的 html 必须存在，否则会有 js 错误-->
+        <div class="form-inline" style="display: none">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <nav class="mt-2" style="padding: 10px 0">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-legacy text-sm" data-widget="treeview" role="menu"
+                data-accordion="false" id="sidebar-menu">
+
+                #for(group : moduleMenuGroups)
                 #hasPermission(group.permission)
-                <li class="treeview">
-                    <a href="#">#(group.icon ??) <span>#(group.text)</span>
-                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        #for(item : group.items)
-                            #hasPermission(item.permission)
-                            <li><a href="#(item.url ??)" target="#(item.target)">#(item.text ??)</a></li>
-                            #end
-                        #end
-                    </ul>
+                <li class="nav-item  id="#(group.id ??)">
+                <a href="#" class="nav-link">
+                    #if(group.icon ??)
+                    #(group.icon)
+                    #else
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    #end
+                    <p>
+                        #(group.text ??)
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    #for(item : group.items)
+                    #hasPermission(item.permission)
+                    <li class="nav-item" id="#(chiitemldMenu.id ??)">
+                        <a href="#(item.url ??)" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p> #(item.text ??)</p>
+                        </a>
+                    </li>
+                    #end
+                    #end
+                </ul>
                 </li>
                 #end
-            #end
-            <li class="header">基础</li>
-            #for(group : systemMenuGroups)
+                #end
+
+
+
+
+
+                <li class="nav-header">系统管理</li>
+
+
+                #for(group : systemMenuGroups)
                 #hasPermission(group.permission)
-                <li class="treeview">
-                    <a href="#">#(group.icon ??) <span>#(group.text)</span>
-                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                    </a>
-                    <ul class="treeview-menu">
-                        #for(item : group.items)
-                            #hasPermission(item.permission)
-                            <li><a href="#(item.url ??)" target="#(item.target)">#(item.text ??)</a></li>
-                            #end
-                        #end
-                    </ul>
+                <li class="nav-item  id="#(group.id ??)">
+                <a href="#" class="nav-link">
+                    #if(group.icon ??)
+                    #(group.icon)
+                    #else
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    #end
+                    <p>
+                        #(group.text ??)
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    #for(item : group.items)
+                    #hasPermission(item.permission)
+                    <li class="nav-item" id="#(chiitemldMenu.id ??)">
+                        <a href="#(item.url ??)" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p> #(item.text ??)</p>
+                        </a>
+                    </li>
+                    #end
+                    #end
+                </ul>
                 </li>
                 #end
-            #end
+                #end
 
-        </ul>
-    </section>
+
+
+
+                #@leftBottomMenus?()
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
     <!-- /.sidebar -->
 </aside>
+<!-- ./ sidebar -->

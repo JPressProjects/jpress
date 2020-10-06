@@ -7,15 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>JPress后台</title>
     <link rel="shortcut icon" href="#(CPATH)/static/commons/img/jpress.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/datetimepicker/css/bootstrap-datetimepicker.min.css" />
-    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/switchery/switchery.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/toastr/toastr.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/admin/css/jpressadmin.css">
 
     <!--[if lt IE 9]>
@@ -39,7 +37,9 @@
     #@css?()
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<!--<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed ">-->
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<!--<body class="hold-transition sidebar-mini " style="height: auto;">-->
 <div class="wrapper">
 
     #include("./_header.html")
@@ -51,6 +51,10 @@
 
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-ui/jquery-ui.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/jquery.validate.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/additional-methods.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/localization/messages_zh.min.js"></script>
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
 <script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
@@ -61,8 +65,10 @@
 <script src="#(CPATH)/static/components/layer/layer.js"></script>
 <script src="#(CPATH)/static/components/switchery/switchery.min.js"></script>
 <script src="#(CPATH)/static/components/toastr/toastr.min.js"></script>
+
 <script src="#(CPATH)/static/adminlte/js/adminlte.min.js"></script>
 <script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
+<script src="#(CPATH)/static/admin/js/jpressutils.js"></script>
 <script src="#(CPATH)/static/commons/jpresscommons.js"></script>
 <script src="#(CPATH)/static/commons/jpresscsrf.js"></script>
 

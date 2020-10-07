@@ -23,7 +23,7 @@ package io.jpress;
  */
 public class JPressConsts {
 
-    public static final String VERSION = "v3.2.5";
+    public static final String VERSION = "v3.3.0";
     public static final String VERSION_CODE = "25";
 
     /**

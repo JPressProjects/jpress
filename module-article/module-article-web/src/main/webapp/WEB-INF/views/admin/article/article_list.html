@@ -1,23 +1,24 @@
 #@layout()
+
 #define script()
 <script>
 
     function trash(id) {
-        ajaxGet("#(CPATH)/admin/article/doTrash/" + id);
+        ajaxGet("#(CPATH)/admin/page/doTrash/" + id);
     }
 
 
     function draft(id) {
-        ajaxGet("#(CPATH)/admin/article/doDraft/" + id);
+        ajaxGet("#(CPATH)/admin/page/doDraft/" + id);
     }
 
     function normal(id) {
-        ajaxGet("#(CPATH)/admin/article/doNormal/" + id);
+        ajaxGet("#(CPATH)/admin/page/doNormal/" + id);
     }
 
     function del(id) {
-        if (confirm('确定要删除该文章吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/article/doDel/" + id);
+        if (confirm("确定要删除该页面吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doDel/" + id);
         }
     }
 
@@ -27,181 +28,194 @@
             alert('您未选择任何内容');
             return
         }
-        if (confirm('确定要删除该文章吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/article/doDelByIds?ids=" + ids);
+        if (confirm("确定要删除选中页面吗？删除后不可恢复")) {
+            ajaxGet("#(CPATH)/admin/page/doDelByIds?ids=" + ids);
         }
     })
+
 </script>
 
 #end
 
+
 #define content()
 <div class="content-wrapper">
-
+    <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>
-            文章管理
-            <small>Article Management</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                文章管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 文章 / 文章管理</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6" style="padding-top: 20px">
+                            <a href="#(CPATH)/admin/page">全部 (#(totalCount ??))</a> |
+                            <a href="?status=normal">已发布 (#(normalCount ??))</a> |
+                            <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
+                            <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top: 45px">
+                        <a href="#(CPATH)/admin/page/write" type="button" class="btn btn-primary"><i
+                                class="fa fa-fw fa-plus"></i>新建</a>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div><!-- /.container-fluid -->
     </section>
 
-    <section class="content-header text-tap">
-        <a href="#(CPATH)/admin/article">全部 (#(totalCount ?? 0))</a> |
-        <a href="?status=normal">已发布 (#(normalCount ?? 0))</a> |
-        <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
-        <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
-    </section>
+    <!--    <section class="content-header text-tap">-->
+    <!--        <div class="container-fluid">-->
 
+    <!--        </div>-->
+    <!--    </section>-->
+
+
+    <!-- Main content -->
     <section class="content">
-
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/article" method="get">
-                            <input type="hidden" name="status" value="#para('status')">
-                            <div class="row">
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">标题</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="title" value="#para('title')">
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">分类</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" name="categoryId">
-                                            <option value="">全部分类</option>
-                                            #for(category : categories)
-                                            <option value="#(category.id ??)" #selectedIf(category.isCheck)>
-                                                #(category.layerString)#(category.title ??)
-                                            </option>
-                                            #end
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary ">查询</button>
-                                        <button type="reset" class="btn btn-default">重置</button>
-                                        <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
-                                    </div>
-                                </div>
+        <div class="container-fluid">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <form class="form-horizontal admin-search-panel" action="" method="get">
+                        <div class="row">
+                            <div class="form-group col-lg-2">
+                                <input type="text" class="form-control" placeholder="请输入标题" name="title" value="#para('title')">
                             </div>
-                            <!-- /.box-body -->
-                        </form>
 
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/article/write" class="btn btn-primary "> <i
-                                        class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+                            <div class="form-group col-lg-2">
+                                <button type="submit" class="btn btn-primary ">查询</button>
+                                <button type="reset" class="btn btn-default">重置</button>
                             </div>
                         </div>
 
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                        <!-- /.box-body -->
+                    </form>
+                </div> <!-- /.card-body -->
+                <div class="card-body p-0">
 
-                        <table class="table table-striped">
-                            <tbody>
+                    <table class="table table-striped table-action">
+                        <thead>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                                    <input class="tableBox"  type="checkbox">
                                 </th>
-                                <th style="width: 350px">标题</th>
-                                <th style="width: 50px">作者</th>
-                                <th>分类</th>
-                                <th>标签</th>
-                                <th style="width: 50px"><i class="fa fa-commenting"></i></th>
-                                <th style="width: 90px">发布时间</th>
+                                <th style="width: 450px">标题</th>
+                                <th>Slug</th>
+                                <th>样式</th>
+                                <th style="width: 100px">发布时间</th>
+                                <th style="width: 100px">操作</th>
                             </tr>
+                        </thead>
+                        <tbody>
 
-                            #for(article : page.list)
-                            <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(article.id)"/>
-                                </td>
-                                <td>
-                                    <strong>
-                                        <a href="#(CPATH)/admin/article/write/#(article.id)">#(article.title ??)</a>
-                                        #if(article.isDraft())
-                                        （草稿）
-                                        #end
-                                    </strong>
-                                    <div class="jp-actionblock">
-                                        #if(article.isNormal())
-                                        <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/article/write/#(article.id)">编辑</a> |
-                                            <a href="javascript:;" onclick="draft('#(article.id??)')">草稿</a>
-                                            |
-                                            <a href="javascript:;" onclick="trash('#(article.id??)')"
-                                               class="red-action">垃圾箱</a> |
-                                            <a href="#(article.url ??)" target="_blank" class="red-action">查看</a>
+
+                        #for(item : page.list ??)
+                        <tr >
+                            <td>
+                                <input name="tableItem"  type="checkbox" value="#(item.id)"/>
+                            </td>
+                            <td>
+                                <strong>
+                                    <a href="#(CPATH)/admin/page/write/#(item.id)">#(item.title ??)</a>
+                                    #if(item.isDraft())
+                                    （草稿）
+                                    #end
+                                </strong>
+                            </td>
+                            <td>#(item.slug ??)</td>
+                            <td>#(item.style ?? "默认")</td>
+                            <td>#date(item.created ??)</td>
+                            <td>
+                                #if(item.isNormal())
+                                    <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
+                                    <a href="javascript:;" onclick="draft('#(item.id??)')"
+                                       style="color: #006505">草稿</a>
+                                    |
+                                    <a href="javascript:;" onclick="trash('#(item.id??)')"
+                                       style="color: #a00">垃圾箱</a> |
+                                    <a href="#(item.url ??)" target="_blank" style="color: #a00">查看</a>
+                                #elseif(item.isDraft())
+                                    <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
+                                    <a href="javascript:;" onclick="trash('#(item.id??)')"
+                                       style="color: #a00">垃圾箱</a>
+                                #else
+                                    <a href="javascript:;" onclick="draft('#(item.id??)')"
+                                       style="color: #006505">还原</a>
+                                    |
+                                    <a href="javascript:;" onclick="del('#(item.id??)')" style="color: #a00">永久删除</a>
+                                #end
+                            </td>
+                        </tr>
+                        #end
+
+                        </tbody>
+                    </table>
+
+
+                    #if(page.totalRow ??)
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="form-group form-group-check">
+                                        <div class="form-check">
+                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
+                                            <label class="form-check-label" for="checkall">全选</label>
                                         </div>
-                                        #elseif(article.isDraft())
-                                        <div class="jp-actionitem">
-                                            <a href="#(CPATH)/admin/article/write/#(article.id)">编辑</a> |
-                                            <a href="javascript:;" onclick="trash('#(article.id??)')"
-                                               class="red-action">垃圾箱</a>
-                                        </div>
-                                        #else
-                                        <div class="jp-actionitem">
-                                            <a href="javascript:;" onclick="draft('#(article.id??)')">还原</a>
-                                            |
-                                            <a href="javascript:;" onclick="del('#(article.id??)')" class="red-action">永久删除</a>
-                                        </div>
-                                        #end
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select class="form-control" name="action">
+                                            <option value="">请选择...</option>
+                                            <option value="doBatchDel" open-type="del-confirm">
+                                                批量删除
+                                            </option>
+                                            <option value="exportAction">
+                                                导出到Excel
+                                            </option>
+                                            <option value="printAction">
+                                                批量打印
+                                            </option>
+                                        </select>
                                     </div>
 
-                                </td>
-                                <td>
-                                    <a href="#(article.user.detailUrl ??)">
-                                        #(article.user.nickname ??)
-                                    </a>
-                                </td>
-                                <td>
-                                    #articleCategories(article.id,"category")
-                                    #for(category : categories)
-                                    <a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
-                                    #if(!for.last) , #end
-                                    #end
-                                    #end
-                                </td>
-                                <td>
-                                    #articleCategories(article.id,"tag")
-                                    #for(category : categories)
-                                    <a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
-                                    #if(!for.last) , #end
-                                    #end
-                                    #end
-                                </td>
-                                <td>
-                                    <a href="#(CPATH)/admin/article/comment?articleId=#(article.id)">
-                                    #(article.comment_count ??)
-                                    </a>
-                                </td>
-                                <td>#date(article.created)</td>
-                            </tr>
-                            #end
+                                    <div class="form-group col-lg-3">
+                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                    </div>
+                                </div>
+                            </div>
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.box -->
+                    #end
+
+
+                </div><!-- /.card-body -->
+
+
             </div>
-        </div>
-
+        </div><!-- /.container-fluid -->
     </section>
-
-
+    <!-- /.content -->
 </div>
+
 #end

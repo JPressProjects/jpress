@@ -1,13 +1,27 @@
 #define _paginate()
-<ul class="pagination pull-right">
-    #adminPaginate()
-    #for(page : pages)
-    <li class="paginate_button #(page.style ??)">
-        <a href="#(page.url??)">#(page.text??)</a>
-    </li>
-    #end
-    #end
-</ul>
+<nav aria-label="Page Navigation">
+    <ul class="pagination float-right m-0">
+        #adminPaginate(previousText='<',nextText='>')
+        <li class="pagination-total-text">共 #(page.totalRow ??) 条</li>
+        #for(page : pages)
+        <li class="page-item  #(page.style ??)"><a class="page-link" href="#(page.url??)">#(page.text??)</a></li>
+        #end
+
+        <select class="form-control pagination-pagesize">
+            <option value="10" #selectedIf(pageData && pageData.pageSize ==10)>10条/页</option>
+            <option value="20" #selectedIf(pageData && pageData.pageSize ==20)>20条/页</option>
+            <option value="30" #selectedIf(pageData && pageData.pageSize ==30)>30条/页</option>
+            <option value="40" #selectedIf(pageData && pageData.pageSize ==40)>40条/页</option>
+            <option value="50" #selectedIf(pageData && pageData.pageSize ==50)>50条/页</option>
+            <option value="60" #selectedIf(pageData && pageData.pageSize ==60)>60条/页</option>
+            <option value="70" #selectedIf(pageData && pageData.pageSize ==70)>70条/页</option>
+            <option value="80" #selectedIf(pageData && pageData.pageSize ==80)>80条/页</option>
+            <option value="90" #selectedIf(pageData && pageData.pageSize ==90)>90条/页</option>
+            <option value="100" #selectedIf(pageData && pageData.pageSize ==100)>100条/页</option>
+        </select>
+        #end
+    </ul>
+</nav>
 #end
 
 

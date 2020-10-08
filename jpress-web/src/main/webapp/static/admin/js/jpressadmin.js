@@ -1123,91 +1123,83 @@ function setSwitcheryByIdString(idString, checkedBool) {
 
 function initCkEdtiorComponent() {
     $('[data-render="ckeditor"]').each(function () {
-        var id = $(this).attr("id");
-        var height = $(this).attr("data-height");
-        if (!height) height = 350;
-        initCkEdtior(id, height);
+        initCkEdtior($(this)[0]);
     });
 }
 
 var _dialogShowEvent;
 
-function initCkEdtior(editor, height) {
-    CKEDITOR.config.toolbar =
-        [
-            ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat'],
-            ['Blockquote', 'CodeSnippet', 'Image', 'Html5audio', 'Html5video', 'Flash', 'Table', 'HorizontalRule'],
-            ['Link', 'Unlink', 'Anchor'],
-            ['Outdent', 'Indent'],
-            ['NumberedList', 'BulletedList'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            '/',
-            ['Format', 'FontSize'],
-            ['TextColor', 'BGColor'],
-            ['Undo', 'Redo'],
-            ['Maximize', 'Source']
-        ];
+function initCkEdtior(editor) {
+    // var SimpleUploadAdapter =
+    ClassicEditor.create(editor, {
+        // plugins: [SimpleUploadAdapter],
+        toolbar: {
+            items: [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                'fontColor',
+                'bulletedList',
+                'numberedList',
+                'highlight',
+                '|',
+                'indent',
+                'outdent',
+                'alignment',
+                '|',
+                'link',
+                'blockQuote',
+                'imageUpload',
+                'mediaEmbed',
+                'insertTable',
+                'code',
+                'codeBlock',
+                '|',
+                'undo',
+                'redo'
+            ]
+        },
+        language: 'zh-cn',
+        image: {
+            toolbar: [
+                'imageTextAlternative',
+                'imageStyle:full',
+                'imageStyle:side'
+            ]
+        },
+        table: {
+            contentToolbar: [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells',
+                'tableCellProperties',
+                'tableProperties'
+            ]
+        },
+        simpleUpload: {
+            // The URL that the images are uploaded to.
+            uploadUrl: 'http://example.com',
 
-    CKEDITOR.config.wordcount = {
-        showCharCount: true,
-    };
+            // Enable the XMLHttpRequest.withCredentials property.
+            withCredentials: true,
 
-    CKEDITOR.config.disallowedContent = 'img{width,height};img[width,height]';
-    CKEDITOR.addCss('.cke_editable img{max-width: 95%;}');
-
-    var myEditor = CKEDITOR.replace(editor, {
-        autoUpdateElement: true,
-        removePlugins: 'easyimage,cloudservices',
-        extraPlugins: 'entities,codesnippet,uploadimage,flash,image,wordcount,notification,html5audio,html5video,widget,widgetselection,clipboard,lineutils',
-        codeSnippet_theme: 'monokai_sublime',
-        height: height,
-        uploadUrl: Utils.getContextPath() + '/commons/ckeditor/upload',
-        imageUploadUrl: Utils.getContextPath() + '/commons/ckeditor/upload',
-        filebrowserUploadUrl: Utils.getContextPath() + '/commons/ckeditor/upload',
-        // filebrowserBrowseUrl: Utils.getContextPath() + '/admin/attachment/browse',
-        language: 'zh-cn'
-    });
-
-
-    myEditor.on('instanceReady', function () {
-        myEditor.setKeystroke(CKEDITOR.ALT.CTRL + 83, 'save'); //  Ctrl+s
-        myEditor.setKeystroke(1114195, 'save'); // mac command +s
-        // 扩展CKEditor的 ctrl + s 保存命令,方便全屏编辑时快捷保存
-        myEditor.addCommand('save', {
-            exec: function () {
-                var ds = window.doSubmit;
-                ds && ds();
+            // Headers sent along with the XMLHttpRequest to the upload server.
+            headers: {
+                'X-CSRF-TOKEN': 'CSRF-Token',
+                Authorization: 'Bearer <JSON Web Token>'
             }
-        });
-    });
+        },
+        licenseKey: '',
 
-
-    myEditor.on("dialogShow", function (event) {
-        // 方便调试
-        _dialogShowEvent = event;
-
-        var infoEle = event.data.getContentElement("info", "browse");
-        if (infoEle) infoEle.removeAllListeners();
-
-        var linkEle = event.data.getContentElement("Link", "browse");
-        if (linkEle) linkEle.removeAllListeners();
-
-        $(".cke_dialog_ui_button").each(function () {
-            if ("浏览服务器" == $(this).text()) {
-                $(this).off("click");
-                $(this).on("click", function (e) {
-                    e.stopPropagation();
-                    openlayer(event);
-                    return false;
-                })
-            } else {
-                $(this).off("click");
-            }
+    })
+        .then(editor => {
+            window.editor = editor;
         })
-
-    });
-
-    return myEditor;
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 

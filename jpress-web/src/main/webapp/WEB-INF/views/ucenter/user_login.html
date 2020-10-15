@@ -40,11 +40,11 @@
                   class="autoAjaxSubmit"
                   data-ok-function="loginSuccess">
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label>账号</label>
                     <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user">
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label>密码</label>
                     <input type="password" class="form-control" placeholder="及密码..." name="pwd">
                 </div>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 #if(option('login_qq_enable') || option('login_wechat_enable'))
-                <div class="form-group">
+                <div class="form-group row">
                     快速登录：
 
                     #if(option('login_wechat_enable'))

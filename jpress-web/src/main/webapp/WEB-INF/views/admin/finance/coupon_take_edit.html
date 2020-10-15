@@ -26,7 +26,7 @@
                         <input type="hidden" name="codeId" value="#(code.id ??)">
                         <div class="card-body ">
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">优惠券名称</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" value="#(coupon.title ??)" readonly>
@@ -34,7 +34,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">类型</label>
                                 <div class="col-sm-6">
                                     <input type="input"class="form-control" value="#(coupon.typeStr ??)" readonly>
@@ -42,7 +42,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">优惠券金额</label>
                                 <div class="col-sm-6">
                                     <input type="input"  class="form-control" value="#(coupon.amount ??)" readonly
@@ -52,7 +52,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">分配的用户Id</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="userId" class="form-control" value="#(code.user_id ??)" #(code ? 'readonly' : '')
@@ -62,7 +62,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">状态</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="status">

@@ -177,21 +177,21 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <!-- text input -->
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>联系人</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_username"
                                        id="addr_username"
                                        placeholder="收件人的姓名..." value="#(defaultAddress.username ??)">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>联系电话</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_mobile"
                                        id="addr_mobile"
                                        placeholder="收件人的电话..." value="#(defaultAddress.mobile ??)">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>地址</label>
                                 <div data-toggle="distpicker" class="form-inline" data-autoselect="3" id="distpicker">
                                     <select class="form-control" name="order.delivery_addr_province" id="addr_province"
@@ -203,14 +203,14 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>详细地址</label>
                                 <textarea class="form-control" name="order.delivery_addr_detail" id="addr_detail"
                                           placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"
                                           rows="2">#(defaultAddress.detail ??)</textarea>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>邮政编码</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_zipcode"
                                        id="addr_zipcode"
@@ -239,7 +239,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>支付方式</label>
 
                                 #if(wechatxConfig.isEnable())
@@ -299,7 +299,7 @@
 
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>买家留言</label>
                                 <textarea class="form-control" rows="3" name="payer_msg"
                                           placeholder="给卖家的留言信息"></textarea>

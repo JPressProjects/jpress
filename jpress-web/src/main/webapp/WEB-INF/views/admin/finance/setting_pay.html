@@ -23,7 +23,7 @@
                           id="optionForm">
                         <div class="card-body ">
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">网站域名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="填写网站的域名"
@@ -35,7 +35,7 @@
 
 
                             <h4 class="page-header">对私收款</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">个人微信收款</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"  data-for="wechatx_pay_enable"
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">微信收款二维码</label>
                                 <div class="col-sm-6">
                                     <button type="button"
@@ -60,7 +60,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">付款说明</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="wechatx_pay_message">#option("wechatx_pay_message")</textarea>
@@ -70,7 +70,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">个人支付宝收款</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"  data-for="alipayx_pay_enable" #checkedIf(option("alipayx_pay_enable"))>
@@ -78,7 +78,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">支付宝收款二维码</label>
                                 <div class="col-sm-6">
                                     <button type="button"
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">付款说明</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="alipayx_pay_message">#option("alipayx_pay_message")</textarea>
@@ -104,7 +104,7 @@
 
 
                             <h4 class="page-header">微信对公收款</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">开启</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"  data-for="wechat_pay_enable"
@@ -120,7 +120,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">商户号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="wechat_pay_mchId" class="form-control" value="#option('wechat_pay_mchId')"
@@ -131,7 +131,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">应用ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="wechat_pay_appid" class="form-control" value="#option('wechat_pay_appid')"
@@ -143,7 +143,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">密钥</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="wechat_pay_secretkey" class="form-control" value="#option('wechat_pay_secretkey')"
@@ -156,7 +156,7 @@
 
 
                             <h4 class="page-header">支付宝对公收款</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">开启</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"  data-for="alipay_pay_enable"
@@ -165,7 +165,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">开启用户扫码支付功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"  data-for="alipay_qrcode_pay_enable"
@@ -176,7 +176,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">合作者ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="alipay_pay_pid" class="form-control" value="#option('alipay_pay_pid')"
@@ -185,7 +185,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">应用ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="alipay_pay_appid" class="form-control" value="#option('alipay_pay_appid')"
@@ -195,7 +195,7 @@
 
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">支付宝公钥</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
@@ -205,7 +205,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">应用私钥</label>
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control" placeholder="..."
@@ -214,7 +214,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">收款账号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="alipay_pay_seller" class="form-control" value="#option('alipay_pay_seller')"
@@ -225,7 +225,7 @@
 
 
                             <h4 class="page-header">PayPal对公收款</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">开启</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"  data-for="paypal_pay_enable"
@@ -233,7 +233,7 @@
                                     <input type="hidden" id="paypal_pay_enable" name="paypal_pay_enable">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">商户号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="paypal_pay_clientid" class="form-control" value="#option('paypal_pay_clientid')"
@@ -243,7 +243,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">商户密钥</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="paypal_pay_clientsecret" class="form-control" value="#option('paypal_pay_clientsecret')"

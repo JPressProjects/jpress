@@ -36,17 +36,17 @@
         <div class="login-card-body">
             <form action="#(CPATH)#(action)" method="post" id="form" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin/index" data-fail-function="loginFail">
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label>账号</label>
                     <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label>密码</label>
                     <input type="password" class="form-control" placeholder="及密码..." name="pwd">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group row">
                     <label style="display: block;">验证码</label>
                         <input type="text" class="form-control " style="float: left;width: 70%;" placeholder="请输入验证码" name="captcha">
                         <img id="captchaImg" src="#(CPATH)/commons/captcha" style="float: right;height: 34px;" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>

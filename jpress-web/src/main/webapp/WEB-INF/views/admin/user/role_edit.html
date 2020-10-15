@@ -22,7 +22,7 @@
                     >
                         <input type="hidden" name="role.id" value="#(role.id ??)">
                         <div class="card-body ">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">名称</label>
 
                                 <div class="col-sm-6">
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">超级管理员</label>
                                 <div class="col-sm-6">
                                     #if(role)
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">描述</label>
                                 <div class="col-sm-6">
                                     <textarea rows="5" name="role.description" class="form-control"

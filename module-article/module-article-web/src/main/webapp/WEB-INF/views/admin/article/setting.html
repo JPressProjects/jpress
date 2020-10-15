@@ -35,7 +35,7 @@
 
 
                             <h4 class="page-first-header">评论功能</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-6">
                                     <div class="switchery-item">
@@ -67,7 +67,7 @@
 
 
                             <h4 class="page-header">评论邮件通知管理员</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"
@@ -78,7 +78,7 @@
                                     <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员邮箱。
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">邮件标题</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：你的文章#('#(article.title ??)')中有人发布评论啦~~~"
@@ -86,7 +86,7 @@
                                            value="#option('article_comment_email_notify_title')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">邮件内容</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：评论的id是：#('#(comment.id)')，评论的内容是：#('#(comment.content)')"
@@ -98,7 +98,7 @@
 
 
                             <h4 class="page-header">评论短信通知管理员</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">通知短信模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="2" class="form-control" placeholder="..."
@@ -120,7 +120,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">短信签名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
@@ -132,7 +132,7 @@
 
 
                             <h4 class="page-header">文章搜索功能</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"
@@ -142,7 +142,7 @@
                                            name="article_search_enable">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">搜索引擎</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="article_search_engine">
@@ -160,7 +160,7 @@
                             </div>
 
                             <h4 class="page-header">ElasticSearch 服务器配置</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">服务器地址</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="请填写ElasticSearch的IP地址或域名"
@@ -168,7 +168,7 @@
                                            value="#option('article_search_es_host')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">服务器端口号</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="以及端口号（默认值：9200）"
@@ -176,7 +176,7 @@
                                            value="#option('article_search_es_port')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">认证账号</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="ElasticSearch服务器的账号"
@@ -185,7 +185,7 @@
                                     <p class="help-block">若服务器不配置，不要填写任何内容。</p>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">密码</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="以及密码"
@@ -197,7 +197,7 @@
 
 
                             <h4 class="page-header">阿里云 OpenSearch 配置</h4>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">accesskey</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="您的阿里云的Access Key ID"
@@ -205,7 +205,7 @@
                                            value="#option('article_search_aliopensearch_accesskey')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">密钥 Secret</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="阿里云 Access Key ID 对应的 Access Key Secret"
@@ -213,7 +213,7 @@
                                            value="#option('article_search_aliopensearch_secret')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">应用名称 appName</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="您在阿里云创建的 OpenSearch 应用名称"
@@ -221,7 +221,7 @@
                                            value="#option('article_search_aliopensearch_appname')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">OpenSearch 的 API 域名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：http://opensearch-cn-qingdao.aliyuncs.com"
@@ -231,7 +231,7 @@
 
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">已配置自动同步数据库</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery"

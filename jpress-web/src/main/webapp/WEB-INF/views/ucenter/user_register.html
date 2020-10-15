@@ -62,16 +62,16 @@
     <div class="login-card text-center">
         <div class="login-card-body">
             <form action="#(CPATH)/user/doRegister" method="post" class="autoAjaxSubmit" data-ok-function="ok">
-                <div class="form-group">
+                <div class="form-group row">
                     <label>账号</label>
                     <input type="text" class="form-control" placeholder="请输入账号" name="username">
                 </div>
                 #if(option('reg_sms_validate_enable'))
-                <div class="form-group">
+                <div class="form-group row">
                     <label>手机号</label>
                     <input type="text" class="form-control" placeholder="请输入手机号" name="phone" id="phone">
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label>手机验证码</label>
                     <div>
                         <input type="text" class="form-control" style="width: 120px;float: left;margin-right: 10px"
@@ -83,19 +83,19 @@
                     </div>
                 </div>
                 #end
-                <div class="form-group">
+                <div class="form-group row">
                     <label>邮箱</label>
                     <input type="text" class="form-control" placeholder="请输入邮箱" name="email">
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label>密码</label>
                     <input type="password" class="form-control" placeholder="密码..." name="pwd">
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label>确认密码</label>
                     <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd">
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label>验证码</label>
                     <input type="text" class="form-control" placeholder="请输入验证码" name="captcha" id="captcha">
                     <img src="#(CPATH)/commons/captcha" onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();"

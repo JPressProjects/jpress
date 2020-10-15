@@ -122,7 +122,7 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <div class="form-horizontal">
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <input type="input" class="form-control input-lg" name="article.title"
                                        placeholder="请输入标题"
@@ -130,7 +130,7 @@
                                        value="#(article.title ??)">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12" style="padding-bottom: 2px">
                                 网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span id="slug"
                                                                                                                class="slugSpan"
@@ -151,7 +151,7 @@
                             <div data-render="ckeditor" name="article.content" id="ckeditor">#EditorContent(article.orignalContent ??)</div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="card card-outlinecard-solid">
                                     <div class="card-header with-border">
@@ -200,7 +200,7 @@
                             <h3 class="card-title">分类</h3>
                         </div>
                         <div class="card-body ">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 #for(category : categories)
                                 <div class="checkcard">
                                     <label>
@@ -274,7 +274,7 @@
                         <div class="card-body ">
 
                             #if(styles && styles.size() > 0 )
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <select class="form-control" name="article.style">
                                     <option value="">默认样式</option>
                                     #for(style : styles)
@@ -286,7 +286,7 @@
                             </div>
                             #end
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <input type="text" class="form-control" name="article.flag"
                                        placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
                                 #if(flags && flags.size() > 0)

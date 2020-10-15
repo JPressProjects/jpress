@@ -31,7 +31,7 @@
                           action="#(CPATH)/admin/wechat/doReplySave" method="post" data-ok-message="保存成功">
                         <input type="hidden" name="id" value="#(reply.id ??)">
                         <div class="card-body ">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">关键字</label>
 
                                 <div class="col-sm-6">
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">回复类型</label>
 
                                 <div class="col-sm-6">
@@ -72,7 +72,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">内容配置</label>
                                 <div class="col-sm-6">
 
@@ -103,21 +103,21 @@
                                             <!-- /.tab-pane -->
                                             <div class="tab-pane" id="tab_3">
                                                 <div class="card-body form-horizontal">
-                                                    <div class="form-group">
+                                                    <div class="form-group row">
                                                         <label class="col-sm-2 control-label">标题</label>
                                                         <div class="col-sm-10">
                                                             <input type="text" class="form-control" name="option.miniprogram_title"
                                                                    placeholder="小程序标题..." value="#(option.miniprogram_title ??)">
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group row">
                                                         <label class="col-sm-2 control-label">AppId</label>
                                                         <div class="col-sm-10">
                                                             <input type="text" class="form-control" name="option.miniprogram_appid"
                                                                    placeholder="微信小程序的AppId..." value="#(option.miniprogram_appid ??)">
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group row">
                                                         <label class="col-sm-2 control-label">跳转页面</label>
                                                         <div class="col-sm-10">
                                                             <input type="text" class="form-control" name="option.miniprogram_page"
@@ -125,7 +125,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group">
+                                                    <div class="form-group row">
                                                         <label  class="col-sm-2 control-label">封面图</label>
                                                         <div class="col-sm-10">
                                                             <button type="button"

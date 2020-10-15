@@ -41,7 +41,7 @@
                         <input type="hidden" name="category.id" value="#(category.id ??)">
                         <input type="hidden" name="category.type" value="tag">
                         <div class="card-body ">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">名称</label>
 
                                 <div class="col-sm-9">
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">内容</label>
                                 <div class="col-sm-9">
                                     <textarea rows="3" class="form-control" placeholder="..."
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">摘要</label>
                                 <div class="col-sm-9">
                                     <textarea rows="3" class="form-control" placeholder="..."
@@ -66,7 +66,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">排序</label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="此标签排序的序号"
@@ -77,7 +77,7 @@
                             </div>
 
                             #if(styles && styles.size() > 0 )
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">样式</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="category.style">
@@ -92,7 +92,7 @@
                             </div>
                             #end
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">显示到菜单</label>
                                 <div class="col-sm-9">
                                     <input type="checkcard" class="switchery" data-for="displayInMenu"
@@ -104,7 +104,7 @@
 
                             <h4 class="page-header">SEO</h4>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">描述</label>
 
                                 <div class="col-sm-9">
@@ -114,7 +114,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">关键字</label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="多个关键字用逗号隔开"

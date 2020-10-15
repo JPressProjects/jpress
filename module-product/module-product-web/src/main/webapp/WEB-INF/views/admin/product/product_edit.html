@@ -201,7 +201,7 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <div class="form-horizontal">
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <input type="input" class="form-control input-lg" name="product.title"
                                        placeholder="请输入标题"
@@ -211,7 +211,7 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12" style="padding-bottom: 2px">
                                 网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/product/<span id="slug"
                                                                                                                class="slugSpan"
@@ -228,7 +228,7 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="card card-outlinecard-solid">
                                     <div class="card-header with-border">
@@ -261,7 +261,7 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="card card-outlinecard-solid">
                                     <div class="card-header with-border">
@@ -276,7 +276,7 @@
                                     <!-- /.card-header -->
                                     <div class="card-body ">
                                         <div class="card-body ">
-                                            <div class="form-group">
+                                            <div class="form-group row">
                                                 <label class="col-sm-2 control-label">销售价格</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="price"
@@ -284,7 +284,7 @@
                                                     <p class="help-block">产品的实际销售价格。</p>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group row">
                                                 <label class="col-sm-2 control-label">原价</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="origin_price"
@@ -292,7 +292,7 @@
                                                     <p class="help-block">产品的原始价格，页面会使用删除线进行显示。</p>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group row">
                                                 <label class="col-sm-2 control-label">限时价格</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="limited_price"
@@ -300,7 +300,7 @@
                                                     <p class="help-block">限时价格（早鸟价）。</p>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group row">
                                                 <label class="col-sm-2 control-label">限时时间</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control datetimepicker" id="limited_time"
@@ -315,7 +315,7 @@
                         </div>
 
                         #if(memberGroups)
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="card card-outlinecard-solid">
                                     <div class="card-header with-border">
@@ -332,7 +332,7 @@
                                         <div class="card-body ">
 
                                             #for(group : memberGroups)
-                                            <div class="form-group">
+                                            <div class="form-group row">
                                                 <label class="col-sm-2 control-label">#(group.name ??)</label>
                                                 <div class="col-sm-6">
                                                     <input type="hidden" name="memberGroupIds" value="#(group.id ??)">
@@ -353,7 +353,7 @@
 
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="card card-outlinecard-solid">
                                     <div class="card-header with-border">
@@ -367,14 +367,14 @@
                                     <!-- /.card-header -->
                                     <div class="card-body ">
                                         <div class="card-body ">
-                                            <div class="form-group">
+                                            <div class="form-group row">
                                                 <label class="col-sm-2 control-label">启用分销功能</label>
                                                 <div class="col-sm-6">
                                                     <input type="checkcard" class="switchery"  data-for="dist_enable"  #checkedIf(product.dist_enable ??)>
                                                     <input type="hidden" id="dist_enable" name="product.dist_enable">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group row">
                                                 <label class="col-sm-2 control-label">分销收益</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="dist_amount"
@@ -390,7 +390,7 @@
 
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="card card-outlinecard-solid">
                                     <div class="card-header with-border">
@@ -436,7 +436,7 @@
                             <h3 class="card-title">分类</h3>
                         </div>
                         <div class="card-body ">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 #for(category : categories)
                                 <div class="checkcard">
                                     <label>
@@ -510,7 +510,7 @@
                         <div class="card-body ">
 
                             #if(styles && styles.size() > 0 )
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <select class="form-control" name="product.style">
                                     <option value="">默认样式</option>
                                     #for(style : styles)
@@ -522,7 +522,7 @@
                             </div>
                             #end
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <input type="text" class="form-control" name="product.flag"
                                        placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
                                 #if(flags && flags.size() > 0)

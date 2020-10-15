@@ -54,7 +54,7 @@
                 <input type="hidden" name="payment.id" value="#(payment.id ??)">
                 <div class="card-body ">
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-2 control-label">支付类型</label>
                         <div class="col-sm-8">
                             <select class="form-control" name="payment.pay_status">
@@ -66,7 +66,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-2 control-label">入账金额</label>
                         <div class="col-sm-8">
                             <input type="input" name="payment.pay_success_amount" class="form-control"
@@ -77,7 +77,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-2 control-label">时间</label>
                         <div class="col-sm-8">
                             <input type="input" name="payment.pay_success_time" class="form-control datetimepicker"
@@ -87,7 +87,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-2 control-label">备注</label>
                         <div class="col-sm-8">
                             <textarea rows="3" name="payment.pay_success_remarks" class="form-control"
@@ -96,7 +96,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label class="col-sm-2 control-label">入账截图（证明）</label>
                         <div class="col-sm-8 ">
                             <input type="hidden" id="paidProof" name="payment.pay_success_proof" value="">

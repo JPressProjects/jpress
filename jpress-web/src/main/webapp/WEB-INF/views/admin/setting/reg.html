@@ -24,7 +24,7 @@
 
                             <h4 class="page-first-header">用户登录</h4>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">登录成功跳转地址</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：/ucenter"
@@ -34,7 +34,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用微信登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_wechat_enable" type="checkcard" #checkedIf(option('login_wechat_enable'))>
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">微信 AppKey</label>
 
                                 <div class="col-sm-6">
@@ -51,7 +51,7 @@
                                            value="#option('login_wechat_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">微信 AppSecret</label>
 
                                 <div class="col-sm-6">
@@ -67,7 +67,7 @@
 
                             <!--<h4 class="page-header">QQ登录支持</h4>-->
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用QQ登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_qq_enable" type="checkcard" #checkedIf(option('login_qq_enable'))>
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">QQ AppKey </label>
 
                                 <div class="col-sm-6">
@@ -84,7 +84,7 @@
                                            value="#option('login_qq_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">QQ AppSecret</label>
 
                                 <div class="col-sm-6">
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用微博登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_weibo_enable" type="checkcard" #checkedIf(option('login_weibo_enable'))>
@@ -105,7 +105,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">微博 AppKey </label>
 
                                 <div class="col-sm-6">
@@ -114,7 +114,7 @@
                                            value="#option('login_weibo_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">微博 AppSecret</label>
 
                                 <div class="col-sm-6">
@@ -127,7 +127,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用GitHub登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_github_enable" type="checkcard" #checkedIf(option('login_github_enable'))>
@@ -135,7 +135,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">GitHub AppKey </label>
 
                                 <div class="col-sm-6">
@@ -144,7 +144,7 @@
                                            value="#option('login_github_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">GitHub AppSecret</label>
 
                                 <div class="col-sm-6">
@@ -157,7 +157,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用码云登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_gitee_enable" type="checkcard" #checkedIf(option('login_gitee_enable'))>
@@ -165,7 +165,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">码云 AppKey </label>
 
                                 <div class="col-sm-6">
@@ -174,7 +174,7 @@
                                            value="#option('login_gitee_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">码云 AppSecret</label>
 
                                 <div class="col-sm-6">
@@ -187,7 +187,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用钉钉登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_dingding_enable" type="checkcard" #checkedIf(option('login_dingding_enable'))>
@@ -195,7 +195,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">钉钉 AppKey </label>
 
                                 <div class="col-sm-6">
@@ -204,7 +204,7 @@
                                            value="#option('login_dingding_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">钉钉 AppSecret</label>
 
                                 <div class="col-sm-6">
@@ -219,7 +219,7 @@
 
                             <h4 class="page-header">用户注册</h4>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">开启注册功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery" data-for="reg_enable"
@@ -229,7 +229,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">默认所有注册用户未激活</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery" data-for="reg_users_is_not_activate"
@@ -242,7 +242,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用邮件验证</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery" data-for="reg_email_validate_enable"
@@ -252,7 +252,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">邮件标题</label>
 
                                 <div class="col-sm-6">
@@ -262,7 +262,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">邮件模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：尊敬的#('#(user.nickname ??)')，欢迎注册成为JPress会员，请先点击链接 #('#(url)') 进行激活..."
@@ -274,7 +274,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">手机短信验证</label>
                                 <div class="col-sm-6">
                                     <input type="checkcard" class="switchery" data-for="reg_sms_validate_enable"
@@ -283,7 +283,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">短信模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
@@ -294,7 +294,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">短信签名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"

@@ -109,17 +109,17 @@
             <div style="margin: 20px">
                 <form action="#(CPATH)/admin/attachment/doUpdate" id="form">
                     <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label>URL</label>
                         <textarea class="form-control" rows="2" readonly>#(CPATH)#(attachment.path ??)</textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label>文件名</label>
                         <input type="text" class="form-control" name="attachment.title" value="#(attachment.title ??)">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label>描述</label>
                         <textarea class="form-control" rows="3" name="attachment.description">#(attachment.description ??)</textarea>
                     </div>

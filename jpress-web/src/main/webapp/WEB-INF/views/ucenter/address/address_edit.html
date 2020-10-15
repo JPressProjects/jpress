@@ -50,21 +50,21 @@
 
                         <div class="card-body ">
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">联系人</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" placeholder="联系人" name="address.username" value="#(address.username ??)">
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">联系电话</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="联系电话" name="address.mobile" value="#(address.mobile ??)">
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">地址管理</label>
                                 <div class="col-sm-6">
                                     <div data-toggle="distpicker"  class="form-inline" data-autoselect="3">
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">详细地址</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control"
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">邮政编码</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="" name="address.zipcode" value="#(address.zipcode ??)">
@@ -93,7 +93,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-sm-2 control-label">设为默认</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="address_default" type="checkcard" #checkedIf(address.width_default??)>

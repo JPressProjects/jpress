@@ -53,14 +53,14 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkcard"/>
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
                                 <th style="width: 30%">名称</th>
                                 <th>描述</th>
                             </tr>
                             #for(role : roles)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkcard" value="#(role.id)" />
+                                <td><input class="dataItem" type="checkbox" value="#(role.id)" />
                                 </td>
                                 <td>
                                     <strong>

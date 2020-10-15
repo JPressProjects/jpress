@@ -107,7 +107,7 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">
-                                <input class="tablecard"  type="checkcard">
+                                <input class="tablecard"  type="checkbox">
                             </th>
                             <th style="width: 450px">标题</th>
                             <th>Slug</th>
@@ -122,7 +122,7 @@
                         #for(item : page.list ??)
                         <tr >
                             <td>
-                                <input name="tableItem"  type="checkcard" value="#(item.id)"/>
+                                <input name="tableItem"  type="checkbox" value="#(item.id)"/>
                             </td>
                             <td>
                                 <strong>
@@ -170,7 +170,7 @@
 
                                     <div class="form-group form-group-check">
                                         <div class="form-check">
-                                            <input class="form-check-input tablecard" type="checkcard" id="checkall">
+                                            <input class="form-check-input tablecard" type="checkbox" id="checkall">
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

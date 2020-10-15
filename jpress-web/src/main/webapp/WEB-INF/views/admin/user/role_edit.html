@@ -33,10 +33,10 @@
                                 <label class="col-sm-2 control-label">超级管理员</label>
                                 <div class="col-sm-6">
                                     #if(role)
-                                    <input type="checkcard" class="switchery" name="issuper" value="true"
+                                    <input type="checkbox" class="switchery" name="issuper" value="true"
                                            #checkedIf(role.isSuperAdmin())>
                                     #else
-                                    <input type="checkcard" class="switchery" name="issuper" value="true">
+                                    <input type="checkbox" class="switchery" name="issuper" value="true">
                                     #end
                                 </div>
                             </div>

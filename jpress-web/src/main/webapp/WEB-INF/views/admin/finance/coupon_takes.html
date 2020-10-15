@@ -57,7 +57,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkcard"/>
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
 
                                 <th style="">优惠码</th>
                                 <th style="width: 25%">优惠券名称</th>
@@ -67,7 +67,7 @@
                             </tr>
                             #for(code : page.list ??)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkcard" value="#(code.id ??)" />
+                                <td><input class="dataItem" type="checkbox" value="#(code.id ??)" />
                                 </td>
                                 <td>
                                     <strong>

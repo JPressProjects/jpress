@@ -61,9 +61,9 @@
                                         #for(permission : x.value)
                                         <tr>
                                             #if(hasPermission(user,permission.id))
-                                            <td><input type="checkcard" checked readonly class="switchery"></td>
+                                            <td><input type="checkbox" checked readonly class="switchery"></td>
                                             #else
-                                            <td><input type="checkcard" readonly class="switchery"></td>
+                                            <td><input type="checkbox" readonly class="switchery"></td>
                                             #end
                                             <td>#(permission.action_key ??)</td>
                                             <td>#(permission.text ??)</td>

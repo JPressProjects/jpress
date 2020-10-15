@@ -27,7 +27,7 @@
             <div class="col-sm-6">
                 #for(role : roles)
                 <div class="switchery-item">
-                    <input type="checkcard" class="switchery" name="roleId" value="#(role.id)"
+                    <input type="checkbox" class="switchery" name="roleId" value="#(role.id)"
                            #checkedIf(hasRole(user.id,role.id))>
                     #(role.name ??)
                     #if(role.isSuperAdmin())

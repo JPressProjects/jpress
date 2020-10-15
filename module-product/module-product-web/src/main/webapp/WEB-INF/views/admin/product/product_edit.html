@@ -370,7 +370,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 control-label">启用分销功能</label>
                                                 <div class="col-sm-6">
-                                                    <input type="checkcard" class="switchery"  data-for="dist_enable"  #checkedIf(product.dist_enable ??)>
+                                                    <input type="checkbox" class="switchery"  data-for="dist_enable"  #checkedIf(product.dist_enable ??)>
                                                     <input type="hidden" id="dist_enable" name="product.dist_enable">
                                                 </div>
                                             </div>
@@ -438,16 +438,16 @@
                         <div class="card-body ">
                             <div class="form-group row">
                                 #for(category : categories)
-                                <div class="checkcard">
+                                <div class="checkbox">
                                     <label>
                                         #for(i = 0; i < category.layerNumber; i++)
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                         #end
 
                                         #if(category.isCheck)
-                                        <input type="checkcard" name="category" value="#(category.id)" checked/>
+                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
                                         #else
-                                        <input type="checkcard" name="category" value="#(category.id)"/>
+                                        <input type="checkbox" name="category" value="#(category.id)"/>
                                         #end
 
 

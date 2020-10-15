@@ -24,9 +24,9 @@
     });
 
 
-    function checkAll(checkcard) {
+    function checkAll(checkbox) {
         $(".dataItem").each(function () {
-            $(this).prop('checked', checkcard.checked);
+            $(this).prop('checked', checkbox.checked);
         });
 
         dataItemChange();
@@ -107,7 +107,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkcard" value="0"/>
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
                                 </th>
                                 <th style="width: 150px">收货人</th>
                                 <th style="width: 150px">手机号码</th>
@@ -118,7 +118,7 @@
 
                             #for(data : page.list)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkcard" name="address.id" value="#(data.id)" onchange="dataItemChange(this)"/></td>
+                                <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id)" onchange="dataItemChange(this)"/></td>
                                 <td style="width: 50px">
                                     <strong><a href="#">#(data.username ??)</a></strong>
                                     <div class="jp-actionblock">

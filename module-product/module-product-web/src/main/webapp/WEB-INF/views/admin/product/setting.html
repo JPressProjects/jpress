@@ -37,25 +37,25 @@
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-6">
                                     <div class="switchery-item">
-                                        <input type="checkcard" class="switchery" data-for="product_comment_enable"
+                                        <input type="checkbox" class="switchery" data-for="product_comment_enable"
                                                #checkedIf(option("product_comment_enable","true"))>
                                         <input type="hidden" id="product_comment_enable" name="product_comment_enable">
                                         开启评论功能
                                     </div>
                                     <div class="switchery-item">
-                                        <input type="checkcard" class="switchery"
+                                        <input type="checkbox" class="switchery"
                                                data-for="product_comment_unlogin_enable" #checkedIf(option("product_comment_unlogin_enable"))>
                                         <input type="hidden" id="product_comment_unlogin_enable"
                                                name="product_comment_unlogin_enable"> 允许未登录用户发表评论
                                     </div>
                                     <div class="switchery-item">
-                                        <input type="checkcard" class="switchery"
+                                        <input type="checkbox" class="switchery"
                                                data-for="product_comment_review_enable" #checkedIf(option("product_comment_review_enable"))>
                                         <input type="hidden" id="product_comment_review_enable"
                                                name="product_comment_review_enable"> 评论必须经过管理员审核
                                     </div>
                                     <div class="switchery-item">
-                                        <input type="checkcard" class="switchery" data-for="product_comment_vcode_enable"
+                                        <input type="checkbox" class="switchery" data-for="product_comment_vcode_enable"
                                                #checkedIf(option("product_comment_vcode_enable","true"))>
                                         <input type="hidden" id="product_comment_vcode_enable"
                                                name="product_comment_vcode_enable"> 启用评论验证码功能
@@ -68,7 +68,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkcard" class="switchery"
+                                    <input type="checkbox" class="switchery"
                                            data-for="product_comment_email_notify_enable"
                                            #checkedIf(option("product_comment_email_notify_enable"))>
                                     <input type="hidden" id="product_comment_email_notify_enable"
@@ -99,7 +99,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkcard" class="switchery"
+                                    <input type="checkbox" class="switchery"
                                            data-for="product_comment_sms_notify_enable"
                                            #checkedIf(option("product_comment_sms_notify_enable"))>
                                     <input type="hidden" id="product_comment_sms_notify_enable"
@@ -133,7 +133,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">启用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkcard" class="switchery"
+                                    <input type="checkbox" class="switchery"
                                            data-for="product_search_enable"
                                            #checkedIf(option("product_search_enable","true"))>
                                     <input type="hidden" id="product_search_enable"
@@ -232,7 +232,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">已配置自动同步数据库</label>
                                 <div class="col-sm-6">
-                                    <input type="checkcard" class="switchery"
+                                    <input type="checkbox" class="switchery"
                                            data-for="product_search_aliopensearch_autosync"
                                            #checkedIf(option("product_search_aliopensearch_autosync"))>
                                     <input type="hidden" id="product_search_aliopensearch_autosync"

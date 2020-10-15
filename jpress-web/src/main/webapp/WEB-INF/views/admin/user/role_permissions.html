@@ -171,10 +171,10 @@
                                 <div class="card-header with-border">
                                     <div style="float: left;margin-right: 15px;">
                                         #if(role.isSuperAdmin())
-                                        <input  type="checkcard" class="myswitchery"
+                                        <input  type="checkbox" class="myswitchery"
                                                 data-gid="#(x.key ??)" data-rid="#(role.id ??)" checked disabled>
                                         #else
-                                        <input  type="checkcard" class="myswitchery"
+                                        <input  type="checkbox" class="myswitchery"
                                                 data-gid="#(x.key ??)" data-rid="#(role.id ??)" #for(group:groupCheck)  #if(x.key==group.key && group.value) checked #end  #end>
                                         #end
                                     </div>
@@ -194,7 +194,7 @@
 
                                         #for(permission : x.value)
                                         <tr>
-                                            <td><input type="checkcard" checked class="myswitchery"
+                                            <td><input type="checkbox" checked class="myswitchery"
                                                        disabled></td>
                                             <td>#(permission.action_key ??)</td>
                                             <td>#(permission.text ??)</td>
@@ -205,7 +205,7 @@
                                         #else
                                         #for(permission : x.value)
                                         <tr>
-                                            <td><input type="checkcard" class="myswitchery"
+                                            <td><input type="checkbox" class="myswitchery"
                                                        data-pid="#(permission.id ??)"
                                                        data-rid="#(role.id ??)"
                                                        #checkedIf(hasPermission(role,permission.id))></td>

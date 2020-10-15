@@ -97,7 +97,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkcard" value="0"/>
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
                                 </th>
                                 <th style="width: 350px">文件名</th>
                                 <th style="width: 100px">大小</th>
@@ -108,7 +108,7 @@
 
                             #for(f : files)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkcard" value="#(f.name ??)"/>
+                                <td><input class="dataItem" type="checkbox" value="#(f.name ??)"/>
                                 </td>
                                 <td>
                                     <strong>

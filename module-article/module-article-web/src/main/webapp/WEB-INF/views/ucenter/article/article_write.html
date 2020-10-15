@@ -198,16 +198,16 @@
                         <div class="card-body ">
                             <div class="form-group row">
                                 #for(category : categories)
-                                <div class="checkcard">
+                                <div class="checkbox">
                                     <label>
                                         #for(i = 0; i < category.layerNumber; i++)
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                         #end
 
                                         #if(category.isCheck)
-                                        <input type="checkcard" name="category" value="#(category.id)" checked/>
+                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
                                         #else
-                                        <input type="checkcard" name="category" value="#(category.id)"/>
+                                        <input type="checkbox" name="category" value="#(category.id)"/>
                                         #end
 
                                         #(category.title ??)

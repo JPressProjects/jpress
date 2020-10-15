@@ -85,7 +85,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">是否是推广券</label>
                                 <div class="col-sm-6">
-                                    <input type="checkcard" class="switchery" data-for="with_award" #checkedIf(coupon && coupon.with_award)>
+                                    <input type="checkbox" class="switchery" data-for="with_award" #checkedIf(coupon && coupon.with_award)>
                                     <input type="hidden" id="with_award" name="coupon.with_award">
                                     <p class="help-block">优惠券的拥有者可以把自己的优惠券给别人用，当优惠券被别人使用后，优惠券的拥有者可以获得奖励金额。 </p>
                                 </div>
@@ -105,7 +105,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">只有会员可用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkcard" class="switchery" data-for="with_member" #checkedIf(coupon && coupon.with_member)>
+                                    <input type="checkbox" class="switchery" data-for="with_member" #checkedIf(coupon && coupon.with_member)>
                                     <input type="hidden" id="with_member" name="coupon.with_member">
                                     <p class="help-block">必须是会员的用户才可以使用。 </p>
                                 </div>
@@ -115,7 +115,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">是否可用多次</label>
                                 <div class="col-sm-6">
-                                    <input type="checkcard" class="switchery" data-for="with_multi" #checkedIf(coupon && coupon.with_multi)>
+                                    <input type="checkbox" class="switchery" data-for="with_multi" #checkedIf(coupon && coupon.with_multi)>
                                     <input type="hidden" id="with_multi" name="coupon.with_multi">
                                     <p class="help-block">只要不过期，可以使用该优惠券购买多次产品。 </p>
                                 </div>
@@ -125,7 +125,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">只有领取人可用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkcard" class="switchery" data-for="with_owner" #checkedIf(coupon && coupon.with_owner)>
+                                    <input type="checkbox" class="switchery" data-for="with_owner" #checkedIf(coupon && coupon.with_owner)>
                                     <input type="hidden" id="with_owner" name="coupon.with_owner">
                                     <p class="help-block">只能是优惠券领取人可用，不能分享给其他人。 </p>
                                 </div>

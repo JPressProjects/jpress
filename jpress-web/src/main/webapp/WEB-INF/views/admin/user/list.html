@@ -155,7 +155,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkcard"/>
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
                                 <th style="width: 40px">ID</th>
                                 <th style="width: 20%">登录名</th>
@@ -168,7 +168,7 @@
                             #for(user : page.list ??)
                             <tr class="jp-actiontr">
                                 <td>
-                                    <input class="dataItem" type="checkcard" value="#(user.id)"/>
+                                    <input class="dataItem" type="checkbox" value="#(user.id)"/>
                                 </td>
                                 <td>#(user.id)</td>
                                 <td>

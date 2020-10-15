@@ -53,7 +53,7 @@
         display: flex;
     }
 
-    .jp-operation a, .cart-checkcard label {
+    .jp-operation a, .cart-checkbox label {
         font-size: 14px;
         color: #999;
         margin-right: 5px;
@@ -187,24 +187,24 @@
     }
 
 
-    function checkAll(checkcard) {
-        if (checkcard.checked) {
+    function checkAll(checkbox) {
+        if (checkbox.checked) {
             $(".dataItem").each(function () {
-                $(this).prop('checked', checkcard.checked);
+                $(this).prop('checked', checkbox.checked);
             });
         }
 
         var itemIds = getSelectedIds();
         if (itemIds == "") {
             alert("当前购物车并没有任何内容。");
-            if (checkcard.checked) {
-                $(checkcard).prop('checked', false);
+            if (checkbox.checked) {
+                $(checkbox).prop('checked', false);
             }
             return;
         }
 
 
-        if (checkcard.checked) {
+        if (checkbox.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
                     $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");
@@ -222,16 +222,16 @@
         }
     }
 
-    function dataItemChange(checkcard) {
-        var itemId = $(checkcard).val();
-        if (checkcard.checked) {
+    function dataItemChange(checkbox) {
+        var itemId = $(checkbox).val();
+        if (checkbox.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemId}, function () {
-                $(checkcard).parent().parent("tr").prop("style", "background-color: #fff4e8;");
+                $(checkbox).parent().parent("tr").prop("style", "background-color: #fff4e8;");
                 querySelectedItemCountAndPrice();
             })
         } else {
             ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemId}, function () {
-                $(checkcard).parent().parent("tr").prop("style", "");
+                $(checkbox).parent().parent("tr").prop("style", "");
                 querySelectedItemCountAndPrice();
             })
         }
@@ -327,7 +327,7 @@
                     <thead>
                     <tr>
                         <th style="width: 10px">
-                            <input name="dataItem" onchange="checkAll(this)" type="checkcard"/>
+                            <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                         </th>
                         <th style="width: 40%">商品</th>
                         <th>单价 #</th>
@@ -342,7 +342,7 @@
                     <tr #(userCart.selected ?
                     'style="background-color: #fff4e8;"' : '') >
                     <td>
-                        <input class="dataItem" #checkedIf(userCart.selected) type="checkcard" value="#(userCart.id ??)"
+                        <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
                                onchange="dataItemChange(this)"/>
                     </td>
                     <td>
@@ -404,8 +404,8 @@
         <div class="col-lg-4 bottom-content-action hidden-xs">
 
             <div class="select-all">
-                <div class="cart-checkcard">
-                    <input type="checkcard" class="jpcheckcard" onchange="checkAll(this)">
+                <div class="cart-checkbox">
+                    <input type="checkbox" class="jpcheckbox" onchange="checkAll(this)">
                     <label>全选</label>
                 </div>
             </div>

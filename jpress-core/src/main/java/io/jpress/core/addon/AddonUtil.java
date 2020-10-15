@@ -35,7 +35,6 @@ import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.core.addon.template.AddonTemplateEnv;
-import io.jpress.core.support.ehcache.EhcacheManager;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.sql.DataSource;
@@ -170,10 +169,10 @@ public class AddonUtil {
                 classLoader = new AddonClassLoader(addonInfo);
                 addonInfo.setClassLoader(classLoader);
 
-                List<String> classNameList = classLoader.getClassNameList();
-                for (String className : classNameList) {
-                    EhcacheManager.addMapping(className, classLoader);
-                }
+//                List<String> classNameList = classLoader.getClassNameList();
+//                for (String className : classNameList) {
+////                    EhcacheManager.addMapping(className, classLoader);
+//                }
                 classLoader.load();
             } catch (Exception e) {
                 LogKit.error(e.toString(), e);

@@ -227,7 +227,7 @@
         height: 60px;
         background-color: #fff;
         border-top: solid 1px #ccc;
-        box-shadow: -15px 10px 10px 10px #ccc;;
+        card-shadow: -15px 10px 10px 10px #ccc;;
     }
 
     .bottom-content {
@@ -256,8 +256,7 @@
         <!-- Main content -->
         <section class="invoice">
             <!-- title row -->
-            <div class="row">
-                <div class="col-xs-12">
+            <div class="container-fluid">
                     <h2 class="page-header">
                         <i class="fa fa-globe"></i> 产品信息.
                     </h2>
@@ -320,8 +319,7 @@
             </div>
             <!-- /.row -->
 
-            <div class="row">
-                <div class="col-xs-12">
+            <div class="container-fluid">
                     <h2 class="page-footer">
                         <small class="pull-right" style="font-size: 16px"> <span id="coupon-price-span" class="text-primary"></span> </small>
                         <br>
@@ -338,8 +336,7 @@
         <!-- Main content -->
         <section class="invoice">
             <!-- title row -->
-            <div class="row">
-                <div class="col-xs-12">
+            <div class="container-fluid">
                     <h2 class="page-header">
                         <i class="fa fa-globe"></i> 订单信息.
                     </h2>
@@ -351,12 +348,12 @@
             <div class="row">
                 <!-- accepted payments column -->
                 <div class="col-lg-6">
-                    <div class="box box-dashboard">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">收件人信息</h3>
+                    <div class="card card-dashboard">
+                        <div class="card-header with-border">
+                            <h3 class="card-title">收件人信息</h3>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
+                        <!-- /.card-header -->
+                        <div class="card-body">
                             <!-- text input -->
                             <div class="form-group">
                                 <label>联系人</label>
@@ -414,12 +411,12 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-lg-6">
-                    <div class="box box-dashboard">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">支付信息</h3>
+                    <div class="card card-dashboard">
+                        <div class="card-header with-border">
+                            <h3 class="card-title">支付信息</h3>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
+                        <!-- /.card-header -->
+                        <div class="card-body">
                             <div class="form-group">
                                 <label>支付方式</label>
 

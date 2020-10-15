@@ -12,16 +12,15 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
+        <div class="container-fluid">
+                <div class="card card-primary">
+                    <div class="card-header ">
+                        <h3 class="card-title"></h3>
                     </div>
-                    <!-- /.box-header -->
+                    <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
-                        <div class="box-body ">
+                        <div class="card-body ">
 
                             <h4 class="page-first-header">用户登录</h4>
 
@@ -38,7 +37,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用微信登录功能</label>
                                 <div class="col-sm-6">
-                                    <input class="switchery" data-for="login_wechat_enable" type="checkbox" #checkedIf(option('login_wechat_enable'))>
+                                    <input class="switchery" data-for="login_wechat_enable" type="checkcard" #checkedIf(option('login_wechat_enable'))>
                                     <input type="hidden" id="login_wechat_enable" name="login_wechat_enable">
                                 </div>
                             </div>
@@ -71,7 +70,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用QQ登录功能</label>
                                 <div class="col-sm-6">
-                                    <input class="switchery" data-for="login_qq_enable" type="checkbox" #checkedIf(option('login_qq_enable'))>
+                                    <input class="switchery" data-for="login_qq_enable" type="checkcard" #checkedIf(option('login_qq_enable'))>
                                     <input type="hidden" id="login_qq_enable" name="login_qq_enable">
                                 </div>
                             </div>
@@ -101,7 +100,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用微博登录功能</label>
                                 <div class="col-sm-6">
-                                    <input class="switchery" data-for="login_weibo_enable" type="checkbox" #checkedIf(option('login_weibo_enable'))>
+                                    <input class="switchery" data-for="login_weibo_enable" type="checkcard" #checkedIf(option('login_weibo_enable'))>
                                     <input id="login_weibo_enable" name="login_weibo_enable" type="hidden">
                                 </div>
                             </div>
@@ -131,7 +130,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用GitHub登录功能</label>
                                 <div class="col-sm-6">
-                                    <input class="switchery" data-for="login_github_enable" type="checkbox" #checkedIf(option('login_github_enable'))>
+                                    <input class="switchery" data-for="login_github_enable" type="checkcard" #checkedIf(option('login_github_enable'))>
                                     <input id="login_github_enable" name="login_github_enable" type="hidden">
                                 </div>
                             </div>
@@ -161,7 +160,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用码云登录功能</label>
                                 <div class="col-sm-6">
-                                    <input class="switchery" data-for="login_gitee_enable" type="checkbox" #checkedIf(option('login_gitee_enable'))>
+                                    <input class="switchery" data-for="login_gitee_enable" type="checkcard" #checkedIf(option('login_gitee_enable'))>
                                     <input id="login_gitee_enable" name="login_gitee_enable" type="hidden">
                                 </div>
                             </div>
@@ -191,7 +190,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用钉钉登录功能</label>
                                 <div class="col-sm-6">
-                                    <input class="switchery" data-for="login_dingding_enable" type="checkbox" #checkedIf(option('login_dingding_enable'))>
+                                    <input class="switchery" data-for="login_dingding_enable" type="checkcard" #checkedIf(option('login_dingding_enable'))>
                                     <input id="login_dingding_enable" name="login_dingding_enable" type="hidden">
                                 </div>
                             </div>
@@ -223,7 +222,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">开启注册功能</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="reg_enable"
+                                    <input type="checkcard" class="switchery" data-for="reg_enable"
                                            #checkedIf(option("reg_enable","true"))>
                                     <input type="hidden" id="reg_enable" name="reg_enable">
                                 </div>
@@ -233,7 +232,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">默认所有注册用户未激活</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="reg_users_is_not_activate"
+                                    <input type="checkcard" class="switchery" data-for="reg_users_is_not_activate"
                                            #checkedIf(option("reg_users_is_not_activate"))>
                                     <input type="hidden" id="reg_users_is_not_activate" name="reg_users_is_not_activate">
                                     <p class="help-block">
@@ -246,7 +245,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">启用邮件验证</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="reg_email_validate_enable"
+                                    <input type="checkcard" class="switchery" data-for="reg_email_validate_enable"
                                            #checkedIf(option("reg_email_validate_enable"))>
                                     <input type="hidden" id="reg_email_validate_enable"
                                            name="reg_email_validate_enable">
@@ -278,7 +277,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">手机短信验证</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="reg_sms_validate_enable"
+                                    <input type="checkcard" class="switchery" data-for="reg_sms_validate_enable"
                                            #checkedIf(option("reg_sms_validate_enable"))>
                                     <input type="hidden" id="reg_sms_validate_enable" name="reg_sms_validate_enable">
                                 </div>
@@ -307,15 +306,15 @@
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>

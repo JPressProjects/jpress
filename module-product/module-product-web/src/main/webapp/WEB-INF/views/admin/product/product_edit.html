@@ -198,7 +198,7 @@
             <div class="row">
                 <div class="col-lg-9">
 
-                    <!-- /.box-header -->
+                    <!-- /.card-header -->
                     <!-- form start -->
                     <div class="form-horizontal">
                         <div class="form-group">
@@ -230,17 +230,17 @@
 
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">产品缩略图</h3>
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <div class="card card-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">产品缩略图</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-card-tool" data-widget="collapse">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <div class="card-body ">
+                                        <div class="card-body ">
 
                                             #for(image : images)
                                             <div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
@@ -263,19 +263,19 @@
 
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">价格</h3>
+                                <div class="card card-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">价格</h3>
 
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-card-tool" data-widget="collapse">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <!-- /.card-header -->
+                                    <div class="card-body ">
+                                        <div class="card-body ">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">销售价格</label>
                                                 <div class="col-sm-6">
@@ -317,19 +317,19 @@
                         #if(memberGroups)
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">会员价</h3>
+                                <div class="card card-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">会员价</h3>
 
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-card-tool" data-widget="collapse">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <!-- /.card-header -->
+                                    <div class="card-body ">
+                                        <div class="card-body ">
 
                                             #for(group : memberGroups)
                                             <div class="form-group">
@@ -355,22 +355,22 @@
 
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">分销</h3>
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <div class="card card-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">分销</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-card-tool" data-widget="collapse">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <!-- /.card-header -->
+                                    <div class="card-body ">
+                                        <div class="card-body ">
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">启用分销功能</label>
                                                 <div class="col-sm-6">
-                                                    <input type="checkbox" class="switchery"  data-for="dist_enable"  #checkedIf(product.dist_enable ??)>
+                                                    <input type="checkcard" class="switchery"  data-for="dist_enable"  #checkedIf(product.dist_enable ??)>
                                                     <input type="hidden" id="dist_enable" name="product.dist_enable">
                                                 </div>
                                             </div>
@@ -392,19 +392,19 @@
 
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">其他</h3>
+                                <div class="card card-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">其他</h3>
 
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-card-tool" data-widget="collapse">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <!-- /.card-header -->
+                                    <div class="card-body ">
+                                        <div class="card-body ">
 
                                             #(fields.render())
 
@@ -418,8 +418,8 @@
                 </div>
 
                 <div class="col-lg-3">
-                    <div class="box box-solid">
-                        <div class="box-body ">
+                    <div class="card card-solid">
+                        <div class="card-body ">
                             <button type="button" data-status="1" class="btn btn-primary btn-sm submitBtn">上架
                             </button>
                             <button type="button" data-status="2" class="btn btn-default btn-sm submitBtn">草稿
@@ -431,23 +431,23 @@
 
 
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">分类</h3>
+                    <div class="card card-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">分类</h3>
                         </div>
-                        <div class="box-body ">
+                        <div class="card-body ">
                             <div class="form-group">
                                 #for(category : categories)
-                                <div class="checkbox">
+                                <div class="checkcard">
                                     <label>
                                         #for(i = 0; i < category.layerNumber; i++)
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                         #end
 
                                         #if(category.isCheck)
-                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                        <input type="checkcard" name="category" value="#(category.id)" checked/>
                                         #else
-                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                        <input type="checkcard" name="category" value="#(category.id)"/>
                                         #end
 
 
@@ -459,11 +459,11 @@
                         </div>
                     </div>
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">标签</h3>
+                    <div class="card card-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">标签</h3>
                         </div>
-                        <div class="box-body">
+                        <div class="card-body">
                             <select class="form-control product-tags" multiple="multiple" name="tag">
                                 #for(tag : tags)
                                 <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
@@ -482,18 +482,18 @@
                     </div>
 
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">产品主图</h3>
+                    <div class="card card-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">产品主图</h3>
                         </div>
-                        <div class="box-body no-padding">
+                        <div class="card-body no-padding">
                             <img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
                                  style="width: 100%;height: 200px"
                                  id="thumbnail">
                             <input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
                                    id="productThumbnail">
                         </div>
-                        <div class="box-footer">
+                        <div class="card-footer">
                             <button type="button" class="btn-image-browser btn btn-default btn-sm "
                                     for-src="thumbnail"
                                     for-input="productThumbnail">选择图片
@@ -503,11 +503,11 @@
                     </div>
 
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">模板样式</h3>
+                    <div class="card card-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">模板样式</h3>
                         </div>
-                        <div class="box-body ">
+                        <div class="card-body ">
 
                             #if(styles && styles.size() > 0 )
                             <div class="form-group">

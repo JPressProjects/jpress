@@ -13,17 +13,17 @@
 #define css()
 <style>
 
-    .box-dashboard {
+    .card-dashboard {
         position: relative;
         border-radius: 3px;
         background: #ffffff;
         border: 1px solid #d2d6de;
         margin-bottom: 20px;
         width: 100%;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+        card-shadow: 0 1px 1px rgba(0, 0, 0, 0);
     }
 
-    .box-dashboard .box-header .box-title {
+    .card-dashboard .card-header .card-title {
         display: inline-block;
         font-size: 14px;
         margin: 0;
@@ -46,13 +46,12 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-primary">
+                    <div class="card-header with-border">
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body ">
 
                         <table class="table table-striped" id="table-address">
                             <tbody>
@@ -110,12 +109,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
 

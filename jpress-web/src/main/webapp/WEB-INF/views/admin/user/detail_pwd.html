@@ -1,12 +1,12 @@
 #include("_user_detail_layout.html")
 #@user_detail_layout("pwd")
 #define detail()
-<div class="box-header ">
-    <h3 class="box-title"></h3>
+<div class="card-header ">
+    <h3 class="card-title"></h3>
 </div>
 <form class="form-horizontal" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doUpdatePwd">
     <input name="uid" type="hidden" value="#(user.id)">
-    <div class="box-body ">
+    <div class="card-body ">
 
         <div class="form-group">
             <label class="col-sm-2 control-label">旧密码</label>
@@ -31,9 +31,9 @@
 
     </div>
 
-    <div class="box-footer">
+    <div class="card-footer">
         <div class="col-sm-offset-2 col-sm-10 submit-block">
-            <div class="box-submit">
+            <div class="card-submit">
                 <button type="submit" class="btn btn-primary">提交</button>
             </div>
         </div>

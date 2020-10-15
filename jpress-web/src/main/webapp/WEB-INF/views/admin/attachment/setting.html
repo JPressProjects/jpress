@@ -10,17 +10,15 @@
     </section>
 
     <section class="content">
-
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
+        <div class="container-fluid">
+                <div class="card card-primary">
+                    <div class="card-header ">
+                        <h3 class="card-title"></h3>
                     </div>
-                    <!-- /.box-header -->
+                    <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
-                        <div class="box-body ">
+                        <div class="card-body ">
 
 
                             <h4 class="page-first-header">附件大小限制</h4>
@@ -48,7 +46,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否启用附件同步</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_enable"
+                                    <input type="checkcard" class="switchery" data-for="attachment_aliyunoss_enable"
                                            #checkedIf(option("attachment_aliyunoss_enable"))>
                                     <input type="hidden" id="attachment_aliyunoss_enable"
                                            name="attachment_aliyunoss_enable">
@@ -58,7 +56,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">OSS删除同步</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_del"
+                                    <input type="checkcard" class="switchery" data-for="attachment_aliyunoss_del"
                                            #checkedIf(option("attachment_aliyunoss_del"))>
                                     <input type="hidden" id="attachment_aliyunoss_del"
                                            name="attachment_aliyunoss_del">
@@ -106,7 +104,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否启用水印</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="attachment_watermark_enable"
+                                    <input type="checkcard" class="switchery" data-for="attachment_watermark_enable"
                                            #checkedIf(option("attachment_watermark_enable"))>
                                     <input type="hidden" id="attachment_watermark_enable"
                                            name="attachment_watermark_enable">
@@ -160,19 +158,19 @@
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
+<!--        </div>-->
 
     </section>
 

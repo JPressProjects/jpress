@@ -3,7 +3,7 @@
 
 #define css()
 <style>
-    .message-box{
+    .message-card{
         padding: 30px;
         font-size: 16px;
         color: #000;
@@ -34,7 +34,7 @@
     </div>
 
     #if(payConfig && payConfig.message)
-    <div class="col-lg-12 message-box" >
+    <div class="col-lg-12 message-card" >
         #(payConfig.message)
     </div>
     #end

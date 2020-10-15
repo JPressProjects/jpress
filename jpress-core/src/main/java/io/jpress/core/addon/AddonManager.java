@@ -33,6 +33,7 @@ import com.jfinal.template.expr.ast.MethodKit;
 import io.jboot.Jboot;
 import io.jboot.aop.InterceptorBuilder;
 import io.jboot.aop.InterceptorBuilderManager;
+import io.jboot.aop.InterceptorCache;
 import io.jboot.aop.cglib.JbootCglibProxyFactory;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
@@ -777,7 +778,7 @@ public class AddonManager implements JbootEventListener {
                 List<InterceptorBuilder> builders = InterceptorBuilderManager.me().getInterceptorBuilders();
                 builders.removeIf(interceptorBuilder -> interceptorBuilder.getClass() == c);
             }
-            JbootCglibProxyFactory.IntersCache.clear();
+            InterceptorCache.clear();
         }
     }
 

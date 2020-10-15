@@ -59,9 +59,8 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-primary">
 
                     <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                           data-ok-function="ok"
@@ -72,7 +71,7 @@
                         <input type="hidden" name="productId" value="#(comment.productId)">
                         <input type="hidden" name="pid" value="#(comment.id)">
 
-                        <div class="box-body ">
+                        <div class="card-body ">
                             <div class="post">
                                 <div class="user-block">
                                     <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
@@ -114,15 +113,15 @@
                             </div>
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
                             <div class="col-sm-11 submit-block" style="padding-left: 20px">
-                                <div class="box-submit">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary"> 回 复</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>

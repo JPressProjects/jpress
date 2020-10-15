@@ -4,7 +4,7 @@
 #define layout_script()
 
 #end
-<div class="box-header with-border">
+<div class="card-header with-border">
     <form class="form-horizontal actionPanel" action="#(CPATH)/admin/user/detail/order/#(user.id)" method="get">
         <div class="row">
             <div class="form-group col-xs-5">
@@ -24,13 +24,13 @@
                 <a href="#(CPATH)/admin/user/detail/order/#(user.id)" type="reset" class="btn btn-default">重置</a>
             </div>
         </div>
-        <!-- /.box-body -->
+        <!-- /.card-body -->
     </form>
 
 
 </div>
-<!-- /.box-header -->
-<div class="box-body ">
+<!-- /.card-header -->
+<div class="card-body ">
 
     <table class="table table-striped">
         <tbody>
@@ -45,8 +45,8 @@
         #for(order : userOrderPage.list ??)
         <tr>
             <td colspan="5" bgcolor="#fff">
-                <div class="box box-dashboard" style="margin-bottom: 0px">
-                    <div class="box-header with-border">
+                <div class="card card-dashboard" style="margin-bottom: 0px">
+                    <div class="card-header with-border">
                         <div class="col-lg-10">
                             订单号：#(order.ns ??)
                             总金额：<span style="padding-right: 20px">#(order.orderRealAmount ??)</span>
@@ -58,12 +58,12 @@
 
                         </div>
                         <div class="col-lg-2" style="text-align: right">
-                            <h3 class="box-title">
+                            <h3 class="card-title">
                             </h3>
                         </div>
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body no-padding">
+                    <!-- /.card-header -->
+                    <div class="card-body no-padding">
                         <table class="table table-striped">
                             <tbody>
                             #for(item : order.items)
@@ -85,8 +85,8 @@
         </tbody>
     </table>
 </div>
-<!-- /.box-body -->
-<div class="box-footer">
+<!-- /.card-body -->
+<div class="card-footer">
     <div class="row">
         <div class="col-sm-12">
             #@_paginate()

@@ -106,7 +106,7 @@
             <div class="row">
                 <div class="col-lg-9">
 
-                    <!-- /.box-header -->
+                    <!-- /.card-header -->
                     <!-- form start -->
                     <div class="form-horizontal">
                         <div class="form-group">
@@ -142,19 +142,19 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">属性设置</h3>
+                                <div class="card card-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">属性设置</h3>
 
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-card-tool" data-widget="collapse">
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>
 
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <div class="card-body ">
+                                        <div class="card-body ">
 
                                             <div class="form-group">
                                                 <label class="col-sm-2 control-label">SEO关键字</label>
@@ -186,28 +186,28 @@
                 </div>
 
                 <div class="col-lg-3">
-                    <div class="box box-solid">
-                        <div class="box-body ">
+                    <div class="card card-solid">
+                        <div class="card-body ">
                             <button type="button" id="submit" class="btn btn-primary btn-sm ">保存并投稿</button>
                         </div>
                     </div>
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">分类</h3>
+                    <div class="card card-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">分类</h3>
                         </div>
-                        <div class="box-body ">
+                        <div class="card-body ">
                             <div class="form-group">
                                 #for(category : categories)
-                                <div class="checkbox">
+                                <div class="checkcard">
                                     <label>
                                         #for(i = 0; i < category.layerNumber; i++)
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                         #end
 
                                         #if(category.isCheck)
-                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                        <input type="checkcard" name="category" value="#(category.id)" checked/>
                                         #else
-                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                        <input type="checkcard" name="category" value="#(category.id)"/>
                                         #end
 
                                         #(category.title ??)
@@ -218,11 +218,11 @@
                         </div>
                     </div>
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">标签</h3>
+                    <div class="card card-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">标签</h3>
                         </div>
-                        <div class="box-body">
+                        <div class="card-body">
                             <select class="form-control article-tags" multiple="multiple" name="tag">
                                 #for(tag : tags)
                                 <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
@@ -239,11 +239,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">缩略图</h3>
+                    <div class="card card-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">缩略图</h3>
                         </div>
-                        <div class="box-body no-padding">
+                        <div class="card-body no-padding">
                             <img src="#(CPATH)#(article.thumbnail ??'/static/commons/img/nothumbnail.jpg')"
                                  style="width: 100%;height: 150px"
                                  id="thumbnail">
@@ -251,7 +251,7 @@
                                    name="article.thumbnail"
                                    id="articleThumbnail">
                         </div>
-                        <div class="box-footer">
+                        <div class="card-footer">
                             <span class="btn  btn-default btn-sm fileinput-button">
                                 <span>选择图片</span>
                                 <input id="cfile" type="file" name="files[]" multiple>

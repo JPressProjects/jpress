@@ -56,10 +56,9 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-primary">
+                    <div class="card-header with-border">
                         <form class="form-horizontal actionPanel" action="#(CPATH)/admin/attachment/root" method="get">
                             <input type="hidden" name="status" value="#para('status')">
                             <div class="row">
@@ -77,7 +76,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.box-body -->
+                            <!-- /.card-body -->
                         </form>
 
                         <div class="row actionPanel">
@@ -91,14 +90,14 @@
                         </div>
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body ">
 
                         <table class="table table-striped">
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkcard" value="0"/>
                                 </th>
                                 <th style="width: 350px">文件名</th>
                                 <th style="width: 100px">大小</th>
@@ -109,7 +108,7 @@
 
                             #for(f : files)
                             <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(f.name ??)"/>
+                                <td><input class="dataItem" type="checkcard" value="#(f.name ??)"/>
                                 </td>
                                 <td>
                                     <strong>
@@ -139,18 +138,16 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12">
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
 

@@ -129,7 +129,7 @@
 
         <div class="row">
             <div class="col-lg-9">
-                <div class="box box-primary">
+                <div class="card card-primary">
                     <form class="form-horizontal" autocomplete="off">
                         #if(f)
                         #if(isImage(f))
@@ -137,20 +137,20 @@
                             <img src="#(CPATH+prefixPath)/#(d ??)/#(f ??)" style="width: 50%">
                         </div>
                         #else
-                        <div class="box-body no-padding">
+                        <div class="card-body no-padding">
                             <div id="editor" for-filename="#(f ??)">#(editFileContent ??)</div>
                         </div>
 
-                        <!-- /.box-body -->
-                        <div class="box-footer">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                                <div class="card-submit">
                                     <button type="button" onclick="doSubmit()" class="btn btn-primary">更新文件</button>
                                     提示：按快捷键 ctrl + s 也能保存哦。（mac电脑：command+s）
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                         #end
                         #end
 
@@ -158,14 +158,14 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title">当前目录：/#(d ??)</h3>
+                <div class="card card-primary">
+                    <div class="card-header ">
+                        <h3 class="card-title">当前目录：/#(d ??)</h3>
                     </div>
-                    <!-- /.box-header -->
+                    <!-- /.card-header -->
                     <!-- form start -->
                     <form class="form-horizontal" autocomplete="off">
-                        <div class="box-body no-padding">
+                        <div class="card-body no-padding">
                             <div class="form-group">
                                 <div class="col-sm-12">
 

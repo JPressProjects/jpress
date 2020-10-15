@@ -14,11 +14,10 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
+        <div class="container-fluid">
+                <div class="card card-primary">
+                    <div class="card-header ">
+                        <h3 class="card-title"></h3>
                     </div>
                     <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/finance/coupon/doSave"
@@ -27,7 +26,7 @@
                     >
                         <input type="hidden" name="coupon.id" value="#(coupon.id ??)">
                         <input type="hidden" name="coupon.create_user_id" value="#(coupon.create_user_id ?? USER.id)">
-                        <div class="box-body ">
+                        <div class="card-body ">
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">优惠券名称</label>
@@ -88,7 +87,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否是推广券</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="with_award" #checkedIf(coupon && coupon.with_award)>
+                                    <input type="checkcard" class="switchery" data-for="with_award" #checkedIf(coupon && coupon.with_award)>
                                     <input type="hidden" id="with_award" name="coupon.with_award">
                                     <p class="help-block">优惠券的拥有者可以把自己的优惠券给别人用，当优惠券被别人使用后，优惠券的拥有者可以获得奖励金额。 </p>
                                 </div>
@@ -108,7 +107,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">只有会员可用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="with_member" #checkedIf(coupon && coupon.with_member)>
+                                    <input type="checkcard" class="switchery" data-for="with_member" #checkedIf(coupon && coupon.with_member)>
                                     <input type="hidden" id="with_member" name="coupon.with_member">
                                     <p class="help-block">必须是会员的用户才可以使用。 </p>
                                 </div>
@@ -118,7 +117,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否可用多次</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="with_multi" #checkedIf(coupon && coupon.with_multi)>
+                                    <input type="checkcard" class="switchery" data-for="with_multi" #checkedIf(coupon && coupon.with_multi)>
                                     <input type="hidden" id="with_multi" name="coupon.with_multi">
                                     <p class="help-block">只要不过期，可以使用该优惠券购买多次产品。 </p>
                                 </div>
@@ -128,7 +127,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">只有领取人可用</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="with_owner" #checkedIf(coupon && coupon.with_owner)>
+                                    <input type="checkcard" class="switchery" data-for="with_owner" #checkedIf(coupon && coupon.with_owner)>
                                     <input type="hidden" id="with_owner" name="coupon.with_owner">
                                     <p class="help-block">只能是优惠券领取人可用，不能分享给其他人。 </p>
                                 </div>
@@ -197,15 +196,15 @@
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
                             <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>

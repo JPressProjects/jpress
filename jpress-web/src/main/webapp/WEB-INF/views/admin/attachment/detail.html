@@ -17,8 +17,8 @@
 
     $(document).ready(function () {
         var height = $(document).height();
-        $("#image-box").css("height", height + "px");
-        $("#image-box").css("min-height", height + "px");
+        $("#image-card").css("height", height + "px");
+        $("#image-card").css("min-height", height + "px");
         $("#image-info").css("height", height + "px");
         $("#image-info").css("min-height", height + "px");
         $("img").css("max-height", height + "px");
@@ -44,7 +44,7 @@
 #define content()
 
 <div class="row">
-    <div class="col-xs-7" style="background: #ffffff" id="image-box">
+    <div class="col-xs-7" style="background: #ffffff" id="image-card">
         <div class="row">
 
             #if(attachment.isImage())

@@ -52,11 +52,10 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-primary">
 
-                    <div class="box-header  ">
+                    <div class="card-header  ">
                         <div class="actionPanel">
                             <div class="col-xs-12">
                                 <div class="btn-group">
@@ -73,17 +72,17 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body waterfall-container">
+                    <!-- /.card-header -->
+                    <div class="card-body waterfall-container">
 
                         #for(x : permissionGroup)
                         <div class="waterfall-item">
-                            <div class="box box-dashboard">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">#(x.key ??)</h3>
+                            <div class="card card-dashboard">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">#(x.key ??)</h3>
                                 </div>
-                                <!-- /.box-header -->
-                                <div class="box-body no-padding">
+                                <!-- /.card-header -->
+                                <div class="card-body no-padding">
                                     <table class="table table-striped">
                                         <tbody>
                                         <tr>

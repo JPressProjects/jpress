@@ -70,9 +70,8 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-primary">
 
                     <form class="form-horizontal autoAjaxSubmit" autocomplete="off" action="#(CPATH)/ucenter/doSaveAvatar"
                           method="post"
@@ -84,7 +83,7 @@
                         <input type="hidden" name="w" id="w">
                         <input type="hidden" name="h" id="h">
                         <input type="hidden" name="uid" value="#(user.id)">
-                        <div class="box-body ">
+                        <div class="card-body ">
                             <div id="uploader">
                                 <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
                                     <i class="glyphicon glyphicon-plus"></i>
@@ -100,9 +99,9 @@
                             </div>
                         </div>
 
-                        <div class="box-footer">
+                        <div class="card-footer">
                             <div class="col-sm-10 submit-block">
-                                <div class="box-submit">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary"> 保存选择区域</button>
                                 </div>
                             </div>

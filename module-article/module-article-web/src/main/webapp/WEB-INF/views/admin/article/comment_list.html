@@ -64,10 +64,9 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-primary">
+                    <div class="card-header with-border">
 
                         <form class="form-horizontal actionPanel" action="#(CPATH)/admin/article/comment" method="get">
                             <input type="hidden" name="status" value="#para('status')">
@@ -86,7 +85,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.box-body -->
+                            <!-- /.card-body -->
                         </form>
 
                         <div class="row actionPanel">
@@ -97,14 +96,14 @@
                         </div>
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body ">
 
                         <table class="table table-striped">
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input name="dataItem" onchange="checkAll(this)" type="checkcard"/>
                                 </th>
                                 <th style="width: 100px">作者</th>
                                 <th style="width: 40%">内容</th>
@@ -116,7 +115,7 @@
                             #for(comment : page.list)
                             <tr class="jp-actiontr">
                                 <td>
-                                    <input class="dataItem" type="checkbox" value="#(comment.id)"/>
+                                    <input class="dataItem" type="checkcard" value="#(comment.id)"/>
                                 </td>
                                 <td>
                                     <a href="#(comment.user.detailUrl ??)">
@@ -160,8 +159,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12">
                                 #@_paginate()
@@ -169,10 +168,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
 

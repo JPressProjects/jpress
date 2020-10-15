@@ -28,7 +28,7 @@
         height: 60px;
         background-color: #fff;
         border-top: 1px solid #F0F0F0;
-        box-shadow: 0 -1px 8px rgba(0, 1, 1, .08);
+        card-shadow: 0 -1px 8px rgba(0, 1, 1, .08);
         z-index: 9999;
     }
 
@@ -40,7 +40,7 @@
         margin: 0 auto;
         padding-left: 40px;
         padding-right: 40px;
-        box-sizing: border-box;
+        card-sizing: border-card;
         z-index: 9999;
     }
 
@@ -53,7 +53,7 @@
         display: flex;
     }
 
-    .jp-operation a, .cart-checkbox label {
+    .jp-operation a, .cart-checkcard label {
         font-size: 14px;
         color: #999;
         margin-right: 5px;
@@ -187,24 +187,24 @@
     }
 
 
-    function checkAll(checkbox) {
-        if (checkbox.checked) {
+    function checkAll(checkcard) {
+        if (checkcard.checked) {
             $(".dataItem").each(function () {
-                $(this).prop('checked', checkbox.checked);
+                $(this).prop('checked', checkcard.checked);
             });
         }
 
         var itemIds = getSelectedIds();
         if (itemIds == "") {
             alert("当前购物车并没有任何内容。");
-            if (checkbox.checked) {
-                $(checkbox).prop('checked', false);
+            if (checkcard.checked) {
+                $(checkcard).prop('checked', false);
             }
             return;
         }
 
 
-        if (checkbox.checked) {
+        if (checkcard.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
                 $(".dataItem").each(function () {
                     $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");
@@ -222,16 +222,16 @@
         }
     }
 
-    function dataItemChange(checkbox) {
-        var itemId = $(checkbox).val();
-        if (checkbox.checked) {
+    function dataItemChange(checkcard) {
+        var itemId = $(checkcard).val();
+        if (checkcard.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemId}, function () {
-                $(checkbox).parent().parent("tr").prop("style", "background-color: #fff4e8;");
+                $(checkcard).parent().parent("tr").prop("style", "background-color: #fff4e8;");
                 querySelectedItemCountAndPrice();
             })
         } else {
             ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemId}, function () {
-                $(checkbox).parent().parent("tr").prop("style", "");
+                $(checkcard).parent().parent("tr").prop("style", "");
                 querySelectedItemCountAndPrice();
             })
         }
@@ -312,8 +312,7 @@
 <div class="content-wrapper" style="min-height: 1126px;">
     <!-- Main content -->
     <section class="invoice">
-        <div class="row">
-            <div class="col-xs-12">
+        <div class="container-fluid">
                 <h2 class="page-header">
                     <i class="fa fa-globe"></i> 购物车.
                 </h2>
@@ -328,7 +327,7 @@
                     <thead>
                     <tr>
                         <th style="width: 10px">
-                            <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                            <input name="dataItem" onchange="checkAll(this)" type="checkcard"/>
                         </th>
                         <th style="width: 40%">商品</th>
                         <th>单价 #</th>
@@ -343,7 +342,7 @@
                     <tr #(userCart.selected ?
                     'style="background-color: #fff4e8;"' : '') >
                     <td>
-                        <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
+                        <input class="dataItem" #checkedIf(userCart.selected) type="checkcard" value="#(userCart.id ??)"
                                onchange="dataItemChange(this)"/>
                     </td>
                     <td>
@@ -383,7 +382,7 @@
                     </tbody>
                 </table>
 
-                <div class="box-footer">
+                <div class="card-footer">
                     <div class="row">
                         <div class="col-sm-12">
                             #@_paginate()
@@ -405,8 +404,8 @@
         <div class="col-lg-4 bottom-content-action hidden-xs">
 
             <div class="select-all">
-                <div class="cart-checkbox">
-                    <input type="checkbox" class="jpcheckbox" onchange="checkAll(this)">
+                <div class="cart-checkcard">
+                    <input type="checkcard" class="jpcheckcard" onchange="checkAll(this)">
                     <label>全选</label>
                 </div>
             </div>

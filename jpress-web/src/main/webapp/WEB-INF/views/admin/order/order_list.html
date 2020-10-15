@@ -42,8 +42,8 @@
         <div class="row">
 
             <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-red">
+                <!-- small card -->
+                <div class="small-card bg-red">
                     <div class="inner">
                         <h3>#(todayOrderCount ?? 0)</h3>
 
@@ -57,8 +57,8 @@
             <!-- ./col -->
 
             <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
+                <!-- small card -->
+                <div class="small-card bg-aqua">
                     <div class="inner">
                         <h3>#(monthOrderCount ?? 0)</h3>
 
@@ -71,8 +71,8 @@
             </div>
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-green">
+                <!-- small card -->
+                <div class="small-card bg-green">
                     <div class="inner">
                         <h3>#(mouthPaymentAmount ?? 0)</h3>
 
@@ -85,8 +85,8 @@
             </div>
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-yellow">
+                <!-- small card -->
+                <div class="small-card bg-yellow">
                     <div class="inner">
                         <h3>#(mountOrderUserCount ?? 0)</h3>
 
@@ -105,10 +105,9 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-primary">
+                    <div class="card-header with-border">
                         <form class="form-horizontal actionPanel" action="#(CPATH)/admin/order" method="get">
                             <div class="row">
                                 <div class="form-group col-xs-4">
@@ -129,12 +128,12 @@
                                     <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
                                 </div>
                             </div>
-                            <!-- /.box-body -->
+                            <!-- /.card-body -->
                         </form>
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body ">
 
                         <table class="table table-striped">
                             <tbody>
@@ -150,8 +149,8 @@
                             #for(order : page.list ??)
                             <tr>
                                 <td colspan="5" bgcolor="#fff">
-                                    <div class="box box-dashboard" style="margin-bottom: 0px">
-                                        <div class="box-header with-border row">
+                                    <div class="card card-dashboard" style="margin-bottom: 0px">
+                                        <div class="card-header with-border row">
                                             <div class="col-lg-10">
                                                 订单号：#(order.ns ??)
                                                 #if(order.isFinished())
@@ -181,7 +180,7 @@
                                                 发票状态：<span style="padding-right: 20px">#(order.invoiceStatusStr ??)</span>
                                             </div>
                                             <div class="col-lg-2" style="text-align: right">
-                                                <h3 class="box-title">
+                                                <h3 class="card-title">
                                                     #if(!order.isUnpay() && !order.isClosed() && !order.isDeliveried())
                                                     <a href="javascript:;" onclick="deliver('#(order.id)')">发货</a>
                                                     #end
@@ -189,8 +188,8 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        <!-- /.box-header -->
-                                        <div class="box-body no-padding">
+                                        <!-- /.card-header -->
+                                        <div class="card-body no-padding">
                                             <table class="table table-striped">
                                                 <tbody>
                                                 #for(item : order.items)
@@ -223,8 +222,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12">
                                 #@_paginate()
@@ -232,10 +231,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
 

@@ -60,20 +60,20 @@ public class _WechatController extends AdminControllerBase {
     @Inject
     private WechatMenuService wechatMenuService;
 
-    @AdminMenu(text = "默认回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 1)
+    @AdminMenu(text = "默认回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBLIC_ACCOUNT, order = 1)
     public void reply() {
         render("wechat/reply_base.html");
     }
 
 
-    @AdminMenu(text = "自动回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 2)
+    @AdminMenu(text = "自动回复", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBLIC_ACCOUNT, order = 2)
     public void keyword() {
         Page<WechatReply> page = replyService._paginate(getPagePara(), 10, getPara("keyword"), getPara("content"));
         setAttr("page", page);
         render("wechat/reply_list.html");
     }
 
-    @AdminMenu(text = "运营插件", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 5)
+    @AdminMenu(text = "运营插件", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBLIC_ACCOUNT, order = 5)
     public void addons() {
         List<WechatAddonInfo> wechatAddons = WechatAddonManager.me().getWechatAddons();
         setAttr("wechatAddons", wechatAddons);
@@ -81,7 +81,7 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "菜单设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 12)
+    @AdminMenu(text = "菜单设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBLIC_ACCOUNT, order = 12)
     public void menu() {
         List<WechatMenu> menus = wechatMenuService.findAll();
         SortKit.toLayer(menus);
@@ -99,13 +99,13 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "基础设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 21)
+    @AdminMenu(text = "基础设置", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBLIC_ACCOUNT, order = 21)
     public void base() {
         render("wechat/setting_base.html");
     }
 
 
-    @AdminMenu(text = "小程序", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
+    @AdminMenu(text = "小程序", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBLIC_ACCOUNT, order = 99)
     public void miniprogram() {
         render("wechat/miniprogram.html");
     }

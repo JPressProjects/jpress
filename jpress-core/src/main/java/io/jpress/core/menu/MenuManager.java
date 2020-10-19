@@ -92,7 +92,7 @@ public class MenuManager implements JbootEventListener {
 
 
         MenuGroup wechatMenuGroup = new MenuGroup();
-        wechatMenuGroup.setId(JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
+        wechatMenuGroup.setId(JPressConsts.SYSTEM_MENU_WECHAT_PUBLIC_ACCOUNT);
         wechatMenuGroup.setText("微信");
         wechatMenuGroup.setIcon("<i class=\"fa fa-fw fa-wechat\"></i>");
         systemMenus.add(wechatMenuGroup);

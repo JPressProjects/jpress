@@ -36,7 +36,7 @@ public class JPressConsts {
     public static final String SYSTEM_MENU_SYSTEM = "system";
     public static final String SYSTEM_MENU_ORDER = "order";
     public static final String SYSTEM_MENU_FINANCE = "finance";
-    public static final String SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT = "wechat_pubulic_account";
+    public static final String SYSTEM_MENU_WECHAT_PUBLIC_ACCOUNT = "wechat_public_account";
     public static final String SYSTEM_MENU_WECHAT_MINI_PROGRAM = "wechat_mini_program";
 
 

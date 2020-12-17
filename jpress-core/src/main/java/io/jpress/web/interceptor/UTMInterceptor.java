@@ -19,6 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import io.jboot.support.jwt.JwtManager;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
@@ -70,9 +71,11 @@ public class UTMInterceptor implements Interceptor {
          */
         else if (controller instanceof JbootController) {
             JbootController c = (JbootController) controller;
-            Number userId = c.getJwtPara(JPressConsts.JWT_USERID);
-            if (userId != null) {
-                utm.setUserId(userId.longValue());
+            if(JwtManager.me().getConfig().isConfigOk()) {
+                Number userId = c.getJwtPara(JPressConsts.JWT_USERID);
+                if (userId != null) {
+                    utm.setUserId(userId.longValue());
+                }
             }
         }
 

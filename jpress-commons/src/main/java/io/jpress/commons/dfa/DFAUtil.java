@@ -57,7 +57,9 @@ public class DFAUtil {
      */
     public static void init() {
         File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(), "WEB-INF/other/sys_sensitive_words.txt");
-        initBy(sysSensitiveWordsFile);
+        if (sysSensitiveWordsFile.exists()) {
+            initBy(sysSensitiveWordsFile);
+        }
     }
 
     public static void initBy(File sensitiveWordsFile) {

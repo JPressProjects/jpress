@@ -27,13 +27,13 @@
 
         <module>starter</module>
         <module>starter-tomcat</module>
-<!--        <module>starter-ent</module>-->
+        <module>starter-ent</module>
 <!--        <module>starter-dev</module>-->
     </modules>
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.9.3</jboot.version>
+        <jboot.version>3.9.11</jboot.version>
         <jfinal-weixin.version>2.6</jfinal-weixin.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>

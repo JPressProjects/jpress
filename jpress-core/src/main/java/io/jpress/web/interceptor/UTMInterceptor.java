@@ -71,11 +71,9 @@ public class UTMInterceptor implements Interceptor {
          */
         else if (controller instanceof JbootController) {
             JbootController c = (JbootController) controller;
-            if(JwtManager.me().getConfig().isConfigOk()) {
-                Number userId = c.getJwtPara(JPressConsts.JWT_USERID);
-                if (userId != null) {
-                    utm.setUserId(userId.longValue());
-                }
+            Number userId = c.getJwtPara(JPressConsts.JWT_USERID);
+            if (userId != null) {
+                utm.setUserId(userId.longValue());
             }
         }
 

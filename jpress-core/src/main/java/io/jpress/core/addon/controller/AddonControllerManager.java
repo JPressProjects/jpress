@@ -87,8 +87,8 @@ public class AddonControllerManager {
             return;
         }
 
-        addonRoutes.getRouteItemList().removeIf(route -> route.getControllerKey().equals(value));
-        Routes.getControllerKeySet().removeIf(actionKey -> Objects.equals(actionKey, value));
+        addonRoutes.getRouteItemList().removeIf(route -> route.getControllerPath().equals(value));
+//        Routes.getControllerKeySet().removeIf(actionKey -> Objects.equals(actionKey, value));
         controllerAddonMapping.remove(c);
     }
 

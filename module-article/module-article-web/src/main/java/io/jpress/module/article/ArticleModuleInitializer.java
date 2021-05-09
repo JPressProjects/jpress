@@ -63,11 +63,12 @@ public class ArticleModuleInitializer extends JbootAppListenerBase implements Mo
         MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("article");
         menuGroup.setText("文章");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file-text\"></i>");
+        menuGroup.setIcon("<i class=\"fas fa-edit\"></i>");
         menuGroup.setOrder(1);
 
         adminMenus.add(menuGroup);
     }
+
 
     @Override
     public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {

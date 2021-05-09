@@ -49,7 +49,7 @@ public class ProductModuleInitializer extends JbootAppListenerBase implements Mo
         MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("product");
         menuGroup.setText("商品");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-tags\"></i>");
+        menuGroup.setIcon("<i class=\"fas fa-mitten\"></i>");
         menuGroup.setOrder(99);
         adminMenus.add(menuGroup);
     }

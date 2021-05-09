@@ -54,7 +54,7 @@ public class PageModuleInitializer extends JbootAppListenerBase implements Modul
         MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("page");
         menuGroup.setText("页面");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file\"></i>");
+        menuGroup.setIcon("<i class=\"fas fa-file\"></i>");
         menuGroup.setOrder(2);
 
         adminMenus.add(menuGroup);

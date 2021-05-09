@@ -80,42 +80,42 @@ public class MenuManager implements JbootEventListener {
         MenuGroup orderMenuGroup = new MenuGroup();
         orderMenuGroup.setId(JPressConsts.SYSTEM_MENU_ORDER);
         orderMenuGroup.setText("财务");
-        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-gg-circle\"></i>");
+        orderMenuGroup.setIcon("<i class=\"fab fa-gg-circle\"></i>");
         systemMenus.add(orderMenuGroup);
 
 
         MenuGroup userMenuGroup = new MenuGroup();
         userMenuGroup.setId(JPressConsts.SYSTEM_MENU_USER);
         userMenuGroup.setText("用户");
-        userMenuGroup.setIcon("<i class=\"fa fa-fw fa-user\"></i>");
+        userMenuGroup.setIcon("<i class=\"fas fa-user\"></i>");
         systemMenus.add(userMenuGroup);
 
 
         MenuGroup wechatMenuGroup = new MenuGroup();
         wechatMenuGroup.setId(JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
         wechatMenuGroup.setText("微信");
-        wechatMenuGroup.setIcon("<i class=\"fa fa-fw fa-wechat\"></i>");
+        wechatMenuGroup.setIcon("<i class=\"fab fa-weixin\"></i>");
         systemMenus.add(wechatMenuGroup);
 
 
         MenuGroup templateMenuGroup = new MenuGroup();
         templateMenuGroup.setId(JPressConsts.SYSTEM_MENU_TEMPLATE);
         templateMenuGroup.setText("模板");
-        templateMenuGroup.setIcon("<i class=\"fa fa-magic\"></i>");
+        templateMenuGroup.setIcon("<i class=\"fas fa-magic\"></i>");
         systemMenus.add(templateMenuGroup);
 
 
         MenuGroup addonMenuGroup = new MenuGroup();
         addonMenuGroup.setId(JPressConsts.SYSTEM_MENU_ADDON);
         addonMenuGroup.setText("插件");
-        addonMenuGroup.setIcon("<i class=\"fa fa-plug\"></i>");
+        addonMenuGroup.setIcon("<i class=\"fas fa-plug\"></i>");
         systemMenus.add(addonMenuGroup);
 
 
         MenuGroup settingMenuGroup = new MenuGroup();
         settingMenuGroup.setId(JPressConsts.SYSTEM_MENU_SYSTEM);
         settingMenuGroup.setText("系统");
-        settingMenuGroup.setIcon("<i class=\"fa fa-cog\"></i>");
+        settingMenuGroup.setIcon("<i class=\"fas fa-cog\"></i>");
         systemMenus.add(settingMenuGroup);
 
     }
@@ -133,7 +133,7 @@ public class MenuManager implements JbootEventListener {
         MenuGroup attachmentMenuGroup = new MenuGroup();
         attachmentMenuGroup.setId(JPressConsts.SYSTEM_MENU_ATTACHMENT);
         attachmentMenuGroup.setText("附件");
-        attachmentMenuGroup.setIcon("<i class=\"fa fa-fw fa-folder-open\"></i>");
+        attachmentMenuGroup.setIcon("<i class=\"fas fa-folder\"></i>");
         moduleMenus.add(attachmentMenuGroup);
 
 

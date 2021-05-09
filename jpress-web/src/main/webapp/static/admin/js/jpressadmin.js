@@ -596,86 +596,7 @@ function initAjaxOpenType() {
 }
 
 
-function initCkEdtiorComponent() {
-    $('[data-render="ckeditor"]').each(function () {
-        initCkEdtior($(this)[0]);
-    });
-}
 
-var _dialogShowEvent;
-
-function initCkEdtior(editor) {
-    // var SimpleUploadAdapter =
-    ClassicEditor.create(editor, {
-        // plugins: [SimpleUploadAdapter],
-        toolbar: {
-            items: [
-                'heading',
-                '|',
-                'bold',
-                'italic',
-                'underline',
-                'fontColor',
-                'bulletedList',
-                'numberedList',
-                'highlight',
-                '|',
-                'indent',
-                'outdent',
-                'alignment',
-                '|',
-                'link',
-                'blockQuote',
-                'imageUpload',
-                'mediaEmbed',
-                'insertTable',
-                'code',
-                'codeBlock',
-                '|',
-                'undo',
-                'redo'
-            ]
-        },
-        language: 'zh-cn',
-        image: {
-            toolbar: [
-                'imageTextAlternative',
-                'imageStyle:full',
-                'imageStyle:side'
-            ]
-        },
-        table: {
-            contentToolbar: [
-                'tableColumn',
-                'tableRow',
-                'mergeTableCells',
-                'tableCellProperties',
-                'tableProperties'
-            ]
-        },
-        simpleUpload: {
-            // The URL that the images are uploaded to.
-            uploadUrl: 'http://example.com',
-
-            // Enable the XMLHttpRequest.withCredentials property.
-            withCredentials: true,
-
-            // Headers sent along with the XMLHttpRequest to the upload server.
-            headers: {
-                'X-CSRF-TOKEN': 'CSRF-Token',
-                Authorization: 'Bearer <JSON Web Token>'
-            }
-        },
-        licenseKey: '',
-
-    })
-        .then(editor => {
-            window.editor = editor;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
 
 
 function initInputActions() {
@@ -738,35 +659,6 @@ function initInputActions() {
 
 }
 
-/**
- *
- */
-function initDataSync() {
-    var syncObjects = {};
-
-    $('[data-sync]').each(function () {
-
-        $(this).on('input change', function () {
-            var name = $(this).attr('data-sync');
-            if (name) {
-                var selector = '[data-sync="' + name + '"]';
-                syncObjects[name] = Number(0);
-                $(selector).each(function () {
-                    if ($(this).val()) {
-                        syncObjects[name] = syncObjects[name] + (Number($(this).val()));
-                    }
-                });
-
-                var dataSyncTo = $(this).attr('data-sync');
-                if (dataSyncTo) {
-                    $(dataSyncTo).text(syncObjects[name]).change();
-                    $(dataSyncTo).val(syncObjects[name]).change().blur();
-                }
-            }
-        });
-
-    });
-}
 
 
 
@@ -802,6 +694,7 @@ function initPagenationPagesize() {
 }
 
 $(document).ready(function () {
+
     initStringMethods();
 
     initSidebarActive();
@@ -827,8 +720,6 @@ $(document).ready(function () {
     initConfirmOpenType();
 
     initInputActions();
-    initCkEdtiorComponent();
-    initDataSync();
 
     initDatatableCheckBox();
 

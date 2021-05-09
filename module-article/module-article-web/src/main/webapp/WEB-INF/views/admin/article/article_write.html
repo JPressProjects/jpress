@@ -1,10 +1,13 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+
+<script src="#(CPATH)/static/components/vditor/index.min.js"></script>
+<script src="#(CPATH)/static/components/wangEditor/wangEditor.min.js"></script>
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
-<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
+<!--<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>-->
+<!--<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>-->
 
 
 <script>
@@ -54,7 +57,6 @@
         $("#articleThumbnail").val("");
     })
 
-    var editMode = "#(editMode ?? 'html')";
 
     function doChangeEditor(id) {
         if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
@@ -67,6 +69,22 @@
         }
     }
 
+    var editMode = "#(editMode ?? 'html')";
+    if (editMode === 'html'){
+        var editor = new wangEditor('#editor')
+        editor.create()
+    }else {
+        new Vditor('editor', {
+            "height": 360,
+            "cache": {
+                "enable": false
+            },
+            "value": "## 所见即所得（WYSIWYG）\n所见即所得模式对不熟悉 Markdown 的用户较为友好，熟悉 Markdown 的话也可以无缝使用。 ",
+            "mode": "wysiwyg"
+        })
+    }
+
+
 
 </script>
 #end
@@ -75,8 +93,9 @@
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/vditor/index.css" rel="stylesheet">
+<!--<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">-->
+<!--<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">-->
 <style>
     .popover-content {
         padding: 9px 14px;
@@ -148,7 +167,7 @@
                                 </a>
                             </div>
                             <div class="col-sm-12">
-                            <div data-render="ckeditor" name="article.content" id="ckeditor">#EditorContent(article.orignalContent ??)</div>
+                            <div name="article.content" id="editor" >#(article.orignalContent ??)</div>
                             </div>
                         </div>
                         <div class="form-group row">

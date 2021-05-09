@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary">
     <!-- Brand Logo -->
-    <a href="#(CPATH)/admin" class="brand-link">
+    <a href="#(CPATH)/" target="_blank" class="brand-link">
         <img src="#(APP_LOGO_PATH ??)" class="brand-image"
              style="opacity: .8">
         <span class="brand-text font-weight-light">#(APP_NAME ?? 'JPress')</span>
@@ -15,6 +15,14 @@
         <nav class="mt-2" style="padding: 10px 0">
             <ul class="nav nav-pills nav-sidebar flex-column nav-legacy text-sm" data-widget="treeview" role="menu"
                 data-accordion="false" id="sidebar-menu">
+
+                <li class="nav-item" id="dashboard">
+                    <a href="#(CPATH)/admin/index" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <p> 面板</p>
+                    </a>
+                </li>
+
 
                 #for(group : moduleMenuGroups)
                 #hasPermission(group.permission)

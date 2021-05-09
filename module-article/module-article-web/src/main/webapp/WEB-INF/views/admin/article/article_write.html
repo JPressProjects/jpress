@@ -6,8 +6,6 @@
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
-<!--<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>-->
-<!--<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>-->
 
 
 <script>
@@ -72,12 +70,88 @@
     var editMode = "#(editMode ?? 'html')";
     if (editMode === 'html'){
         var editor = new wangEditor('#editor')
+        editor.config.height = 500;
+        editor.config.menus = [
+            'emoticon',
+            'head',
+            'bold',
+            'fontSize',
+            'fontName',
+            'italic',
+            'underline',
+            'strikeThrough',
+            'indent',
+            'lineHeight',
+            'foreColor',
+            'backColor',
+            'link',
+            'list',
+            'todo',
+            'justify',
+            'quote',
+            'image',
+            'video',
+            'table',
+            'code',
+            'splitLine',
+            'undo',
+            'redo',
+        ]
         editor.create()
     }else {
+        var toolbar = [
+            "emoji",
+            "headings",
+            "bold",
+            "italic",
+            "strike",
+            "link",
+            "|",
+            "list",
+            "ordered-list",
+            "check",
+            "outdent",
+            "indent",
+            "|",
+            "quote",
+            "line",
+            "code",
+            "inline-code",
+            "insert-before",
+            "insert-after",
+            "|",
+            "upload",
+            "record",
+            "table",
+            "|",
+            "undo",
+            "redo",
+            "|",
+            "fullscreen",
+            "edit-mode",
+            {
+                name: "more",
+                toolbar: [
+                    "both",
+                    "code-theme",
+                    "content-theme",
+                    "export",
+                    "outline",
+                    // "preview",
+                ],
+            }]
+
         new Vditor('editor', {
-            "height": 360,
+            "height": 500,
+            "toolbar":toolbar,
             "cache": {
                 "enable": false
+            },
+            preview: {
+                actions: ["desktop"],
+            },
+            fullscreen: {
+                index: 9999,
             },
             "value": "## 所见即所得（WYSIWYG）\n所见即所得模式对不熟悉 Markdown 的用户较为友好，熟悉 Markdown 的话也可以无缝使用。 ",
             "mode": "wysiwyg"
@@ -94,8 +168,6 @@
 <link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/vditor/index.css" rel="stylesheet">
-<!--<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">-->
-<!--<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">-->
 <style>
     .popover-content {
         padding: 9px 14px;
@@ -105,6 +177,31 @@
     #slug {
         cursor: pointer;
     }
+
+    .w-e-toolbar{
+        background-color: #f6f8fa !important;
+        border-bottom: 1px solid #d1d5da !important;
+        padding: 0 5px;
+        line-height: 1;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .w-e-toolbar .w-e-menu {
+        width: 32px !important;
+        height: 35px !important;
+    }
+
+    .w-e-toolbar .w-e-menu i {
+        color: #586069 !important;
+        font-size: 15px;
+    }
+
+    .vditor-wysiwyg pre.vditor-reset:focus {
+        outline: none;
+        background-color: #fff;
+    }
+
 </style>
 #end
 

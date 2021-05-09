@@ -18,6 +18,19 @@ body {
     color: #fff;
 }
 
+.nav-link > .fa-circle{
+    font-size: 10px;
+}
+
+.nav-link >i{
+    margin-left:.75rem;
+    margin-right: .75rem;
+}
+
+.menu-open > :first-child.active >i{
+    margin-left:calc(.75rem - 3px);
+}
+
 .sidebar{
     overflow-y: unset;
 }

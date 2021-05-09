@@ -18,12 +18,12 @@
 
                 #for(group : moduleMenuGroups)
                 #hasPermission(group.permission)
-                <li class="nav-item  id="#(group.id ??)">
+                <li class="nav-item" id="#(group.id ??)">
                 <a href="#" class="nav-link">
                     #if(group.icon ??)
                     #(group.icon)
                     #else
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-tachometer-alt"></i>
                     #end
                     <p>
                         #(group.text ??)
@@ -35,7 +35,7 @@
                     #hasPermission(item.permission)
                     <li class="nav-item" id="#(chiitemldMenu.id ??)">
                         <a href="#(item.url ??)" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="far fa-circle"></i>
                             <p> #(item.text ??)</p>
                         </a>
                     </li>
@@ -55,12 +55,12 @@
 
                 #for(group : systemMenuGroups)
                 #hasPermission(group.permission)
-                <li class="nav-item  id="#(group.id ??)">
+                <li class="nav-item" id="#(group.id ??)">
                 <a href="#" class="nav-link">
                     #if(group.icon ??)
                     #(group.icon)
                     #else
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="fas fa-tachometer-alt"></i>
                     #end
                     <p>
                         #(group.text ??)
@@ -72,7 +72,7 @@
                     #hasPermission(item.permission)
                     <li class="nav-item" id="#(chiitemldMenu.id ??)">
                         <a href="#(item.url ??)" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <i class="far fa-circle"></i>
                             <p> #(item.text ??)</p>
                         </a>
                     </li>

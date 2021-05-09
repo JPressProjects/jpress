@@ -68,8 +68,7 @@ public class _ArticleController extends AdminControllerBase {
         String title = getPara("title");
         Long categoryId = getParaToLong("categoryId");
 
-        Page<Article> page =
-                StringUtils.isBlank(status)
+        Page<Article> page = StringUtils.isBlank(status)
                         ? articleService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
                         : articleService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
 
@@ -78,9 +77,11 @@ public class _ArticleController extends AdminControllerBase {
         Long draftCount = articleService.findCountByStatus(Article.STATUS_DRAFT);
         Long trashCount = articleService.findCountByStatus(Article.STATUS_TRASH);
         Long normalCount = articleService.findCountByStatus(Article.STATUS_NORMAL);
+
         setAttr("draftCount", draftCount);
         setAttr("trashCount", trashCount);
         setAttr("normalCount", normalCount);
+
         setAttr("totalCount", draftCount + trashCount + normalCount);
 
 
@@ -203,9 +204,6 @@ public class _ArticleController extends AdminControllerBase {
         if (article.getOrderNumber() == null) {
             article.setOrderNumber(0);
         }
-
-
-
 
         long id = (long) articleService.saveOrUpdate(article);
         articleService.doUpdateCommentCount(id);

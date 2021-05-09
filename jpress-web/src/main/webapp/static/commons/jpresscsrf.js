@@ -14,7 +14,6 @@ $(document).ready(function () {
         var token = getCookie("csrf_token");
         if (token) {
             var url = option.url;
-
             if (url.indexOf("?") == -1) {
                 url = url + "?csrf_token=" + token;
             } else {
@@ -22,7 +21,6 @@ $(document).ready(function () {
                     url = url + "&csrf_token=" + token;
                 }
             }
-
             option.url = url;
         }
     });

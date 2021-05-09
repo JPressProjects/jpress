@@ -69,23 +69,77 @@ function initToastr() {
 }
 
 
-function initSwitchery(config) {
+
+var switcheries = {};
+
+function initSwitchery(elements) {
     if (typeof Switchery == "undefined") {
         return;
     }
 
-    var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+    elements = elements || document.querySelectorAll('.switchery');
+
+    var elems = Array.prototype.slice.call(elements);
     elems.forEach(function (elem) {
-        var switchery = config ? new Switchery(elem, config) : new Switchery(elem, {size: 'small'});
-        var datafor = elem.getAttribute("data-for");
+        var switchery = new Switchery(elem, {size: 'small'});
+
+        switcheries[elem.getAttribute('id')] = switchery;
+
+        var datafor = elem.getAttribute("for");
         if (datafor) {
             $("#" + datafor).val(elem.checked);
-            elem.onchange = function () {
+        }
+
+        var ctrl = elem.getAttribute("data-ctrl");
+        if (ctrl) {
+            $("." + ctrl).toggle(elem.checked)
+        }
+
+        var close = elem.getAttribute("data-close-sync");
+        var open = elem.getAttribute("data-open-sync");
+
+        var onchangeFunction = elem.getAttribute("data-change-function");
+
+        elem.onchange = function () {
+            if (datafor) {
                 $("#" + datafor).val(elem.checked);
+
+            }
+
+            if (ctrl) {
+                $("." + ctrl).toggle(elem.checked)
+            }
+
+            if (close && !elem.checked) {
+                var closeSwitchery = switcheries[close];
+                setSwitchery(closeSwitchery, false);
+            }
+
+            if (open && elem.checked) {
+                var openSwitchery = switcheries[close];
+                setSwitchery(openSwitchery, true);
+            }
+
+            if (onchangeFunction) {
+                eval(onchangeFunction)(elem, switchery);
             }
         }
     });
 
+}
+
+//https://stackoverflow.com/questions/21931133/changing-a-switchery-checkbox-state-from-code
+function setSwitchery(switchElement, checkedBool) {
+    if ((checkedBool && !switchElement.isChecked()) || (!checkedBool && switchElement.isChecked())) {
+        switchElement.setPosition(true);
+        switchElement.handleOnchange(true);
+    }
+}
+
+
+function setSwitcheryByIdString(idString, checkedBool) {
+    var switchery = switcheries[idString];
+    setSwitchery(switchery, checkedBool);
 }
 
 function initDomainSpan() {

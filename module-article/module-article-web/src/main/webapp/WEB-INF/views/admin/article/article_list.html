@@ -76,15 +76,9 @@
 
             </div>
 
-
         </div><!-- /.container-fluid -->
     </section>
 
-    <!--    <section class="content-header text-tap">-->
-    <!--        <div class="container-fluid">-->
-
-    <!--        </div>-->
-    <!--    </section>-->
 
 
     <!-- Main content -->
@@ -96,6 +90,14 @@
                         <div class="row">
                             <div class="form-group col-lg-2">
                                 <input type="text" class="form-control" placeholder="请输入标题" name="title" value="#para('title')">
+                            </div>
+                             <div class="form-group col-lg-2">
+                                 <select class="form-control" name="categoryId">
+                                     <option value="">全部分类</option>
+                                     #for(category : categories)
+                                     <option value="category.id ??">#(category.title ??)</option>
+                                     #end
+                                 </select>
                             </div>
 
                             <div class="form-group col-lg-2">
@@ -143,22 +145,16 @@
                             <td>#date(item.created ??)</td>
                             <td>
                                 #if(item.isNormal())
-                                    <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
-                                    <a href="javascript:;" onclick="draft('#(item.id??)')"
-                                       style="color: #006505">草稿</a>
-                                    |
-                                    <a href="javascript:;" onclick="trash('#(item.id??)')"
-                                       style="color: #a00">垃圾箱</a> |
+                                    <a href="#(CPATH)/admin/article/write/#(item.id)" style="color: #006505">编辑</a> |
+                                    <a href="#(CPATH)/admin/article/doDraft/#(item.id)" open-type="ajax" style="color: #006505">草稿</a> |
+                                    <a href="#(CPATH)/admin/article/doTrash/#(item.id)" open-type="ajax"  style="color: #a00">垃圾箱</a> |
                                     <a href="#(item.url ??)" target="_blank" style="color: #a00">查看</a>
                                 #elseif(item.isDraft())
-                                    <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
-                                    <a href="javascript:;" onclick="trash('#(item.id??)')"
-                                       style="color: #a00">垃圾箱</a>
+                                    <a href="#(CPATH)/admin/article/write/#(item.id)" style="color: #006505">编辑</a> |
+                                    <a href="#(CPATH)/admin/article/doTrash/#(item.id)" open-type="ajax"  style="color: #a00">垃圾箱</a>
                                 #else
-                                    <a href="javascript:;" onclick="draft('#(item.id??)')"
-                                       style="color: #006505">还原</a>
-                                    |
-                                    <a href="javascript:;" onclick="del('#(item.id??)')" style="color: #a00">永久删除</a>
+                                    <a href="#(CPATH)/admin/article/doNormal/#(item.id)" open-type="ajax" style="color: #006505">还原</a> |
+                                    <a href="#(CPATH)/admin/article/doDel/#(item.id)" open-type="del-confirm" style="color: #a00">永久删除</a>
                                 #end
                             </td>
                         </tr>

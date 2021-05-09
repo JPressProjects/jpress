@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary">
     <!-- Brand Logo -->
-    <a href="javascript:;" class="brand-link">
+    <a href="#(CPATH)/admin" class="brand-link">
         <img src="#(APP_LOGO_PATH ??)" class="brand-image"
              style="opacity: .8">
         <span class="brand-text font-weight-light">#(APP_NAME ?? 'JPress')</span>
@@ -11,18 +11,6 @@
 
         #@leftMenuTopPanel?()
 
-
-        <!--在 adminlte 3.0.5 中，搜索的 html 必须存在，否则会有 js 错误-->
-        <div class="form-inline" style="display: none">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
 
         <nav class="mt-2" style="padding: 10px 0">
             <ul class="nav nav-pills nav-sidebar flex-column nav-legacy text-sm" data-widget="treeview" role="menu"

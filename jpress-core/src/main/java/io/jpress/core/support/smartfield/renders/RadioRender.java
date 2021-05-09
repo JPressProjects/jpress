@@ -58,7 +58,7 @@ public class RadioRender implements SmartFieldRender {
         int index = 0;
         StringBuilder items = new StringBuilder();
         for (String v : values) {
-            String item = template_item.replace("{offset}", index == 0 ? "" : "col-sm-offset-2")
+            String item = template_item.replace("{offset}", index == 0 ? "" : "offset-sm-2")
                     .replace("{text}", getText(texts, index++, v))
                     .replace("{checked}", getCheckedText(v, value))
                     .replace("{name}", field.getName())

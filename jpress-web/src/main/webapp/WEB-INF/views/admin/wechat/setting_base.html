@@ -38,7 +38,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="随意设置... 但是确保和微信后台设置一样。"
                                            name="wechat_token" value="#option('wechat_token')">
-                                    <p class="help-block"> 请确保和微信公众号后台设置一样，否则无法正常工作。 </p>
+                                    <p class="text-muted"> 请确保和微信公众号后台设置一样，否则无法正常工作。 </p>
                                 </div>
                             </div>
 
@@ -52,7 +52,7 @@
                                            #checkedIf(option("wechat_web_authorize_enable"))>
                                     <input type="hidden" id="wechat_web_authorize_enable"
                                            name="wechat_web_authorize_enable">
-                                    <p class="help-block"> 开启后，可以获取用户信息、分析用户行为。必须是微信服务号，才能使用。 </p>
+                                    <p class="text-muted"> 开启后，可以获取用户信息、分析用户行为。必须是微信服务号，才能使用。 </p>
                                 </div>
                             </div>
 
@@ -64,7 +64,7 @@
                                         <option value="2" #selectedIf(option("wechat_web_authorize_type") == "2")>正常授权</option>
                                         <option value="3" #selectedIf(option("wechat_web_authorize_type") == "3")>静默优先</option>
                                     </select>
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         1、静默授权：只能得到用户ID，分析该用户行为<br/>
                                         2、正常授权：可以获取用户昵称、头像等信息<br/>
                                         3、静默优先：第一次访问正常授权，之后静默授权（无法获得用户更新的昵称和头像）

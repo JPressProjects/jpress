@@ -58,7 +58,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.amount" class="form-control" value="#(coupon.amount ??)"
                                            placeholder="">
-                                    <p class="help-block">单位：元。 </p>
+                                    <p class="text-muted">单位：元。 </p>
                                 </div>
                             </div>
 
@@ -67,7 +67,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.quota" class="form-control" value="#(coupon.quota ??)"
                                            placeholder="">
-                                    <p class="help-block">一共发布多少个优惠券。 </p>
+                                    <p class="text-muted">一共发布多少个优惠券。 </p>
                                 </div>
                             </div>
 
@@ -77,7 +77,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">仅满减券可用。 </p>
+                                    <p class="text-muted">仅满减券可用。 </p>
                                 </div>
                             </div>
 
@@ -87,7 +87,7 @@
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_award" #checkedIf(coupon && coupon.with_award)>
                                     <input type="hidden" id="with_award" name="coupon.with_award">
-                                    <p class="help-block">优惠券的拥有者可以把自己的优惠券给别人用，当优惠券被别人使用后，优惠券的拥有者可以获得奖励金额。 </p>
+                                    <p class="text-muted">优惠券的拥有者可以把自己的优惠券给别人用，当优惠券被别人使用后，优惠券的拥有者可以获得奖励金额。 </p>
                                 </div>
                             </div>
 
@@ -97,7 +97,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.award_amount" class="form-control" value="#(coupon.award_amount ??)"
                                            placeholder="">
-                                    <p class="help-block">启用 [推广券] 后有效，优惠券拥有者获得的奖励。 </p>
+                                    <p class="text-muted">启用 [推广券] 后有效，优惠券拥有者获得的奖励。 </p>
                                 </div>
                             </div>
 
@@ -107,7 +107,7 @@
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_member" #checkedIf(coupon && coupon.with_member)>
                                     <input type="hidden" id="with_member" name="coupon.with_member">
-                                    <p class="help-block">必须是会员的用户才可以使用。 </p>
+                                    <p class="text-muted">必须是会员的用户才可以使用。 </p>
                                 </div>
                             </div>
 
@@ -117,7 +117,7 @@
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_multi" #checkedIf(coupon && coupon.with_multi)>
                                     <input type="hidden" id="with_multi" name="coupon.with_multi">
-                                    <p class="help-block">只要不过期，可以使用该优惠券购买多次产品。 </p>
+                                    <p class="text-muted">只要不过期，可以使用该优惠券购买多次产品。 </p>
                                 </div>
                             </div>
 
@@ -127,7 +127,7 @@
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_owner" #checkedIf(coupon && coupon.with_owner)>
                                     <input type="hidden" id="with_owner" name="coupon.with_owner">
-                                    <p class="help-block">只能是优惠券领取人可用，不能分享给其他人。 </p>
+                                    <p class="text-muted">只能是优惠券领取人可用，不能分享给其他人。 </p>
                                 </div>
                             </div>
 
@@ -170,7 +170,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.valid_days" class="form-control" value="#(coupon.valid_days ??)"
                                            placeholder="">
-                                    <p class="help-block">单位：天，用户领取优惠券后多少天内有效。 </p>
+                                    <p class="text-muted">单位：天，用户领取优惠券后多少天内有效。 </p>
                                 </div>
                             </div>
 
@@ -186,7 +186,7 @@
                                             失效
                                         </option>
                                     </select>
-                                    <p class="help-block">选择 失效 后，该优惠券下的所有券将会立即失效。 </p>
+                                    <p class="text-muted">选择 失效 后，该优惠券下的所有券将会立即失效。 </p>
                                 </div>
                             </div>
 

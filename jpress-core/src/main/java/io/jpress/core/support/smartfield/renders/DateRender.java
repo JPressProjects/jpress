@@ -34,7 +34,7 @@ public class DateRender implements SmartFieldRender {
             "               name=\"{name}\"\n" +
             "               data-date-format=\"yyyy-mm-dd\"\n" +
             "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +
-            "        <p class=\"help-block\">{helpText}</p>\n" +
+            "        <p class=\"text-muted\">{helpText}</p>\n" +
             "    </div>\n" +
             "</div>";
 

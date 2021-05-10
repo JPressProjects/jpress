@@ -27,7 +27,7 @@
                                     <textarea rows="5" class="form-control"
                                               placeholder="自定义的非法关键字..."
                                               name="text_filter_content">#option("text_filter_content")</textarea>
-                                    <p class="help-block"> 此处请填写要进行过滤的自定义关键字，多个用英文逗号（,）隔开。 </p>
+                                    <p class="text-muted"> 此处请填写要进行过滤的自定义关键字，多个用英文逗号（,）隔开。 </p>
                                 </div>
                             </div>
 
@@ -52,7 +52,7 @@
                                         <option value="ultrapower" #selectedIf(option('text_filter_service') == 'ultrapower') >泰岳语义工厂</option>
                                     </select>
 
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         阿里云请参考 <a href="https://help.aliyun.com/document_detail/53427.html" target="_blank">https://help.aliyun.com/document_detail/53427.html</a><br />
                                         腾讯云请参考 <a href="https://cloud.tencent.com/product/tms" target="_blank">https://cloud.tencent.com/product/tms</a><br />
                                         小花儿AI请参考 <a href="https://market.aliyun.com/products/57124001/cmapi029968.html" target="_blank">https://market.aliyun.com/products/57124001/cmapi029968.html</a><br />
@@ -91,7 +91,7 @@
                                     <input type="input" class="form-control" placeholder="App Code"
                                            name="text_filter_appcode"
                                            value="#option('text_filter_appcode')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         App Code 的认知方式为阿里云市场的认证方式，倘若通过 AppId 和 AppSecret 认证，就没必要再设置 App Code 认证了。反过来，若填写了 App Code
                                     就没必要填写 AppId 和 AppSecret 了。
                                     </p>

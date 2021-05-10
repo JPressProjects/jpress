@@ -281,7 +281,7 @@
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="price"
                                                            name="product.price" placeholder="" value="#(product.price ??)">
-                                                    <p class="help-block">产品的实际销售价格。</p>
+                                                    <p class="text-muted">产品的实际销售价格。</p>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -289,7 +289,7 @@
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="origin_price"
                                                            name="product.origin_price" placeholder="" value="#(product.origin_price ??)">
-                                                    <p class="help-block">产品的原始价格，页面会使用删除线进行显示。</p>
+                                                    <p class="text-muted">产品的原始价格，页面会使用删除线进行显示。</p>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -297,7 +297,7 @@
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="limited_price"
                                                            name="product.limited_price" placeholder="" value="#(product.limited_price ??)">
-                                                    <p class="help-block">限时价格（早鸟价）。</p>
+                                                    <p class="text-muted">限时价格（早鸟价）。</p>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -305,7 +305,7 @@
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control datetimepicker" id="limited_time"
                                                            name="product.limited_time" placeholder="" value="#(product.limited_time ??)">
-                                                    <p class="help-block">到该时间后，限时价格会自动恢复到原始价格。</p>
+                                                    <p class="text-muted">到该时间后，限时价格会自动恢复到原始价格。</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -338,7 +338,7 @@
                                                     <input type="hidden" name="memberGroupIds" value="#(group.id ??)">
                                                     <input type="text" class="form-control"
                                                            name="memberGroupPrices" placeholder="" value="#number(group.priceInfo.price ??,'0.00')">
-                                                    <p class="help-block">#(group.name ??)购买该产品的价格。</p>
+                                                    <p class="text-muted">#(group.name ??)购买该产品的价格。</p>
                                                 </div>
                                             </div>
                                             #end
@@ -379,7 +379,7 @@
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="dist_amount"
                                                            name="product.dist_amount" placeholder="" value="#(product.dist_amount ??)">
-                                                    <p class="help-block">当用户分享的产品连接有人付费后，用户将获得的分成（单位：元）。</p>
+                                                    <p class="text-muted">当用户分享的产品连接有人付费后，用户将获得的分成（单位：元）。</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -469,7 +469,7 @@
                                 <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                                 #end
                             </select>
-                            <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                            <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
 
                             <div class="tags">
                                 #productTags(count = 20)
@@ -526,7 +526,7 @@
                                 <input type="text" class="form-control" name="product.flag"
                                        placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
                                 #if(flags && flags.size() > 0)
-                                <p class="help-block">当前模板支持的展示标识有：</p>
+                                <p class="text-muted">当前模板支持的展示标识有：</p>
                                 <div class="tags">
                                     #for(flag : flags ??)
                                     <a href="javascript:;" class="tflag">#(flag)</a>

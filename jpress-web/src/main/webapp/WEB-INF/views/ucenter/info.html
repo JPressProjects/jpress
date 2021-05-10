@@ -57,7 +57,7 @@
                                            name="user.email" value="#(user.email ??)">
 
                                     #if(user.email && !user.isEmailStatusOk())
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         你的邮件尚未激活，点击<a href="javascript:doActivateEmail('#(user.id)')">这里</a>进行激活。
                                     </p>
                                     #end

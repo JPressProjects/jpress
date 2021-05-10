@@ -16,7 +16,7 @@
                        name="user.email" value="#(user.email ??)">
 
                 #if(user.email && !user.isEmailStatusOk())
-                <p class="help-block">
+                <p class="text-muted">
                     用户邮件尚未激活，点击<a href="javascript:doActivateEmail('#(user.id)')">这里</a>发送激活邮件。
                 </p>
                 #end
@@ -32,7 +32,7 @@
                 <input type="input" class="form-control" placeholder="及手机号"
                        name="user.mobile" value="#(user.mobile ??)">
                 #if(user.mobile && !user.isMobileStatusOk())
-                <p class="help-block"><i class="fa fa-fw fa-close"></i> 手机号未激活 </p>
+                <p class="text-muted"><i class="fa fa-fw fa-close"></i> 手机号未激活 </p>
                 #end
 
             </div>

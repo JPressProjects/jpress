@@ -28,7 +28,7 @@
                                     <input type="checkbox" class="switchery"  data-for="payout_enable"
                                            #checkedIf(option("payout_enable"))>
                                     <input type="hidden" id="payout_enable" name="payout_enable">
-                                    <p class="help-block"> 当不开启提现功能时，用户分销等所赚取的佣金只能在本站进行消费。 </p>
+                                    <p class="text-muted"> 当不开启提现功能时，用户分销等所赚取的佣金只能在本站进行消费。 </p>
                                 </div>
                             </div>
 
@@ -37,7 +37,7 @@
                                 <label class="col-sm-2 col-form-label">提现手续费</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="payout_fee" value="#option('payout_fee')">
-                                    <p class="help-block"> 填写 0 ~ 1 小数点，每笔提现，按提现额乘以填写的小数点为总提现金额。 </p>
+                                    <p class="text-muted"> 填写 0 ~ 1 小数点，每笔提现，按提现额乘以填写的小数点为总提现金额。 </p>
                                 </div>
                             </div>
 
@@ -46,7 +46,7 @@
                                 <label class="col-sm-2 col-form-label">订单关闭时间</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="order_timeout" value="#option('order_timeout','0')">
-                                    <p class="help-block"> 当某个订单在多少天内未支付，自动关闭。填写 0 为永久不关闭。 </p>
+                                    <p class="text-muted"> 当某个订单在多少天内未支付，自动关闭。填写 0 为永久不关闭。 </p>
                                 </div>
                             </div>
 
@@ -63,7 +63,7 @@
                                         </option>
                                         #end
                                     </select>
-                                    <p class="help-block">如果只销售虚拟产品，无需对此项配置。</p>
+                                    <p class="text-muted">如果只销售虚拟产品，无需对此项配置。</p>
                                 </div>
                             </div>
 

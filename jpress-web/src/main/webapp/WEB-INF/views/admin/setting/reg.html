@@ -28,7 +28,7 @@
                                     <input type="input" class="form-control" placeholder="例如：/ucenter"
                                            name="login_goto_url"
                                            value="#option('login_goto_url')">
-                                    <p class="help-block"> 不填写时，当用户登录成功后会跳转到用户中心 <a href="#(CPATH)/ucenter" target="_blank">/ucenter</a> 。</p>
+                                    <p class="text-muted"> 不填写时，当用户登录成功后会跳转到用户中心 <a href="#(CPATH)/ucenter" target="_blank">/ucenter</a> 。</p>
                                 </div>
                             </div>
 
@@ -56,7 +56,7 @@
                                     <input type="input" class="form-control" placeholder=""
                                            name="login_wechat_appsecret"
                                            value="#option('login_wechat_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                          微信的 AppKey 和 AppSecret 请去 <a href=" https://open.weixin.qq.com/" target="_blank"> https://open.weixin.qq.com</a> 申请。
                                     </p>
                                 </div>
@@ -89,7 +89,7 @@
                                     <input type="input" class="form-control" placeholder=""
                                            name="login_qq_appsecret"
                                            value="#option('login_qq_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         QQ 的 AppKey 和 AppSecret 请去 <a href="https://connect.qq.com/" target="_blank">https://connect.qq.com</a> 申请。
                                     </p>
                                 </div>
@@ -119,7 +119,7 @@
                                     <input class="form-control" name="login_weibo_appsecret" placeholder=""
                                            type="input"
                                            value="#option('login_weibo_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         微博 的 AppKey 和 AppSecret 请去 <a href="https://open.weibo.com" target="_blank">https://open.weibo.com</a> 申请。
                                     </p>
                                 </div>
@@ -149,7 +149,7 @@
                                     <input class="form-control" name="login_github_appsecret" placeholder=""
                                            type="input"
                                            value="#option('login_github_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         GitHub 的 AppKey 和 AppSecret 请去 <a href="https://github.com/settings/applications/new" target="_blank">https://github.com/settings/applications/new</a> 申请。
                                     </p>
                                 </div>
@@ -179,7 +179,7 @@
                                     <input class="form-control" name="login_gitee_appsecret" placeholder=""
                                            type="input"
                                            value="#option('login_gitee_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         码云 的 AppKey 和 AppSecret 请去 <a href="https://gitee.com/oauth/applications/" target="_blank">https://gitee.com/oauth/applications</a> 申请。
                                     </p>
                                 </div>
@@ -209,7 +209,7 @@
                                     <input class="form-control" name="login_dingding_appsecret" placeholder=""
                                            type="input"
                                            value="#option('login_dingding_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         钉钉 的 AppKey 和 AppSecret 请去 <a href="https://open-dev.dingtalk.com" target="_blank">https://open-dev.dingtalk.com</a> 申请。
                                     </p>
                                 </div>
@@ -233,7 +233,7 @@
                                     <input type="checkbox" class="switchery" data-for="reg_users_is_not_activate"
                                            #checkedIf(option("reg_users_is_not_activate"))>
                                     <input type="hidden" id="reg_users_is_not_activate" name="reg_users_is_not_activate">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         开启此功能后，需要管理员在后台对用户进行手动激活。
                                     </p>
                                 </div>
@@ -265,7 +265,7 @@
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：尊敬的#('#(user.nickname ??)')，欢迎注册成为JPress会员，请先点击链接 #('#(url)') 进行激活..."
                                               name="reg_email_validate_template">#option("reg_email_validate_template")</textarea>
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
                                     </p>
                                 </div>
@@ -286,7 +286,7 @@
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="reg_sms_validate_template">#option("reg_sms_validate_template")</textarea>
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
                                     </p>
                                 </div>
@@ -298,7 +298,7 @@
                                     <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
                                            name="reg_sms_validate_sign"
                                            value="#option('reg_sms_validate_sign')">
-                                    <p class="help-block"> 请填写阿里云或腾讯云的短信签名。</p>
+                                    <p class="text-muted"> 请填写阿里云或腾讯云的短信签名。</p>
                                 </div>
                             </div>
 

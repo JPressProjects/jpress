@@ -87,7 +87,7 @@
                                     <input type="input" class="form-control" placeholder="此分类排序的序号"
                                            value="#(category.order_number ??)"
                                            name="category.order_number">
-                                    <p class="help-block"> 越小的数字越靠前，只在同级分类上影响。 </p>
+                                    <p class="text-muted"> 越小的数字越靠前，只在同级分类上影响。 </p>
                                 </div>
                             </div>
 
@@ -116,7 +116,7 @@
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="给该分类设置图标"
                                            value="#(category.icon ??)" name="category.icon">
-                                    <p class="help-block"> 图标只用于前台显示，是否显示决定于模板。<a target="_blank" href="#(CPATH)/admin/setting/icons">获取</a> </p>
+                                    <p class="text-muted"> 图标只用于前台显示，是否显示决定于模板。<a target="_blank" href="#(CPATH)/admin/setting/icons">获取</a> </p>
                                 </div>
                             </div>
 
@@ -127,7 +127,7 @@
                                     <input type="input" class="form-control" placeholder="展示标识"
                                            value="#(category.flag ??)" name="category.flag" id="flag">
                                     #if(flags && flags.size() > 0)
-                                    <p class="help-block">当前模板支持的展示标识有：
+                                    <p class="text-muted">当前模板支持的展示标识有：
                                         #for(flag : flags ??)
                                         <a href="javascript:;" class="tflag">#(flag)</a>
                                         #end

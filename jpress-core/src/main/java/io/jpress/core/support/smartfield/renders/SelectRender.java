@@ -37,7 +37,7 @@ public class SelectRender implements SmartFieldRender {
 
     protected static String template2 = "" +
             "        </select>\n" +
-            "        <p class=\"help-block\">{helpText}</p>\n" +
+            "        <p class=\"text-muted\">{helpText}</p>\n" +
             "    </div>\n" +
             "</div>";
 

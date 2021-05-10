@@ -26,7 +26,7 @@
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="api_enable" #checkedIf(option("api_enable"))>
                                     <input type="hidden" id="api_enable" name="api_enable">
-                                    <p class="help-block"> 注意：微信小程序必须开启API才能正常使用 </p>
+                                    <p class="text-muted"> 注意：微信小程序必须开启API才能正常使用 </p>
                                 </div>
                             </div>
 
@@ -43,7 +43,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="请设置API密钥"
                                            name="api_secret" value="#option('api_secret')">
-                                    <p class="help-block"> 请务必确保应用ID、签名密钥和客户端SDK（例如：小程序）的配置保持一致。 </p>
+                                    <p class="text-muted"> 请务必确保应用ID、签名密钥和客户端SDK（例如：小程序）的配置保持一致。 </p>
                                 </div>
                             </div>
 
@@ -65,7 +65,7 @@
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control" name="api_test_urls"
                                               placeholder="一行一个...">#option("api_test_urls")</textarea>
-                                    <p class="help-block"> 不填写默认允许全部接口，一行一个接口 </p>
+                                    <p class="text-muted"> 不填写默认允许全部接口，一行一个接口 </p>
                                 </div>
                             </div>
 

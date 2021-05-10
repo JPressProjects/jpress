@@ -71,7 +71,7 @@
                                            #checkedIf(option("page_comment_email_notify_enable"))>
                                     <input type="hidden" id="page_comment_email_notify_enable"
                                            name="page_comment_email_notify_enable">
-                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员邮箱。
+                                    <p class="text-muted"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员邮箱。
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -87,7 +87,7 @@
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：评论的id是：#('#(comment.id)')，评论的内容是：#('#(comment.content)')"
                                               name="page_comment_email_notify_template" >#option('page_comment_email_notify_template')</textarea>
-                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
+                                    <p class="text-muted"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
                                     </p>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                            #checkedIf(option("page_comment_sms_notify_enable"))>
                                     <input type="hidden" id="page_comment_sms_notify_enable"
                                            name="page_comment_sms_notify_enable">
-                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员的手机号。
+                                    <p class="text-muted"> 请先在 <a href="#(CPATH)/admin/setting">[常规设置]</a> 开填写管理员的手机号。
                                 </div>
                             </div>
 
@@ -111,7 +111,7 @@
                                 <div class="col-sm-6">
                                     <textarea rows="2" class="form-control" placeholder="..."
                                               name="page_comment_sms_notify_template">#option('page_comment_sms_notify_template')</textarea>
-                                    <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
+                                    <p class="text-muted"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
                                     </p>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                     <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
                                            name="page_comment_sms_notify_sign"
                                            value="#option('page_comment_sms_notify_sign')">
-                                    <p class="help-block"> 请填写阿里云或腾讯云的短信签名。</p>
+                                    <p class="text-muted"> 请填写阿里云或腾讯云的短信签名。</p>
                                 </div>
                             </div>
 

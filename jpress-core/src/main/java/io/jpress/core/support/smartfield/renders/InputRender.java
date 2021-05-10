@@ -33,7 +33,7 @@ public class InputRender implements SmartFieldRender {
             "               id=\"{id}\"\n" +
             "               name=\"{name}\"\n" +
             "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +
-            "        <p class=\"help-block\">{helpText}</p>\n" +
+            "        <p class=\"text-muted\">{helpText}</p>\n" +
             "    </div>\n" +
             "</div>";
 

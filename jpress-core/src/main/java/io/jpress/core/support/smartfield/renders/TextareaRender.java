@@ -33,7 +33,7 @@ public class TextareaRender implements SmartFieldRender {
             "       id=\"{id}\"\n" +
             "       name=\"{name}\"\n" +
             "       placeholder=\"{placeholder}\" {attrs}>{value}</textarea>\n" +
-            "    <p class=\"help-block\">{helpText}</p>\n" +
+            "    <p class=\"text-muted\">{helpText}</p>\n" +
             "</div>\n" +
             "</div>";
 

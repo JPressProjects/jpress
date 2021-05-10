@@ -25,7 +25,7 @@
                                 <div class="col-sm-6">
                                     <textarea rows="2" class="form-control" placeholder="请输入利于SEO的标题..."
                                               name="seo_title">#option("seo_title")</textarea>
-                                    <p class="help-block"> 此项设置，可能会覆盖掉网站首页标题和副标题的设置（是否覆盖决定于模板）。 </p>
+                                    <p class="text-muted"> 此项设置，可能会覆盖掉网站首页标题和副标题的设置（是否覆盖决定于模板）。 </p>
                                 </div>
                             </div>
 
@@ -53,7 +53,7 @@
                                     <input type="checkbox" class="switchery" data-for="seo_baidu_realtime_push_enable"
                                            #checkedIf(option("seo_baidu_realtime_push_enable"))>
                                     <input type="hidden" id="seo_baidu_realtime_push_enable" name="seo_baidu_realtime_push_enable">
-                                    <p class="help-block"> 在启用该功能之前，请先去 <a href="https://ziyuan.baidu.com" target="_blank">https://ziyuan.baidu.com</a> 申请链接提交功能 。</p>
+                                    <p class="text-muted"> 在启用该功能之前，请先去 <a href="https://ziyuan.baidu.com" target="_blank">https://ziyuan.baidu.com</a> 申请链接提交功能 。</p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -61,7 +61,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：www.jpress.io"
                                            name="seo_baidu_realtime_push_site" value="#option('seo_baidu_realtime_push_site')">
-                                    <p class="help-block"> 例如：www.jpress.io ，<span style="color: red">不要</span>前缀 http:// ，请务必保证和百度申请的填写一致。</p>
+                                    <p class="text-muted"> 例如：www.jpress.io ，<span style="color: red">不要</span>前缀 http:// ，请务必保证和百度申请的填写一致。</p>
                                 </div>
                             </div>
 
@@ -70,7 +70,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="..."
                                            name="seo_baidu_realtime_push_token" value="#option('seo_baidu_realtime_push_token')">
-                                    <p class="help-block"> 请到 <a href="https://ziyuan.baidu.com/linksubmit/index" target="_blank">https://ziyuan.baidu.com/linksubmit/index</a> 获取 token 。 </p>
+                                    <p class="text-muted"> 请到 <a href="https://ziyuan.baidu.com/linksubmit/index" target="_blank">https://ziyuan.baidu.com/linksubmit/index</a> 获取 token 。 </p>
                                 </div>
                             </div>
 
@@ -104,7 +104,7 @@
                                     <input type="checkbox" class="switchery" data-for="seo_sitemap_enable"
                                            #checkedIf(option("seo_sitemap_enable","true"))>
                                     <input type="hidden" id="seo_sitemap_enable" name="seo_sitemap_enable">
-                                    <p class="help-block"> sitemap 的默认地址是 <a href="#(CPATH)/sitemap.xml" target="_blank">sitemap.xml</a>，开启后才能访问。</p>
+                                    <p class="text-muted"> sitemap 的默认地址是 <a href="#(CPATH)/sitemap.xml" target="_blank">sitemap.xml</a>，开启后才能访问。</p>
                                 </div>
                             </div>
 
@@ -125,7 +125,7 @@
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：.html"
                                            name="web_fake_static_suffix" value="#option('web_fake_static_suffix')">
-                                    <p class="help-block"> 以英文的点（.）开头，例如：.html </p>
+                                    <p class="text-muted"> 以英文的点（.）开头，例如：.html </p>
                                 </div>
                             </div>
 

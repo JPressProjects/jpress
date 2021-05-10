@@ -317,12 +317,12 @@
                             <h3 class="card-title">分类</h3>
                         </div>
                         <div class="card-body ">
-                            <div class="form-group row">
+                            <div class="form-group">
                                 #for(category : categories)
-                                <div class="checkbox">
+                                <div >
                                     <label>
                                         #for(i = 0; i < category.layerNumber; i++)
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;
                                         #end
 
                                         #if(category.isCheck)
@@ -350,7 +350,7 @@
                                 <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                                 #end
                             </input>
-                            <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                            <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
 
                             <div class="tags">
                                 #tags(count = 20)
@@ -407,7 +407,7 @@
                                 <input type="text" class="form-control" name="article.flag"
                                        placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
                                 #if(flags && flags.size() > 0)
-                                <p class="help-block">当前模板支持的展示标识有：</p>
+                                <p class="text-muted">当前模板支持的展示标识有：</p>
                                 <div class="tags">
                                     #for(flag : flags ??)
                                     <a href="javascript:;" class="tflag">#(flag)</a>

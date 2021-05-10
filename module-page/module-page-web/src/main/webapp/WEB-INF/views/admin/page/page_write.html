@@ -210,7 +210,7 @@
                                 <input type="text" class="form-control" name="page.flag"
                                        placeholder="展示标识" value="#(page.flag ??)" id="flag"/>
                                 #if(flags && flags.size() > 0)
-                                <p class="help-block">当前模板支持的展示标识有：</p>
+                                <p class="text-muted">当前模板支持的展示标识有：</p>
                                 <div class="tags">
                                     #for(flag : flags ??)
                                     <a href="javascript:;" class="tflag">#(flag)</a>

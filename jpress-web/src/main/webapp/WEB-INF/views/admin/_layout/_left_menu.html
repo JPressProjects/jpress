@@ -18,8 +18,7 @@
 
                 <li class="nav-item" id="dashboard">
                     <a href="#(CPATH)/admin/index" class="nav-link">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <p> 面板</p>
+                        <i class="fas fa-tachometer-alt"></i><p>面板</p>
                     </a>
                 </li>
 
@@ -28,15 +27,7 @@
                 #hasPermission(group.permission)
                 <li class="nav-item" id="#(group.id ??)">
                 <a href="#" class="nav-link">
-                    #if(group.icon ??)
-                    #(group.icon)
-                    #else
-                    <i class="fas fa-tachometer-alt"></i>
-                    #end
-                    <p>
-                        #(group.text ??)
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
+                    #(group.icon ??'<i class="fas fa-tachometer-alt"></i>')<p>#(group.text ??)<i class="right fas fa-angle-left"></i></p>
                 </a>
                 <ul class="nav nav-treeview">
                     #for(item : group.items)
@@ -65,15 +56,7 @@
                 #hasPermission(group.permission)
                 <li class="nav-item" id="#(group.id ??)">
                 <a href="#" class="nav-link">
-                    #if(group.icon ??)
-                    #(group.icon)
-                    #else
-                    <i class="fas fa-tachometer-alt"></i>
-                    #end
-                    <p>
-                        #(group.text ??)
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
+                    #(group.icon ??'<i class="fas fa-tachometer-alt"></i>')<p>#(group.text ??)<i class="right fas fa-angle-left"></i></p>
                 </a>
                 <ul class="nav nav-treeview">
                     #for(item : group.items)

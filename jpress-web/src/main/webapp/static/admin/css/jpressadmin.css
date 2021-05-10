@@ -25,6 +25,7 @@ body {
 .nav-link >i{
     margin-left:.75rem;
     margin-right: .75rem;
+    width: 16px;
 }
 
 .menu-open > :first-child.active >i{

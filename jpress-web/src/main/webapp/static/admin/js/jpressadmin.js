@@ -693,6 +693,29 @@ function initPagenationPagesize() {
     });
 }
 
+
+function initOptionFormSubmit() {
+
+    $('#optionForm').on('submit', function () {
+        $(this).ajaxSubmit({
+            type: "post",
+            url: jpress.cpath + "/admin/option/doSave",
+            success: function (data) {
+                if (data.state == "ok") {
+                    toastr.success('保存成功。');
+                } else {
+                    toastr.error(data.message, '操作失败');
+                }
+            },
+            error: function () {
+                alert("信息提交错误");
+            }
+        });
+        return false;
+    });
+}
+
+
 $(document).ready(function () {
 
     initStringMethods();
@@ -726,5 +749,7 @@ $(document).ready(function () {
     initShowTabByParas();
 
     initPagenationPagesize();
+
+    initOptionFormSubmit()
 
 });

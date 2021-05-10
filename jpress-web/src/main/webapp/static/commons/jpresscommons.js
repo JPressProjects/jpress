@@ -85,7 +85,7 @@ function initSwitchery(elements) {
 
         switcheries[elem.getAttribute('id')] = switchery;
 
-        var datafor = elem.getAttribute("for");
+        var datafor = elem.getAttribute("data-for");
         if (datafor) {
             $("#" + datafor).val(elem.checked);
         }

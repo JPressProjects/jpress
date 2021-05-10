@@ -23,6 +23,8 @@
         }
     });
 
+    // $('select').selectize(options);
+
     var selectize = $select[0].selectize;
 
     $(".newTag").each(function () {
@@ -164,7 +166,7 @@
 #define css()
 <link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.bootstrap4.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/vditor/index.css" rel="stylesheet">
 <style>
@@ -343,11 +345,11 @@
                             <h3 class="card-title">标签</h3>
                         </div>
                         <div class="card-body">
-                            <select class="form-control article-tags" multiple="multiple" name="tag">
+                            <input class="form-control article-tags" multiple="multiple" name="tag">
                                 #for(tag : tags)
                                 <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                                 #end
-                            </select>
+                            </input>
                             <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
 
                             <div class="tags">

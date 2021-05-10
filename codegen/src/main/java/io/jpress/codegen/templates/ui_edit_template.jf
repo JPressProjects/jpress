@@ -58,7 +58,7 @@
 	                                <input type="hidden" id="entryId" name="#(modelAttrName)" value="#('#(')#(modelAttrName) ??)">
 	                             #else
 		                            <div class="form-group">
-		                                <label class="col-sm-2 control-label">#(cm.remarks?? "列名称")</label>
+		                                <label class="col-sm-2 col-form-label">#(cm.remarks?? "列名称")</label>
 		                                <div class="col-sm-6">
 
 		                                #if("java.util.Date"==cm.javaType)

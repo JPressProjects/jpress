@@ -21,7 +21,7 @@
 
                             <h4 class="form-header">附件大小限制</h4>
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">图片限制</label>
+                                <label class="col-sm-2 col-form-label">图片限制</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="图片最大值"
                                            name="attachment_img_maxsize" value="#option('attachment_img_maxsize')">
@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">其他文件</label>
+                                <label class="col-sm-2 col-form-label">其他文件</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="视频、文档等最大值"
                                            name="attachment_other_maxsize" value="#option('attachment_other_maxsize')">
@@ -42,7 +42,7 @@
                             <h4 class="form-header">阿里云OSS同步</h4>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">是否启用附件同步</label>
+                                <label class="col-sm-2 col-form-label">是否启用附件同步</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_enable"
                                            #checkedIf(option("attachment_aliyunoss_enable"))>
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">OSS删除同步</label>
+                                <label class="col-sm-2 col-form-label">OSS删除同步</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_del"
                                            #checkedIf(option("attachment_aliyunoss_del"))>
@@ -64,7 +64,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">API访问域名</label>
+                                <label class="col-sm-2 col-form-label">API访问域名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="阿里云oss的 endPoint"
                                            name="attachment_aliyunoss_endpoint" value="#option('attachment_aliyunoss_endpoint')">
@@ -74,7 +74,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">AccessKeyId</label>
+                                <label class="col-sm-2 col-form-label">AccessKeyId</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
                                            name="attachment_aliyunoss_accesskeyid" value="#option('attachment_aliyunoss_accesskeyid')">
@@ -82,7 +82,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">AccessKeySecret</label>
+                                <label class="col-sm-2 col-form-label">AccessKeySecret</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
                                            name="attachment_aliyunoss_accesskeysecret" value="#option('attachment_aliyunoss_accesskeysecret')">
@@ -90,7 +90,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">存储空间</label>
+                                <label class="col-sm-2 col-form-label">存储空间</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="阿里云oss的 bucketName"
                                            name="attachment_aliyunoss_bucketname" value="#option('attachment_aliyunoss_bucketname')">
@@ -100,7 +100,7 @@
                             <h4 class="form-header">图片水印</h4>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">是否启用水印</label>
+                                <label class="col-sm-2 col-form-label">是否启用水印</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="attachment_watermark_enable"
                                            #checkedIf(option("attachment_watermark_enable"))>
@@ -110,7 +110,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">水印位置</label>
+                                <label class="col-sm-2 col-form-label">水印位置</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="attachment_watermark_position">
                                         <option value="1" #selectedIf(option(
@@ -128,7 +128,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">透明度</label>
+                                <label class="col-sm-2 col-form-label">透明度</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="..."
                                            name="attachment_watermark_transparency"
@@ -138,7 +138,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">水印图片</label>
+                                <label class="col-sm-2 col-form-label">水印图片</label>
                                 <div class="col-sm-6">
                                     <button type="button"
                                             for-src="wimg"

@@ -27,7 +27,7 @@ public class InputRender implements SmartFieldRender {
 
     protected static String template = "" +
             "<div class=\"form-group\">\n" +
-            "    <label class=\"col-sm-2 control-label\">{label}</label>\n" +
+            "    <label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
             "    <div class=\"col-sm-6\">\n" +
             "        <input type=\"text\" class=\"form-control\"\n" +
             "               id=\"{id}\"\n" +

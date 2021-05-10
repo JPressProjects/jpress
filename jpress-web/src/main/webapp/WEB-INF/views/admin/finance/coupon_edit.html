@@ -27,7 +27,7 @@
                         <div class="card-body ">
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">优惠券名称</label>
+                                <label class="col-sm-2 col-form-label">优惠券名称</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.title" class="form-control" value="#(coupon.title ??)"
                                            placeholder="例如：无门槛50元优惠券 | 单品最高减2000元">
@@ -36,7 +36,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">类型</label>
+                                <label class="col-sm-2 col-form-label">类型</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="coupon.type" >
                                         <option value="1" #selectedIf(coupon && coupon.type == 1)>
@@ -54,7 +54,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">优惠券金额</label>
+                                <label class="col-sm-2 col-form-label">优惠券金额</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.amount" class="form-control" value="#(coupon.amount ??)"
                                            placeholder="">
@@ -63,7 +63,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">发行量</label>
+                                <label class="col-sm-2 col-form-label">发行量</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.quota" class="form-control" value="#(coupon.quota ??)"
                                            placeholder="">
@@ -73,7 +73,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">满多少可用</label>
+                                <label class="col-sm-2 col-form-label">满多少可用</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.with_amount" class="form-control" value="#(coupon.with_amount ??)"
                                            placeholder="">
@@ -83,7 +83,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">是否是推广券</label>
+                                <label class="col-sm-2 col-form-label">是否是推广券</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_award" #checkedIf(coupon && coupon.with_award)>
                                     <input type="hidden" id="with_award" name="coupon.with_award">
@@ -93,7 +93,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">消费后奖励金额</label>
+                                <label class="col-sm-2 col-form-label">消费后奖励金额</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.award_amount" class="form-control" value="#(coupon.award_amount ??)"
                                            placeholder="">
@@ -103,7 +103,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">只有会员可用</label>
+                                <label class="col-sm-2 col-form-label">只有会员可用</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_member" #checkedIf(coupon && coupon.with_member)>
                                     <input type="hidden" id="with_member" name="coupon.with_member">
@@ -113,7 +113,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">是否可用多次</label>
+                                <label class="col-sm-2 col-form-label">是否可用多次</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_multi" #checkedIf(coupon && coupon.with_multi)>
                                     <input type="hidden" id="with_multi" name="coupon.with_multi">
@@ -123,7 +123,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">只有领取人可用</label>
+                                <label class="col-sm-2 col-form-label">只有领取人可用</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_owner" #checkedIf(coupon && coupon.with_owner)>
                                     <input type="hidden" id="with_owner" name="coupon.with_owner">
@@ -137,7 +137,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">验证类型</label>
+                                <label class="col-sm-2 col-form-label">验证类型</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="coupon.valid_type">
                                         <option value="1" #selectedIf(coupon && coupon.valid_type == 1)>
@@ -152,7 +152,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">绝对时效</label>
+                                <label class="col-sm-2 col-form-label">绝对时效</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.valid_start_time" class="form-control datetimepicker" value="#(coupon.valid_start_time ??)"
                                            placeholder="" style="width: 48%;display: initial">
@@ -166,7 +166,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">相对时效</label>
+                                <label class="col-sm-2 col-form-label">相对时效</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="coupon.valid_days" class="form-control" value="#(coupon.valid_days ??)"
                                            placeholder="">
@@ -176,7 +176,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">状态</label>
+                                <label class="col-sm-2 col-form-label">状态</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="coupon.status">
                                         <option value="1" #selectedIf(coupon && coupon.status == 1)>

@@ -24,7 +24,7 @@
 
                             <h4 class="form-header">收款通知</h4>
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">邮件通知</label>
+                                <label class="col-sm-2 col-form-label">邮件通知</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="pay_notify_email_enable"
                                            #checkedIf(option("pay_notify_email_enable"))>
@@ -34,7 +34,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">邮件标题</label>
+                                <label class="col-sm-2 col-form-label">邮件标题</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：您有新的订单啦"
@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">邮件模板</label>
+                                <label class="col-sm-2 col-form-label">邮件模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：管理员，您有新的订单啦，订单号是 #('#(payment.trx_no ??)') ..."
                                               name="pay_notify_email_template">#option("pay_notify_email_template")</textarea>
@@ -57,7 +57,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">短信通知</label>
+                                <label class="col-sm-2 col-form-label">短信通知</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="pay_notify_sms_enable"
                                            #checkedIf(option("pay_notify_sms_enable"))>
@@ -68,7 +68,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">通知短信模板</label>
+                                <label class="col-sm-2 col-form-label">通知短信模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="2" class="form-control" placeholder="..."
                                               name="pay_notify_sms_template">#option('pay_notify_sms_template')</textarea>
@@ -78,7 +78,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">短信签名</label>
+                                <label class="col-sm-2 col-form-label">短信签名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
                                            name="pay_notify_sms_sign"
@@ -90,7 +90,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">微信通知</label>
+                                <label class="col-sm-2 col-form-label">微信通知</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="pay_notify_wechat_enable"
                                            #checkedIf(option("pay_notify_wechat_enable"))>
@@ -100,7 +100,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">微信内容</label>
+                                <label class="col-sm-2 col-form-label">微信内容</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="pay_notify_wechat_template">#option("pay_notify_wechat_template")</textarea>
@@ -115,7 +115,7 @@
 
                             <h4 class="form-header">预付通知</h4>
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">邮件通知</label>
+                                <label class="col-sm-2 col-form-label">邮件通知</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="prepay_notify_email_enable"
                                            #checkedIf(option("prepay_notify_email_enable"))>
@@ -125,7 +125,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">邮件标题</label>
+                                <label class="col-sm-2 col-form-label">邮件标题</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：您有新的订单啦"
@@ -135,7 +135,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">邮件模板</label>
+                                <label class="col-sm-2 col-form-label">邮件模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：管理员，您有新的订单啦，订单号是 #('#(payment.trx_no ??)') ..."
                                               name="prepay_notify_email_template">#option("prepay_notify_email_template")</textarea>
@@ -148,7 +148,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">短信通知</label>
+                                <label class="col-sm-2 col-form-label">短信通知</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="prepay_notify_sms_enable"
                                            #checkedIf(option("prepay_notify_sms_enable"))>
@@ -159,7 +159,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">通知短信模板</label>
+                                <label class="col-sm-2 col-form-label">通知短信模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="2" class="form-control" placeholder="..."
                                               name="prepay_notify_sms_template">#option('prepay_notify_sms_template')</textarea>
@@ -169,7 +169,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">短信签名</label>
+                                <label class="col-sm-2 col-form-label">短信签名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
                                            name="prepay_notify_sms_sign"
@@ -181,7 +181,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">微信通知</label>
+                                <label class="col-sm-2 col-form-label">微信通知</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="prepay_notify_wechat_enable"
                                            #checkedIf(option("prepay_notify_wechat_enable"))>
@@ -191,7 +191,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">微信内容</label>
+                                <label class="col-sm-2 col-form-label">微信内容</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="prepay_notify_wechat_template">#option("prepay_notify_wechat_template")</textarea>

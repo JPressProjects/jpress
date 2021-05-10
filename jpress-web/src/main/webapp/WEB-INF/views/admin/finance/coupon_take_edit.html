@@ -25,7 +25,7 @@
                         <div class="card-body ">
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">优惠券名称</label>
+                                <label class="col-sm-2 col-form-label">优惠券名称</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" value="#(coupon.title ??)" readonly>
                                 </div>
@@ -33,7 +33,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">类型</label>
+                                <label class="col-sm-2 col-form-label">类型</label>
                                 <div class="col-sm-6">
                                     <input type="input"class="form-control" value="#(coupon.typeStr ??)" readonly>
                                 </div>
@@ -41,7 +41,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">优惠券金额</label>
+                                <label class="col-sm-2 col-form-label">优惠券金额</label>
                                 <div class="col-sm-6">
                                     <input type="input"  class="form-control" value="#(coupon.amount ??)" readonly
                                            placeholder="">
@@ -51,7 +51,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">分配的用户Id</label>
+                                <label class="col-sm-2 col-form-label">分配的用户Id</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="userId" class="form-control" value="#(code.user_id ??)" #(code ? 'readonly' : '')
                                            placeholder="">
@@ -61,7 +61,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">状态</label>
+                                <label class="col-sm-2 col-form-label">状态</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="status">
                                         <option value="1" #selectedIf(code && code.status == 1)>

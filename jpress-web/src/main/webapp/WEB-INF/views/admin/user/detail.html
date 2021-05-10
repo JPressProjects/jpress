@@ -9,14 +9,14 @@
     <input name="user.id" type="hidden" value="#(user.id)">
     <div class="card-body ">
         <div class="form-group row">
-            <label class="col-sm-2 control-label">登录账号</label>
+            <label class="col-sm-2 col-form-label">登录账号</label>
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" value="#(user.username ??)" readonly>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 control-label">昵称</label>
+            <label class="col-sm-2 col-form-label">昵称</label>
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="取个好听的昵称..."
@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 control-label">身份</label>
+            <label class="col-sm-2 col-form-label">身份</label>
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="设计师？程序员？..."
@@ -35,7 +35,7 @@
 
 
         <div class="form-group row">
-            <label class="col-sm-2 control-label">备注</label>
+            <label class="col-sm-2 col-form-label">备注</label>
 
             <div class="col-sm-8">
                 <textarea rows="3" class="form-control" placeholder="添加点备注..."
@@ -47,7 +47,7 @@
         <h4 class="form-header">其他</h4>
 
         <div class="form-group row">
-            <label class="col-sm-2 control-label">状态</label>
+            <label class="col-sm-2 col-form-label">状态</label>
 
             <div class="col-sm-8">
                 <select class="form-control" name="user.status">
@@ -59,7 +59,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 control-label">注册日期</label>
+            <label class="col-sm-2 col-form-label">注册日期</label>
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" value="#date(user.created)" readonly>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 control-label">激活日期</label>
+            <label class="col-sm-2 col-form-label">激活日期</label>
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" value="#date(user.activated)" readonly>
@@ -75,7 +75,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 control-label">最后登录时间</label>
+            <label class="col-sm-2 col-form-label">最后登录时间</label>
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" value="#date(user.logged)" readonly>
@@ -83,7 +83,7 @@
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 control-label">来源</label>
+            <label class="col-sm-2 col-form-label">来源</label>
 
             <div class="col-sm-8">
                 <input type="input" class="form-control" value="#(user.sourceString ??)" readonly>

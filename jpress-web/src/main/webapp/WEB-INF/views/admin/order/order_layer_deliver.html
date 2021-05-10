@@ -15,7 +15,7 @@
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">收件人</label>
+                        <label class="col-sm-2 col-form-label">收件人</label>
                         <div class="col-sm-8">
                             <input type="input" class="form-control" readonly
                                    value="#(order.delivery_addr_username ??)">
@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">电话号码</label>
+                        <label class="col-sm-2 col-form-label">电话号码</label>
                         <div class="col-sm-8">
                             <input type="input" class="form-control" readonly
                                    value="#(order.delivery_addr_mobile ??)">
@@ -32,7 +32,7 @@
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">地址</label>
+                        <label class="col-sm-2 col-form-label">地址</label>
                         <div class="col-sm-8">
                             <textarea rows="2" readonly class="form-control">#(order.delivery_addr_province ??) #(order.delivery_addr_city ??) #(order.delivery_addr_district ??) #(order.delivery_addr_detail ??)</textarea>
                         </div>
@@ -40,7 +40,7 @@
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">配送方式</label>
+                        <label class="col-sm-2 col-form-label">配送方式</label>
                         <div class="col-sm-8">
                             <select class="form-control" name="deliveryType">
                                 <option value="1">无需配送</option>
@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">快递公司</label>
+                        <label class="col-sm-2 col-form-label">快递公司</label>
                         <div class="col-sm-8">
                             <select class="form-control" name="deliveryCompany">
                                 #for(ex : expressComs)
@@ -66,7 +66,7 @@
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">快递单号</label>
+                        <label class="col-sm-2 col-form-label">快递单号</label>
                         <div class="col-sm-8">
                             <input type="input" name="deliveryNo" class="form-control">
                         </div>
@@ -75,7 +75,7 @@
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">发货时间</label>
+                        <label class="col-sm-2 col-form-label">发货时间</label>
                         <div class="col-sm-8">
                             <input type="input" name="deliveryStartTime" class="form-control datetimepicker" >
                         </div>

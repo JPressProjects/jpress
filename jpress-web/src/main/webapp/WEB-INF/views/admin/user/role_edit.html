@@ -21,7 +21,7 @@
                         <input type="hidden" name="role.id" value="#(role.id ??)">
                         <div class="card-body ">
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">名称</label>
+                                <label class="col-sm-2 col-form-label">名称</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" name="role.name" class="form-control" value="#(role.name ??)"
@@ -30,7 +30,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">超级管理员</label>
+                                <label class="col-sm-2 col-form-label">超级管理员</label>
                                 <div class="col-sm-6">
                                     #if(role)
                                     <input type="checkbox" class="switchery" name="issuper" value="true"
@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">描述</label>
+                                <label class="col-sm-2 col-form-label">描述</label>
                                 <div class="col-sm-6">
                                     <textarea rows="5" name="role.description" class="form-control"
                                               placeholder="该角色的一些描述 或 备注">#(role.description ??)</textarea>

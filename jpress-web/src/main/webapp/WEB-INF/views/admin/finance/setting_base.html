@@ -23,7 +23,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">开启提现功能</label>
+                                <label class="col-sm-2 col-form-label">开启提现功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="payout_enable"
                                            #checkedIf(option("payout_enable"))>
@@ -34,7 +34,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">提现手续费</label>
+                                <label class="col-sm-2 col-form-label">提现手续费</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="payout_fee" value="#option('payout_fee')">
                                     <p class="help-block"> 填写 0 ~ 1 小数点，每笔提现，按提现额乘以填写的小数点为总提现金额。 </p>
@@ -43,7 +43,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">订单关闭时间</label>
+                                <label class="col-sm-2 col-form-label">订单关闭时间</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="order_timeout" value="#option('order_timeout','0')">
                                     <p class="help-block"> 当某个订单在多少天内未支付，自动关闭。填写 0 为永久不关闭。 </p>
@@ -54,7 +54,7 @@
                             <h4 class="form-header">物流设置</h4>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">物流信息API</label>
+                                <label class="col-sm-2 col-form-label">物流信息API</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="express_api_type">
                                         #for(exq : querierNames)
@@ -69,7 +69,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">AppId（或 AppKey）</label>
+                                <label class="col-sm-2 col-form-label">AppId（或 AppKey）</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="express_api_appid" class="form-control" value="#option('express_api_appid')" placeholder="">
                                 </div>
@@ -77,7 +77,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">AppSecret</label>
+                                <label class="col-sm-2 col-form-label">AppSecret</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="express_api_appsecret" class="form-control" value="#option('express_api_appsecret')"
                                            placeholder="">

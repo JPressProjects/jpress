@@ -22,7 +22,7 @@
                         <div class="card-body ">
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">自定义非法关键字</label>
+                                <label class="col-sm-2 col-form-label">自定义非法关键字</label>
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control"
                                               placeholder="自定义的非法关键字..."
@@ -35,7 +35,7 @@
                             <h4 class="form-header">云端AI过滤</h4>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">开启云过滤功能</label>
+                                <label class="col-sm-2 col-form-label">开启云过滤功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="text_filter_service_enable" #checkedIf(option("text_filter_service_enable"))>
                                     <input type="hidden" id="text_filter_service_enable" name="text_filter_service_enable">
@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">云过滤服务商</label>
+                                <label class="col-sm-2 col-form-label">云过滤服务商</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="text_filter_service">
                                         <option value="aliyun" #selectedIf(option('text_filter_service') == 'aliyun') >阿里云</option>
@@ -64,7 +64,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">App Id</label>
+                                <label class="col-sm-2 col-form-label">App Id</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="从服务商获取的 appId ..."
                                            name="text_filter_appid"
@@ -74,7 +74,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">App Secret</label>
+                                <label class="col-sm-2 col-form-label">App Secret</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="及 appSecret"
@@ -85,7 +85,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">App Code</label>
+                                <label class="col-sm-2 col-form-label">App Code</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="App Code"

@@ -30,7 +30,7 @@ public class RadioRender implements SmartFieldRender {
 
     protected static String template1 = "" +
             "<div class=\"form-group\">\n" +
-            "    <label class=\"col-sm-2 control-label\">{label}</label>";
+            "    <label class=\"col-sm-2 col-form-label\">{label}</label>";
 
 
     protected static String template_item = "" +

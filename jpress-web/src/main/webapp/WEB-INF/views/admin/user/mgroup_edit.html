@@ -30,7 +30,7 @@ initEditor('contenteditor', 300);
                         <div class="card-body ">
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">会员名称</label>
+                                <label class="col-sm-2 col-form-label">会员名称</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" name="group.name" class="form-control" value="#(group.name ??)"
@@ -39,7 +39,7 @@ initEditor('contenteditor', 300);
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">会员介绍页标题</label>
+                                <label class="col-sm-2 col-form-label">会员介绍页标题</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.title" class="form-control" value="#(group.title ??)"
                                            placeholder="请输入标题内容...">
@@ -50,7 +50,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">描述</label>
+                                <label class="col-sm-2 col-form-label">描述</label>
                                 <div class="col-sm-8">
                                     <textarea rows="5" name="group.content" class="form-control" id="contenteditor"
                                               placeholder="会员描述，包括会员的权益、福利等">#EditorContent(group.content ??)</textarea>
@@ -59,7 +59,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">摘要</label>
+                                <label class="col-sm-2 col-form-label">摘要</label>
                                 <div class="col-sm-6">
                                     <textarea rows="5" name="group.summary" class="form-control"
                                               placeholder="该角色的一些摘要描述">#(group.summary ??)</textarea>
@@ -67,7 +67,7 @@ initEditor('contenteditor', 300);
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">加入所需费用</label>
+                                <label class="col-sm-2 col-form-label">加入所需费用</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.price" class="form-control" value="#(group.price ??)"
                                            placeholder="">
@@ -76,7 +76,7 @@ initEditor('contenteditor', 300);
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">购买有效期</label>
+                                <label class="col-sm-2 col-form-label">购买有效期</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.valid_term" class="form-control" value="#(group.valid_term ??)"
                                            placeholder="">
@@ -86,7 +86,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">限时价格</label>
+                                <label class="col-sm-2 col-form-label">限时价格</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.limited_price" class="form-control" value="#(group.limited_price ??)"
                                            placeholder="">
@@ -95,7 +95,7 @@ initEditor('contenteditor', 300);
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">限时时间</label>
+                                <label class="col-sm-2 col-form-label">限时时间</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.limited_time" class="form-control datetimepicker" value="#(group.limited_time ??)"
                                            placeholder="">
@@ -105,7 +105,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">缩略图</label>
+                                <label class="col-sm-2 col-form-label">缩略图</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.thumbnail" class="form-control" value="#(group.thumbnail ??)"
                                            placeholder="">
@@ -115,7 +115,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">视频介绍</label>
+                                <label class="col-sm-2 col-form-label">视频介绍</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.video" class="form-control" value="#(group.video ??)"
                                            placeholder="">
@@ -125,7 +125,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">会员icon</label>
+                                <label class="col-sm-2 col-form-label">会员icon</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.icon" class="form-control" value="#(group.icon ??)"
                                            placeholder="用于在帖子用户属性位置进行显示，可以是某个图片附件的路径，也可以是某个class样式。">
@@ -135,7 +135,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">是否启用分销功能</label>
+                                <label class="col-sm-2 col-form-label">是否启用分销功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="dist_enable" #checkedIf(group && group.dist_enable)>
                                     <input type="hidden" id="dist_enable" name="group.dist_enable">
@@ -145,7 +145,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">分销的分成</label>
+                                <label class="col-sm-2 col-form-label">分销的分成</label>
                                 <div class="col-sm-6">
                                     <input class="form-control" name="group.dist_amount" type="input" value="#(group.dist_amount ??)"
                                            placeholder="">
@@ -156,7 +156,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">标识</label>
+                                <label class="col-sm-2 col-form-label">标识</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="group.flag" class="form-control" value="#(group.flag ??)"
                                            placeholder="">
@@ -166,7 +166,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">是否在用户中心显示</label>
+                                <label class="col-sm-2 col-form-label">是否在用户中心显示</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="with_ucenter" #checkedIf(group && group.with_ucenter)>
                                     <input type="hidden" id="with_ucenter" name="group.with_ucenter">
@@ -175,7 +175,7 @@ initEditor('contenteditor', 300);
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">状态</label>
+                                <label class="col-sm-2 col-form-label">状态</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="group.status">
                                         <option value="9" #selectedIf(group && group.status == 9)>

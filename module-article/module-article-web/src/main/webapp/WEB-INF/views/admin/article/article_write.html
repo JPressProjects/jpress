@@ -153,7 +153,6 @@
             fullscreen: {
                 index: 9999,
             },
-            "value": "## 所见即所得（WYSIWYG）\n所见即所得模式对不熟悉 Markdown 的用户较为友好，熟悉 Markdown 的话也可以无缝使用。 ",
             "mode": "wysiwyg"
         })
     }
@@ -257,7 +256,7 @@
                                 <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
                                 <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor('#(article.id ?? 0)')">
                                     #if(editMode && editMode == 'html')
-                                    使用 markdown 编辑
+                                    Markdown编辑
                                     #else
                                     可视化编辑
                                     #end

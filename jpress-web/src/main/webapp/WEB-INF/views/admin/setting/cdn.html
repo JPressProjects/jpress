@@ -21,14 +21,14 @@
                           id="optionForm">
                         <div class="card-body ">
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">开启CDN网站加速</label>
+                                <label class="col-sm-2 col-form-label">开启CDN网站加速</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="cdn_enable" #checkedIf(option("cdn_enable"))>
                                     <input type="hidden" id="cdn_enable" name="cdn_enable">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">CDN域名</label>
+                                <label class="col-sm-2 col-form-label">CDN域名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="请填写CDN域名..."
                                            name="cdn_domain" value="#option('cdn_domain')">
@@ -38,7 +38,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 control-label">排除文件</label>
+                                <label class="col-sm-2 col-form-label">排除文件</label>
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control"
                                               placeholder="排除的文件将不采用CDN进行加速..."

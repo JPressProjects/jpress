@@ -26,7 +26,7 @@ import io.jpress.core.support.smartfield.SmartFieldRender;
 public class DatetimeRender implements SmartFieldRender {
 
     protected static String template = "" +
-            "<div class=\"form-group\">\n" +
+            "<div class=\"form-group row\">\n" +
             "    <label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
             "    <div class=\"col-sm-6\">\n" +
             "        <input type=\"text\" class=\"form-control datetimepicker\"\n" +

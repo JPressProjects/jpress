@@ -29,7 +29,7 @@ import java.util.Objects;
 public class SelectRender implements SmartFieldRender {
 
     protected static String template1 = "" +
-            "<div class=\"form-group\">\n" +
+            "<div class=\"form-group row\">\n" +
             "    <label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
             "    <div class=\"col-sm-6\">\n" +
             "        <select class=\"form-control\" name=\"{name}\">\n";

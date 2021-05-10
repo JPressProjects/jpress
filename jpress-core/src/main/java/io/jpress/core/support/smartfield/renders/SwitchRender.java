@@ -28,7 +28,7 @@ import java.util.Objects;
 public class SwitchRender implements SmartFieldRender {
 
     protected static String template = "" +
-            "<div class=\"form-group\">\n" +
+            "<div class=\"form-group row\">\n" +
             "    <label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
             "    <div class=\"col-sm-6\">\n" +
             "        <input type=\"checkbox\" {checked} class=\"switchery\"\n" +

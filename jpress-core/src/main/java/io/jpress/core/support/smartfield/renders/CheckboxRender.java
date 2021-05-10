@@ -29,7 +29,7 @@ import java.util.Objects;
 public class CheckboxRender implements SmartFieldRender {
 
     protected static String template1 = "" +
-            "<div class=\"form-group\">\n" +
+            "<div class=\"form-group row\">\n" +
             "    <label class=\"col-sm-2 col-form-label\">{label}</label>";
 
 

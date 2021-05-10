@@ -15,8 +15,11 @@
  */
 package io.jpress.core.support.smartfield.renders;
 
+import io.jboot.utils.DateUtil;
 import io.jpress.core.support.smartfield.SmartField;
 import io.jpress.core.support.smartfield.SmartFieldRender;
+
+import java.util.Date;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -39,7 +42,7 @@ public class DatetimeRender implements SmartFieldRender {
 
     @Override
     public String onRender(SmartField field, Object value) {
-        return RenderKit.render(template, field, value);
+        return RenderKit.render(template, field, DateUtil.toDateTimeString((Date) value));
     }
 
 

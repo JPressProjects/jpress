@@ -50,11 +50,11 @@
     line-height: 25px;
 }
 
-.jp-actionitem {
+.jp-action-body {
     display: none;
 }
 
-.jp-actionitem a {
+.jp-action-body a {
     font-size: 13px;
     font-weight: 400;
     color: #006505;

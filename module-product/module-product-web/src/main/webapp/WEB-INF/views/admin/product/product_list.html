@@ -133,7 +133,7 @@
 										</strong>
 										<div class="jp-action-card">
 											#if(product.isNormal())
-											<div class="jp-actionitem">
+											<div class="jp-action-body">
 												<a href="#(CPATH)/admin/product/edit/#(product.id)">编辑</a> |
 												<a href="javascript:;" onclick="draft('#(product.id??)')">草稿</a>
 												|
@@ -142,13 +142,13 @@
 												<a href="#(product.url ??)" target="_blank" class="red-action">查看</a>
 											</div>
 											#elseif(product.isDraft())
-											<div class="jp-actionitem">
+											<div class="jp-action-body">
 												<a href="#(CPATH)/admin/product/edit/#(product.id)">编辑</a> |
 												<a href="javascript:;" onclick="trash('#(product.id??)')"
 												   class="red-action">垃圾箱</a>
 											</div>
 											#else
-											<div class="jp-actionitem">
+											<div class="jp-action-body">
 												<a href="javascript:;" onclick="draft('#(product.id??)')">还原</a>
 												|
 												<a href="javascript:;" onclick="del('#(product.id??)')" class="red-action">永久删除</a>

@@ -53,9 +53,9 @@ function initDatetimePicker() {
 
 function initTableActions() {
     $(".jp-actiontr").mouseover(function () {
-        $(this).find(".jp-actionitem").show();
+        $(this).find(".jp-action-body").show();
     }).mouseout(function () {
-        $(".jp-actionitem").hide()
+        $(".jp-action-body").hide()
     })
 }
 

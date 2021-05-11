@@ -440,6 +440,7 @@ function initResetBtn() {
     $('[type="reset"]').on('click', function (e) {
         $(this).closest('form').find('[type="text"]').val("");
         $(this).closest('form').find('textarea').val("");
+        $(this).closest('form').find('select').val("");
         e.preventDefault();
     });
 }

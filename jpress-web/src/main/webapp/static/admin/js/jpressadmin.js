@@ -239,7 +239,7 @@ function initBackButton() {
 function initDatePicker() {
     // git https://github.com/t1m0n/air-datepicker
     // doc http://t1m0n.name/air-datepicker/docs/
-    if ($('').datepicker) {
+    if ($.datepicker) {
         $('.date,[data-render="date"]').each(function () {
             var timepicker = $(this).hasClass('time');
             $(this).datepicker({
@@ -256,7 +256,7 @@ function initDatePicker() {
  */
 function initSelect2() {
     // select2 的属性是可以通过 data-** 来渲染的，详情: https://select2.org/configuration/data-attributes
-    if ($('').select2) {
+    if ($.select2) {
         $('[data-render="select2"]').select2();
     }
 }
@@ -280,52 +280,54 @@ function initToastr() {
  */
 function initValidate() {
     //https://jqueryvalidation.org/documentation/
-    $.validator.setDefaults({
-        errorElement: 'span',
-        errorPlacement: function (error, element) {
-            error.addClass('invalid-feedback');
-            element.parent().append(error);
-        },
-        highlight: function (element, errorClass, validClass) {
-            $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass('is-invalid');
-            // if ($(element).hasClass('is-invalid')) {
-            //     $(element).removeClass('is-invalid');
-            //     $(element).addClass('is-valid');
-            // }
-        }
-    });
-
-    $.validator.addMethod("mobile", function (value, element) {
-        var length = value.length;
-        var mobile = /^(((1[3-9]{1}))+\d{9})$/;
-        return this.optional(element) || (length == 11 && mobile.test(value));
-    }, "手机号码格式错误");
-
-
-    // 支持多个相同 name 的验证
-    // 参考 https://stackoverflow.com/questions/931687/using-jquery-validate-plugin-to-validate-multiple-form-fields-with-identical-nam/4136430#4136430
-    $.validator.prototype.checkForm = function () {
-        //overriden in a specific page
-        this.prepareForm();
-        for (var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++) {
-            if (this.findByName(elements[i].name).length !== undefined && this.findByName(elements[i].name).length > 1) {
-                for (var cnt = 0; cnt < this.findByName(elements[i].name).length; cnt++) {
-                    try {
-                        var checkObj = this.findByName(elements[i].name)[cnt];
-                        //hidden 类型无法进行 check，防止开发人员在 hidden 的 input 添加验证
-                        this.check(checkObj);
-                    } catch (e) {
-                    }
-                }
-            } else {
-                this.check(elements[i]);
+    if($.validator) {
+        $.validator.setDefaults({
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.parent().append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+                // if ($(element).hasClass('is-invalid')) {
+                //     $(element).removeClass('is-invalid');
+                //     $(element).addClass('is-valid');
+                // }
             }
-        }
-        return this.valid();
-    };
+        });
+
+        $.validator.addMethod("mobile", function (value, element) {
+            var length = value.length;
+            var mobile = /^(((1[3-9]{1}))+\d{9})$/;
+            return this.optional(element) || (length == 11 && mobile.test(value));
+        }, "手机号码格式错误");
+
+
+        // 支持多个相同 name 的验证
+        // 参考 https://stackoverflow.com/questions/931687/using-jquery-validate-plugin-to-validate-multiple-form-fields-with-identical-nam/4136430#4136430
+        $.validator.prototype.checkForm = function () {
+            //overriden in a specific page
+            this.prepareForm();
+            for (var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++) {
+                if (this.findByName(elements[i].name).length !== undefined && this.findByName(elements[i].name).length > 1) {
+                    for (var cnt = 0; cnt < this.findByName(elements[i].name).length; cnt++) {
+                        try {
+                            var checkObj = this.findByName(elements[i].name)[cnt];
+                            //hidden 类型无法进行 check，防止开发人员在 hidden 的 input 添加验证
+                            this.check(checkObj);
+                        } catch (e) {
+                        }
+                    }
+                } else {
+                    this.check(elements[i]);
+                }
+            }
+            return this.valid();
+        };
+    }
 }
 
 
@@ -661,16 +663,6 @@ function initInputActions() {
 }
 
 
-
-
-function initShowTabByParas() {
-    var showTab = Utils.getPara("showtab");
-    if (showTab && showTab != "") {
-        $('#' + showTab).tab('show');
-    }
-}
-
-
 function initPagenationPagesize() {
     $('.pagination-pagesize').on('change', function () {
         var pagesize = $(this).find(":selected").val();
@@ -717,6 +709,33 @@ function initOptionFormSubmit() {
 }
 
 
+
+function initImageBrowserButton() {
+    $(".btn-image-browser").on("click", function () {
+        var imgBrowserBtn = $(this);
+        layer.open({
+            type: 2,
+            title: '选择图片',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.5,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/attachment/browse',
+            end: function () {
+                if (layer.data.src != null) {
+                    var img = imgBrowserBtn.attr("for-src");
+                    var input = imgBrowserBtn.attr("for-input");
+                    $("#" + img).attr("src", jpress.cpath + layer.data.src);
+                    $("#" + img).trigger("srcChanged",jpress.cpath + layer.data.src);
+                    $("#" + input).val(layer.data.src);
+                    $("#" + input).trigger("valChanged",layer.data.src);
+                }
+            }
+        });
+    })
+}
+
+
 $(document).ready(function () {
 
     initStringMethods();
@@ -747,10 +766,10 @@ $(document).ready(function () {
 
     initDatatableCheckBox();
 
-    initShowTabByParas();
-
     initPagenationPagesize();
 
-    initOptionFormSubmit()
+    initOptionFormSubmit();
+
+    initImageBrowserButton();
 
 });

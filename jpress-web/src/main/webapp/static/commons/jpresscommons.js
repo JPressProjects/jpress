@@ -52,7 +52,7 @@ function initDatetimePicker() {
 }
 
 function initTableActions() {
-    $(".jp-actiontr").mouseover(function () {
+    $("tr").mouseover(function () {
         $(this).find(".jp-action-body").show();
     }).mouseout(function () {
         $(".jp-action-body").hide()

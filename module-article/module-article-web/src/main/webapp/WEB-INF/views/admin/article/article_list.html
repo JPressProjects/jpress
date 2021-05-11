@@ -121,7 +121,6 @@
                                 <th>Slug</th>
                                 <th>样式</th>
                                 <th style="width: 100px">发布时间</th>
-                                <th style="width: 100px">操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -140,32 +139,33 @@
                                     #end
                                 </strong>
                                 <div class="jp-action-card">
-                                    <div class="jp-action-body" style="display: none;">
-                                        <a href="/admin/article/write/425">编辑</a> |
-                                        <a href="javascript:;" onclick="draft('425')">草稿</a>
-                                        |
-                                        <a href="javascript:;" onclick="trash('425')" class="red-action">垃圾箱</a> |
-                                        <a href="" target="_blank" class="red-action">查看</a>
-                                    </div>
+                                        #if(item.isNormal())
+                                        <div class="jp-action-body">
+                                            <a href="#(CPATH)/admin/article/write/#(item.id)">编辑</a> |
+                                            <a href="javascript:;" onclick="draft('#(item.id??)')">草稿</a>
+                                            |
+                                            <a href="javascript:;" onclick="trash('#(item.id??)')"
+                                               class="red-action">垃圾箱</a> |
+                                            <a href="#(item.url ??)" target="_blank" class="red-action">查看</a>
+                                        </div>
+                                        #elseif(item.isDraft())
+                                        <div class="jp-action-body">
+                                            <a href="#(CPATH)/admin/article/write/#(item.id)">编辑</a> |
+                                            <a href="javascript:;" onclick="trash('#(item.id??)')"
+                                               class="red-action">垃圾箱</a>
+                                        </div>
+                                        #else
+                                        <div class="jp-action-body">
+                                            <a href="javascript:;" onclick="draft('#(item.id??)')">还原</a>
+                                            |
+                                            <a href="javascript:;" onclick="del('#(item.id??)')" class="red-action">永久删除</a>
+                                        </div>
+                                        #end
                                 </div>
                             </td>
                             <td>#(item.slug ??)</td>
                             <td>#(item.style ?? "默认")</td>
                             <td>#date(item.created ??)</td>
-                            <td>
-                                #if(item.isNormal())
-                                    <a href="#(CPATH)/admin/article/write/#(item.id)" style="color: #006505">编辑</a> |
-                                    <a href="#(CPATH)/admin/article/doDraft/#(item.id)" open-type="ajax" style="color: #006505">草稿</a> |
-                                    <a href="#(CPATH)/admin/article/doTrash/#(item.id)" open-type="ajax"  style="color: #a00">垃圾箱</a> |
-                                    <a href="#(item.url ??)" target="_blank" style="color: #a00">查看</a>
-                                #elseif(item.isDraft())
-                                    <a href="#(CPATH)/admin/article/write/#(item.id)" style="color: #006505">编辑</a> |
-                                    <a href="#(CPATH)/admin/article/doTrash/#(item.id)" open-type="ajax"  style="color: #a00">垃圾箱</a>
-                                #else
-                                    <a href="#(CPATH)/admin/article/doNormal/#(item.id)" open-type="ajax" style="color: #006505">还原</a> |
-                                    <a href="#(CPATH)/admin/article/doDel/#(item.id)" open-type="del-confirm" style="color: #a00">永久删除</a>
-                                #end
-                            </td>
                         </tr>
                         #end
 

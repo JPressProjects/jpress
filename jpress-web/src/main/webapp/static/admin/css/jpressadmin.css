@@ -212,12 +212,21 @@ tbody > tr > th, td:focus {
 }
 
 
-.jp-action-item a {
+.jp-action-card {
+    min-height: 25px;
+    line-height: 25px;
+}
+
+.jp-action-body {
+    display: none;
+}
+
+.jp-action-body a {
     font-size: 13px;
     font-weight: 400;
     color: #006505;
 }
 
-.jp-action-item > .red-action {
+.red-action {
     color: #a00 !important;
 }

@@ -45,24 +45,7 @@
     font-size: 14px;
 }
 
-.jp-action-card {
-    min-height: 25px;
-    line-height: 25px;
-}
 
-.jp-action-body {
-    display: none;
-}
-
-.jp-action-body a {
-    font-size: 13px;
-    font-weight: 400;
-    color: #006505;
-}
-
-.red-action {
-    color: #a00 !important;
-}
 .navbar-nav>.messages-menu>.dropdown-menu>li .menu>li>a:hover{
     background-color: #eee;
 }

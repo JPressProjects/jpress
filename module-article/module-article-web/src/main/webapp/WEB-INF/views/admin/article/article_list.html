@@ -59,7 +59,7 @@
 
                     <div class="row">
                         <div class="col-sm-6" style="padding-top: 20px">
-                            <a href="#(CPATH)/admin/page">全部 (#(totalCount ??))</a> |
+                            <a href="#(CPATH)/admin/article">全部 (#(totalCount ??))</a> |
                             <a href="?status=normal">已发布 (#(normalCount ??))</a> |
                             <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
                             <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="col-sm-6 ">
                     <div class=" float-sm-right" style="padding-top: 45px">
-                        <a href="#(CPATH)/admin/page/write" type="button" class="btn btn-primary"><i
+                        <a href="#(CPATH)/admin/article/write" type="button" class="btn btn-primary"><i
                                 class="fa fa-fw fa-plus"></i>新建</a>
                     </div>
                 </div>
@@ -139,6 +139,15 @@
                                     （草稿）
                                     #end
                                 </strong>
+                                <div class="jp-action-card">
+                                    <div class="jp-action-body" style="display: none;">
+                                        <a href="/admin/article/write/425">编辑</a> |
+                                        <a href="javascript:;" onclick="draft('425')">草稿</a>
+                                        |
+                                        <a href="javascript:;" onclick="trash('425')" class="red-action">垃圾箱</a> |
+                                        <a href="" target="_blank" class="red-action">查看</a>
+                                    </div>
+                                </div>
                             </td>
                             <td>#(item.slug ??)</td>
                             <td>#(item.style ?? "默认")</td>

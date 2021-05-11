@@ -90,13 +90,6 @@ div.dataTables_wrapper {
     font-size: 10px;
 }
 
-/*.nav-legacy.nav-sidebar>.nav-item>.nav-link.active {*/
-/*    background: inherit;*/
-/*    border-left: 3px solid transparent;*/
-/*    box-shadow: none;*/
-/*    background-color: #282c2f;*/
-/*}*/
-
 .btn-group > .active {
     background-color: #e9ecef;
     color: #2b2b2b;
@@ -218,10 +211,13 @@ tbody > tr > th, td:focus {
     margin-left: 8px;
 }
 
-/*.table-action tbody tr{*/
-/*    height: 65px;*/
-/*}*/
 
-.ck-editor__editable_inline {
-    min-height: 500px;
+.jp-action-item a {
+    font-size: 13px;
+    font-weight: 400;
+    color: #006505;
+}
+
+.jp-action-item > .red-action {
+    color: #a00 !important;
 }

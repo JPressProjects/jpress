@@ -45,6 +45,11 @@
 
     // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
     window.doSubmit = function () {
+        if (window.myWangEditor){
+            $("#content").val(window.myWangEditor.txt.html());
+        }else if (window.myVditor){
+            $("#content").val(window.myVditor.getHTML());
+        }
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
             toastr.success('文章保存成功。');
@@ -69,10 +74,11 @@
     }
 
     var editMode = "#(editMode ?? 'html')";
-    if (editMode === 'html'){
-        var editor = new wangEditor('#editor')
-        editor.config.height = 500;
-        editor.config.menus = [
+    // var content = '';
+    if (editMode === 'html') {
+        window.myWangEditor = new wangEditor('#editor')
+        myWangEditor.config.height = 500;
+        myWangEditor.config.menus = [
             'emoticon',
             'head',
             'bold',
@@ -98,8 +104,9 @@
             'undo',
             'redo',
         ]
-        editor.create()
-    }else {
+        myWangEditor.create()
+        // myWangEditor.txt.html(content);
+    } else {
         var toolbar = [
             "emoji",
             "headings",
@@ -142,9 +149,9 @@
                 ],
             }]
 
-        new Vditor('editor', {
+        window.myVditor = new Vditor('editor', {
             "height": 500,
-            "toolbar":toolbar,
+            "toolbar": toolbar,
             "cache": {
                 "enable": false
             },
@@ -154,10 +161,10 @@
             fullscreen: {
                 index: 9999,
             },
-            "mode": "wysiwyg"
+            "mode": "wysiwyg",
+            // "value": content
         })
     }
-
 
 
 </script>
@@ -178,7 +185,7 @@
         cursor: pointer;
     }
 
-    .w-e-toolbar{
+    .w-e-toolbar {
         background-color: #f6f8fa !important;
         border-bottom: 1px solid #d1d5da !important;
         padding: 0 5px;
@@ -225,7 +232,6 @@
     </section>
 
 
-
     <section class="content">
         <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form">
             <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
@@ -255,7 +261,8 @@
                                 （<a href="#(article.url)" target="_blank">访问</a>）
                                 #end
                                 <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
-                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor('#(article.id ?? 0)')">
+                                <a href="javascript:;" style="float: right;padding: 5px 0"
+                                   onclick="doChangeEditor('#(article.id ?? 0)')">
                                     #if(editMode && editMode == 'html')
                                     Markdown编辑
                                     #else
@@ -264,7 +271,8 @@
                                 </a>
                             </div>
                             <div class="col-sm-12">
-                            <div name="article.content" id="editor" >#(article.orignalContent ??)</div>
+                                <div id="editor" >#(article.orignalContent ??)</div>
+                                <input type="hidden" name="article.content" id="content"/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -282,9 +290,7 @@
                                     <!-- /.card-header -->
                                     <div class="card-body ">
                                         <div class="card-body ">
-
                                             #(fields.render())
-
                                         </div>
                                     </div>
                                 </div>
@@ -308,9 +314,6 @@
                     </div>
 
 
-
-
-
                     <div class="card card-outlinecard-solid">
                         <div class="card-header with-border ">
                             <h3 class="card-title">分类</h3>
@@ -318,7 +321,7 @@
                         <div class="card-body ">
                             <div class="form-group">
                                 #for(category : categories)
-                                <div >
+                                <div>
                                     <label>
                                         #for(i = 0; i < category.layerNumber; i++)
                                         &nbsp;&nbsp;
@@ -329,7 +332,6 @@
                                         #else
                                         <input type="checkbox" name="category" value="#(category.id)"/>
                                         #end
-
 
                                         #(category.title ??)
                                     </label>
@@ -345,9 +347,9 @@
                         </div>
                         <div class="card-body">
                             <input class="form-control article-tags" multiple="multiple" name="tag">
-                                #for(tag : tags)
-                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
-                                #end
+                            #for(tag : tags)
+                            <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                            #end
                             </input>
                             <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
 
@@ -366,7 +368,7 @@
                         <div class="card-header with-border ">
                             <h3 class="card-title">缩略图</h3>
                         </div>
-                        <div class="card-body no-padding">
+                        <div class="card-body p-0">
                             <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
                                  style="width: 100%;height: 200px"
                                  id="thumbnail">
@@ -416,7 +418,6 @@
                             </div>
                         </div>
                     </div>
-
 
 
                 </div>

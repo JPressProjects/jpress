@@ -173,6 +173,10 @@ tbody > tr > th, td:focus {
     margin-top: 0;
 }
 
+.form-check {
+    padding: 0.75rem 0 0 1.25rem;
+}
+
 .dataTables_empty {
     text-align: center;
 }
@@ -229,4 +233,8 @@ tbody > tr > th, td:focus {
 
 .red-action {
     color: #a00 !important;
+}
+
+.editable-container{
+    z-index: 99999;
 }

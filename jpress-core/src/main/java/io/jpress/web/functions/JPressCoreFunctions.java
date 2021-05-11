@@ -124,5 +124,18 @@ public class JPressCoreFunctions {
         return JbootControllerContext.get().get(key, defaultValue);
     }
 
+    public static Number numberPara(String key) {
+        return numberPara(key, null);
+    }
+
+    public static Number numberPara(String key, Number defaultValue) {
+        String value = JbootControllerContext.get().get(key);
+        if (StrUtil.isBlank(value)){
+            return defaultValue;
+        }
+
+        return Long.valueOf(value);
+    }
+
 
 }

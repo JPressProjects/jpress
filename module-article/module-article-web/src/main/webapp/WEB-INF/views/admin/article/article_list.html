@@ -95,11 +95,10 @@
                                  <select class="form-control" name="categoryId">
                                      <option value="">全部分类</option>
                                      #for(category : categories)
-                                     <option value="category.id ??">#(category.title ??)</option>
+                                     <option value="#(category.id ??)" #selectedIf(category.id == numberPara('categoryId'))>#(category.title ??)</option>
                                      #end
                                  </select>
                             </div>
-
                             <div class="form-group col-lg-2">
                                 <button type="submit" class="btn btn-primary ">查询</button>
                                 <button type="reset" class="btn btn-default">重置</button>

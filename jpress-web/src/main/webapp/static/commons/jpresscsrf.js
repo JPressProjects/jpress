@@ -1,10 +1,13 @@
 $(document).ready(function () {
 
     $("form").each(function () {
-        if ($(this).find("input[name=csrf_token]").length == 0) {
-            var token = getCookie("csrf_token");
-            if (token) {
-                $(this).append("<input type='hidden' name='csrf_token' value='" + token + "'/>");
+        var action = $(this).attr('action');
+        if (action && action.indexOf("do") > 0) {
+            if ($(this).find("input[name=csrf_token]").length == 0) {
+                var token = getCookie("csrf_token");
+                if (token) {
+                    $(this).append("<input type='hidden' name='csrf_token' value='" + token + "'/>");
+                }
             }
         }
     });

@@ -66,54 +66,36 @@
                             <div class="row">
 
                                 <div class="form-group col-lg-2">
-                                    <label class="col-sm-3 col-form-label">用户</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="username" value="#para('username')">
-                                    </div>
+                                        <input type="text" placeholder="用户" class="form-control" name="username" value="#para('username')">
                                 </div>
 
 
                                 <div class="form-group col-lg-2">
-                                    <label class="col-sm-3 col-form-label">邮箱</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="email" value="#para('email')">
-                                    </div>
+                                        <input type="text" placeholder="邮箱" class="form-control" name="email" value="#para('email')">
                                 </div>
 
                                 <div class="form-group col-lg-2">
-                                    <label class="col-sm-3 col-form-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="mobile" value="#para('mobile')">
-                                    </div>
+                                        <input type="text" placeholder="手机号" class="form-control" name="mobile" value="#para('mobile')">
                                 </div>
 
 
                                 <div class="form-group col-lg-2">
-                                    <label class="col-sm-3 col-form-label">会员组</label>
-                                    <div class="col-sm-9">
                                         <select class="form-control" name="group_id">
-                                            <option value="">请选择</option>
+                                            <option value="">会员组</option>
                                             #for(group : memberGroups)
                                             <option value="#(group.id)" #selectedIf(para("group_id") == group.id.toString()) >#(group.name ??)</option>
                                             #end
                                         </select>
-                                    </div>
                                 </div>
 
                                 <div class="form-group col-lg-2">
-                                    <label class="col-sm-3 col-form-label">标签</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="tag" value="#para('tag')">
-                                    </div>
+                                        <input type="text" placeholder="标签" class="form-control" name="tag" value="#para('tag')">
                                 </div>
 
 
                                 <div class="form-group col-lg-2">
-                                    <div class="col-sm-12">
                                         <button type="submit" class="btn btn-primary ">查询</button>
                                         <button type="reset" class="btn btn-default">重置</button>
-                                        <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
-                                    </div>
                                 </div>
 
                             </div>

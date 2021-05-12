@@ -38,25 +38,63 @@
 #define content()
 <div class="content-wrapper">
 
-	<section class="content-header">
-		<h1>
-			商品管理
-			<small>Product Management</small>
-		</h1>
-	</section>
+<!--	<section class="content-header">-->
+<!--		<h1>-->
+<!--			商品管理-->
+<!--			<small>Product Management</small>-->
+<!--		</h1>-->
+<!--	</section>-->
 
-	<section class="content-header text-tap">
-		<a href="#(CPATH)/admin/product">全部 (#(totalCount ?? 0))</a> |
-		<a href="?status=1">已上架 (#(normalCount ?? 0))</a> |
-		<a href="?status=2">草稿 (#(draftCount ?? 0))</a> |
-		<a href="?status=3" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+<!--	<section class="content-header text-tap">-->
+<!--		<a href="#(CPATH)/admin/product">全部 (#(totalCount ?? 0))</a> |-->
+<!--		<a href="?status=1">已上架 (#(normalCount ?? 0))</a> |-->
+<!--		<a href="?status=2">草稿 (#(draftCount ?? 0))</a> |-->
+<!--		<a href="?status=3" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>-->
+<!--	</section>-->
+
+
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-6">
+
+					<div class="row mb-2">
+						<div class="col-sm-12">
+							<h1>
+								商品管理
+								<small data-toggle="tooltip" title="" data-placement="right"
+									   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+								<small> 首页 / 商品 / 商品管理</small>
+							</h1>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-6" style="padding-top: 20px">
+							<a href="#(CPATH)/admin/product/list">全部 (#(totalCount ??))</a> |
+							<a href="?status=normal">已发布 (#(normalCount ??))</a> |
+							<a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
+							<a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-sm-6 ">
+					<div class=" float-sm-right" style="padding-top: 45px">
+						<a href="./edit" type="button" class="btn btn-primary"><i class="fa fa-fw fa-plus"></i>新建</a>
+					</div>
+				</div>
+
+			</div>
+
+		</div><!-- /.container-fluid -->
 	</section>
 
 	<section class="content">
 		<div class="container-fluid">
 				<div class="card card-outline card-primary">
 					<div class="card-header with-border">
-						<form class=" actionPanel" action="#(CPATH)/admin/product" method="get">
+						<form class=" admin-search-panel" action="#(CPATH)/admin/product" method="get">
 							<input type="hidden" name="status" value="#para('status')">
 							<div class="row">
 								<div class="form-group col-lg-4">
@@ -89,13 +127,13 @@
 							<!-- /.card-body -->
 						</form>
 
-						<div class="row actionPanel">
-							<div class="col-xs-12">
-								<a href="#(CPATH)/admin/product/edit" class="btn btn-primary "> <i
-										class="fa fa-fw fa-plus"></i> 新建</a>
-								<button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-							</div>
-						</div>
+<!--						<div class="row admin-search-panel">-->
+<!--							<div class="col-xs-12">-->
+<!--								<a href="#(CPATH)/admin/product/edit" class="btn btn-primary "> <i-->
+<!--										class="fa fa-fw fa-plus"></i> 新建</a>-->
+<!--								<button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>-->
+<!--							</div>-->
+<!--						</div>-->
 
 					</div>
 					<!-- /.card-header -->

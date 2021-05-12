@@ -47,7 +47,7 @@ public class _AddonController extends AdminControllerBase {
 
 
     @AdminMenu(text = "所有插件", groupId = JPressConsts.SYSTEM_MENU_ADDON, order = 0)
-    public void index() {
+    public void list() {
 
         List<AddonInfo> addons = AddonManager.me().getAllAddonInfos();
         setAttr("addons", addons);

@@ -62,7 +62,7 @@ public class _ArticleController extends AdminControllerBase {
     private MenuService menuService;
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
-    public void index() {
+    public void list() {
 
         String status = getPara("status");
         String title = getPara("title");

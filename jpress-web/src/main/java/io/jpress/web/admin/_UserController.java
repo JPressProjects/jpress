@@ -81,7 +81,7 @@ public class _UserController extends AdminControllerBase {
 
 
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
-    public void index() {
+    public void list() {
 
         Columns columns = Columns.create("status", getPara("status"));
         columns.likeAppendPercent("username", getTrimPara("username"));

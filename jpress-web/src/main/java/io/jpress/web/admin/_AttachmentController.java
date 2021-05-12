@@ -58,7 +58,7 @@ public class _AttachmentController extends AdminControllerBase {
     private AttachmentService service;
 
     @AdminMenu(text = "所有附件", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 0)
-    public void index() {
+    public void list() {
         Page<Attachment> page = service._paginate(getPagePara(), 15, getPara("title"));
         setAttr("page", page);
         render("attachment/list.html");

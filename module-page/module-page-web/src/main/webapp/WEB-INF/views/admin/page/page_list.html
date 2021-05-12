@@ -59,7 +59,7 @@
 
                     <div class="row">
                         <div class="col-sm-6" style="padding-top: 20px">
-                            <a href="#(CPATH)/admin/page">全部 (#(totalCount ??))</a> |
+                            <a href="#(CPATH)/admin/page/list">全部 (#(totalCount ??))</a> |
                             <a href="?status=normal">已发布 (#(normalCount ??))</a> |
                             <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
                             <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
@@ -113,7 +113,6 @@
                             <th>Slug</th>
                             <th>样式</th>
                             <th style="width: 100px">发布时间</th>
-                            <th style="width: 100px">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -131,30 +130,32 @@
                                     （草稿）
                                     #end
                                 </strong>
+                                <div class="jp-action-card">
+                                    <div class="jp-action-body">
+                                        #if(item.isNormal())
+                                        <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
+                                        <a href="javascript:;" onclick="draft('#(item.id??)')"
+                                           style="color: #006505">草稿</a>
+                                        |
+                                        <a href="javascript:;" onclick="trash('#(item.id??)')"
+                                           style="color: #a00">垃圾箱</a> |
+                                        <a href="#(item.url ??)" target="_blank" style="color: #a00">查看</a>
+                                        #elseif(item.isDraft())
+                                        <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
+                                        <a href="javascript:;" onclick="trash('#(item.id??)')"
+                                           style="color: #a00">垃圾箱</a>
+                                        #else
+                                        <a href="javascript:;" onclick="draft('#(item.id??)')"
+                                           style="color: #006505">还原</a>
+                                        |
+                                        <a href="javascript:;" onclick="del('#(item.id??)')" style="color: #a00">永久删除</a>
+                                        #end
+                                    </div>
+                                </div>
                             </td>
                             <td>#(item.slug ??)</td>
                             <td>#(item.style ?? "默认")</td>
                             <td>#date(item.created ??)</td>
-                            <td>
-                                #if(item.isNormal())
-                                <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
-                                <a href="javascript:;" onclick="draft('#(item.id??)')"
-                                   style="color: #006505">草稿</a>
-                                |
-                                <a href="javascript:;" onclick="trash('#(item.id??)')"
-                                   style="color: #a00">垃圾箱</a> |
-                                <a href="#(item.url ??)" target="_blank" style="color: #a00">查看</a>
-                                #elseif(item.isDraft())
-                                <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
-                                <a href="javascript:;" onclick="trash('#(item.id??)')"
-                                   style="color: #a00">垃圾箱</a>
-                                #else
-                                <a href="javascript:;" onclick="draft('#(item.id??)')"
-                                   style="color: #006505">还原</a>
-                                |
-                                <a href="javascript:;" onclick="del('#(item.id??)')" style="color: #a00">永久删除</a>
-                                #end
-                            </td>
                         </tr>
                         #end
 
@@ -177,14 +178,8 @@
                                     <div class="form-group col-lg-3">
                                         <select class="form-control" name="action">
                                             <option value="">请选择...</option>
-                                            <option value="doBatchDel" open-type="del-confirm">
+                                            <option value="doDelByIds" open-type="del-confirm">
                                                 批量删除
-                                            </option>
-                                            <option value="exportAction">
-                                                导出到Excel
-                                            </option>
-                                            <option value="printAction">
-                                                批量打印
                                             </option>
                                         </select>
                                     </div>

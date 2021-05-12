@@ -63,7 +63,7 @@ public class _ProductController extends AdminControllerBase {
 
 
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
-    public void index() {
+    public void list() {
         Integer status = getParaToInt("status");
         String title = getPara("title");
         Long categoryId = getParaToLong("categoryId");

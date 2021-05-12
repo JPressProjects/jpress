@@ -67,7 +67,7 @@ public class _TemplateController extends AdminControllerBase {
     private OptionService optionService;
 
     @AdminMenu(text = "所有模板", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 0)
-    public void index() {
+    public void list() {
 
         String title = getPara("title");
         List<Template> templates = TemplateManager.me().getInstalledTemplates();

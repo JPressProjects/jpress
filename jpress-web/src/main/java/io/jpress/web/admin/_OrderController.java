@@ -68,7 +68,7 @@ public class _OrderController extends AdminControllerBase {
 
 
     @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
-    public void index() {
+    public void list() {
 
         int todayOrderCount = orderService.queryTotayCount();
         int monthOrderCount = orderService.queryMonthCount();

@@ -39,7 +39,7 @@ public class _ProductCommentController extends AdminControllerBase {
     private ProductCommentService commentService;
 
     @AdminMenu(text = "评论", groupId = "product", order = 88)
-    public void index() {
+    public void list() {
         Integer status = getParaToInt("status");
         String key = getPara("keyword");
         Long productId = getParaToLong("productId");

@@ -24,14 +24,14 @@ var mySwal = typeof (Swal) != "undefined" ? Swal.mixin({
 }) : {};
 
 
-function Jbootutils() {
+function JPressUtils() {
 };
 
 /**
  * 获取 url 的参数内容
  * @returns {string}
  */
-Jbootutils.prototype.getPara = function (variable) {
+JPressUtils.prototype.getPara = function (variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
     for (var i = 0; i < vars.length; i++) {
@@ -47,7 +47,7 @@ Jbootutils.prototype.getPara = function (variable) {
  * 查看当前页面是不是手机页面
  * @returns {boolean}
  */
-Jbootutils.prototype.isMobileBrowser = function () {
+JPressUtils.prototype.isMobileBrowser = function () {
     if (window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
         return true; // 移动端
     } else {
@@ -61,7 +61,7 @@ Jbootutils.prototype.isMobileBrowser = function () {
  * @param okFunction
  * @param failFunction
  */
-Jbootutils.prototype.ajaxGet = function (url, okFunction, failFunction) {
+JPressUtils.prototype.ajaxGet = function (url, okFunction, failFunction) {
     if (url == null || "" == url) {
         alert("url 不能为空 ");
         return
@@ -100,7 +100,7 @@ Jbootutils.prototype.ajaxGet = function (url, okFunction, failFunction) {
  * @param okFunction
  * @param failFunction
  */
-Jbootutils.prototype.ajaxPost = function (url, data, okFunction, failFunction) {
+JPressUtils.prototype.ajaxPost = function (url, data, okFunction, failFunction) {
     if (url == null || "" == url) {
         alert("url 不能为空 ");
         return
@@ -137,7 +137,7 @@ Jbootutils.prototype.ajaxPost = function (url, data, okFunction, failFunction) {
  * @param msg
  * @param url
  */
-Jbootutils.prototype.showMessage = function (msg, url) {
+JPressUtils.prototype.showMessage = function (msg, url) {
     if (typeof toastr != "undefined") {
         toastr.options.onHidden = function () {
             Utils.reloadOrRedirect(url);
@@ -154,7 +154,7 @@ Jbootutils.prototype.showMessage = function (msg, url) {
  * @param msg
  * @param url
  */
-Jbootutils.prototype.showErrorMessage = function (msg, url) {
+JPressUtils.prototype.showErrorMessage = function (msg, url) {
     if (typeof toastr != "undefined") {
         toastr.options.onHidden = function () {
             Utils.reloadOrRedirect(url);
@@ -167,7 +167,7 @@ Jbootutils.prototype.showErrorMessage = function (msg, url) {
 };
 
 
-Jbootutils.prototype.reloadOrRedirect = function (url) {
+JPressUtils.prototype.reloadOrRedirect = function (url) {
     if (url) {
         if ("reload" == url) {
             location.reload();
@@ -181,7 +181,7 @@ Jbootutils.prototype.reloadOrRedirect = function (url) {
  * 获取表格的 选中的 id
  * @returns {string}
  */
-Jbootutils.prototype.getTableSelectedIds = function () {
+JPressUtils.prototype.getTableSelectedIds = function () {
     var selectedIds = "";
     $('[name="tableItem"]').each(function () {
         if ($(this).prop('checked')) {
@@ -192,7 +192,7 @@ Jbootutils.prototype.getTableSelectedIds = function () {
 };
 
 
-Jbootutils.prototype.getTableSelectedRowData = function () {
+JPressUtils.prototype.getTableSelectedRowData = function () {
     var retData = null;
     $('[name="tableItem"]').each(function () {
         if ($(this).prop('checked')) {
@@ -219,7 +219,7 @@ Jbootutils.prototype.getTableSelectedRowData = function () {
  * @param okFunction
  * @param failFunction
  */
-Jbootutils.prototype.ajaxSubmit = function (form, okFunction, failFunction) {
+JPressUtils.prototype.ajaxSubmit = function (form, okFunction, failFunction) {
 
     if (typeof (CKEDITOR) != "undefined") {
         for (instance in CKEDITOR.instances) {
@@ -255,7 +255,7 @@ Jbootutils.prototype.ajaxSubmit = function (form, okFunction, failFunction) {
  * @param title
  * @param btnText
  */
-Jbootutils.prototype.sweetAlert = function (title, btnText) {
+JPressUtils.prototype.sweetAlert = function (title, btnText) {
     Swal.fire({
         title: title,
         confirmButtonText: btnText || '  好的 ',
@@ -277,7 +277,7 @@ Jbootutils.prototype.sweetAlert = function (title, btnText) {
  * @param successTitle
  * @param successText
  */
-Jbootutils.prototype.sweetConfirm = function (title, text, btnText, actionUrl, successTitle, successText, actionComponent) {
+JPressUtils.prototype.sweetConfirm = function (title, text, btnText, actionUrl, successTitle, successText, actionComponent) {
     mySwal.fire({
         title: title || '您确定如此操作吗？',
         icon: 'question',
@@ -389,7 +389,7 @@ Jbootutils.prototype.sweetConfirm = function (title, text, btnText, actionUrl, s
  * @param successTitle
  * @param successText
  */
-Jbootutils.prototype.sweetConfirmDel = function (title, text, btnText, actionUrl, successTitle, successText, actionComponent) {
+JPressUtils.prototype.sweetConfirmDel = function (title, text, btnText, actionUrl, successTitle, successText, actionComponent) {
     this.sweetConfirm(title || '您确定要删除吗？',
         text || '删除后无法恢复，请谨慎操作！',
         btnText || ' 确定删除! ',
@@ -404,7 +404,7 @@ Jbootutils.prototype.sweetConfirmDel = function (title, text, btnText, actionUrl
  * @param name
  * @returns {string|null}
  */
-Jbootutils.prototype.getCookie = function (name) {
+JPressUtils.prototype.getCookie = function (name) {
     var cookieString = document.cookie;
     var cookies = cookieString.split("; ");
     for (var i = 0; i < cookies.length; i++) {
@@ -421,7 +421,7 @@ Jbootutils.prototype.getCookie = function (name) {
  * 获取 context path 路径
  * @returns {string|null}
  */
-Jbootutils.prototype.getContextPath = function () {
+JPressUtils.prototype.getContextPath = function () {
     if (typeof (adminConfig) == "undefined") {
         return "";
     }
@@ -429,4 +429,4 @@ Jbootutils.prototype.getContextPath = function () {
 };
 
 
-var Utils = new Jbootutils();
+var Utils = new JPressUtils();

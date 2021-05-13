@@ -201,7 +201,7 @@ public class MenuManager implements JbootEventListener {
 
         MenuGroup commentMenuGroup = new MenuGroup();
         commentMenuGroup.setId("comment");
-        commentMenuGroup.setText("评论");
+        commentMenuGroup.setText("我的评论");
         commentMenuGroup.setIcon("<i class=\"fas fa-comments\"></i>");
         commentMenuGroup.setOrder(88);
         ucenterMenus.add(commentMenuGroup);
@@ -209,7 +209,7 @@ public class MenuManager implements JbootEventListener {
 
         MenuGroup favoriteMenuGroup = new MenuGroup();
         favoriteMenuGroup.setId("favorite");
-        favoriteMenuGroup.setText("收藏");
+        favoriteMenuGroup.setText("我的收藏");
         favoriteMenuGroup.setIcon("<i class=\"fas fa-bookmark\"></i>");
         favoriteMenuGroup.setOrder(99);
         ucenterMenus.add(favoriteMenuGroup);

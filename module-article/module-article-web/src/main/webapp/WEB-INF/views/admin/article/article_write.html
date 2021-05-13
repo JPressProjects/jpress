@@ -288,8 +288,8 @@
                                         </div>
                                     </div>
                                     <!-- /.card-header -->
-                                    <div class="card-body p-0">
-                                        <div class="card-body p-0">
+                                    <div class="card-body">
+                                        <div class="card-body">
                                             #(fields.render())
                                         </div>
                                     </div>
@@ -302,7 +302,7 @@
 
                 <div class="col-lg-3">
                     <div class="card card-outlinecard-solid">
-                        <div class="card-body p-0">
+                        <div class="card-body">
 
                             <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">发布
                             </button>
@@ -318,7 +318,7 @@
                         <div class="card-header with-border ">
                             <h3 class="card-title">分类</h3>
                         </div>
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <div class="form-group">
                                 #for(category : categories)
                                 <div>
@@ -368,7 +368,7 @@
                         <div class="card-header with-border ">
                             <h3 class="card-title">缩略图</h3>
                         </div>
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
                                  style="width: 100%;height: 200px"
                                  id="thumbnail">
@@ -389,7 +389,7 @@
                         <div class="card-header with-border ">
                             <h3 class="card-title">模板样式</h3>
                         </div>
-                        <div class="card-body p-0">
+                        <div class="card-body">
 
                             #if(styles && styles.size() > 0 )
                             <div class="form-group row">

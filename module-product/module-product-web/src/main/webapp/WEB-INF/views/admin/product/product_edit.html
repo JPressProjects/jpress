@@ -239,8 +239,8 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="card-body p-0">
-                                        <div class="card-body p-0">
+                                    <div class="card-body">
+                                        <div class="card-body">
 
                                             #for(image : images)
                                             <div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
@@ -274,8 +274,8 @@
                                         </div>
                                     </div>
                                     <!-- /.card-header -->
-                                    <div class="card-body p-0">
-                                        <div class="card-body p-0">
+                                    <div class="card-body">
+                                        <div class="card-body">
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">销售价格</label>
                                                 <div class="col-sm-6">
@@ -328,8 +328,8 @@
                                         </div>
                                     </div>
                                     <!-- /.card-header -->
-                                    <div class="card-body p-0">
-                                        <div class="card-body p-0">
+                                    <div class="card-body">
+                                        <div class="card-body">
 
                                             #for(group : memberGroups)
                                             <div class="form-group row">
@@ -365,8 +365,8 @@
                                         </div>
                                     </div>
                                     <!-- /.card-header -->
-                                    <div class="card-body p-0">
-                                        <div class="card-body p-0">
+                                    <div class="card-body">
+                                        <div class="card-body">
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">启用分销功能</label>
                                                 <div class="col-sm-6">
@@ -403,8 +403,8 @@
                                         </div>
                                     </div>
                                     <!-- /.card-header -->
-                                    <div class="card-body p-0">
-                                        <div class="card-body p-0">
+                                    <div class="card-body">
+                                        <div class="card-body">
 
                                             #(fields.render())
 
@@ -419,7 +419,7 @@
 
                 <div class="col-lg-3">
                     <div class="card card-outlinecard-solid">
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <button type="button" data-status="1" class="btn btn-primary btn-sm submitBtn">上架
                             </button>
                             <button type="button" data-status="2" class="btn btn-default btn-sm submitBtn">草稿
@@ -435,7 +435,7 @@
                         <div class="card-header with-border ">
                             <h3 class="card-title">分类</h3>
                         </div>
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <div class="form-group row">
                                 #for(category : categories)
                                 <div class="form-check">
@@ -486,7 +486,7 @@
                         <div class="card-header with-border ">
                             <h3 class="card-title">产品主图</h3>
                         </div>
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
                                  style="width: 100%;height: 200px"
                                  id="thumbnail">
@@ -507,7 +507,7 @@
                         <div class="card-header with-border ">
                             <h3 class="card-title">模板样式</h3>
                         </div>
-                        <div class="card-body p-0">
+                        <div class="card-body">
 
                             #if(styles && styles.size() > 0 )
                             <div class="form-group row">

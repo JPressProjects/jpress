@@ -43,18 +43,44 @@
 <div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            用户管理
-            <small>User Management</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                用户管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 用户 / 用户管理</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6" style="padding-top: 20px">
+                            <a href="#(CPATH)/admin/user">全部 (#(totalCount ?? 0))</a> |
+                            <a href="?status=ok">正常 (#(okCount ?? 0))</a> |
+                            <a href="?status=registered" style="color: #a00">未激活 (#(regCount ?? 0))</a> |
+                            <a href="?status=locked" style="color: #a00">冻结 (#(lockedCount ?? 0))</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top: 45px">
+                        <a href="#(CPATH)/admin/user/edit" class="btn btn-primary "> <i
+                                class="fa fa-fw fa-plus"></i> 新建</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
-    <section class="content-header text-tap">
-        <a href="#(CPATH)/admin/user">全部 (#(totalCount ?? 0))</a> |
-        <a href="?status=ok">正常 (#(okCount ?? 0))</a> |
-        <a href="?status=registered" style="color: #a00">未激活 (#(regCount ?? 0))</a> |
-        <a href="?status=locked" style="color: #a00">冻结 (#(lockedCount ?? 0))</a>
-    </section>
+
 
     <section class="content">
 
@@ -102,36 +128,9 @@
                             <!-- /.card-body -->
                         </form>
 
-                        <div class="row admin-search-panel">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/user/edit" class="btn btn-primary "> <i
-                                        class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                                <div class="btn-group checkAction">
-                                    <button type="button" class="btn btn-default">将角色修改为</button>
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                            aria-expanded="false">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">将角色修改为</span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        #for(role : roles)
-                                        <li>
-                                            <a data-rid="#(role.id)"
-                                               href="javascript:;"
-                                               class="changeRoleAction">
-                                                #(role.name??)
-                                            </a>
-                                        </li>
-                                        #end
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>

@@ -48,10 +48,35 @@
 <div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            根目录文件管理
-            <small>Root Files Management</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                根目录文件
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 附件 / 根目录文件</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top:15px ">
+                       <span class="btn  btn-primary fileinput-button">
+                            <span> <i class="fa fa-fw fa-plus"></i> 上传</span>
+                            <input id="cfile" type="file" name="files[]" multiple>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
@@ -68,24 +93,15 @@
                                 <div class="form-group col-lg-2">
                                         <button type="submit" class="btn btn-primary ">查询</button>
                                         <button type="reset" class="btn btn-default">重置</button>
+
                                 </div>
                             </div>
                             <!-- /.card-body -->
                         </form>
 
-                        <div class="row admin-search-panel">
-                            <div class="col-xs-12">
-                                <span class="btn  btn-primary fileinput-button">
-                                    <span> <i class="fa fa-fw fa-plus"></i> 上传</span>
-                                    <input id="cfile" type="file" name="files[]" multiple>
-                                </span>
-                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
@@ -135,7 +151,28 @@
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
+                                            <label class="form-check-label" for="checkall">全选</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select class="form-control" name="action">
+                                            <option value="">请选择...</option>
+                                            <option value="doDelByIds" open-type="del-confirm">
+                                                批量删除
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

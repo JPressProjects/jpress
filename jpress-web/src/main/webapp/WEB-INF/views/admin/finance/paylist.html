@@ -33,18 +33,37 @@
 <div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            支付记录
-            <small>Pay List</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                支付记录
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 财务 / 支付记录</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6" style="padding-top: 20px">
+                            <a href="#(CPATH)/admin/finance/paylist">全部 (#(totalCount ?? 0))</a> |
+                            <a href="?status=9">支付成功 (#(successCount ?? 0))</a> |
+                            <a href="?status=1">支付中 (#(prepayCount ?? 0))</a> |
+                            <a href="?status=2" style="color: #a00">支付失败 (#(failCount ?? 0))</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
-    <section class="content-header text-tap">
-        <a href="#(CPATH)/admin/finance/paylist">全部 (#(totalCount ?? 0))</a> |
-        <a href="?status=9">支付成功 (#(successCount ?? 0))</a> |
-        <a href="?status=1">支付中 (#(prepayCount ?? 0))</a> |
-        <a href="?status=2" style="color: #a00">支付失败 (#(failCount ?? 0))</a>
-    </section>
 
     <section class="content">
 
@@ -71,7 +90,7 @@
 
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>

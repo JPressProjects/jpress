@@ -23,12 +23,37 @@
 #define content()
 <div class="content-wrapper">
 
+
     <section class="content-header">
-        <h1>
-            会员组管理
-            <small>Member Groups Management</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                用户会员组
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 用户 / 用户会员组</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top: 15px">
+                        <a href="mgroupEdit" class="btn btn-primary ">
+                            <i class="fa fa-fw fa-plus"></i> 新建
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
+
 
     <section class="content">
 
@@ -36,18 +61,9 @@
                 <div class="card card-outline card-primary">
                     <div class="card-header with-border">
 
-                        <div class="row admin-search-panel">
-                            <div class="col-xs-12">
-                                <a href="mgroupEdit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建
-                                </a>
-                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>

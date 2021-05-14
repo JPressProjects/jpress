@@ -32,18 +32,38 @@
 <div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            产品评论
-            <small>Product Comment</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                商品评论
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 商品 / 商品评论</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6" style="padding-top: 20px">
+                            <a href="?">全部 (#(totalCount ??))</a> |
+                            <a href="?status=normal">已发布 (#(normalCount ??))</a> |
+                            <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
+                            <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
-    <section class="content-header text-tap">
-        <a href="#(CPATH)/admin/product/comment">全部 (#(totalCount ?? 0))</a> |
-        <a href="?status=1">已发布 (#(normalCount ?? 0))</a> |
-        <a href="?status=2">待审核 (#(unauditedCount ?? 0))</a> |
-        <a href="?status=9" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
-    </section>
+
 
     <section class="content">
 

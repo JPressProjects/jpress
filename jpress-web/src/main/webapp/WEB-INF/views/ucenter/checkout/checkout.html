@@ -19,7 +19,7 @@
                 inputVal = 1;
             }
             input.val(inputVal);
-            doCompute(inputVal, that , ret.shouldPayPrice);
+            doCompute(inputVal, that, ret.shouldPayPrice);
         });
     });
 
@@ -37,12 +37,12 @@
                 inputVal = 1;
             }
             input.val(inputVal);
-            doCompute(inputVal, that , ret.shouldPayPrice);
+            doCompute(inputVal, that, ret.shouldPayPrice);
         });
     });
 
 
-    function doCompute(val, btn,shouldPayPrice) {
+    function doCompute(val, btn, shouldPayPrice) {
 
         var row = btn.parent().parent().parent("tr").prevAll().length + 1;
         var col = btn.parent().parent().prevAll().length;
@@ -53,7 +53,6 @@
         setTableContent(row, col + 1, shouldPayPrice);
         doComputeTotalPrice();
     }
-
 
 
     function doComputeTotalPrice() {
@@ -108,8 +107,8 @@
 
         var self = this;
         layer.confirm('确认要下单吗？', {
-            btn : [ '确定', '取消' ]//按钮
-        }, function(index) {
+            btn: ['确定', '取消']//按钮
+        }, function (index) {
 
             $(self).ajaxSubmit({
                 type: "post",
@@ -148,15 +147,15 @@
             shadeClose: true,
             shade: 0.5,
             area: ['60%', '60%'],
-            content: '#(CPATH)/ucenter/coupon/layer?price='+price,
+            content: '#(CPATH)/ucenter/coupon/layer?price=' + price,
             end: function () {
-                if (layer.data.couponCode){
-                    var payPrice = parseFloat(globalTotalPrice)-parseFloat(layer.data.couponAmount);
+                if (layer.data.couponCode) {
+                    var payPrice = parseFloat(globalTotalPrice) - parseFloat(layer.data.couponAmount);
                     $('#payPrice').text(payPrice.toFixed(2));
-                    $('#coupon-price-span').text('优惠券:-'+(parseFloat(layer.data.couponAmount)));
+                    $('#coupon-price-span').text('优惠券:-' + (parseFloat(layer.data.couponAmount)));
                     $('#coupon-code-input').val(layer.data.couponCode);
-                    $('#coupon-code-input').attr('readonly',true);
-                    $('#select-coupon-code').text('选择优惠券（已选:'+layer.data.couponTitle+'）');
+                    $('#coupon-code-input').attr('readonly', true);
+                    $('#select-coupon-code').text('选择优惠券（已选:' + layer.data.couponTitle + '）');
                 }
             }
         });
@@ -249,259 +248,255 @@
 #end
 
 #define content()
-<div class="content-wrapper" style="min-height: 1126px;">
+<form action="#(CPATH)/ucenter/checkout/genorder" method="post" target="_blank" id="checkout">
 
-    <form action="#(CPATH)/ucenter/checkout/genorder" method="post" target="_blank" id="checkout">
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="container-fluid">
+            <h2 class="form-header">
+                <i class="fa fa-globe"></i> 产品信息.
+            </h2>
+        </div>
 
-        <!-- Main content -->
-        <section class="invoice">
-            <!-- title row -->
-            <div class="container-fluid">
-                    <h2 class="form-header">
-                        <i class="fa fa-globe"></i> 产品信息.
-                    </h2>
-            </div>
+        <!-- Table row -->
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped" id="tab">
+                <thead>
+                <tr>
+                    <th style="width: 40%">商品</th>
+                    <th>单价 #</th>
+                    <th>数量</th>
+                    <th>总价</th>
+                    <th style="width: 50px">操作</th>
+                </tr>
+                </thead>
+                <tbody>
 
-
-            <!-- Table row -->
-            <div class="row">
-                <div class="col-xs-12 table-responsive">
-                    <table class="table table-striped" id="tab">
-                        <thead>
-                        <tr>
-                            <th style="width: 40%">商品</th>
-                            <th>单价 #</th>
-                            <th>数量</th>
-                            <th>总价</th>
-                            <th style="width: 50px">操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        #for(userCart : userCarts )
-                        <tr>
-                            <td>
-                                #(userCart.product_title ??)
-                                <div style="color: #9c9c9c">
-                                    #for(option : userCart.optionsMap)
-                                    #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
-                                    #end
-                                </div>
-                            </td>
-                            <td>
-                                #if(userCart.memberPrice && userCart.memberPrice < userCart.newProductPrice)
-                                <s>原价：#(userCart.newProductPrice ??)</s>
-                                会员：#(userCart.memberPrice)
-                                #else
-                                #(userCart.newProductPrice ??)
-                                #end
-                            </td>
-                            <td>
-                                <div class="input-group input-number">
-                                    <input type="hidden" name="cid" value="#(userCart.id ??)">
-                                    <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
-                                    <input type="text" class="form-control" value="#(userCart.product_count ??)">
-                                    <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
-                                </div>
-                            </td>
-                            <td>#(userCart.shouldPayPrice ??)</td>
-                            <td>
-                                <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
-                            </td>
-                        </tr>
+                #for(userCart : userCarts )
+                <tr>
+                    <td>
+                        #(userCart.product_title ??)
+                        <div style="color: #9c9c9c">
+                            #for(option : userCart.optionsMap)
+                            #(option.key ??) : #(option.value ??) #if(!(for.last))<br/>#end
+                            #end
+                        </div>
+                    </td>
+                    <td>
+                        #if(userCart.memberPrice && userCart.memberPrice < userCart.newProductPrice)
+                        <s>原价：#(userCart.newProductPrice ??)</s>
+                        会员：#(userCart.memberPrice)
+                        #else
+                        #(userCart.newProductPrice ??)
                         #end
-
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-
-            <div class="container-fluid">
-                    <h2 class="page-footer">
-                        <small class="pull-right" style="font-size: 16px"> <span id="coupon-price-span" class="text-primary"></span> </small>
-                        <br>
-                        <small class="pull-right">总价格: <span id="totalPrice">#.##</span> ￥</small>
-                        <br>
-                        <small class="pull-right">需支付: <span id="payPrice">#.##</span> ￥</small>
-
-                    </h2>
-            </div>
-
-        </section>
-
-        <!-- Main content -->
-        <section class="invoice">
-            <!-- title row -->
-            <div class="container-fluid">
-                    <h2 class="form-header">
-                        <i class="fa fa-globe"></i> 订单信息.
-                    </h2>
-            </div>
-
-
-            <div class="row">
-                <!-- accepted payments column -->
-                <div class="col-lg-6">
-                    <div class="card card-outline card-dashboard">
-                        <div class="card-header with-border">
-                            <h3 class="card-title">收件人信息</h3>
+                    </td>
+                    <td>
+                        <div class="input-group input-number">
+                            <input type="hidden" name="cid" value="#(userCart.id ??)">
+                            <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
+                            <input type="text" class="form-control" value="#(userCart.product_count ??)">
+                            <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <!-- text input -->
-                            <div class="form-group row">
-                                <label>联系人</label>
-                                <input type="text" class="form-control" name="order.delivery_addr_username"
-                                       id="addr_username"
-                                       placeholder="收件人的姓名..." value="#(defaultAddress.username ??)">
-                            </div>
+                    </td>
+                    <td>#(userCart.shouldPayPrice ??)</td>
+                    <td>
+                        <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
+                    </td>
+                </tr>
+                #end
 
-                            <div class="form-group row">
-                                <label>联系电话</label>
-                                <input type="text" class="form-control" name="order.delivery_addr_mobile"
-                                       id="addr_mobile"
-                                       placeholder="收件人的电话..." value="#(defaultAddress.mobile ??)">
-                            </div>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+        <!-- /.row -->
 
-                            <div class="form-group row">
-                                <label>地址</label>
-                                <div data-toggle="distpicker" class="form-inline" data-autoselect="3" id="distpicker">
-                                    <select class="form-control" name="order.delivery_addr_province" id="addr_province"
-                                            data-province="#(defaultAddress.province ?? '---- 选择省 ----')"></select>
-                                    <select class="form-control" name="order.delivery_addr_city" id="addr_city"
-                                            data-city="#(defaultAddress.city ?? '---- 选择市 ----')"></select>
-                                    <select class="form-control" name="order.delivery_addr_district" id="addr_district"
-                                            data-district="#(defaultAddress.district ?? '---- 选择区 ----')"></select>
-                                </div>
-                            </div>
+        <div class="container-fluid">
+            <h2 class="page-footer">
+                <small class="pull-right" style="font-size: 16px"> <span id="coupon-price-span"
+                                                                         class="text-primary"></span> </small>
+                <br>
+                <small class="pull-right">总价格: <span id="totalPrice">#.##</span> ￥</small>
+                <br>
+                <small class="pull-right">需支付: <span id="payPrice">#.##</span> ￥</small>
 
-                            <div class="form-group row">
-                                <label>详细地址</label>
-                                <textarea class="form-control" name="order.delivery_addr_detail" id="addr_detail"
-                                          placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"
-                                          rows="2">#(defaultAddress.detail ??)</textarea>
-                            </div>
+            </h2>
+        </div>
 
-                            <div class="form-group row">
-                                <label>邮政编码</label>
-                                <input type="text" class="form-control" name="order.delivery_addr_zipcode"
-                                       id="addr_zipcode"
-                                       placeholder="邮政编码..." value="#(defaultAddress.zipcode ??)">
-                            </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="invoice">
+        <!-- title row -->
+        <div class="container-fluid">
+            <h2 class="form-header">
+                <i class="fa fa-globe"></i> 订单信息.
+            </h2>
+        </div>
 
 
-                            <div class="col-xs-12">
-                                <button type="button" class="btn btn-primary pull-right" onclick="seleteAddress()">
-                                    <i class="fa fa-fw fa-street-view"></i>
-                                    选择其他地址
-                                </button>
-                            </div>
-
+        <div class="row">
+            <!-- accepted payments column -->
+            <div class="col-lg-6">
+                <div class="card card-outline card-dashboard">
+                    <div class="card-header with-border">
+                        <h3 class="card-title">收件人信息</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- text input -->
+                        <div class="form-group row">
+                            <label>联系人</label>
+                            <input type="text" class="form-control" name="order.delivery_addr_username"
+                                   id="addr_username"
+                                   placeholder="收件人的姓名..." value="#(defaultAddress.username ??)">
                         </div>
 
+                        <div class="form-group row">
+                            <label>联系电话</label>
+                            <input type="text" class="form-control" name="order.delivery_addr_mobile"
+                                   id="addr_mobile"
+                                   placeholder="收件人的电话..." value="#(defaultAddress.mobile ??)">
+                        </div>
+
+                        <div class="form-group row">
+                            <label>地址</label>
+                            <div data-toggle="distpicker" class="form-inline" data-autoselect="3" id="distpicker">
+                                <select class="form-control" name="order.delivery_addr_province" id="addr_province"
+                                        data-province="#(defaultAddress.province ?? '---- 选择省 ----')"></select>
+                                <select class="form-control" name="order.delivery_addr_city" id="addr_city"
+                                        data-city="#(defaultAddress.city ?? '---- 选择市 ----')"></select>
+                                <select class="form-control" name="order.delivery_addr_district" id="addr_district"
+                                        data-district="#(defaultAddress.district ?? '---- 选择区 ----')"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label>详细地址</label>
+                            <textarea class="form-control" name="order.delivery_addr_detail" id="addr_detail"
+                                      placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"
+                                      rows="2">#(defaultAddress.detail ??)</textarea>
+                        </div>
+
+                        <div class="form-group row">
+                            <label>邮政编码</label>
+                            <input type="text" class="form-control" name="order.delivery_addr_zipcode"
+                                   id="addr_zipcode"
+                                   placeholder="邮政编码..." value="#(defaultAddress.zipcode ??)">
+                        </div>
+
+
+                        <div class="col-xs-12">
+                            <button type="button" class="btn btn-primary pull-right" onclick="seleteAddress()">
+                                <i class="fa fa-fw fa-street-view"></i>
+                                选择其他地址
+                            </button>
+                        </div>
 
                     </div>
 
+
                 </div>
-                <!-- /.col -->
-                <div class="col-lg-6">
-                    <div class="card card-outline card-dashboard">
-                        <div class="card-header with-border">
-                            <h3 class="card-title">支付信息</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <label>支付方式</label>
 
-                                #if(wechatxConfig.isEnable())
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="paytype" value="wechatx">
-                                        微信转账支付
-                                    </label>
-                                </div>
-                                #end
+            </div>
+            <!-- /.col -->
+            <div class="col-lg-6">
+                <div class="card card-outline card-dashboard">
+                    <div class="card-header with-border">
+                        <h3 class="card-title">支付信息</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label>支付方式</label>
 
-                                #if(alipayxConfig.isEnable())
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="paytype" value="alipayx">
-                                        支付宝转账支付
-                                    </label>
-                                </div>
-                                #end
-
-                                #if(wechatConfig.isEnable())
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="paytype" value="wechat">
-                                        微信支付
-                                    </label>
-                                </div>
-                                #end
-
-                                #if(alipayConfig.isEnable())
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="paytype" value="alipay">
-                                        支付宝支付
-                                    </label>
-                                </div>
-                                #end
-
-                                #if(paypalConfig.isEnable())
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="paytype" value="paypal">
-                                        Paypal支付
-                                    </label>
-                                </div>
-                                #end
-
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="paytype" value="amount">
-                                        使用账户余额支付
-                                    </label>
-                                </div>
-
+                            #if(wechatxConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="wechatx">
+                                    微信转账支付
+                                </label>
                             </div>
+                            #end
 
-
-                            <div class="form-group row">
-                                <label>优惠码（券）</label>
-                                <input type="text" class="form-control" id="coupon-code-input" name="coupon_code" placeholder="请输入优惠码...">
-                                <p class="text-muted"><a href="javascript:;" id="select-coupon-code">选择优惠券</a></p>
+                            #if(alipayxConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="alipayx">
+                                    支付宝转账支付
+                                </label>
                             </div>
+                            #end
 
+                            #if(wechatConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="wechat">
+                                    微信支付
+                                </label>
+                            </div>
+                            #end
 
-                            <div class="form-group row">
-                                <label>买家留言</label>
-                                <textarea class="form-control" rows="3" name="payer_msg"
-                                          placeholder="给卖家的留言信息"></textarea>
+                            #if(alipayConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="alipay">
+                                    支付宝支付
+                                </label>
+                            </div>
+                            #end
+
+                            #if(paypalConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="paypal">
+                                    Paypal支付
+                                </label>
+                            </div>
+                            #end
+
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="amount">
+                                    使用账户余额支付
+                                </label>
                             </div>
 
                         </div>
+
+
+                        <div class="form-group row">
+                            <label>优惠码（券）</label>
+                            <input type="text" class="form-control" id="coupon-code-input" name="coupon_code"
+                                   placeholder="请输入优惠码...">
+                            <p class="text-muted"><a href="javascript:;" id="select-coupon-code">选择优惠券</a></p>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label>买家留言</label>
+                            <textarea class="form-control" rows="3" name="payer_msg"
+                                      placeholder="给卖家的留言信息"></textarea>
+                        </div>
+
                     </div>
                 </div>
-                <!-- /.col -->
             </div>
+            <!-- /.col -->
+        </div>
 
-            <div class="row no-print">
-                <div class="col-xs-12">
-                    <button type="submit" id="submit" class="btn btn-success pull-right"><i
-                            class="fa fa-credit-card"></i>
-                        提交订单
-                    </button>
-                </div>
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <button type="submit" id="submit" class="btn btn-success pull-right"><i
+                        class="fa fa-credit-card"></i>
+                    提交订单
+                </button>
             </div>
-        </section>
-        <!-- /.content -->
+        </div>
+    </section>
+    <!-- /.content -->
 
-        <div class="clearfix"></div>
-    </form>
-</div>
+    <div class="clearfix"></div>
+</form>
 #end

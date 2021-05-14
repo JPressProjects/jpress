@@ -6,58 +6,51 @@
 </script>
 #end
 #define content()
-    <section class="content-header">
-        <h1>
-            修改密码
-            <small>My Password</small>
-        </h1>
-    </section>
+<section class="content">
 
-    <section class="content">
-
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
 
-                    <form class="" autocomplete="off" id="form" action="#(CPATH)/ucenter/doUpdatePwd">
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">旧密码</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="请输入之前的密码" name="oldPwd">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">新密码</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="新的密码" name="newPwd">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">确认密码</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="及确认密码" name="confirmPwd">
-                                </div>
-                            </div>
-
+            <form class="" autocomplete="off" id="form" action="#(CPATH)/ucenter/doUpdatePwd">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">旧密码</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="请输入之前的密码" name="oldPwd">
                         </div>
+                    </div>
 
-                        <div class="card-footer">
-                            <div class="offset-sm-2 col-sm-10 submit-block">
-                                <div class="card-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">新密码</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="新的密码" name="newPwd">
                         </div>
+                    </div>
 
-                    </form>
-                    
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">确认密码</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="及确认密码" name="confirmPwd">
+                        </div>
+                    </div>
 
                 </div>
-            </div>
 
-    </section>
+                <div class="card-footer">
+                    <div class="offset-sm-2 col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+
+</section>
 
 #end

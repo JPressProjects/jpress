@@ -97,9 +97,9 @@
         vertical-align: middle;
     }
 
-    @media all and (max-width: 768px){
-        .bottom-content{
-            padding-left:0;
+    @media all and (max-width: 768px) {
+        .bottom-content {
+            padding-left: 0;
         }
     }
 
@@ -309,94 +309,89 @@
 #end
 
 #define content()
-<div class="content-wrapper" style="min-height: 1126px;">
-    <!-- Main content -->
-    <section class="invoice">
-        <div class="container-fluid">
-                <h2 class="form-header">
-                    <i class="fa fa-globe"></i> 购物车.
-                </h2>
-        </div>
+<!-- Main content -->
+<section class="invoice">
+    <div class="container-fluid">
+        <h2 class="form-header">
+            <i class="fa fa-globe"></i> 购物车.
+        </h2>
+    </div>
 
+    <!-- Table row -->
+    <div class="col-xs-12 table-responsive">
+        <table class="table table-striped" id="tab">
+            <thead>
+            <tr>
+                <th style="width: 10px">
+                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                </th>
+                <th style="width: 40%">商品</th>
+                <th>单价 #</th>
+                <th>数量</th>
+                <th>总价</th>
+                <th style="width: 100px">操作</th>
+            </tr>
+            </thead>
+            <tbody>
 
-        <!-- Table row -->
-        <div class="row">
-            <div class="col-xs-12 table-responsive">
-                <table class="table table-striped" id="tab">
-                    <thead>
-                    <tr>
-                        <th style="width: 10px">
-                            <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
-                        </th>
-                        <th style="width: 40%">商品</th>
-                        <th>单价 #</th>
-                        <th>数量</th>
-                        <th>总价</th>
-                        <th style="width: 100px">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            #for(userCart : page.list ??)
+            <tr #(userCart.selected ?
+            'style="background-color: #fff4e8;"' : '') >
+            <td>
+                <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
+                       onchange="dataItemChange(this)"/>
+            </td>
+            <td>
+                <a href="#(userCart.product_link ?? '#')" target="_blank">
+                    #(userCart.product_title ??)
+                </a>
 
-                    #for(userCart : page.list ??)
-                    <tr #(userCart.selected ?
-                    'style="background-color: #fff4e8;"' : '') >
-                    <td>
-                        <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
-                               onchange="dataItemChange(this)"/>
-                    </td>
-                    <td>
-                        <a href="#(userCart.product_link ?? '#')" target="_blank">
-                            #(userCart.product_title ??)
-                        </a>
-
-                        <div style="color: #9c9c9c">
-                            #for(option : userCart.optionsMap)
-                                 #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
-                            #end
-                        </div>
-                    </td>
-                    <td>
-                        #if(userCart.memberPrice ??)
-                        <s>#(userCart.product_price ??)</s>
-                        会员：#(userCart.memberPrice)
-                        #else
-                        #(userCart.product_price ??)
-                        #end
-                    </td>
-                    <td>
-                        <div class="input-group input-number">
-                            <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
-                            <input type="text" class="form-control" value="#(userCart.product_count ??)">
-                            <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
-                        </div>
-                    </td>
-                    <td>#(userCart.shouldPayPrice ??)</td>
-                    <td>
-                        <a href="#(CPATH)/ucenter/checkout/#(userCart.id ??)">结算</a>
-                        <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
-                    </td>
-                    </tr>
+                <div style="color: #9c9c9c">
+                    #for(option : userCart.optionsMap)
+                    #(option.key ??) : #(option.value ??) #if(!(for.last))<br/>#end
                     #end
-
-                    </tbody>
-                </table>
-
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            #@_paginate()
-                        </div>
-                    </div>
                 </div>
+            </td>
+            <td>
+                #if(userCart.memberPrice ??)
+                <s>#(userCart.product_price ??)</s>
+                会员：#(userCart.memberPrice)
+                #else
+                #(userCart.product_price ??)
+                #end
+            </td>
+            <td>
+                <div class="input-group input-number">
+                    <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
+                    <input type="text" class="form-control" value="#(userCart.product_count ??)">
+                    <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
+                </div>
+            </td>
+            <td>#(userCart.shouldPayPrice ??)</td>
+            <td>
+                <a href="#(CPATH)/ucenter/checkout/#(userCart.id ??)">结算</a>
+                <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
+            </td>
+            </tr>
+            #end
 
+            </tbody>
+        </table>
+
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    #@_paginate()
+                </div>
             </div>
-            <!-- /.col -->
         </div>
-        <!-- /.row -->
-    </section>
 
-    <div class="clearfix"></div>
-</div>
+    </div>
+    <!-- /.col -->
+    <!-- /.row -->
+</section>
+
+<div class="clearfix"></div>
 
 <div class="bottom-bar">
     <div class="row bottom-content">

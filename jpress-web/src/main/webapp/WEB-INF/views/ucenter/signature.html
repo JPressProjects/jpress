@@ -6,46 +6,40 @@
 </script>
 #end
 #define content()
-    <section class="content-header">
-        <h1>
-            我的签名
-            <small>My Signature</small>
-        </h1>
-    </section>
 
-    <section class="content">
+<section class="content">
 
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form class="" autocomplete="off" id="form" action="#(CPATH)/ucenter/doSaveUser">
-                        <div class="card-body">
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form class="" autocomplete="off" id="form" action="#(CPATH)/ucenter/doSaveUser">
+                <div class="card-body">
 
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">个人签名</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">个人签名</label>
 
-                                <div class="col-sm-7">
-                <textarea rows="5" class="form-control" placeholder="写写现在的心情..."
-                          name="user.signature">#(user.signature ??)</textarea>
-                                </div>
-                            </div>
-
+                        <div class="col-sm-7">
+                             <textarea rows="5" class="form-control" placeholder="写写现在的心情..."
+                                       name="user.signature">#(user.signature ??)</textarea>
                         </div>
-
-                        <div class="card-footer">
-                            <div class="offset-sm-2 col-sm-10 submit-block">
-                                <div class="card-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
+                    </div>
 
                 </div>
-            </div>
 
-    </section>
+                <div class="card-footer">
+                    <div class="offset-sm-2 col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</section>
 #end

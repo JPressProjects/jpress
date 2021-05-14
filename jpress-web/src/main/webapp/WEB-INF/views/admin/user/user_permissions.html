@@ -15,76 +15,69 @@
 #end
 
 #define content()
-<div class="content-wrapper">
-
-    <section class="content-header">
-        <h1>
-            用户权限管理
-            <small>User Permission Management</small>
-        </h1>
-    </section>
+<section class="content-header">
+    <h1>
+        用户权限管理
+        <small>User Permission Management</small>
+    </h1>
+</section>
 
 
-    <section class="content">
+<section class="content">
 
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
-                    <div class="card-header  ">
-                        <div class="container-fluid">
-                                <h2 class="form-header">
-                                    <i class="fa fa-globe"></i>
-                                    #(user.nickname ??) 的权限列表
-                                </h2>
-                            </div>
-                            <!-- /.col -->
-                        </div>
+            <div class="card-header  ">
+                <div class="container-fluid">
+                    <h2 class="form-header">
+                        <i class="fa fa-globe"></i>
+                        #(user.nickname ??) 的权限列表
+                    </h2>
+                </div>
+                <!-- /.col -->
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body waterfall-container">
+            #for(x : permissionGroup)
+            <div class="waterfall-item">
+                <div class="card card-outline card-dashboard">
+                    <div class="card-header with-border">
+                        <h3 class="card-title">#(x.key ??)</h3>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body waterfall-container">
-                        #for(x : permissionGroup)
-                        <div class="waterfall-item">
-                            <div class="card card-outline card-dashboard">
-                                <div class="card-header with-border">
-                                    <h3 class="card-title">#(x.key ??)</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table class="table table-striped">
-                                        <tbody>
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>ActionKey</th>
-                                            <th>描述</th>
-                                            <th style="width: 80px">类型</th>
-                                        </tr>
-                                        #for(permission : x.value)
-                                        <tr>
-                                            #if(hasPermission(user,permission.id))
-                                            <td><input type="checkbox" checked readonly class="switchery"></td>
-                                            #else
-                                            <td><input type="checkbox" readonly class="switchery"></td>
-                                            #end
-                                            <td>#(permission.action_key ??)</td>
-                                            <td>#(permission.text ??)</td>
-                                            <td>#(permission.typeText ??)</td>
-                                        </tr>
-                                        #end
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        #end
-
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>ActionKey</th>
+                                <th>描述</th>
+                                <th style="width: 80px">类型</th>
+                            </tr>
+                            #for(permission : x.value)
+                            <tr>
+                                #if(hasPermission(user,permission.id))
+                                <td><input type="checkbox" checked readonly class="switchery"></td>
+                                #else
+                                <td><input type="checkbox" readonly class="switchery"></td>
+                                #end
+                                <td>#(permission.action_key ??)</td>
+                                <td>#(permission.text ??)</td>
+                                <td>#(permission.typeText ??)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+            #end
 
         </div>
+    </div>
 
-    </section>
+</section>
 
-
-</div>
 #end

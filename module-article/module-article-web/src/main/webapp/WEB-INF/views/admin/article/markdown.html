@@ -38,37 +38,33 @@
 #end
 
 #define content()
-<div class="content-wrapper">
+<section class="content-header">
+    <h1>
+        Markdown文章导入
+        <small>Markdown Import</small>
+    </h1>
+</section>
 
-    <section class="content-header">
-        <h1>
-            Markdown文章导入
-            <small>Markdown Import</small>
-        </h1>
-    </section>
+<section class="content">
 
-    <section class="content">
-
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
-                    <div class="card-body">
-                        <div id="uploader">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-body">
+                <div id="uploader">
                             <span class="btn btn-block btn-primary fileinput-button" style="width: 220px">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 <span>请选择Markdown格式文件</span>
                                 <input id="cfile" type="file" name="files[]" multiple>
                             </span>
 
-                            <div class="myPanel">
-                                支持 Hexo/Jekyll 文章导入...
-                            </div>
-                        </div>
+                    <div class="myPanel">
+                        支持 Hexo/Jekyll 文章导入...
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-    </section>
+</section>
 
-</div>
 #end

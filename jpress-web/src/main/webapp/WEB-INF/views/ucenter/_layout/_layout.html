@@ -29,13 +29,15 @@
 
 </head>
 <!--<body class="sidebar-mini wysihtml5-supported skin-black-light layout-carded">-->
-<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<!--<body class="hold-transition sidebar-mini layout-fixed text-sm">-->
 <!--<body class="hold-transition sidebar-mini " style="height: auto;">-->
+<body class="layout-top-nav" style="height: auto;">
 <div class="wrapper">
 
     #include("./_header.html",showToggle=true)
-    #include("./_left_menu.html")
-    #@content()
+    <div class="content-wrapper">
+        #@content()
+    </div>
     #include("./_footer.html")
 
 </div>

@@ -3,25 +3,7 @@
 #@layout()
 #define css()
 #@layout_css?()
-<style>
-    .nav-stacked > li.active > a {
-        color: #fff;
-        border-top: 0;
-        border-left: 0;
-        background: #3c8dbc;
-    }
 
-    .nav-stacked > li.active > a:hover {
-        background: #3c8dbcc4;
-        color: #fff;
-        border-top: 0;
-        border-left: 0;
-    }
-
-    .jp-actiontr {
-        word-break: break-all;
-    }
-</style>
 #end
 
 #define script()
@@ -29,11 +11,12 @@
 <script>
 
     var action = "##(focus)";
-    $(action).attr("class","active")
+    $(action).addClass("menu-open");
+    $(action).children('a').addClass('active');
 
 
     $('#userForm').on('submit', function () {
-        ajaxSubmit("#userForm",function () {
+        ajaxSubmit("#userForm", function () {
             toastr.success('修改成功');
         });
         return false;
@@ -54,55 +37,83 @@
     <section class="content">
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
 
                 <div class="card card-outline card-primary">
-                    <div class="card-body card-profile">
-                        <a href="#(CPATH)/admin/user/detail/avatar/#(user.id)"><img class="profile-user-img img-responsive img-circle" src="#(user.avatar ??)"></a>
+                    <div class="card-body card-profile text-center">
+                        <a href="#(CPATH)/admin/user/detail/avatar/#(user.id)"><img
+                                class="profile-user-img img-responsive img-circle" src="#(user.avatar ??)"></a>
                         <h3 class="profile-username text-center">#(user.nickname ??)</h3>
-                        <p class="text-muted text-center">#(user.identity ??)</p>
+                        <p class="text-muted">#(user.identity ??)</p>
                     </div>
 
                     <div class="card-body">
-                        <ul class="nav nav-pills nav-stacked" style="border-top: 1px solid #eee;" id="nav">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                            data-accordion="false" style="border-top: 1px solid #eee;" id="nav">
                             #hasPermission('/admin/user/detail')
-                            <li id="base"><a href="#(CPATH)/admin/user/detail/#(user.id)"><i class="fa fa-fw fa-user"></i> 基本资料</a></li>
+                            <li class="nav-item" id="base">
+                                <a class="nav-link" href="#(CPATH)/admin/user/detail/#(user.id)"><i
+                                        class="fas fa-user"></i> 基本资料</a></li>
                             #end
                             #hasPermission('/admin/user/detail/tag')
-                            <li id="tag"><a href="#(CPATH)/admin/user/detail/tag/#(user.id)"><i class="fa fa-fw fa-tags"></i> 用户标签</a></li>
+                            <li class="nav-item" id="tag"><a class="nav-link"
+                                                             href="#(CPATH)/admin/user/detail/tag/#(user.id)"><i
+                                    class="fas fa-tags"></i> 用户标签</a></li>
                             #end
                             #hasPermission('/admin/user/detail/role')
-                            <li id="role"><a href="#(CPATH)/admin/user/detail/role/#(user.id)"><i class="fa fa-fw fa-group"></i> 角色分配</a></li>
+                            <li class="nav-item" id="role"><a class="nav-link"
+                                                              href="#(CPATH)/admin/user/detail/role/#(user.id)"><i
+                                    class="fas fa-user-friends"></i> 角色分配</a></li>
                             #end
                             #hasPermission('/admin/user/detail/finance')
-                            <li id="finance"><a href="#(CPATH)/admin/user/detail/finance/#(user.id)"><i class="fa fa-fw fa-gg-circle"></i> 财务信息</a></li>
+                            <li class="nav-item" id="finance"><a class="nav-link"
+                                                                 href="#(CPATH)/admin/user/detail/finance/#(user.id)"><i
+                                    class="fab fa-gg-circle"></i> 财务信息</a></li>
                             #end
                             #hasPermission('/admin/user/detail/order')
-                            <li id="order"><a href="#(CPATH)/admin/user/detail/order/#(user.id)"><i class="fa fa-fw fa-list-alt"></i> 订单列表</a></li>
+                            <li class="nav-item" id="order"><a class="nav-link"
+                                                               href="#(CPATH)/admin/user/detail/order/#(user.id)"><i
+                                    class="fas fa-cart-arrow-down"></i> 订单列表</a></li>
                             #end
                             #hasPermission('/admin/user/detail/coupon')
-                            <li id="coupon"><a href="#(CPATH)/admin/user/detail/coupon/#(user.id)"><i class="fa fa-fw fa-indent"></i> 优惠券码 </a></li>
+                            <li class="nav-item" id="coupon"><a class="nav-link"
+                                                                href="#(CPATH)/admin/user/detail/coupon/#(user.id)"><i
+                                    class="fas fa-closed-captioning"></i> 优惠券码 </a></li>
                             #end
                             #hasPermission('/admin/user/detail/member')
-                            <li id="member"><a href="#(CPATH)/admin/user/detail/member/#(user.id)"><i class="fa fa-fw fa-coffee"></i> 会员信息</a></li>
+                            <li class="nav-item" id="member"><a class="nav-link"
+                                                                href="#(CPATH)/admin/user/detail/member/#(user.id)"><i
+                                    class="fas fa-smile"></i> 会员信息</a></li>
                             #end
                             #hasPermission('/admin/user/detail/communication')
-                            <li id="communication"><a href="#(CPATH)/admin/user/detail/communication/#(user.id)"><i class="fa fa-fw fa-phone-square"></i> 通信资料</a></li>
+                            <li class="nav-item" id="communication">
+                                <a class="nav-link" href="#(CPATH)/admin/user/detail/communication/#(user.id)"><i
+                                        class="fas fa-phone-square"></i> 通信资料</a></li>
                             #end
                             #hasPermission('/admin/user/detail/pwd')
-                            <li id="pwd"><a href="#(CPATH)/admin/user/detail/pwd/#(user.id)"><i class="fa fa-fw fa-key"></i> 账号密码</a></li>
+                            <li class="nav-item" id="pwd"><a class="nav-link"
+                                                             href="#(CPATH)/admin/user/detail/pwd/#(user.id)"><i
+                                    class="fas fa-key"></i> 账号密码</a></li>
                             #end
                             #hasPermission('/admin/user/detail/signature')
-                            <li id="signature"><a href="#(CPATH)/admin/user/detail/signature/#(user.id)"><i class="fa fa-fw fa-bars"></i> 个人签名</a></li>
+                            <li class="nav-item" id="signature"><a class="nav-link"
+                                                                   href="#(CPATH)/admin/user/detail/signature/#(user.id)"><i
+                                    class="fas fa-bars"></i> 个人签名</a></li>
                             #end
                             #hasPermission('/admin/user/detail/other')
-                            <li id="other"><a href="#(CPATH)/admin/user/detail/other/#(user.id)"><i class="fa fa-fw fa-leaf"></i> 其他属性</a></li>
+                            <li class="nav-item" id="other"><a class="nav-link"
+                                                               href="#(CPATH)/admin/user/detail/other/#(user.id)">
+                                <i class="fas fa-leaf"></i> 其他属性</a></li>
                             #end
                             #hasPermission('/admin/user/detail/avatar')
-                            <li id="avatar"><a href="#(CPATH)/admin/user/detail/avatar/#(user.id)"><i class="fa fa-fw fa-black-tie"></i> 修改头像 </a></li>
+                            <li class="nav-item" id="avatar"><a class="nav-link"
+                                                                href="#(CPATH)/admin/user/detail/avatar/#(user.id)"><i
+                                    class="fab fa-black-tie"></i> 修改头像 </a></li>
                             #end
                             #hasPermission('/admin/user/detail/utm')
-                            <li id="utm"><a href="#(CPATH)/admin/user/detail/utm/#(user.id)"><i class="fa fa-fw fa-hourglass-half"></i> 行为记录 </a></li>
+                            <li class="nav-item" id="utm"><a class="nav-link"
+                                                             href="#(CPATH)/admin/user/detail/utm/#(user.id)">
+                                <i class="fas fa-hourglass-half"></i> 行为记录 </a></li>
                             #end
 
                         </ul>
@@ -112,7 +123,7 @@
 
             </div>
             <!-- /.col -->
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <div class="card card-outline card-primary">
                     #@detail?()
                 </div>

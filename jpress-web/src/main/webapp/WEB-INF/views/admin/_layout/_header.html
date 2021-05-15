@@ -7,30 +7,37 @@
         #@navbarItems?()
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-        <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="搜索进入..." aria-label="Search">
-            <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <!-- Notifications Dropdown Menu -->
 
 
+        <!-- 头像信息 -->
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center">
-                <img src="#(ACCOUNT.avatar ?? '/static/commons/img/avatar.png')" class="img-circle elevation-2" alt="User Image" style="width: 20px;margin-right: 5px;">
-                #(ACCOUNT.nickname ?? ACCOUNT.loginname ??)
+                <img src="#(USER.avatar ??)" class="img-circle elevation-2" alt="User Image"
+                     style="width: 20px;margin: 0 5px;">
+                <i class="fas fa-caret-down"></i>
             </a>
-            #@avatarDropdown?()
+
+            <div class="dropdown-menu dropdown-menu-right">
+
+                <a href="#(CPATH)/ucenter/index" class="dropdown-item" target="_blank">
+                    <i class="fas fa-user"></i> 用户中心
+                </a>
+
+                <div class="dropdown-divider"></div>
+                <a href="#(CPATH)/admin/user/me" class="dropdown-item">
+                    <i class="fas fa-home"></i> 我的资料
+                </a>
+
+                <div class="dropdown-divider"></div>
+                <a href="#(CPATH)/admin/logout" class="dropdown-item">
+                    <i class="fas fa-sign-out-alt"></i> 退出登录
+                </a>
+
+            </div>
         </li>
+        <!-- 头像信息结束 -->
 
     </ul>
 </nav>

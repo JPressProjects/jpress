@@ -309,6 +309,7 @@ function initAutoAjaxSubmit() {
     });
 }
 
+
 function showMessage(msg) {
     if (typeof toastr != "undefined") {
         toastr.success(msg);

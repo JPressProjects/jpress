@@ -63,7 +63,5 @@ function initCommentComponent() {
 
 
 $(document).ready(function(){
-
     initCommentComponent();
-
 });

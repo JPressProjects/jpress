@@ -22,6 +22,11 @@ body {
     font-size: 10px;
 }
 
+.form-text {
+    display: block;
+    margin-top: .5rem;
+}
+
 .nav-link >i{
     margin-left:.75rem;
     margin-right: .75rem;

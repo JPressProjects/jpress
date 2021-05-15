@@ -48,14 +48,12 @@ public class SitemapManager implements JbootEventListener {
         }
 
         List<Class<SitemapProvider>> cls = ClassScanner.scanSubClass(SitemapProvider.class, true);
-        if (cls != null && cls.size() > 0) {
-            cls.forEach(c -> {
-                SitemapProvider provider = ClassUtil.newInstance(c);
-                if (provider != null && StrUtil.isNotBlank(provider.getName())) {
-                    providers.put(provider.getName(), provider);
-                }
-            });
-        }
+        cls.forEach(c -> {
+            SitemapProvider provider = ClassUtil.newInstance(c);
+            if (provider != null && StrUtil.isNotBlank(provider.getName())) {
+                providers.put(provider.getName(), provider);
+            }
+        });
 
     }
 

@@ -5,9 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>登录到用户中心</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
 
     <!--[if lt IE 9]>
@@ -20,8 +17,8 @@
             background-size: cover;
         }
 
-        .login-card {
-            padding-top: 100px;
+        .login-box {
+            margin-top: 100px;
         }
 
         .form-group {
@@ -33,58 +30,90 @@
 </head>
 <body class="hold-transition login-page">
 
-<div class="row">
-    <div class="login-card text-center">
-        <div class="login-card-body">
-            <form action="#(CPATH)/user/doLogin" method="post"
-                  class="autoAjaxSubmit"
-                  data-ok-function="loginSuccess">
+<div class="wrapper">
 
-                <div class="form-group row">
-                    <label>账号</label>
-                    <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user">
-                </div>
-                <div class="form-group row">
-                    <label>密码</label>
-                    <input type="password" class="form-control" placeholder="及密码..." name="pwd">
-                </div>
-                <div class="row">
-                    <div class="col-xs-12" style="padding-top: 15px">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">登 录</button>
-                        <p class="text-muted" style="float: left;"> 还没有账号？点击 <a href="#(CPATH)/user/register">这里</a> 注册。
-                        </p>
+    <div class="login-box">
+        <div class="login-logo" style="color: #060873">
+            #option('web_name','JPress')
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+
+                <form action="doLogin" method="post" class="autoAjaxSubmit" data-ok-href="#para('goto',CPATH + '/ucenter')"
+                      data-fail-function="loginFail">
+
+                    <div class="form-group">
+                        <label>账号</label>
+                        <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" required>
                     </div>
-                </div>
-                #if(option('login_qq_enable') || option('login_wechat_enable'))
-                <div class="form-group row">
-                    快速登录：
 
-                    #if(option('login_wechat_enable'))
-                    <a href="#(CPATH)/oauth/wechat"><i class="fa fa-fw fa-wechat"></i></a>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" class="form-control" placeholder="及密码..." name="pwd">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: block;">验证码</label>
+                        <div>
+                            <input type="text" id="captcha" class="form-control " style="float: left;width: 70%;"
+                                   placeholder="请输入验证码" name="captcha" required>
+                            <img src="/commons/captcha" id="captcha-img"
+                                 style="float: right;height: 34px;margin-top: 2px;"
+                                 onclick="this.src='/commons/captcha?d='+Math.random();" cdn-exclude>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="padding-top: 30px;">
+                        <div class="col-xs-12" style="padding-top: 15px">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat"> 登 录</button>
+                            <p class="text-muted" style="float: left;"> 还没有账号？点击 <a href="#(CPATH)/user/register">这里</a>
+                                注册。
+                            </p>
+                        </div>
+                    </div>
+
+                    #if(option('login_qq_enable') || option('login_wechat_enable'))
+                    <div class="form-group row">
+                        快速登录：
+
+                        #if(option('login_wechat_enable'))
+                        <a href="#(CPATH)/oauth/wechat"><i class="fa fa-fw fa-wechat"></i></a>
+                        #end
+
+                        #if(option('login_qq_enable'))
+                        <a href="#(CPATH)/oauth/qq"><i class="fa fa-fw fa-qq"></i></a>
+                        #end
+                    </div>
                     #end
 
-                    #if(option('login_qq_enable'))
-                    <a href="#(CPATH)/oauth/qq"><i class="fa fa-fw fa-qq"></i></a>
-                    #end
-                </div>
-                #end
-            </form>
+                </form>
 
+            </div>
+            <!-- /.login-card-body -->
         </div>
     </div>
+    <!-- /.login-box -->
+
 </div>
+
 
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
 <script src="#(CPATH)/static/commons/jpresscommons.js"></script>
 <script>
-    function loginSuccess() {
-        var gotoUrl = "#para('gotoUrl')";
-        if (gotoUrl == ""){
-            gotoUrl = "#(CPATH)#option('login_goto_url','/ucenter')"
+    function loginFail(result) {
+        Utils.showErrorMessage(result.message);
+        $('#captcha').val('');
+        $('#captcha-img').attr('src',"/commons/captcha?id="+Math.random())
+
+        if (result.errorCode == 11){
+            $('input[name="account"]').val('')
+            $('input[name="pwd"]').val('')
+        }else if (result.errorCode == 12){
+            $('input[name="pwd"]').val('')
         }
-        location.href = gotoUrl;
     }
 </script>
 

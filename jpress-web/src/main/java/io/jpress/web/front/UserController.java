@@ -23,6 +23,7 @@ import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.CaptchaValidate;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
@@ -94,6 +95,7 @@ public class UserController extends TemplateControllerBase {
             @Form(name = "user", message = "账号不能为空"),
             @Form(name = "pwd", message = "密码不能为空")
     })
+    @CaptchaValidate(form = "captcha", message = "验证码不正确，请重新输入")
     public void doLogin(String user, String pwd) {
 
         if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {

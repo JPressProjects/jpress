@@ -95,12 +95,19 @@ public class UserController extends TemplateControllerBase {
             @Form(name = "user", message = "账号不能为空"),
             @Form(name = "pwd", message = "密码不能为空")
     })
-    @CaptchaValidate(form = "captcha", message = "验证码不正确，请重新输入")
+//    @CaptchaValidate(form = "captcha", message = "验证码不正确，请重新输入")
     public void doLogin(String user, String pwd) {
 
         if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {
             LogKit.error("你当前的 idea 或者 eclipse 配置有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
             return;
+        }
+
+        if (JPressOptions.getAsBool("login_captcha_enable",true)) {
+            if (!validateCaptcha("captcha")) {
+                renderJson(Ret.fail().set("message", "验证码不正确").set("errorCode", 7));
+                return;
+            }
         }
 
         User loginUser = userService.findByUsernameOrEmail(user);
@@ -235,7 +242,7 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
-        if (pwd.equals(confirmPwd) == false) {
+        if (!pwd.equals(confirmPwd)) {
             renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
             return;
         }
@@ -245,7 +252,7 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
-        if (validateCaptcha("captcha") == false) {
+        if (!validateCaptcha("captcha")) {
             renderJson(Ret.fail().set("message", "验证码不正确").set("errorCode", 7));
             return;
         }
@@ -254,9 +261,9 @@ public class UserController extends TemplateControllerBase {
 
         //是否启用短信验证
         boolean smsValidate = JPressOptions.getAsBool("reg_sms_validate_enable");
-        if (smsValidate == true) {
+        if (smsValidate) {
             String paraCode = getPara("sms_code");
-            if (SmsKit.validateCode(phoneNumber, paraCode) == false) {
+            if (!SmsKit.validateCode(phoneNumber, paraCode)) {
                 renderJson(Ret.fail().set("message", "短信验证码输入错误").set("errorCode", 7));
                 return;
             }

@@ -22,6 +22,16 @@
                             <h4 class="form-header">用户登录</h4>
 
                             <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">登录须输入验证码</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="login_captcha_enable"
+                                           #checkedIf(option("login_captcha_enable","true"))>
+                                    <input type="hidden" id="login_captcha_enable" name="login_captcha_enable">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">登录成功跳转地址</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：/ucenter"

@@ -19,8 +19,11 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.kit.Ret;
 import com.jfinal.render.TextRender;
+import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.JPressConsts;
+import io.jpress.commons.utils.SessionUtils;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -40,20 +43,27 @@ public class CSRFInterceptor implements Interceptor {
     @Override
     public void intercept(Invocation inv) {
 
+        String uid = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
+        if (StrUtil.isBlank(uid) || !SessionUtils.isLoginedOk(uid)){
+            // 不用管用户未登录的情况
+            inv.invoke();
+            return;
+        }
+
+
         //不是 do 开头的，让其通过
         //在JPress里有一个共识：只要是 增、删、改的操作，都会用do开头对方法进行命名
         String methodName = inv.getMethodName();
         if (methodName.startsWith(CSRF_METHOD_PREFIX) == false) {
-            renderNormal(inv);
+            renderNormal(inv,uid);
             return;
         }
 
         //是小写字母 或者 数字、中文等非大写字母，这个时候可能是个单词 比如：download
         if (!Character.isUpperCase(methodName.charAt(2))) {
-            renderNormal(inv);
+            renderNormal(inv,uid);
             return;
         }
-
 
         //从cookie中读取token，因为 第三方网站 无法修改 和 获得 cookie
         //所以从cookie获取存储的token是安全的
@@ -70,21 +80,21 @@ public class CSRFInterceptor implements Interceptor {
             return;
         }
 
-        if (cookieToken.equals(paraToken) == false) {
+        if (!cookieToken.equals(paraToken)) {
             renderBad(inv);
             return;
         }
 
-        renderNormal(inv);
+        renderNormal(inv,uid);
     }
 
 
-    private void renderNormal(Invocation inv) {
-        // 不是 ajax 请求，才需要重置本地 的token
+    private void renderNormal(Invocation inv,String userId) {
+        // 若不是 ajax 请求，才需要重置本地的 token
         // ajax 请求，需要保证之前的token可以继续使用
         if (!RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
-            String uuid = StrUtil.uuid();
-            inv.getController().setCookie(CSRF_KEY, uuid, -1);
+            String uuid =  SessionUtils.getSessionId(userId);
+            inv.getController().setCookie(CSRF_KEY,uuid, -1);
             inv.getController().setAttr(CSRF_ATTR_KEY, uuid);
         }
 

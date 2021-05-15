@@ -335,8 +335,7 @@
             <tbody>
 
             #for(userCart : page.list ??)
-            <tr #(userCart.selected ?
-            'style="background-color: #fff4e8;"' : '') >
+            <tr #(userCart.selected ? 'style="background-color: #fff4e8;"' : '') >
             <td>
                 <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
                        onchange="dataItemChange(this)"/>

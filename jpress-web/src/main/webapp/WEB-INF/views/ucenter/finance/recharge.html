@@ -20,119 +20,116 @@
 
 
 #define content()
-    <section class="content-header">
-        <h1>
-            充值
-            <small>Recharge</small>
-        </h1>
-    </section>
 
-    <section class="content">
+<section class="content">
 
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
-
-
-
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form class=" autoAjaxSubmit" autocomplete="off"
-                          action="#(CPATH)/ucenter/finance/amount/recharging"
-                          method="post"
-                          data-ok-function="ok"
-                    >
-                        <div class="card-body">
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">充值账号</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" value="#(USER.username ??)" readonly>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">充值金额</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="请输入充值金额...."
-                                           value="" name="recharge_amount">
-                                    <p class="text-muted">
-                                        单位：元，最低充值不能低于 10 元。
-                                    </p>
-                                </div>
-                            </div>
-
-
-                            <h4 class="form-header">充值方式</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">支付类型</label>
-
-                                <div class="col-sm-7">
-
-                                    #if(wechatxConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="wechatx">
-                                            微信转账
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    #if(alipayxConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="alipayx">
-                                            支付宝转账
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    #if(wechatConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="wechat">
-                                            微信支付
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    #if(alipayConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="alipay">
-                                            支付宝支付
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    #if(paypalConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="paypal">
-                                            Paypal支付
-                                        </label>
-                                    </div>
-                                    #end
-
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="card-footer">
-                            <div class="offset-sm-2 col-sm-10 submit-block">
-                                <div class="card-submit">
-                                    <button type="submit" class="btn btn-primary">下一步</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h1>充值</h1>
             </div>
 
-        </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form class=" autoAjaxSubmit" autocomplete="off"
+                  action="#(CPATH)/ucenter/finance/amount/recharging"
+                  method="post"
+                  data-ok-function="ok"
+            >
 
-    </section>
+
+                <div class="card-body">
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">充值账号</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" value="#(USER.username ??)" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">充值金额</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="请输入充值金额...."
+                                   value="" name="recharge_amount">
+                            <p class="text-muted">
+                                单位：元，最低充值不能低于 10 元。
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <h4 class="form-header">充值方式</h4>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">支付类型</label>
+
+                        <div class="col-sm-7">
+
+                            #if(wechatxConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="wechatx">
+                                    微信转账
+                                </label>
+                            </div>
+                            #end
+
+                            #if(alipayxConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="alipayx">
+                                    支付宝转账
+                                </label>
+                            </div>
+                            #end
+
+                            #if(wechatConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="wechat">
+                                    微信支付
+                                </label>
+                            </div>
+                            #end
+
+                            #if(alipayConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="alipay">
+                                    支付宝支付
+                                </label>
+                            </div>
+                            #end
+
+                            #if(paypalConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="paypal">
+                                    Paypal支付
+                                </label>
+                            </div>
+                            #end
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-footer">
+                    <div class="offset-sm-2 col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="submit" class="btn btn-primary">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </div>
+
+</section>
 
 #end

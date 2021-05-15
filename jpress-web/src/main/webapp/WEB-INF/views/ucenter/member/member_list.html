@@ -8,72 +8,66 @@
 #end
 
 #define content()
-    <section class="content-header">
-        <h1>
-            会员信息
-            <small>Member Info</small>
-        </h1>
-    </section>
+<section class="content">
 
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header with-border">
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
 
-    <section class="content">
-
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 25%">会员名称</th>
-                                <th>简介</th>
-                                <th style="width: 90px;">到期时间</th>
-                            </tr>
-                            #for(mgroup : memberGroups)
-                            <tr>
-                                <td>
-                                    <strong>
-                                        <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">#(mgroup.title ??)</a>
-                                    </strong>
-                                    <div class="jp-action-card">
-                                        <div class="jp-action-body">
-                                            #if(mgroup.member ??)
-                                            <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">续费</a>
-                                            #else
-                                            <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">加入会员</a>
-                                            #end
-                                            |
-                                            <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">查看福利</a>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    #(mgroup.summary ??)
-                                </td>
-                                <td>
-                                    #if(mgroup.member.duetime ??)
-                                    #date(mgroup.member.duetime)
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th style="width: 25%">会员名称</th>
+                        <th>简介</th>
+                        <th style="width: 90px;">到期时间</th>
+                    </tr>
+                    #for(mgroup : memberGroups)
+                    <tr>
+                        <td>
+                            <strong>
+                                <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">#(mgroup.title ??)</a>
+                            </strong>
+                            <div class="jp-action-card">
+                                <div class="jp-action-body">
+                                    #if(mgroup.member ??)
+                                    <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">续费</a>
                                     #else
-                                    尚未加入
+                                    <a href="#(CPATH)/ucenter/member/join/#(mgroup.id)">加入会员</a>
                                     #end
-                                </td>
-                            </tr>
-                            #end
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
+                                    |
+                                    <a href="#(CPATH)/ucenter/member/detail/#(mgroup.id)">查看福利</a>
+                                </div>
                             </div>
-                        </div>
+                        </td>
+                        <td>
+                            #(mgroup.summary ??)
+                        </td>
+                        <td>
+                            #if(mgroup.member.duetime ??)
+                            #date(mgroup.member.duetime)
+                            #else
+                            尚未加入
+                            #end
+                        </td>
+                    </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-12">
                     </div>
                 </div>
-                <!-- /.card -->
             </div>
-    </section>
+        </div>
+        <!-- /.card -->
+    </div>
+</section>
 #end

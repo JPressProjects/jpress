@@ -2,121 +2,112 @@
 
 #define css()
 <style>
-.binditem{
-    padding: 7px 17px;
-}
+    .binditem {
+        padding: 7px 17px;
+    }
 
 </style>
 #end
 #define content()
-    <section class="content-header">
-        <h1>
-            第三方账号绑定
-            <small>Third Party Account Binding</small>
-        </h1>
-    </section>
+<section class="content">
 
-    <section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
+            <div class="card-body ">
 
-
-                        <div class="card-body form-horizontal">
-
-                            #if(option("login_wechat_enable"))
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">微信</label>
-                                <div class="col-sm-7 binditem">
-                                    #if(userOpenidMap.get('wechat') != null)
-                                    您已经绑定了账号微信账号：#(userOpenidMap.get('wechat').nickname ??)
-                                    ，点击<a href="#(CPATH)/ucenter/unbind?type=wechat"> 这里 </a>取消绑定。
-                                    #else
-                                    您当前没有绑定微信账号，点击 <a href="#(CPATH)/oauth/wechat" target="_blank">这里</a> 进行绑定。
-                                    #end
-                                </div>
-                            </div>
-                            #end
-
-                            #if(option("login_weibo_enable"))
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">微博</label>
-                                <div class="col-sm-7 binditem">
-                                    #if(userOpenidMap.get('weibo') != null)
-                                    您已经绑定了账号微博账号：#(userOpenidMap.get('weibo').nickname ??)
-                                    ，点击<a href="#(CPATH)/ucenter/unbind?type=weibo"> 这里 </a>取消绑定。
-                                    #else
-                                    您当前没有绑定微博账号，点击 <a href="#(CPATH)/oauth/weibo" target="_blank">这里</a> 进行绑定。
-                                    #end
-                                </div>
-                            </div>
-                            #end
-
-
-                            #if(option("login_qq_enable"))
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">QQ</label>
-                                <div class="col-sm-7 binditem">
-                                    #if(userOpenidMap.get('qq') != null)
-                                    您已经绑定了账号QQ账号：#(userOpenidMap.get('qq').nickname ??)
-                                    ，点击<a href="#(CPATH)/ucenter/unbind?type=qq"> 这里 </a>取消绑定。
-                                    #else
-                                    您当前没有绑定QQ账号，点击 <a href="#(CPATH)/oauth/qq" target="_blank">这里</a> 进行绑定。
-                                    #end
-                                </div>
-                            </div>
-                            #end
-
-                            #if(option("login_dingding_enable"))
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">钉钉</label>
-                                <div class="col-sm-7 binditem">
-                                    #if(userOpenidMap.get('dingding') != null)
-                                    您已经绑定了账号钉钉账号：#(userOpenidMap.get('dingding').nickname ??)
-                                    ，点击<a href="#(CPATH)/ucenter/unbind?type=dingding"> 这里 </a>取消绑定。
-                                    #else
-                                    您当前没有绑定钉钉账号，点击 <a href="#(CPATH)/oauth/dingding" target="_blank">这里</a> 进行绑定。
-                                    #end
-                                </div>
-                            </div>
-                            #end
-
-                            #if(option("login_github_enable"))
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Github</label>
-                                <div class="col-sm-7 binditem">
-                                    #if(userOpenidMap.get('github') != null)
-                                    您已经绑定了账号Github账号：#(userOpenidMap.get('github').nickname ??)
-                                    ，点击<a href="#(CPATH)/ucenter/unbind?type=github"> 这里 </a>取消绑定。
-                                    #else
-                                    您当前没有绑定Github账号，点击 <a href="#(CPATH)/oauth/github" target="_blank">这里</a> 进行绑定。
-                                    #end
-                                </div>
-                            </div>
-                            #end
-
-                            #if(option("login_gitee_enable"))
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">开源中国</label>
-                                <div class="col-sm-7 binditem">
-                                    #if(userOpenidMap.get('oschina') != null)
-                                    您已经绑定了账号开源中国账号：#(userOpenidMap.get('oschina').nickname ??)
-                                    ，点击<a href="#(CPATH)/ucenter/unbind?type=oschina"> 这里 </a>取消绑定。
-                                    #else
-                                    您当前没有绑定开源中国账号，点击 <a href="#(CPATH)/oauth/oschina" target="_blank">这里</a> 进行绑定。
-                                    #end
-                                </div>
-                            </div>
-                            #end
-
-                        </div>
-
-
-
+                #if(option("login_wechat_enable"))
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">微信</label>
+                    <div class="col-sm-7 binditem">
+                        #if(userOpenidMap.get('wechat') != null)
+                        您已经绑定了账号微信账号：#(userOpenidMap.get('wechat').nickname ??)
+                        ，点击<a href="#(CPATH)/ucenter/unbind?type=wechat"> 这里 </a>取消绑定。
+                        #else
+                        您当前没有绑定微信账号，点击 <a href="#(CPATH)/oauth/wechat" target="_blank">这里</a> 进行绑定。
+                        #end
+                    </div>
                 </div>
+                #end
+
+                #if(option("login_weibo_enable"))
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">微博</label>
+                    <div class="col-sm-7 binditem">
+                        #if(userOpenidMap.get('weibo') != null)
+                        您已经绑定了账号微博账号：#(userOpenidMap.get('weibo').nickname ??)
+                        ，点击<a href="#(CPATH)/ucenter/unbind?type=weibo"> 这里 </a>取消绑定。
+                        #else
+                        您当前没有绑定微博账号，点击 <a href="#(CPATH)/oauth/weibo" target="_blank">这里</a> 进行绑定。
+                        #end
+                    </div>
+                </div>
+                #end
+
+
+                #if(option("login_qq_enable"))
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">QQ</label>
+                    <div class="col-sm-7 binditem">
+                        #if(userOpenidMap.get('qq') != null)
+                        您已经绑定了账号QQ账号：#(userOpenidMap.get('qq').nickname ??)
+                        ，点击<a href="#(CPATH)/ucenter/unbind?type=qq"> 这里 </a>取消绑定。
+                        #else
+                        您当前没有绑定QQ账号，点击 <a href="#(CPATH)/oauth/qq" target="_blank">这里</a> 进行绑定。
+                        #end
+                    </div>
+                </div>
+                #end
+
+                #if(option("login_dingding_enable"))
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">钉钉</label>
+                    <div class="col-sm-7 binditem">
+                        #if(userOpenidMap.get('dingding') != null)
+                        您已经绑定了账号钉钉账号：#(userOpenidMap.get('dingding').nickname ??)
+                        ，点击<a href="#(CPATH)/ucenter/unbind?type=dingding"> 这里 </a>取消绑定。
+                        #else
+                        您当前没有绑定钉钉账号，点击 <a href="#(CPATH)/oauth/dingding" target="_blank">这里</a> 进行绑定。
+                        #end
+                    </div>
+                </div>
+                #end
+
+                #if(option("login_github_enable"))
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Github</label>
+                    <div class="col-sm-7 binditem">
+                        #if(userOpenidMap.get('github') != null)
+                        您已经绑定了账号Github账号：#(userOpenidMap.get('github').nickname ??)
+                        ，点击<a href="#(CPATH)/ucenter/unbind?type=github"> 这里 </a>取消绑定。
+                        #else
+                        您当前没有绑定Github账号，点击 <a href="#(CPATH)/oauth/github" target="_blank">这里</a> 进行绑定。
+                        #end
+                    </div>
+                </div>
+                #end
+
+                #if(option("login_gitee_enable"))
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">开源中国</label>
+                    <div class="col-sm-7 binditem">
+                        #if(userOpenidMap.get('oschina') != null)
+                        您已经绑定了账号开源中国账号：#(userOpenidMap.get('oschina').nickname ??)
+                        ，点击<a href="#(CPATH)/ucenter/unbind?type=oschina"> 这里 </a>取消绑定。
+                        #else
+                        您当前没有绑定开源中国账号，点击 <a href="#(CPATH)/oauth/oschina" target="_blank">这里</a> 进行绑定。
+                        #end
+                    </div>
+                </div>
+                #end
+
             </div>
 
-        </div>
 
-    </section>
+        </div>
+    </div>
+
+    </div>
+
+</section>
 #end

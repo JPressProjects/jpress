@@ -80,7 +80,6 @@
 
 
         <!-- Table row -->
-        <div class="row">
             <div class="col-xs-12 table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -101,12 +100,13 @@
                         <td>#(statement.change_amount > 0 ? '+' : '-')#(statement.change_amount ??)</td>
                         <td>#date(statement.created)</td>
                     </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                     #end
                     </tbody>
                 </table>
             </div>
             <!-- /.col -->
-        </div>
         <!-- /.row -->
     </section>
 

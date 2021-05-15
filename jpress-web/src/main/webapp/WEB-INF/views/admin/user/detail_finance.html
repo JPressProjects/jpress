@@ -99,6 +99,8 @@
                         <td>#(statement.change_amount > 0 ? '+' : '-')#(statement.change_amount ??)</td>
                         <td>#date(statement.created)</td>
                     </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                     #end
                     </tbody>
                 </table>

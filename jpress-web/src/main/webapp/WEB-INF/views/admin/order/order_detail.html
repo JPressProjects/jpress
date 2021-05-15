@@ -249,6 +249,8 @@
                             <a href="#">编辑</a>
                         </td>
                     </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                     #end
 
                     </tbody>
@@ -291,6 +293,8 @@
                         <td>#(ex.time ??)</td>
                         <td>#(ex.info ??)</td>
                     </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                     #end
                     </tbody>
                 </table>

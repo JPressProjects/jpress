@@ -1,117 +1,111 @@
 #@ucenter_layout()
 
 #define content()
-    <section class="content-header">
-        <h1>
-            提现申请
-            <small>Payout Submit</small>
-        </h1>
-    </section>
 
-    <section class="content">
+<section class="content">
 
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
-
-
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form class="" autocomplete="off">
-                        <div class="card-body">
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">当前状态</label>
-                                <div class="col-sm-7" style="padding: 7px 14px;font-size: 14px">
-                                    #(payout.statusStr ??)
-                                </div>
-                            </div>
-
-                            #if(payout.isRefuse())
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">拒绝原因</label>
-                                <div class="col-sm-7 form-text">
-                                    #(payout.feedback ??)
-                                </div>
-                            </div>
-                            #end
-
-                            #if(payout.isSuccess())
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">凭证</label>
-                                <div class="col-sm-7">
-                                    <img src="#(payout.pay_success_proof)" style="max-width: 100%">
-                                </div>
-                            </div>
-                            #end
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">提现金额</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control"  value="#number(payout.amount,'0.00')" readonly>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">身份证号码</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control"  value="#(payout.user_idcard ??)" readonly>
-                                </div>
-                            </div>
-
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">身份证姓名</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control"  value="#(payout.user_real_name ??)" readonly>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">提现到</label>
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control"  value="#(payout.payTypeStr ??)" readonly>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">收款账号</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control"  value="#(payout.pay_to ??)" readonly>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">备注</label>
-                                <div class="col-sm-7">
-                                    <textarea rows="3" class="form-control" readonly>#(payout.remarks ??)</textarea>
-                                </div>
-                            </div>
-
-
-
-                        </div>
-
-                        <div class="card-footer">
-                            <div class="offset-sm-2 col-sm-10 submit-block">
-                                <div class="card-submit">
-                                    <button type="button" onclick="history.back()" class="btn btn-primary">返回</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+            <div class="card-header">
+                <h1>提现申请</h1>
             </div>
 
-        </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form class="" autocomplete="off">
+                <div class="card-body">
 
-    </section>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">当前状态</label>
+                        <div class="col-sm-7" style="padding: 7px 14px;font-size: 14px">
+                            #(payout.statusStr ??)
+                        </div>
+                    </div>
+
+                    #if(payout.isRefuse())
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">拒绝原因</label>
+                        <div class="col-sm-7 form-text">
+                            #(payout.feedback ??)
+                        </div>
+                    </div>
+                    #end
+
+                    #if(payout.isSuccess())
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">凭证</label>
+                        <div class="col-sm-7">
+                            <img src="#(payout.pay_success_proof)" style="max-width: 100%">
+                        </div>
+                    </div>
+                    #end
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">提现金额</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" value="#number(payout.amount,'0.00')" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">身份证号码</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" value="#(payout.user_idcard ??)" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">身份证姓名</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" value="#(payout.user_real_name ??)" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">提现到</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" value="#(payout.payTypeStr ??)" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">收款账号</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" value="#(payout.pay_to ??)" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">备注</label>
+                        <div class="col-sm-7">
+                            <textarea rows="3" class="form-control" readonly>#(payout.remarks ??)</textarea>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-footer">
+                    <div class="offset-sm-2 col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="button" onclick="history.back()" class="btn btn-primary">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </div>
+
+</section>
 
 #end

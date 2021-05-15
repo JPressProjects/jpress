@@ -45,7 +45,7 @@
                 selectedIds += $(this).val() + ",";
             }
         });
-        return selectedIds.substring(0,selectedIds.length - 1);
+        return selectedIds.substring(0, selectedIds.length - 1);
     }
 
 </script>
@@ -77,107 +77,82 @@
 #end
 
 #define content()
-    <section class="content-header">
-        <h1>
-            我的地址
-            <small>My Address</small>
-        </h1>
-    </section>
 
-    <section class="content">
+<section class="content">
 
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header with-border">
 
-                        <div class="row admin-search-panel">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/ucenter/address/edit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
-
+                <div class="row admin-search-panel">
+                    <div class="col-xs-12">
+                        <a href="#(CPATH)/ucenter/address/edit" class="btn btn-primary "> <i
+                                class="fa fa-fw fa-plus"></i> 新建</a>
+<!--                        <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>-->
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
+                </div>
 
-                        <table class="table table-striped" id="table-address">
-                            <tbody>
-                            <tr>
-                                <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
-                                </th>
-                                <th style="width: 150px">收货人</th>
-                                <th style="width: 150px">手机号码</th>
-                                <th style="width: 40%">地址</th>
-                                <th style="width: 100px">邮政编码</th>
-                                <th style="width: 80px">是否默认</th>
-                            </tr>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
 
-                            #for(data : page.list)
-                            <tr>
-                                <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id)" onchange="dataItemChange(this)"/></td>
-                                <td style="width: 50px">
-                                    <strong><a href="#">#(data.username ??)</a></strong>
-                                    <div class="jp-action-card">
-                                        <div class="jp-action-body">
-                                            <a href="#(CPATH)/ucenter/address/edit?id=#(data.id)" style="color: #006505">编辑</a>|<a href="javascript:;" onclick="doDel('#(data.id)')" style="color: #a00">删除</a>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    #(data.mobile ??)
-                                </td>
-                                <td>
-                                    #(data.province ??) &nbsp;#(data.city ??) &nbsp; #(data.district ??) &nbsp;#(data.detail ??)
-                                </td>
-                                <td>
-                                    #(data.zipcode ??) &nbsp;
-                                </td>
-                                <td>
-                                    #(data.width_default?'是':'否')
-                                </td>
-                            </tr>
-                            #end
+                <table class="table table-striped" id="table-address">
+                    <tbody>
+                    <tr>
+                        <th style="width: 10px">
+                            <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                        </th>
+                        <th style="width: 150px">收货人</th>
+                        <th style="width: 150px">手机号码</th>
+                        <th style="width: 40%">地址</th>
+                        <th style="width: 100px">邮政编码</th>
+                        <th style="width: 80px">是否默认</th>
+                    </tr>
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="row">
-
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
-                                            <label class="form-check-label" for="checkall">全选</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <select class="form-control" name="action">
-                                            <option value="">请选择...</option>
-                                            <option value="doDelByIds" open-type="del-confirm">
-                                                批量删除
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-lg-3">
-                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
-                                    </div>
+                    #for(data : page.list)
+                    <tr>
+                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id)"
+                                   onchange="dataItemChange(this)"/></td>
+                        <td style="width: 50px">
+                            <strong><a href="#">#(data.username ??)</a></strong>
+                            <div class="jp-action-card">
+                                <div class="jp-action-body">
+                                    <a href="#(CPATH)/ucenter/address/edit?id=#(data.id)" style="color: #006505">编辑</a>|<a
+                                        href="javascript:;" onclick="doDel('#(data.id)')" style="color: #a00">删除</a>
                                 </div>
                             </div>
+                        </td>
+                        <td>
+                            #(data.mobile ??)
+                        </td>
+                        <td>
+                            #(data.province ??) &nbsp;#(data.city ??) &nbsp; #(data.district ??) &nbsp;#(data.detail ??)
+                        </td>
+                        <td>
+                            #(data.zipcode ??) &nbsp;
+                        </td>
+                        <td>
+                            #(data.width_default?'是':'否')
+                        </td>
+                    </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
+                    #end
 
-                            <div class="col-sm-6">
-                                #@_paginate()
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card-footer -->
-                </div>
-                <!-- /.card -->
+                    </tbody>
+                </table>
             </div>
-    </section>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        #@_paginate()
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-footer -->
+        </div>
+        <!-- /.card -->
+    </div>
+</section>
 #end

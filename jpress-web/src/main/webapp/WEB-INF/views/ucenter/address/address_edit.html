@@ -26,13 +26,6 @@
 #end
 
 #define content()
-    <section class="content-header">
-        <h1>
-            新增/编辑地址
-            <small>Add/Edit Address </small>
-        </h1>
-    </section>
-
     <section class="content">
 
         <div class="container-fluid">
@@ -42,6 +35,10 @@
                     <form class="" id="addressForm" method="post" action="#(CPATH)/ucenter/address/doAdd">
 
                         <input type="hidden" class="form-control" name="address.id" value="#(address.id ??)"/>
+
+                        <div class="card-header">
+                            <h3>#(address ?'编辑' : '新增')地址</h3>
+                        </div>
 
                         <div class="card-body">
 
@@ -61,8 +58,8 @@
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">地址管理</label>
-                                <div class="col-sm-6">
-                                    <div data-toggle="distpicker"  class="form-inline" data-autoselect="3">
+                                <div class="col-sm-9">
+                                    <div data-toggle="distpicker"  class="form-inline" data-autoselect="3" style="justify-content: space-between">
                                         <select class="form-control" data-province="#(address.province ?? '---- 选择省 ----')" name="address.province" ></select>
                                         <select class="form-control" data-city="#(address.city ?? '---- 选择市 ----')" name="address.city" ></select>
                                         <select class="form-control" data-district="#(address.district ?? '---- 选择区 ----')" name="address.district" ></select>

@@ -19,14 +19,6 @@
 
 #define content()
 
-    <section class="content-header">
-        <h1>
-            文章收藏
-            <small>Article Favorites</small>
-        </h1>
-    </section>
-
-
     <section class="content">
 
         <div class="container-fluid">
@@ -59,6 +51,8 @@
                                 <td>#(favorite.summary ??)</td>
                                 <td>#date(favorite.created)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
 
                             </tbody>
@@ -67,31 +61,7 @@
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="row">
-
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
-                                            <label class="form-check-label" for="checkall">全选</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <select class="form-control" name="action">
-                                            <option value="">请选择...</option>
-                                            <option value="doDelByIds" open-type="del-confirm">
-                                                批量删除
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-lg-3">
-                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 #@_paginate()
                             </div>
                         </div>

@@ -17,11 +17,13 @@ package io.jpress.web.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
+import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.render.TextRender;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.JbootWebConfig;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.SessionUtils;
 
@@ -38,6 +40,7 @@ public class CSRFInterceptor implements Interceptor {
     public static final String CSRF_KEY = "csrf_token";
 
     private static final String CSRF_METHOD_PREFIX = "do";
+    private static final String encryptKey = JbootWebConfig.getInstance().getCookieEncryptKey();
 
 
     @Override
@@ -54,7 +57,7 @@ public class CSRFInterceptor implements Interceptor {
         //不是 do 开头的，让其通过
         //在JPress里有一个共识：只要是 增、删、改的操作，都会用do开头对方法进行命名
         String methodName = inv.getMethodName();
-        if (methodName.startsWith(CSRF_METHOD_PREFIX) == false) {
+        if (!methodName.startsWith(CSRF_METHOD_PREFIX)) {
             renderNormal(inv,uid);
             return;
         }
@@ -93,13 +96,19 @@ public class CSRFInterceptor implements Interceptor {
         // 若不是 ajax 请求，才需要重置本地的 token
         // ajax 请求，需要保证之前的token可以继续使用
         if (!RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
-            String uuid =  SessionUtils.getSessionId(userId);
-            inv.getController().setCookie(CSRF_KEY,uuid, -1);
-            inv.getController().setAttr(CSRF_ATTR_KEY, uuid);
+            String scrfToken =  createSCRFToken(userId);
+            inv.getController().setCookie(CSRF_KEY,scrfToken, -1);
+            inv.getController().setAttr(CSRF_ATTR_KEY, scrfToken);
         }
 
         inv.invoke();
     }
+
+    private String createSCRFToken(String userId){
+        return HashKit.md5(SessionUtils.getSessionId(userId) + encryptKey);
+    }
+
+
 
     private static final Ret FAIL_RET = Ret.fail().set("message", "token失效，为了安全起见，请刷新后重试。");
 

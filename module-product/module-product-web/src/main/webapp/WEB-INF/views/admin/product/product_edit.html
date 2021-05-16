@@ -65,7 +65,7 @@
     // var content = '';
     if (editMode === 'html') {
         window.myWangEditor = new wangEditor('#editor')
-        myWangEditor.config.height = 500;
+        myWangEditor.config.height = 600;
         myWangEditor.config.uploadImgServer = '#(CPATH)/commons/wangeditor/upload';
         myWangEditor.config.menus = [
             'emoticon',
@@ -139,8 +139,11 @@
             }]
 
         window.myVditor = new Vditor('editor', {
-            "height": 500,
+            "height": 600,
             "toolbar": toolbar,
+            "upload":{
+                url : "#(CPATH)/commons/vditor/upload",
+            },
             "cache": {
                 "enable": false
             },

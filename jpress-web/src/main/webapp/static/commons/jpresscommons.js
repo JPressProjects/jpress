@@ -268,15 +268,16 @@ function initAutoAjaxSubmit() {
                         return;
                     }
 
-                    if (okHref) {
-                        location.href = okHref;
-                        return
-                    }
-
                     if (okMessage) {
                         showMessage(okMessage);
+                    }
+
+                    if (okHref) {
+                        location.href = okHref;
                         return;
                     }
+
+
 
                     location.reload();
 

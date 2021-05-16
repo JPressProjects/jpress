@@ -38,7 +38,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
-        <commons-io.version>2.7</commons-io.version>
+        <commons-io.version>2.8.0</commons-io.version>
         <commonmark.version>0.17.0</commonmark.version>
         <aliyunoss.version>3.12.0</aliyunoss.version>
         <httpclient.version>4.5.13</httpclient.version>

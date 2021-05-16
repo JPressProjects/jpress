@@ -20,6 +20,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
 import io.jboot.Jboot;
+import io.jboot.app.config.JbootConfigManager;
 import io.jboot.support.jwt.JwtConfig;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
@@ -56,7 +57,9 @@ public class InstallUtil {
 
 
         //jboot.app.mode
+        JbootConfigManager.me().setDevMode(false);
         putPropertie(p, "jboot.app.mode", "product");
+
 
         //cookieEncryptKey
         String cookieEncryptKey = StrUtil.uuid();
@@ -74,7 +77,7 @@ public class InstallUtil {
         p.put("jboot.datasource.type", "mysql");
         p.put("jboot.datasource.url", dbExecuter.getJdbcUrl());
         p.put("jboot.datasource.user", dbExecuter.getDbUser());
-        p.put("jboot.datasource.password", StrUtil.obtainDefaultIfBlank(dbExecuter.getDbPassword(), ""));
+        p.put("jboot.datasource.password", StrUtil.obtainDefault(dbExecuter.getDbPassword(), ""));
 
         return savePropertie(p, propertieFile);
     }

@@ -106,7 +106,7 @@
 <script src="#(CPATH)/static/commons/jpresscommons.js"></script>
 <script>
     function loginFail(result) {
-        Utils.showErrorMessage(result.message);
+        showErrorMessage(result.message);
         $('#captcha').val('');
         $('#captcha-img').attr('src',"/commons/captcha?id="+Math.random())
 

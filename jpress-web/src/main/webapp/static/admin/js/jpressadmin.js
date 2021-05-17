@@ -26,6 +26,10 @@ function initSidebarActive() {
         pathName = getContextPath() + "/admin/index"
     }
 
+    if (getContextPath() + "/ucenter" == pathName || getContextPath() + "/ucenter/" == pathName) {
+        pathName = getContextPath() + "/ucenter/index"
+    }
+
     setActiveMenu(pathName);
 }
 
@@ -72,10 +76,10 @@ function setActiveMenu(pathName) {
 
 
 function getContextPath() {
-    if (typeof JbootAdmin == 'undefined') {
+    if (typeof jpress == 'undefined') {
         return ""
     } else {
-        return JbootAdmin.cpath;
+        return jpress.cpath;
     }
 }
 
@@ -87,7 +91,7 @@ function initLayerComponent() {
     if (typeof layer != "undefined") {
         layer.config({
             extend: 'jpress/style.css',
-            skin: 'layer-ext-jbootadmin'
+            skin: 'layer-ext-jpress'
         });
 
         $("[open-type='layer']").each(function () {
@@ -150,7 +154,6 @@ function _initLayerByComponent(component) {
 }
 
 
-
 /**
  * 设置 tooltip 组件
  */
@@ -158,8 +161,6 @@ function initTooltip() {
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-render="tooltip"]').tooltip();
 }
-
-
 
 
 /**
@@ -218,7 +219,6 @@ function initDatatableCheckBox() {
 }
 
 
-
 /**
  * 设置 返回按钮 的动作
  */
@@ -240,24 +240,13 @@ function initDatePicker() {
     // git https://github.com/t1m0n/air-datepicker
     // doc http://t1m0n.name/air-datepicker/docs/
     if ($.datepicker) {
-        $('.date,[data-render="date"]').each(function () {
-            var timepicker = $(this).hasClass('time');
+        $('.date,.datetime,.datetimepicker,.datepicker,[data-render="date"]').each(function () {
+            var timepicker = $(this).hasClass('datetime') || $(this).hasClass('datetimepicker');
             $(this).datepicker({
                 language: 'zh',
                 timepicker: timepicker
             })
         });
-    }
-}
-
-
-/**
- *  设置 select2 组件
- */
-function initSelect2() {
-    // select2 的属性是可以通过 data-** 来渲染的，详情: https://select2.org/configuration/data-attributes
-    if ($.select2) {
-        $('[data-render="select2"]').select2();
     }
 }
 
@@ -280,7 +269,7 @@ function initToastr() {
  */
 function initValidate() {
     //https://jqueryvalidation.org/documentation/
-    if($.validator) {
+    if ($.validator) {
         $.validator.setDefaults({
             errorElement: 'span',
             errorPlacement: function (error, element) {
@@ -335,20 +324,16 @@ function initValidate() {
  * 设置 form 的 ajax 自动提交
  */
 function initAjaxSubmitForms() {
-    $('.ajaxSubmit').each(function (key, form) {
+    $('.autoAjaxSubmit').each(function (key, form) {
         $(form).validate({
             // ignore: ".ignore",
             submitHandler: function (form) {
-                if (typeof (CKEDITOR) != "undefined") {
-                    for (instance in CKEDITOR.instances) {
-                        CKEDITOR.instances[instance].updateElement();
-                    }
-                }
+
                 __form = $(form);
 
-                var successFun = __form.attr('data-success-function');
-                var successGoto = __form.attr('data-success-goto');
-                var successMsg = __form.attr('data-success-message');
+                var successFun = __form.attr('data-ok-function');
+                var successGoto = __form.attr('data-ok-href');
+                var successMsg = __form.attr('data-ok-message');
 
                 var failFun = __form.attr('data-fail-function');
                 var failMsg = __form.attr('data-fail-message');
@@ -380,17 +365,17 @@ function initAjaxSubmitForms() {
                             }
 
                             if (successMsg) {
-                                Utils.showMessage(successMsg, successGoto);
+                                showMessage(successMsg, successGoto);
                                 return;
                             }
 
                             if (result.message) {
-                                Utils.showMessage(result.message, successGoto);
+                                showMessage(result.message, successGoto);
                                 return;
                             }
 
                             if (result.data && result.data.message) {
-                                Utils.showMessage(result.data.message, successGoto);
+                                showMessage(result.data.message, successGoto);
                                 return;
                             }
 
@@ -409,25 +394,25 @@ function initAjaxSubmitForms() {
                             }
 
                             if (failMsg) {
-                                Utils.showErrorMessage(failMsg);
+                                showErrorMessage(failMsg);
                                 return
                             }
 
                             if (result.message) {
-                                Utils.showErrorMessage(result.message);
+                                showErrorMessage(result.message);
                                 return;
                             }
 
                             if (result.data && result.data.message) {
-                                Utils.showMessage(result.data.message);
+                                showMessage(result.data.message);
                                 return;
                             }
 
-                            Utils.showErrorMessage('操作失败。')
+                            showErrorMessage('操作失败。')
                         }
                     },
                     error: function () {
-                        Utils.showErrorMessage('系统错误，请稍后重试。');
+                        showErrorMessage('系统错误，请稍后重试。');
                     }
                 });
             }
@@ -457,28 +442,22 @@ function initBatchExecBtn() {
             alert("请先选择操作类型");
             return;
         } else {
-            var tableSelectedIds = Utils.getTableSelectedIds();
+            var tableSelectedIds = getTableSelectedIds();
             if (!tableSelectedIds || tableSelectedIds == "") {
-                Utils.sweetAlert('您没有选择任何的数据');
+                sweetAlert('您没有选择任何的数据');
                 return;
             } else {
-                if (action === "exportAction") {
-                    Utils.datatable.button('.buttons-excel').trigger();
-                } else if (action === "printAction") {
-                    Utils.datatable.button('.buttons-print').trigger();
+                var selectedAction = $('[name="action"] option:selected');
+                var href = action + (action.indexOf('?' > 0) ? "?ids=" : "&ids=") + tableSelectedIds;
+                var title = selectedAction.attr("data-title");
+                var text = selectedAction.attr("data-text");
+                var btnText = selectedAction.attr("data-btn-text");
+                var successTitle = selectedAction.attr("data-ok-title");
+                var successText = selectedAction.attr("data-ok-text");
+                if ("del-confirm" === selectedAction.attr("open-type")) {
+                    sweetConfirmDel(title, text, btnText, href, successTitle, successText, selectedAction);
                 } else {
-                    var selectedAction = $('[name="action"] option:selected');
-                    var href = action + (action.indexOf('?' > 0) ? "?ids=" : "&ids=") + tableSelectedIds;
-                    var title = selectedAction.attr("data-title");
-                    var text = selectedAction.attr("data-text");
-                    var btnText = selectedAction.attr("data-btn-text");
-                    var successTitle = selectedAction.attr("data-success-title");
-                    var successText = selectedAction.attr("data-success-text");
-                    if ("del-confirm" === selectedAction.attr("open-type")) {
-                        Utils.sweetConfirmDel(title, text, btnText, href, successTitle, successText, selectedAction);
-                    } else {
-                        Utils.sweetConfirm(title, text, btnText, href, successTitle, successText, selectedAction);
-                    }
+                    sweetConfirm(title, text, btnText, href, successTitle, successText, selectedAction);
                 }
             }
         }
@@ -492,9 +471,9 @@ function initConfirmOpenType() {
         var title = $(this).attr("data-title");
         var text = $(this).attr("data-text");
         var btnText = $(this).attr("data-btn-text");
-        var successTitle = $(this).attr("data-success-title");
-        var successText = $(this).attr("data-success-text");
-        Utils.sweetConfirm(title, text, btnText, href, successTitle, successText, $(this));
+        var successTitle = $(this).attr("data-ok-title");
+        var successText = $(this).attr("data-ok-text");
+        sweetConfirm(title, text, btnText, href, successTitle, successText, $(this));
     });
 
     $('[open-type="del-confirm"]').on('click', function (e) {
@@ -503,9 +482,9 @@ function initConfirmOpenType() {
         var title = $(this).attr("data-title");
         var text = $(this).attr("data-text");
         var btnText = $(this).attr("data-btn-text");
-        var successTitle = $(this).attr("data-success-title");
-        var successText = $(this).attr("data-success-text");
-        Utils.sweetConfirmDel(title, text, btnText, href, successTitle, successText, $(this));
+        var successTitle = $(this).attr("data-ok-title");
+        var successText = $(this).attr("data-ok-text");
+        sweetConfirmDel(title, text, btnText, href, successTitle, successText, $(this));
     });
 }
 
@@ -517,9 +496,9 @@ function initAjaxOpenType() {
         var ajaxMethod = $(this).attr("data-ajax-method");
         var submitInputs = $(this).attr("data-submit-inputs");
 
-        var successFun = $(this).attr('data-success-function');
-        var successGoto = $(this).attr('data-success-goto');
-        var successMsg = $(this).attr('data-success-message');
+        var successFun = $(this).attr('data-ok-function');
+        var successGoto = $(this).attr('data-ok-href');
+        var successMsg = $(this).attr('data-ok-message');
 
         var failFun = $(this).attr('data-fail-function');
         var failMsg = $(this).attr('data-fail-message');
@@ -545,7 +524,7 @@ function initAjaxOpenType() {
             }
 
             if (successMsg) {
-                Utils.showMessage(successMsg, successGoto);
+                showMessage(successMsg, successGoto);
                 return;
             }
 
@@ -555,7 +534,7 @@ function initAjaxOpenType() {
             }
 
             if (result && result.message) {
-                Utils.showMessage(result.message);
+                showMessage(result.message);
                 return;
             }
 
@@ -568,14 +547,14 @@ function initAjaxOpenType() {
             }
 
             if (failMsg) {
-                Utils.showErrorMessage(failMsg);
+                showErrorMessage(failMsg);
                 return
             }
 
             if (result.message) {
-                Utils.showErrorMessage(result.message);
+                showErrorMessage(result.message);
             } else {
-                Utils.showErrorMessage('操作失败。')
+                showErrorMessage('操作失败。')
             }
         };
 
@@ -591,75 +570,11 @@ function initAjaxOpenType() {
                     postData[name] = val;
                 }
             }
-            Utils.ajaxPost(href, postData, okFunction, failFunction);
+            ajaxPost(href, postData, okFunction, failFunction);
         } else {
-            Utils.ajaxGet(href, okFunction, failFunction);
+            ajaxGet(href, okFunction, failFunction);
         }
     });
-}
-
-
-
-
-
-function initInputActions() {
-    $('.input-action>input').on('keyup', function () {
-        var val = $(this).val();
-        if (val && val != "") {
-            $(this).siblings().removeClass("fa-grip-horizontal");
-            $(this).siblings().addClass("fa-times");
-        } else {
-            $(this).siblings().removeClass("fa-times");
-            $(this).siblings().addClass("fa-grip-horizontal");
-        }
-    });
-
-
-    $('.input-action>span').on('click', function () {
-        if ($(this).hasClass("fa-times")) {
-            $(this).siblings().val("");
-            $(this).removeClass("fa-times");
-            $(this).addClass("fa-grip-horizontal");
-        }
-        // open layer
-        else if ($(this).hasClass("fa-grip-horizontal")) {
-            layer.data = null;
-            var dataset = $(this).data();//.dataset;
-            var options = {
-                type: dataset.layerType || 2,
-                title: dataset.layerTitle || '内容',
-                anim: dataset.layerAnim || 2,
-                shadeClose: dataset.layerShadeClose ? (/^true$/i).test(dataset.layerShadeClose) : true,
-                shade: dataset.layerShade || 0.5,
-                area: dataset.layerArea ? eval(dataset.layerArea) : ['80%', '80%'],
-                content: dataset.layerContent || $(this).attr('href'),
-                end: function () {
-
-                    // 数据绑定
-                    if (layer.data && dataset.layerBinds) {
-                        var bindArrays = dataset.layerBinds.split(",");
-                        var i = 0;
-                        for (; i < bindArrays.length; i++) {
-                            var query = bindArrays[i].split(":")[0].trim();
-                            var attr = bindArrays[i].split(":")[1].trim();
-                            $(query).val(layer.data[attr]);
-                            $(query).valid();
-                        }
-                    }
-
-                }
-            };
-            layer.open(options);
-        }
-    });
-
-    var val = $('.input-action>input').val();
-    if (val && val != "") {
-        $('.input-action>span').addClass("fa-times");
-    } else {
-        $('.input-action>span').addClass("fa-grip-horizontal");
-    }
-
 }
 
 
@@ -709,7 +624,6 @@ function initOptionFormSubmit() {
 }
 
 
-
 function initImageBrowserButton() {
     $(".btn-image-browser").on("click", function () {
         var imgBrowserBtn = $(this);
@@ -726,11 +640,149 @@ function initImageBrowserButton() {
                     var img = imgBrowserBtn.attr("for-src");
                     var input = imgBrowserBtn.attr("for-input");
                     $("#" + img).attr("src", jpress.cpath + layer.data.src);
-                    $("#" + img).trigger("srcChanged",jpress.cpath + layer.data.src);
+                    $("#" + img).trigger("srcChanged", jpress.cpath + layer.data.src);
                     $("#" + input).val(layer.data.src);
-                    $("#" + input).trigger("valChanged",layer.data.src);
+                    $("#" + input).trigger("valChanged", layer.data.src);
                 }
             }
+        });
+    })
+}
+
+function initCSRFForms() {
+    $("form").each(function () {
+        var action = $(this).attr('action');
+        if (action && action.indexOf("do") > 0) {
+            if ($(this).find("input[name=csrf_token]").length == 0) {
+                var token = getCookie("csrf_token");
+                if (token) {
+                    $(this).append("<input type='hidden' name='csrf_token' value='" + token + "'/>");
+                }
+            }
+        }
+    });
+
+
+    $(document).ajaxSend(function (event, request, option) {
+        var token = getCookie("csrf_token");
+        if (token) {
+            var url = option.url;
+            if (url.indexOf("?") == -1) {
+                url = url + "?csrf_token=" + token;
+            } else {
+                if (url.indexOf("csrf_token=") == -1) {
+                    url = url + "&csrf_token=" + token;
+                }
+            }
+            option.url = url;
+        }
+    });
+}
+
+
+function initTableActions() {
+    $("tr").mouseover(function () {
+        $(this).find(".jp-action-body").show();
+    }).mouseout(function () {
+        $(".jp-action-body").hide()
+    })
+}
+
+
+var switcheries = {};
+
+function initSwitchery(elements) {
+    if (typeof Switchery == "undefined") {
+        return;
+    }
+
+    elements = elements || document.querySelectorAll('.switchery');
+
+    var elems = Array.prototype.slice.call(elements);
+    elems.forEach(function (elem) {
+        var switchery = new Switchery(elem, {size: 'small'});
+
+        switcheries[elem.getAttribute('id')] = switchery;
+
+        var datafor = elem.getAttribute("data-for");
+        if (datafor) {
+            $("#" + datafor).val(elem.checked);
+        }
+
+        var ctrl = elem.getAttribute("data-ctrl");
+        if (ctrl) {
+            $("." + ctrl).toggle(elem.checked)
+        }
+
+        var close = elem.getAttribute("data-close-sync");
+        var open = elem.getAttribute("data-open-sync");
+
+        var onchangeFunction = elem.getAttribute("data-change-function");
+
+        elem.onchange = function () {
+            if (datafor) {
+                $("#" + datafor).val(elem.checked);
+
+            }
+
+            if (ctrl) {
+                $("." + ctrl).toggle(elem.checked)
+            }
+
+            if (close && !elem.checked) {
+                var closeSwitchery = switcheries[close];
+                setSwitchery(closeSwitchery, false);
+            }
+
+            if (open && elem.checked) {
+                var openSwitchery = switcheries[close];
+                setSwitchery(openSwitchery, true);
+            }
+
+            if (onchangeFunction) {
+                eval(onchangeFunction)(elem, switchery);
+            }
+        }
+    });
+
+}
+
+//https://stackoverflow.com/questions/21931133/changing-a-switchery-checkbox-state-from-code
+function setSwitchery(switchElement, checkedBool) {
+    if ((checkedBool && !switchElement.isChecked()) || (!checkedBool && switchElement.isChecked())) {
+        switchElement.setPosition(true);
+        switchElement.handleOnchange(true);
+    }
+}
+
+
+function setSwitcheryByIdString(idString, checkedBool) {
+    var switchery = switcheries[idString];
+    setSwitchery(switchery, checkedBool);
+}
+
+
+function initDomainSpan() {
+    $(".domainSpan").each(function () {
+        if ($(this).text() == "") {
+            $(this).text(window.location.protocol + "//" + window.location.host)
+        }
+    })
+}
+
+
+function initSlugSpan() {
+
+    $(".slugSpan").each(function () {
+
+        var forInput = $(this).attr("for-input");
+
+        $(this).editable({
+            emptytext: "点击可编辑"
+        });
+
+        $(this).on('save', function (e, params) {
+            $('#' + forInput).attr('value', params.newValue);
         });
     })
 }
@@ -755,14 +807,11 @@ $(document).ready(function () {
     initAjaxSubmitForms();
     initAjaxOpenType();
 
-    initSelect2();
     initResetBtn();
 
     initBatchExecBtn();
 
     initConfirmOpenType();
-
-    initInputActions();
 
     initDatatableCheckBox();
 
@@ -772,4 +821,13 @@ $(document).ready(function () {
 
     initImageBrowserButton();
 
+    initCSRFForms();
+
+    initTableActions();
+
+    initSwitchery();
+
+    initDomainSpan();
+
+    initSlugSpan();
 });

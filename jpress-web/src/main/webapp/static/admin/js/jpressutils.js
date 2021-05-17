@@ -24,36 +24,33 @@ var mySwal = typeof (Swal) != "undefined" ? Swal.mixin({
 }) : {};
 
 
-function JPressUtils() {
-};
-
 /**
  * 获取 url 的参数内容
  * @returns {string}
  */
-JPressUtils.prototype.getPara = function (variable) {
+function getPara(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
     for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split("=");
-        if (pair[0] == variable) {
+        if (pair[0] === variable) {
             return pair[1];
         }
     }
     return "";
-};
+}
 
 /**
  * 查看当前页面是不是手机页面
  * @returns {boolean}
  */
-JPressUtils.prototype.isMobileBrowser = function () {
+function isMobileBrowser() {
     if (window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
         return true; // 移动端
     } else {
         return false; // PC端
     }
-};
+}
 
 /**
  * 进行 get 请求
@@ -61,7 +58,7 @@ JPressUtils.prototype.isMobileBrowser = function () {
  * @param okFunction
  * @param failFunction
  */
-JPressUtils.prototype.ajaxGet = function (url, okFunction, failFunction) {
+function ajaxGet(url, okFunction, failFunction) {
     if (url == null || "" == url) {
         alert("url 不能为空 ");
         return
@@ -91,7 +88,7 @@ JPressUtils.prototype.ajaxGet = function (url, okFunction, failFunction) {
         }
     });
 
-};
+}
 
 /**
  * 进行 ajax 请求
@@ -100,7 +97,7 @@ JPressUtils.prototype.ajaxGet = function (url, okFunction, failFunction) {
  * @param okFunction
  * @param failFunction
  */
-JPressUtils.prototype.ajaxPost = function (url, data, okFunction, failFunction) {
+function ajaxPost(url, data, okFunction, failFunction) {
     if (url == null || "" == url) {
         alert("url 不能为空 ");
         return
@@ -116,102 +113,21 @@ JPressUtils.prototype.ajaxPost = function (url, data, okFunction, failFunction) 
 
     $.ajax({
         url: url,
-        type:'POST',
+        type: 'POST',
         data: data,
-        dataType:'json',
-        success:function(result){
+        dataType: 'json',
+        success: function (result) {
             if (result.state == 'ok') {
                 okFunction(result);
             } else {
                 failFunction(result);
             }
         },
-        error:function(arg1){
-            Utils.showErrorMessage("系统发生错误...");
+        error: function (arg1) {
+            showErrorMessage("系统发生错误...");
         }
     });
-};
-
-/**
- * 弹出消息
- * @param msg
- * @param url
- */
-JPressUtils.prototype.showMessage = function (msg, url) {
-    if (typeof toastr != "undefined") {
-        toastr.options.onHidden = function () {
-            Utils.reloadOrRedirect(url);
-        };
-        toastr.success(msg);
-    } else {
-        alert(msg);
-        Utils.reloadOrRedirect(url);
-    }
-};
-
-/**
- * 弹出错误消息
- * @param msg
- * @param url
- */
-JPressUtils.prototype.showErrorMessage = function (msg, url) {
-    if (typeof toastr != "undefined") {
-        toastr.options.onHidden = function () {
-            Utils.reloadOrRedirect(url);
-        };
-        toastr.error(msg, '操作失败');
-    } else {
-        alert(msg);
-        Utils.reloadOrRedirect(url);
-    }
-};
-
-
-JPressUtils.prototype.reloadOrRedirect = function (url) {
-    if (url) {
-        if ("reload" == url) {
-            location.reload();
-        } else {
-            location.href = url;
-        }
-    }
-};
-
-/**
- * 获取表格的 选中的 id
- * @returns {string}
- */
-JPressUtils.prototype.getTableSelectedIds = function () {
-    var selectedIds = "";
-    $('[name="tableItem"]').each(function () {
-        if ($(this).prop('checked')) {
-            selectedIds += $(this).val() + ",";
-        }
-    });
-    return selectedIds.substring(0, selectedIds.length - 1);
-};
-
-
-JPressUtils.prototype.getTableSelectedRowData = function () {
-    var retData = null;
-    $('[name="tableItem"]').each(function () {
-        if ($(this).prop('checked')) {
-            retData = {};
-            $(this).closest('tr').children().each(function () {
-                for (var attr in this.dataset) {
-                    retData[attr] = this.dataset[attr];
-                }
-            })
-
-            var trDatas = $(this).closest('tr').data();
-            for (var attr in trDatas) {
-                retData[attr] = trDatas[attr];
-            }
-        }
-    });
-    return retData;
-};
-
+}
 
 /**
  * 对某个 form 进行 ajax 提交
@@ -219,7 +135,7 @@ JPressUtils.prototype.getTableSelectedRowData = function () {
  * @param okFunction
  * @param failFunction
  */
-JPressUtils.prototype.ajaxSubmit = function (form, okFunction, failFunction) {
+function ajaxSubmit(form, okFunction, failFunction) {
 
     if (typeof (CKEDITOR) != "undefined") {
         for (instance in CKEDITOR.instances) {
@@ -248,14 +164,95 @@ JPressUtils.prototype.ajaxSubmit = function (form, okFunction, failFunction) {
             toastr.error('系统错误，请稍后重试。', '操作失败');
         }
     });
-};
+}
+
+/**
+ * 弹出消息
+ * @param msg
+ * @param url
+ */
+function showMessage(msg, url) {
+    if (typeof toastr != "undefined") {
+        toastr.options.onHidden = function () {
+            reloadOrRedirect(url);
+        };
+        toastr.success(msg);
+    } else {
+        alert(msg);
+        reloadOrRedirect(url);
+    }
+}
+
+/**
+ * 弹出错误消息
+ * @param msg
+ * @param url
+ */
+function showErrorMessage(msg, url) {
+    if (typeof toastr != "undefined") {
+        toastr.options.onHidden = function () {
+            reloadOrRedirect(url);
+        };
+        toastr.error(msg, '操作失败');
+    } else {
+        alert(msg);
+        reloadOrRedirect(url);
+    }
+}
+
+
+function reloadOrRedirect(url) {
+    if (url) {
+        if ("reload" == url) {
+            location.reload();
+        } else {
+            location.href = url;
+        }
+    }
+}
+
+/**
+ * 获取表格的 选中的 id
+ * @returns {string}
+ */
+function getTableSelectedIds() {
+    var selectedIds = "";
+    $('[name="tableItem"]').each(function () {
+        if ($(this).prop('checked')) {
+            selectedIds += $(this).val() + ",";
+        }
+    });
+    return selectedIds.substring(0, selectedIds.length - 1);
+}
+
+
+function getTableSelectedRowData() {
+    var retData = null;
+    $('[name="tableItem"]').each(function () {
+        if ($(this).prop('checked')) {
+            retData = {};
+            $(this).closest('tr').children().each(function () {
+                for (var attr in this.dataset) {
+                    retData[attr] = this.dataset[attr];
+                }
+            })
+
+            var trDatas = $(this).closest('tr').data();
+            for (var attr in trDatas) {
+                retData[attr] = trDatas[attr];
+            }
+        }
+    });
+    return retData;
+}
+
 
 /**
  * 弹出 Alert 确认框
  * @param title
  * @param btnText
  */
-JPressUtils.prototype.sweetAlert = function (title, btnText) {
+function sweetAlert(title, btnText) {
     Swal.fire({
         title: title,
         confirmButtonText: btnText || '  好的 ',
@@ -266,7 +263,7 @@ JPressUtils.prototype.sweetAlert = function (title, btnText) {
             popup: 'animated fadeOutUp faster'
         }
     });
-};
+}
 
 /**
  * 弹出确认对话框
@@ -277,7 +274,7 @@ JPressUtils.prototype.sweetAlert = function (title, btnText) {
  * @param successTitle
  * @param successText
  */
-JPressUtils.prototype.sweetConfirm = function (title, text, btnText, actionUrl, successTitle, successText, actionComponent) {
+function sweetConfirm(title, text, btnText, actionUrl, successTitle, successText, actionComponent) {
     mySwal.fire({
         title: title || '您确定如此操作吗？',
         icon: 'question',
@@ -340,7 +337,7 @@ JPressUtils.prototype.sweetConfirm = function (title, text, btnText, actionUrl, 
                 }
 
                 if (successMsg) {
-                    Utils.showMessage(successMsg, successGoto);
+                    showMessage(successMsg, successGoto);
                     return;
                 }
 
@@ -350,7 +347,7 @@ JPressUtils.prototype.sweetConfirm = function (title, text, btnText, actionUrl, 
                 }
 
                 if (result.value.message) {
-                    Utils.showMessage(result.value.message);
+                    showMessage(result.value.message);
                     return;
                 }
 
@@ -365,19 +362,19 @@ JPressUtils.prototype.sweetConfirm = function (title, text, btnText, actionUrl, 
             }
 
             if (failMsg) {
-                Utils.showErrorMessage(failMsg);
+                showErrorMessage(failMsg);
                 return;
             }
 
             if (result.value.message) {
-                Utils.showErrorMessage(result.value.message);
+                showErrorMessage(result.value.message);
             } else {
-                Utils.showErrorMessage('操作失败。')
+                showErrorMessage('操作失败。')
             }
 
         }
     })
-};
+}
 
 
 /**
@@ -389,7 +386,7 @@ JPressUtils.prototype.sweetConfirm = function (title, text, btnText, actionUrl, 
  * @param successTitle
  * @param successText
  */
-JPressUtils.prototype.sweetConfirmDel = function (title, text, btnText, actionUrl, successTitle, successText, actionComponent) {
+function sweetConfirmDel(title, text, btnText, actionUrl, successTitle, successText, actionComponent) {
     this.sweetConfirm(title || '您确定要删除吗？',
         text || '删除后无法恢复，请谨慎操作！',
         btnText || ' 确定删除! ',
@@ -397,14 +394,14 @@ JPressUtils.prototype.sweetConfirmDel = function (title, text, btnText, actionUr
         successTitle || '删除成功!',
         successText || '您已经成功删除该数据！',
         actionComponent);
-};
+}
 
 /**
  * 获取 cookie 信息
  * @param name
  * @returns {string|null}
  */
-JPressUtils.prototype.getCookie = function (name) {
+function getCookie(name) {
     var cookieString = document.cookie;
     var cookies = cookieString.split("; ");
     for (var i = 0; i < cookies.length; i++) {
@@ -414,19 +411,10 @@ JPressUtils.prototype.getCookie = function (name) {
         }
     }
     return null;
-};
+}
 
-
-/**
- * 获取 context path 路径
- * @returns {string|null}
- */
-JPressUtils.prototype.getContextPath = function () {
-    if (typeof (adminConfig) == "undefined") {
-        return "";
-    }
-    return adminConfig.cpath;
-};
-
-
-var Utils = new JPressUtils();
+function doActivateEmail(userId) {
+    ajaxGet(jpress.cpath + "/commons/emailactivate?userId=" + userId, function (result) {
+        alert(result.message);
+    })
+}

@@ -3,7 +3,10 @@
 #define css()
 <style>
     .form-header {
-        margin: 10px 0 20px;
+        margin: 4px 0;
+        border:none;
+        padding:0 0 4px 0;
+        font-size:16px;
     }
 
     .input-number {
@@ -27,7 +30,7 @@
 
         height: 60px;
         background-color: #fff;
-        border-top: 1px solid #F0F0F0;
+        border-top: 1px solid #ebedef;
         card-shadow: 0 -1px 8px rgba(0, 1, 1, .08);
         z-index: 9999;
     }
@@ -72,8 +75,11 @@
     .bottom-content-price {
         display: flex;
         justify-content: flex-end;
+        align-items: center;
     }
-
+    .bottom-content-price div{
+        margin-right:10px;
+    }
     .select-sum, .price-sum {
         color: #999;
         font-size: 14px;
@@ -310,23 +316,26 @@
 
 #define content()
 <!-- Main content -->
-<section class="invoice">
-    <div class="container-fluid">
-        <h2 class="form-header">
-            <i class="fa fa-globe"></i> 购物车.
-        </h2>
-    </div>
+
+<div class="container-fluid">
+    <h3 class="form-header" style="color:#666;">
+        <i class="fa fa-cart-plus" aria-hidden="true"></i> 购物车
+    </h3>
+</div>
+
+<section class="invoice" style="border-color:#e4e6e6;">
+
 
     <!-- Table row -->
     <div class="col-xs-12 table-responsive">
-        <table class="table table-striped" id="tab">
+        <table class="table " id="tab" style="font-size:14px;">
             <thead>
-            <tr>
+            <tr style="font-size:14px;">
                 <th style="width: 10px">
                     <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
                 </th>
                 <th style="width: 40%">商品</th>
-                <th>单价 #</th>
+                <th>单价</th>
                 <th>数量</th>
                 <th>总价</th>
                 <th style="width: 100px">操作</th>
@@ -360,9 +369,9 @@
                 #end
             </td>
             <td>
-                <div class="input-group input-number">
+                <div class="input-group input-number" style="align-items: center">
                     <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
-                    <input type="text" class="form-control" value="#(userCart.product_count ??)">
+                    <input type="text" class="form-control" style="margin:0 10px;" value="#(userCart.product_count ??)">
                     <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
                 </div>
             </td>
@@ -409,7 +418,7 @@
 
 
         </div>
-        <div class="col-lg-6 col-xs-9 bottom-content-price">
+        <div class="col-lg-8 col-xs-12 bottom-content-price">
 
             <div class="select-sum">
                 已选择<em id="selectedItemCount">#(selectItemCount ?? '0')</em>件商品<b class="up"></b>
@@ -426,13 +435,17 @@
                 </div>
             </div>
 
+            <div class="bottom-content-buybtn">
+                <a href="javascript:;" class="btn-danger " onclick="gotoCheckout()">
+                    结算
+                </a>
+            </div>
+
 
         </div>
-        <div class="col-lg-2 col-xs-3 bottom-content-buybtn">
-            <a href="javascript:;" class="btn btn-danger " onclick="gotoCheckout()"><i class="fa fa-credit-card"></i>
-                去结算
-            </a>
-        </div>
+<!--        <div class="col-lg-2 col-xs-3 bottom-content-buybtn">-->
+<!--            -->
+<!--        </div>-->
     </div>
 </div>
 #end

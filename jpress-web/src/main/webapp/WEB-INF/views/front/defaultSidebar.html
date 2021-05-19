@@ -1,0 +1,30 @@
+#define _sidebarItem(menu)
+<li>
+    <a class="#(menu.hasChild()?'has-arrow':'') #(menu.isActive?'active':'')"
+       href="#(menu.hasChild()?'#':menu.url ??)"
+       target="#(menu.target ??)">
+        #(menu.icon ??)
+        #(menu.text ??)
+    </a>
+    #if(menu.hasChild())
+    <ul class="jp-collapse">
+        #for(childMenu : menu.getChilds())
+        #call('_sidebarItem',childMenu)
+        #end
+    </ul>
+    #end
+</li>
+
+#end
+
+#define defaultSidebar()
+<nav class="jpress-nav is-hoverable">
+    <ul class="jp-menu">
+        #for(menu : MENUS)
+        #call('_sidebarItem',menu)
+        #end
+    </ul>
+</nav>
+#end
+
+

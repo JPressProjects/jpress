@@ -309,18 +309,36 @@
                 <groupId>com.egzosn</groupId>
                 <artifactId>pay-java-ali</artifactId>
                 <version>${pay-java.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>com.egzosn</groupId>
                 <artifactId>pay-java-wx</artifactId>
                 <version>${pay-java.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>com.egzosn</groupId>
                 <artifactId>pay-java-paypal</artifactId>
                 <version>${pay-java.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -393,6 +411,7 @@
                 </configuration>
             </plugin>
 
+
             <!-- 检测依赖最新版本：mvn versions:display-dependency-updates  -->
             <!-- 统一修改版本号：mvn versions:set -DnewVersion=3.0  -->
             <!-- mvn -N versions:update-child-modules  -->
@@ -405,6 +424,10 @@
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
+
+
+
+
 
 
         </plugins>

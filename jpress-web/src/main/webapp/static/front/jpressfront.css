@@ -1,0 +1,252 @@
+/*!
+* jp-menu commons
+*/
+.jp-menu .arrow {
+    float: right;
+    line-height: 1.42857
+}
+
+*[dir=rtl] .jp-menu .arrow {
+    float: left
+}
+
+.jp-menu .glyphicon.arrow:before {
+    content: ""
+}
+
+.jp-menu .jp-active > a > .glyphicon.arrow:before {
+    content: ""
+}
+
+.jp-menu .fa.arrow:before {
+    content: ""
+}
+
+.jp-menu .jp-active > a > .fa.arrow:before {
+    content: ""
+}
+
+.jp-menu .ion.arrow:before {
+    content: ""
+}
+
+.jp-menu .jp-active > a > .ion.arrow:before {
+    content: ""
+}
+
+.jp-menu .plus-times {
+    float: right
+}
+
+*[dir=rtl] .jp-menu .plus-times {
+    float: left
+}
+
+.jp-menu .fa.plus-times:before {
+    content: ""
+}
+
+.jp-menu .jp-active > a > .fa.plus-times {
+    transform: rotate(45deg)
+}
+
+.jp-menu .plus-minus {
+    float: right
+}
+
+*[dir=rtl] .jp-menu .plus-minus {
+    float: left
+}
+
+.jp-menu .fa.plus-minus:before {
+    content: ""
+}
+
+.jp-menu .jp-active > a > .fa.plus-minus:before {
+    content: ""
+}
+
+.jp-menu .jp-collapse:not(.jp-show) {
+    display: none
+}
+
+.jp-menu .jp-collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition-timing-function: ease;
+    transition-duration: .35s;
+    transition-property: height, visibility
+}
+
+.jp-menu .has-arrow {
+    position: relative
+}
+
+.jp-menu .has-arrow::after {
+    position: absolute;
+    content: "";
+    width: .5em;
+    height: .5em;
+    border-width: 1px 0 0 1px;
+    border-style: solid;
+    border-color: initial;
+    right: 1em;
+    transform: rotate(-45deg) translate(0, -50%);
+    transform-origin: top;
+    top: 50%;
+    transition: all .3s ease-out
+}
+
+*[dir=rtl] .jp-menu .has-arrow::after {
+    right: auto;
+    left: 1em;
+    transform: rotate(135deg) translate(0, -50%)
+}
+
+.jp-menu .jp-active > .has-arrow::after, .jp-menu .has-arrow[aria-expanded=true]::after {
+    transform: rotate(-135deg) translate(0, -50%)
+}
+
+*[dir=rtl] .jp-menu .jp-active > .has-arrow::after, *[dir=rtl] .jp-menu .has-arrow[aria-expanded=true]::after {
+    transform: rotate(225deg) translate(0, -50%)
+}
+
+/*# end */
+
+
+/*!
+* jp-menu horizontal
+*/
+.jpress-nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.jpress-nav .jp-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.jpress-nav .jp-menu > li {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.jpress-nav .jp-menu a {
+    text-decoration: none;
+    position: relative;
+    display: block;
+    padding: 15px;
+    color: #212529;
+    outline-width: 0;
+    transition: all 0.3s ease-out;
+}
+
+.jpress-nav .jp-menu a:hover,
+.jpress-nav .jp-menu a:focus,
+.jpress-nav .jp-menu a:active {
+    color: #0c63e4;
+    text-decoration: none;
+}
+
+@media (min-width: 992px) {
+    .jpress-nav .jp-menu {
+        flex-direction: row;
+    }
+
+    .jpress-nav .jp-menu > li {
+        flex-direction: column;
+    }
+
+    .jpress-nav .jp-menu > li > ul {
+        position: absolute;
+        top: 100%;
+        min-width: 100%;
+        z-index: 1001;
+        background: #fff;
+        border: 1px solid #e7f1ff;
+    }
+
+    .jpress-nav.is-hoverable .jp-menu > li > ul {
+        height: auto !important;
+    }
+
+    .jpress-nav.is-hoverable .jp-menu > li:hover > ul {
+        display: block;
+    }
+
+    .jpress-nav.is-hoverable .jp-menu > li:hover > a.has-arrow:after {
+        transform: rotate(-135deg);
+    }
+}
+
+/* jp-menu horizontal end */
+
+
+/*!
+* jp-menu vertical
+*/
+.jp-sidebar-nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.jp-sidebar-nav .jp-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.jp-sidebar-nav .jp-menu li + li {
+    margin-top: 5px;
+}
+
+.jp-sidebar-nav .jp-menu li:first-child {
+    margin-top: 5px;
+}
+
+.jp-sidebar-nav .jp-menu li:last-child {
+    margin-bottom: 5px;
+}
+
+.jp-sidebar-nav .jp-menu > li {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.jp-sidebar-nav .jp-menu a {
+    position: relative;
+    display: block;
+    padding: 13px 15px;
+    color: #212529;
+    transition: all 0.3s ease-out;
+    text-decoration: none;
+}
+
+.jp-sidebar-nav .jp-menu ul a {
+    padding: 10px 15px 10px 30px;
+}
+
+.jp-sidebar-nav .jp-menu ul ul a {
+    padding: 10px 15px 10px 45px;
+}
+
+.jp-sidebar-nav .jp-menu a:hover,
+.jp-sidebar-nav .jp-menu a:focus,
+.jp-sidebar-nav .jp-menu a:active,
+.jp-sidebar-nav .jp-menu .jp-active > a {
+    color: #0c63e4;
+    text-decoration: none;
+}
+
+.jp-sidebar-nav .jp-menu .jp-active > a {
+    background: #e7f1ff;
+    border-radius: 3px;
+}
+
+/* jp-menu vertical end */

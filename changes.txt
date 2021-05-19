@@ -1,4 +1,4 @@
-jpress v4.0.0-rc.1:
+jpress v4.0.0-beta.1:
 升级 bootstrap 到 v4.x 版本
 升级 adminlte 到最新版本
 升级 fontawesome 到最新版本

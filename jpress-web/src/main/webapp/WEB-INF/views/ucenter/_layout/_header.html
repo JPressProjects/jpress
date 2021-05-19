@@ -1,8 +1,9 @@
-<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+<nav class="main-header navbar navbar-expand-md navbar-light navbar-white" style="border:none;-webkit-box-shadow: 0 0 8px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 0 8px 0 rgb(0 0 0 / 10%);">
     <div class="container">
         <a href="#(CPATH)/" class="navbar-brand">
 <!--            <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">-->
-            <span class="brand-text font-weight-light">#option('web_name','JPress')</span>
+            <span class="brand-text">#option('web_name','JPress')</span>
         </a>
 
 <!--        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">-->
@@ -12,7 +13,7 @@
         <!-- Right navbar links -->
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center">
+                <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center;font-size:14px;">
                     <span class="hidden-xs" >您好 #(user.nickname ??) , 欢迎回来</span>
                 </a>
             </li>
@@ -21,11 +22,11 @@
 
 
             <!--购物车开始-->
-            <li class="nav-item dropdown" style="border-left: 1px solid #ccc;">
+            <li class="nav-item dropdown" style="border-left: 1px solid #eee;">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="fas fa-cart-arrow-down"></i>
                     #if(USER_CARTS_COUNT && USER_CARTS_COUNT > 0)
-                    <span class="badge badge-danger navbar-badge">#(USER_CARTS_COUNT)</span>
+                    <span class="badge badge-danger navbar-badge" style="right:10px;">#(USER_CARTS_COUNT)</span>
                     #end
                 </a>
 
@@ -61,8 +62,8 @@
             <!-- 头像信息 -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center">
-                    <img src="#(USER.avatar ??)" class="img-circle elevation-2" alt="User Image" style="width: 20px;margin: 0 5px;">
-                    <i class="fas fa-caret-down"></i>
+                    <img src="#(USER.avatar ??)" class="img-circle" style="width:26px;">
+<!--                    <i class="fas fa-caret-down"></i>-->
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">

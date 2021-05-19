@@ -17,6 +17,10 @@ body {
     background: #007bff 0;
     color: #fff;
 }
+ body .main-header{
+    border:none;
+}
+
 
 .nav-link > .fa-circle{
     font-size: 10px;
@@ -121,9 +125,37 @@ h1 > small {
 }
 
 table > thead {
-    background-color: #FBFBFB;
+
+}
+.page-item.active .page-link{
+    background-color: #eee;
+    border-color: #dee2e6;
+    color:#666;
+}
+.table thead th{
+
+    border:none;
+}
+.pagination li,.pagination .form-control{
+    font-size:14px;
 }
 
+table a{
+    color:#212529;
+}
+
+.bottom-content-buybtn a{
+    display: block;
+    width: 6rem;
+    text-align: center;
+}
+.price-sum div{
+    display: flex;
+    align-items: center;
+}
+.select-all{
+    margin-right:10px;
+}
 .col-form-label {
     display: flex;
     justify-content: flex-end;

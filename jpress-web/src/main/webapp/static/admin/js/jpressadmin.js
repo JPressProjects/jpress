@@ -169,7 +169,7 @@ function initTooltip() {
 function initDatatableCheckBox() {
     $('.tableBox').on('change', function () {
         var boxChecked = $(this).prop("checked");
-        $('[name="tableItem"]').each(function (row) {
+        $('.dataItem').each(function (row) {
             $(this).prop('checked', boxChecked);
             if (boxChecked) {
                 $(this).closest('tr').addClass("selected")
@@ -187,7 +187,7 @@ function initDatatableCheckBox() {
         });
     });
 
-    $('[name="tableItem"]').on('change', function () {
+    $('.dataItem').on('change', function () {
 
         //单选框就需要移除其他选中的列的内容
         if ($(this).attr("type") == "radio") {

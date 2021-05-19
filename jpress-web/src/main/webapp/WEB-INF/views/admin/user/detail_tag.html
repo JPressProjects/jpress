@@ -1,5 +1,5 @@
 #include("_user_detail_layout.html")
-#@user_detail_layout("tag")
+#@user_detail_layout("detail-tag")
 
 #define layout_script()
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
@@ -49,7 +49,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label"></label>
             <div class="col-sm-6">
-                <select class="form-control article-tags" multiple="multiple" name="tag">
+                <select class="article-tags" multiple="multiple" name="tag">
                     #for(tag : userTags)
                     <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                     #end

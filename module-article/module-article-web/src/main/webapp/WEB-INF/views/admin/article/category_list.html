@@ -74,11 +74,11 @@
 
                                         #for(c : categories)
                                         #if(category && category.pid == c.id)
-                                        <option value="#(c.id)" selected>#(c.layerString)#(c.title)</option>
+                                        <option value="#(c.id)" selected>#(c.layerString) #(c.title)</option>
                                         #elseif(category && (category.id == c.id || category.isMyChild(c.id)))
-                                        <option value="#(c.id)" disabled>#(c.layerString)#(c.title)</option>
+                                        <option value="#(c.id)" disabled>#(c.layerString) #(c.title)</option>
                                         #else
-                                        <option value="#(c.id)">#(c.layerString)#(c.title)</option>
+                                        <option value="#(c.id)">#(c.layerString) #(c.title)</option>
                                         #end
                                         #end
                                     </select>
@@ -227,7 +227,7 @@
                                 <td>
                                     <strong>
                                         <a href="#(category.url ??)" target="_blank">
-                                            #(category.layerString)#(category.title)
+                                            #(category.layerString) #(category.title)
                                         </a>
                                         （#(category.count ?? 0)）
                                     </strong>

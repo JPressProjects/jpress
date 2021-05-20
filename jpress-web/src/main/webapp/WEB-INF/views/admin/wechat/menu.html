@@ -112,11 +112,11 @@
 
                                         #for(m : menus)
                                         #if(menu && menu.pid == m.id)
-                                        <option value="#(m.id)" selected>#(m.layerString)#(m.text)</option>
+                                        <option value="#(m.id)" selected>#(m.layerString) #(m.text)</option>
                                         #elseif(menu && (menu.id == m.id || menu.isMyChild(m.id)))
-                                        <option value="#(m.id)" disabled>#(m.layerString)#(m.text)</option>
+                                        <option value="#(m.id)" disabled>#(m.layerString) #(m.text)</option>
                                         #else
-                                        <option value="#(m.id)">#(m.layerString)#(m.text)</option>
+                                        <option value="#(m.id)">#(m.layerString) #(m.text)</option>
                                         #end
                                         #end
                                     </select>
@@ -169,7 +169,7 @@
                             #for(menu : menus)
                             <tr>
                                 <td>
-                                    #(menu.layerString)#(menu.text ??)
+                                    #(menu.layerString) #(menu.text ??)
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
                                             <a href="#(CPATH)/admin/wechat/menu/#(menu.id)">编辑</a> |

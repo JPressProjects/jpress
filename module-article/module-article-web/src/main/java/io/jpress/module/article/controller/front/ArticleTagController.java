@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.controller;
+package io.jpress.module.article.controller.front;
 
 import com.jfinal.aop.Inject;
 import io.jboot.utils.StrUtil;
@@ -23,59 +23,33 @@ import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.web.base.TemplateControllerBase;
 
-
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章前台页面Controller
- * @Package io.jpress.module.article
  */
-@RequestMapping("/article/category")
-public class ArticleCategoryController extends TemplateControllerBase {
+@RequestMapping("/article/tag")
+public class ArticleTagController extends TemplateControllerBase {
 
     @Inject
     private ArticleCategoryService categoryService;
 
 
     public void index() {
-
         if (StrUtil.isBlank(getPara())) {
-            redirect("/article/category/index");
+            renderError(404);
             return;
         }
 
-        ArticleCategory category = getCategory();
-        setAttr("category", category);
-        setSeoInfos(category);
-
-        //标识菜单高亮
-        doFlagMenuActive(category);
-
-
-        render(getRenderView(category));
-    }
-
-    private void doFlagMenuActive(ArticleCategory currentCategory) {
-
-        //文章首页高亮
-        if (currentCategory == null) {
-            setMenuActive(menu -> menu.isUrlEquals("/article/category")
-                    || menu.isUrlEquals("/article/category/")
-                    || menu.isUrlEquals("/article/category/index"));
-        } else {
-            setMenuActive(menu -> {
-                if (menu.isUrlEquals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
-                    return true;
-                }
-
-                if ("article_category".equals(menu.getRelativeTable())
-                        && currentCategory.getId().equals(menu.getRelativeId())) {
-                    return true;
-                }
-                return false;
-            });
+        ArticleCategory tag = getTag();
+        if (tag == null) {
+            renderError(404);
+            return;
         }
 
+        setAttr("category", tag);
+        setSeoInfos(tag);
+
+        render(getRenderView(tag));
     }
 
     private void setSeoInfos(ArticleCategory category) {
@@ -91,24 +65,17 @@ public class ArticleCategoryController extends TemplateControllerBase {
     }
 
 
-    private ArticleCategory getCategory() {
+    private ArticleCategory getTag() {
         String idOrSlug = getPara(0);
 
         if (StrUtil.isBlank(idOrSlug)) {
             return null;
         }
 
-        ArticleCategory category = StrUtil.isNumeric(idOrSlug)
+        return StrUtil.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
-                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_CATEGORY, StrUtil.urlDecode(idOrSlug));
+                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, StrUtil.urlDecode(idOrSlug));
 
-        //当 slug 不为空，但是查询出来的category却是null的时候
-        //应该404显示
-        if (!"index".equals(idOrSlug) && category == null) {
-            renderError(404);
-        }
-
-        return category;
     }
 
     private String getRenderView(ArticleCategory category) {

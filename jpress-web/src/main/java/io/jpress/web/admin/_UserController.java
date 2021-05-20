@@ -595,7 +595,12 @@ public class _UserController extends AdminControllerBase {
             @Form(name = "newPwd", message = "新密码不能为空"),
             @Form(name = "confirmPwd", message = "确认密码不能为空")
     })
-    public void doUpdatePwd(long uid, String oldPwd, String newPwd, String confirmPwd) {
+    public void doUpdatePwd(long uid, String newPwd, String confirmPwd) {
+
+        if (!newPwd.equals(confirmPwd)) {
+            renderJson(Ret.fail().set("message", "两次出入密码不一致"));
+            return;
+        }
 
         User user = userService.findById(uid);
         if (user == null) {
@@ -603,24 +608,15 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        //超级管理员可以修改任何人的密码
-        if (!roleService.isSupperAdmin(getLoginedUser().getId())) {
-            if (StrUtil.isBlank(oldPwd)) {
-                renderJson(Ret.fail().set("message", "旧密码不能为空"));
-                return;
-            }
 
-            if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
-                renderJson(Ret.fail().set("message", "密码错误"));
-                return;
-            }
-        }
+        User loginUser = getLoginedUser();
 
-
-        if (newPwd.equals(confirmPwd) == false) {
-            renderJson(Ret.fail().set("message", "两次出入密码不一致"));
+        //当前登录用户如果不是超级管理员，不能修改超级管理员的密码
+        if (!roleService.isSupperAdmin(loginUser.getId()) && roleService.isSupperAdmin(uid)){
+            renderJson(Ret.fail().set("message", "您没有权限修改该用户密码"));
             return;
         }
+
 
         String salt = user.getSalt();
         String hashedPass = HashKit.sha256(salt + newPwd);

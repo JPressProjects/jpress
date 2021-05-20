@@ -1,4 +1,4 @@
-package io.jpress.module.product.controller;
+package io.jpress.module.product.controller.front;
 
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.web.base.TemplateControllerBase;

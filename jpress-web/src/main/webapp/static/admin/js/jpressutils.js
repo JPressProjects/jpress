@@ -65,7 +65,7 @@ function ajaxGet(url, okFunction, failFunction) {
     }
 
     okFunction = okFunction || function (result) {
-        //location.reload();
+        location.reload();
     };
 
     failFunction = failFunction || function (result) {

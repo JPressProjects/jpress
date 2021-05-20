@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.controller;
+package io.jpress.module.article.controller.front;
 
 import com.jfinal.aop.Inject;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
-import io.jpress.module.product.model.ProductCategory;
-import io.jpress.module.product.service.ProductCategoryService;
+import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.web.base.TemplateControllerBase;
 
 
@@ -28,23 +28,23 @@ import io.jpress.web.base.TemplateControllerBase;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Title: 文章前台页面Controller
- * @Package io.jpress.module.product
+ * @Package io.jpress.module.article
  */
-@RequestMapping("/product/category")
-public class ProductCategoryController extends TemplateControllerBase {
+@RequestMapping("/article/category")
+public class ArticleCategoryController extends TemplateControllerBase {
 
     @Inject
-    private ProductCategoryService categoryService;
+    private ArticleCategoryService categoryService;
 
 
     public void index() {
 
         if (StrUtil.isBlank(getPara())) {
-            redirect("/product/category/index");
+            redirect("/article/category/index");
             return;
         }
 
-        ProductCategory category = getCategory();
+        ArticleCategory category = getCategory();
         setAttr("category", category);
         setSeoInfos(category);
 
@@ -55,20 +55,20 @@ public class ProductCategoryController extends TemplateControllerBase {
         render(getRenderView(category));
     }
 
-    private void doFlagMenuActive(ProductCategory currentCategory) {
+    private void doFlagMenuActive(ArticleCategory currentCategory) {
 
         //文章首页高亮
         if (currentCategory == null) {
-            setMenuActive(menu -> menu.isUrlEquals("/product/category")
-                    || menu.isUrlEquals("/product/category/")
-                    || menu.isUrlEquals("/product/category/index"));
+            setMenuActive(menu -> menu.isUrlEquals("/article/category")
+                    || menu.isUrlEquals("/article/category/")
+                    || menu.isUrlEquals("/article/category/index"));
         } else {
             setMenuActive(menu -> {
                 if (menu.isUrlEquals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {
                     return true;
                 }
 
-                if ("product_category".equals(menu.getRelativeTable())
+                if ("article_category".equals(menu.getRelativeTable())
                         && currentCategory.getId().equals(menu.getRelativeId())) {
                     return true;
                 }
@@ -78,7 +78,7 @@ public class ProductCategoryController extends TemplateControllerBase {
 
     }
 
-    private void setSeoInfos(ProductCategory category) {
+    private void setSeoInfos(ArticleCategory category) {
         if (category == null) {
             return;
         }
@@ -91,16 +91,16 @@ public class ProductCategoryController extends TemplateControllerBase {
     }
 
 
-    private ProductCategory getCategory() {
+    private ArticleCategory getCategory() {
         String idOrSlug = getPara(0);
 
         if (StrUtil.isBlank(idOrSlug)) {
             return null;
         }
 
-        ProductCategory category = StrUtil.isNumeric(idOrSlug)
+        ArticleCategory category = StrUtil.isNumeric(idOrSlug)
                 ? categoryService.findById(idOrSlug)
-                : categoryService.findFirstByTypeAndSlug(ProductCategory.TYPE_CATEGORY, StrUtil.urlDecode(idOrSlug));
+                : categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_CATEGORY, StrUtil.urlDecode(idOrSlug));
 
         //当 slug 不为空，但是查询出来的category却是null的时候
         //应该404显示
@@ -111,9 +111,9 @@ public class ProductCategoryController extends TemplateControllerBase {
         return category;
     }
 
-    private String getRenderView(ProductCategory category) {
+    private String getRenderView(ArticleCategory category) {
         return category == null
-                ? "prolist.html"
+                ? "artlist.html"
                 : category.getHtmlView();
     }
 

@@ -13,29 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.api;
+package io.jpress.module.product.controller.api;
 
-import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.ApiControllerBase;
 
-
 /**
- * @author Michael Yang 杨福海 （fuhai999@gmail.com）
- * @version V1.0
- * @Title: 文章前台页面Controller
- * @Package io.jpress.module.article.admin
+ * @author haicuan139 (haicuan139@163.com)
+ * @Date: 2019/12/24
  */
-@RequestMapping("/api/article/comment")
-public class CommentApiController extends ApiControllerBase {
+@RequestMapping("/api/userorder")
+public class UserOrderApiController extends ApiControllerBase {
 
-    @Inject
-    private ArticleService articleService;
+    /**
+     * 订单列表
+     */
+    public void index(){
 
-    @Inject
-    private ArticleCategoryService categoryService;
+    }
+
+    /**
+     * 添加到订单
+     */
+    public void doDelOrder(){
+
+    }
+
+    /**
+     * 订单中删除
+     */
+    public void doCreateOrder(){
+
+    }
+
+    /**
+     * 改变订单中商品的数量
+     */
+    public void changeCount(){
+
+    }
+
+    /**
+     * 对订单进行支付
+     */
+    public void payOrder(){
+
+    }
+
+
 
 
 }

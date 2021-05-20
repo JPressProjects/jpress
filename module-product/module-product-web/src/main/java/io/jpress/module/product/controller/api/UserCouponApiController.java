@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.api;
+package io.jpress.module.product.controller.api;
 
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.model.CouponCode;
-import io.jpress.model.User;
 import io.jpress.service.CouponCodeService;
-import io.jpress.service.CouponService;
 import io.jpress.web.base.ApiControllerBase;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

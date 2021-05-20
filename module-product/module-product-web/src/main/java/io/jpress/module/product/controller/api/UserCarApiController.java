@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.api;
+package io.jpress.module.product.controller.api;
 
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.web.base.ApiControllerBase;
@@ -22,41 +22,34 @@ import io.jpress.web.base.ApiControllerBase;
  * @author haicuan139 (haicuan139@163.com)
  * @Date: 2019/12/24
  */
-@RequestMapping("/api/userorder")
-public class UserOrderApiController extends ApiControllerBase {
+@RequestMapping("/api/usercar")
+public class UserCarApiController extends ApiControllerBase {
 
     /**
-     * 订单列表
+     * 购物车列表
      */
     public void index(){
 
     }
 
     /**
-     * 添加到订单
+     * 购物车中删除
      */
-    public void doDelOrder(){
+    public void doDelCar(){
 
     }
 
     /**
-     * 订单中删除
+     * 添加到购物车
      */
-    public void doCreateOrder(){
+    public void doAddCar(){
 
     }
 
     /**
-     * 改变订单中商品的数量
+     * 改变购物车中商品的数量
      */
     public void changeCount(){
-
-    }
-
-    /**
-     * 对订单进行支付
-     */
-    public void payOrder(){
 
     }
 

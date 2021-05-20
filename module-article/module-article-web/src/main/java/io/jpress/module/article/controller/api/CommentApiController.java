@@ -13,47 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.api;
+package io.jpress.module.article.controller.api;
 
+import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.base.ApiControllerBase;
 
+
 /**
- * @author haicuan139 (haicuan139@163.com)
- * @Date: 2019/12/24
+ * @author Michael Yang 杨福海 （fuhai999@gmail.com）
+ * @version V1.0
+ * @Title: 文章前台页面Controller
+ * @Package io.jpress.module.article.admin
  */
-@RequestMapping("/api/usercar")
-public class UserCarApiController extends ApiControllerBase {
+@RequestMapping("/api/article/comment")
+public class CommentApiController extends ApiControllerBase {
 
-    /**
-     * 购物车列表
-     */
-    public void index(){
+    @Inject
+    private ArticleService articleService;
 
-    }
-
-    /**
-     * 购物车中删除
-     */
-    public void doDelCar(){
-
-    }
-
-    /**
-     * 添加到购物车
-     */
-    public void doAddCar(){
-
-    }
-
-    /**
-     * 改变购物车中商品的数量
-     */
-    public void changeCount(){
-
-    }
-
-
+    @Inject
+    private ArticleCategoryService categoryService;
 
 
 }

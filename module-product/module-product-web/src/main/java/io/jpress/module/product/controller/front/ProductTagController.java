@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.controller;
+package io.jpress.module.product.controller.front;
 
 import com.jfinal.aop.Inject;
 import io.jboot.utils.StrUtil;

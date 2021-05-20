@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.api;
+package io.jpress.module.product.controller.api;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;

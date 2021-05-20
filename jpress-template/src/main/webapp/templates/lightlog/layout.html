@@ -30,15 +30,17 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                #for(menu : MENUS)
-                <li class="nav-item #(menu.isActive ? 'active' : '')">
-                    <a href="#(menu.url ??)" target="#(menu.target ??)">#(menu.text ??)</a>
-                </li>
-                #end
-            </ul>
-        </div>
+<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--            <ul class="navbar-nav mr-auto">-->
+<!--                #for(menu : MENUS)-->
+<!--                <li class="nav-item #(menu.isActive ? 'active' : '')">-->
+<!--                    <a href="#(menu.url ??)" target="#(menu.target ??)">#(menu.text ??)</a>-->
+<!--                </li>-->
+<!--                #end-->
+<!--            </ul>-->
+<!--        </div>-->
+
+        #@defaultMenu("jpress-nav collapse navbar-collapse","navbar-nav","nav-item","nav-link")
     </nav>
 </div>
 #@content()

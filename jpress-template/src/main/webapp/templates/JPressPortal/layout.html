@@ -21,19 +21,24 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bl-nav">
             <a class="nav-prand" href="#(CPATH)/">#(option('jpressportal_logo_text') ?? 'JPress')</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#jpress-default-menu"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    #for(menu : MENUS)
-                    <li class="nav-item #(menu.isActive ? 'active' : '')">
-                        <a href="#(menu.url ??)" target="#(menu.target ??)">#(menu.text ??)</a>
-                    </li>
-                    #end
-                </ul>
-            </div>
+<!--            <div  id="navbarSupportedContent">-->
+<!--                <ul class="navbar-nav mr-auto">-->
+<!--                    #for(menu : MENUS)-->
+<!--                    <li class="nav-item #(menu.isActive ? 'active' : '')">-->
+<!--                        <a href="#(menu.url ??)" target="#(menu.target ??)">#(menu.text ??)</a>-->
+<!--                    </li>-->
+<!--                    #end-->
+<!--                </ul>-->
+
+                #@defaultMenu("jpress-nav collapse navbar-collapse","navbar-nav","nav-item","nav-link")
+<!--            </div>-->
+
+
+
             #if(option('jpressportal_download_btn_enable'))
             <a href="#option('jpressportal_download_url')" class="btn btn-outline-light " target="_blank">下载源码</a>
             #end

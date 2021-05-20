@@ -1,31 +1,27 @@
-#define _menuItem(menu)
-<li class="#(menu.hasChild()?'jpress-menu-haschild':'') #(menu.isActive?'active':'')">
-    <a class="#(menu.hasChild()?'has-arrow':'') #(menu.isActive?'active':'')"
-       href="#(menu.hasChild()?'#':menu.url ??)"
-       target="#(menu.target ??)">
-        #(menu.icon ??)
-        #(menu.text ??)
+#define _menuItem(menu,ulClass,liClass,aClass)
+<li class="#(liClass ??) #(menu.hasChild()?'jpress-menu-haschild':'') #(menu.isActive?'active':'')">
+    <a href="#(menu.hasChild()?'#':menu.url ??)" class="#(aClass??) #(menu.hasChild()?'has-arrow':'') #(menu.isActive?'active':'')" target="#(menu.target ??)">
+        #(menu.icon ??)  #(menu.text ??)
     </a>
     #if(menu.hasChild())
-    <ul class="jpress-collapse">
+    <ul class="#(ulClass ??) jpress-collapse">
         #for(childMenu : menu.getChilds())
-        #call('_menuItem',childMenu)
+        #call('_menuItem',childMenu,ulClass,liClass,aClass)
         #end
     </ul>
     #end
 </li>
-
 #end
 
 
-#define defaultMenu(topClass)
-<nav class="#(topClass ? topClass : 'jpress-nav') is-hoverable">
-    <ul class="jpress-menu">
+#define defaultMenu(navClass,ulClass,liClass,aClass)
+<div class="#(navClass ? navClass : 'jpress-nav') is-hoverable" id="jpress-default-menu">
+    <ul class="#(ulClass ??) jpress-menu">
         #for(menu : MENUS)
-        #call('_menuItem',menu)
+        #call('_menuItem',menu,ulClass,liClass,aClass)
         #end
     </ul>
-</nav>
+</div>
 #end
 
 

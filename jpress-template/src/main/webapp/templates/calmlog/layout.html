@@ -27,16 +27,7 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-
-                    #for(menu : MENUS)
-                    <li class="nav-item #(menu.isActive ? 'active' : '')">
-                        <a class="nav-link" href="#(menu.url)">#(menu.text) <span class="sr-only">(current)</span></a>
-                    </li>
-                    #end
-                </ul>
-            </div>
+            #@defaultMenu("jpress-nav collapse navbar-collapse justify-content-end","navbar-nav","nav-item","nav-link")
         </nav>
     </div>
 </div>

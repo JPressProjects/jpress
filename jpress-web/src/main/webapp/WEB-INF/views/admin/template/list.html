@@ -96,7 +96,7 @@
                                 <!-- jQuery Knob -->
                                 <div class="card card-outline card-dashboard">
                                     <!-- /.card-header -->
-                                    <div class="card-body">
+                                    <div class="card-body p-0">
                                         <img src="#(CPATH)#(template.screenshot ??)"/>
                                         <!-- /.row -->
                                     </div>
@@ -104,11 +104,11 @@
                                     <div class="card-footer">
                                         <label class="title">#(template.title ??)</label>
                                         #if(option('web_template') == template.id)
-                                        <button type="button" class="btn btn-default disabled pull-right" disabled>
+                                        <button type="button" class="btn btn-default disabled float-right" disabled>
                                             <i class="fa fa-fw fa-check"></i>已启用
                                         </button>
                                         #else
-                                        <div class="pull-right">
+                                        <div class="float-right">
                                             <button type="button" class="btn btn-default template-uninstall"
                                                     for-tid="#(template.id)">卸载
                                             </button>

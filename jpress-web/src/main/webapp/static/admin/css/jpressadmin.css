@@ -307,3 +307,12 @@ label:not(.form-check-label):not(.custom-file-label){
     color:#dc3545;
     font-weight: 500;
 }
+.jpress-empty-cart{
+    background-color: #f4f6f9;
+    height: 60px;
+    align-items: center;
+    color: #999;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

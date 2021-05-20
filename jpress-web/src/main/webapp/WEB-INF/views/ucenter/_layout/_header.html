@@ -33,8 +33,7 @@
                     <span class="dropdown-header">购物车列表</span>
                     <div class="dropdown-divider"></div>
                     #for(userCart : USER_CARTS)
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
+                    <a href="javascript:;" class="dropdown-item">
                         <div class="media">
                             #if(userCart.product_thumbnail)
                             <img src="#(userCart.product_thumbnail)" class="img-size-50 mr-3 img-circle">
@@ -46,11 +45,17 @@
                                 <p class="text-sm">#maxLength(userCart.product_summary ??,20,'...')</p>
                             </div>
                         </div>
-                        <!-- Message End -->
                     </a>
                     <div class="dropdown-divider"></div>
+                    #else
+                    <div class="jpress-empty-cart">
+                    空空如也...
+                    </div>
                     #end
+
+                    #if(USER_CARTS_COUNT && USER_CARTS_COUNT > 0)
                     <a href="#(CPATH)/ucenter/cart" class="dropdown-item dropdown-footer">查看全部</a>
+                    #end
                 </div>
 
             </li>

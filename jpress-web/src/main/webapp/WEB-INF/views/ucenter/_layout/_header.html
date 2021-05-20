@@ -2,7 +2,6 @@
     box-shadow: 0 0 8px 0 rgb(0 0 0 / 10%);">
     <div class="container">
         <a href="#(CPATH)/" class="navbar-brand">
-<!--            <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">-->
             <span class="brand-text">#option('web_name','JPress')</span>
         </a>
 
@@ -38,7 +37,7 @@
                         <!-- Message Start -->
                         <div class="media">
                             #if(userCart.product_thumbnail)
-                            <img src="#(userCart.product_thumbnail)" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                            <img src="#(userCart.product_thumbnail)" class="img-size-50 mr-3 img-circle">
                             #end
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
@@ -62,8 +61,8 @@
             <!-- 头像信息 -->
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center">
-                    <img src="#(USER.avatar ??)" class="img-circle" style="width:26px;">
-<!--                    <i class="fas fa-caret-down"></i>-->
+                    <img src="#(USER.avatar ??)" class="img-circle" style="width:30px;height: 30px">
+                    <i class="fas fa-caret-down"></i>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">

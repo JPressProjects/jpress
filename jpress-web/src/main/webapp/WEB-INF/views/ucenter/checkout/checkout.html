@@ -203,7 +203,10 @@
 #define css()
 <style>
     .form-header {
-        margin: 10px 0 20px;
+        margin: 4px 0;
+        border:none;
+        padding:0 0 4px 0;
+        font-size:16px;
     }
 
     .input-number {
@@ -243,21 +246,41 @@
     .table > tbody > tr > td {
         vertical-align: middle;
     }
+    .invoice{
+        margin-bottom:20px;
+    }
+
+    table,table th,table td{
+        font-size: 14px;
+    }
+    .input-group{
+        align-items: center;
+    }
+    .input-group  .form-control{
+        margin:0 10px;
+        font-size: 14px;
+    }
+    .page-footer{
+        font-size: 14px;
+        text-align: right;
+        padding:10px 0;
+    }
 
 </style>
 #end
 
 #define content()
+
+<div class="container-fluid">
+    <h3 class="form-header" style="color:#666;">
+        <i class="fa fa-chalkboard" aria-hidden="true"></i> 产品信息确认
+    </h3>
+</div>
+
 <form action="#(CPATH)/ucenter/checkout/genorder" method="post" target="_blank" id="checkout">
 
     <!-- Main content -->
-    <section class="invoice">
-        <!-- title row -->
-        <div class="container-fluid">
-            <h2 class="form-header">
-                <i class="fa fa-globe"></i> 产品信息.
-            </h2>
-        </div>
+    <section class="invoice" style="border-color:#e4e6e6;">
 
         <!-- Table row -->
         <div class="col-xs-12 table-responsive">
@@ -265,7 +288,7 @@
                 <thead>
                 <tr>
                     <th style="width: 40%">商品</th>
-                    <th>单价 #</th>
+                    <th>单价</th>
                     <th>数量</th>
                     <th>总价</th>
                     <th style="width: 50px">操作</th>
@@ -310,59 +333,64 @@
             </table>
         </div>
         <!-- /.col -->
-        <!-- /.row -->
-
         <div class="container-fluid">
             <h2 class="page-footer">
-                <small class="pull-right" style="font-size: 16px"> <span id="coupon-price-span"
-                                                                         class="text-primary"></span> </small>
-                <br>
-                <small class="pull-right">总价格: <span id="totalPrice">#.##</span> ￥</small>
-                <br>
-                <small class="pull-right">需支付: <span id="payPrice">#.##</span> ￥</small>
-
+                <small class="pull-right" style="font-size: 14px"> <span id="coupon-price-span" class="text-primary"></span> </small>
+                <small class="pull-right">总价格:￥  <span class="price-color" id="totalPrice">#.##</span></small>
+                <small class="pull-right" style="margin-left:20px;">需支付: ￥ <span class="price-color" id="payPrice">#.##</span></small>
             </h2>
         </div>
+        <!-- /.row -->
 
     </section>
 
+
+
     <!-- Main content -->
-    <section class="invoice">
-        <!-- title row -->
-        <div class="container-fluid">
-            <h2 class="form-header">
-                <i class="fa fa-globe"></i> 订单信息.
-            </h2>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+            <h3 class="form-header" style="color:#666;">
+                <i class="fa fa-bars" aria-hidden="true"></i> 收货信息
+            </h3>
+            </div>
+            <div class="col-6" style="text-align: right;">
+                <button type="button" style="border:none;background: transparent; font-size: 14px;color:#666;font-weight: 400;" onclick="seleteAddress()">
+                    <i class="fa fa-map-marker-alt"></i>
+                    选择收货地址
+                </button>
+            </div>
         </div>
 
+    </div>
+    <section class="checkout-table">
 
         <div class="row">
             <!-- accepted payments column -->
-            <div class="col-lg-6">
-                <div class="card card-outline card-dashboard">
-                    <div class="card-header with-border">
-                        <h3 class="card-title">收件人信息</h3>
-                    </div>
+            <div class="col-lg-12">
+                <div class="card card-outline card-dashboard" style="box-shadow: none;border:1px solid #e4e6e6;">
+
                     <!-- /.card-header -->
                     <div class="card-body">
                         <!-- text input -->
-                        <div class="form-group row">
-                            <label>联系人</label>
-                            <input type="text" class="form-control" name="order.delivery_addr_username"
+                        <div class="form-group row ">
+                            <label class="address-lable">联系人</label>
+                            <input type="text" class="form-control group-line" name="order.delivery_addr_username"
                                    id="addr_username"
                                    placeholder="收件人的姓名..." value="#(defaultAddress.username ??)">
                         </div>
 
-                        <div class="form-group row">
-                            <label>联系电话</label>
-                            <input type="text" class="form-control" name="order.delivery_addr_mobile"
+                        <div class="form-group row ">
+                            <label class="address-lable">联系电话</label>
+                            <input type="text" class="form-control group-line" name="order.delivery_addr_mobile"
                                    id="addr_mobile"
                                    placeholder="收件人的电话..." value="#(defaultAddress.mobile ??)">
                         </div>
 
-                        <div class="form-group row">
-                            <label>地址</label>
-                            <div data-toggle="distpicker" class="form-inline" data-autoselect="3" id="distpicker">
+                        <div class="form-group row ">
+                            <label class="address-lable">地址</label>
+                            <div data-toggle="distpicker" class="form-inline group-line" data-autoselect="3" id="distpicker">
                                 <select class="form-control" name="order.delivery_addr_province" id="addr_province"
                                         data-province="#(defaultAddress.province ?? '---- 选择省 ----')"></select>
                                 <select class="form-control" name="order.delivery_addr_city" id="addr_city"
@@ -372,27 +400,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label>详细地址</label>
-                            <textarea class="form-control" name="order.delivery_addr_detail" id="addr_detail"
+                        <div class="form-group row ">
+                            <label class="address-lable">详细地址</label>
+                            <textarea class="form-control group-line" name="order.delivery_addr_detail" id="addr_detail"
                                       placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"
                                       rows="2">#(defaultAddress.detail ??)</textarea>
                         </div>
 
-                        <div class="form-group row">
-                            <label>邮政编码</label>
-                            <input type="text" class="form-control" name="order.delivery_addr_zipcode"
+                        <div class="form-group row ">
+                            <label class="address-lable">邮政编码</label>
+                            <input type="text" class="form-control group-line" name="order.delivery_addr_zipcode"
                                    id="addr_zipcode"
                                    placeholder="邮政编码..." value="#(defaultAddress.zipcode ??)">
                         </div>
 
 
-                        <div class="col-xs-12">
-                            <button type="button" class="btn btn-primary pull-right" onclick="seleteAddress()">
-                                <i class="fa fa-fw fa-street-view"></i>
-                                选择其他地址
-                            </button>
-                        </div>
 
                     </div>
 
@@ -401,18 +423,22 @@
 
             </div>
             <!-- /.col -->
-            <div class="col-lg-6">
-                <div class="card card-outline card-dashboard">
-                    <div class="card-header with-border">
-                        <h3 class="card-title">支付信息</h3>
-                    </div>
+            <div class="col-lg-12 checkout-table">
+
+                <div class="container-fluid">
+                    <h3 class="form-header" style="color:#666;">
+                        <i class="fa fa-money-check" aria-hidden="true"></i> 支付信息
+                    </h3>
+                </div>
+                <div class="card card-outline card-dashboard" style="box-shadow: none;border:1px solid #e4e6e6;">
+
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="form-group row">
-                            <label>支付方式</label>
+                            <label class="address-lable">支付方式</label>
 
                             #if(wechatxConfig.isEnable())
-                            <div class="radio">
+                            <div class="radio group-line">
                                 <label>
                                     <input type="radio" name="paytype" value="wechatx">
                                     微信转账支付
@@ -421,7 +447,7 @@
                             #end
 
                             #if(alipayxConfig.isEnable())
-                            <div class="radio">
+                            <div class="radio group-line">
                                 <label>
                                     <input type="radio" name="paytype" value="alipayx">
                                     支付宝转账支付
@@ -430,7 +456,7 @@
                             #end
 
                             #if(wechatConfig.isEnable())
-                            <div class="radio">
+                            <div class="radio group-line">
                                 <label>
                                     <input type="radio" name="paytype" value="wechat">
                                     微信支付
@@ -439,7 +465,7 @@
                             #end
 
                             #if(alipayConfig.isEnable())
-                            <div class="radio">
+                            <div class="radio group-line">
                                 <label>
                                     <input type="radio" name="paytype" value="alipay">
                                     支付宝支付
@@ -448,7 +474,7 @@
                             #end
 
                             #if(paypalConfig.isEnable())
-                            <div class="radio">
+                            <div class="radio group-line">
                                 <label>
                                     <input type="radio" name="paytype" value="paypal">
                                     Paypal支付
@@ -456,7 +482,7 @@
                             </div>
                             #end
 
-                            <div class="radio">
+                            <div class="radio group-line">
                                 <label>
                                     <input type="radio" name="paytype" value="amount">
                                     使用账户余额支付
@@ -467,16 +493,18 @@
 
 
                         <div class="form-group row">
-                            <label>优惠码（券）</label>
-                            <input type="text" class="form-control" id="coupon-code-input" name="coupon_code"
-                                   placeholder="请输入优惠码...">
-                            <p class="text-muted"><a href="javascript:;" id="select-coupon-code">选择优惠券</a></p>
+                            <label class="address-lable">优惠码（券）</label>
+                            <div class="group-line">
+                                <input type="text" class="form-control group-code" id="coupon-code-input" name="coupon_code"
+                                       placeholder="请输入优惠码...">
+                                <p class="text-muted" style="font-size: 14px;align-self: center;margin-left:10px;"><a href="javascript:;" id="select-coupon-code">选择优惠券</a></p>
+                            </div>
                         </div>
 
 
                         <div class="form-group row">
-                            <label>买家留言</label>
-                            <textarea class="form-control" rows="3" name="payer_msg"
+                            <label class="address-lable">买家留言</label>
+                            <textarea class="form-control group-line" rows="3" name="payer_msg"
                                       placeholder="给卖家的留言信息"></textarea>
                         </div>
 
@@ -486,10 +514,9 @@
             <!-- /.col -->
         </div>
 
-        <div class="row no-print">
-            <div class="col-xs-12">
-                <button type="submit" id="submit" class="btn btn-success pull-right"><i
-                        class="fa fa-credit-card"></i>
+        <div class="row no-print" style="margin:0 10px 40px 0;justify-content:flex-end;">
+            <div class="col-xs-12" style="">
+                <button type="submit" id="submit" class="btn btn-primary">
                     提交订单
                 </button>
             </div>

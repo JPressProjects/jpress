@@ -275,3 +275,35 @@ tbody > tr > th, td:focus {
 .editable-container{
     z-index: 99999;
 }
+/*checkout*/
+.checkout-table .form-group{
+    display: flex;
+    align-items: center;
+}
+.checkout-table .group-line{
+    width: 80%;
+    margin-left:2%;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+.group-code{
+    width: 30%;
+}
+
+.checkout-table .address-lable{
+    width: 8%;
+    font-weight: 400;
+    font-size: 14px;
+}
+label:not(.form-check-label):not(.custom-file-label){
+    font-weight: 400;
+}
+.group-line .form-control{
+    margin-right:10px;
+    font-size: 14px;
+}
+.price-color{
+    color:#dc3545;
+    font-weight: 500;
+}

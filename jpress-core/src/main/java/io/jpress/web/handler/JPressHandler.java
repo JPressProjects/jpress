@@ -77,6 +77,11 @@ public class JPressHandler extends Handler {
             return;
         }
 
+        //如果是访问 .html ，直接去除后缀（最后会访问模板目录对于的 html 文件）
+        if (target.endsWith(".html")){
+            target = target.substring(0, target.length() - 5);
+        }
+
 
         String suffix = JPressOptions.getAppUrlSuffix();
         if (StrUtil.isBlank(suffix)  // 不启用伪静态

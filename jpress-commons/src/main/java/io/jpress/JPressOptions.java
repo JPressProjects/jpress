@@ -182,7 +182,7 @@ public class JPressOptions {
 
     public static String getAppUrlSuffix() {
         if (!fakeStaticEnable || StrUtil.isBlank(fakeStaticSuffix)) {
-            return "";
+            return StrUtil.EMPTY;
         }
 
         return fakeStaticSuffix;

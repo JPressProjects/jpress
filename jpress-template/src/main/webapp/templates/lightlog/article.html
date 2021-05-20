@@ -3,16 +3,13 @@
 
 #define css()
 <link href="highlight/styles/railscasts.css" rel="stylesheet">
-<link href="/static/commons/article.css" rel="stylesheet">
 #end
+
 #define script()
 <script src="/static/components/jquery/jquery.form.min.js"></script>
-<script src="/static/commons/article.js"></script>
 <script src="highlight/highlight.pack.js"></script>
 <script>
-
     hljs.initHighlightingOnLoad();
-
 </script>
 #end
 
@@ -33,11 +30,12 @@
         <div class="recommend-panel">
             <h4 class="ll-title">相关文章</h4>
             <div class="card-deck">
-                #for(article :relevantArticles )
+                #for(article : relevantArticles )
                 <div class="card card-outlinell-panel">
                     <a class="recommend-panel-link" href="#(article.url ??)">
                         <div class="recommend-panel-top">
-                            <img src="#(article.thumbnail ?? 'img/blog-image.jpg')" class="img-fluid" alt="#(article.title ??)">
+                            <img src="#(article.thumbnail ?? 'img/blog-image.jpg')" class="img-fluid"
+                                 alt="#(article.title ??)">
                         </div>
                         <div class="recommend-panel-bottom">
                             #(article.title ??)

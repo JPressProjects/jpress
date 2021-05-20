@@ -124,6 +124,10 @@
     list-style: none;
 }
 
+.jp-menu .jp-menu-item-haschild ul{
+    /*min-width: 200px !important;*/
+}
+
 .jpress-nav .jp-menu {
     display: flex;
     flex-direction: column;

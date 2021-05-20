@@ -1,5 +1,5 @@
 #define _menuItem(menu)
-<li>
+<li class="#(menu.hasChild()?'jp-menu-item-haschild':'') #(menu.isActive?'jp-menu-item-active':'')">
     <a class="#(menu.hasChild()?'has-arrow':'') #(menu.isActive?'active':'')"
        href="#(menu.hasChild()?'#':menu.url ??)"
        target="#(menu.target ??)">
@@ -17,8 +17,9 @@
 
 #end
 
-#define defaultMenu()
-<nav class="jpress-nav is-hoverable">
+
+#define defaultMenu(topClass)
+<nav class="#(topClass ? topClass : 'jpress-nav') is-hoverable">
     <ul class="jp-menu">
         #for(menu : MENUS)
         #call('_menuItem',menu)

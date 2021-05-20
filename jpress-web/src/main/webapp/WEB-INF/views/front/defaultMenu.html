@@ -1,5 +1,5 @@
 #define _menuItem(menu)
-<li class="#(menu.hasChild()?'jp-menu-item-haschild':'') #(menu.isActive?'jp-menu-item-active':'')">
+<li class="#(menu.hasChild()?'jpress-menu-haschild':'') #(menu.isActive?'active':'')">
     <a class="#(menu.hasChild()?'has-arrow':'') #(menu.isActive?'active':'')"
        href="#(menu.hasChild()?'#':menu.url ??)"
        target="#(menu.target ??)">
@@ -7,7 +7,7 @@
         #(menu.text ??)
     </a>
     #if(menu.hasChild())
-    <ul class="jp-collapse">
+    <ul class="jpress-collapse">
         #for(childMenu : menu.getChilds())
         #call('_menuItem',childMenu)
         #end
@@ -20,7 +20,7 @@
 
 #define defaultMenu(topClass)
 <nav class="#(topClass ? topClass : 'jpress-nav') is-hoverable">
-    <ul class="jp-menu">
+    <ul class="jpress-menu">
         #for(menu : MENUS)
         #call('_menuItem',menu)
         #end

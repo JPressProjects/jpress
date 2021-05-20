@@ -11,7 +11,8 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ll-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="#(CPATH)/static/commons/img/jpress.jpg" type="image/x-icon">
+    <link href="#(CPATH)/static/front/jpressfront.css" rel="stylesheet">
+    <link href="#(CPATH)/static/commons/img/jpress.jpg" type="image/x-icon" rel="shortcut icon">
     #@css?()
 </head>
 <body>
@@ -32,7 +33,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 #for(menu : MENUS)
-                <li class="nav-item #(menu.isActive ? 'active' : '')" >
+                <li class="nav-item #(menu.isActive ? 'active' : '')">
                     <a href="#(menu.url ??)" target="#(menu.target ??)">#(menu.text ??)</a>
                 </li>
                 #end
@@ -47,7 +48,8 @@
         <p class="ll-copyright">#(WEB_COPYRIGHT ?? 'copyright @ 2018~2020 JPress（www.jpress.io）')</p>
     </div>
 </div>
-<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/front/jpressfront.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 #@script?()
 </body>

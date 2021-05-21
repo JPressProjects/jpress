@@ -144,7 +144,6 @@ public class TemplateManager {
      * @return
      */
     public Template getPreviewTemplate() {
-
         if (!JPressConfig.me.isTemplatePreviewEnable()) {
             return null;
         }

@@ -311,7 +311,7 @@ public class _TemplateController extends AdminControllerBase {
                 return 1;
             }
 
-            if (o2.getName().equals("index.html")) {
+            if ("index.html".equals(o2.getName())) {
                 return 1;
             }
 
@@ -341,7 +341,7 @@ public class _TemplateController extends AdminControllerBase {
         String fileName = getPara("f");
 
         //防止浏览非模板目录之外的其他目录
-        render404If(dirName != null && dirName.contains(".."));
+        render404If(dirName == null || dirName.contains(".."));
         render404If(fileName.contains("/") || fileName.contains(".."));
 
 
@@ -446,7 +446,7 @@ public class _TemplateController extends AdminControllerBase {
         String dirName = getPara("d").trim();
 
         //防止浏览非模板目录之外的其他目录
-        render404If(dirName != null && dirName.contains(".."));
+        render404If(dirName.contains(".."));
         render404If(fileName.contains("/") || fileName.contains(".."));
 
         Template template = TemplateManager.me().getCurrentTemplate();
@@ -476,14 +476,14 @@ public class _TemplateController extends AdminControllerBase {
         String path = getPara("path");
 
         //防止删除非模板目录之外的其他目录文件
-        render404If(path != null && path.contains(".."));
+        render404If(path == null || path.contains(".."));
 
         Template template = TemplateManager.me().getCurrentTemplate();
         render404If(template == null);
 
         File delFile = new File(template.getAbsolutePathFile(), path);
         String delFileName = delFile.getName();
-        if (delFile.isDirectory() || delFile.delete() == false) {
+        if (delFile.isDirectory() || !delFile.delete()) {
             renderFailJson();
         } else {
             if (delFileName.toLowerCase().endsWith(".html")) {

@@ -22,14 +22,12 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
-import io.jpress.commons.utils.JPressJson;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
 import io.jpress.core.addon.handler.AddonHandlerProcesser;
 import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.wechat.WechatAddonManager;
-import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.functions.JPressCoreFunctions;
 import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.JPressInterceptor;
@@ -64,11 +62,7 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
 
     @Override
     public void onConstantConfig(Constants constants) {
-
         constants.setRenderFactory(new JPressRenderFactory());
-        constants.setCaptchaCache(new JPressCaptchaCache());
-        constants.setJsonFactory(() -> new JPressJson());
-
     }
 
     @Override

@@ -28,8 +28,8 @@ import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
+import io.jboot.utils.ModelUtil;
 import io.jboot.utils.StrUtil;
-import io.jpress.commons.Copyer;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -60,7 +60,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
     @Override
     public List<ArticleCategory> findListByType(String type) {
-        return Copyer.copy(findListByTypeWithCache(type));
+        return ModelUtil.copy(findListByTypeWithCache(type));
     }
 
     @Cacheable(name = "articleCategory", key = "type:#(type)")

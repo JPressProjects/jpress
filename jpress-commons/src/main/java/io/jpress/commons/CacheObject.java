@@ -23,19 +23,19 @@ import io.jboot.Jboot;
  */
 public class CacheObject {
 
-    private String name;
-    private String key;
+    private String cacheName;
+    private String cacheKey;
 
-    public CacheObject(String name, String key) {
-        this.name = name;
-        this.key = key;
+    public CacheObject(String cacheName, String cacheKey) {
+        this.cacheName = cacheName;
+        this.cacheKey = cacheKey;
     }
 
     public void set(Object value) {
-        Jboot.getCache().put(name, key, value);
+        Jboot.getCache().put(cacheName, cacheKey, value);
     }
 
     public <T> T get() {
-        return Jboot.getCache().get(name, key);
+        return Jboot.getCache().get(cacheName, cacheKey);
     }
 }

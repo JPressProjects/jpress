@@ -88,7 +88,7 @@ public class Article extends BaseArticle<Article> {
 
     public boolean isCommentEnable() {
         Boolean cs = getCommentStatus();
-        return cs != null && cs == true;
+        return cs != null && cs;
     }
 
     public String getText() {

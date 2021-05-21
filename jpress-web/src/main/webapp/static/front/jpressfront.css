@@ -14,9 +14,6 @@
     list-style: none;
 }
 
-.jpress-menu .jpress-menu-item-haschild ul{
-    /*min-width: 200px !important;*/
-}
 
 .jpress-nav .jpress-menu {
     display: flex;
@@ -73,6 +70,7 @@
 
     .jpress-nav.is-hoverable .jpress-menu > li > ul {
         height: auto !important;
+        min-width: 200px !important;
     }
 
     .jpress-nav.is-hoverable .jpress-menu > li:hover > ul {

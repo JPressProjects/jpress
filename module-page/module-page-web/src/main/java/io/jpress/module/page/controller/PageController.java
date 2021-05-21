@@ -238,6 +238,7 @@ public class PageController extends TemplateControllerBase {
         paras.put("page", page);
         if (user != null) {
             paras.put("user", user.keepSafe());
+            comment.put("user", user.keepSafe());
         }
 
         renderHtmltoRet("/WEB-INF/views/commons/page/defaultPageCommentItem.html", paras, ret);

@@ -19,6 +19,8 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
@@ -68,6 +70,7 @@ public class _ProductTagController extends AdminControllerBase {
     }
 
 
+    @EmptyValidate({@Form(name = "category.title", message = "标签名称不能为空")})
     public void doSave() {
 
         ProductCategory tag = getModel(ProductCategory.class, "category");

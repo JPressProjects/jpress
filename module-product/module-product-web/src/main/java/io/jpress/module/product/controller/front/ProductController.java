@@ -280,6 +280,7 @@ public class ProductController extends TemplateControllerBase {
 
         if (user != null) {
             paras.put("user", user.keepSafe());
+            comment.put("user", user.keepSafe());
         }
 
 

@@ -188,7 +188,7 @@ public class ArticleController extends TemplateControllerBase {
 
         //是否开启评论功能
         Boolean commentEnable = JPressOptions.isTrueOrEmpty("article_comment_enable");
-        if (commentEnable == null || commentEnable == false) {
+        if (commentEnable == null || !commentEnable) {
             renderJson(Ret.fail().set("message", "评论功能已关闭"));
             return;
         }
@@ -196,7 +196,7 @@ public class ArticleController extends TemplateControllerBase {
 
         //是否允许未登录用户参与评论
         Boolean unLoginEnable = optionService.findAsBoolByKey("article_comment_unlogin_enable");
-        if (unLoginEnable == null || unLoginEnable == false) {
+        if (unLoginEnable == null || !unLoginEnable) {
             if (getLoginedUser() == null) {
                 renderJson(Ret.fail().set("message", "未登录用户不能评论").set("errorCode", 9));
                 return;
@@ -213,10 +213,10 @@ public class ArticleController extends TemplateControllerBase {
         comment.setWechat(wechat);
         comment.setQq(qq);
 
-        User user = getLoginedUser();
-        if (user != null) {
-            comment.setUserId(user.getId());
-            comment.setAuthor(user.getNickname());
+        User conmmentUser = getLoginedUser();
+        if (conmmentUser != null) {
+            comment.setUserId(conmmentUser.getId());
+            comment.setAuthor(conmmentUser.getNickname());
         }
 
         //是否是管理员必须审核
@@ -252,13 +252,14 @@ public class ArticleController extends TemplateControllerBase {
         Map<String, Object> paras = new HashMap<>();
         paras.put("comment", comment);
         paras.put("article", article);
-        if (user != null) {
-            paras.put("user", user.keepSafe());
+        if (conmmentUser != null) {
+            paras.put("user", conmmentUser.keepSafe());
+            comment.put("user", conmmentUser.keepSafe());
         }
 
         renderHtmltoRet("/WEB-INF/views/commons/article/defaultArticleCommentItem.html", paras, ret);
 
-        ArticleNotifyKit.notify(article, comment, user);
+        ArticleNotifyKit.notify(article, comment, conmmentUser);
 
         if (isAjaxRequest()) {
             renderJson(ret);

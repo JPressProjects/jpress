@@ -22,6 +22,114 @@ function isMobileBrowser(){
 }
 
 /**
+ * 进行 get 请求
+ * @param url
+ * @param okFunction
+ * @param failFunction
+ */
+function ajaxGet(url, okFunction, failFunction) {
+    if (url == null || "" == url) {
+        alert("url 不能为空 ");
+        return
+    }
+
+    okFunction = okFunction || function (result) {
+        location.reload();
+    };
+
+    failFunction = failFunction || function (result) {
+        toastr.error(result.message, '操作失败');
+    };
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        async: true,
+        success: function (result) {
+            if (result.state == 'ok') {
+                okFunction(result);
+            } else {
+                failFunction(result);
+            }
+        },
+        error: function (e) {
+            toastr.error("系统发生错误...", '操作失败');
+        }
+    });
+
+}
+
+/**
+ * 进行 ajax 请求
+ * @param url
+ * @param data
+ * @param okFunction
+ * @param failFunction
+ */
+function ajaxPost(url, data, okFunction, failFunction) {
+    if (url == null || "" == url) {
+        alert("url 不能为空 ");
+        return
+    }
+
+    okFunction = okFunction || function (result) {
+        location.reload();
+    };
+
+    failFunction = failFunction || function (result) {
+        toastr.error(result.message, '操作失败');
+    };
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function (result) {
+            if (result.state == 'ok') {
+                okFunction(result);
+            } else {
+                failFunction(result);
+            }
+        },
+        error: function (arg1) {
+            showErrorMessage("系统发生错误...");
+        }
+    });
+}
+
+/**
+ * 对某个 form 进行 ajax 提交
+ * @param form
+ * @param okFunction
+ * @param failFunction
+ */
+function ajaxSubmit(form, okFunction, failFunction) {
+
+    okFunction = okFunction || function (result) {
+        location.reload();
+    };
+
+    failFunction = failFunction || function (result) {
+        toastr.error(result.message, '操作失败');
+    };
+
+    $(form).ajaxSubmit({
+        type: "post",
+        success: function (result) {
+            if (result.state == "ok") {
+                okFunction(result);
+            } else {
+                failFunction(result);
+            }
+        },
+        error: function () {
+            toastr.error('系统错误，请稍后重试。', '操作失败');
+        }
+    });
+}
+
+/**
  * 弹出消息
  * @param msg
  * @param url

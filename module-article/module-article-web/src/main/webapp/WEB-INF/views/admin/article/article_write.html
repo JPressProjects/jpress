@@ -1,8 +1,7 @@
 #@layout()
 #define script()
-
 <script src="#(CPATH)/static/components/vditor/index.min.js"></script>
-<script src="#(CPATH)/static/components/wangEditor/wangEditor.min.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
@@ -45,10 +44,10 @@
 
     // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
     window.doSubmit = function () {
-        if (window.myWangEditor){
-            $("#content").val(window.myWangEditor.txt.html());
-        }else if (window.myVditor){
-            $("#content").val(window.myVditor.getHTML());
+        if (window.currentCKEditor) {
+            $("#content").val(window.currentCKEditor.getData());
+        } else if (window.currentVditor) {
+            $("#content").val(window.currentVditor.getHTML());
         }
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
@@ -74,39 +73,68 @@
     }
 
     var editMode = "#(editMode ?? 'html')";
-    // var content = '';
     if (editMode === 'html') {
-        window.myWangEditor = new wangEditor('#editor')
-        myWangEditor.config.height = 600;
-        myWangEditor.config.uploadImgServer = '#(CPATH)/commons/wangeditor/upload';
-        myWangEditor.config.menus = [
-            'emoticon',
-            'head',
-            'bold',
-            'fontSize',
-            'fontName',
-            'italic',
-            'underline',
-            'strikeThrough',
-            'indent',
-            'lineHeight',
-            'foreColor',
-            'backColor',
-            'link',
-            'list',
-            'todo',
-            'justify',
-            'quote',
-            'image',
-            'video',
-            'table',
-            'code',
-            'splitLine',
-            'undo',
-            'redo',
-        ]
-        myWangEditor.create()
-        // myWangEditor.txt.html(content);
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        // 'fontFamily',
+                        // 'fontSize',
+                        'fontColor',
+                        'highlight',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'underline',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'outdent',
+                        'indent',
+                        'alignment',
+                        'removeFormat',
+                        '|',
+                        'blockQuote',
+                        'codeBlock',
+                        'imageInsert',
+                        'mediaEmbed',
+                        'insertTable',
+                        '|',
+                        'undo',
+                        'redo'
+                    ]
+                },
+                simpleUpload: {
+                    uploadUrl: '#(CPATH)/commons/ckeditor5/upload',
+                },
+                language: 'zh-cn',
+                image: {
+                    toolbar: [
+                        'imageTextAlternative',
+                        'imageStyle:full',
+                        'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells',
+                        'tableProperties'
+                    ]
+                },
+
+
+            })
+            .then(editor => {
+                window.currentCKEditor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
     } else {
         var toolbar = [
             "emoji",
@@ -150,11 +178,11 @@
                 ],
             }]
 
-        window.myVditor = new Vditor('editor', {
+        window.currentVditor = new Vditor('editor', {
             "height": 600,
             "toolbar": toolbar,
-            "upload":{
-                url : "#(CPATH)/commons/vditor/upload",
+            "upload": {
+                url: "#(CPATH)/commons/vditor/upload",
             },
             "cache": {
                 "enable": false
@@ -189,247 +217,232 @@
         cursor: pointer;
     }
 
-    .w-e-toolbar {
-        background-color: #f6f8fa !important;
-        border-bottom: 1px solid #d1d5da !important;
-        padding: 0 5px;
-        line-height: 1;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .w-e-toolbar .w-e-menu {
-        width: 32px !important;
-        height: 35px !important;
-    }
-
-    .w-e-toolbar .w-e-menu i {
-        color: #586069 !important;
-        font-size: 15px;
-    }
-
     .vditor-wysiwyg pre.vditor-reset:focus {
         outline: none;
         background-color: #fff;
+    }
+
+    .ck-editor__editable_inline {
+        min-height: 500px;
     }
 
 </style>
 #end
 
 #define content()
-    <section class="content-header">
+<section class="content-header">
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
 
-                    <div class="row mb-2">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            写文章
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 文章 / 写文章</small>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+
+</section>
+
+
+<section class="content">
+    <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form">
+        <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
+        <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
+        <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
+        <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
+        <div class="row">
+            <div class="col-lg-9">
+
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="">
+                    <div class="form-group row">
                         <div class="col-sm-12">
-                            <h1>
-                                写文章
-                                <small data-toggle="tooltip" title="" data-placement="right"
-                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / 文章 / 写文章</small>
-                            </h1>
+                            <input type="input" class="form-control form-control-lg" name="article.title"
+                                   placeholder="请输入标题"
+                                   id="article-title"
+                                   value="#(article.title ??)">
                         </div>
                     </div>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-
-    </section>
-
-
-    <section class="content">
-        <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form">
-            <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
-            <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
-            <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
-            <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
-            <div class="row">
-                <div class="col-lg-9">
-
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <div class="">
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <input type="input" class="form-control form-control-lg" name="article.title"
-                                       placeholder="请输入标题"
-                                       id="article-title"
-                                       value="#(article.title ??)">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-12" style="padding-bottom: 2px">
-                                网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span id="slug"
-                                                                                                               class="slugSpan"
-                                                                                                               for-input="article-slug">#(article.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
-                                #if(article && article.isNormal())
-                                （<a href="#(article.url)" target="_blank">访问</a>）
+                    <div class="form-group row">
+                        <div class="col-sm-12" style="padding-bottom: 2px">
+                            网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span id="slug"
+                                                                                                           class="slugSpan"
+                                                                                                           for-input="article-slug">#(article.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+                            #if(article && article.isNormal())
+                            （<a href="#(article.url)" target="_blank">访问</a>）
+                            #end
+                            <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
+                            <a href="javascript:;" style="float: right;padding: 5px 0"
+                               onclick="doChangeEditor('#(article.id ?? 0)')">
+                                #if(editMode && editMode == 'html')
+                                Markdown编辑
+                                #else
+                                可视化编辑
                                 #end
-                                <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
-                                <a href="javascript:;" style="float: right;padding: 5px 0"
-                                   onclick="doChangeEditor('#(article.id ?? 0)')">
-                                    #if(editMode && editMode == 'html')
-                                    Markdown编辑
-                                    #else
-                                    可视化编辑
-                                    #end
-                                </a>
-                            </div>
-                            <div class="col-sm-12">
-                                <div id="editor" >#(article.orignalContent ??)</div>
-                                <input type="hidden" name="article.content" id="content"/>
-                            </div>
+                            </a>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <div class="card card-outlinecard-solid">
-                                    <div class="card-header with-border">
-                                        <h3 class="card-title">属性设置</h3>
+                        <div class="col-sm-12">
+                            <div id="editor">#(article.orignalContent ??)</div>
+                            <input type="hidden" name="article.content" id="content"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="card card-outlinecard-solid">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">属性设置</h3>
 
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-card-tool" data-widget="collapse">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-card-tool" data-widget="collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
                                     </div>
-                                    <!-- /.card-header -->
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
                                     <div class="card-body">
-                                        <div class="card-body">
-                                            #(fields.render())
-                                        </div>
+                                        #(fields.render())
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                <div class="col-lg-3">
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-body">
-
-                            <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">发布
-                            </button>
-                            <button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
-                            </button>
-                            <a href="#" data-status="trash" class="float-right submitBtn"
-                               style="padding-top: 5px;">移至垃圾箱</a>
-                        </div>
-                    </div>
-
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">分类</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                #for(category : categories)
-                                <div>
-                                    <label>
-                                        #for(i = 0; i < category.layerNumber; i++)
-                                        &nbsp;&nbsp;
-                                        #end
-
-                                        #if(category.isCheck)
-                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
-                                        #else
-                                        <input type="checkbox" name="category" value="#(category.id)"/>
-                                        #end
-
-                                        #(category.title ??)
-                                    </label>
-                                </div>
-                                #end
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">标签</h3>
-                        </div>
-                        <div class="card-body">
-                            <input class="form-control article-tags" multiple="multiple" name="tag">
-                            #for(tag : tags)
-                            <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
-                            #end
-                            </input>
-                            <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
-
-                            <div class="tags">
-                                #tags(count = 20)
-                                #for(tag : tags)
-                                <a href="javascript:;" class="newTag">#(tag.title)</a>
-                                #end
-                                #end
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">缩略图</h3>
-                        </div>
-                        <div class="card-body">
-                            <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
-                                 style="width: 100%;height: 200px"
-                                 id="thumbnail">
-                            <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
-                                   id="articleThumbnail">
-                        </div>
-                        <div class="card-footer">
-                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
-                                    for-src="thumbnail"
-                                    for-input="articleThumbnail">选择图片
-                            </button>
-                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
-                        </div>
-                    </div>
-
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">模板样式</h3>
-                        </div>
-                        <div class="card-body">
-
-                            #if(styles && styles.size() > 0 )
-                            <div class="form-group row">
-                                <select class="form-control" name="article.style">
-                                    <option value="">默认样式</option>
-                                    #for(style : styles)
-                                    <option value="#(style)" #selectedIf(article && article.style==style)>
-                                        #(style)
-                                    </option>
-                                    #end
-                                </select>
-                            </div>
-                            #end
-
-                            <div class="form-group row">
-                                <input type="text" class="form-control" name="article.flag"
-                                       placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
-                                #if(flags && flags.size() > 0)
-                                <p class="text-muted">当前模板支持的展示标识有：</p>
-                                <div class="tags">
-                                    #for(flag : flags ??)
-                                    <a href="javascript:;" class="tflag">#(flag)</a>
-                                    #end
-                                </div>
-                                #end
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
             </div>
-        </form>
-    </section>
+
+            <div class="col-lg-3">
+                <div class="card card-outlinecard-solid">
+                    <div class="card-body">
+
+                        <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">发布
+                        </button>
+                        <button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
+                        </button>
+                        <a href="#" data-status="trash" class="float-right submitBtn"
+                           style="padding-top: 5px;">移至垃圾箱</a>
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">分类</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            #for(category : categories)
+                            <div>
+                                <label>
+                                    #for(i = 0; i < category.layerNumber; i++)
+                                    &nbsp;&nbsp;
+                                    #end
+
+                                    #if(category.isCheck)
+                                    <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                    #else
+                                    <input type="checkbox" name="category" value="#(category.id)"/>
+                                    #end
+
+                                    #(category.title ??)
+                                </label>
+                            </div>
+                            #end
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">标签</h3>
+                    </div>
+                    <div class="card-body">
+                        <input class="form-control article-tags" multiple="multiple" name="tag">
+                        #for(tag : tags)
+                        <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                        #end
+                        </input>
+                        <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+
+                        <div class="tags">
+                            #tags(count = 20)
+                            #for(tag : tags)
+                            <a href="javascript:;" class="newTag">#(tag.title)</a>
+                            #end
+                            #end
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">缩略图</h3>
+                    </div>
+                    <div class="card-body">
+                        <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+                             style="width: 100%;height: 200px"
+                             id="thumbnail">
+                        <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
+                               id="articleThumbnail">
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn-image-browser btn btn-default btn-sm "
+                                for-src="thumbnail"
+                                for-input="articleThumbnail">选择图片
+                        </button>
+                        <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">模板样式</h3>
+                    </div>
+                    <div class="card-body">
+
+                        #if(styles && styles.size() > 0 )
+                        <div class="form-group row">
+                            <select class="form-control" name="article.style">
+                                <option value="">默认样式</option>
+                                #for(style : styles)
+                                <option value="#(style)" #selectedIf(article && article.style==style)>
+                                    #(style)
+                                </option>
+                                #end
+                            </select>
+                        </div>
+                        #end
+
+                        <div class="form-group row">
+                            <input type="text" class="form-control" name="article.flag"
+                                   placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
+                            #if(flags && flags.size() > 0)
+                            <p class="text-muted">当前模板支持的展示标识有：</p>
+                            <div class="tags">
+                                #for(flag : flags ??)
+                                <a href="javascript:;" class="tflag">#(flag)</a>
+                                #end
+                            </div>
+                            #end
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+</section>
 #end

@@ -34,13 +34,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * Created by michael on 16/11/30.
  */
-@RequestMapping("/commons/wangeditor")
-public class WangEditorController extends UserControllerBase {
+@RequestMapping("/commons/ckeditor5")
+public class CKEditor5Controller extends UserControllerBase {
 
     @Inject
     private OptionService optionService;
@@ -60,20 +59,7 @@ public class WangEditorController extends UserControllerBase {
             return;
         }
 
-       List<UploadFile> uploadFiles =  getFiles();
-       List<ImageInfo> imageInfos = new ArrayList<>();
-
-       uploadFiles.forEach(uploadFile -> processUploadFile(uploadFile,imageInfos));
-
-       Map ret = new HashMap();
-       ret.put("errno",0);
-       ret.put("data",imageInfos);
-
-       renderJson(ret);
-    }
-
-
-    private void processUploadFile(UploadFile uploadFile, List<ImageInfo> imageInfos){
+        UploadFile uploadFile = getFile();
 
         if (uploadFile == null) {
             renderJson(Ret.create("error", Ret.create("message", "请选择要上传的文件")));
@@ -82,14 +68,14 @@ public class WangEditorController extends UserControllerBase {
 
 
         File file = uploadFile.getFile();
-        if (!getLoginedUser().isStatusOk()){
+        if (!getLoginedUser().isStatusOk()) {
             file.delete();
             renderJson(Ret.create("error", Ret.create("message", "当前用户未激活，不允许上传任何文件。")));
             return;
         }
 
 
-        if (AttachmentUtils.isUnSafe(file)){
+        if (AttachmentUtils.isUnSafe(file)) {
             file.delete();
             renderJson(Ret.create("error", Ret.create("message", "不支持此类文件上传")));
             return;
@@ -123,45 +109,12 @@ public class WangEditorController extends UserControllerBase {
 
         if (attachmentService.save(attachment) != null) {
             String url = JFinal.me().getContextPath() + attachment.getPath();
-            String alt = attachment.getTitle();
-            imageInfos.add(new ImageInfo(url,alt,""));//.put(url,alt);
+            renderJson(Ret.ok().set("default", url));
+
+        } else {
+            renderJson(Ret.create("error", Ret.create("message", "文件保存失败")));
         }
     }
 
-    public static class ImageInfo{
-        private String url;
-        private String alt;
-        private String href;
-
-        public ImageInfo(String url, String alt, String href) {
-            this.url = url;
-            this.alt = alt;
-            this.href = href;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getAlt() {
-            return alt;
-        }
-
-        public void setAlt(String alt) {
-            this.alt = alt;
-        }
-
-        public String getHref() {
-            return href;
-        }
-
-        public void setHref(String href) {
-            this.href = href;
-        }
-    }
 
 }

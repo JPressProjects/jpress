@@ -1,7 +1,7 @@
 #@layout()
 #define script()
 <script src="#(CPATH)/static/components/vditor/index.min.js"></script>
-<script src="#(CPATH)/static/components/wangEditor/wangEditor.min.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
@@ -43,18 +43,19 @@
         doSubmit();
     });
 
-    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留product的status
+    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
     window.doSubmit = function () {
-        if (window.myWangEditor){
-            $("#content").val(window.myWangEditor.txt.html());
-        }else if (window.myVditor){
-            $("#content").val(window.myVditor.getHTML());
+        if (window.currentCKEditor) {
+            $("#content").val(window.currentCKEditor.getData());
+        } else if (window.currentVditor) {
+            $("#content").val(window.currentVditor.getHTML());
         }
         ajaxSubmit("#form", function (data) {
             $("#productId").attr("value", data.id);
-            toastr.success('产品保存成功。');
+            toastr.success('文章保存成功。');
         });
-    }
+    };
+
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
@@ -62,39 +63,68 @@
     })
 
     var editMode = "#(editMode ?? 'html')";
-    // var content = '';
     if (editMode === 'html') {
-        window.myWangEditor = new wangEditor('#editor')
-        myWangEditor.config.height = 600;
-        myWangEditor.config.uploadImgServer = '#(CPATH)/commons/wangeditor/upload';
-        myWangEditor.config.menus = [
-            'emoticon',
-            'head',
-            'bold',
-            'fontSize',
-            'fontName',
-            'italic',
-            'underline',
-            'strikeThrough',
-            'indent',
-            'lineHeight',
-            'foreColor',
-            'backColor',
-            'link',
-            'list',
-            'todo',
-            'justify',
-            'quote',
-            'image',
-            'video',
-            'table',
-            'code',
-            'splitLine',
-            'undo',
-            'redo',
-        ]
-        myWangEditor.create()
-        // myWangEditor.txt.html(content);
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        // 'fontFamily',
+                        // 'fontSize',
+                        'fontColor',
+                        'highlight',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'underline',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'outdent',
+                        'indent',
+                        'alignment',
+                        'removeFormat',
+                        '|',
+                        'blockQuote',
+                        'codeBlock',
+                        'imageInsert',
+                        'mediaEmbed',
+                        'insertTable',
+                        '|',
+                        'undo',
+                        'redo'
+                    ]
+                },
+                simpleUpload: {
+                    uploadUrl: '#(CPATH)/commons/ckeditor5/upload',
+                },
+                language: 'zh-cn',
+                image: {
+                    toolbar: [
+                        'imageTextAlternative',
+                        'imageStyle:full',
+                        'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells',
+                        'tableProperties'
+                    ]
+                },
+
+
+            })
+            .then(editor => {
+                window.currentCKEditor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
     } else {
         var toolbar = [
             "emoji",
@@ -138,11 +168,11 @@
                 ],
             }]
 
-        window.myVditor = new Vditor('editor', {
+        window.currentVditor = new Vditor('editor', {
             "height": 600,
             "toolbar": toolbar,
-            "upload":{
-                url : "#(CPATH)/commons/vditor/upload",
+            "upload": {
+                url: "#(CPATH)/commons/vditor/upload",
             },
             "cache": {
                 "enable": false
@@ -157,6 +187,7 @@
             // "value": content
         })
     }
+
 
     // doListenerCtrlsAndCommands(doSubmit);
 
@@ -272,28 +303,13 @@
         display: none;
     }
 
-    .w-e-toolbar {
-        background-color: #f6f8fa !important;
-        border-bottom: 1px solid #d1d5da !important;
-        padding: 0 5px;
-        line-height: 1;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .w-e-toolbar .w-e-menu {
-        width: 32px !important;
-        height: 35px !important;
-    }
-
-    .w-e-toolbar .w-e-menu i {
-        color: #586069 !important;
-        font-size: 15px;
-    }
-
     .vditor-wysiwyg pre.vditor-reset:focus {
         outline: none;
         background-color: #fff;
+    }
+
+    .ck-editor__editable_inline {
+        min-height: 500px;
     }
 
 </style>

@@ -260,9 +260,10 @@ body{
     color:#999;
 }
 .ll-copyright{
-    color:#999;
-    font-size:1rem;
-    line-height:1.4rem;
+    color: #999;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    margin-bottom: 0.2rem;
 }
 /*artical*/
 .ll-artical-title{

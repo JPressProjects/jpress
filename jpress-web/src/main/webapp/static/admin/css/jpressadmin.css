@@ -21,6 +21,9 @@ body {
     border:none;
 }
 
+table td{
+    white-space:normal;
+}
 
 .nav-link > .fa-circle{
     font-size: 10px;

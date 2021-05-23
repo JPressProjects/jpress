@@ -8,7 +8,6 @@
     }
 
     function openlayer(title,url) {
-        layer.data = {};
         layer.open({
             type: 2,
             title: title,
@@ -124,13 +123,13 @@
                     <div class="card-header with-border">
                         <form class=" admin-search-panel" action="" method="get">
                             <div class="row">
-                                <div class="form-group col-xs-4">
+                                <div class="form-group col-lg-2">
                                         <input type="text" placeholder="商品" class="form-control" name="productTitle" value="#(productTitle)">
                                 </div>
-                                <div class="form-group col-xs-4">
+                                <div class="form-group col-lg-2">
                                         <input class="form-control" placeholder="订单号" name="ns" value="#(ns)">
                                 </div>
-                                <div class="form-group col-xs-4">
+                                <div class="form-group col-lg-2">
                                     <button type="submit" class="btn btn-primary ">查询</button>
                                     <button type="reset" class="btn btn-default">重置</button>
                                 </div>

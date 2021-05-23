@@ -1,10 +1,16 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
-<script>
-    initEditor('editor1', 200);
-</script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 #end
+
+#define css()
+<style>
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
+</style>
+#end
+
 #define content()
 
     <section class="content-header">

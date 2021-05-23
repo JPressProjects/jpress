@@ -1,11 +1,17 @@
 #@layout()
 
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
-<script>
-initEditor('contenteditor', 300);
-</script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 #end
+
+#define css()
+<style>
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
+</style>
+#end
+
 #define content()
     <section class="content-header">
         <div class="container-fluid">
@@ -66,7 +72,7 @@ initEditor('contenteditor', 300);
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">描述</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" name="group.content" class="form-control" id="contenteditor"
+                                    <textarea rows="5" name="group.content" class="form-control" data-render="ckeditor"
                                               placeholder="会员描述，包括会员的权益、福利等">#EditorContent(group.content ??)</textarea>
                                 </div>
                             </div>

@@ -324,10 +324,15 @@ function initValidate() {
  * 设置 form 的 ajax 自动提交
  */
 function initAjaxSubmitForms() {
+
     $('.autoAjaxSubmit').each(function (key, form) {
         $(form).validate({
             // ignore: ".ignore",
             submitHandler: function (form) {
+
+                if (window.currentCKEditor){
+                    window.currentCKEditor.updateSourceElement();
+                }
 
                 __form = $(form);
 
@@ -383,8 +388,6 @@ function initAjaxSubmitForms() {
                                 location.href = successGoto;
                                 return
                             }
-
-
                         }
                         //fail
                         else {
@@ -787,6 +790,80 @@ function initSlugSpan() {
     })
 }
 
+function initCkEdtiorComponent() {
+    if (typeof ClassicEditor == "undefined") {
+        return;
+    }
+    let index = 0;
+    $('[data-render="ckeditor"]').each(function () {
+        var id = $(this).attr("id");
+        if (!id) {
+            id = "ckeditor" + (index++);
+            $(this).attr("id", id);
+        }
+        initCkEdtior('#' + id);
+    });
+}
+
+
+function initCkEdtior(selector) {
+    ClassicEditor
+        .create(document.querySelector(selector), {
+            toolbar: {
+                items: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    'underline',
+                    'link',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'fontColor',
+                    'fontBackgroundColor',
+                    'outdent',
+                    'indent',
+                    'removeFormat',
+                    '|',
+                    'blockQuote',
+                    'codeBlock',
+                    'imageInsert',
+                    'mediaEmbed',
+                    'insertTable',
+                    '|',
+                    'undo',
+                    'redo'
+                ]
+            },
+            simpleUpload: {
+                uploadUrl: getContextPath() + '/commons/ckeditor5/upload',
+            },
+            language: 'zh-cn',
+            image: {
+                toolbar: [
+                    'imageTextAlternative',
+                    'imageStyle:full',
+                    'imageStyle:side'
+                ]
+            },
+            table: {
+                contentToolbar: [
+                    'tableColumn',
+                    'tableRow',
+                    'mergeTableCells',
+                    'tableProperties'
+                ]
+            },
+        })
+        .then(editor => {
+            window.currentCKEditor = editor;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
 
 $(document).ready(function () {
 
@@ -830,4 +907,6 @@ $(document).ready(function () {
     initDomainSpan();
 
     initSlugSpan();
+
+    initCkEdtiorComponent();
 });

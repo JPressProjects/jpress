@@ -8,7 +8,7 @@ if [[ "$version" == "" ]]; then
 fi
 
 
-mvn clean install
+mvn clean package
 
 
 echo "exec : docker build . -t fuhai/jpress:"${version}

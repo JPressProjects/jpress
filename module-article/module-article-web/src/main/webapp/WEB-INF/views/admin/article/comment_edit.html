@@ -1,10 +1,16 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
-<script>
-    initEditor('editor1', 200);
-</script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 #end
+
+#define css()
+<style>
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
+</style>
+#end
+
 #define content()
 
     <section class="content-header">
@@ -33,7 +39,7 @@
                                 <label class="col-sm-2 col-form-label">内容</label>
 
                                 <div class="col-sm-8">
-                                     <textarea id="editor1" name="comment.content"
+                                     <textarea id="editor1" data-render="ckeditor" name="comment.content"
                                                style="height: 200px;width: 100%;background-color: white">#(comment.content ??)</textarea>
                                 </div>
                             </div>
@@ -52,12 +58,9 @@
 
                                 <div class="col-sm-6">
                                     <select class="form-control" name="comment.status">
-                                        <option value="normal" #selectedIf(comment.status==
-                                        'normal')>正常</option>
-                                        <option value="unaudited" #selectedIf(comment.status==
-                                        'unaudited')>冻结</option>
-                                        <option value="trash" #selectedIf(comment.status==
-                                        'trash')>垃圾箱</option>
+                                        <option value="normal" #selectedIf(comment.status=='normal')>正常</option>
+                                        <option value="unaudited" #selectedIf(comment.status=='unaudited')>冻结</option>
+                                        <option value="trash" #selectedIf(comment.status=='trash')>垃圾箱</option>
                                     </select>
                                 </div>
 
@@ -89,7 +92,7 @@
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
-                                           name="web_ipc_no" value="#(comment.created ??)">
+                                           name="web_ipc_no" value="#date(comment.created ??)">
                                 </div>
                             </div>
 

@@ -1,8 +1,7 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script>
-    initEditor('contentEditor', 200);
 
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
@@ -42,6 +41,10 @@
 
     .comment-content p {
         display: inline;
+    }
+
+    .ck-editor__editable_inline {
+        min-height: 300px;
     }
 
 </style>
@@ -104,7 +107,7 @@
                                 </ul>
 
                                 <div class="">
-                                    <textarea id="contentEditor" name="content"
+                                    <textarea id="contentEditor" data-render="ckeditor"  name="content"
                                               style="height: 200px;width: 100%;background-color: white"></textarea>
                                 </div>
 

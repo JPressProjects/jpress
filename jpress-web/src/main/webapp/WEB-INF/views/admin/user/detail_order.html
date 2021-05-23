@@ -7,15 +7,15 @@
 <div class="card-header with-border">
     <form class=" admin-search-panel" action="" method="get">
         <div class="row">
-            <div class="form-group col-xs-5">
+            <div class="form-group col-lg-3">
                     <input type="text" placeholder="商品" class="form-control" name="productTitle" value="#para('productTitle')">
             </div>
-            <div class="form-group col-xs-5">
+            <div class="form-group col-lg-3">
                     <input  type="text" placeholder="订单号" class="form-control" name="ns" value="#para('ns')">
             </div>
-            <div class="form-group col-xs-2">
+            <div class="form-group col-lg-3">
                 <button type="submit" class="btn btn-primary ">查询</button>
-                <button ype="reset" class="btn btn-default">重置</button>
+                <button type="reset" class="btn btn-default">重置</button>
             </div>
         </div>
         <!-- /.card-body -->
@@ -24,7 +24,7 @@
 
 </div>
 <!-- /.card-header -->
-<div class="card-body">
+<div class="card-body p-0">
 
     <table class="table table-striped">
         <tbody>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <table class="table table-striped">
                             <tbody>
                             #for(item : order.items)

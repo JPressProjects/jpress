@@ -171,6 +171,9 @@ table a{
     border-bottom: 1px solid #eee;
     font-size: 18px;
 }
+.form-header span{
+    font-size: 0.8rem;
+}
 
 .form-table-header {
     padding-bottom: 9px;
@@ -337,7 +340,7 @@ label:not(.form-check-label):not(.custom-file-label){
         flex: 0 0 80%;
     }
     .fileinput-button{
-        width: 120px;
+        width: 160px;
     }
 }
 @media all and (max-width: 768px){

@@ -241,8 +241,9 @@ function initBackButton() {
 function initDatePicker() {
     // git https://github.com/t1m0n/air-datepicker
     // doc http://t1m0n.name/air-datepicker/docs/
-    if ($.datepicker) {
+    if ($().datepicker) {
         $('.date,.datetime,.datetimepicker,.datepicker,[data-render="date"]').each(function () {
+            $(this).attr("autocomplete","off");
             var timepicker = $(this).hasClass('datetime') || $(this).hasClass('datetimepicker');
             $(this).datepicker({
                 language: 'zh',

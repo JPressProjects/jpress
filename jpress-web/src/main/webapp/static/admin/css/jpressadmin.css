@@ -328,3 +328,21 @@ label:not(.form-check-label):not(.custom-file-label){
     color:#999;
     line-height: 1.2em;
 }
+
+.datepicker--day-name {
+    color: #007bff;
+}
+
+.datepicker--cell.-current- {
+    color: #007bff;
+    font-weight: 700;
+}
+
+.datepicker--cell.-selected-, .datepicker--cell.-selected-.-current- {
+    color: #fff;
+    background: #007bff;
+}
+ .datepicker--cell.-selected-.-focus-{
+    color: #fff;
+    background: #007bff;
+}

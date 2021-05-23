@@ -302,9 +302,10 @@ a.card-link:hover{
     color:#666;
 }
 .cl-copyright{
-    color:#666;
-    font-size:14px;
-    line-height:0.8em;
+    color: #999;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    margin-bottom: 0.2rem;
 }
 /*artical*/
 .cl-artical-title{

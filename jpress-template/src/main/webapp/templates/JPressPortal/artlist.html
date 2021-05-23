@@ -5,11 +5,13 @@
 
     #articlePage()
     #for(article : articlePage.list)
-    <a class="cl-list-item" href="#(article.url ??)">
+
         <div class="row bl-list-card">
             <div class="col-md-9 col-sm-12 bl-card-content">
                 <h3 class="bl-content-title">
+                    <a href="#(article.url ??)">
                     #(article.title ??)
+                    </a>
                 </h3>
                 <p class="bl-content-info">
                     #maxLength(article.text,100)
@@ -29,7 +31,7 @@
                 <img src="#(article.thumbnail ?? 'img/default-img.jpg')" class="img-fluid" alt="">
             </div>
         </div>
-    </a>
+
     #end
 
 

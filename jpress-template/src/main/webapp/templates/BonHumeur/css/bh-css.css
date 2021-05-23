@@ -86,7 +86,7 @@ a:hover{
     display: inline-block;
     padding-right:1rem;
     color:#999;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 300;
 }
 .bh-card-tag>div>img{
@@ -103,7 +103,7 @@ a:hover{
 .bh-card .bh-card-main-info{
     color:#666;
     margin-top:1rem;
-    font-size:1.1rem;
+    font-size:1rem;
     font-weight: 300;
 }
 .bh-card a{
@@ -114,8 +114,8 @@ a:hover{
     background-color: #f2f2f2;
 }
 .bh-card-main-title{
-    font-size:1.6rem;
-    font-weight: 600;
+    font-size:1.2rem;
+    font-weight: 400;
     color:#333;
 }
 .bh-more{
@@ -185,14 +185,18 @@ a:hover{
     color: #107AB1;
 }
 /*artical*/
+.comment-page-title{
+    font-size: 1rem;
+}
 .bh-artical-content{
     padding:0 60px;
 }
 .bh-artical-title{
     margin:3rem 0 1rem 0;
-    font-size: 2.4rem;
-    color: #333;
-    font-weight: 600;
+    font-size: 1.4rem;
+    color: #27282d;
+    font-weight: 400;
+    line-height: 1.4em;
 }
 .bh-artical h1,.bh-artical h2,.bh-artical h3,.bh-artical h4,.bh-artical h5{
     padding:1.5rem 0 0.5rem 0;
@@ -200,23 +204,23 @@ a:hover{
 }
 
 .bh-artical h1{
-    font-size:2.4rem;
+    font-size:1.4rem;
     color:#c7254e;
 }
 .bh-artical h2{
-    font-size:2.2rem;
+    font-size:1.2rem;
 }
 .bh-artical h3{
-    font-size:2rem;
+    font-size:1rem;
 }
 .bh-artical h4{
-    font-size:1.75rem;
+    font-size:1rem;
 }
 .bh-artical h5{
-    font-size:1.5rem;
+    font-size:1rem;
 }
 .bh-artical h6{
-    font-size:1.2rem;
+    font-size:1rem;
 }
 .bh-artical ul,.bh-artical ol,.bh-artical li{
     font-size:1.2rem;
@@ -252,11 +256,12 @@ a:hover{
 }
 .bh-artical p{
     padding:0.5rem 0;
-    line-height: 1.8rem;
-    font-size: 1.2rem;
-    color: #666;
+    line-height: 1.4rem;
+    font-size: 1rem;
+    color: #27282d;
     margin-bottom:1rem;
     font-weight: 400;
+
 }
 .bh-content-info {
     color: #999;

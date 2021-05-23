@@ -597,6 +597,12 @@ a.nav-prand:hover{
         border-top-right-radius: .25rem!important;
         border-bottom-left-radius: 0!important;
     }
+    .bl-header .navbar-dark .navbar-nav .active>.nav-link, .bl-header .navbar-dark .navbar-nav .nav-link.active{
+        color: rgba(255,255,255,.5);
+    }
+    .bl-header .navbar-dark .navbar-nav .navbar-nav .nav-link{
+        color: rgba(255,255,255,.5);
+    }
 }
 /*artical*/
 .bl-artical-title{

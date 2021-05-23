@@ -173,6 +173,7 @@ a:hover{
     font-weight: bold;
 }
 /*header*/
+
 .bh-header{
     padding:20px 20px 20px 60px;
 }
@@ -182,7 +183,6 @@ a:hover{
 }
 .bh-header a.active{
     color: #107AB1;
-    font-weight: bold;
 }
 /*artical*/
 .bh-artical-content{
@@ -307,6 +307,12 @@ a:hover{
         padding:0 0 0 360px;
     }
 }
+@media (max-width: 768px) {
+    .jpress-nav{
+        box-shadow: 0 0.05rem 0.4rem rgba(48 48 48 / 10%);
+    }
+}
+
 @media (max-width: 576px) {
     .bh-sidebar{
         height: auto;

@@ -151,14 +151,17 @@ body{
         float: none;
         width: 100%;
     }
-
+    .ll-nav{
+        box-shadow: 0 0.05rem 0.4rem rgba(48 48 48 / 10%);
+    }
 
     .ll-nav .navbar-nav{
         background-color: #fff;
-        opacity: .9;
-        filter:alpha(opacity=90);
+        opacity: .95;
+        filter:alpha(opacity=95);
         margin-top:0.5rem;
-        width: 40%;
+        width: 100%;
+
     }
     .ll-nav .navbar-nav .nav-item{
         font-size:1rem;
@@ -166,6 +169,9 @@ body{
 
     }
     .ll-nav .navbar-nav .nav-item a{
+        color:#666;
+    }
+    .ll-nav .navbar-nav .nav-item a.active{
         color:#666;
     }
 

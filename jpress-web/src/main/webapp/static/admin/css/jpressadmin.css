@@ -361,3 +361,21 @@ label:not(.form-check-label):not(.custom-file-label){
         margin-bottom:10px;
     }
 }
+
+.datepicker--day-name {
+    color: #007bff;
+}
+
+.datepicker--cell.-current- {
+    color: #007bff;
+    font-weight: 700;
+}
+
+.datepicker--cell.-selected-, .datepicker--cell.-selected-.-current- {
+    color: #fff;
+    background: #007bff;
+}
+.datepicker--cell.-selected-.-focus-{
+    color: #fff;
+    background: #007bff;
+}

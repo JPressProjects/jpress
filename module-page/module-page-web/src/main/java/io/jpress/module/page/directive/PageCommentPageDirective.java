@@ -30,6 +30,7 @@ import io.jpress.commons.directive.DirectveKit;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.model.SinglePageComment;
 import io.jpress.module.page.service.SinglePageCommentService;
+import io.jpress.web.handler.JPressHandler;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,11 +48,19 @@ public class PageCommentPageDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Controller controller = JbootControllerContext.get();
+        int page = 1;
+        String target = StrUtil.urlDecode(JPressHandler.getCurrentTarget());
+        if (target.contains("-")) {
+            int indexOf = target.lastIndexOf('-');
+            String pageString = target.substring(indexOf + 1);
+            if (StrUtil.isNotBlank(pageString) && StrUtil.isNumeric(pageString)) {
+                page = Integer.valueOf(pageString);
+            }
+        }
 
-        int page = controller.getParaToInt(1, 1);
         int pageSize = getParaToInt("pageSize", scope, 10);
 
+        Controller controller = JbootControllerContext.get();
         SinglePage singlePage = controller.getAttr("page");
         if (singlePage != null) {
             Page<SinglePageComment> articlePage = service.paginateByPageIdInNormal(page, pageSize, singlePage.getId());

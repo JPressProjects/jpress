@@ -94,6 +94,8 @@ function initLayerComponent() {
             skin: 'layer-ext-jpress'
         });
 
+        layer.data = {};
+
         $("[open-type='layer']").each(function () {
             if ($(this).tagName == 'input' || $(this).tagName == 'textarea') {
                 $(this).on("focus", function (event) {
@@ -111,7 +113,7 @@ function initLayerComponent() {
 }
 
 function _initLayerByComponent(component) {
-    layer.data = null;
+    layer.data = {};
     var dataset = component.data();
     var options = {
         type: dataset.layerType || 2,
@@ -124,7 +126,7 @@ function _initLayerByComponent(component) {
         end: function () {
 
             // 数据绑定
-            if (layer.data && dataset.layerBinds) {
+            if (layer.data && Object.keys(layer.data).length > 0 && dataset.layerBinds) {
                 var bindArrays = dataset.layerBinds.split(",");
                 var i = 0;
                 for (; i < bindArrays.length; i++) {

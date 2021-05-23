@@ -5,7 +5,7 @@
 
 #end
 <div class="card-header with-border">
-    <form class=" admin-search-panel" action="#(CPATH)/admin/user/detail/order/#(user.id)" method="get">
+    <form class=" admin-search-panel" action="" method="get">
         <div class="row">
             <div class="form-group col-xs-5">
                     <input type="text" placeholder="商品" class="form-control" name="productTitle" value="#para('productTitle')">
@@ -15,7 +15,7 @@
             </div>
             <div class="form-group col-xs-2">
                 <button type="submit" class="btn btn-primary ">查询</button>
-                <a href="#(CPATH)/admin/user/detail/order/#(user.id)" type="reset" class="btn btn-default">重置</a>
+                <button ype="reset" class="btn btn-default">重置</button>
             </div>
         </div>
         <!-- /.card-body -->

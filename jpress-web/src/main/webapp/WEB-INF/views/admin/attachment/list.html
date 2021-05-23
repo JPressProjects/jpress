@@ -47,7 +47,7 @@
             anim: 2,
             shadeClose: true,
             shade: 0.6,
-            area: ['90%', '90%'],
+            area: ['80%', '60%'],
             content: '#(CPATH)/admin/attachment/detail/' + id,
             end: function () {
                 if (layer.data.needReload == true) {
@@ -98,7 +98,7 @@
         <div class="container-fluid">
                 <div class="card card-outline card-primary">
                     <div class="card-header with-border">
-                        <form class=" admin-search-panel" action="#(CPATH)/admin/attachment" method="get">
+                        <form class="admin-search-panel" action="" method="get">
                             <div class="row">
                                 <div class="form-group col-lg-2">
                                         <input type="text" placeholder="标题" class="form-control" name="title" value="#para('title')">

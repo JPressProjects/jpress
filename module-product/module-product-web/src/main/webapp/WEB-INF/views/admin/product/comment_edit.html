@@ -1,18 +1,8 @@
 #@layout()
 #define css()
-#@layout_css?()
-<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
-#end
 #define script()
 #@layout_script?()
-<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <script>
-    $("input[hint='date']").datepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-CN'
-    });
-
     function doSubmit() {
         ajaxSubmit("#form", function (data) {
             $("#entryId").attr("value", data.id);

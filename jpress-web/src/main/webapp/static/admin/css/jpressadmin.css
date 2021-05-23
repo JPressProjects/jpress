@@ -328,3 +328,33 @@ label:not(.form-check-label):not(.custom-file-label){
     color:#999;
     line-height: 1.2em;
 }
+@media all and (min-width: 768px) {
+    .person-leftar {
+        max-width: 20%;
+    }
+    .person-rightbar{
+        max-width: 80%;
+        flex: 0 0 80%;
+    }
+    .fileinput-button{
+        width: 120px;
+    }
+}
+@media all and (max-width: 768px){
+    .col-form-label{
+        justify-content: start;
+    }
+    .person-rightbar{
+        margin-top:20px;
+    }
+    .checkout-table .address-lable{
+        width: 100%;
+    }
+    .checkout-table .group-line{
+        margin-left:0;
+        width: 100%;
+    }
+    .fileinput-button{
+        margin-bottom:10px;
+    }
+}

@@ -158,8 +158,8 @@ a:hover{
 .cl-card-main-title{
     height: 1.6rem;
     overflow: hidden;
-    font-size:1.4rem;
-    font-weight: 500;
+    font-size:1.2rem;
+    font-weight: 400;
 
 
 }
@@ -180,7 +180,7 @@ a.card-link:hover{
 }
 
 .cl-card-main-info{
-    font-size:1rem;
+    font-size:0.9rem;
     opacity: 0.8;
     height: 3rem;
     overflow: hidden;
@@ -223,7 +223,7 @@ a.card-link:hover{
 .right-card-title{
     font-size:1rem;
     color:#333;
-    font-weight: 500;
+    font-weight: 400;
     padding:10px 0 5px 10px;
 }
 .cl-code p{
@@ -255,6 +255,13 @@ a.card-link:hover{
     line-height:40px;
     overflow: hidden;
     font-weight: 300;
+}
+.cl-code button{
+    border:1px solid #27282d;
+    font-size: 0.9rem;
+    padding: 3px 6px;
+    border-radius: 5px;
+
 }
 /*label*/
 .label{
@@ -302,8 +309,9 @@ a.card-link:hover{
 /*artical*/
 .cl-artical-title{
     padding:20px 0 0 0;
-    font-size: 1.8rem;
-    font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.4em;
 
 }
 .cl-card-tag{
@@ -315,16 +323,16 @@ a.card-link:hover{
     padding:1.5rem 0 0.5rem 0;
 }
 .cl-artical h1{
-    font-size:2rem;
+    font-size:1.4rem;
 }
 .cl-artical h2{
-    font-size:1.75rem;
+    font-size:1.2rem;
 }
 .cl-artical h3{
-    font-size:1.5rem;
+    font-size:1rem;
 }
 .cl-artical h4{
-    font-size:1.25rem;
+    font-size:1rem;
 }
 .cl-artical h5{
     font-size:1rem;
@@ -350,7 +358,7 @@ a.card-link:hover{
 }
 .cl-artical ul,.cl-artical ol,.cl-artical li{
     font-size:1rem;
-    color:#666;
+    color:#27282d;
 }
 .cl-artical blockquote span{
     font-size:36px
@@ -366,9 +374,12 @@ a.card-link:hover{
     padding:0.5rem 0;
     line-height: 1.8rem;
     font-size: 1rem;
-    color: #666;
+    color: #27282d;
     margin-bottom:1rem;
-    font-weight: 400;
+    font-weight: 300;
+}
+.comment-page-title{
+    font-size: 1rem;
 }
 .cl-content-info{
     color:#999;

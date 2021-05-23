@@ -10,19 +10,21 @@
 
     <div class="ll-card">
         <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-12 ll-card-image">
+            <div class="col-lg-3 col-md-3 col-sm-12 ll-card-image">
                 <a href="#">
                     <img src="#(article.thumbnail ?? 'img/default-img.jpg')" class="img-fluid" alt="#(article.title ??)">
                 </a>
             </div>
-            <div class="col-lg-10 col-md-9 col-sm-12 ll-card-main">
+            <div class="col-lg-9 col-md-9 col-sm-12 ll-card-main">
                 <a href="#(article.url ??)">
-                    <h3 class="ll-card-main-title">
-                        #(article.title ??)
-                    </h3>
-                    <p class="ll-card-main-info">
-                        #maxLength(article.text,100)
-                    </p>
+                    <div>
+                        <h3 class="ll-card-main-title">
+                            #(article.title ??)
+                        </h3>
+                        <p class="ll-card-main-info">
+                            #maxLength(article.text,100)
+                        </p>
+                    </div>
                     <div class="ll-card-tag">
                         <div><i class="fa fa-clock-o"></i>#date(article.created)</div>
                         <div><i class="fa fa-eye"></i>#(article.view_count)</div>

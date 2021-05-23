@@ -2,11 +2,9 @@
 #@user_msg_layout("email")
 
 #define layout_script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script>
-
-    initEditor('contenteditor', 300);
 
     var $select = $('.article-tags').selectize({
         plugins: ['remove_button'],
@@ -35,6 +33,11 @@
 #define layout_css()
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<style>
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
+</style>
 #end
 
 #define detail()
@@ -84,7 +87,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">内容</label>
             <div class="col-sm-8">
-             <textarea rows="5" name="content" class="form-control" id="contenteditor"></textarea>
+             <textarea rows="5" name="content" class="form-control" id="contenteditor" data-render="ckeditor" ></textarea>
             </div>
         </div>
 

@@ -1,8 +1,7 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script>
-    initEditor('editor1', 200);
 
     function doChangeStatus(id, status) {
         ajaxGet("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status)
@@ -41,6 +40,9 @@
 
     .comment-content p {
         display: inline;
+    }
+    .ck-editor__editable_inline {
+        min-height: 300px;
     }
 
 </style>
@@ -103,7 +105,7 @@
                                 </ul>
 
                                 <div class="">
-                                    <textarea id="editor1" name="content"
+                                    <textarea id="editor1" name="content" data-render="ckeditor"
                                               style="height: 200px;width: 100%;background-color: white"></textarea>
                                 </div>
 

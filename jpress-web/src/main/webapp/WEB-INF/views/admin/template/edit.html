@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
 <style>
     #editor {
-        height: 500px;
+        height: 800px;
     }
 
     .table > tbody > tr > th {
@@ -21,15 +21,15 @@
         border-top: 1px solid #ddd;
     }
 
-    .ace-eclipse .ace_gutter {
-        background: #f7f7f7;
-        border-right: 1px solid rgb(159, 159, 159);
-        color: rgb(82, 82, 82);
-    }
+    /*.ace-eclipse .ace_gutter {*/
+    /*    background: #f7f7f7;*/
+    /*    border-right: 1px solid rgb(159, 159, 159);*/
+    /*    color: rgb(82, 82, 82);*/
+    /*}*/
 
-    .ace-eclipse .ace_gutter-active-line {
-        background-color: #b3b3b3;
-    }
+    /*.ace-eclipse .ace_gutter-active-line {*/
+    /*    background-color: #b3b3b3;*/
+    /*}*/
 
 </style>
 #end
@@ -42,8 +42,22 @@
 #if(!isImage(f))
 <script>
 
+    // trigger extension
+    // ace.require("ace/ext/language_tools");
+    // var editor = ace.edit("editor");
+    // editor.session.setMode("ace/mode/html");
+    // editor.setTheme("ace/theme/tomorrow");
+    // // enable autocompletion and snippets
+    // editor.setOptions({
+    //     enableBasicAutocompletion: true,
+    //     enableSnippets: true,
+    //     enableLiveAutocompletion: false
+    // });
+
+    // ace.require("ace/ext/language_tools");
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/eclipse");
+    // editor.setTheme("ace/theme/tomo/rrow");
 
     var editFileName = $("#editor").attr("for-filename");// "index.html";
     var model = "ace/mode/html";
@@ -55,7 +69,13 @@
     } else if (editFileName.indexOf(".xml") != -1) {
         model = "ace/mode/xml";
     }
+
     editor.session.setMode(model);
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false
+    });
 
     function doSubmit() {
         $("#fileContent").attr("value", editor.getSession().getValue());
@@ -65,7 +85,7 @@
         return false;
     }
 
-    doListenerCtrlsAndCommands(doSubmit);
+    // doListenerCtrlsAndCommands(doSubmit);
 
 </script>
 #end
@@ -178,7 +198,7 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form class="" autocomplete="off">
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             <div class="form-group row">
                                 <div class="col-sm-12">
 
@@ -187,7 +207,7 @@
                                         #if(parentDir != null)
                                         <tr>
                                             <th>
-                                                <a href="#(CPATH)/admin/template/edit?d=#(parentDir)"> .. </a>（上级目录）
+                                                <a href="#(CPATH)/admin/template/edit?d=#(parentDir)"> .. （上级目录）</a>
                                             </th>
                                         </tr>
                                         #end
@@ -198,17 +218,16 @@
                                                 #if(file.isDir())
                                                 #if(d != null)
                                                 <a href="#(CPATH)/admin/template/edit?d=#(d)/#(file.name ??)">
-                                                    #(file.name ??)
+                                                    <i class="fas fa-folder"></i> #(file.name ??)
                                                 </a>
                                                 #else
                                                 <a href="#(CPATH)/admin/template/edit?d=#(file.name ??)">
-                                                    #(file.name ??)
+                                                    <i class="fas fa-folder"></i> #(file.name ??)
                                                 </a>
                                                 #end
-                                                [目录]
                                                 #else
                                                 <a href="#(CPATH)/admin/template/edit?d=#(d ??)&f=#(file.name ??)">
-                                                    #(file.name ??)
+                                                    <i class="far fa-file"></i> #(file.name ??)
                                                 </a>
                                                 #if(file.name == f)
                                                 （#(isImage(f) ? '预览中...' : '编辑中...')）

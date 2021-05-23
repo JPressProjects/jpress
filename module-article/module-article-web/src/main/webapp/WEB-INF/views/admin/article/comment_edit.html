@@ -5,13 +5,52 @@
     initEditor('editor1', 200);
 </script>
 #end
+#define css()
+<style>
+    textarea{
+        height: 200px;
+        width: 100%;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        line-height: 1.5;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        color: #495057;
+    }
+    textarea:focus{
+        border-color: #80bdff;
+    }
+    textarea:focus-visible{
+        outline: none;
+        border-color: #80bdff;
+    }
+</style>
+#end
 #define content()
 
     <section class="content-header">
-        <h1>
-            评论编辑
-            <small>Comment Edit</small>
-        </h1>
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                评论编辑
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 评论 / 编辑</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+
     </section>
 
     <section class="content">
@@ -33,8 +72,7 @@
                                 <label class="col-sm-2 col-form-label">内容</label>
 
                                 <div class="col-sm-8">
-                                     <textarea id="editor1" name="comment.content"
-                                               style="height: 200px;width: 100%;background-color: white">#(comment.content ??)</textarea>
+                                     <textarea id="editor1" name="comment.content">#(comment.content ??)</textarea>
                                 </div>
                             </div>
 

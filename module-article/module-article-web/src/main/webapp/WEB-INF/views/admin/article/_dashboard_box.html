@@ -19,6 +19,11 @@
     .comment-content p {
         display: inline;
     }
+
+    table td a{
+        color:#007bff;
+    }
+
 </style>
 
 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -32,7 +37,7 @@
                 <tbody>
                 #for(article : articles)
                 <tr>
-                    <td style="width: 130px">#date(article.created ??)</td>
+                    <td style="width: 150px">#date(article.created ??)</td>
                     <td><a href="#(article.url ??)" target="_blank">#(article.title ??)</a></td>
                 </tr>
                 #end
@@ -56,15 +61,12 @@
                         <div class="post">
                             <div class="user-block">
                                 <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
-                                <span class="username">
-                                      <a href="#(CPATH)/admin/user/detail/#(comment.user.id ??)">#(comment.author ??)</a>
-                                    </span>
+                                <span class="username"><a href="#(CPATH)/admin/user/detail/#(comment.user.id ??)">#(comment.author ??)</a></span>
                                 <span class="description">#date(comment.created) -  来至对文章
-                                    <a href="#(comment.article.url ??)"
-                                       target="_blank">《#(comment.article.title ??)》</a> 的评论
+                                    <a href="#(comment.article.url ??)" target="_blank">《#(comment.article.title ??)》</a> 的评论
                                 </span>
                             </div>
-                            <div class="comment-content">
+                            <div class="comment-content" style="color:#333;">
                                 #(comment.content ??)
                                 #if(!comment.isNormal()) <strong style="color: #000">（#(comment.statusString)）</strong>
                                 #end

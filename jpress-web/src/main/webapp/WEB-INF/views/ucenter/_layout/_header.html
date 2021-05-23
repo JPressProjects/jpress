@@ -30,19 +30,19 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-header">购物车列表</span>
+<!--                    <span class="dropdown-header">购物车列表</span>-->
                     <div class="dropdown-divider"></div>
                     #for(userCart : USER_CARTS)
                     <a href="javascript:;" class="dropdown-item">
                         <div class="media">
                             #if(userCart.product_thumbnail)
-                            <img src="#(userCart.product_thumbnail)" class="img-size-50 mr-3 img-circle">
+                            <img src="#(userCart.product_thumbnail)" class="img-size-50 mr-3">
                             #end
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     #maxLength(userCart.product_title ??,16,'...')
                                 </h3>
-                                <p class="text-sm">#maxLength(userCart.product_summary ??,20,'...')</p>
+                                <p class="cart-description">#maxLength(userCart.product_summary ??,14,'...')</p>
                             </div>
                         </div>
                     </a>

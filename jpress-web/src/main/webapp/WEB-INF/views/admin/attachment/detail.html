@@ -2,12 +2,19 @@
 
 #define css()
 <style>
-    .jp-group .col-form-label {
-        text-align: right;
+    .jp-group{
+        align-items: center;
+    }
+    .jp-group p{
+        color:#666;
     }
 
-    .jp-block {
+    .jp-block{
         padding-top: 10px;
+    }
+    .attachment-panel img{
+        border-radius: 5px;
+
     }
 </style>
 #end
@@ -43,9 +50,9 @@
 
 #define content()
 
-<div class="row">
-    <div class="col-xs-7" style="background: #ffffff" id="image-card">
-        <div class="row">
+<div class="row attachment-main" style="padding:20px;margin:0;">
+    <div class="col-5" id="image-card">
+        <div class="row attachment-panel">
 
             #if(attachment.isImage())
             <img src="#(CPATH)#(attachment.path ??)" style="width: 100%">
@@ -76,62 +83,76 @@
         </div>
     </div>
 
-    <div class="col-xs-5" style="background: #efefef" id="image-info">
-        <div class="row">
+    <div class="col-7" id="image-info" style="padding-left:20px;">
+
 
             <div class="jp-block">
                 <div class="row jp-group">
-                    <label class="col-sm-3 col-form-label">文件名</label>
+                    <label class="col-2">文件名</label>
+                    <p class="col-10">
                     #(attachment.title ??)
+                    </p>
                 </div>
                 <div class="row jp-group">
-                    <label class="col-sm-3 col-form-label">文件类型</label>
+                    <label class="col-2 ">文件类型</label>
+                    <p class="col-10">
                     #(attachment.mime_type ??)（#(attachment.suffix ??)）
+                    </p>
                 </div>
 
                 <div class="row jp-group">
-                    <label class="col-sm-3 col-form-label">上传于</label>
+                    <label class="col-2 ">上传于</label>
+                    <p class="col-10">
                     #(attachment.created ??)
+                    </p>
                 </div>
 
                 <div class="row jp-group">
-                    <label class="col-sm-3 col-form-label">文件大小</label>
+                    <label class="col-2 ">文件大小</label>
+                    <p class="col-10">
                     #(attachmentSize ??)
+                    </p>
                 </div>
 
                 <div class="row jp-group">
-                    <label class="col-sm-3 col-form-label">分辨率</label>
+                    <label class="col-2">分辨率</label>
+                    <p class="col-10">
                     #(attachmentRatio ??)
+                    </p>
                 </div>
 
             </div>
 
-            <div style="margin: 20px">
+            <div>
                 <form action="#(CPATH)/admin/attachment/doUpdate" id="form">
                     <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
-                    <div class="form-group row">
-                        <label>URL</label>
-                        <textarea class="form-control" rows="2" readonly>#(CPATH)#(attachment.path ??)</textarea>
+                    <div class="form-group row jp-group">
+                        <label class="col-2">URL</label>
+                        <textarea class="form-control col-10" rows="2" readonly>#(CPATH)#(attachment.path ??)</textarea>
                     </div>
 
-                    <div class="form-group row">
-                        <label>文件名</label>
-                        <input type="text" class="form-control" name="attachment.title" value="#(attachment.title ??)">
+                    <div class="form-group row jp-group">
+                        <label class="col-2">文件名</label>
+                        <input type="text" class="form-control col-10" name="attachment.title" value="#(attachment.title ??)">
                     </div>
 
-                    <div class="form-group row">
-                        <label>描述</label>
-                        <textarea class="form-control" rows="3" name="attachment.description">#(attachment.description ??)</textarea>
+                    <div class="form-group row jp-group">
+                        <label class="col-2">描述</label>
+                        <textarea class="form-control col-10" rows="3" name="attachment.description">#(attachment.description ??)</textarea>
                     </div>
                 </form>
             </div>
 
-            <div style="padding: 20px">
-                <a href="javascript:;" onclick="update()">保存</a>
-                <span>|</span>
-                <a href="javascript:;" onclick="del('#(attachment.id ??)')" style="color: #a00">彻底删除</a>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-10">
+                    <a href="javascript:;" onclick="update()">保存</a>
+                    <span>|</span>
+                    <a href="javascript:;" onclick="del('#(attachment.id ??)')" style="color: #a00">彻底删除</a>
+                </div>
+
             </div>
-        </div>
+
     </div>
 </div>
 

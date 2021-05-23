@@ -21,6 +21,9 @@ body {
     border:none;
 }
 
+table td{
+    white-space:normal;
+}
 
 .nav-link > .fa-circle{
     font-size: 10px;
@@ -315,4 +318,13 @@ label:not(.form-check-label):not(.custom-file-label){
     width: 100%;
     display: flex;
     justify-content: center;
+}
+.dropdown-item-title{
+    font-size: 14px;
+    line-height: 1.6em;
+}
+.cart-description{
+    font-size: 12px;
+    color:#999;
+    line-height: 1.2em;
 }

@@ -316,3 +316,12 @@ label:not(.form-check-label):not(.custom-file-label){
     display: flex;
     justify-content: center;
 }
+.dropdown-item-title{
+    font-size: 14px;
+    line-height: 1.6em;
+}
+.cart-description{
+    font-size: 12px;
+    color:#999;
+    line-height: 1.2em;
+}

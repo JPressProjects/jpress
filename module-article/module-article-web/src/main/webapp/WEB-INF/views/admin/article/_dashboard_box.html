@@ -19,6 +19,11 @@
     .comment-content p {
         display: inline;
     }
+    table td{
+        white-space:pre-line;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
 </style>
 
 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -32,7 +37,7 @@
                 <tbody>
                 #for(article : articles)
                 <tr>
-                    <td style="width: 130px">#date(article.created ??)</td>
+                    <td style="width: 150px">#date(article.created ??)</td>
                     <td><a href="#(article.url ??)" target="_blank">#(article.title ??)</a></td>
                 </tr>
                 #end

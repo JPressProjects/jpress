@@ -21,15 +21,9 @@
         border-top: 1px solid #ddd;
     }
 
-    /*.ace-eclipse .ace_gutter {*/
-    /*    background: #f7f7f7;*/
-    /*    border-right: 1px solid rgb(159, 159, 159);*/
-    /*    color: rgb(82, 82, 82);*/
-    /*}*/
 
-    /*.ace-eclipse .ace_gutter-active-line {*/
-    /*    background-color: #b3b3b3;*/
-    /*}*/
+    #editor *{ font-family : monospace !important;font-size: 14px !important;direction:ltr !important;text-align:left !important;}
+
 
 </style>
 #end
@@ -42,22 +36,8 @@
 #if(!isImage(f))
 <script>
 
-    // trigger extension
-    // ace.require("ace/ext/language_tools");
-    // var editor = ace.edit("editor");
-    // editor.session.setMode("ace/mode/html");
-    // editor.setTheme("ace/theme/tomorrow");
-    // // enable autocompletion and snippets
-    // editor.setOptions({
-    //     enableBasicAutocompletion: true,
-    //     enableSnippets: true,
-    //     enableLiveAutocompletion: false
-    // });
-
-    // ace.require("ace/ext/language_tools");
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/eclipse");
-    // editor.setTheme("ace/theme/tomo/rrow");
 
     var editFileName = $("#editor").attr("for-filename");// "index.html";
     var model = "ace/mode/html";

@@ -62,29 +62,30 @@
     <section class="content">
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
 
                 <div class="card card-outline card-primary">
 
                     <div class="card-body card-profile">
                         #if(focus == "email")
-                        <h3 class="profile-username text-center" style="font-size: 60px;color: #444;"><i class="fa fa-fw fa-envelope-o"></i></h3>
+                        <h3 class="profile-username text-center" style="font-size: 60px;color: #444;"><i class="fa fa-fw fa-sign-out-alt"></i></h3>
                         <p class="text-muted text-center">发邮件</p>
                         #elseif(focus == "sms")
-                        <h3 class="profile-username text-center" style="font-size: 60px;color: #444;"><i class="fa fa-fw fa-file-text-o"></i></h3>
+                        <h3 class="profile-username text-center" style="font-size: 60px;color: #444;"><i class="fa fa-fw fa-external-link-alt"></i></h3>
                         <p class="text-muted text-center">发短信</p>
                         #else
-                        <h3 class="profile-username text-center" style="font-size: 60px;color: #444;"><i class="fa fa-fw fa-wechat"></i></h3>
+                        <h3 class="profile-username text-center" style="font-size: 60px;color: #444;"><i class="fa fa-fw fa-comments"></i></h3>
                         <p class="text-muted text-center">模板消息</p>
                         #end
                     </div>
 
 
                     <div class="card-body">
-                        <ul class="nav nav-pills nav-stacked" style="border-top: 1px solid #eee;" id="nav">
-                            <li id="email"><a href="#(CPATH)/admin/user/sendMsg"><i class="fa fa-fw fa-envelope"></i> 发邮件</a></li>
-                            <li id="sms"><a href="#(CPATH)/admin/user/sendMsg/sms"><i class="fa fa-fw fa-file-text"></i> 发短信</a></li>
-                            <li id="wechat"><a href="#(CPATH)/admin/user/sendMsg/wechat"><i class="fa fa-fw fa-wechat"></i> 发微信</a></li>
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                            data-accordion="false" style="border-top: 1px solid #eee;" id="nav">
+                            <li class="nav-item" id="email"><a class="nav-link" href="#(CPATH)/admin/user/sendMsg"><i class="fa fa-fw fa-sign-out-alt"></i> 发邮件</a></li>
+                            <li class="nav-item" id="sms"><a class="nav-link" href="#(CPATH)/admin/user/sendMsg/sms"><i class="fa fa-fw fa-external-link-alt"></i> 发短信</a></li>
+                            <li class="nav-item" id="wechat"><a class="nav-link" href="#(CPATH)/admin/user/sendMsg/wechat"><i class="fa fa-fw fa-comments"></i> 发微信</a></li>
                         </ul>
                     </div>
                     <!-- /.card-body -->

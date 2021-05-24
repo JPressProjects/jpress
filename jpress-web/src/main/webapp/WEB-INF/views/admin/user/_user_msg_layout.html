@@ -29,7 +29,16 @@
 <script>
 
     var action = "##(focus)";
-    $(action).attr("class","active")
+    $(action).addClass("menu-open");
+    $(action).children('a').addClass('active');
+
+
+    $('#userForm').on('submit', function () {
+        ajaxSubmit("#userForm", function () {
+            toastr.success('修改成功');
+        });
+        return false;
+    });
 
 </script>
 #end

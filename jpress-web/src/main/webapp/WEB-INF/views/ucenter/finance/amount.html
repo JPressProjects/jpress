@@ -15,17 +15,21 @@
 #end
 
 #define content()
-<div class="content-wrapper" style="min-height: 1126px;">
+<!--<div class="content-wrapper" style="min-height: 1126px;">-->
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
     <!-- Main content -->
-    <section class="invoice">
+    <section>
         <!-- title row -->
-        <div class="container-fluid">
-                <h2 class="form-header">
-                    <i class="fa fa-globe"></i> 余额信息.
+
+        <h2 class="form-header">
+            <i class="fa fa-globe"></i> 余额信息.
 <!--                    <small class="float-right">Date: 2/10/2014</small>-->
-                </h2>
-        </div>
+        </h2>
+
         <!-- info row -->
         <div class="row invoice-info">
             <div class="col-4 invoice-col">
@@ -76,17 +80,17 @@
     </section>
 
     <!-- Main content -->
-    <section class="invoice">
+    <section>
         <!-- title row -->
-        <div class="container-fluid">
-                <h2 class="form-header">
-                    <i class="fa fa-globe"></i> 账户流水.
-                </h2>
-        </div>
+
+        <h2 class="form-header">
+            <i class="fa fa-globe"></i> 账户流水.
+        </h2>
+
 
 
         <!-- Table row -->
-            <div class="col-12 table-responsive">
+            <div class="col-12 table-responsive p-0">
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -117,5 +121,10 @@
     </section>
 
     <div class="clearfix"></div>
-</div>
+
+
+        </div>
+    </div>
+</section>
+<!--</div>-->
 #end

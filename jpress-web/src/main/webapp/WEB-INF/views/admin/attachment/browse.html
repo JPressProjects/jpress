@@ -52,6 +52,29 @@
         text-align: center;
         padding-top: 60px;
     }
+    /*tab*/
+    .nav-tabs-custom>.nav-tabs {
+        margin: 0;
+        border-bottom-color: #f4f4f4;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+    }
+    .nav-tabs {
+        border-bottom: 1px solid #ddd;
+    }
+    .nav-tabs-custom>.nav-tabs>li {
+        border-top: 3px solid transparent;
+        margin-bottom: -2px;
+        margin-right: 5px;
+    }
+    .nav-tabs-custom>.nav-tabs>li>a {
+        color: #444;
+        border-radius: 0;
+    }
+    .nav-tabs-custom>.nav-tabs>li.active {
+        border-top-color: #3c8dbc;
+    }
+
 
 </style>
 #end
@@ -94,12 +117,12 @@
 #define content()
 
 <div class="row" style="padding-top: 1px">
-    <div class="col-xs-12" style="padding: 0 20px">
+    <div class="col-12" style="padding: 0 20px">
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li><a href="#timeline" data-toggle="tab">图片上传</a></li>
-                <li class="active"><a href="#activity" data-toggle="tab">图片库</a></li>
+                <li><a href="#activity" data-toggle="tab">图片库</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane" id="timeline">
@@ -191,7 +214,7 @@
                     </div>
 
                     <div class="row" style="padding-right: 20px">
-                        <div class="col-sm-12">
+                        <div class="col-12">
                             #@_paginate()
                         </div>
                     </div>

@@ -5,6 +5,12 @@
     .form-header{
         margin: 10px 0 20px;
     }
+    .invoice-info{
+        padding:1rem;
+    }
+    table td,table th{
+        font-size: 14px;
+    }
 </style>
 #end
 
@@ -22,10 +28,10 @@
         </div>
         <!-- info row -->
         <div class="row invoice-info">
-            <div class="col-sm-4 invoice-col">
+            <div class="col-4 invoice-col">
                 <div>
                     <strong>可用余额</strong>
-                    <div style="font-size: 65px">
+                    <div style="font-size: 2rem;">
                         #number(userAmount,'0.00')
                     </div>
                 </div>
@@ -37,14 +43,14 @@
                     </a>
                     #end
 
-                    <a  href="#(CPATH)/ucenter/finance/amount/recharge" class="btn btn-success "><i class="fa fa-credit-card"></i>
+                    <a  href="#(CPATH)/ucenter/finance/amount/recharge" class="btn btn-primary "><i class="fa fa-credit-card"></i>
                         充值
                     </a>
 
                 </div>
             </div>
             <!-- /.col -->
-            <div class="col-sm-6 offset-sm-2">
+            <div class="col-6 offset-sm-2">
                 <p class="lead">本月统计</p>
 
                 <div class="table-responsive">
@@ -80,7 +86,7 @@
 
 
         <!-- Table row -->
-            <div class="col-xs-12 table-responsive">
+            <div class="col-12 table-responsive">
                 <table class="table table-striped">
                     <thead>
                     <tr>

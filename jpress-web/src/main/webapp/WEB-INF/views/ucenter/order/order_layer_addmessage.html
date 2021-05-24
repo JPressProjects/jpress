@@ -5,7 +5,7 @@
 <section class="content">
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
             <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                   action="#(CPATH)/ucenter/order/doAddMessage"
                   method="POST"
@@ -17,16 +17,16 @@
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">留言信息</label>
-                        <div class="col-sm-8">
+                        <label class="col-2 col-form-label">留言信息</label>
+                        <div class="col-8">
                             <textarea rows="5" name="message" class="form-control"
                                               placeholder="留言信息...">#(order.buyer_msg ??)</textarea>
                         </div>
                     </div>
                 </div>
                 <!-- /.card-body -->
-                <div class="card-footer">
-                    <div class="col-sm-offset-9 col-sm-2 submit-block">
+                <div class="row">
+                    <div class="offset-9 col-2">
                         <div class="card-submit">
                             <button type="submit" class="btn btn-primary">提交</button>
                         </div>

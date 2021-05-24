@@ -15,7 +15,7 @@
 
 
 #define defaultMenu(navClass,ulClass,liClass,aClass)
-<div class="#(navClass ? navClass : 'jpress-nav') is-hoverable" id="jpress-default-menu">
+<div class="#(navClass ??) jpress-nav is-hoverable" id="jpress-default-menu">
     <ul class="#(ulClass ??) jpress-menu">
         #for(menu : MENUS)
         #call('_menuItem',menu,ulClass,liClass,aClass)

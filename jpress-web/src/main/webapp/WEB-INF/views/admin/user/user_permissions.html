@@ -43,7 +43,7 @@
     <div class="container-fluid">
         <div class="card card-outline card-primary">
 
-            <div class="card-header  ">
+            <div class="">
                 <div class="container-fluid">
                     <h2 class="form-header">
                         <i class="fa fa-globe"></i>
@@ -52,45 +52,58 @@
                 </div>
                 <!-- /.col -->
             </div>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body waterfall-container">
-            #for(x : permissionGroup)
-            <div class="waterfall-item">
-                <div class="card card-outline card-dashboard">
-                    <div class="card-header with-border">
-                        <h3 class="card-title">#(x.key ??)</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 10px">#</th>
-                                <th>ActionKey</th>
-                                <th>描述</th>
-                                <th style="width: 80px">类型</th>
-                            </tr>
-                            #for(permission : x.value)
-                            <tr>
-                                #if(hasPermission(user,permission.id))
-                                <td><input type="checkbox" checked readonly class="switchery"></td>
-                                #else
-                                <td><input type="checkbox" readonly class="switchery"></td>
+
+            <!-- /.card-header -->
+            <div class="card-body waterfall-container" style="
+                        -moz-column-count: 2;
+                        -webkit-column-count: 2;
+                        column-count: 2;
+                        -moz-column-gap: 1em;
+                        -webkit-column-gap: 1em;
+                        column-gap: 1em;">
+                #for(x : permissionGroup)
+                <div class="waterfall-item" style="
+                            -webkit-column-break-inside: avoid;
+                            break-inside: avoid;
+                            position: relative;
+                            box-sizing: border-box;">
+
+                    <div class="card card-outline card-dashboard">
+                        <div class="card-header with-border">
+                            <h3 class="card-title">#(x.key ??)</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>ActionKey</th>
+                                    <th>描述</th>
+                                    <th style="width: 80px">类型</th>
+                                </tr>
+                                #for(permission : x.value)
+                                <tr>
+                                    #if(hasPermission(user,permission.id))
+                                    <td><input type="checkbox" checked readonly class="switchery"></td>
+                                    #else
+                                    <td><input type="checkbox" readonly class="switchery"></td>
+                                    #end
+                                    <td>#(permission.action_key ??)</td>
+                                    <td>#(permission.text ??)</td>
+                                    <td>#(permission.typeText ??)</td>
+                                </tr>
                                 #end
-                                <td>#(permission.action_key ??)</td>
-                                <td>#(permission.text ??)</td>
-                                <td>#(permission.typeText ??)</td>
-                            </tr>
-                            #end
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            #end
+                #end
 
+            </div>
         </div>
+
     </div>
 
 </section>

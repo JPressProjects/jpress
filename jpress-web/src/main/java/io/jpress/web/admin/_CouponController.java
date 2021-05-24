@@ -56,7 +56,7 @@ public class _CouponController extends AdminControllerBase {
     @Inject
     private CouponCodeService couponCodeService;
 
-    @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 8)
+    @AdminMenu(text = "优惠券", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 999)
     public void list() {
         Page<Coupon> page = couponService.paginateByColumns(getPagePara(), 10,Columns.create(),"id desc");
         setAttr("page", page);

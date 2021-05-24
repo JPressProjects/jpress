@@ -42,13 +42,6 @@
         doSubmit();
     })
 
-    function doSubmit() {
-        ajaxSubmit("#form", function (data) {
-            $("#articleId").attr("value", data.id);
-            toastr.success('文章保存成功。');
-        })
-    }
-
 
     // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
     window.doSubmit = function () {
@@ -59,6 +52,7 @@
         }
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
+            window.history.replaceState({}, '', `#(CPATH)/ucenter/article/write/`+data.id)
             toastr.success('文章保存成功。');
         });
     };
@@ -254,7 +248,7 @@
                     <div class="">
                         <div class="form-group row">
                             <div class="col-sm-12">
-                                <input type="input" class="form-control form-control-lg" name="article.title"
+                                <input type="input" class="form-control form-control-lg" name="article.title" autocomplete="off"
                                        placeholder="请输入标题"
                                        id="article-title"
                                        value="#(article.title ??)">

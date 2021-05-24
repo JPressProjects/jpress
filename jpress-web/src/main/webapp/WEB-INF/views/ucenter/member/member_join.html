@@ -17,7 +17,20 @@
 
 </script>
 #end
+#define css()
+<style>
+    .member-info{
+        font-size: 14px;
+    }
+    .col-form-label{
+        font-weight: 500;
+    }
+    .radio label{
+        margin:0;
+    }
 
+</style>
+#end
 
 #define content()
 <section class="content">
@@ -33,25 +46,27 @@
                 <input type="hidden" name="groupId" value="#(memberGroup.id)">
                 <div class="card-body">
 
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">会员名称</label>
-                        <div class="col-sm-7" style="padding: 7px">
+                    <h4 class="form-header">基本介绍</h4>
+
+                    <div class="form-group row" style="align-items: center;">
+                        <label class="col-2 col-form-label">会员名称</label>
+                        <div class="col-10 member-info">
                             #(memberGroup.title ??)
                         </div>
                     </div>
 
 
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">加入费用</label>
-                        <div class="col-sm-7" style="padding: 7px">
+                    <div class="form-group row" style="align-items: center;">
+                        <label class="col-2 col-form-label">加入费用</label>
+                        <div class="col-10 member-info">
                             #number(memberGroup.price,'0.00') 元 / #(memberGroup.valid_term) 天
                         </div>
                     </div>
 
 
-                    <div class="form-group row" style="padding-bottom: 30px">
-                        <label class="col-sm-2 col-form-label">会员简介</label>
-                        <div class="col-sm-7" style="padding: 7px">
+                    <div class="form-group row"  style="align-items: center;">
+                        <label class="col-2 col-form-label">会员简介</label>
+                        <div class="col-10 member-info">
                             #(memberGroup.summary ??)
                         </div>
                     </div>
@@ -59,10 +74,10 @@
 
                     <h4 class="form-header">支付方式</h4>
 
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">支付类型</label>
+                    <div class="form-group row" style="align-items: center">
+                        <label class="col-2 col-form-label">支付类型</label>
 
-                        <div class="col-sm-7">
+                        <div class="col-10 member-info">
 
                             #if(wechatxConfig.isEnable())
                             <div class="radio">

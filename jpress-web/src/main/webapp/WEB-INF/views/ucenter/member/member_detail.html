@@ -52,36 +52,44 @@
         margin-top: 10px;
         margin-bottom: 30px;
     }
-
+    .invoice-info,.no-print{
+        padding:1rem;
+    }
 </style>
 #end
 
 #define content()
+<section class="content">
 
-<!-- Main content -->
-<section class="invoice">
-    <!-- title row -->
     <div class="container-fluid">
-        <h2 class="form-header">
-            <i class="fa fa-globe"></i> #(memberGroup.title ??)
-        </h2>
-    </div>
-    <!-- info row -->
-    <div class="row invoice-info">
-        #(memberGroup.content ??)
-    </div>
-    <!-- /.row -->
+        <div class="card card-outline card-primary">
 
-    <div class="row no-print">
-        <div class="col-xs-12" style="text-align: right">
-            <a href="#(CPATH)/ucenter/member/join/#(memberGroup.id)" class="btn btn-success">
-                <i class="fa fa-fw fa-check"></i> 加入会员
-            </a>
+            <!-- Main content -->
+            <section>
+                <!-- title row -->
+                <h2 class="form-header">
+                    <i class="fa fa-globe"></i> #(memberGroup.title ??)
+                </h2>
+                <!-- info row -->
+                <div class="row invoice-info">
+                    #(memberGroup.content ??)
+                </div>
+                <!-- /.row -->
+
+                <div class="row no-print">
+                    <div class="col-12" style="text-align: right">
+                        <a href="#(CPATH)/ucenter/member/join/#(memberGroup.id)" class="btn btn-primary">
+                            <i class="fa fa-fw fa-check"></i> 加入会员
+                        </a>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- /.content -->
+            <div class="clearfix"></div>
+
         </div>
     </div>
-
 </section>
-
-<!-- /.content -->
-<div class="clearfix"></div>
 #end

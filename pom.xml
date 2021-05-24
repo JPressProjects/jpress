@@ -33,7 +33,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.9.12</jboot.version>
+        <jboot.version>3.9.13</jboot.version>
         <jfinal-weixin.version>3.1</jfinal-weixin.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
@@ -103,7 +103,7 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.13</version>
+                <version>4.4.14</version>
             </dependency>
 
             <dependency>

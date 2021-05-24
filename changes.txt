@@ -1,6 +1,12 @@
+jpress v4.0.0-rc.1:
+新增 defaultMenu 指令，用于渲染前台菜单
+移除 wangEditor，使用 ckeditor5 代替
+优化 UI 细节，使之适配最新的 bootstrap v4.x 版本
+
+
+
 jpress v4.0.0-beta.1:
 升级 bootstrap 到 v4.x 版本
-升级 adminlte 到最新版本
 升级 fontawesome 到最新版本
 删除 ckeditor 和 simplemde，使用 wangEditor 和 vditor 代替
 删除 ehcache ，使用 caffeine 代替

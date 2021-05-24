@@ -52,28 +52,7 @@
         text-align: center;
         padding-top: 60px;
     }
-    /*tab*/
-    .nav-tabs-custom>.nav-tabs {
-        margin: 0;
-        border-bottom-color: #f4f4f4;
-        border-top-right-radius: 3px;
-        border-top-left-radius: 3px;
-    }
-    .nav-tabs {
-        border-bottom: 1px solid #ddd;
-    }
-    .nav-tabs-custom>.nav-tabs>li {
-        border-top: 3px solid transparent;
-        margin-bottom: -2px;
-        margin-right: 5px;
-    }
-    .nav-tabs-custom>.nav-tabs>li>a {
-        color: #444;
-        border-radius: 0;
-    }
-    .nav-tabs-custom>.nav-tabs>li.active {
-        border-top-color: #3c8dbc;
-    }
+
 
 
 </style>
@@ -119,12 +98,13 @@
 <div class="row" style="padding-top: 1px">
     <div class="col-12" style="padding: 0 20px">
 
-        <div class="nav-tabs-custom">
+        <div class="card card-primary card-outline card-outline-tabs" style="box-shadow: none;">
+            <div class="card-header p-0 border-bottom-0">
             <ul class="nav nav-tabs">
-                <li><a href="#timeline" data-toggle="tab">图片上传</a></li>
-                <li><a href="#activity" data-toggle="tab">图片库</a></li>
+                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">图片上传</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">图片库</a></li>
             </ul>
-            <div class="tab-content">
+            <div class="tab-content" style="padding-top:20px;">
                 <div class="tab-pane" id="timeline">
                     <div id="uploader">
                             <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
@@ -219,6 +199,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

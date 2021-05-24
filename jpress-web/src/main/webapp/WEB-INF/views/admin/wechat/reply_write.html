@@ -3,17 +3,33 @@
 #define css()
 <style>
     .nav-tabs {
-        border: 1px solid #fafafa;
+        border-bottom: 1px solid #dee2e6;
+
     }
 </style>
 #end
 
 #define content()
     <section class="content-header">
-        <h1>
-            自动回复设置
-            <small>Auto Reply Edit</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                自动回复设置
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 微信 / 自动回复设置</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
@@ -68,82 +84,88 @@
                             </div>
 
 
+
+
+
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">内容配置</label>
                                 <div class="col-sm-6">
-
-                                    <div class="nav-tabs-custom">
-                                        <ul class="nav nav-tabs">
-                                            <li class="active"><a href="#tab_1" data-toggle="tab">文字</a></li>
-                                            <li><a href="#tab_2" data-toggle="tab">图片</a></li>
-                                            <li><a href="#tab_3" data-toggle="tab">微信小程序</a></li>
-                                        </ul>
-                                        <div class="tab-content">
-                                            <div class="tab-pane active" id="tab_1">
-                                                <textarea rows="5" class="form-control" name="option.text"
-                                                          placeholder="请输入回复内容...">#(option.text ??)</textarea>
-                                                <p class="text-muted"> 超链接格式为：&lt;a href=&quot;链接地址&quot;&gt;链接文字&lt;/a&gt; </p>
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane" id="tab_2">
-                                                <button type="button"
-                                                        for-src="img"
-                                                        for-input="imginput"
-                                                        class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                                    <i class="fa fa-fw fa-image"></i> 选择图片
-                                                </button>
-                                                <br/>
-                                                <img src="#(CPATH)#(option.image ?? '/static/commons/img/nothumbnail.jpg')" id="img">
-                                                <input type="hidden" id="imginput" name="option.image" value="#(option.image ??)">
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane" id="tab_3">
-                                                <div class="card-body ">
-                                                    <div class="form-group row">
-                                                        <label class="col-sm-2 col-form-label">标题</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" name="option.miniprogram_title"
-                                                                   placeholder="小程序标题..." value="#(option.miniprogram_title ??)">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-sm-2 col-form-label">AppId</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" name="option.miniprogram_appid"
-                                                                   placeholder="微信小程序的AppId..." value="#(option.miniprogram_appid ??)">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-sm-2 col-form-label">跳转页面</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" name="option.miniprogram_page"
-                                                                   placeholder="用户点击小程序时跳转的页面" value="#(option.miniprogram_page ??)">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group row">
-                                                        <label  class="col-sm-2 col-form-label">封面图</label>
-                                                        <div class="col-sm-10">
-                                                            <button type="button"
-                                                                    for-src="coverimg"
-                                                                    for-input="coverimginput"
-                                                                    class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                                                <i class="fa fa-fw fa-image"></i> 选择图片
-                                                            </button>
-                                                            <br/>
-                                                            <img src="#(CPATH)#(option.miniprogram_cover ?? '/static/commons/img/nothumbnail.jpg')" id="coverimg">
-                                                            <input type="hidden" id="coverimginput" name="option.miniprogram_cover"  value="#(option.miniprogram_cover ??)">
-                                                        </div>
-                                                    </div>
-
-
+                                    <div class="card card-primary card-outline card-outline-tabs" style="box-shadow: none;">
+                                        <div class="card-header p-0 border-bottom-0">
+                                            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#tab_1" id="custom-tabs-four-home-tab" data-toggle="pill" role="tab" aria-controls="custom-tabs-four-home"
+                                                       aria-selected="true">文字</a>
+                                                </li>
+                                                <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">图片</a></li>
+                                                <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">微信小程序</a></li>
+                                            </ul>
+                                            <div class="tab-content" style="padding-top:1rem;">
+                                                <div class="tab-pane active" id="tab_1">
+                                                    <textarea rows="5" class="form-control" name="option.text"
+                                                              placeholder="请输入回复内容...">#(option.text ??)</textarea>
+                                                    <p class="text-muted"> 超链接格式为：&lt;a href=&quot;链接地址&quot;&gt;链接文字&lt;/a&gt; </p>
                                                 </div>
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                        </div>
-                                        <!-- /.tab-content -->
-                                    </div>
+                                                <!-- /.tab-pane -->
+                                                <div class="tab-pane" id="tab_2">
+                                                    <button type="button"
+                                                            for-src="img"
+                                                            for-input="imginput"
+                                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
+                                                        <i class="fa fa-fw fa-image"></i> 选择图片
+                                                    </button>
+                                                    <br/>
+                                                    <img src="#(CPATH)#(option.image ?? '/static/commons/img/nothumbnail.jpg')" id="img">
+                                                    <input type="hidden" id="imginput" name="option.image" value="#(option.image ??)">
+                                                </div>
+                                                <!-- /.tab-pane -->
+                                                <div class="tab-pane" id="tab_3">
+                                                    <div class="card-body ">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">标题</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" name="option.miniprogram_title"
+                                                                       placeholder="小程序标题..." value="#(option.miniprogram_title ??)">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">AppId</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" name="option.miniprogram_appid"
+                                                                       placeholder="微信小程序的AppId..." value="#(option.miniprogram_appid ??)">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">跳转页面</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" name="option.miniprogram_page"
+                                                                       placeholder="用户点击小程序时跳转的页面" value="#(option.miniprogram_page ??)">
+                                                            </div>
+                                                        </div>
 
+                                                        <div class="form-group row">
+                                                            <label  class="col-sm-2 col-form-label">封面图</label>
+                                                            <div class="col-sm-10">
+                                                                <button type="button"
+                                                                        for-src="coverimg"
+                                                                        for-input="coverimginput"
+                                                                        class="btn-image-browser btn btn-flat btn-default btn-xs">
+                                                                    <i class="fa fa-fw fa-image"></i> 选择图片
+                                                                </button>
+                                                                <br/>
+                                                                <img src="#(CPATH)#(option.miniprogram_cover ?? '/static/commons/img/nothumbnail.jpg')" id="coverimg">
+                                                                <input type="hidden" id="coverimginput" name="option.miniprogram_cover"  value="#(option.miniprogram_cover ??)">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <!-- /.tab-pane -->
+                                            </div>
+                                            <!-- /.tab-content -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

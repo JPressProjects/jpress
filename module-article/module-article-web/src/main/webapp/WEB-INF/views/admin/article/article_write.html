@@ -51,6 +51,7 @@
         }
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
+            window.history.replaceState({}, '', `#(CPATH)/admin/article/write/`+data.id)
             toastr.success('文章保存成功。');
         });
     };

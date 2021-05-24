@@ -16,8 +16,10 @@
 package io.jpress.web.functions;
 
 import com.google.common.collect.Lists;
+import io.jboot.JbootConsts;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
+import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.bean.RenderList;
 import io.jpress.commons.utils.AttachmentUtils;
@@ -91,14 +93,14 @@ public class JPressCoreFunctions {
     }
 
 
-    public static List<RenderList> linesOption(String key, String split) {
+    public static List<RenderList<?>> linesOption(String key, String split) {
         String value = JPressOptions.get(key);
         if (StrUtil.isBlank(value)) {
             return Lists.newArrayList();
         }
 
         String[] lines = value.split("\n");
-        List<RenderList> list = new ArrayList<>();
+        List<RenderList<?>> list = new ArrayList<>();
         for (String line : lines) {
             RenderList<String> items = new RenderList<>();
             String[] lineItems = line.trim().split(split);

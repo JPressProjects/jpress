@@ -135,7 +135,7 @@ public class JPressOptions {
 
     public static String getCDNDomain() {
         boolean cdnEnable = getAsBool(JPressConsts.OPTION_CDN_ENABLE);
-        if (cdnEnable == false) {
+        if (!cdnEnable) {
             return StrUtil.EMPTY;
         }
 
@@ -147,8 +147,8 @@ public class JPressOptions {
         return cdnDomain == null ? get(JPressConsts.OPTION_WEB_DOMAIN) : cdnDomain;
     }
 
-    public static interface OptionChangeListener {
-        public void onChanged(String key, String newValue, String oldValue);
+    public interface OptionChangeListener {
+        void onChanged(String key, String newValue, String oldValue);
     }
 
 
@@ -196,15 +196,15 @@ public class JPressOptions {
         JPressOptions.store = store;
     }
 
-    public static interface OptionStore {
+    public interface OptionStore {
 
-        public String get(String key);
+        String get(String key);
 
-        public void put(String key, String value);
+        void put(String key, String value);
 
-        public void remove(String key);
+        void remove(String key);
 
-        public static final OptionStore defaultOptionStore = new OptionStore() {
+        OptionStore defaultOptionStore = new OptionStore() {
 
             private final Map<String, String> cache = new ConcurrentHashMap<>();
 

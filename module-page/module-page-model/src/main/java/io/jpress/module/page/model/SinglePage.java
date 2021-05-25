@@ -20,6 +20,7 @@ import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.url.JPressUrlUtil;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
 import io.jpress.module.page.model.base.BaseSinglePage;
@@ -56,12 +57,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
     }
 
     public String getUrl() {
-
-        if (StrUtil.isBlank(getSlug())) {
-            return JFinal.me().getContextPath() + "/" + getId() + JPressOptions.getAppUrlSuffix();
-        } else {
-            return JFinal.me().getContextPath() + "/" + getSlug() + JPressOptions.getAppUrlSuffix();
-        }
+        return JPressUrlUtil.getUrl("/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
     }
 
 
@@ -83,7 +79,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         return JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode());
     }
 
-    public String getOrignalContent(){
+    public String getOrignalContent() {
         return super.getContent();
     }
 

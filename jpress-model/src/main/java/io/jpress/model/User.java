@@ -19,6 +19,7 @@ import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
+import io.jpress.commons.url.JPressUrlUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseUser;
 
@@ -143,7 +144,7 @@ public class User extends BaseUser<User> {
     }
 
     public String getUrl() {
-        return JFinal.me().getContextPath() + "/user/" + getId() + JPressOptions.getAppUrlSuffix();
+        return JPressUrlUtil.getUrl("/user/", getId());
     }
 
 }

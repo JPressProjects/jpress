@@ -21,6 +21,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.url.JPressUrlUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
@@ -79,11 +80,7 @@ public class Article extends BaseArticle<Article> {
             return link;
         }
 
-        if (StrUtil.isBlank(getSlug())) {
-            return JFinal.me().getContextPath() + "/article/" + getId() + JPressOptions.getAppUrlSuffix();
-        } else {
-            return JFinal.me().getContextPath() + "/article/" + getSlug() + JPressOptions.getAppUrlSuffix();
-        }
+        return JPressUrlUtil.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
     }
 
     public boolean isCommentEnable() {
@@ -110,10 +107,9 @@ public class Article extends BaseArticle<Article> {
         return JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode());
     }
 
-    public String getOrignalContent(){
+    public String getOrignalContent() {
         return super.getContent();
     }
-
 
 
     /**

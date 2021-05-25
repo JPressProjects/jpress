@@ -20,6 +20,7 @@ import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortModel;
+import io.jpress.commons.url.JPressUrlUtil;
 import io.jpress.module.article.model.base.BaseArticleCategory;
 
 import java.util.ArrayList;
@@ -164,14 +165,8 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     }
 
     public String getUrl() {
-        switch (getType()) {
-            case TYPE_CATEGORY:
-                return JFinal.me().getContextPath() + "/article/category/" + getSlug() + JPressOptions.getAppUrlSuffix();
-            case TYPE_TAG:
-                return JFinal.me().getContextPath() + "/article/tag/" + getSlug() + JPressOptions.getAppUrlSuffix();
-            default:
-                return "";
-        }
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/product/tag/";
+        return JPressUrlUtil.getUrl(prefix, getSlug());
     }
 
 

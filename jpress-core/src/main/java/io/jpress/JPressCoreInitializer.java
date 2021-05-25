@@ -22,6 +22,7 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
 import io.jpress.core.addon.handler.AddonHandlerProcesser;
@@ -76,6 +77,7 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
         handlers.add(new InstallHandler());
         handlers.add(new SitemapHandler());
         handlers.add(new JPressHandler());
+        handlers.add(new FlatUrlHandler());
         handlers.add(new AddonHandlerProcesser());
 
         handlers.setActionHandler(new AddonControllerProcesser());

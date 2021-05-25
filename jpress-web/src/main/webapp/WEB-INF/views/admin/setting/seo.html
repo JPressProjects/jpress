@@ -126,14 +126,25 @@
                             <h4 class="form-header">伪静态</h4>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">启用伪静态</label>
+                                <label class="col-sm-2 col-form-label">启用扁平URL</label>
 
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="web_flat_url_enable"
+                                           #checkedIf(option("web_flat_url_enable"))>
+                                    <input type="hidden" id="web_flat_url_enable" name="web_flat_url_enable">
+                                    <p class="text-muted"> 扁平化 URL 会让目录符号 "/" 修改为 "-"，例如 www.jpress.io/article/1.html 会变成 www.jpress.io/article-1.html </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用伪静态</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="web_fake_static_enable"
                                            #checkedIf(option("web_fake_static_enable"))>
                                     <input type="hidden" id="web_fake_static_enable" name="web_fake_static_enable">
                                 </div>
                             </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">伪静态后缀</label>
                                 <div class="col-sm-6">

@@ -4,6 +4,7 @@ import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
+import io.jpress.commons.url.JPressUrlUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.model.UserCart;
@@ -41,11 +42,7 @@ public class Product extends BaseProduct<Product> {
 
 
     public String getUrl() {
-        if (StrUtil.isBlank(getSlug())) {
-            return JFinal.me().getContextPath() + "/product/" + getId() + JPressOptions.getAppUrlSuffix();
-        } else {
-            return JFinal.me().getContextPath() + "/product/" + getSlug() + JPressOptions.getAppUrlSuffix();
-        }
+        return JPressUrlUtil.getUrl("/product/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
     }
 
     public String getHtmlView() {

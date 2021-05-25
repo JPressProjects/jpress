@@ -20,6 +20,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
+import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.module.article.model.Article;
@@ -90,5 +91,6 @@ public class ArticleModuleInitializer extends JbootAppListenerBase implements Mo
     @Override
     public void onStart() {
         ArticleSitemapManager.me().init();
+        FlatUrlHandler.addProcesser(new ArticleFlatUrlProcesser());
     }
 }

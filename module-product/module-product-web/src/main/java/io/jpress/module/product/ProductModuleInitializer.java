@@ -19,9 +19,10 @@ import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jpress.commons.url.FlatUrlHandler;
+import io.jpress.core.finance.ProductManager;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
-import io.jpress.core.finance.ProductManager;
 
 import java.util.List;
 
@@ -71,5 +72,6 @@ public class ProductModuleInitializer extends JbootAppListenerBase implements Mo
     @Override
     public void onStart() {
         ProductManager.me().registerQuerier("product", Aop.get(JPressProductInfoQuerier.class));
+        FlatUrlHandler.addProcesser(new ProductFlatUrlProcesser());
     }
 }

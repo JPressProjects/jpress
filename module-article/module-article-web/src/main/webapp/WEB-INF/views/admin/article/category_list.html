@@ -49,15 +49,15 @@
                     <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/article/doCategorySave"
                           data-ok-href="#(CPATH)/admin/article/category"
+                          data-ok-message="文章分类保存成功"
                           method="post">
                         <input type="hidden" name="category.id" value="#(category.id ??)">
                         <input type="hidden" name="category.type" value="category">
                         <div class="card-body">
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">名称</label>
-
+                                <label class="col-sm-2 col-form-label">名称 * </label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="取个适合的分类名称..."
+                                    <input type="input" class="form-control" placeholder="取个适合的分类名称..." required
                                            value="#(category.title ??)" name="category.title">
                                 </div>
                             </div>
@@ -85,11 +85,11 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">slug</label>
-
+                                <label class="col-sm-2 col-form-label">固定连接 * </label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="slug会显示在网址上..."
+                                    <input type="input" class="form-control" placeholder="固定连接会显示在网址上..." required
                                            value="#(category.slug ??)" name="category.slug">
+                                    <p class="text-muted"> 此文章分类的 URL 地址为：<br /><span class="domainSpan">#option('web_domain')</span>/article/category/<span style="color: red">固定连接</span>  </p>
                                 </div>
                             </div>
 
@@ -234,9 +234,8 @@
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
                                             <a href="#(CPATH)/admin/article/category/#(category.id)">编辑</a> |
-                                            <a href="javascript:;" class="del-action red-action"
-                                               data-id="#(category.id)">删除</a> |
-                                            <a href="#(category.url ??)" target="_blank" class="red-action">查看</a>
+                                            <a href="javascript:;" class="del-action red-action" data-id="#(category.id)">删除</a> |
+                                            <a href="#(category.url ??)" target="_blank" class="red-action">访问</a>
                                         </div>
                                     </div>
                                 </td>

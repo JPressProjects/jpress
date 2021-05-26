@@ -105,30 +105,22 @@ public class _ArticleController extends AdminControllerBase {
         setAttr("fields", ArticleFields.me());
 
 
-        int articleId = getParaToInt(0, 0);
+        Article editArticle = articleService.findById(getParaToInt());
+        if (editArticle != null) {
+            setAttr("article", editArticle);
 
-        Article article = null;
-        if (articleId > 0) {
-            article = articleService.findById(articleId);
-            if (article == null) {
-                renderError(404);
-                return;
-            }
-            setAttr("article", article);
-
-            List<ArticleCategory> tags = categoryService.findTagListByArticleId(articleId);
+            List<ArticleCategory> tags = categoryService.findTagListByArticleId(editArticle.getId());
             setAttr("tags", tags);
 
-            Long[] categoryIds = categoryService.findCategoryIdsByArticleId(articleId);
+            Long[] categoryIds = categoryService.findCategoryIdsByArticleId(editArticle.getId());
             flagCheck(categories, categoryIds);
         }
 
+        //初始化文章的编辑模式（编辑器）
+        String editMode = editArticle == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : editArticle.getEditMode();
+        setAttr("editMode", JPressConsts.EDIT_MODE_MARKDOWN.equals(editMode) ? JPressConsts.EDIT_MODE_MARKDOWN : JPressConsts.EDIT_MODE_HTML);
 
-        String editMode = article == null ? getCookie(JPressConsts.COOKIE_EDIT_MODE) : article.getEditMode();
-        setAttr("editMode", JPressConsts.EDIT_MODE_MARKDOWN.equals(editMode)
-                ? JPressConsts.EDIT_MODE_MARKDOWN
-                : JPressConsts.EDIT_MODE_HTML);
-
+        //设置文章当前的样式
         initStylesAttr("article_");
 
         render("article/article_write.html");

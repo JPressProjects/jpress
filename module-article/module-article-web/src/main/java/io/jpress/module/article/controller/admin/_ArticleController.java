@@ -16,7 +16,6 @@
 package io.jpress.module.article.controller.admin;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.core.ActionKey;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
@@ -70,8 +69,8 @@ public class _ArticleController extends AdminControllerBase {
         Long categoryId = getParaToLong("categoryId");
 
         Page<Article> page = StringUtils.isBlank(status)
-                        ? articleService._paginateWithoutTrash(getPagePara(), 10, title, categoryId)
-                        : articleService._paginateByStatus(getPagePara(), 10, title, categoryId, status);
+                        ? articleService._paginateWithoutTrash(getPagePara(), getPageSizePara(), title, categoryId)
+                        : articleService._paginateByStatus(getPagePara(), getPageSizePara(), title, categoryId, status);
 
         setAttr("page", page);
 

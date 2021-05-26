@@ -45,6 +45,23 @@ public abstract class ControllerBase extends JbootController {
         return id;
     }
 
+    protected int getPageSizePara() {
+        int pagesize = getParaToInt("pagesize", 0);
+        if (pagesize == 0) {
+            try {
+                pagesize = getCookieToInt("pagesize", 0);
+            } catch (Exception ex) {
+            }
+        }
+        if (pagesize <= 0 || pagesize > 100) {
+            pagesize = 10;
+        }
+        if (pagesize > 10 && pagesize % 10 != 0) {
+            pagesize = 10;
+        }
+        return pagesize;
+    }
+
 
     protected void render404If(boolean condition) {
         if (condition) {

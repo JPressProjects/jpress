@@ -868,6 +868,88 @@ function initCkEdtior(selector) {
 }
 
 
+
+function initVdtiorComponent() {
+    if (typeof Vditor == "undefined") {
+        return;
+    }
+    let index = 0;
+    $('[data-render="vditor"]').each(function () {
+        var id = $(this).attr("id");
+        if (!id) {
+            id = "ckeditor" + (index++);
+            $(this).attr("id", id);
+        }
+        initVdtior('#' + id);
+    });
+}
+
+
+function initVdtior(id,height) {
+    height = height || 600;
+    var toolbar = [
+        "emoji",
+        "headings",
+        "bold",
+        "italic",
+        "strike",
+        "link",
+        "|",
+        "list",
+        "ordered-list",
+        "check",
+        "outdent",
+        "indent",
+        "|",
+        "quote",
+        "line",
+        "code",
+        "inline-code",
+        "insert-before",
+        "insert-after",
+        "|",
+        "upload",
+        "record",
+        "table",
+        "|",
+        "undo",
+        "redo",
+        "|",
+        "fullscreen",
+        "edit-mode",
+        {
+            name: "more",
+            toolbar: [
+                "both",
+                "code-theme",
+                "content-theme",
+                "export",
+                "outline",
+                // "preview",
+            ],
+        }]
+
+    window.currentVditor = new Vditor(id, {
+        "height": height,
+        "toolbar": toolbar,
+        "upload": {
+            url: getContextPath() + "/commons/vditor/upload",
+        },
+        "cache": {
+            "enable": false
+        },
+        preview: {
+            actions: ["desktop"],
+        },
+        fullscreen: {
+            index: 9999,
+        },
+        "mode": "wysiwyg",
+        // "value": content
+    })
+}
+
+
 $(document).ready(function () {
 
     initStringMethods();

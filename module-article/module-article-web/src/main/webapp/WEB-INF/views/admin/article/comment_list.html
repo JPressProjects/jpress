@@ -81,7 +81,7 @@
 
         <div class="container-fluid">
                 <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
+                    <div class="card-header with-border ">
 
                         <form class=" admin-search-panel" action="" method="get">
                             <input type="hidden" name="status" value="#para('status')">
@@ -89,7 +89,18 @@
                                 <div class="form-group col-lg-2">
                                         <input type="text" placeholder="关键字" class="form-control" name="keyword" value="#para('keyword')">
                                 </div>
-                                <div class="form-group col-lg-8">
+                                <div class="input-group col-lg-2">
+                                    <input type="hidden" class="clear"  id="userId">
+                                    <input type="text" class="form-control" placeholder="评论用户" readonly id="userName">
+                                    <div class="form-control-clear d-none"><i class="fas fa-times"></i></div>
+                                    <div class="input-group-append">
+                                        <button class="btn input-group-text" type="button" open-type="layer"
+                                                data-layer-content="#(CPATH)/commons/select/user"
+                                        data-layer-binds="#userName:nickname,#userId:id"><i class="fas fa-user-plus"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-lg-2">
                                         <button type="submit" class="btn btn-primary ">搜索</button>
                                         <button type="reset" class="btn btn-default">重置</button>
                                 </div>

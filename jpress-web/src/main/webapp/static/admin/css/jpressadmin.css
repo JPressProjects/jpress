@@ -379,3 +379,15 @@ label:not(.form-check-label):not(.custom-file-label){
     color: #fff;
     background: #007bff;
 }
+.input-group-append {
+    margin-left: -1px;
+    height: calc(2.25rem + 2px);
+}
+.form-control-clear{
+    z-index: 10;
+    width: 0;
+    line-height: 38px;
+    position: relative;
+    left: -26px;
+    color: #999;
+}

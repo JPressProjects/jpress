@@ -1,0 +1,123 @@
+#@layer()
+
+#define script()
+<script>
+    function doSelect() {
+        var retData = getTableSelectedRowData();
+        if (retData) {
+            parent.layer.data = retData;
+            parent.layer.closeAll();
+        } else {
+            alert("您未选择任何数据");
+        }
+    }
+
+    function doClose() {
+        if (parent && parent.layer) {
+            parent.layer.closeAll();
+        }
+    }
+
+    $('tr input,tr a').click(function (e) {
+        //tr 里的input 和 a元素点击后，不让 tr 触发 click 事件
+        e.stopPropagation();
+    });
+
+
+    $('tbody tr').on('click', function () {
+        $(this).find('input[name="tableItem"]').click();
+    })
+</script>
+
+#end
+
+#define content()
+<div class="">
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid p-0">
+            <div class="card card-outline shadow-none p-0 m-0">
+                <div class="card-header">
+                    <form class="form-horizontal admin-search-panel" action="account" method="get">
+                        <div class="row">
+                            <div class="form-group col-lg-2">
+                                <input type="text" class="form-control" placeholder="员工姓名" name="name" value="#para('name')">
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <input type="text" class="form-control" placeholder="员工手机号" name="mobile" value="#para('mobile')">
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <button type="submit" class="btn btn-primary ">查询</button>
+                                <button type="reset" class="btn btn-default">重置</button>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </form>
+                </div> <!-- /.card-body -->
+                <div class="card-body p-0">
+
+                    <table class="table table-hover table-striped select">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">
+                            </th>
+                            <th>登录账号</th>
+                            <th>姓名</th>
+                            <th>手机号</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        #for(item : page.list ??)
+                        <tr>
+                            <th style="width: 10px" data-id="#(item.id ??)">
+                                <input name="tableItem"  type="radio" value="#(item.id ??)">
+                            </th>
+                            <td data-loginname="#(item.loginname ??)">#(item.loginname ??)</td>
+                            <td data-nickname="#(item.nickname ??)">#(item.nickname ??)</td>
+                            <td>#(item.mobile ??)</td>
+                            <td>#(item.status ??)</td>
+                        </tr>
+                        #end
+
+                        </tbody>
+                    </table>
+
+                </div><!-- /.card-body -->
+
+
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            #@_paginate()
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary float-right" onclick="doSelect()">
+                                        <i class="fa fa-fw fa-check"></i> 确定
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary float-right mr-2"
+                                            onclick="doClose()">
+                                        <i class="fa fa-fw fa-times"></i> 取消
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+#end

@@ -43,15 +43,7 @@ public abstract class AdminControllerBase extends ControllerBase {
         renderJson(ret);
     }
 
-    /**
-     * 获得当前页面的页码
-     *
-     * @return
-     */
-    @NotAction
-    public int getPagePara() {
-        return getParaToInt("page", 1);
-    }
+
 
 
     protected boolean validateSlug(Model<?> model) {

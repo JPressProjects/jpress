@@ -84,6 +84,37 @@ function getContextPath() {
 }
 
 
+function getTableSelectedRowData() {
+    var retData = null;
+    $('[name="tableItem"]').each(function () {
+        if ($(this).prop('checked')) {
+            retData = {};
+            $(this).closest('tr').children().each(function () {
+                for (var attr in this.dataset) {
+                    retData[attr] = this.dataset[attr];
+                }
+            })
+
+            var trDatas = $(this).closest('tr').data();
+            for (var attr in trDatas) {
+                retData[attr] = trDatas[attr];
+            }
+        }
+    });
+    return retData;
+}
+
+function getTableSelectedIds() {
+    var selectedIds = "";
+    $('[name="tableItem"]').each(function () {
+        if ($(this).prop('checked')) {
+            selectedIds += $(this).val() + ",";
+        }
+    });
+    return selectedIds.substring(0, selectedIds.length - 1);
+}
+
+
 /**
  * 设置 layer 组件
  */
@@ -132,7 +163,7 @@ function _initLayerByComponent(component) {
                 for (; i < bindArrays.length; i++) {
                     var query = bindArrays[i].split(":")[0].trim();
                     var attr = bindArrays[i].split(":")[1].trim();
-                    $(query).val(layer.data[attr]);
+                    $(query).val(layer.data[attr]).trigger('propertychange');
                     $(query).valid();
 
                 }
@@ -160,8 +191,7 @@ function _initLayerByComponent(component) {
  * 设置 tooltip 组件
  */
 function initTooltip() {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('[data-render="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"],[data-render="tooltip"]').tooltip();
 }
 
 
@@ -243,7 +273,7 @@ function initDatePicker() {
     // doc http://t1m0n.name/air-datepicker/docs/
     if ($().datepicker) {
         $('.date,.datetime,.datetimepicker,.datepicker,[data-render="date"]').each(function () {
-            $(this).attr("autocomplete","off");
+            $(this).attr("autocomplete", "off");
             var timepicker = $(this).hasClass('datetime') || $(this).hasClass('datetimepicker');
             $(this).datepicker({
                 language: 'zh',
@@ -334,7 +364,7 @@ function initAjaxSubmitForms() {
             // ignore: ".ignore",
             submitHandler: function (form) {
 
-                if (window.currentCKEditor){
+                if (window.currentCKEditor) {
                     window.currentCKEditor.updateSourceElement();
                 }
 
@@ -432,9 +462,9 @@ function initAjaxSubmitForms() {
  */
 function initResetBtn() {
     $('[type="reset"]').on('click', function (e) {
-        $(this).closest('form').find('[type="text"]').val("");
-        $(this).closest('form').find('textarea').val("");
-        $(this).closest('form').find('select').val("");
+        $(this).closest('form').find('[type="text"]').val("").trigger('propertychange');
+        $(this).closest('form').find('textarea').val("").trigger('propertychange');
+        $(this).closest('form').find('select').val("").trigger('propertychange');
         e.preventDefault();
     });
 }
@@ -869,7 +899,6 @@ function initCkEdtior(selector) {
 }
 
 
-
 function initVdtiorComponent() {
     if (typeof Vditor == "undefined") {
         return;
@@ -886,7 +915,7 @@ function initVdtiorComponent() {
 }
 
 
-function initVdtior(id,height) {
+function initVdtior(id, height) {
     height = height || 600;
     var toolbar = [
         "emoji",
@@ -951,6 +980,20 @@ function initVdtior(id,height) {
 }
 
 
+function initInputClearButton() {
+    $('.form-control-clear').click(function () {
+        $(this).siblings('input[type="text"],.clear').val('')
+            .trigger('propertychange').focus();
+    });
+
+    $('.form-control-clear').each(function () {
+        $(this).siblings('input[type="text"]').on('input propertychange', function () {
+            var $this = $(this);
+            $this.siblings('.form-control-clear').toggleClass('d-none', !Boolean($this.val()));
+        }).trigger('propertychange');
+    });
+}
+
 $(document).ready(function () {
 
     initStringMethods();
@@ -995,4 +1038,6 @@ $(document).ready(function () {
     initSlugSpan();
 
     initCkEdtiorComponent();
+
+    initInputClearButton();
 });

@@ -277,7 +277,8 @@ function initValidate() {
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
-                element.parent().append(error);
+                // element.parent().append(error);
+                element.after(error);
             },
             highlight: function (element, errorClass, validClass) {
                 $(element).addClass('is-invalid');

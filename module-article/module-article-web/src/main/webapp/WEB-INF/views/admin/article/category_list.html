@@ -55,14 +55,14 @@
                         <input type="hidden" name="category.type" value="category">
                         <div class="card-body">
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">名称 * </label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 名称 </label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="取个适合的分类名称..." required
                                            value="#(category.title ??)" name="category.title">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">父级</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 父级</label>
 
                                 <div class="col-sm-9">
                                     <select class="form-control" name="category.pid">
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">固定连接 * </label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 固定连接 </label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="固定连接会显示在网址上..." required
                                            value="#(category.slug ??)" name="category.slug">

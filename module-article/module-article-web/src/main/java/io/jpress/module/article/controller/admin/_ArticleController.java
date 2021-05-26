@@ -266,13 +266,14 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "标签", groupId = "article", order = 4)
     public void tag() {
-        Page<ArticleCategory> page = categoryService.paginateByType(getPagePara(), 10, ArticleCategory.TYPE_TAG);
+        Page<ArticleCategory> page = categoryService.paginateByType(getPagePara(), getPageSizePara(), ArticleCategory.TYPE_TAG);
         setAttr("page", page);
 
-        int id = getParaToInt(0, 0);
-        if (id > 0) {
-            setAttr("category", categoryService.findById(id));
-            setAttr("isDisplayInMenu", menuService.findFirstByRelatives("article_category", id) != null);
+        int categoryId = getParaToInt(0, 0);
+        if (categoryId > 0) {
+            setAttr("category", categoryService.findById(categoryId));
+            //该分类是否显示在菜单上
+            setAttr("isDisplayInMenu", menuService.findFirstByRelatives("article_category", categoryId) != null);
         }
 
         initStylesAttr("artlist_");

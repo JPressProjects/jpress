@@ -17,11 +17,10 @@
         }
     });
 
-    var selectize = $select[0].selectize;
 
     $(".newTag").each(function () {
         $(this).on('click', function () {
-            selectize.createItem($(this).text());
+            $select[0].selectize.createItem($(this).text());
         })
     });
 

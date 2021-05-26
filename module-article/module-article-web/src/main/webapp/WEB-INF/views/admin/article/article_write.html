@@ -22,12 +22,9 @@
         }
     });
 
-
-    var selectize = $select[0].selectize;
-
     $(".newTag").each(function () {
         $(this).on('click', function () {
-            selectize.createItem($(this).text());
+            $select[0].selectize.createItem($(this).text());
         })
     });
 
@@ -56,12 +53,19 @@
         });
     };
 
+    /**
+     * 缩略图，移除图片的按钮功能
+     */
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
         $("#articleThumbnail").val("");
     })
 
 
+    /**
+     * 切换编辑器的按钮功能
+     * @param id
+     */
     function doChangeEditor(id) {
         if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
             var changeMode = editMode == "html" ? "markdown" : "html";
@@ -73,6 +77,7 @@
         }
     }
 
+    //通过编辑模式来决定初始化不同的编辑器
     var editMode = "#(editMode ?? 'html')";
     if (editMode === 'html') {
         initCkEdtior('#editor');
@@ -271,7 +276,7 @@
                     <div class="card-header with-border ">
                         <h3 class="card-title">缩略图</h3>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
                              style="width: 100%;height: 200px"
                              id="thumbnail">

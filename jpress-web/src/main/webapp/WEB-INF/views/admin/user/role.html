@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/user/doRoleDel/" + id);
+        ajaxGet("#(CPATH)/admin/user/role/doDel/" + id);
     }
 
     $("#batchDel").click(function () {
@@ -13,7 +13,7 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/user/doRoleDelByIds?ids=" + ids);
+        ajaxGet("#(CPATH)/admin/user/role/doDelByIds?ids=" + ids);
     })
 
 
@@ -77,15 +77,15 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/user/roleEdit/#(role.id)"> #(role.name ??) </a>
+                                        <a href="#(CPATH)/admin/user/role/edit/#(role.id)"> #(role.name ??) </a>
                                         #if(role.isSuperAdmin())
                                         （超级管理员）
                                         #end
                                     </strong>
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
-                                            <a href="#(CPATH)/admin/user/roleEdit/#(role.id)">编辑</a> |
-                                            <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)">权限</a> |
+                                            <a href="#(CPATH)/admin/user/role/edit/#(role.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/user/role/permissions/#(role.id)">权限</a> |
                                             <a href="javascript:;" class="red-action"
                                                onclick="doDel('#(role.id)')">删除</a>
                                         </div>

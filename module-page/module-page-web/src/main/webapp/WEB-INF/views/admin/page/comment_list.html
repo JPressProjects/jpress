@@ -3,28 +3,14 @@
 <script>
 
     function doChangeStatus(id, status) {
-        ajaxGet("#(CPATH)/admin/page/doCommentStatusChange?id=" + id + "&status=" + status)
+        ajaxGet("#(CPATH)/admin/page/comment/doChangeStatus?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id)
+            ajaxGet("#(CPATH)/admin/page/comment/doDel?id=" + id)
         }
     }
-
-
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-
-        if (confirm("确定要删除选中的评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/page/doCommentDelByIds?ids=" + ids)
-        }
-    })
-
 
     $("#batchAudit").click(function () {
         var ids = getSelectedIds();
@@ -32,7 +18,7 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/page/doCommentAuditByIds?ids=" + ids)
+        ajaxGet("#(CPATH)/admin/page/comment/doAuditByIds?ids=" + ids)
     })
 
 </script>
@@ -66,7 +52,8 @@
                     <div class="row">
                         <div class="col-12" style="padding-top: 20px">
                             <a href="?">全部 (#(totalCount ??))</a> |
-                            <a href="?status=normal">已发布 (#(normalCount ??))</a> |
+                            <a href="?status=normal">已发布 (#(normalCount ?? 0))</a> |
+                            <a href="?status=unaudited">待审核 (#(unauditedCount ?? 0))</a> |
                             <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
                             <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
                         </div>
@@ -106,7 +93,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" type="checkbox"/>
                                 </th>
                                 <th style="width: 100px">作者</th>
                                 <th style="width: 40%">内容</th>
@@ -118,7 +105,7 @@
                             #for(comment : page.list??)
                             <tr>
                                 <td>
-                                    <input class="dataItem" type="checkbox" value="#(comment.id)"/>
+                                    <input name="tableItem" type="checkbox" value="#(comment.id)"/>
                                 </td>
                                 <td>
                                     <a href="#(comment.user.detailUrl ??)">
@@ -132,8 +119,8 @@
                                     </strong>
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
-                                            <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)">编辑</a> |
-                                            <a href="#(CPATH)/admin/page/commentReply/#(comment.id)">回复</a> |
+                                            <a href="#(CPATH)/admin/page/comment/edit/#(comment.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/page/comment/reply/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
                                             <a href="javascript:;"
                                                onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |
@@ -169,7 +156,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
+                                            <input class="form-check-input tableCheckAll" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

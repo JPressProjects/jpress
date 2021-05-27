@@ -17,11 +17,10 @@
         }
     });
 
-    var selectize = $select[0].selectize;
 
     $(".newTag").each(function () {
         $(this).on('click', function () {
-            selectize.createItem($(this).text());
+            $select[0].selectize.createItem($(this).text());
         })
     });
 
@@ -32,7 +31,6 @@
 
 #define layout_css()
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
 #end
 
 

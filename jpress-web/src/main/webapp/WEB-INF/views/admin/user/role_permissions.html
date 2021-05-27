@@ -56,17 +56,6 @@
     function addGroupRolePermission(groupId,roleId) {
         ajaxGet("#(CPATH)/admin/user/doAddGroupRolePermission?roleId=" + roleId  + "&groupId=" + groupId,
             function (data) {
-                //返回permissionid的list,用于改变页面样式
-                /**
-                var permissionIds=data.permissionIds;
-                permissionIds.forEach(function (permissionId) {
-                    var selectId = "[data-pid='"+permissionId+"']";
-                    $(selectId).attr("checked",true);
-                    //$(this).parent().find('span').addClass("checked");
-                    $(this).parent().find("span").attr("style","card-shadow: rgb(100, 189, 99) 0px 0px 0px 11px inset; border-color: rgb(100, 189, 99); background-color: rgb(100, 189, 99); transition: border 0.4s ease 0s, card-shadow 0.4s ease 0s, background-color 1.2s ease 0s;");
-                    $(this).parent().find("small").attr("style", "left: 13px; background-color: rgb(255, 255, 255); transition: background-color 0.4s ease 0s, left 0.2s ease 0s;");
-                });**/
-
                 toastr.options.onHidden = function () {
                     location.reload();
                 }
@@ -79,17 +68,6 @@
         ajaxGet("#(CPATH)/admin/user/doDelGroupRolePermission?roleId=" + roleId  + "&groupId=" + groupId,
             function (data) {
                 //返回permissionid的list,用于改变页面样式
-                /**
-                var permissionIds=data.permissionIds;
-                permissionIds.forEach(function (permissionId) {
-                    debugger;
-                    var selectId = "[data-pid='"+permissionId+"']";
-                    $(selectId).removeAttr("checked");
-                    //$(this).parent().find('span').attr("class",'switchery switchery-small');
-                    //$(this).parent().find('span').removeClass("checked");
-                    $(this).parent().find("span").attr("style","card-shadow: rgb(223, 223, 223) 0px 0px 0px 0px inset;border-color: rgb(223, 223, 223);background-color: rgb(255, 255, 255);transition: border 0.4s ease 0s, card-shadow 0.4s ease 0s;");
-                    $(this).parent().find("small").attr("style", "left: 0px; transition: background-color 0.4s ease 0s, left 0.2s ease 0s;");
-                });**/
 
                 toastr.options.onHidden = function () {
                     location.reload();
@@ -150,11 +128,11 @@
 
                             <div class="col-xs-12" style="margin-left: 15px">
                                 <div class="btn-group">
-                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)" id="group-all"
+                                    <a href="#(CPATH)/admin/user/role/permissions/#(role.id)" id="group-all"
                                        class="btn btn-default">全部</a>
-                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)?type=menu" id="group-menu"
+                                    <a href="#(CPATH)/admin/user/role/permissions/#(role.id)?type=menu" id="group-menu"
                                        class="btn btn-default">菜单</a>
-                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)?type=action" id="group-action"
+                                    <a href="#(CPATH)/admin/user/role/permissions/#(role.id)?type=action" id="group-action"
                                        class="btn btn-default">URL</a>
                                 </div>
                             </div>
@@ -179,7 +157,7 @@
                                     <h3 class="card-title">#(x.key ??)</h3>
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body">
+                                <div class="card-body p-0">
                                     <table class="table table-striped">
                                         <tbody>
                                         <tr>

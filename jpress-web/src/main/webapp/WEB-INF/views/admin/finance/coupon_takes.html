@@ -9,18 +9,6 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        if (confirm("确定要删除选中的优惠码吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/finance/coupon/doCodeDelByIds?ids=" + ids);
-        }
-    })
-
-
 </script>
 #end
 
@@ -56,7 +44,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" type="checkbox"/>
 
                                 <th style="">优惠码</th>
                                 <th style="width: 25%">优惠券名称</th>
@@ -66,7 +54,7 @@
                             </tr>
                             #for(code : page.list ??)
                             <tr>
-                                <td><input class="dataItem" type="checkbox" value="#(code.id ??)" />
+                                <td><input name="tableItem" type="checkbox" value="#(code.id ??)" />
                                 </td>
                                 <td>
                                     <strong>
@@ -101,7 +89,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
+                                            <input class="form-check-input tableCheckAll" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

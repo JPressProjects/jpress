@@ -47,15 +47,16 @@
                     <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/article/doTagSave"
                           data-ok-href="#(CPATH)/admin/article/tag"
+                          data-ok-message="文章标签保存成功"
                           method="post">
                         <input type="hidden" name="category.id" value="#(category.id ??)">
                         <input type="hidden" name="category.type" value="tag">
                         <div class="card-body">
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">名称</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 名称 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="取个适合的标签名称..."
+                                    <input type="input" class="form-control" placeholder="取个适合的标签名称..." required
                                            value="#(category.title ??)" name="category.title">
                                 </div>
                             </div>
@@ -186,31 +187,7 @@
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="row">
-
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
-                                            <label class="form-check-label" for="checkall">全选</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <select class="form-control" name="action">
-                                            <option value="">请选择...</option>
-                                            <option value="doDelByIds" open-type="del-confirm">
-                                                批量删除
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-lg-3">
-                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 #@_paginate()
                             </div>
                         </div>

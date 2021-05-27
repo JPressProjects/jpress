@@ -18,6 +18,7 @@ package io.jpress.web.admin;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.ActionKey;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.weixin.sdk.api.ApiResult;
@@ -135,6 +136,7 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
+    @ActionKey("./keyword/write")
     public void keywordWrite() {
         int id = getParaToInt(0, 0);
 

@@ -10,22 +10,8 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-
-        if (confirm('确定要删除选中的记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/address/doDelByIds?ids=" + ids);
-        }
-
-    });
-
-
     function checkAll(checkbox) {
-        $(".dataItem").each(function () {
+        $('[name="tableItem"]').each(function () {
             $(this).prop('checked', checkbox.checked);
         });
 
@@ -40,7 +26,7 @@
 
     function getSelectedIds() {
         var selectedIds = "";
-        $(".dataItem").each(function () {
+        $('[name="tableItem"]').each(function () {
             if ($(this).prop('checked')) {
                 selectedIds += $(this).val() + ",";
             }
@@ -86,9 +72,7 @@
 
                 <div class="row admin-search-panel">
                     <div class="col-xs-12">
-                        <a href="#(CPATH)/ucenter/address/edit" class="btn btn-primary "> <i
-                                class="fa fa-fw fa-plus"></i> 新建</a>
-<!--                        <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>-->
+                        <a href="#(CPATH)/ucenter/address/edit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</a>
                     </div>
                 </div>
 
@@ -100,7 +84,7 @@
                     <tbody>
                     <tr>
                         <th style="width: 10px">
-                            <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                            <input class="tableCheckAll" type="checkbox" value="0"/>
                         </th>
                         <th style="width: 150px">收货人</th>
                         <th style="width: 150px">手机号码</th>
@@ -111,7 +95,7 @@
 
                     #for(data : page.list)
                     <tr>
-                        <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id)"
+                        <td><input name="tableItem" type="checkbox" name="address.id" value="#(data.id)"
                                    onchange="dataItemChange(this)"/></td>
                         <td style="width: 50px">
                             <strong><a href="#">#(data.username ??)</a></strong>

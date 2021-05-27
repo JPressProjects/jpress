@@ -4,18 +4,8 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/user/doRoleDel/" + id);
+        ajaxGet("#(CPATH)/admin/user/role/doDel/" + id);
     }
-
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        ajaxGet("#(CPATH)/admin/user/doRoleDelByIds?ids=" + ids);
-    })
-
 
 </script>
 #end
@@ -66,26 +56,26 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" type="checkbox"/>
                                 </th>
                                 <th style="width: 30%">名称</th>
                                 <th>描述</th>
                             </tr>
                             #for(role : roles)
                             <tr>
-                                <td><input class="dataItem" type="checkbox" value="#(role.id)" />
+                                <td><input name="tableItem" type="checkbox" value="#(role.id)" />
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/user/roleEdit/#(role.id)"> #(role.name ??) </a>
+                                        <a href="#(CPATH)/admin/user/role/edit/#(role.id)"> #(role.name ??) </a>
                                         #if(role.isSuperAdmin())
                                         （超级管理员）
                                         #end
                                     </strong>
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
-                                            <a href="#(CPATH)/admin/user/roleEdit/#(role.id)">编辑</a> |
-                                            <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)">权限</a> |
+                                            <a href="#(CPATH)/admin/user/role/edit/#(role.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/user/role/permissions/#(role.id)">权限</a> |
                                             <a href="javascript:;" class="red-action"
                                                onclick="doDel('#(role.id)')">删除</a>
                                         </div>
@@ -105,7 +95,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
+                                            <input class="form-check-input tableCheckAll" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

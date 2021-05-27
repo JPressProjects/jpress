@@ -24,6 +24,46 @@ var mySwal = typeof (Swal) != "undefined" ? Swal.mixin({
 }) : {};
 
 
+
+function getContextPath() {
+    if (typeof jpress == 'undefined') {
+        return ""
+    } else {
+        return jpress.cpath;
+    }
+}
+
+
+function getTableSelectedRowData() {
+    var retData = null;
+    $('[name="tableItem"]').each(function () {
+        if ($(this).prop('checked')) {
+            retData = {};
+            $(this).closest('tr').children().each(function () {
+                for (var attr in this.dataset) {
+                    retData[attr] = this.dataset[attr];
+                }
+            })
+
+            var trDatas = $(this).closest('tr').data();
+            for (var attr in trDatas) {
+                retData[attr] = trDatas[attr];
+            }
+        }
+    });
+    return retData;
+}
+
+function getTableSelectedIds() {
+    var selectedIds = "";
+    $('[name="tableItem"]').each(function () {
+        if ($(this).prop('checked')) {
+            selectedIds += $(this).val() + ",";
+        }
+    });
+    return selectedIds.substring(0, selectedIds.length - 1);
+}
+
 /**
  * 获取 url 的参数内容
  * @returns {string}

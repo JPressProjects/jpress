@@ -21,16 +21,6 @@
 		}
 	}
 
-	$("#batchDel").click(function () {
-		var ids = getSelectedIds();
-		if (ids == "") {
-			alert('您未选择任何内容');
-			return
-		}
-		if (confirm('确定要删除该产品吗？删除后不可恢复')) {
-			ajaxGet("#(CPATH)/admin/product/doDelByIds?ids=" + ids);
-		}
-	})
 </script>
 
 #end
@@ -110,7 +100,7 @@
 							<tbody>
 							<tr>
 								<th style="width: 10px">
-									<input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+									<input class="tableCheckAll" type="checkbox" value="0"/>
 								</th>
 								<th style="width: 350px">标题</th>
 								<th style="width: 50px">价格</th>
@@ -123,7 +113,7 @@
 
 							#for(product : page.list)
 							<tr>
-								<td><input class="dataItem" type="checkbox" value="#(product.id)"/>
+								<td><input name="tableItem" type="checkbox" value="#(product.id)"/>
 								</td>
 								<td>
 									<!--<div style="width: 20px;height: 20px">-->
@@ -206,7 +196,7 @@
 
 									<div class="form-group">
 										<div class="form-check">
-											<input class="form-check-input tableBox" type="checkbox" id="checkall">
+											<input class="form-check-input tableCheckAll" type="checkbox" >
 											<label class="form-check-label" for="checkall">全选</label>
 										</div>
 									</div>

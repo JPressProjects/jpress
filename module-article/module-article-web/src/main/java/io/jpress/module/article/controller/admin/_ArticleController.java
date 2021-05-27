@@ -28,13 +28,10 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
-import io.jpress.model.User;
 import io.jpress.module.article.ArticleFields;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
@@ -56,8 +53,6 @@ public class _ArticleController extends AdminControllerBase {
     private ArticleService articleService;
     @Inject
     private ArticleCategoryService categoryService;
-    @Inject
-    private ArticleCommentService commentService;
     @Inject
     private MenuService menuService;
 
@@ -266,13 +261,14 @@ public class _ArticleController extends AdminControllerBase {
 
     @AdminMenu(text = "标签", groupId = "article", order = 4)
     public void tag() {
-        Page<ArticleCategory> page = categoryService.paginateByType(getPagePara(), 10, ArticleCategory.TYPE_TAG);
+        Page<ArticleCategory> page = categoryService.paginateByType(getPagePara(), getPageSizePara(), ArticleCategory.TYPE_TAG);
         setAttr("page", page);
 
-        int id = getParaToInt(0, 0);
-        if (id > 0) {
-            setAttr("category", categoryService.findById(id));
-            setAttr("isDisplayInMenu", menuService.findFirstByRelatives("article_category", id) != null);
+        int categoryId = getParaToInt(0, 0);
+        if (categoryId > 0) {
+            setAttr("category", categoryService.findById(categoryId));
+            //该分类是否显示在菜单上
+            setAttr("isDisplayInMenu", menuService.findFirstByRelatives("article_category", categoryId) != null);
         }
 
         initStylesAttr("artlist_");
@@ -359,115 +355,6 @@ public class _ArticleController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "评论", groupId = "article", order = 5)
-    public void comment() {
-
-        String status = getPara("status");
-        String key = getPara("keyword");
-        Long articleId = getParaToLong("articleId");
-
-        Page<ArticleComment> page =
-                StrUtil.isBlank(status)
-                        ? commentService._paginateWithoutTrash(getPagePara(), 10, articleId, key)
-                        : commentService._paginateByStatus(getPagePara(), 10, articleId, key, status);
-
-        setAttr("page", page);
-
-        long unauditedCount = commentService.findCountByStatus(ArticleComment.STATUS_UNAUDITED);
-        long trashCount = commentService.findCountByStatus(ArticleComment.STATUS_TRASH);
-        long normalCount = commentService.findCountByStatus(ArticleComment.STATUS_NORMAL);
-
-        setAttr("unauditedCount", unauditedCount);
-        setAttr("trashCount", trashCount);
-        setAttr("normalCount", normalCount);
-        setAttr("totalCount", unauditedCount + trashCount + normalCount);
-
-        render("article/comment_list.html");
-    }
-
-
-    /**
-     * 评论回复 页面
-     */
-    public void commentReply() {
-        long id = getIdPara();
-        ArticleComment comment = commentService.findById(id);
-        setAttr("comment", comment);
-        render("article/comment_reply.html");
-    }
-
-    /**
-     * 评论编辑 页面
-     */
-    public void commentEdit() {
-        long id = getIdPara();
-        ArticleComment comment = commentService.findById(id);
-        setAttr("comment", comment);
-        render("article/comment_edit.html");
-    }
-
-    public void doCommentSave() {
-        ArticleComment comment = getBean(ArticleComment.class, "comment");
-        commentService.saveOrUpdate(comment);
-        renderOkJson();
-    }
-
-
-    /**
-     * 进行评论回复
-     */
-    public void doCommentReply(String content, Long articleId, Long pid) {
-        User user = getLoginedUser();
-
-        ArticleComment comment = new ArticleComment();
-        comment.setContent(content);
-        comment.setUserId(user.getId());
-        comment.setAuthor(user.getNickname());
-        comment.setStatus(ArticleComment.STATUS_NORMAL);
-        comment.setArticleId(articleId);
-        comment.setPid(pid);
-
-        commentService.save(comment);
-        renderOkJson();
-    }
-
-
-    /**
-     * 删除评论
-     */
-    public void doCommentDel() {
-        Long id = getParaToLong("id");
-        commentService.deleteById(id);
-        renderOkJson();
-    }
-
-
-    /**
-     * 批量删除评论
-     */
-    @EmptyValidate(@Form(name = "ids"))
-    public void doCommentDelByIds() {
-        Set<String> idsSet = getParaSet("ids");
-        render(commentService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
-    }
-
-
-    /**
-     * 批量审核评论
-     */
-    @EmptyValidate(@Form(name = "ids"))
-    public void doCommentAuditByIds() {
-        Set<String> idsSet = getParaSet("ids");
-        render(commentService.batchChangeStatusByIds(ArticleComment.STATUS_NORMAL, idsSet.toArray()) ? OK : FAIL);
-    }
-
-
-    /**
-     * 修改评论状态
-     */
-    public void doCommentStatusChange(Long id, String status) {
-        render(commentService.doChangeStatus(id, status) ? OK : FAIL);
-    }
 
     @AdminMenu(text = "设置", groupId = "article", order = 6)
     public void setting() {

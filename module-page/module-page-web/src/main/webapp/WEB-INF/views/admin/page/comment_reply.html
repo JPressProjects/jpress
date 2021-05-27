@@ -4,13 +4,13 @@
 <script>
 
     function doChangeStatus(id, status) {
-        ajaxGet("#(CPATH)/admin/page/doCommentStatusChange?id=" + id + "&status=" + status)
+        ajaxGet("#(CPATH)/admin/page/comment/doChangeStatus?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id, function () {
-                location.href = "#(CPATH)/admin/page/comment";
+            ajaxGet("#(CPATH)/admin/page/comment/doDel?id=" + id, function () {
+                location.href = "#(CPATH)/admin/page/comment/list";
             }, function (result) {
                 alert(result.message);
             })
@@ -19,7 +19,7 @@
 
     function ok() {
         toastr.options.onHidden = function () {
-            location.href = "#(CPATH)/admin/page/comment";
+            location.href = "#(CPATH)/admin/page/comment/list";
         }
         toastr.success('回复成功。');
     }
@@ -80,7 +80,7 @@
                     <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           data-ok-function="ok"
                           method="post"
-                          action="#(CPATH)/admin/page/doCommentReply">
+                          action="#(CPATH)/admin/page/comment/doReply">
 
                         <input type="hidden" name="pid" value="#(comment.id)">
                         <input type="hidden" name="pageId" value="#(comment.pageId)">
@@ -103,7 +103,7 @@
                                 </div>
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)"
+                                        <a href="#(CPATH)/admin/page/comment/edit/#(comment.id)"
                                            style="color: #006505">编辑</a>
                                         |
                                         #if(comment.isNormal())

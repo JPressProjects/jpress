@@ -46,8 +46,8 @@ public class _ProductCommentController extends AdminControllerBase {
 
         Page<ProductComment> page =
                 status == null
-                        ? commentService._paginateWithoutTrash(getPagePara(), 10, productId, key)
-                        : commentService._paginateByStatus(getPagePara(), 10, productId, key, status);
+                        ? commentService._paginateWithoutTrash(getPagePara(), getPageSizePara(), productId, key)
+                        : commentService._paginateByStatus(getPagePara(), getPageSizePara(), productId, key, status);
 
         setAttr("page", page);
 
@@ -114,7 +114,7 @@ public class _ProductCommentController extends AdminControllerBase {
     }
 
 
-    public void doCommentStatusChange(Long id, int status) {
+    public void doChangeStatus(Long id, int status) {
         render(commentService.doChangeStatus(id, status) ? OK : FAIL);
     }
 

@@ -4,7 +4,7 @@
 <script>
 
     function doChangeStatus(id, status) {
-        ajaxGet("#(CPATH)/admin/product/comment/doCommentStatusChange?id=" + id + "&status=" + status)
+        ajaxGet("#(CPATH)/admin/product/comment/doChangeStatus?id=" + id + "&status=" + status)
     }
 
     function doDel(id) {
@@ -12,19 +12,6 @@
             ajaxGet("#(CPATH)/admin/product/comment/doDel/" + id);
         }
     }
-
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何条目');
-            return
-        }
-        if (confirm("确定要删除选中的评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/product/comment/doDelByIds?ids=" + ids);
-        }
-    })
-
-
 </script>
 #end
 
@@ -49,7 +36,8 @@
                     <div class="row">
                         <div class="col-12" style="padding-top: 20px">
                             <a href="?">全部 (#(totalCount ??))</a> |
-                            <a href="?status=normal">已发布 (#(normalCount ??))</a> |
+                            <a href="?status=normal">已发布 (#(normalCount ?? 0))</a> |
+                            <a href="?status=unaudited">待审核 (#(unauditedCount ?? 0))</a> |
                             <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
                             <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
                         </div>
@@ -92,7 +80,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" type="checkbox"/>
                                 </th>
                                 <th style="width: 100px">作者</th>
                                 <th style="width: 40%">内容</th>
@@ -103,7 +91,7 @@
                             </tr>
                             #for(comment : page.list)
                             <tr>
-                                <td><input class="dataItem" type="checkbox" value="#(comment.id)"/>
+                                <td><input name="tableItem" type="checkbox" value="#(comment.id)"/>
                                 </td>
                                 <td>
                                     <a href="#(CPATH)/admin/user/detail/#(comment.user.id ??)">
@@ -155,7 +143,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
+                                            <input class="form-check-input tableCheckAll" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

@@ -75,15 +75,6 @@ function setActiveMenu(pathName) {
 }
 
 
-function getContextPath() {
-    if (typeof jpress == 'undefined') {
-        return ""
-    } else {
-        return jpress.cpath;
-    }
-}
-
-
 /**
  * 设置 layer 组件
  */
@@ -120,7 +111,7 @@ function _initLayerByComponent(component) {
         title: dataset.layerTitle || '内容',
         anim: dataset.layerAnim || 2,
         shadeClose: dataset.layerShadeClose ? (/^true$/i).test(dataset.layerShadeClose) : true,
-        shade: dataset.layerShade || 0.5,
+        shade: dataset.layerShade || 0.3,
         area: dataset.layerArea ? eval(dataset.layerArea) : ['80%', '80%'],
         content: dataset.layerContent || component.attr('href'),
         end: function () {
@@ -132,7 +123,7 @@ function _initLayerByComponent(component) {
                 for (; i < bindArrays.length; i++) {
                     var query = bindArrays[i].split(":")[0].trim();
                     var attr = bindArrays[i].split(":")[1].trim();
-                    $(query).val(layer.data[attr]);
+                    $(query).val(layer.data[attr]).trigger('propertychange');
                     $(query).valid();
 
                 }
@@ -160,8 +151,7 @@ function _initLayerByComponent(component) {
  * 设置 tooltip 组件
  */
 function initTooltip() {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('[data-render="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"],[data-render="tooltip"]').tooltip();
 }
 
 
@@ -169,9 +159,9 @@ function initTooltip() {
  * 设置 表格 的全选按钮
  */
 function initDatatableCheckBox() {
-    $('.tableBox').on('change', function () {
+    $('.tableCheckAll').on('change', function () {
         var boxChecked = $(this).prop("checked");
-        $('.dataItem').each(function (row) {
+        $('[name="tableItem"]').each(function (row) {
             $(this).prop('checked', boxChecked);
             if (boxChecked) {
                 $(this).closest('tr').addClass("selected")
@@ -184,12 +174,12 @@ function initDatatableCheckBox() {
             }
         });
 
-        $('.tableBox').each(function () {
+        $('.tableCheckAll').each(function () {
             $(this).prop('checked', boxChecked);
         });
     });
 
-    $('.dataItem').on('change', function () {
+    $('[name="tableItem"]').on('change', function () {
 
         //单选框就需要移除其他选中的列的内容
         if ($(this).attr("type") == "radio") {
@@ -206,7 +196,7 @@ function initDatatableCheckBox() {
                 $('.DTFC_LeftBodyLiner table tbody tr').eq(row).addClass("selected");
             }
         } else {
-            $('.tableBox').prop("checked", false);
+            $('.tableCheckAll').prop("checked", false);
             $(this).closest('tr').removeClass("selected")
             var row = $(this).closest('tr').attr('data-dt-row');
             // if (row && row.toString() === "0") {
@@ -243,7 +233,7 @@ function initDatePicker() {
     // doc http://t1m0n.name/air-datepicker/docs/
     if ($().datepicker) {
         $('.date,.datetime,.datetimepicker,.datepicker,[data-render="date"]').each(function () {
-            $(this).attr("autocomplete","off");
+            $(this).attr("autocomplete", "off");
             var timepicker = $(this).hasClass('datetime') || $(this).hasClass('datetimepicker');
             $(this).datepicker({
                 language: 'zh',
@@ -277,7 +267,8 @@ function initValidate() {
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
-                element.parent().append(error);
+                // element.parent().append(error);
+                element.after(error);
             },
             highlight: function (element, errorClass, validClass) {
                 $(element).addClass('is-invalid');
@@ -333,7 +324,7 @@ function initAjaxSubmitForms() {
             // ignore: ".ignore",
             submitHandler: function (form) {
 
-                if (window.currentCKEditor){
+                if (window.currentCKEditor) {
                     window.currentCKEditor.updateSourceElement();
                 }
 
@@ -431,9 +422,9 @@ function initAjaxSubmitForms() {
  */
 function initResetBtn() {
     $('[type="reset"]').on('click', function (e) {
-        $(this).closest('form').find('[type="text"]').val("");
-        $(this).closest('form').find('textarea').val("");
-        $(this).closest('form').find('select').val("");
+        $(this).closest('form').find('[type="text"]').val("").trigger('propertychange');
+        $(this).closest('form').find('textarea').val("").trigger('propertychange');
+        $(this).closest('form').find('select').val("").trigger('propertychange');
         e.preventDefault();
     });
 }
@@ -631,24 +622,31 @@ function initOptionFormSubmit() {
 
 
 function initImageBrowserButton() {
-    $(".btn-image-browser").on("click", function () {
-        var imgBrowserBtn = $(this);
+    $(".btn-image-browser,.jpress-image-browser a").on("click", function () {
+        var $this = $(this);
         layer.open({
             type: 2,
             title: '选择图片',
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['90%', '90%'],
             content: jpress.cpath + '/admin/attachment/browse',
             end: function () {
                 if (layer.data.src != null) {
-                    var img = imgBrowserBtn.attr("for-src");
-                    var input = imgBrowserBtn.attr("for-input");
-                    $("#" + img).attr("src", jpress.cpath + layer.data.src);
-                    $("#" + img).trigger("srcChanged", jpress.cpath + layer.data.src);
-                    $("#" + input).val(layer.data.src);
-                    $("#" + input).trigger("valChanged", layer.data.src);
+                    var img = $this.attr("for-src");
+                    var input = $this.attr("for-input");
+
+                    if (img) {
+                        $("#" + img).attr("src", getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);;
+                    } else {
+                        $this.siblings('img').attr('src', getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
+                    }
+                    if (input) {
+                        $("#" + input).val(layer.data.src).trigger("valChanged", layer.data.src);
+                    }else {
+                        $this.siblings('input[type="hidden"]').val(layer.data.src).trigger("valChanged", layer.data.src);;
+                    }
                 }
             }
         });
@@ -868,7 +866,6 @@ function initCkEdtior(selector) {
 }
 
 
-
 function initVdtiorComponent() {
     if (typeof Vditor == "undefined") {
         return;
@@ -885,7 +882,7 @@ function initVdtiorComponent() {
 }
 
 
-function initVdtior(id,height) {
+function initVdtior(id, height) {
     height = height || 600;
     var toolbar = [
         "emoji",
@@ -950,6 +947,21 @@ function initVdtior(id,height) {
 }
 
 
+function initInputClearButton() {
+    $('.form-control-clear').click(function () {
+        $(this).siblings('input[type="text"],.clear').val('')
+            .trigger('propertychange').focus();
+    });
+
+    $('.form-control-clear').each(function () {
+        $(this).siblings('input[type="text"]').on('input propertychange', function () {
+            var $this = $(this);
+            $this.siblings('.clear').val('').trigger('propertychange');
+            $this.siblings('.form-control-clear').toggleClass('d-none', !Boolean($this.val()));
+        }).trigger('propertychange');
+    });
+}
+
 $(document).ready(function () {
 
     initStringMethods();
@@ -994,4 +1006,6 @@ $(document).ready(function () {
     initSlugSpan();
 
     initCkEdtiorComponent();
+
+    initInputClearButton();
 });

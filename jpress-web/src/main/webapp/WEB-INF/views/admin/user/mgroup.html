@@ -4,17 +4,8 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/user/doMgroupDel/" + id);
+        ajaxGet("#(CPATH)/admin/user/mgroup/doDel/" + id);
     }
-
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        ajaxGet("#(CPATH)/admin/user/doMgroupDelByIds?ids=" + ids);
-    })
 
 
 </script>
@@ -66,24 +57,24 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" type="checkbox"/>
                                 </th>
                                 <th style="width: 30%">名称</th>
                                 <th>描述</th>
                             </tr>
                             #for(group : memberGroups)
                             <tr>
-                                <td><input class="dataItem" type="checkbox" value="#(group.id)" />
+                                <td><input name="tableItem" type="checkbox" value="#(group.id)" />
                                 </td>
                                 <td>
                                     <strong>
-                                        <a href="#(CPATH)/admin/user/mgroupEdit/#(group.id)"> #(group.name ??) </a>
+                                        <a href="#(CPATH)/admin/user/mgroup/edit/#(group.id)"> #(group.name ??) </a>
                                     </strong>
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
-                                            <a href="#(CPATH)/admin/user/mgroupEdit/#(group.id)">编辑</a> |
-                                            <a href="#(CPATH)/admin/user?group_id=#(group.id)">查看用户</a> |
-                                            <a href="#(CPATH)/admin/user/mgroupjoined/#(group.id)">加入记录</a> |
+                                            <a href="#(CPATH)/admin/user/mgroup/edit/#(group.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/user/list?group_id=#(group.id)">查看用户</a> |
+                                            <a href="#(CPATH)/admin/user/mgroup/joined/#(group.id)">加入记录</a> |
                                             <a href="javascript:;" class="red-action" onclick="doDel('#(group.id)')">删除</a>
                                         </div>
                                     </div>

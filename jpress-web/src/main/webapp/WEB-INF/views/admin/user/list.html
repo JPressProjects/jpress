@@ -13,18 +13,6 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        if (confirm('确定要删除该用户吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids)
-        }
-    });
-
-
     $(".changeRoleAction").click(function () {
         var ids = getSelectedIds();
         var roleId = $(this).attr("data-rid");
@@ -134,7 +122,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" type="checkbox"/>
                                 </th>
                                 <th style="width: 40px">ID</th>
                                 <th style="width: 20%">登录名</th>
@@ -147,7 +135,7 @@
                             #for(user : page.list ??)
                             <tr>
                                 <td>
-                                    <input class="dataItem" type="checkbox" value="#(user.id)"/>
+                                    <input name="tableItem" type="checkbox" value="#(user.id)"/>
                                 </td>
                                 <td>#(user.id)</td>
                                 <td>
@@ -222,7 +210,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
+                                            <input class="form-check-input tableCheckAll" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

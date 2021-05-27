@@ -22,17 +22,6 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        if (confirm("确定要删除选中页面吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/page/doDelByIds?ids=" + ids);
-        }
-    })
-
 </script>
 
 #end
@@ -106,7 +95,7 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">
-                                <input class="tableBox"  type="checkbox">
+                                <input class="tableCheckAll"  type="checkbox">
                             </th>
                             <th style="width: 450px">标题</th>
                             <th>Slug</th>
@@ -120,7 +109,7 @@
                         #for(item : page.list ??)
                         <tr >
                             <td>
-                                <input class="dataItem"  type="checkbox" value="#(item.id)"/>
+                                <input name="tableItem"  type="checkbox" value="#(item.id)"/>
                             </td>
                             <td>
                                 <strong>
@@ -169,7 +158,7 @@
 
                                     <div class="form-group form-group-check">
                                         <div class="form-check">
-                                            <input class="form-check-input tableBox" type="checkbox" id="checkall">
+                                            <input class="form-check-input tableCheckAll" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

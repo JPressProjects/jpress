@@ -45,6 +45,17 @@ public abstract class ControllerBase extends JbootController {
         return id;
     }
 
+
+    /**
+     * 获得当前页面的页码
+     *
+     * @return
+     */
+    @NotAction
+    protected int getPagePara() {
+        return getParaToInt("page", 1);
+    }
+
     protected int getPageSizePara() {
         int pagesize = getParaToInt("pagesize", 0);
         if (pagesize == 0) {

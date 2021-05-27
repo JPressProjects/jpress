@@ -23,7 +23,7 @@
     <modules>
         <module>module-page-model</module>
         <module>module-page-web</module>
-        <module>module-page-service-api</module>
+        <module>module-page-service</module>
         <module>module-page-service-provider</module>
     </modules>
 

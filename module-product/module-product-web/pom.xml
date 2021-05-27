@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-product-service-api</artifactId>
+            <artifactId>module-product-service</artifactId>
             <version>4.0</version>
         </dependency>
 

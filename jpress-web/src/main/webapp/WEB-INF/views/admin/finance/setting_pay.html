@@ -56,15 +56,11 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">微信收款二维码</label>
                                 <div class="col-sm-6">
-                                    <button type="button"
-                                            for-src="wechatx_pay_qrcode_img"
-                                            for-input="wechatx_pay_qrcode_input"
-                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                    </button>
-                                    <br/>
-                                    <img src="#(CPATH)#option('wechatx_pay_qrcode','/static/commons/img/nothumbnail.jpg')" id="wechatx_pay_qrcode_img">
-                                    <input type="hidden" id="wechatx_pay_qrcode_input" name="wechatx_pay_qrcode" value="#option('wechatx_pay_qrcode')">
+                                    <div class="jpress-image-browser">
+                                        <input type="hidden" name="wechatx_pay_qrcode" value="#option('wechatx_pay_qrcode')"/>
+                                        <img src="#(CPATH)#option('wechatx_pay_qrcode','/static/commons/img/nothumbnail.jpg')">
+                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -90,15 +86,11 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">支付宝收款二维码</label>
                                 <div class="col-sm-6">
-                                    <button type="button"
-                                            for-src="alipayx_pay_qrcode_img"
-                                            for-input="alipayx_pay_qrcode_input"
-                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                    </button>
-                                    <br/>
-                                    <img src="#(CPATH)#option('alipayx_pay_qrcode','/static/commons/img/nothumbnail.jpg')" id="alipayx_pay_qrcode_img">
-                                    <input type="hidden" id="alipayx_pay_qrcode_input" name="alipayx_pay_qrcode" value="#option('alipayx_pay_qrcode')">
+                                    <div class="jpress-image-browser">
+                                        <input type="hidden" name="alipayx_pay_qrcode_input" value="#option('alipayx_pay_qrcode_input')"/>
+                                        <img src="#(CPATH)#option('alipayx_pay_qrcode_input','/static/commons/img/nothumbnail.jpg')">
+                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                    </div>
                                 </div>
                             </div>
 

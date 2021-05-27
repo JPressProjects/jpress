@@ -13,10 +13,9 @@
     <artifactId>module-product-search-opensearch</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-product-search-api</artifactId>
+            <artifactId>module-product-search</artifactId>
             <version>4.0</version>
         </dependency>
 

@@ -10,15 +10,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
-    <artifactId>module-article-search-api</artifactId>
-
+    <artifactId>module-article-service</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>io.jboot</groupId>
+            <artifactId>jboot</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-model</artifactId>
             <version>4.0</version>
         </dependency>
+
+
     </dependencies>
 
 

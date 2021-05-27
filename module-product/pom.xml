@@ -23,14 +23,13 @@
     <modules>
         <module>module-product-model</module>
         <module>module-product-web</module>
-        <module>module-product-service-api</module>
+        <module>module-product-service</module>
         <module>module-product-service-provider</module>
-        <module>module-product-search-api</module>
+        <module>module-product-search</module>
         <module>module-product-search-db</module>
         <module>module-product-search-es</module>
         <module>module-product-search-lucene</module>
         <module>module-product-search-opensearch</module>
-
     </modules>
 
     <build>

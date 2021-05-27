@@ -24,9 +24,9 @@
     <modules>
         <module>module-article-model</module>
         <module>module-article-web</module>
-        <module>module-article-service-api</module>
+        <module>module-article-service</module>
         <module>module-article-service-provider</module>
-        <module>module-article-search-api</module>
+        <module>module-article-search</module>
         <module>module-article-search-db</module>
         <module>module-article-search-lucene</module>
         <module>module-article-search-es</module>

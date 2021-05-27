@@ -16,7 +16,7 @@
         <module>jpress-commons</module>
         <module>jpress-core</module>
         <module>jpress-web</module>
-        <module>jpress-service-api</module>
+        <module>jpress-service</module>
         <module>jpress-service-provider</module>
         <module>jpress-model</module>
         <module>jpress-template</module>
@@ -211,7 +211,7 @@
 
             <dependency>
                 <groupId>io.jpress</groupId>
-                <artifactId>jpress-service-api</artifactId>
+                <artifactId>jpress-service</artifactId>
                 <version>4.0</version>
             </dependency>
 

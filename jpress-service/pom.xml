@@ -4,15 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>io.jpress</groupId>
-        <artifactId>module-article</artifactId>
+        <artifactId>parent</artifactId>
         <version>4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
-    <artifactId>module-article-service-api</artifactId>
+    <artifactId>jpress-service</artifactId>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>io.jboot</groupId>
             <artifactId>jboot</artifactId>
@@ -20,8 +26,7 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-article-model</artifactId>
-            <version>4.0</version>
+            <artifactId>jpress-model</artifactId>
         </dependency>
 
 

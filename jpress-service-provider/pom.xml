@@ -31,7 +31,7 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>jpress-service-api</artifactId>
+            <artifactId>jpress-service</artifactId>
         </dependency>
 
         <dependency>

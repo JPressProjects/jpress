@@ -32,13 +32,13 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-article-service-api</artifactId>
+            <artifactId>module-article-service</artifactId>
             <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-article-search-api</artifactId>
+            <artifactId>module-article-search</artifactId>
             <version>4.0</version>
         </dependency>
 

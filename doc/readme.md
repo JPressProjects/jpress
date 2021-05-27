@@ -650,7 +650,7 @@ JPress 是一个内置了几乎任何互联网系统都必须模块：
 | jpress-commons | 工具类和公用代码 |  |
 | jpress-core | JPress的核心代码 |  |
 | jpress-model | JPress非业务实体类 |  |
-| jpress-service-api | JPress非业务 service 接口定义  |  |
+| jpress-service | JPress非业务 service 接口定义  |  |
 | jpress-service-provider | JPress非业务 service 接口实现 |  |
 | jpress-template | JPress的html模板 |  |
 | jpress-web | JPress非业务的web处理代码 | 包含了 Controller、指令等 |

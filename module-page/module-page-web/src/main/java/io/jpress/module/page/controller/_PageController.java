@@ -26,9 +26,7 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
-import io.jpress.model.User;
 import io.jpress.module.page.model.SinglePage;
-import io.jpress.module.page.model.SinglePageComment;
 import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.AdminControllerBase;
@@ -95,110 +93,6 @@ public class _PageController extends AdminControllerBase {
         render("page/page_write.html");
     }
 
-
-    @AdminMenu(text = "评论", groupId = "page", order = 5)
-    public void comment() {
-
-        String status = getPara("status");
-        String key = getPara("keyword");
-        Long articleId = getParaToLong("pageId");
-
-        Page<SinglePageComment> page =
-                StrUtil.isBlank(status)
-                        ? commentService._paginateWithoutTrash(getPagePara(), 10, articleId, key)
-                        : commentService._paginateByStatus(getPagePara(), 10, articleId, key, status);
-
-        setAttr("page", page);
-
-        long unauditedCount = commentService.findCountByStatus(SinglePageComment.STATUS_UNAUDITED);
-        long trashCount = commentService.findCountByStatus(SinglePageComment.STATUS_TRASH);
-        long normalCount = commentService.findCountByStatus(SinglePageComment.STATUS_NORMAL);
-
-        setAttr("unauditedCount", unauditedCount);
-        setAttr("trashCount", trashCount);
-        setAttr("normalCount", normalCount);
-        setAttr("totalCount", unauditedCount + trashCount + normalCount);
-
-        render("page/comment_list.html");
-    }
-
-
-    /**
-     * 删除评论
-     */
-    public void doCommentDel() {
-        Long id = getParaToLong("id");
-        commentService.deleteById(id);
-        renderOkJson();
-    }
-
-
-    /**
-     * 批量删除评论
-     */
-    @EmptyValidate(@Form(name = "ids"))
-    public void doCommentDelByIds() {
-        Set<String> idsSet = getParaSet("ids");
-        render(commentService.batchDeleteByIds(idsSet.toArray()) ? OK : FAIL);
-    }
-
-
-    /**
-     * 批量审核评论
-     */
-    @EmptyValidate(@Form(name = "ids"))
-    public void doCommentAuditByIds() {
-        Set<String> idsSet = getParaSet("ids");
-        render(commentService.batchChangeStatusByIds(SinglePageComment.STATUS_NORMAL, idsSet.toArray()) ? OK : FAIL);
-    }
-
-    /**
-     * 修改评论状态
-     *
-     * @param id
-     * @param status
-     */
-    public void doCommentStatusChange(Long id, String status) {
-        render(commentService.doChangeStatus(id, status) ? OK : FAIL);
-    }
-
-
-    /**
-     * 评论回复 页面
-     */
-    public void commentReply() {
-        long id = getIdPara();
-        SinglePageComment comment = commentService.findById(id);
-        setAttr("comment", comment);
-        render("page/comment_reply.html");
-    }
-
-    /**
-     * 进行评论回复
-     */
-    public void doCommentReply(String content, Long pageId, Long pid) {
-        User user = getLoginedUser();
-
-        SinglePageComment comment = new SinglePageComment();
-        comment.setContent(content);
-        comment.setUserId(user.getId());
-        comment.setStatus(SinglePageComment.STATUS_NORMAL);
-        comment.setPageId(pageId);
-        comment.setPid(pid);
-
-        commentService.save(comment);
-        renderOkJson();
-    }
-
-    /**
-     * 评论编辑 页面
-     */
-    public void commentEdit() {
-        long id = getIdPara();
-        SinglePageComment comment = commentService.findById(id);
-        setAttr("comment", comment);
-        render("page/comment_edit.html");
-    }
 
 
     @AdminMenu(text = "设置", groupId = "page", order = 6)

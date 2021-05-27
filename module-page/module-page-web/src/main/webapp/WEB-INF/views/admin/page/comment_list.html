@@ -3,12 +3,12 @@
 <script>
 
     function doChangeStatus(id, status) {
-        ajaxGet("#(CPATH)/admin/page/doCommentStatusChange?id=" + id + "&status=" + status)
+        ajaxGet("#(CPATH)/admin/page/comment/doChangeStatus?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id)
+            ajaxGet("#(CPATH)/admin/page/comment/doDel?id=" + id)
         }
     }
 
@@ -21,7 +21,7 @@
         }
 
         if (confirm("确定要删除选中的评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/page/doCommentDelByIds?ids=" + ids)
+            ajaxGet("#(CPATH)/admin/page/comment/doDelByIds?ids=" + ids)
         }
     })
 
@@ -32,7 +32,7 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/page/doCommentAuditByIds?ids=" + ids)
+        ajaxGet("#(CPATH)/admin/page/comment/doAuditByIds?ids=" + ids)
     })
 
 </script>
@@ -132,8 +132,8 @@
                                     </strong>
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
-                                            <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)">编辑</a> |
-                                            <a href="#(CPATH)/admin/page/commentReply/#(comment.id)">回复</a> |
+                                            <a href="#(CPATH)/admin/page/comment/edit/#(comment.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/page/comment/reply/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
                                             <a href="javascript:;"
                                                onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |

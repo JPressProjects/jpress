@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col-12" style="padding-top: 20px">
                             <a href="?">全部 (#(totalCount ??))</a> |
-                            <a href="?status=normal">已发布 (#(normalCount ??))</a> |
+                            <a href="?status=normal">已发布 (#(normalCount ?? 0))</a> |
                             <a href="?status=unaudited">待审核 (#(unauditedCount ?? 0))</a> |
                             <a href="?status=draft">垃圾箱 (#(draftCount ?? 0))</a> |
                             <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>

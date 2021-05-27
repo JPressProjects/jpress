@@ -43,21 +43,19 @@ public class _ArticleCommentController extends AdminControllerBase {
     private ArticleCommentService commentService;
 
 
-
-
     @AdminMenu(text = "评论", groupId = "article", order = 5)
     public void list() {
         String status = getPara("status");
 
         Columns columns = Columns.create()
                 .eq("article_id", getParaToLong("articleId"))
-                .eq("user_id",getParaToLong("userId"))
+                .eq("user_id", getParaToLong("userId"))
                 .likeAppendPercent("content", getPara("keyword"));
 
         Page<ArticleComment> page =
                 StrUtil.isBlank(status)
-                        ? commentService._paginateWithoutTrash(getPagePara(), 10, columns)
-                        : commentService._paginateByStatus(getPagePara(), 10, columns, status);
+                        ? commentService._paginateWithoutTrash(getPagePara(), getPageSizePara(), columns)
+                        : commentService._paginateByStatus(getPagePara(), getPageSizePara(), columns, status);
 
         setAttr("page", page);
 

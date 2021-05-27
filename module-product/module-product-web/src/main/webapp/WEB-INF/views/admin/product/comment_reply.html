@@ -6,7 +6,7 @@
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
             ajaxGet("#(CPATH)/admin/product/comment/doDel/" + id, function () {
-                location.href = "#(CPATH)/admin/product/comment";
+                location.href = "#(CPATH)/admin/product/comment/list";
             }, function (result) {
                 alert(result.message);
             })
@@ -20,7 +20,7 @@
 
     function ok() {
         toastr.options.onHidden = function () {
-            location.href = "#(CPATH)/admin/product/comment";
+            location.href = "#(CPATH)/admin/product/comment.list";
         }
         toastr.success('回复成功。');
     }

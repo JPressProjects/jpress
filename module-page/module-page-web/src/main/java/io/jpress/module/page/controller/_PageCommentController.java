@@ -52,8 +52,8 @@ public class _PageCommentController extends AdminControllerBase {
 
         Page<SinglePageComment> page =
                 StrUtil.isBlank(status)
-                        ? commentService._paginateWithoutTrash(getPagePara(), 10, articleId, key)
-                        : commentService._paginateByStatus(getPagePara(), 10, articleId, key, status);
+                        ? commentService._paginateWithoutTrash(getPagePara(), getPageSizePara(), articleId, key)
+                        : commentService._paginateByStatus(getPagePara(), getPageSizePara(), articleId, key, status);
 
         setAttr("page", page);
 

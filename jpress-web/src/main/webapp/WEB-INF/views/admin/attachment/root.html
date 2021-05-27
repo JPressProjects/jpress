@@ -25,17 +25,6 @@
             ajaxGet("#(CPATH)/admin/attachment/doDelRootFile?name=" + name);
         }
     }
-
-    $("#batchDel").click(function () {
-        var names = getSelectedIds();
-        if (names == "") {
-            alert('您未选择任何文件');
-            return
-        }
-        if (confirm('确定要删除文件 '+names+' 吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/attachment/doBatchDelRootFile?names=" + names);
-        }
-    })
 </script>
 
 #end

@@ -7,16 +7,6 @@
         ajaxGet("#(CPATH)/admin/user/role/doDel/" + id);
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        ajaxGet("#(CPATH)/admin/user/role/doDelByIds?ids=" + ids);
-    })
-
-
 </script>
 #end
 

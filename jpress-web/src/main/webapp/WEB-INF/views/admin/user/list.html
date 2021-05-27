@@ -13,18 +13,6 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        if (confirm('确定要删除该用户吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids)
-        }
-    });
-
-
     $(".changeRoleAction").click(function () {
         var ids = getSelectedIds();
         var roleId = $(this).attr("data-rid");

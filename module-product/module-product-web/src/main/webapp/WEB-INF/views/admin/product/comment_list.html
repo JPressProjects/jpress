@@ -12,19 +12,6 @@
             ajaxGet("#(CPATH)/admin/product/comment/doDel/" + id);
         }
     }
-
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何条目');
-            return
-        }
-        if (confirm("确定要删除选中的评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/product/comment/doDelByIds?ids=" + ids);
-        }
-    })
-
-
 </script>
 #end
 

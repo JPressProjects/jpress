@@ -10,20 +10,6 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-
-        if (confirm('确定要删除选中的记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/address/doDelByIds?ids=" + ids);
-        }
-
-    });
-
-
     function checkAll(checkbox) {
         $('[name="tableItem"]').each(function () {
             $(this).prop('checked', checkbox.checked);
@@ -86,9 +72,7 @@
 
                 <div class="row admin-search-panel">
                     <div class="col-xs-12">
-                        <a href="#(CPATH)/ucenter/address/edit" class="btn btn-primary "> <i
-                                class="fa fa-fw fa-plus"></i> 新建</a>
-<!--                        <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>-->
+                        <a href="#(CPATH)/ucenter/address/edit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</a>
                     </div>
                 </div>
 

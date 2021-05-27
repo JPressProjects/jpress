@@ -25,7 +25,7 @@
 
 
     function checkAll(checkbox) {
-        $(".dataItem").each(function () {
+        $('[name="tableItem"]').each(function () {
             $(this).prop('checked', checkbox.checked);
         });
 
@@ -40,7 +40,7 @@
 
     function getSelectedIds() {
         var selectedIds = "";
-        $(".dataItem").each(function () {
+        $('[name="tableItem"]').each(function () {
             if ($(this).prop('checked')) {
                 selectedIds += $(this).val() + ",";
             }

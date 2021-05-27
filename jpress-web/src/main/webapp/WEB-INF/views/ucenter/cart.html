@@ -195,7 +195,7 @@
 
     function checkAll(checkbox) {
         if (checkbox.checked) {
-            $(".dataItem").each(function () {
+            $('[name="tableItem"]').each(function () {
                 $(this).prop('checked', checkbox.checked);
             });
         }
@@ -212,14 +212,14 @@
 
         if (checkbox.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
-                $(".dataItem").each(function () {
+                $('[name="tableItem"]').each(function () {
                     $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");
                     querySelectedItemCountAndPrice();
                 });
             })
         } else {
             ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemIds}, function () {
-                $(".dataItem").each(function () {
+                $('[name="tableItem"]').each(function () {
                     $(this).prop('checked', false);
                     $(this).parent().parent("tr").prop("style", "");
                     querySelectedItemCountAndPrice();
@@ -246,7 +246,7 @@
 
     function getSelectedIds() {
         var selectedIds = "";
-        $(".dataItem").each(function () {
+        $('[name="tableItem"]').each(function () {
             if ($(this).prop('checked')) {
                 selectedIds += $(this).val() + ",";
             }

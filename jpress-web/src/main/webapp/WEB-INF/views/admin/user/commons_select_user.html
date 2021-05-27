@@ -62,8 +62,10 @@
                         <tr>
                             <th style="width: 10px">
                             </th>
+                            <th>ID</th>
                             <th>登录账号</th>
                             <th>姓名</th>
+                            <th>标签</th>
                             <th>手机号</th>
                             <th>状态</th>
                         </tr>
@@ -75,8 +77,17 @@
                             <th style="width: 10px" data-id="#(item.id ??)">
                                 <input name="tableItem"  type="radio" value="#(item.id ??)">
                             </th>
-                            <td data-loginname="#(item.loginname ??)">#(item.loginname ??)</td>
+                            <td data-loginname="#(item.id ??)">#(item.id ??)</td>
+                            <td data-loginname="#(item.username ??)">#(item.username ??)</td>
                             <td data-nickname="#(item.nickname ??)">#(item.nickname ??)</td>
+                            <td>
+                                #userTags(userId = item.id)
+                                #for(t : tags)
+                                #(t.title ??)
+                                #if(!for.last) , #end
+                                #end
+                                #end
+                            </td>
                             <td>#(item.mobile ??)</td>
                             <td>#(item.status ??)</td>
                         </tr>

@@ -114,7 +114,7 @@ public class _ProductCommentController extends AdminControllerBase {
     }
 
 
-    public void doCommentStatusChange(Long id, int status) {
+    public void doChangeStatus(Long id, int status) {
         render(commentService.doChangeStatus(id, status) ? OK : FAIL);
     }
 

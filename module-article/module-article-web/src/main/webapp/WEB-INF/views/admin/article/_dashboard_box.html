@@ -1,12 +1,12 @@
 <script>
 
     function doChangeStatus(id, status) {
-        ajaxGet("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status)
+        ajaxGet("#(CPATH)/admin/article/doChangeStatus?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/article/doCommentDel?id=" + id);
+            ajaxGet("#(CPATH)/admin/article/comment/doDel?id=" + id);
         }
     }
 
@@ -73,7 +73,7 @@
                             </div>
                             <ul class="list-inline">
                                 <li>
-                                    <a href="#(CPATH)/admin/article/commentReply/#(comment.id)" style="color: #006505">回复</a> |
+                                    <a href="#(CPATH)/admin/article/comment/reply/#(comment.id)" style="color: #006505">回复</a> |
                                     #if(comment.isNormal())
                                     <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','unaudited')"
                                        style="color: #006505">待审核</a> |

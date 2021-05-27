@@ -3,12 +3,12 @@
 <script>
 
     function doChangeStatus(id, status) {
-        ajaxGet("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status)
+        ajaxGet("#(CPATH)/admin/article/comment/doChangeStatus?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/article/doCommentDel?id=" + id)
+            ajaxGet("#(CPATH)/admin/article/comment/doDel?id=" + id)
         }
     }
 
@@ -20,7 +20,7 @@
             return
         }
         if (confirm("确定要删除选中的评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/article/doCommentDelByIds?ids=" + ids)
+            ajaxGet("#(CPATH)/admin/article/comment/doDelByIds?ids=" + ids)
         }
     })
 
@@ -31,7 +31,7 @@
             alert('您未选择任何内容');
             return
         }
-        ajaxGet("#(CPATH)/admin/article/doCommentAuditByIds?ids=" + ids)
+        ajaxGet("#(CPATH)/admin/article/comment/doAuditByIds?ids=" + ids)
     })
 
 </script>
@@ -66,7 +66,8 @@
                         <div class="col-12" style="padding-top: 20px">
                             <a href="?">全部 (#(totalCount ??))</a> |
                             <a href="?status=normal">已发布 (#(normalCount ??))</a> |
-                            <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
+                            <a href="?status=unaudited">待审核 (#(unauditedCount ?? 0))</a> |
+                            <a href="?status=draft">垃圾箱 (#(draftCount ?? 0))</a> |
                             <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
                         </div>
                     </div>
@@ -144,8 +145,8 @@
                                     </strong>
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
-                                            <a href="#(CPATH)/admin/article/commentEdit/#(comment.id)">编辑</a> |
-                                            <a href="#(CPATH)/admin/article/commentReply/#(comment.id)">回复</a> |
+                                            <a href="#(CPATH)/admin/article/comment/edit/#(comment.id)">编辑</a> |
+                                            <a href="#(CPATH)/admin/article/comment/reply/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
                                             <a href="javascript:;"
                                                onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |

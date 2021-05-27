@@ -18,6 +18,7 @@ package io.jpress.module.article.controller.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -364,13 +365,16 @@ public class _ArticleController extends AdminControllerBase {
     public void comment() {
 
         String status = getPara("status");
-        String key = getPara("keyword");
-        Long articleId = getParaToLong("articleId");
+
+        Columns columns = Columns.create()
+                .eq("article_id", getParaToLong("articleId"))
+                .eq("user_id",getParaToLong("userId"))
+                .likeAppendPercent("content", getPara("keyword"));
 
         Page<ArticleComment> page =
                 StrUtil.isBlank(status)
-                        ? commentService._paginateWithoutTrash(getPagePara(), 10, articleId, key)
-                        : commentService._paginateByStatus(getPagePara(), 10, articleId, key, status);
+                        ? commentService._paginateWithoutTrash(getPagePara(), 10, columns)
+                        : commentService._paginateByStatus(getPagePara(), 10, columns, status);
 
         setAttr("page", page);
 

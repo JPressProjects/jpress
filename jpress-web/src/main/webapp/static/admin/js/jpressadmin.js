@@ -951,6 +951,7 @@ function initInputClearButton() {
     $('.form-control-clear').each(function () {
         $(this).siblings('input[type="text"]').on('input propertychange', function () {
             var $this = $(this);
+            $this.siblings('.clear').val('').trigger('propertychange');
             $this.siblings('.form-control-clear').toggleClass('d-none', !Boolean($this.val()));
         }).trigger('propertychange');
     });

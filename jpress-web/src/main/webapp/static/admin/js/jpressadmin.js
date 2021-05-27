@@ -113,7 +113,7 @@ function _initLayerByComponent(component) {
         title: dataset.layerTitle || '内容',
         anim: dataset.layerAnim || 2,
         shadeClose: dataset.layerShadeClose ? (/^true$/i).test(dataset.layerShadeClose) : true,
-        shade: dataset.layerShade || 0.5,
+        shade: dataset.layerShade || 0.3,
         area: dataset.layerArea ? eval(dataset.layerArea) : ['80%', '80%'],
         content: dataset.layerContent || component.attr('href'),
         end: function () {
@@ -631,7 +631,7 @@ function initImageBrowserButton() {
             title: '选择图片',
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['90%', '90%'],
             content: jpress.cpath + '/admin/attachment/browse',
             end: function () {

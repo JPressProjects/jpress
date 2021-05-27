@@ -42,7 +42,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-	                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+	                                    <input name="tableItem" onchange="checkAll(this)" type="checkbox"/>
 	                                </th>
 	                                <th></th>
 	                                <th>名字</th>
@@ -55,7 +55,7 @@
                             </tr>
                             #for(entry : page.list)
                             <tr>
-                                <td><input name="dataItem" type="checkbox" value="#(entry.id)" />
+                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" />
                                 </td>
                                 <td>
                                     <strong>

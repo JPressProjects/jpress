@@ -84,7 +84,7 @@
                     <tbody>
                     <tr>
                         <th style="width: 10px">
-                            <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                            <input name="tableItem" onchange="checkAll(this)" type="checkbox" value="0"/>
                         </th>
                         <th style="width: 150px">收货人</th>
                         <th style="width: 150px">手机号码</th>
@@ -95,7 +95,7 @@
 
                     #for(data : page.list)
                     <tr>
-                        <td><input name="dataItem" type="checkbox" name="address.id" value="#(data.id)"
+                        <td><input name="tableItem" type="checkbox" name="address.id" value="#(data.id)"
                                    onchange="dataItemChange(this)"/></td>
                         <td style="width: 50px">
                             <strong><a href="#">#(data.username ??)</a></strong>

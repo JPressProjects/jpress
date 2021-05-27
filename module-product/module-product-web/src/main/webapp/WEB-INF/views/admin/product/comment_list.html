@@ -80,7 +80,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input name="tableItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
                                 <th style="width: 100px">作者</th>
                                 <th style="width: 40%">内容</th>
@@ -91,7 +91,7 @@
                             </tr>
                             #for(comment : page.list)
                             <tr>
-                                <td><input name="dataItem" type="checkbox" value="#(comment.id)"/>
+                                <td><input name="tableItem" type="checkbox" value="#(comment.id)"/>
                                 </td>
                                 <td>
                                     <a href="#(CPATH)/admin/user/detail/#(comment.user.id ??)">

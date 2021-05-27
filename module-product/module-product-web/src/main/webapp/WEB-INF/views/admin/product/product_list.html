@@ -100,7 +100,7 @@
 							<tbody>
 							<tr>
 								<th style="width: 10px">
-									<input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+									<input name="tableItem" onchange="checkAll(this)" type="checkbox" value="0"/>
 								</th>
 								<th style="width: 350px">标题</th>
 								<th style="width: 50px">价格</th>
@@ -113,7 +113,7 @@
 
 							#for(product : page.list)
 							<tr>
-								<td><input name="dataItem" type="checkbox" value="#(product.id)"/>
+								<td><input name="tableItem" type="checkbox" value="#(product.id)"/>
 								</td>
 								<td>
 									<!--<div style="width: 20px;height: 20px">-->

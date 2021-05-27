@@ -78,7 +78,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+                                    <input name="tableItem" onchange="checkAll(this)" type="checkbox" value="0"/>
                                 </th>
                                 <th style="width: 450px">关键字</th>
                                 <th style="width: 450px">回复类型</th>
@@ -88,7 +88,7 @@
 
                             #for(reply : page.list)
                             <tr>
-                                <td><input name="dataItem" type="checkbox" value="#(reply.id)" />
+                                <td><input name="tableItem" type="checkbox" value="#(reply.id)" />
                                 </td>
                                 <td>
                                     <strong>

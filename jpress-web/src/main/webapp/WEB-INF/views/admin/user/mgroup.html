@@ -57,14 +57,14 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input name="tableItem" onchange="checkAll(this)" type="checkbox"/>
                                 </th>
                                 <th style="width: 30%">名称</th>
                                 <th>描述</th>
                             </tr>
                             #for(group : memberGroups)
                             <tr>
-                                <td><input name="dataItem" type="checkbox" value="#(group.id)" />
+                                <td><input name="tableItem" type="checkbox" value="#(group.id)" />
                                 </td>
                                 <td>
                                     <strong>

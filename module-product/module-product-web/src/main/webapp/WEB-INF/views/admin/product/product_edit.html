@@ -51,7 +51,7 @@
         }
         ajaxSubmit("#form", function (data) {
             $("#productId").attr("value", data.id);
-            toastr.success('文章保存成功。');
+            toastr.success('产品信息保存成功。');
         });
     };
 
@@ -250,9 +250,7 @@
                                 <input type="hidden" id="product-slug" name="product.slug" value="#(product.slug ??)">
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
-<!--                                <textarea id="contentEditor" name="product.content"-->
-<!--                                          style="height: 467px;width: 100%;background-color: white">#EditorContent(product.content ??)</textarea>-->
-                                <div id="editor" >#(product.orignalContent ??)</div>
+                                <div id="editor" >#(product.content ??)</div>
                                 <input type="hidden" name="product.content" id="content"/>
                             </div>
                         </div>
@@ -514,9 +512,9 @@
 
                     <div class="card card-outlinecard-solid">
                         <div class="card-header with-border ">
-                            <h3 class="card-title">产品主图</h3>
+                            <h3 class="card-title">产品封面</h3>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             <img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
                                  style="width: 100%;height: 200px"
                                  id="thumbnail">

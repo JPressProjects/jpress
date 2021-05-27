@@ -420,3 +420,48 @@ label:not(.form-check-label):not(.custom-file-label) {
     left: -26px;
     color: #999;
 }
+
+.jpress-image-browser {
+    position: relative;
+    /*border: 1px solid #eee;*/
+    display: inline-block;
+    cursor: move;
+    text-align: center;
+    max-width: 300px;
+}
+
+.jpress-image-browser img {
+    width: 100%;
+    height: 100%;
+}
+
+.form-group .jpress-image-browser img {
+    border: none;
+}
+
+jpress-image-browser .image-reset {
+    display: none;
+}
+
+.jpress-image-browser:hover .image-reset {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #FFF;
+    width: 100%;
+    z-index: 10;
+    height: 100%;
+    line-height: 200px;
+    background: #000000aa;
+    filter: alpha(opacity=30);
+    -moz-opacity: 0.5;
+    font-size: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jpress-image-browser .image-reset {
+    display: none;
+}

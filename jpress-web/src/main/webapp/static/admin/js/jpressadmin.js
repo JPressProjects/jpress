@@ -75,8 +75,6 @@ function setActiveMenu(pathName) {
 }
 
 
-
-
 /**
  * 设置 layer 组件
  */
@@ -624,8 +622,8 @@ function initOptionFormSubmit() {
 
 
 function initImageBrowserButton() {
-    $(".btn-image-browser").on("click", function () {
-        var imgBrowserBtn = $(this);
+    $(".btn-image-browser,.jpress-image-browser a").on("click", function () {
+        var $this = $(this);
         layer.open({
             type: 2,
             title: '选择图片',
@@ -636,12 +634,19 @@ function initImageBrowserButton() {
             content: jpress.cpath + '/admin/attachment/browse',
             end: function () {
                 if (layer.data.src != null) {
-                    var img = imgBrowserBtn.attr("for-src");
-                    var input = imgBrowserBtn.attr("for-input");
-                    $("#" + img).attr("src", jpress.cpath + layer.data.src);
-                    $("#" + img).trigger("srcChanged", jpress.cpath + layer.data.src);
-                    $("#" + input).val(layer.data.src);
-                    $("#" + input).trigger("valChanged", layer.data.src);
+                    var img = $this.attr("for-src");
+                    var input = $this.attr("for-input");
+
+                    if (img) {
+                        $("#" + img).attr("src", getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);;
+                    } else {
+                        $this.siblings('img').attr('src', getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
+                    }
+                    if (input) {
+                        $("#" + input).val(layer.data.src).trigger("valChanged", layer.data.src);
+                    }else {
+                        $this.siblings('input[type="hidden"]').val(layer.data.src).trigger("valChanged", layer.data.src);;
+                    }
                 }
             }
         });

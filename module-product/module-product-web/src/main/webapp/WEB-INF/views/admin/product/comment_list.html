@@ -103,7 +103,7 @@
                             </tr>
                             #for(comment : page.list)
                             <tr>
-                                <td><input class="dataItem" type="checkbox" value="#(comment.id)"/>
+                                <td><input name="dataItem" type="checkbox" value="#(comment.id)"/>
                                 </td>
                                 <td>
                                     <a href="#(CPATH)/admin/user/detail/#(comment.user.id ??)">

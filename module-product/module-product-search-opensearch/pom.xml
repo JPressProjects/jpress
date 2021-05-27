@@ -13,7 +13,6 @@
     <artifactId>module-product-search-opensearch</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-search</artifactId>

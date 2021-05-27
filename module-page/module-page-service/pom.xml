@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
-    <artifactId>module-page-service-api</artifactId>
+    <artifactId>module-page-service</artifactId>
 
     <dependencies>
         <dependency>

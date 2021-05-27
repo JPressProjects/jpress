@@ -79,20 +79,22 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
 
     @Override
     public boolean update(SinglePage model) {
-        if (model.isNormal()) {
+        boolean isSuccess = super.update(model);
+        if (isSuccess && model.isNormal()) {
             SeoManager.me().ping(model.toPingData());
             SeoManager.me().baiduUpdate(model.getUrl());
         }
-        return super.update(model);
+        return isSuccess;
     }
 
     @Override
     public Object save(SinglePage model) {
-        if (model.isNormal()) {
+        Object ret = super.save(model);
+        if (ret != null && model.isNormal()) {
             SeoManager.me().ping(model.toPingData());
             SeoManager.me().baiduPush(model.getUrl());
         }
-        return super.save(model);
+        return ret;
     }
 
     @Override

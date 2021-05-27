@@ -52,7 +52,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-	                                    <input class="tableBox" type="checkbox"/>
+	                                    <input class="tableCheckAll" type="checkbox"/>
 	                                </th>
                                 #for(cm : tableMeta.columnMetas)
 	                                <th>#(cm.remarks?? "列名称")</th>

@@ -161,7 +161,7 @@ function initTooltip() {
  * 设置 表格 的全选按钮
  */
 function initDatatableCheckBox() {
-    $('.tableBox').on('change', function () {
+    $('.tableCheckAll').on('change', function () {
         var boxChecked = $(this).prop("checked");
         $('[name="tableItem"]').each(function (row) {
             $(this).prop('checked', boxChecked);
@@ -176,7 +176,7 @@ function initDatatableCheckBox() {
             }
         });
 
-        $('.tableBox').each(function () {
+        $('.tableCheckAll').each(function () {
             $(this).prop('checked', boxChecked);
         });
     });
@@ -198,7 +198,7 @@ function initDatatableCheckBox() {
                 $('.DTFC_LeftBodyLiner table tbody tr').eq(row).addClass("selected");
             }
         } else {
-            $('.tableBox').prop("checked", false);
+            $('.tableCheckAll').prop("checked", false);
             $(this).closest('tr').removeClass("selected")
             var row = $(this).closest('tr').attr('data-dt-row');
             // if (row && row.toString() === "0") {

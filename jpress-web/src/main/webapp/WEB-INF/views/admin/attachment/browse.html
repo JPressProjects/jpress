@@ -52,7 +52,12 @@
         text-align: center;
         padding-top: 60px;
     }
-
+    .tab-content>.tab-pane{
+        padding:1rem;
+    }
+    .card.card-outline-tabs .card-header a{
+        border-top-color:#dee2e6;
+    }
 
 
 </style>
@@ -107,7 +112,7 @@
             <div class="tab-content" style="padding-top:20px;">
                 <div class="tab-pane" id="timeline">
                     <div id="uploader">
-                            <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 160px;">
                                 <i class="fas fa-plus"></i>
                                 <span>选择文件...</span>
                                 <input id="cfile" type="file" name="files[]" multiple>

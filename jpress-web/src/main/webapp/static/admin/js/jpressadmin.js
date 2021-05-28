@@ -291,7 +291,12 @@ function initValidate() {
                 //     $(element).removeClass('is-invalid');
                 //     $(element).addClass('is-valid');
                 // }
-            }
+            },
+            // onfocusout: function( element ) {
+            //     if ( !this.checkable( element ) && ( element.name in this.submitted || !this.optional( element ) ) ) {
+            //         this.element( element );
+            //     }
+            // },
         });
 
         $.validator.addMethod("mobile", function (value, element) {

@@ -423,7 +423,13 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .form-group img{
     max-width: 300px;
+    vertical-align:middle;
     /*border: 1px solid #eee;*/
+}
+
+.card-body img{
+    vertical-align: middle;
+    border-style: none;
 }
 
 
@@ -438,7 +444,6 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .jpress-image-browser img{
     width: 100%;
-    vertical-align:middle;
 }
 
 .jpress-image-browser:hover .image-reset {

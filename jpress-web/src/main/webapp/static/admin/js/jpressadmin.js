@@ -237,7 +237,18 @@ function initDatePicker() {
             var timepicker = $(this).hasClass('datetime') || $(this).hasClass('datetimepicker');
             $(this).datepicker({
                 language: 'zh',
-                timepicker: timepicker
+                timepicker: timepicker,
+                clearButton: true,
+                todayButton: new Date(),
+                onShow: function (dp, animationCompleted) {
+                    if (!animationCompleted) {
+                        var inputDate = dp.$el.val();
+                        if (inputDate) {
+                            var date = new Date(inputDate.replace(/-/g, "/"));
+                            dp.selectDate(date);
+                        }
+                    }
+                }
             })
         });
     }
@@ -638,14 +649,16 @@ function initImageBrowserButton() {
                     var input = $this.attr("for-input");
 
                     if (img) {
-                        $("#" + img).attr("src", getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);;
+                        $("#" + img).attr("src", getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
+                        ;
                     } else {
                         $this.siblings('img').attr('src', getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
                     }
                     if (input) {
                         $("#" + input).val(layer.data.src).trigger("valChanged", layer.data.src);
-                    }else {
-                        $this.siblings('input[type="hidden"]').val(layer.data.src).trigger("valChanged", layer.data.src);;
+                    } else {
+                        $this.siblings('input[type="hidden"]').val(layer.data.src).trigger("valChanged", layer.data.src);
+                        ;
                     }
                 }
             }

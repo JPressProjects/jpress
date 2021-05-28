@@ -73,7 +73,7 @@ public class JPressOptions {
     }
 
     public static boolean getAsBool(String key) {
-        return getAsBool(key,false);
+        return getAsBool(key, false);
     }
 
     public static boolean getAsBool(String key, boolean defaultValue) {
@@ -168,6 +168,11 @@ public class JPressOptions {
         else if (JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(key)) {
             fakeStaticSuffix = value;
         }
+
+        //是否开启模板预览功能
+        else if (JPressConsts.OPTION_WEB_TEMPLATE_PREVIEW_ENABLE.equals(key)) {
+            templatePreviewEnable = "true".equalsIgnoreCase(value);
+        }
     }
 
     private static String indexStyleValue = null;
@@ -186,6 +191,17 @@ public class JPressOptions {
         }
 
         return fakeStaticSuffix;
+    }
+
+
+    private static boolean templatePreviewEnable = false;
+
+    public static boolean isTemplatePreviewEnable() {
+        return templatePreviewEnable;
+    }
+
+    public static void setTemplatePreviewEnable(boolean templatePreviewEnable) {
+        JPressOptions.templatePreviewEnable = templatePreviewEnable;
     }
 
     public static OptionStore getStore() {

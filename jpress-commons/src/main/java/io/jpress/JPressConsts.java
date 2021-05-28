@@ -60,6 +60,7 @@ public class JPressConsts {
 
     public static final String OPTION_WEB_FAKE_STATIC_ENABLE = "web_fake_static_enable"; //是否启用伪静态
     public static final String OPTION_WEB_FAKE_STATIC_SUFFIX = "web_fake_static_suffix"; //网站伪静态后缀
+    public static final String OPTION_WEB_TEMPLATE_PREVIEW_ENABLE = "web_template_preview_enable"; //网站伪静态后缀
 
     public static final String OPTION_CDN_ENABLE = "cdn_enable"; //是否启用CDN
     public static final String OPTION_CDN_DOMAIN = "cdn_domain"; //CDN域名

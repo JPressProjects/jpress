@@ -66,6 +66,7 @@ public class _TemplateController extends AdminControllerBase {
     @Inject
     private OptionService optionService;
 
+
     @AdminMenu(text = "所有模板", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 0)
     public void list() {
 
@@ -88,6 +89,13 @@ public class _TemplateController extends AdminControllerBase {
         setAttr("templateCount", templates == null ? 0 : templates.size());
 
         render("template/list.html");
+    }
+
+    public void doTriggerTemplateEnable(){
+        Boolean trigger = !JPressOptions.isTemplatePreviewEnable();
+        optionService.saveOrUpdate(JPressConsts.OPTION_WEB_TEMPLATE_PREVIEW_ENABLE, trigger.toString());
+        JPressOptions.set(JPressConsts.OPTION_WEB_TEMPLATE_PREVIEW_ENABLE, trigger.toString());
+        renderOkJson();
     }
 
 

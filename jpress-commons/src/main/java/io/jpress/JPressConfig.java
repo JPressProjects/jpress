@@ -94,12 +94,6 @@ public class JPressConfig {
     private String adminLoginPage = DEFAULT_LOGIN_PAGE;         //登录的页面
     private String adminLoginAction = "/admin/doLogin";     //登录的方法
 
-    /**
-     * 是否开启模板预览的功能
-     */
-    private boolean templatePreviewEnable = false;
-
-
     public String getIndexAction() {
         return indexAction;
     }
@@ -139,14 +133,6 @@ public class JPressConfig {
 
     public void setAdminLoginAction(String adminLoginAction) {
         this.adminLoginAction = adminLoginAction;
-    }
-
-    public boolean isTemplatePreviewEnable() {
-        return templatePreviewEnable;
-    }
-
-    public void setTemplatePreviewEnable(boolean templatePreviewEnable) {
-        this.templatePreviewEnable = templatePreviewEnable;
     }
 
     public String getAttachmentRootOrWebRoot() {

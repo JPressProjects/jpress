@@ -275,6 +275,7 @@ function initValidate() {
     //https://jqueryvalidation.org/documentation/
     if ($.validator) {
         $.validator.setDefaults({
+            ignore: ".ck", //防止 ckeditor5 validate 是出错
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');

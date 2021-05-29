@@ -94,7 +94,7 @@
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="固定连接会显示在网址上..." required
                                            value="#(category.slug ??)" name="category.slug">
-                                    <p class="text-muted"> 此文章分类的 URL 地址为：<br /><span class="domainSpan"></span>/product/category/<span style="color: red">固定连接</span>  </p>
+                                    <p class="text-muted"> 此产品分类的 URL 地址为：<br /><span class="domainSpan"></span>/product/category/<span style="color: red">固定连接</span>  </p>
                                 </div>
                             </div>
 
@@ -250,6 +250,8 @@
                                 <td>#(category.content ??)</td>
                                 <td>#(category.order_number ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
                             </tbody>
                         </table>

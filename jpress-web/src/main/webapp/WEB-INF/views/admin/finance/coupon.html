@@ -94,6 +94,8 @@
                                 <td><a href="#(CPATH)/admin/finance/coupon/useds?coid=#(coupon.id)">#(coupon.used_count ??)</a></td>
                                 <td>#(coupon.statusStr ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
                             </tbody>
                         </table>

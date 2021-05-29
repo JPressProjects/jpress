@@ -101,6 +101,8 @@
                                     <a href="#(CPATH)/admin/finance/payoutdetail/#(item.id)" >详情</a>
                                 </td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
 
                             </tbody>
@@ -114,7 +116,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableCheckAll" type="checkbox" >
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

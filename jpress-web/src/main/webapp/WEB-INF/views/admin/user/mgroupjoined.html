@@ -63,6 +63,8 @@
                                 <td>#(item.joinFromStr ??)</td>
                                 <td>#date(item.created ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
                             </tbody>
                         </table>
@@ -75,7 +77,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableCheckAll" type="checkbox" >
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

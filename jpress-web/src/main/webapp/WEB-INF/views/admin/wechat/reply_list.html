@@ -32,6 +32,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top: 45px">
+                        <a href="#(CPATH)/admin/wechat/keyword/write" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</a>
+                    </div>
+                </div>
             </div>
 
         </div><!-- /.container-fluid -->
@@ -62,14 +67,6 @@
                             <!-- /.card-body -->
                         </form>
 
-                        <div class="row admin-search-panel">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/wechat/keyword/write" class="btn btn-primary "> <i
-                                        class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0">
@@ -78,7 +75,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input class="tableCheckAll" type="checkbox" value="0"/>
+                                    <input class="tableCheckAll" id="checkall" type="checkbox" value="0"/>
                                 </th>
                                 <th style="width: 450px">关键字</th>
                                 <th style="width: 450px">回复类型</th>
@@ -109,6 +106,8 @@
                                 <td>#(reply.showContent ??)</td>
                                 <td>#(reply.created ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
 
                             </tbody>
@@ -122,7 +121,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableCheckAll" type="checkbox" >
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

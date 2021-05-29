@@ -152,7 +152,7 @@
 
                     <div class="card-header with-border">
                         <button type="button" id="menuSync" class="btn btn-primary float-right">
-                            <i class="fa fa-fw fa-refresh"></i> 同步到微信
+                            <i class="fas fa-redo"></i> 同步到微信
                         </button>
                     </div>
 
@@ -182,6 +182,8 @@
                                 <td>#(menu.keyword ??)</td>
                                 <td>#(menu.order_number ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
                             </tbody>
                         </table>

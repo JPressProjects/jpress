@@ -42,7 +42,7 @@
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-	                                    <input class="tableCheckAll" type="checkbox"/>
+	                                    <input class="tableCheckAll" id="checkall" type="checkbox"/>
 	                                </th>
 	                                <th></th>
 	                                <th>名字</th>
@@ -77,6 +77,8 @@
 	                                <td>#(entry.content ??)</td>
 	                                <td>#(entry.show ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
                             </tbody>
                         </table>

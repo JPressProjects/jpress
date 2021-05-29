@@ -71,17 +71,12 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">右边栏广告位</label>
                                 <div class="col-sm-6">
-                                    <button type="button"
-                                            for-src="calmlog_ad"
-                                            for-input="calmlog_ad_input"
-                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                    </button>
-                                    <br/>
-                                    <img src="#(CPATH)#option('calmlog_ad','/static/commons/img/nothumbnail.jpg')"
-                                         id="calmlog_ad">
-                                    <input type="hidden" id="calmlog_ad_input" name="calmlog_ad"
-                                           value="#option('calmlog_ad')">
+                                    <div class="jpress-image-browser">
+                                        <input type="hidden" name="calmlog_ad" value="#option('calmlog_ad')"/>
+                                        <img src="#(CPATH)#option('calmlog_ad','/static/commons/img/nothumbnail.jpg')">
+                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                    </div>
+
                                 </div>
                             </div>
 

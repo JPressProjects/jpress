@@ -763,7 +763,7 @@ function initSwitchery(elements) {
             }
 
             if (onchangeFunction) {
-                eval(onchangeFunction)(elem, switchery);
+                eval(onchangeFunction)(elem.checked, elem, switchery);
             }
         }
     });

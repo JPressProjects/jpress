@@ -49,8 +49,6 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
     @Inject
     private UserService userService;
 
-    @Inject
-    private WxaUserApi wxaUserApi;
 
 
     /**
@@ -75,7 +73,7 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
 
         // 获取SessionKey 和 openId
         // 返回{"session_key":"nzoqhc3OnwHzeTxJs+inbQ==","expires_in":2592000,"openid":"oVBkZ0aYgDMDIywRdgPW8-joxXc4"}
-        ApiResult apiResult = wxaUserApi.getSessionKey(code);
+        ApiResult apiResult = WxaUserApi.getSessionKey(code);
         if (!apiResult.isSucceed()) {
             renderFailJson(apiResult.getErrorCode(), apiResult.getErrorMsg());
             return;
@@ -137,14 +135,14 @@ public class WechatMiniProgramApiController extends ApiControllerBase {
 
 
         // 用户信息校验
-        boolean check = wxaUserApi.checkUserInfo(sessionKey, rawData, signature);
+        boolean check = WxaUserApi.checkUserInfo(sessionKey, rawData, signature);
         if (check == false) {
             renderFailJson(500, "userInfo check fail");
             return;
         }
 
         // 服务端解密用户信息，得到原始的用户信息
-        ApiResult apiResult = wxaUserApi.getUserInfo(sessionKey, encryptedData, iv);
+        ApiResult apiResult = WxaUserApi.getUserInfo(sessionKey, encryptedData, iv);
         if (!apiResult.isSucceed()) {
             renderFailJson(apiResult.getErrorCode(), apiResult.getErrorMsg());
             return;

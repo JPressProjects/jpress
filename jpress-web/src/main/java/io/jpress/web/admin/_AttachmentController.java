@@ -235,7 +235,7 @@ public class _AttachmentController extends AdminControllerBase {
 
 
     public void browse() {
-        Page<Attachment> page = service._paginate(getPagePara(), 10, getPara("title"));
+        Page<Attachment> page = service._paginate(getPagePara(), getPageSizePara(), getPara("title"));
         setAttr("page", page);
         render("attachment/browse.html");
     }

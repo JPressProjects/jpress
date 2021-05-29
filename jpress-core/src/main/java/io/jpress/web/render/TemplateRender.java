@@ -24,7 +24,6 @@ import io.jboot.ext.MixedByteArrayOutputStream;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
-import io.jpress.JPressConfig;
 import io.jpress.JPressOptions;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -56,7 +55,7 @@ public class TemplateRender extends Render {
 
     private Template currentTemplate = TemplateManager.me().getCurrentTemplate();
     private String cdnDomain = JPressOptions.getCDNDomain();
-    private boolean templatePreviewEnable = JPressConfig.me.isTemplatePreviewEnable();
+    private boolean templatePreviewEnable = JPressOptions.isTemplatePreviewEnable();
 
     private Engine getEngine() {
         if (engine == null) {

@@ -349,7 +349,12 @@ label:not(.form-check-label):not(.custom-file-label) {
     color: #999;
     line-height: 1.2em;
 }
-
+.person-rightbar{
+    font-size: 0.9rem;
+}
+.person-rightbar .btn,.person-rightbar .form-control{
+    font-size: 0.9rem;
+}
 @media all and (min-width: 768px) {
     .person-leftar {
         max-width: 20%;

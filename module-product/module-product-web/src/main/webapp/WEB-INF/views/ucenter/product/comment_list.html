@@ -43,7 +43,7 @@
                         <td>
                             #(comment.content ??)
                             <strong>
-                                #if(comment.isUnaudited()) (待审核) #end
+                                #if(comment.isUnaudited()) <span style="color:#007bff;">(待审核)</span> #end
                             </strong>
                         </td>
                         <td>
@@ -53,7 +53,7 @@
                         </td>
                         <td>#(comment.comment_count ??)</td>
                         <td>#date(comment.created)</td>
-                        <td><a href="javascript:;" onclick="doDelComment('#(comment.id)')">删除</a></td>
+                        <td><a style="color:#007bff;" href="javascript:;" onclick="doDelComment('#(comment.id)')">删除</a></td>
                     </tr>
                     #else
                     <tr class="nodata"><td colspan="999">暂无数据</td> </tr>

@@ -109,180 +109,199 @@
     .ck-editor__editable_inline {
         min-height: 500px;
     }
+    .card-body .card{
+        box-shadow: none;
+        border:1px solid #ced4da;
+    }
+    .card-body .card-header{
+        padding:0.4rem 1.25rem;
+    }
+    .card-body .card-title{
+        font-size: 1rem;
+    }
 
 </style>
 #end
 
 #define content()
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-body ">
 
-    <section class="content-header">
-        <h1>
-            写文章
-        </h1>
-    </section>
+<!--                <section class="content-header">-->
+<!--                    <h1 style="font-size: 1.2rem;">-->
+<!--                        写文章-->
+<!--                    </h1>-->
+<!--                </section>-->
 
-    <section class="content">
-        <form action="#(CPATH)/ucenter/article/doWriteSave" method="post" id="form">
-            <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
-            <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
-            <div class="row">
-                <div class="col-lg-9">
+                <section class="content">
+                    <form action="#(CPATH)/ucenter/article/doWriteSave" method="post" id="form">
+                        <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
+                        <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
+                        <div class="row">
+                            <div class="col-lg-9">
 
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <div class="">
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <input type="input" class="form-control form-control-lg" name="article.title" autocomplete="off"
-                                       placeholder="请输入标题"
-                                       id="article-title"
-                                       value="#(article.title ??)">
+                                <!-- /.card-header -->
+                                <!-- form start -->
+                                <div class="">
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <input type="input" class="form-control form-control-lg" name="article.title" autocomplete="off"
+                                                   placeholder="请输入文章标题"
+                                                   id="article-title"
+                                                   value="#(article.title ??)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12" style="padding-bottom: 2px">
+                                            网址：<span class="domainSpan">#option('web_domain')</span>/article/<span id="slug"
+                                                                                                                   class="slugSpan"
+                                                                                                                   for-input="article-slug"
+                                                                                                                   for-listener="article-title">#(article.slug ??)</span>
+                                            #if(option("web_fake_static_enable")) #option('web_fake_static_suffix') #end
+                                            <input type="hidden" id="article-slug" name="article.slug">
+                                            #if(!article)
+                                            <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">
+                                                #if(editMode && editMode == 'html')
+                                                使用 markdown 编辑
+                                                #else
+                                                可视化编辑
+                                                #end
+                                            </a>
+                                            #end
+                                        </div>
+                                        <div class="col-sm-12" style="z-index: 9999;">
+                                            <div id="editor" >#(article.orignalContent ??)</div>
+                                            <input type="hidden" name="article.content" id="content"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <div class="card card-outlinecard-solid">
+                                                <div class="card-header with-border">
+                                                    <h3 class="card-title">属性设置</h3>
+
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-card-tool" data-widget="collapse">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body">
+                                                    <div class="card-body">
+
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">SEO关键字</label>
+
+                                                            <div class="col-sm-8">
+                                                                <textarea rows="3" class="form-control" name="article.meta_keywords"
+                                                                          placeholder="请输入">#(article.meta_keywords ??)</textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">SEO描述</label>
+
+                                                            <div class="col-sm-8">
+                                                                <textarea rows="3" class="form-control"
+                                                                          name="article.meta_description"
+                                                                          placeholder="请输入">#(article.meta_description ??)</textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-12" style="padding-bottom: 2px">
-                                网址：<span class="domainSpan">#option('web_domain')</span>/article/<span id="slug"
-                                                                                                       class="slugSpan"
-                                                                                                       for-input="article-slug"
-                                                                                                       for-listener="article-title">#(article.slug ??)</span>
-                                #if(option("web_fake_static_enable")) #option('web_fake_static_suffix') #end
-                                <input type="hidden" id="article-slug" name="article.slug">
-                                #if(!article)
-                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor()">
-                                    #if(editMode && editMode == 'html')
-                                    使用 markdown 编辑
-                                    #else
-                                    可视化编辑
-                                    #end
-                                </a>
-                                #end
-                            </div>
-                            <div class="col-sm-12" style="z-index: 9999;">
-                                <div id="editor" >#(article.orignalContent ??)</div>
-                                <input type="hidden" name="article.content" id="content"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-12">
+
+                            <div class="col-lg-3">
                                 <div class="card card-outlinecard-solid">
-                                    <div class="card-header with-border">
-                                        <h3 class="card-title">属性设置</h3>
-
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-card-tool" data-widget="collapse">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
                                     <div class="card-body">
-                                        <div class="card-body">
+                                        <button type="button" id="submit" class="btn btn-primary btn-sm ">保存并投稿</button>
+                                    </div>
+                                </div>
+                                <div class="card card-outlinecard-solid">
+                                    <div class="card-header with-border ">
+                                        <h3 class="card-title">分类</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            #for(category : categories)
+                                            <div class="form-check">
+                                                <label>
+                                                    #for(i = 0; i < category.layerNumber; i++)
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    #end
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">SEO关键字</label>
+                                                    #if(category.isCheck)
+                                                    <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                                    #else
+                                                    <input type="checkbox" name="category" value="#(category.id)"/>
+                                                    #end
 
-                                                <div class="col-sm-8">
-                                                    <textarea rows="3" class="form-control" name="article.meta_keywords"
-                                                              placeholder="请输入">#(article.meta_keywords ??)</textarea>
-                                                </div>
+                                                    #(category.title ??)
+                                                </label>
                                             </div>
-
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">SEO描述</label>
-
-                                                <div class="col-sm-8">
-                                                    <textarea rows="3" class="form-control"
-                                                              name="article.meta_description"
-                                                              placeholder="请输入">#(article.meta_description ??)</textarea>
-                                                </div>
-                                            </div>
-
+                                            #end
                                         </div>
+                                    </div>
+                                </div>
 
+                                <div class="card card-outlinecard-solid">
+                                    <div class="card-header with-border ">
+                                        <h3 class="card-title">标签</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <select class="form-control article-tags" multiple="multiple" name="tag">
+                                            #for(tag : tags)
+                                            <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                                            #end
+                                        </select>
+                                        <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+
+                                        <div class="tags">
+                                            #tags(count = 20)
+                                            #for(tag : tags)
+                                            <a href="javascript:;" class="newTag">#(tag.title)</a>
+                                            #end
+                                            #end
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card card-outlinecard-solid">
+                                    <div class="card-header with-border ">
+                                        <h3 class="card-title">缩略图</h3>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <img src="#(CPATH)#(article.thumbnail ??'/static/commons/img/nothumbnail.jpg')"
+                                             style="width: 100%;height: 150px"
+                                             id="thumbnail">
+                                        <input type="hidden" value="#(article.thumbnail ??)"
+                                               name="article.thumbnail"
+                                               id="articleThumbnail">
+                                    </div>
+                                    <div class="card-footer">
+                                        <span class="btn  btn-default btn-sm fileinput-button">
+                                            <span>选择图片</span>
+                                            <input id="cfile" type="file" name="files[]" multiple>
+                                        </span>
+                                        <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
+                </section>
 
-                </div>
-
-                <div class="col-lg-3">
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-body">
-                            <button type="button" id="submit" class="btn btn-primary btn-sm ">保存并投稿</button>
-                        </div>
-                    </div>
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">分类</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group row">
-                                #for(category : categories)
-                                <div class="form-check">
-                                    <label>
-                                        #for(i = 0; i < category.layerNumber; i++)
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        #end
-
-                                        #if(category.isCheck)
-                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
-                                        #else
-                                        <input type="checkbox" name="category" value="#(category.id)"/>
-                                        #end
-
-                                        #(category.title ??)
-                                    </label>
-                                </div>
-                                #end
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">标签</h3>
-                        </div>
-                        <div class="card-body">
-                            <select class="form-control article-tags" multiple="multiple" name="tag">
-                                #for(tag : tags)
-                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
-                                #end
-                            </select>
-                            <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
-                            
-                            <div class="tags">
-                                #tags(count = 20)
-                                #for(tag : tags)
-                                <a href="javascript:;" class="newTag">#(tag.title)</a>
-                                #end
-                                #end
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">缩略图</h3>
-                        </div>
-                        <div class="card-body p-0">
-                            <img src="#(CPATH)#(article.thumbnail ??'/static/commons/img/nothumbnail.jpg')"
-                                 style="width: 100%;height: 150px"
-                                 id="thumbnail">
-                            <input type="hidden" value="#(article.thumbnail ??)"
-                                   name="article.thumbnail"
-                                   id="articleThumbnail">
-                        </div>
-                        <div class="card-footer">
-                            <span class="btn  btn-default btn-sm fileinput-button">
-                                <span>选择图片</span>
-                                <input id="cfile" type="file" name="files[]" multiple>
-                            </span>
-                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </form>
-    </section>
+        </div>
+    </div>/
+</section>
 #end

@@ -108,15 +108,11 @@
                                                 </div>
                                                 <!-- /.tab-pane -->
                                                 <div class="tab-pane" id="tab_2">
-                                                    <button type="button"
-                                                            for-src="img"
-                                                            for-input="imginput"
-                                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                                    </button>
-                                                    <br/>
-                                                    <img src="#(CPATH)#(option.image ?? '/static/commons/img/nothumbnail.jpg')" id="img">
-                                                    <input type="hidden" id="imginput" name="option.image" value="#(option.image ??)">
+                                                    <div class="jpress-image-browser">
+                                                        <input type="hidden" name="option.image" value="#(option.image ??)"/>
+                                                        <img src="#(CPATH)#(option.image ?? '/static/commons/img/nothumbnail.jpg')">
+                                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                                    </div>
                                                 </div>
                                                 <!-- /.tab-pane -->
                                                 <div class="tab-pane" id="tab_3">
@@ -146,15 +142,11 @@
                                                         <div class="form-group row">
                                                             <label  class="col-sm-2 col-form-label">封面图</label>
                                                             <div class="col-sm-10">
-                                                                <button type="button"
-                                                                        for-src="coverimg"
-                                                                        for-input="coverimginput"
-                                                                        class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                                                    <i class="fa fa-fw fa-image"></i> 选择图片
-                                                                </button>
-                                                                <br/>
-                                                                <img src="#(CPATH)#(option.miniprogram_cover ?? '/static/commons/img/nothumbnail.jpg')" id="coverimg">
-                                                                <input type="hidden" id="coverimginput" name="option.miniprogram_cover"  value="#(option.miniprogram_cover ??)">
+                                                                <div class="jpress-image-browser">
+                                                                    <input type="hidden" name="option.miniprogram_cover" value="#(option.miniprogram_cover ??)"/>
+                                                                    <img src="#(CPATH)#(option.miniprogram_cover ?? '/static/commons/img/nothumbnail.jpg')">
+                                                                    <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                                                </div>
                                                             </div>
                                                         </div>
 

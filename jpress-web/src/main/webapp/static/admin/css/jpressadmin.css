@@ -366,7 +366,7 @@ label:not(.form-check-label):not(.custom-file-label) {
     }
 
     .fileinput-button {
-        width: 160px;
+        /*width: 160px;*/
     }
 }
 

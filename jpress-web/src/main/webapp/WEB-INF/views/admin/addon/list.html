@@ -148,6 +148,8 @@
                                 <td>#(addon.author ??)</td>
                                 <td>#(addon.version ??)（#(addon.versionCode ?? 1)）</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">您未安装任何插件</td> </tr>
                             #end
 
                             </tbody>

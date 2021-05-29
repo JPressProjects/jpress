@@ -2,10 +2,10 @@
 
     <div class="right-card-main">
         <div class="right-card-title">搜索</div>
-        <div class="cl-code" style="width: 95%">
-            <form action="/article/search" method="get">
-                <input name="keyword" value="#(keyword ??)">
-                <button type="submit">提交</button>
+        <div class="cl-code ">
+            <form action="/article/search" method="get" class="row" >
+                <input name="keyword" class="form-control col-8" value="#(keyword ??)" placeholder="请输入关键字...">
+                <button class="btn btn-primary offset-1 col-3" type="submit">搜索</button>
             </form>
         </div>
 

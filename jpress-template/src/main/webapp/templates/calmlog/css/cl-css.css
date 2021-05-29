@@ -159,9 +159,8 @@ a:hover{
     height: 1.6rem;
     overflow: hidden;
     font-size:1.2rem;
-    font-weight: 400;
-
-
+    width: fit-content;
+    padding-bottom: 25px;
 }
 .card-link .row{
     padding:0;
@@ -176,8 +175,14 @@ a.card-link{
 }
 a.card-link:hover{
     color:#333;
-    box-shadow: 0px 5px 20px -3px rgba(204, 204, 204, .8) !important;
+    box-shadow: 0px 2px 10px -3px rgba(204, 204, 204, .8) !important;
 }
+
+a.card-link:hover .cl-card-main-title{
+    padding-bottom: 23px;
+    border-bottom:2px solid #ccc;
+}
+
 
 .cl-card-main-info{
     font-size:0.9rem;
@@ -255,13 +260,6 @@ a.card-link:hover{
     line-height:40px;
     overflow: hidden;
     font-weight: 300;
-}
-.cl-code button{
-    border:1px solid #27282d;
-    font-size: 0.9rem;
-    padding: 3px 6px;
-    border-radius: 5px;
-
 }
 /*label*/
 .label{

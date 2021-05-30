@@ -22,25 +22,20 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">logo设置</label>
                                 <div class="col-sm-6">
-                                    <button type="button"
-                                            for-src="calmlog_logo"
-                                            for-input="calmlog_logo_input"
-                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                    </button>
-                                    <br/>
-                                    <img src="#(CPATH)#option('calmlog_logo','/templates/calmlog/img/logo.jpg')"
-                                         id="calmlog_logo">
-                                    <input type="hidden" id="calmlog_logo_input" name="calmlog_logo"
-                                           value="#option('calmlog_logo')">
+                                    <div class="jpress-image-browser">
+                                        <input type="hidden" name="calmlog_logo" value="#option('calmlog_logo')"/>
+                                        <img src="#(CPATH)#option('calmlog_logo','/templates/calmlog/img/logo.jpg')">
+                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                    </div>
+
                                 </div>
                             </div>
 
 
-                            <h4 class="form-header">二维码</h4>
+                            <h4 class="form-header">左边栏二维码</h4>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">二维码文章</label>
+                                <label class="col-sm-2 col-form-label">二维码说明</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="左边二维码底部的文字..."
                                            name="calmlog_qrcode_text" value="#option('calmlog_qrcode_text')">
@@ -50,33 +45,11 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">二维码</label>
                                 <div class="col-sm-6">
-                                    <button type="button"
-                                            for-src="calmlog_qrcode"
-                                            for-input="calmlog_qrcode_input"
-                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                    </button>
-                                    <br/>
-                                    <img src="#(CPATH)#option('calmlog_qrcode','/templates/calmlog/img/code.jpg')"
-                                         id="calmlog_qrcode">
-                                    <input type="hidden" id="calmlog_qrcode_input" name="calmlog_qrcode"
-                                           value="#option('calmlog_qrcode')">
-                                </div>
-                            </div>
-
-
-                            <h4 class="form-header">广告位</h4>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">右边栏广告位</label>
-                                <div class="col-sm-6">
                                     <div class="jpress-image-browser">
-                                        <input type="hidden" name="calmlog_ad" value="#option('calmlog_ad')"/>
-                                        <img src="#(CPATH)#option('calmlog_ad','/static/commons/img/nothumbnail.jpg')">
+                                        <input type="hidden" name="calmlog_qrcode" value="#option('calmlog_qrcode')"/>
+                                        <img src="#(CPATH)#option('calmlog_qrcode','/templates/calmlog/img/code.jpg')">
                                         <a class="image-reset"> <i class="fa fa-edit"></i></a>
                                     </div>
-
                                 </div>
                             </div>
 

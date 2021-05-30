@@ -3,7 +3,7 @@
     <div class="right-card-main">
         <div class="right-card-title">搜索</div>
         <div class="cl-code ">
-            <form action="/article/search" method="get" class="row" >
+            <form action="#(CPATH)/article/search" method="get" class="row" >
                 <input name="keyword" class="form-control col-8" value="#(keyword ??)" placeholder="请输入关键字...">
                 <button class="btn btn-primary offset-1 col-3" type="submit">搜索</button>
             </form>
@@ -14,14 +14,12 @@
 
 
 <div class="right-card">
-
     <div class="right-card-main">
-        <div class="right-card-title">个人微信号</div>
+        <div class="right-card-title">作者微信号</div>
         <div class="cl-code">
             <img src="#option('calmlog_qrcode','img/code.jpg')" class="img-fluid" alt="">
             <p>#option('calmlog_qrcode_text')</p>
         </div>
-
     </div>
 </div>
 
@@ -29,16 +27,11 @@
 
     <div class="right-card-main">
         <div class="right-card-title">最新文章</div>
-        <div class="right-recommended">
-            <a href="#">
-                <img src="#option('calmlog_ad','img/list-right.jpg')" class="img-fluid" alt="">
-            </a>
-        </div>
         <ul class="right-recommended-list">
             #articles()
             #for(article : articles)
             <li>
-                <a href="#(article.url)">
+                <a href="#(article.url ??)">
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                     #(article.title ??)
                 </a>
@@ -58,7 +51,7 @@
         <ul class="label">
             #tags()
             #for(tag : tags)
-            <li><a href="#(tag.url)">#(tag.title)</a></li>
+            <li><a href="#(tag.url ??)">#(tag.title ??)</a></li>
             #end
             #end
         </ul>

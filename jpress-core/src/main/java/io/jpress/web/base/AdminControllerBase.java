@@ -64,6 +64,7 @@ public abstract class AdminControllerBase extends ControllerBase {
     }
 
     @Override
+    @NotAction
     public void renderError(int errorCode) {
         if (errorCode == 404) {
             renderError(errorCode, "/WEB-INF/views/admin/error/404.html");

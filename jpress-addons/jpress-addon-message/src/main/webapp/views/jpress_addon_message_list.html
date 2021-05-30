@@ -13,28 +13,39 @@
 #define content()
 
     <section class="content-header">
-        <h1>
-            管理
-            <small>Items</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 留言管理 / 管理</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class=" float-sm-right">
+                        <a href="jpress_addon_message/edit" class="btn btn-primary ">
+                            <i class="fa fa-fw fa-plus"></i> 新建
+                        </a>
+                        <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
         <div class="container-fluid">
                 <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
 
-                        <div class="row admin-search-panel">
-                            <div class="col-xs-12">
-                                <a href="jpress_addon_message/edit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建
-                                </a>
-                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
-
-                    </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0">
 

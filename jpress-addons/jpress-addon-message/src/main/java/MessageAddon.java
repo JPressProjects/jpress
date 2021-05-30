@@ -1,6 +1,4 @@
-import com.jfinal.render.RenderManager;
-import io.jpress.JPressConsts;
-import io.jpress.core.addon.Addon;
+import io.jpress.core.addon.AddonBase;
 import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonUtil;
 import io.jpress.core.menu.MenuGroup;
@@ -11,7 +9,8 @@ import java.sql.SQLException;
 /**
  *留言信息插件
  */
-public class MessageAddon implements Addon {
+public class MessageAddon extends AddonBase  {
+
 
     @Override
     public void onInstall(AddonInfo addonInfo) {

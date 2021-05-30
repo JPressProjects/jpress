@@ -53,6 +53,10 @@ public class TemplateManager {
     }
 
 
+    /**
+     * 获取所有已经成功安装的模板
+     * @return 模板列表
+     */
     public List<Template> getInstalledTemplates() {
         String basePath = PathKit.getWebRootPath() + "/templates";
 
@@ -70,13 +74,18 @@ public class TemplateManager {
     }
 
 
-    private void scanTemplateFloders(File file, List<File> list) {
-        if (file.isDirectory()) {
-            File configFile = new File(file, "template.properties");
+    /**
+     * 扫码 templateDir 目录下的所有模板，填充到 list 对象里
+     * @param templateDir
+     * @param list
+     */
+    private void scanTemplateFloders(File templateDir, List<File> list) {
+        if (templateDir.isDirectory()) {
+            File configFile = new File(templateDir, "template.properties");
             if (configFile.exists() && configFile.isFile()) {
-                list.add(file);
+                list.add(templateDir);
             } else {
-                File[] files = file.listFiles();
+                File[] files = templateDir.listFiles();
                 if (null != files && files.length > 0) {
                     for (File f : files) {
                         if (f.isDirectory()) {
@@ -89,6 +98,11 @@ public class TemplateManager {
     }
 
 
+    /**
+     * 根据模板的 id 获取某个模板
+     * @param id
+     * @return
+     */
     public Template getTemplateById(String id) {
         List<Template> templates = getInstalledTemplates();
         if (templates == null || templates.isEmpty()) {
@@ -103,6 +117,10 @@ public class TemplateManager {
     }
 
 
+    /**
+     * 设置当前网站的默认模板
+     * @param templateId
+     */
     private void initDefaultTemplate(String templateId) {
         if (StrUtil.isBlank(templateId)) {
             setCurrentTemplate(JPressConfig.me.getDefaultTemplate());
@@ -119,6 +137,11 @@ public class TemplateManager {
     }
 
 
+    /**
+     * 获取网站的当前模板
+     * 如果当前网站开启了 "模板预览" 功能，则优先通过 url 获取 "预览模板"
+     * @return 当前的模板
+     */
     public Template getCurrentTemplate() {
         Template previewTemplate = getPreviewTemplate();
         if (previewTemplate != null) {
@@ -140,7 +163,6 @@ public class TemplateManager {
 
     /**
      * 获取预览的模板
-     *
      * @return
      */
     public Template getPreviewTemplate() {
@@ -162,6 +184,10 @@ public class TemplateManager {
     }
 
 
+    /**
+     * 设置网站当前的默认模板
+     * @param templateId
+     */
     public void setCurrentTemplate(String templateId) {
         Template template = getTemplateById(templateId);
         if (template == null) {
@@ -172,6 +198,10 @@ public class TemplateManager {
     }
 
 
+    /**
+     * 由于 JFinal 会进行模板缓存，当后台动态编辑模板内容的时候
+     * 需要调用此方法清除模板缓存，才能 "实时生效"
+     */
     public void clearCache() {
         clearCache(true);
     }
@@ -183,7 +213,10 @@ public class TemplateManager {
         }
     }
 
-
+    /**
+     * 分布式部署的情况下，需要通过 TemplateNotifier 去通知分布式的其他节点清除缓存
+     * @return
+     */
     public TemplateNotifier getNotifier() {
         return notifier;
     }

@@ -257,7 +257,7 @@ public class _TemplateController extends AdminControllerBase {
                 || JPressCoreFunctions.isImage(file.getName())
                 || file.isDirectory());
 
-        List srcFiles = new ArrayList<String>();
+        List<String > srcFiles = new ArrayList<>();
         for (File file : files) {
             if (!file.isDirectory()) {
                 srcFiles.add(file.getName());
@@ -307,27 +307,27 @@ public class _TemplateController extends AdminControllerBase {
             fileInfoList.add(new FileInfo(file));
         }
 
-        fileInfoList.sort((o1, o2) -> {
-            if (o1.isDir() && o2.isDir()) {
-                return o1.getName().compareTo(o2.getName());
+        fileInfoList.sort((file1, file2) -> {
+            if (file1.isDir() && file2.isDir()) {
+                return file1.getName().compareTo(file2.getName());
             }
 
-            if (o1.isDir() && !o2.isDir()) {
+            if (file1.isDir() && !file2.isDir()) {
                 return -1;
             }
-            if (!o1.isDir() && o2.isDir()) {
+            if (!file1.isDir() && file2.isDir()) {
                 return 1;
             }
 
-            if ("index.html".equals(o2.getName())) {
+            if ("index.html".equals(file2.getName())) {
                 return 1;
             }
 
-            if (!o2.getName().endsWith(".html")) {
+            if (!file2.getName().endsWith(".html")) {
                 return -1;
             }
 
-            return o1.getName().compareTo(o2.getName());
+            return file1.getName().compareTo(file2.getName());
         });
 
         return fileInfoList;

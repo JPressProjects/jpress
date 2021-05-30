@@ -20,7 +20,6 @@ import com.jfinal.kit.PathKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log;
 import io.jboot.Jboot;
-import io.jboot.app.config.JbootConfigManager;
 import io.jboot.support.jwt.JwtConfig;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
@@ -57,7 +56,6 @@ public class InstallUtil {
 
 
         //jboot.app.mode
-        JbootConfigManager.me().setDevMode(false);
         putPropertie(p, "jboot.app.mode", "product");
 
 

@@ -22,11 +22,13 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbKit;
+import io.jboot.app.config.JbootConfigManager;
 import io.jboot.db.ArpManager;
 import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.handler.JbootActionReporter;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
@@ -337,7 +339,7 @@ public class InstallController extends ControllerBase {
             return Ret.fail().set("message", "确认密码不能为空");
         }
 
-        if (pwd.equals(confirmPwd) == false) {
+        if (!pwd.equals(confirmPwd)) {
             return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
         }
 
@@ -460,19 +462,22 @@ public class InstallController extends ControllerBase {
             //创建 jboot.properties 数据库配置文件
             InstallUtil.createJbootPropertiesFile();
 
+
+            //设置取消开发模式的配置
+            JbootConfigManager.me().setDevMode(false);
+
+            //取消 action 日志输出
+            JbootActionReporter.setReportEnable(false);
+
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
 
-        /**
-         *  设置安装标识
-         */
+        //设置安装标识
         Installer.setInstalled(true);
 
-        /**
-         * 通知安装监听器
-         */
+        //通知安装监听器：安装完成
         Installer.notifyAllListeners();
 
         return true;

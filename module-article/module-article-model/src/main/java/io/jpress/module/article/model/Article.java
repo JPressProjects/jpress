@@ -15,12 +15,10 @@
  */
 package io.jpress.module.article.model;
 
-import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConsts;
-import io.jpress.JPressOptions;
 import io.jpress.commons.url.JPressUrlUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
@@ -74,12 +72,19 @@ public class Article extends BaseArticle<Article> {
         return currentArticle.getId().equals(getId());
     }
 
+    /**
+     * 保证模板可以通过 model.isActive 属性进行高亮判断，而非 model.isActive()
+     * @return
+     */
+    public boolean getIsActive(){
+        return isActive();
+    }
+
     public String getUrl() {
         String link = getLinkTo();
         if (StrUtil.isNotBlank(link)) {
             return link;
         }
-
         return JPressUrlUtil.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
     }
 

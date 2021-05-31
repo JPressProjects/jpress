@@ -173,6 +173,11 @@ public class JPressOptions {
         else if (JPressConsts.OPTION_WEB_TEMPLATE_PREVIEW_ENABLE.equals(key)) {
             templatePreviewEnable = "true".equalsIgnoreCase(value);
         }
+
+        //是否开启模板预览功能
+        else if (JPressConsts.OPTION_WEB_FLAT_URL_ENABLE.equals(key)) {
+            templatePreviewEnable = "true".equalsIgnoreCase(value);
+        }
     }
 
     private static String indexStyleValue = null;
@@ -189,7 +194,6 @@ public class JPressOptions {
         if (!fakeStaticEnable || StrUtil.isBlank(fakeStaticSuffix)) {
             return StrUtil.EMPTY;
         }
-
         return fakeStaticSuffix;
     }
 
@@ -202,6 +206,17 @@ public class JPressOptions {
 
     public static void setTemplatePreviewEnable(boolean templatePreviewEnable) {
         JPressOptions.templatePreviewEnable = templatePreviewEnable;
+    }
+
+
+    private static boolean flatUrlEnable = false;
+
+    public static boolean isFlatUrlEnable() {
+        return flatUrlEnable;
+    }
+
+    public static void setFlatUrlEnable(boolean flatUrlEnable) {
+        JPressOptions.flatUrlEnable = flatUrlEnable;
     }
 
     public static OptionStore getStore() {

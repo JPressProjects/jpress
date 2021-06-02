@@ -18,7 +18,6 @@ package io.jpress;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Routes;
-import com.jfinal.kit.PathKit;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
@@ -37,9 +36,6 @@ import io.jpress.web.render.JPressRenderFactory;
 import io.jpress.web.sitemap.SitemapHandler;
 import io.jpress.web.sitemap.SitemapManager;
 
-import java.net.URISyntaxException;
-import java.net.URL;
-
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -47,18 +43,6 @@ import java.net.URL;
  * @Package io.jpress
  */
 public class JPressCoreInitializer extends JbootAppListenerBase {
-
-    @Override
-    public void onInit() {
-        try {
-            URL resourceUrl = JPressCoreInitializer.class.getResource("/");
-            if (resourceUrl != null) {
-                PathKit.setWebRootPath(resourceUrl.toURI().getPath());
-            }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     @Override

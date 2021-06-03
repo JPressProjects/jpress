@@ -13,6 +13,10 @@ body {
     background-color: #f3f5f8;
 }
 
+.autoAjaxSubmit {
+    /*只为了让 idea 在编写 html 时可以自动提示*/
+}
+
 [class*=sidebar-dark] .nav-legacy .nav-treeview > .nav-item > .nav-link.active {
     background: #007bff 0;
     color: #fff;
@@ -349,12 +353,15 @@ label:not(.form-check-label):not(.custom-file-label) {
     color: #999;
     line-height: 1.2em;
 }
-.person-rightbar{
+
+.person-rightbar {
     font-size: 0.9rem;
 }
-.person-rightbar .btn,.person-rightbar .form-control{
+
+.person-rightbar .btn, .person-rightbar .form-control {
     font-size: 0.9rem;
 }
+
 @media all and (min-width: 768px) {
     .person-leftar {
         max-width: 20%;
@@ -426,20 +433,20 @@ label:not(.form-check-label):not(.custom-file-label) {
     color: #999;
 }
 
-.form-group img{
+.form-group img {
     max-width: 300px;
-    vertical-align:middle;
+    vertical-align: middle;
     /*border: 1px solid #eee;*/
 }
 
-.card-body img{
+.card-body img {
     vertical-align: middle;
     border-style: none;
 }
 
 .card-footer {
     padding: .75rem 1.25rem;
-    background-color: rgba(0,0,0,.03);
+    background-color: rgba(0, 0, 0, .03);
     border-top: 1px solid #dee2e6;
 }
 
@@ -452,7 +459,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 }
 
-.jpress-image-browser img{
+.jpress-image-browser img {
     width: 100%;
 }
 

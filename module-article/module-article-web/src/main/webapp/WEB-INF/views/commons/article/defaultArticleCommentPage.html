@@ -8,7 +8,7 @@
         <input type="hidden" name="pid" id="comment-pid">
 
         <div class="comment-textarea">
-            <textarea placeholder="我们相信，您的评论能够一针见血...." rows="4" name="content"></textarea>
+            <textarea placeholder="对此文章，您有啥看法？" rows="4" name="content"></textarea>
         </div>
 
         <div class="comment-vcode">
@@ -37,7 +37,7 @@
 
 
     #commentPaginate(anchor="comments")
-    <nav>
+    <nav class="commnet-pagination">
         <ul class="pagination justify-content-center">
             #for(page : pages)
             <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>

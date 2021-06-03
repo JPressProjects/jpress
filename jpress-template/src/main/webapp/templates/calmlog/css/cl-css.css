@@ -188,7 +188,6 @@ a.card-link:hover .cl-card-main-title{
     font-size:0.9rem;
     opacity: 0.8;
     height: 3rem;
-    overflow: hidden;
     margin:0.5rem 0 2rem 0;
     font-weight: 300;
 }

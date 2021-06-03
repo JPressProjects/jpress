@@ -478,3 +478,10 @@ label:not(.form-check-label):not(.custom-file-label) {
 .jpress-image-browser .image-reset {
     display: none;
 }
+.page-header {
+    padding-bottom: 9px;
+    padding-left: 20px;
+    margin: 40px 0 30px;
+    border-bottom: 1px solid #eee;
+    font-size: 18px;
+}

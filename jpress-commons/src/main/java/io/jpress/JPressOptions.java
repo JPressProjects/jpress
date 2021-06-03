@@ -34,6 +34,8 @@ public class JPressOptions {
 
     private static OptionStore store = OptionStore.defaultOptionStore;
     private static List<OptionChangeListener> listeners = new ArrayList<>();
+    private static OptionNotifier notifier = null;
+
 
     public static void set(String key, String value) {
         if (StrUtil.isBlank(key)) {
@@ -56,6 +58,10 @@ public class JPressOptions {
             } catch (Throwable ex) {
                 LOG.error(ex.toString(), ex);
             }
+        }
+
+        if (notifier != null) {
+            notifier.notifyOptionSet(key, value);
         }
 
         doFinishedChanged(key, value, oldValue);
@@ -132,6 +138,13 @@ public class JPressOptions {
         listeners.remove(listener);
     }
 
+    public static OptionNotifier getNotifier() {
+        return notifier;
+    }
+
+    public static void setNotifier(OptionNotifier notifier) {
+        JPressOptions.notifier = notifier;
+    }
 
     public static String getCDNDomain() {
         boolean cdnEnable = getAsBool(JPressConsts.OPTION_CDN_ENABLE);
@@ -259,6 +272,10 @@ public class JPressOptions {
             }
         };
 
+    }
+
+    public interface OptionNotifier {
+        void notifyOptionSet(String key, String value);
     }
 
 

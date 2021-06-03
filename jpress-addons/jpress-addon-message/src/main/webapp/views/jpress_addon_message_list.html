@@ -19,10 +19,10 @@
                     <div class="row mb-2">
                         <div class="col-sm-12">
                             <h1>
-                                管理
+                                留言列表
                                 <small data-toggle="tooltip" title="" data-placement="right"
                                        data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / 留言管理 / 管理</small>
+                                <small> 首页 / 留言管理 / 留言列表</small>
                             </h1>
                         </div>
                     </div>
@@ -30,11 +30,9 @@
                 </div>
                 <div class="col-sm-6">
                     <div class=" float-sm-right">
-                        <a href="jpress_addon_message/edit" class="btn btn-primary ">
+                        <a href="./edit" class="btn btn-primary ">
                             <i class="fa fa-fw fa-plus"></i> 新建
                         </a>
-                        <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-
                     </div>
                 </div>
             </div>
@@ -68,7 +66,7 @@
                             <tr>
                                 <td><input name="tableItem" type="checkbox" value="#(entry.id)" />
                                 </td>
-                                <td>
+                                <td width="200px">
                                     <strong>
                                         <a href="#(CPATH)/admin/message/jpress_addon_message/edit/#(entry.id)"> #(entry.id ??) </a>
                                     </strong>
@@ -97,8 +95,32 @@
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
-                            	 #@_paginate()
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+                                            <label class="form-check-label" for="checkall">全选</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select class="form-control" name="action">
+                                            <option value="">请选择...</option>
+                                            <option value="doDelByIds" open-type="del-confirm">
+                                                批量删除
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                #@_paginate()
                             </div>
                         </div>
                     </div>

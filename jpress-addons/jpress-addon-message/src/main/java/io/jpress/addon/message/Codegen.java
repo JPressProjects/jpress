@@ -1,3 +1,5 @@
+package io.jpress.addon.message;
+
 import io.jpress.codegen.AddonGenerator;
 
 public class Codegen {

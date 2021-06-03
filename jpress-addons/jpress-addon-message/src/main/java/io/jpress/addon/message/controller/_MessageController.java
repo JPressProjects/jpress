@@ -35,7 +35,8 @@ public class _MessageController extends AdminControllerBase {
     @Inject
     private JpressAddonMessageService service;
 
-    @AdminMenu(text = "管理", groupId = "message")
+
+    @AdminMenu(text = "留言列表", groupId = "message")
     public void list() {
         Page<JpressAddonMessage> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);
@@ -50,6 +51,7 @@ public class _MessageController extends AdminControllerBase {
         render("jpress_addon_message_edit.html");
     }
 
+
     public void doSave() {
         JpressAddonMessage entry = getModel(JpressAddonMessage.class,"jpressAddonMessage");
         service.saveOrUpdate(entry);
@@ -57,10 +59,12 @@ public class _MessageController extends AdminControllerBase {
     }
 
 
+
     public void doDel() {
         Long id = getIdPara();
         render(service.deleteById(id) ? Ret.ok() : Ret.fail());
     }
+
 
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {

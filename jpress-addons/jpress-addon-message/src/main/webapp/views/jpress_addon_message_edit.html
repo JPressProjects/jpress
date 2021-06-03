@@ -1,8 +1,5 @@
-
 #@layout()
-#define css()
 #define script()
-#@layout_script?()
 <script>
 
   function doSubmit() {
@@ -29,10 +26,10 @@
 					<div class="row mb-2">
 						<div class="col-sm-12">
 							<h1>
-								编辑/新增
+								#(jpressAddonMessage ? '编辑' : '新增')留言
 								<small data-toggle="tooltip" title="" data-placement="right"
 									   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-								<small> 首页 / 留言管理 / 编辑</small>
+								<small> 首页 / 留言管理 / #(jpressAddonMessage ? '编辑' : '新增')留言</small>
 							</h1>
 						</div>
 					</div>

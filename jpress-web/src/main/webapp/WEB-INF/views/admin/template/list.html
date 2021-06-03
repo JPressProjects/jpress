@@ -40,6 +40,14 @@
     .card-footer .title {
         padding-top: 7px;
     }
+    .form-group a{
+        color:#007bff;
+        font-weight: 500;
+    }
+    .form-group a:hover{
+        color:#0069d9;
+    }
+
 </style>
 #end
 
@@ -114,7 +122,7 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <label class="title">#(template.title ??) <a class="preview" href="#(CPATH)/?template=#(template.id ??)" target="_blank" #if(!option('web_template_preview_enable'))style="display: none"#end>(预览)</a> </label>
+                                <label class="title">#(template.title ??) <a class="preview" href="#(CPATH)/?template=#(template.id ??)" target="_blank" #if(!option('web_template_preview_enable'))style="display: none"#end> - 预览</a> </label>
                                 #if(option('web_template') == template.id)
                                 <button type="button" class="btn btn-default disabled float-right" disabled>
                                     <i class="fa fa-fw fa-check"></i>已启用

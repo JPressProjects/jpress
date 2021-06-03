@@ -38,7 +38,7 @@
                         <div class="row admin-search-panel">
                             <div class="col-xs-12">
                                 <a href="#(tableMeta.name)/edit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建
+                                    <i class="fas fa-plus"></i> 新建
                                 </a>
                                 <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>

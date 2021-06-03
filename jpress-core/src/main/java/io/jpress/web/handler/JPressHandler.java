@@ -16,6 +16,7 @@
 package io.jpress.web.handler;
 
 
+import com.google.common.collect.Sets;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
 import io.jboot.utils.StrUtil;
@@ -24,6 +25,7 @@ import io.jpress.JPressOptions;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -49,6 +51,14 @@ public class JPressHandler extends Handler {
     private static final String TEMPLATES_TARGET_PREFIX = "/templates";
     private static final String ATTACHMENT_TARGET_PREFIX = "/attachment";
 
+    private static final Set<String> v3CssPaths = Sets.newHashSet("/static/commons/article.css"
+            , "/static/commons/product.css"
+            , "/static/commons/page.css");
+
+    private static final Set<String> v3JsPaths = Sets.newHashSet("/static/commons/article.js"
+            , "/static/commons/product.js"
+            , "/static/commons/page.js");
+
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
@@ -71,22 +81,36 @@ public class JPressHandler extends Handler {
             }
         }
 
-        //附件目录
-        if (target.startsWith(ATTACHMENT_TARGET_PREFIX)) {
-            AttachmentHandlerKit.handle(target,request,response,isHandled);
+        //v4 版本已经合并了 v3 版本的 css 到 jpressfront.css 了
+        //需要重定向，否则无法兼容 v3 的模板
+        if (target.endsWith(".css") && v3CssPaths.contains(target)) {
+            HandlerKit.redirect301(request.getContextPath() + "/static/front/jpressfront.css", request, response, isHandled);
             return;
         }
 
-        //如果是访问 .html ，直接去除后缀（最后会访问模板目录对于的 html 文件）
-        if (target.endsWith(".html")){
+        //v4 版本已经合并了 v3 版本的 js 到 jpressfront.js 了
+        //需要重定向，否则无法兼容 v3 的模板
+        if (target.endsWith(".js") && v3JsPaths.contains(target)) {
+            HandlerKit.redirect301(request.getContextPath() + "/static/front/jpressfront.js", request, response, isHandled);
+            return;
+        }
+
+        //附件目录
+        if (target.startsWith(ATTACHMENT_TARGET_PREFIX)) {
+            AttachmentHandlerKit.handle(target, request, response, isHandled);
+            return;
+        }
+
+        //如果是访问 .html ，直接去除后缀
+        if (target.endsWith(".html")) {
             target = target.substring(0, target.length() - 5);
         }
 
 
         String suffix = JPressOptions.getAppUrlSuffix();
-        if (StrUtil.isBlank(suffix)  // 不启用伪静态
-                && target.indexOf('.') != -1) {
-            //return 表示让服务器自己去处理
+
+        //若不启用伪静态，让 undertow 处理静态资源 css js 等
+        if (StrUtil.isBlank(suffix) && target.indexOf('.') != -1) {
             return;
         }
 

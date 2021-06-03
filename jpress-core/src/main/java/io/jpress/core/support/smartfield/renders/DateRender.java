@@ -29,7 +29,7 @@ public class DateRender implements SmartFieldRender {
             "<div class=\"form-group row\">\n" +
             "    <label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
             "    <div class=\"col-sm-6\">\n" +
-            "        <input type=\"text\" class=\"form-control datepicker\"\n" +
+            "        <input type=\"text\" class=\"form-control date\"\n" +
             "               id=\"{id}\"\n" +
             "               name=\"{name}\"\n" +
             "               data-date-format=\"yyyy-mm-dd\"\n" +

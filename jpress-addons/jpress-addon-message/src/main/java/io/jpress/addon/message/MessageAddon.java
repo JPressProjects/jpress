@@ -1,3 +1,5 @@
+package io.jpress.addon.message;
+
 import io.jpress.core.addon.AddonBase;
 import io.jpress.core.addon.AddonInfo;
 import io.jpress.core.addon.AddonUtil;
@@ -35,16 +37,13 @@ public class MessageAddon extends AddonBase  {
     public void onStart(AddonInfo addonInfo) {
 
         /**
-         *  在 onStart 方法中，我们可以做很多事情，例如：创建后台或用户中心的菜单
-         *
-         *  此方法是每次项目启动，都会执行。
-         *
-         *  同时用户也可以在后台触发
+         *  添加菜单到后台
          */
         MenuGroup orderMenuGroup = new MenuGroup();
         orderMenuGroup.setId("message");
-        orderMenuGroup.setText("留言管理");
-        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-gg-circle\"></i>");
+        orderMenuGroup.setText("留言");
+        orderMenuGroup.setIcon("<i class=\"fas fa-comment-alt\"></i>");
+
         MenuManager.me().getModuleMenus().add(orderMenuGroup);
 
     }
@@ -53,9 +52,7 @@ public class MessageAddon extends AddonBase  {
     public void onStop(AddonInfo addonInfo) {
 
         /**
-         *  和 onStart 对应，在 onStart 所处理的事情，在 onStop 应该释放
-         *
-         *  同时用户也可以在后台触发
+         *  删除添加的菜单
          */
         MenuManager.me().deleteMenuGroup("message");
 

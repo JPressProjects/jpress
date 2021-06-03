@@ -33,14 +33,14 @@ public class MessageController extends JbootController{
             renderJson(Ret.fail().set("msg","对不起电话不能是空"));
             return;
         }
-        if(StrUtil.isBlank(entry.getEmail())){
-            renderJson(Ret.fail().set("msg","对不起邮箱不能是空"));
-            return;
-        }
+
+
         if(StrUtil.isBlank(entry.getTitle())){
             renderJson(Ret.fail().set("msg","对不起标题不能是空"));
             return;
         }
+
+
         if(StrUtil.isBlank(entry.getContent())){
             renderJson(Ret.fail().set("msg","对不起留言不能是空"));
             return;

@@ -44,7 +44,7 @@ public class MessageAddon extends AddonBase  {
         MenuGroup orderMenuGroup = new MenuGroup();
         orderMenuGroup.setId("message");
         orderMenuGroup.setText("留言管理");
-        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-gg-circle\"></i>");
+        orderMenuGroup.setIcon("<i class=\"fas fa-comment-alt\"></i>");
         MenuManager.me().getModuleMenus().add(orderMenuGroup);
 
     }

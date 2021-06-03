@@ -216,7 +216,7 @@ public class _TemplateController extends AdminControllerBase {
         }
         setAttr("template", template);
 
-        String view = template.matchView("setting.html", false);
+        String view = template.matchView("setting_v4.html", false);
         if (view == null) {
             render("template/setting.html");
             return;

@@ -22,6 +22,7 @@
     <modules>
         <module>jpress-addon-helloworld</module>
         <module>jpress-addon-message</module>
+
 <!--        <module>jpress-addon-keygen</module>-->
 <!--        <module>jpress-addon-smartprogram</module>-->
 <!--        <module>jpress-addon-dcode</module>-->

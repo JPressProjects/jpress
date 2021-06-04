@@ -1,13 +1,31 @@
-jpress v4.0.0-rc.1:
-新增 defaultMenu 指令，用于渲染前台菜单
-移除 wangEditor，使用 ckeditor5 代替
-优化 UI 细节，使之适配最新的 bootstrap v4.x 版本
+jpress v4.0.0:
+新增：模板预览功能，自由在后台开启或关闭
+新增：#@defaultMenu() 指令，更加方便用于渲染前台菜单
+新增：登录开启验证码功能，默认为开启
+新增：扁平化 URL 功能开关的功能，更加有利于 SEO，例如 /article/category/1.html 为 /article-category-1.html
+新增：全新的图片选择组件，日期组件的前端 UI 组件
+新增：全新的选择用户的 input 组件
+新增：AddonBase 类，方便用户编写 插件 入口类
+新增：模板的后台设置新增 setting_v4.html 的支持
+优化：升级 AdminLte 和 Bootstrap 到最新版本
+优化：升级 fontawesome 到最新版本
+优化：删除 ckeditor4 和 simplemde，使用 ckeditor5 和 vditor 代替
+优化：DatetimeRender 组件，时间相关的弹出UI更加简洁
+优化：合并 article.js、product.js、page.js 到 jpressfront.js
+优化：合并 article.css、product.css、page.css 到 jpressfront.css
+优化：管理员重置用户密码不再需要原密码
+优化：全面优化 layer 弹出的相关 UI
+优化：优化 JPress 内置的 4 套模板 UI 细节
+优化：后台相关必填输入框添加相关前端验证
+优化：微信相关功能的 url 目录结构
+优化：优化 logback 的日志输出目录结构
+优化：重构 jpress maven 目录，修改 service-api 为 service
+优化：后台评论列表页面，新增根据用户搜索的功能
+优化：附件选择功能，增加可以选择每页数量的选择
+修复：v3.x 发布评论的头像显示不正确的问题
+修复：v3.x page 评论分页 404 的问题
+修复：v3.x 后台的评论列表新增 待审核 的 tab 标签不显示的问题
+修复：v3.x 页面修改后，SEO Ping 出错的问题
+修复：v3.x 企业版在某些配置不能同步到其他分布式节点的问题
 
-
-
-jpress v4.0.0-beta.1:
-升级 bootstrap 到 v4.x 版本
-升级 fontawesome 到最新版本
-删除 ckeditor 和 simplemde，使用 wangEditor 和 vditor 代替
-删除 ehcache ，使用 caffeine 代替
 

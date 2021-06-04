@@ -89,7 +89,7 @@ public class JPressConfig {
     public static final String DEFAULT_LOGIN_PAGE = "/admin/login";
 
     private String indexAction = "/page";
-    private String defaultTemplate = "cn.jeanstudio.bonhumeur";
+    private String defaultTemplate = "cn.jeanstudio.lightlog";
     private String attachmentRoot; // attachment 目录，在未配置的情况下，在 webapp 目录下
     private String adminLoginPage = DEFAULT_LOGIN_PAGE;         //登录的页面
     private String adminLoginAction = "/admin/doLogin";     //登录的方法

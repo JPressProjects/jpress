@@ -15,23 +15,23 @@
             <form class="autoAjaxSubmit" data-ok-message="密码修改成功" autocomplete="off" action="#(CPATH)/ucenter/doUpdatePwd">
                 <div class="card-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">旧密码</label>
+                        <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span>旧密码</label>
                         <div class="col-sm-7">
-                            <input type="password" class="form-control" placeholder="请输入之前的密码" name="oldPwd">
+                            <input type="password" class="form-control" required placeholder="请输入之前的密码" name="oldPwd">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">新密码</label>
+                        <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span>新密码</label>
                         <div class="col-sm-7">
-                            <input type="password" class="form-control" placeholder="新的密码" name="newPwd">
+                            <input type="password" class="form-control" required  minlength="6" placeholder="新的密码" name="newPwd" id="newPwd">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">确认密码</label>
+                        <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span>确认密码</label>
                         <div class="col-sm-7">
-                            <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd">
+                            <input type="password" class="form-control" required minlength="6"  equalTo="#newPwd" placeholder="及确认密码" name="confirmPwd">
                         </div>
                     </div>
 

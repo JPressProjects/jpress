@@ -84,6 +84,16 @@ public class ArticleModuleInitializer extends JbootAppListenerBase implements Mo
     }
 
     @Override
+    public void onConfigUcenterFinanceMenu(MenuGroup ucenterFinanceMenus) {
+
+    }
+
+    @Override
+    public void onConfigUcenterPersonalMenu(MenuGroup ucenterPersonalMenus) {
+
+    }
+
+    @Override
     public void onEngineConfig(Engine engine) {
         engine.addSharedFunction("/WEB-INF/views/commons/article/defaultArticleCommentPage.html");
     }

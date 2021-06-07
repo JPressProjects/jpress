@@ -47,6 +47,16 @@ public class PageModuleInitializer extends JbootAppListenerBase implements Modul
 
     }
 
+    @Override
+    public void onConfigUcenterFinanceMenu(MenuGroup ucenterFinanceMenus) {
+
+    }
+
+    @Override
+    public void onConfigUcenterPersonalMenu(MenuGroup ucenterPersonalMenus) {
+
+    }
+
 
     @Override
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {

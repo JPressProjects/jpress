@@ -42,63 +42,25 @@
 
 
                 <li class="nav-header">财务信息</li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/member" class="nav-link">
-                        <i class="fas fa-smile"></i><p>加入会员</p>
-                    </a>
-                </li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/order" class="nav-link">
-                        <i class="fas fa-cart-arrow-down"></i><p>我的订单</p>
-                    </a>
-                </li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/finance/amount" class="nav-link">
-                        <i class="fab fa-gg-circle"></i><p>我的余额</p>
-                    </a>
-                </li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/coupon" class="nav-link">
-                        <i class="fas fa-closed-captioning"></i><p>优惠券</p>
-                    </a>
-                </li>
 
-
+                #for(item : ucenterFinanceMenus)
+                <li class="nav-item" >
+                    <a href="#(item.url ??)" class="nav-link">
+                        #(item.icon ?? '<i class="fas fa-smile"></i>')<p>#(item.text ??)</p>
+                    </a>
+                </li>
+                #end
 
 
                 <li class="nav-header">个人信息</li>
+                #for(item : ucenterPersonalMenus)
+                <li class="nav-item" >
+                    <a href="#(item.url ??)" class="nav-link">
+                        #(item.icon ?? '<i class="fas fa-smile"></i>')<p>#(item.text ??)</p>
+                    </a>
+                </li>
+                #end
 
-
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/info" class="nav-link">
-                        <i class="fas fa-user"></i><p>基本信息</p>
-                    </a>
-                </li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/address" class="nav-link">
-                        <i class="fas fa-map-marked"></i><p>我的地址</p>
-                    </a>
-                </li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/signature" class="nav-link">
-                        <i class="fas fa-bars"></i><p>个人签名</p>
-                    </a>
-                </li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/avatar" class="nav-link">
-                        <i class="fab fa-black-tie"></i><p>头像设置</p>
-                    </a>
-                </li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/pwd" class="nav-link">
-                        <i class="fas fa-key"></i><p>账号密码</p>
-                    </a>
-                </li>
-                <li class="nav-item" >
-                    <a href="#(CPATH)/ucenter/bind" class="nav-link">
-                        <i class="fas fa-random"></i><p>账号绑定</p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

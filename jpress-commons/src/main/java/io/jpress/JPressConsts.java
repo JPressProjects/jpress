@@ -43,6 +43,12 @@ public class JPressConsts {
     public static final String SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT = "wechat_pubulic_account";
     public static final String SYSTEM_MENU_WECHAT_MINI_PROGRAM = "wechat_mini_program";
 
+    /**
+     * 用户中心的菜单ID
+     */
+    public static final String UCENTER_MENU_FINANCE_INFO ="ucenter_finance";
+    public static final String UCENTER_MENU_PERSONAL_INFO ="ucenter_Personal";
+
 
     /**
      * 以下是配置相关

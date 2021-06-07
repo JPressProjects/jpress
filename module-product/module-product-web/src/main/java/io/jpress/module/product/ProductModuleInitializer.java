@@ -61,6 +61,16 @@ public class ProductModuleInitializer extends JbootAppListenerBase implements Mo
 
     }
 
+    @Override
+    public void onConfigUcenterFinanceMenu(MenuGroup ucenterFinanceMenus) {
+
+    }
+
+    @Override
+    public void onConfigUcenterPersonalMenu(MenuGroup ucenterPersonalMenus) {
+
+    }
+
 
     @Override
     public void onEngineConfig(Engine engine) {

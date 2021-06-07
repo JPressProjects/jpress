@@ -65,4 +65,18 @@ public interface ModuleListener {
      */
     public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus);
 
+    /**
+     * 配置用户中心的菜单
+     *
+     * @param ucenterFinanceMenus
+     */
+    public void onConfigUcenterFinanceMenu(MenuGroup ucenterFinanceMenus);
+
+    /**
+     * 配置用户中心的菜单
+     *
+     * @param ucenterPersonalMenus
+     */
+    public void onConfigUcenterPersonalMenu(MenuGroup ucenterPersonalMenus);
+
 }

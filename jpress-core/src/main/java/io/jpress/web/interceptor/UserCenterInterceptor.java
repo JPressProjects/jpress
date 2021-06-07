@@ -35,6 +35,16 @@ public class UserCenterInterceptor implements Interceptor {
 
         List<MenuGroup> ucenterMenus = MenuManager.me().getUcenterMenus();
         inv.getController().setAttr("ucenterMenus", ucenterMenus);
+
+
+        MenuGroup ucenterFinanceMenus = MenuManager.me().getUcenterFinanceMenus();
+        inv.getController().setAttr("ucenterFinanceMenus", ucenterFinanceMenus.getItems());
+
+
+        MenuGroup ucenterPersonalMenus = MenuManager.me().getUcenterPersonalMenus();
+        inv.getController().setAttr("ucenterPersonalMenus", ucenterPersonalMenus.getItems());
+
+
         inv.getController().setAttr("user", UserInterceptor.getThreadLocalUser());
 
         inv.invoke();

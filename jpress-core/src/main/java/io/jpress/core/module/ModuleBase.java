@@ -50,4 +50,14 @@ public class ModuleBase extends JbootAppListenerBase implements ModuleListener, 
     public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
 
     }
+
+    @Override
+    public void onConfigUcenterFinanceMenu(MenuGroup ucenterFinanceMenus) {
+
+    }
+
+    @Override
+    public void onConfigUcenterPersonalMenu(MenuGroup ucenterPersonalMenus) {
+
+    }
 }

@@ -9,9 +9,11 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
+import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.PaymentRecord;
 import io.jpress.model.UserAmountPayout;
 import io.jpress.service.PaymentRecordService;
@@ -40,6 +42,7 @@ public class FinanceController extends UcenterControllerBase {
     /**
      * 用户余额信息
      */
+    @UCenterMenu(text = "我的余额", groupId = JPressConsts.UCENTER_MENU_FINANCE_INFO, icon = "<i class=\"fab fa-gg-circle\"></i>",order = 30)
     public void index() {
         BigDecimal incomeAmount = amountStatementService.queryIncomeAmount(getLoginedUser().getId());
         BigDecimal payAmount = amountStatementService.queryPayAmount(getLoginedUser().getId());

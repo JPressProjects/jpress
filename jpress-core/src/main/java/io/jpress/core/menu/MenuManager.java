@@ -28,7 +28,10 @@ import io.jpress.core.module.ModuleManager;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -43,6 +46,8 @@ public class MenuManager implements JbootEventListener {
     private MenuArrayList systemMenus = new MenuArrayList();
     private MenuArrayList moduleMenus = new MenuArrayList();
     private MenuArrayList ucenterMenus = new MenuArrayList();
+    private MenuGroup ucenterFinanceMenus = new MenuGroup(JPressConsts.UCENTER_MENU_FINANCE_INFO);
+    private MenuGroup ucenterPersonalMenus = new MenuGroup(JPressConsts.UCENTER_MENU_PERSONAL_INFO);
 
     private MenuManager() {
 
@@ -66,7 +71,7 @@ public class MenuManager implements JbootEventListener {
         //初始化后台的 module 菜单
         initAdminMenuItems();
 
-        //初始化 用户中心菜单
+        //初始化 用户中心 菜单
         initUCenterMenuItems();
     }
 
@@ -117,7 +122,6 @@ public class MenuManager implements JbootEventListener {
         settingMenuGroup.setText("系统");
         settingMenuGroup.setIcon("<i class=\"fas fa-cog\"></i>");
         systemMenus.add(settingMenuGroup);
-
     }
 
 
@@ -190,6 +194,14 @@ public class MenuManager implements JbootEventListener {
                 group.addItem(item);
             }
         }
+
+        if (ucenterPersonalMenus.getId().equals(item.getGroupId())){
+            ucenterPersonalMenus.addItem(item);
+        }
+
+        if (ucenterFinanceMenus.getId().equals(item.getGroupId())){
+            ucenterFinanceMenus.addItem(item);
+        }
     }
 
     private void initUCenterMenuItems() {
@@ -216,6 +228,7 @@ public class MenuManager implements JbootEventListener {
 
         addMenuItems(buildUCenterMenuItems());
     }
+
 
 
     // 用于排除掉 BaseController 中的几个成为了 action 的方法
@@ -258,7 +271,7 @@ public class MenuManager implements JbootEventListener {
 
     private static List<MenuItem> buildUCenterMenuItems() {
 
-        List<MenuItem> adminMenuItems = new ArrayList<>();
+        List<MenuItem> menuItems = new ArrayList<>();
         List<String> allActionKeys = JFinal.me().getAllActionKeys();
 
         String[] urlPara = new String[1];
@@ -276,11 +289,11 @@ public class MenuManager implements JbootEventListener {
                     continue;
                 }
 
-                adminMenuItems.add(new MenuItem(uCenterMenu, actionKey));
+                menuItems.add(new MenuItem(uCenterMenu, actionKey));
             }
         }
 
-        return adminMenuItems;
+        return menuItems;
     }
 
 
@@ -294,6 +307,14 @@ public class MenuManager implements JbootEventListener {
 
     public List<MenuGroup> getUcenterMenus() {
         return ucenterMenus;
+    }
+
+    public MenuGroup getUcenterFinanceMenus() {
+        return ucenterFinanceMenus;
+    }
+
+    public MenuGroup getUcenterPersonalMenus() {
+        return ucenterPersonalMenus;
     }
 
     @Override

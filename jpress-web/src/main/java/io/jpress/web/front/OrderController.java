@@ -4,8 +4,10 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConsts;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.ProductManager;
+import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
@@ -40,6 +42,7 @@ public class OrderController extends UcenterControllerBase {
     /**
      * 用户订单列表
      */
+    @UCenterMenu(text = "我的订单", groupId = JPressConsts.UCENTER_MENU_FINANCE_INFO, icon = "<i class=\"fas fa-cart-arrow-down\"></i>",order = 20)
     public void index() {
         Page<UserOrder> userOrderPage = orderService.paginateByUserId(getPagePara(), 10, getLoginedUser().getId(), getPara("title"), getPara("ns"));
         setAttr("userOrderPage", userOrderPage);

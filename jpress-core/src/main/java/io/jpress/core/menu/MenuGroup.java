@@ -32,6 +32,13 @@ public class MenuGroup {
     private String icon;
     private String id;
 
+    public MenuGroup() {
+    }
+
+    public MenuGroup(String id) {
+        this.id = id;
+    }
+
     private List<MenuItem> items;
 
 

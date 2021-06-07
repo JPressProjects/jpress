@@ -18,11 +18,10 @@ package io.jpress.module.article;
 import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
-import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
 import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.module.ModuleListener;
+import io.jpress.core.module.ModuleBase;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -38,7 +37,7 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.page
  */
-public class ArticleModuleInitializer extends JbootAppListenerBase implements ModuleListener {
+public class ArticleModuleInitializer extends ModuleBase {
 
 
     @Override

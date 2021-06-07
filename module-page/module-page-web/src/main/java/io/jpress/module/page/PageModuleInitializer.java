@@ -15,11 +15,9 @@
  */
 package io.jpress.module.page;
 
-import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
-import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.module.ModuleListener;
+import io.jpress.core.module.ModuleBase;
 
 import java.util.List;
 
@@ -29,23 +27,7 @@ import java.util.List;
  * @Title: 应用启动监听器
  * @Package io.jpress.module.page
  */
-public class PageModuleInitializer extends JbootAppListenerBase implements ModuleListener {
-
-
-    @Override
-    public String onRenderDashboardBox(Controller controller) {
-        return null;
-    }
-
-    @Override
-    public String onRenderToolsBox(Controller controller) {
-        return null;
-    }
-
-    @Override
-    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
-
-    }
+public class PageModuleInitializer extends ModuleBase {
 
 
     @Override

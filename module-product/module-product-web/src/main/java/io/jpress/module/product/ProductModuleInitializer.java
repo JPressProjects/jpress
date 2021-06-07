@@ -16,13 +16,11 @@
 package io.jpress.module.product;
 
 import com.jfinal.aop.Aop;
-import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
-import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.finance.ProductManager;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.module.ModuleListener;
+import io.jpress.core.module.ModuleBase;
 
 import java.util.List;
 
@@ -32,18 +30,7 @@ import java.util.List;
  * @Title: 产品模块初始化
  * @Package io.jpress
  */
-public class ProductModuleInitializer extends JbootAppListenerBase implements ModuleListener {
-
-
-    @Override
-    public String onRenderDashboardBox(Controller controller) {
-        return null;
-    }
-
-    @Override
-    public String onRenderToolsBox(Controller controller) {
-        return null;
-    }
+public class ProductModuleInitializer extends ModuleBase {
 
     @Override
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
@@ -53,12 +40,6 @@ public class ProductModuleInitializer extends JbootAppListenerBase implements Mo
         menuGroup.setIcon("<i class=\"fas fa-mitten\"></i>");
         menuGroup.setOrder(99);
         adminMenus.add(menuGroup);
-    }
-
-    @Override
-    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
-
-
     }
 
 

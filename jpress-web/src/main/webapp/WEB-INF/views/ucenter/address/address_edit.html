@@ -1,28 +1,7 @@
 #@ucenter_layout()
 
 #define script()
-
 <script src="#(CPATH)/static/components/distpicker/distpicker.min.js"></script>
-
-<script>
-
-    $("#add-address-event").on("click", function () {
-        $("#addressForm").ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    alert("操作成功");
-                    location.href = "#(CPATH)/ucenter/address/list";
-                } else {
-                    alert(data.message);
-                }
-            },
-            error: function () {
-                alert("系统错误，请联系管理员。");
-            }
-        });
-    })
-</script>
 #end
 
 #define content()
@@ -32,7 +11,7 @@
                 <div class="card card-outline card-primary">
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="" id="addressForm" method="post" action="#(CPATH)/ucenter/address/doAdd">
+                    <form class="autoAjaxSubmit" data-ok-message="数据保存成功" data-ok-href="#(CPATH)/ucenter/address/list" method="post" action="#(CPATH)/ucenter/address/doAdd">
 
                         <input type="hidden" class="form-control" name="address.id" value="#(address.id ??)"/>
 
@@ -43,16 +22,16 @@
                         <div class="card-body">
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">联系人</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 联系人</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" placeholder="联系人" name="address.username" value="#(address.username ??)">
+                                    <input type="text" class="form-control" placeholder="联系人" required name="address.username" value="#(address.username ??)">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">联系电话</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 联系电话</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="联系电话" name="address.mobile" value="#(address.mobile ??)">
+                                    <input type="input" class="form-control" placeholder="联系电话" required name="address.mobile" value="#(address.mobile ??)">
                                 </div>
                             </div>
 
@@ -68,10 +47,10 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">详细地址</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span>详细地址</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control"
-                                              placeholder="详细地址..."
+                                              placeholder="详细地址..." required
                                               name="address.detail">#(address.detail ??)</textarea>
                                     <p class="text-muted"> 请具体到街道、楼层以及门牌号 </p>
                                 </div>
@@ -98,7 +77,7 @@
                         <div class="card-footer">
                             <div class="offset-sm-2 col-sm-10 submit-block">
                                 <div class="card-submit">
-                                    <button type="button" class="btn btn-primary" id="add-address-event">提交</button>
+                                    <button type="submit" class="btn btn-primary">提交</button>
                                     <a href="#(CPATH)/ucenter/address/list"><button type="button" class="btn ">返回</button></a>
                                 </div>
                             </div>

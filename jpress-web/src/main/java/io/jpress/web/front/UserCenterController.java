@@ -164,17 +164,18 @@ public class UserCenterController extends UcenterControllerBase {
     })
     public void doUpdatePwd(String oldPwd, String newPwd, String confirmPwd) {
 
-        User user = getLoginedUser();
-
-        if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
-            renderJson(Ret.fail().set("message", "密码错误"));
-            return;
-        }
-
         if (newPwd.equals(confirmPwd) == false) {
-            renderJson(Ret.fail().set("message", "两次出入密码不一致"));
+            renderJson(Ret.fail().set("message", "两次输入密码不一致"));
             return;
         }
+
+
+        User user = getLoginedUser();
+        if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
+            renderJson(Ret.fail().set("message", "旧密码输入错误"));
+            return;
+        }
+
 
         String salt = user.getSalt();
         String hashedPass = HashKit.sha256(salt + newPwd);

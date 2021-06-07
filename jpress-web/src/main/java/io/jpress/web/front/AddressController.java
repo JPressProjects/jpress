@@ -88,7 +88,7 @@ public class AddressController extends UcenterControllerBase {
     @EmptyValidate({
             @Form(name = "address.username",message = "请填写联系人"),
             @Form(name = "address.mobile",message = "请填写联系方式"),
-            @Form(name = "address.detail",message = "请填写联系地址"),
+            @Form(name = "address.detail",message = "请填写详细地址"),
     })
     public void doAdd() {
         UserAddress address = getBean(UserAddress.class, "address");

@@ -277,9 +277,6 @@ a.editable-click.editable-disabled:hover {
   top: -6px;
   left: 7px;
 }
-.datepicker > div {
-  display: none;
-}
 .datepicker.days div.datepicker-days {
   display: block;
 }

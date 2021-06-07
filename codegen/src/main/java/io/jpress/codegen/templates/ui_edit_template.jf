@@ -61,7 +61,7 @@
 		                                <div class="col-sm-6">
 
 		                                #if("java.util.Date"==cm.javaType)
-										    <input type="input" class="form-control datetimepicker" placeholder="点击选择"
+										    <input type="input" class="form-control datetime" placeholder="点击选择"
 		                       						name="#(modelAttrName)" value="#('#date(')#(modelAttrName) ?? now,'yyyy-MM-dd')" >
 										 #elseif("java.lang.Boolean"==cm.javaType)
 										   <input type="checkbox" class="switchery" data-for="#(modelAttrName_)" #('#')checkedIf(#(modelAttrName) ??)>

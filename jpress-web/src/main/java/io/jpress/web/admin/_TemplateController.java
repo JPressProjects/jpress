@@ -349,7 +349,7 @@ public class _TemplateController extends AdminControllerBase {
         String fileName = getPara("f");
 
         //防止浏览非模板目录之外的其他目录
-        render404If(dirName == null || dirName.contains(".."));
+        render404If(dirName != null && dirName.contains(".."));
         render404If(fileName.contains("/") || fileName.contains(".."));
 
 
@@ -484,7 +484,7 @@ public class _TemplateController extends AdminControllerBase {
         String path = getPara("path");
 
         //防止删除非模板目录之外的其他目录文件
-        render404If(path == null || path.contains(".."));
+        render404If(path != null && path.contains(".."));
 
         Template template = TemplateManager.me().getCurrentTemplate();
         render404If(template == null);

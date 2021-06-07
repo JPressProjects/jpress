@@ -130,10 +130,6 @@ public class MenuManager implements JbootEventListener {
      */
     private void initAdminMenuItems() {
 
-        for (ModuleListener listener : ModuleManager.me().getListeners()) {
-            listener.onConfigAdminMenu(moduleMenus);
-        }
-
         MenuGroup attachmentMenuGroup = new MenuGroup();
         attachmentMenuGroup.setId(JPressConsts.SYSTEM_MENU_ATTACHMENT);
         attachmentMenuGroup.setText("附件");
@@ -142,6 +138,11 @@ public class MenuManager implements JbootEventListener {
 
 
         addMenuItems(buildAdminMenuItems());
+
+
+        for (ModuleListener listener : ModuleManager.me().getListeners()) {
+            listener.onConfigAdminMenu(moduleMenus);
+        }
     }
 
     public void deleteMenuItem(String id) {
@@ -160,7 +161,11 @@ public class MenuManager implements JbootEventListener {
                 group.getItems().removeIf(item -> item.getId().equals(id));
             }
         }
+
+        ucenterFinanceMenus.removeItem(item -> id.equals(item.getId()));
+        ucenterPersonalMenus.removeItem(item -> id.equals(item.getId()));
     }
+
 
     public void deleteMenuGroup(String id) {
         systemMenus.removeIf(group -> id.equals(group.getId()));
@@ -168,27 +173,32 @@ public class MenuManager implements JbootEventListener {
         ucenterMenus.removeIf(group -> id.equals(group.getId()));
     }
 
+
+
     public void addMenuItems(List<MenuItem> items) {
         if (items == null) {
             return;
         }
-        for (MenuItem item : items) {
-            addMenuItem(item);
-        }
+        items.forEach(this::addMenuItem);
     }
+
+
 
     public void addMenuItem(MenuItem item) {
         String ctxPath = JFinal.me().getContextPath();
+
         for (MenuGroup group : systemMenus) {
             if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin")) {
                 group.addItem(item);
             }
         }
+
         for (MenuGroup group : moduleMenus) {
             if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin")) {
                 group.addItem(item);
             }
         }
+
         for (MenuGroup group : ucenterMenus) {
             if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/ucenter")) {
                 group.addItem(item);
@@ -206,11 +216,6 @@ public class MenuManager implements JbootEventListener {
 
     private void initUCenterMenuItems() {
 
-        for (ModuleListener listener : ModuleManager.me().getListeners()) {
-            listener.onConfigUcenterMenu(ucenterMenus);
-        }
-
-
         MenuGroup commentMenuGroup = new MenuGroup();
         commentMenuGroup.setId("comment");
         commentMenuGroup.setText("我的评论");
@@ -227,6 +232,12 @@ public class MenuManager implements JbootEventListener {
         ucenterMenus.add(favoriteMenuGroup);
 
         addMenuItems(buildUCenterMenuItems());
+
+
+        for (ModuleListener listener : ModuleManager.me().getListeners()) {
+            listener.onConfigUcenterMenu(ucenterMenus);
+        }
+
     }
 
 

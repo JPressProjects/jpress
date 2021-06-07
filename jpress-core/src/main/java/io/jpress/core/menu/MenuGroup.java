@@ -18,6 +18,7 @@ package io.jpress.core.menu;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -93,6 +94,10 @@ public class MenuGroup {
 
         items.add(item);
         items.sort(Comparator.comparingInt(MenuItem::getOrder));
+    }
+
+    public void removeItem(Predicate<? super MenuItem> filter) {
+        items.removeIf(filter);
     }
 
     public void removeItem(MenuItem item) {

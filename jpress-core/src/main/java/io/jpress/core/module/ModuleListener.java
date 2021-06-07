@@ -31,7 +31,7 @@ public interface ModuleListener {
     /**
      * 对后台的面板进行渲染
      * <p>
-     * 返回的内容是html 文件地址，html 文件应该只包含 单个div ，这个 div 会被嵌套在 面板里
+     * 返回的内容是 html 文件地址，html 文件应该只包含 单个 div ，这个 div 会被嵌套在 面板里
      * <p>
      * 暂时不支持顺序
      *
@@ -65,18 +65,5 @@ public interface ModuleListener {
      */
     public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus);
 
-    /**
-     * 配置用户中心的菜单
-     *
-     * @param ucenterFinanceMenus
-     */
-    public void onConfigUcenterFinanceMenu(MenuGroup ucenterFinanceMenus);
-
-    /**
-     * 配置用户中心的菜单
-     *
-     * @param ucenterPersonalMenus
-     */
-    public void onConfigUcenterPersonalMenu(MenuGroup ucenterPersonalMenus);
 
 }

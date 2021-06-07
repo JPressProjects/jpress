@@ -67,7 +67,7 @@ public class RadioRender implements SmartFieldRender {
         }
 
         return RenderKit.replace(template1, "{label}", field.getLabel()) +
-                items.toString() + template2;
+                items + template2;
     }
 
     private String getCheckedText(String v, Object value) {

@@ -32,7 +32,7 @@ public class DatetimeRender implements SmartFieldRender {
             "<div class=\"form-group row\">\n" +
             "    <label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
             "    <div class=\"col-sm-6\">\n" +
-            "        <input type=\"text\" class=\"form-control datetimepicker\"\n" +
+            "        <input type=\"text\" class=\"form-control datetime\"\n" +
             "               id=\"{id}\"\n" +
             "               name=\"{name}\"\n" +
             "               placeholder=\"{placeholder}\" value=\"{value}\" {attrs}/>\n" +

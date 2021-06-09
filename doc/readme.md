@@ -17,14 +17,14 @@
 Linux :
 
 ```
-wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
+wget https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 ```
 
 Mac OS :
 
 ```
-curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
+curl -O https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 ```
 
@@ -45,12 +45,12 @@ JPress手动安装需要以下几个步骤：
 1、git clone
 
 ```
-git clone https://gitee.com/fuhai/jpress.git
+git clone https://gitee.com/JPressProjects/jpress.git
 ```
 
 2、进入 Gitee 的 JPress 发行页面进行下载
 
-链接地址： https://gitee.com/fuhai/jpress/releases
+链接地址： https://gitee.com/JPressProjects/jpress/releases
 
 #### 2.通过Maven编译JPress成war包和可执行程序
 
@@ -741,7 +741,7 @@ public class ClubModuleListener implements ModuleListener {
     }
 }
 ```
-以上提到的`ArticleModuleLisenter`代码在： https://gitee.com/fuhai/jpress/blob/master/module-article/module-article-web/src/main/java/io/jpress/module/article/ArticleModuleLisenter.java
+以上提到的`ArticleModuleLisenter`代码在： https://gitee.com/JPressProjects/jpress/blob/master/module-article/module-article-web/src/main/java/io/jpress/module/article/ArticleModuleLisenter.java
 
 **4、通过 @AdminMenu 和  @UcenterMenu 配置后台和用户中心菜单**
 
@@ -967,7 +967,7 @@ public class HelloWechatAddon implements WechatAddon {
     }
 }
 ```
-完整代码可以看这里：https://gitee.com/fuhai/jpress/blob/master/jpress-web/src/main/java/io/jpress/web/wechat/HelloWechatAddon.java
+完整代码可以看这里：https://gitee.com/JPressProjects/jpress/blob/master/jpress-web/src/main/java/io/jpress/web/wechat/HelloWechatAddon.java
 
 
 ## JPress Http API

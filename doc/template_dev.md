@@ -29,7 +29,7 @@ Docker 的安装过程略，一般情况下都是安装比较顺利的，若安�
 
 **2、通过Docker运行JPress**
 
-Docker 安装完毕后，下载文件 https://gitee.com/fuhai/jpress/raw/v2.0/docker-compose-for-dev.yml 到本地。（打开此链接，然后右键另存为... 或者按快捷键 `ctrl+s` 保存到本地，mac系统的快捷键是`command+s`）
+Docker 安装完毕后，下载文件 https://gitee.com/JPressProjects/jpress/raw/v2.0/docker-compose-for-dev.yml 到本地。（打开此链接，然后右键另存为... 或者按快捷键 `ctrl+s` 保存到本地，mac系统的快捷键是`command+s`）
 
 下载完毕后，重命名刚刚下载文件 `docker-compose-for-dev.yml` 为 `docker-compose.yml` ，并把 `docker-compose.yml` 放入提前建好的文件夹中。
 

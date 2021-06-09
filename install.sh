@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # author:       yangfuhai
 # email:        fuhai999@gmail.com
-# use : wget https://gitee.com/fuhai/jpress/raw/master/install.sh && bash install.sh
+# use : wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh
 # ----------------------------------------------------------------------
 
 

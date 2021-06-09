@@ -90,6 +90,6 @@ public class HelloWechatAddon implements WechatAddon {
     }
 }
 ```
-完整代码可以看这里：https://gitee.com/fuhai/jpress/blob/master/jpress-web/src/main/java/io/jpress/web/wechat/HelloWechatAddon.java
+完整代码可以看这里：https://gitee.com/JPressProjects/jpress/blob/master/jpress-web/src/main/java/io/jpress/web/wechat/HelloWechatAddon.java
 
 ## 测试JPress微信运营插件

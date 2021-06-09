@@ -16,7 +16,7 @@
 下载 upgrade.sh 到 Linux 上，并给与执行权限。
 
 ```shell script
-wget https://gitee.com/fuhai/jpress/raw/master/upgrade.sh
+wget https://gitee.com/JPressProjects/jpress/raw/master/upgrade.sh
 chmod +x upgrade.sh
 ```
 

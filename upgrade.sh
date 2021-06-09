@@ -2,7 +2,7 @@
 # ----------------------------------------------------------------------
 # author:       yangfuhai
 # email:        fuhai999@gmail.com
-# use : yum install -y wget && wget https://gitee.com/fuhai/jpress/raw/master/upgrade.sh && bash upgrade.sh newPath oldPath
+# use : yum install -y wget && wget https://gitee.com/JPressProjects/jpress/raw/master/upgrade.sh && bash upgrade.sh newPath oldPath
 # ----------------------------------------------------------------------
 
 newPath="$1"

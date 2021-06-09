@@ -31,7 +31,6 @@ import java.util.Enumeration;
 public class JPressInterceptor implements Interceptor {
 
     public static final String ADDON_PATH_KEY = "APATH";
-    private static final String ADDON_PATH_VALUE = "";
 
     @Override
     public void intercept(Invocation inv) {
@@ -41,7 +40,7 @@ public class JPressInterceptor implements Interceptor {
         //方便模板开发者直接在模板里接收参数
         controller.setAttr("C", controller);
         controller.setAttr("CDN", JPressOptions.getCDNDomain());
-        controller.setAttr(ADDON_PATH_KEY, ADDON_PATH_VALUE);
+        controller.setAttr(ADDON_PATH_KEY, "");
 
         Enumeration<String> paraKeys = controller.getParaNames();
         if (paraKeys != null) {

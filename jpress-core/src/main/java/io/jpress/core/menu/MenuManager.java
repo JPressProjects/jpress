@@ -129,6 +129,10 @@ public class MenuManager implements JbootEventListener {
      * 初始化 子菜单
      */
     private void initAdminMenuItems() {
+        for (ModuleListener listener : ModuleManager.me().getListeners()) {
+            listener.onConfigAdminMenu(moduleMenus);
+        }
+
 
         MenuGroup attachmentMenuGroup = new MenuGroup();
         attachmentMenuGroup.setId(JPressConsts.SYSTEM_MENU_ATTACHMENT);
@@ -140,9 +144,7 @@ public class MenuManager implements JbootEventListener {
         addMenuItems(buildAdminMenuItems());
 
 
-        for (ModuleListener listener : ModuleManager.me().getListeners()) {
-            listener.onConfigAdminMenu(moduleMenus);
-        }
+
     }
 
     public void deleteMenuItem(String id) {
@@ -216,6 +218,11 @@ public class MenuManager implements JbootEventListener {
 
     private void initUCenterMenuItems() {
 
+        for (ModuleListener listener : ModuleManager.me().getListeners()) {
+            listener.onConfigUcenterMenu(ucenterMenus);
+        }
+
+
         MenuGroup commentMenuGroup = new MenuGroup();
         commentMenuGroup.setId("comment");
         commentMenuGroup.setText("我的评论");
@@ -232,12 +239,6 @@ public class MenuManager implements JbootEventListener {
         ucenterMenus.add(favoriteMenuGroup);
 
         addMenuItems(buildUCenterMenuItems());
-
-
-        for (ModuleListener listener : ModuleManager.me().getListeners()) {
-            listener.onConfigUcenterMenu(ucenterMenus);
-        }
-
     }
 
 

@@ -1,4 +1,6 @@
 **/target/
+**/dist/
+**/node_modules/
 */jpress-addon-club/
 */jpress-addon-articlemeta/
 */jpress-addon-wechatlogin/
@@ -25,3 +27,5 @@ logs
 ~$*
 */*.jar
 docker_volumes/
+package-lock.json
+yarn.lock

@@ -1,0 +1,16 @@
+{
+  "dependencies": {},
+  "devDependencies": {
+    "vuepress": "^1.8.2",
+    "vue": "^2.6.13",
+    "vue-server-renderer": "^2.6.13",
+    "chalk": "^2.4.2",
+    "commander": "^2.20.3",
+    "esm": "^3.2.25",
+    "vuepress-theme-reco": "1.6.6"
+  },
+  "scripts": {
+    "dev": "vuepress dev .",
+    "build": "vuepress build ."
+  }
+}

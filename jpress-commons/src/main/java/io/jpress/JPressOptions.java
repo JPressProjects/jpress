@@ -182,15 +182,16 @@ public class JPressOptions {
             fakeStaticSuffix = value;
         }
 
+        //是否启用扁平化的URL
+        else if (JPressConsts.OPTION_WEB_FLAT_URL_ENABLE.equals(key)){
+            flatUrlEnable = "true".equalsIgnoreCase(value);
+        }
+
         //是否开启模板预览功能
         else if (JPressConsts.OPTION_WEB_TEMPLATE_PREVIEW_ENABLE.equals(key)) {
             templatePreviewEnable = "true".equalsIgnoreCase(value);
         }
 
-        //是否开启模板预览功能
-        else if (JPressConsts.OPTION_WEB_FLAT_URL_ENABLE.equals(key)) {
-            templatePreviewEnable = "true".equalsIgnoreCase(value);
-        }
     }
 
     private static String indexStyleValue = null;

@@ -187,8 +187,8 @@ article comment start
 
 .comment-form button {
     float: right;
-    border: none;
-    background-color: #FF9400;
+    border: 1px solid transparent;
+    background-color: #007bff;
     color: #fff;
     font-size: 16px;
     padding: 0.5rem 1rem;
@@ -196,16 +196,15 @@ article comment start
     margin-top: 10px;
     border-radius: 0.22rem;
     white-space: normal;
-    box-shadow: 0px 5px 20px -3px rgba(255, 148, 0, .8) !important;
+    box-shadow: 0px 2px 10px -3px rgb(0 123 255) !important;
 }
 
 .comment-form button:hover {
-    background-color: #f38d00;
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
 }
 
-.comment-form button:hover {
-    background-color: #f38d00;
-}
 
 .comment-form button:focus {
     outline: none;
@@ -216,7 +215,7 @@ article comment start
     height: 100%;
     padding: 0.5rem 1rem;
     box-sizing: border-box;
-    border: solid 1px #f5f5f5;
+    border:solid 1px #e9ecef;
     border-radius: 0.22rem;
     background-color: #f5f5f5;
     color: #444444;
@@ -247,7 +246,7 @@ article comment start
 .comment-vcode input {
     padding: 0 0.5rem;
     height: 2.6rem;
-    border: solid 1px #f5f5f5;
+    border: solid 1px #e9ecef;
     border-radius: 0.22rem;
     background-color: #f5f5f5;
     outline: none;

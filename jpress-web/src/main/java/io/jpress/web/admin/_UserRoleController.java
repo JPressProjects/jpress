@@ -103,7 +103,7 @@ public class _UserRoleController extends AdminControllerBase {
         render("user/role_edit.html");
     }
 
-    public void ddSave() {
+    public void doSave() {
         Role role = getBean(Role.class);
         if (getParaToBoolean("issuper", false)) {
             role.setFlag(Role.ADMIN_FLAG);
@@ -112,7 +112,7 @@ public class _UserRoleController extends AdminControllerBase {
         }
 
         roleService.saveOrUpdate(role);
-        redirect("/admin/user/role");
+        renderOkJson();
     }
 
     /**

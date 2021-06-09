@@ -44,24 +44,25 @@
                     <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/user/mgroup/doSave"
                           data-ok-href="#(CPATH)/admin/user/mgroup/list"
+                          data-ok-message="数据保存成功"
                           method="POST"
                     >
                         <input type="hidden" name="group.id" value="#(group.id ??)">
                         <div class="card-body">
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">会员名称</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 会员名称</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" name="group.name" class="form-control" value="#(group.name ??)"
+                                    <input type="input" name="group.name" class="form-control" value="#(group.name ??)" required
                                            placeholder="建议设置一个直观的、不需要解释的名称">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">会员介绍页标题</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 会员介绍页标题</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="group.title" class="form-control" value="#(group.title ??)"
+                                    <input type="input" name="group.title" class="form-control" value="#(group.title ??)" required
                                            placeholder="请输入标题内容...">
                                     <p class="text-muted">该内容用于显示会员介绍页的标题上。 </p>
                                 </div>
@@ -87,18 +88,18 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">加入所需费用</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 加入所需费用</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="group.price" class="form-control" value="#(group.price ??)"
+                                    <input type="input" name="group.price" class="form-control" value="#(group.price ??)" required
                                            placeholder="">
                                     <p class="text-muted">单位：元。 加入该会员的价格。 </p>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">购买有效期</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 购买有效期</label>
                                 <div class="col-sm-6">
-                                    <input type="input" name="group.valid_term" class="form-control" value="#(group.valid_term ??)"
+                                    <input type="input" name="group.valid_term" class="form-control" value="#(group.valid_term ??)" required
                                            placeholder="">
                                     <p class="text-muted">单位：天。用户购买会员后，会员的有效时间延长的天数。 </p>
                                 </div>

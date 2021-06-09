@@ -24,7 +24,6 @@ import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +35,6 @@ import java.util.List;
 @RequestMapping(value = "/admin/user/detail", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _UserInfoController extends AdminControllerBase {
 
-    private static final String USER_ROLE_EDIT_ACTION = "/admin/user/roleEdit";
 
     @Inject
     private RoleService roleService;
@@ -82,15 +80,8 @@ public class _UserInfoController extends AdminControllerBase {
 
     public void role() {
 
-        Long uid = getParaToLong();
-        User user = userService.findById(uid);
+        User user = userService.findById(getParaToLong());
         setAttr("user", user);
-
-        //用户没有权限，显示无权限页面
-        if (!permissionService.hasPermission(getLoginedUser().getId(), USER_ROLE_EDIT_ACTION)) {
-            renderErrorForNoPermission();
-            return;
-        }
 
         List<Role> roles = roleService.findAll();
         setAttr("roles", roles);
@@ -212,6 +203,8 @@ public class _UserInfoController extends AdminControllerBase {
         setAttr("couponCodeList",renderList);
         render("user/detail_coupon.html");
     }
+
+
     public void order(){
         Long uid = getParaToLong();
         User user = userService.findById(uid);

@@ -1,28 +1,60 @@
 #@layout()
 #define content()
-    <section class="content-header">
-        <h1>
-            角色编辑
-            <small>Role Edit</small>
-        </h1>
-    </section>
+<!--    <section class="content-header">-->
+<!--        <h1>-->
+<!--            角色编辑-->
+<!--            <small>Role Edit</small>-->
+<!--        </h1>-->
+<!--    </section>-->
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            #(role ? '编辑' : '新建')角色
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 用户 / 用户角色 /  #(role ? '编辑' : '新建')角色</small>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+
+<!--            <div class="col-sm-6 ">-->
+<!--                <div class=" float-sm-right" style="padding-top: 15px">-->
+<!--                    <a href="role/edit" class="btn btn-primary ">-->
+<!--                        <i class="fas fa-plus"></i> 新建-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
 
     <section class="content">
 
         <div class="container-fluid">
                 <div class="card card-outline card-primary">
 
-                    <form class=" form-setting" autocomplete="off"
+                    <form class="autoAjaxSubmit form-setting" autocomplete="off"
                           action="#(CPATH)/admin/user/role/doSave"
+                          data-ok-href="#(CPATH)/admin/user/role"
+                          data-ok-message="数据保存成功"
                           method="POST"
                     >
                         <input type="hidden" name="role.id" value="#(role.id ??)">
                         <div class="card-body">
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">名称</label>
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 名称</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" name="role.name" class="form-control" value="#(role.name ??)"
+                                    <input type="input" name="role.name" class="form-control" value="#(role.name ??)" required
                                            placeholder="建议设置一个直观的、不需要解释的名称">
                                 </div>
                             </div>

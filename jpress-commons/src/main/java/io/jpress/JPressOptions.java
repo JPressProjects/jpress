@@ -179,7 +179,7 @@ public class JPressOptions {
 
         //伪静态后缀
         else if (JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(key)) {
-            fakeStaticSuffix = value;
+            fakeStaticSuffix = StrUtil.defaultIfBlank(value,".html");
         }
 
         //是否启用扁平化的URL

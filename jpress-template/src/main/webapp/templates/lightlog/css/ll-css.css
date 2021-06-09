@@ -226,15 +226,6 @@ body{
     color: #27282d;
     line-height: 1.4em;
 }
-/*page*/
-.pagination .page-item.active .page-link{
-    background-color:#3F6600;
-    border-color:#3F6600;
-    color:#fff;
-}
-.pagination .page-item .page-link{
-    color:#3F6600;
-}
 .pagination{
     margin:5rem 0 0 0;
 }

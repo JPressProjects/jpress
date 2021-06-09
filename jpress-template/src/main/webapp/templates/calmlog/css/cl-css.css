@@ -47,7 +47,6 @@ a:hover{
     padding:0;
 }
 .navbar-light .navbar-nav .active>.nav-link{
-    color: #FF9400;
     font-weight: bold;
 }
 .nav .nav-item a.active{
@@ -192,14 +191,6 @@ a.card-link:hover .cl-card-main-title{
     font-weight: 300;
 }
 /*page*/
-.pagination .page-item.active .page-link{
-    background-color:#FF9400;
-    border-color:#FF9400;
-    color:#fff;
-}
-.pagination .page-item .page-link{
-    color:#666;
-}
 .pagination{
     margin:20px 0 0 0;
 }

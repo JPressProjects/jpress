@@ -135,14 +135,6 @@ a:hover{
     background-color: #0c6b9c;
 }
 /*page*/
-.pagination .page-item.active .page-link{
-    background-color:#107AB1;
-    border-color:#107AB1;
-    color:#fff;
-}
-.pagination .page-item .page-link{
-    color:#107AB1;
-}
 .pagination{
     margin:5rem 0 0 0;
 }

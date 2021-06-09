@@ -65,7 +65,8 @@
         min-width: 100%;
         z-index: 1001;
         background: #fff;
-        border: 1px solid #e7f1ff;
+        border: 1px solid #e9ecef;
+        box-shadow: 0px 2px 10px -3px #dee2e6 !important;
     }
 
     .jpress-nav.is-hoverable .jpress-menu > li > ul {

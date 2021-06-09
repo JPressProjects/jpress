@@ -37,14 +37,11 @@
 
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-10">
-            <div class="form-check">
-                <label>
-                    <input type="checkbox" name="dbAutoCreate" value="true"> 当数据库不存在时，自动为我创建（需要以上用户拥有相关权限）。
-                </label>
-            </div>
+            <label>
+                <input type="checkbox" name="dbAutoCreate" value="true"> 当数据库不存在时，自动为我创建（需要用户拥有相关权限）。
+            </label>
         </div>
     </div>
-
 
 
     <h4 class="form-header">主机信息</h4>
@@ -53,7 +50,7 @@
         <label class="col-sm-2 col-form-label">主机</label>
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="主机或IP地址"
-                   name="dbHost"  value="#(JPRESS_DB_HOST ?? '127.0.0.1')">
+                   name="dbHost" value="#(JPRESS_DB_HOST ?? '127.0.0.1')">
             <p class="text-muted">如果 127.0.0.1 不能用，您通常可以从网站服务商得到正确的信息。</p>
         </div>
     </div>

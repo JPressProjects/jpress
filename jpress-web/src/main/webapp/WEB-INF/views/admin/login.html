@@ -58,9 +58,9 @@
                         <div>
                             <input type="text" id="captcha" class="form-control " style="float: left;width: 70%;"
                                    placeholder="请输入验证码" name="captcha" required>
-                            <img src="/commons/captcha" id="captcha-img"
+                            <img src="#(CPATH)/commons/captcha" id="captcha-img"
                                  style="float: right;height: 34px;margin-top: 2px;"
-                                 onclick="this.src='/commons/captcha?d='+Math.random();" cdn-exclude>
+                                 onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
                         </div>
                     </div>
                     #end

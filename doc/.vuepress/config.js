@@ -15,7 +15,7 @@ module.exports = {
         modePicker: false, // 默认 true，false 不显示模式调节按钮，true 则显示
 
         // author
-        author: 'jpress',
+        //author: 'jpress',
 
         // if your docs are in a different repo from your main project:
         docsRepo: 'JPressProjects/jpress',
@@ -33,8 +33,8 @@ module.exports = {
 
         nav: [
             {text: '首页', link: '/'},
-            {text: '用户手册', link: '/manual/'},
             {text: '开发文档', link: '/development/'},
+            {text: '用户手册', link: '/manual/'},
             {text: '提问', link: 'https://gitee.com/JPressProjects/jpress/issues'},
             {
                 text: '源码下载', items: [
@@ -46,73 +46,108 @@ module.exports = {
 
         sidebar: {
             '/manual/': [{
-                    title: '快速入门',
-                    collapsable: false,
-                    children: [
-                        {title: 'Jboot 简介', path: '/docs/'},
-                        {title: '快速开始', path: '/docs/start'}
-                    ],
-                },
+                title: '快速入门',
+                collapsable: false,
+                children: [
+                    {title: 'JPress 简介', path: '/manual/'},
+                    {title: '快速开始', path: '/manual/start'}
+                ],
+            },
                 {
                     title: '安装启动',
                     collapsable: false,
                     children: [
-                        {title: '性能测试', path: '/docs/benchmark'},
+                        {title: 'Linux', path: '/manual/install_linux'},
+                        {title: 'Windows', path: '/manual/install_windows'},
+                        {title: 'Mac', path: '/manual/install_mac'},
+                        {title: 'Docker', path: '/manual/install_docker'},
+                        {title: '宝塔', path: '/manual/install_baota'},
                     ],
                 },
                 {
                     title: '产品手册',
                     collapsable: false,
                     children: [
-                        {title: '性能测试', path: '/docs/benchmark'},
+                        {title: '文章', path: '/manual/article'},
+                        {title: '产品', path: '/manual/product'},
+                        {title: '页面', path: '/manual/page'},
+                        {title: '附件', path: '/manual/attachment'},
+                        {title: '模板', path: '/manual/template'},
+                        {title: '插件', path: '/manual/addon'},
+                        {title: '用户', path: '/manual/user'},
+                        {title: '微信', path: '/manual/wechat'},
+                        {title: '设置相关', path: '/manual/setting'},
+                        {title: '小工具箱', path: '/manual/kits'},
+                        {title: '常见问题', path: '/manual/faq'},
                     ],
                 }
             ],
 
 
             '/development/': [{
-                title: '模板开发',
-                collapsable: false,
-                children: [
-                    {title: '简介', path: '/jbootadmin/'},
-                    {title: '功能介绍', path: '/jbootadmin/feature'},
-                    {title: '我要购买', path: '/jbootadmin/buy'}
-                ],
-            },
+                    title: '概述',
+                    path: '/development/',
+                },
+                {
+                    title: '模板开发',
+                    collapsable: true,
+                    children: [
+                        {title: '模板简介', path: '/development/template/start'},
+                        {title: '目录结构', path: '/development/template/structure'},
+                        {title: '模板语法', path: '/development/template/grammar'},
+                        {title: '全局变量', path: '/development/template/global_variable'},
+                        {title: '模板指令', path: '/development/template/directive'},
+                        {title: '共享方法', path: '/development/template/share_functions'},
+                        {title: '网站首页', path: '/development/template/html_index'},
+                        {title: '文章列表', path: '/development/template/html_artlist'},
+                        {title: '文章详情', path: '/development/template/html_article'},
+                        {title: '文章搜索', path: '/development/template/html_artsearch'},
+                        {title: '产品列表', path: '/development/template/html_prolist'},
+                        {title: '产品详情', path: '/development/template/html_product'},
+                        {title: '产品搜索', path: '/development/template/html_prosearch'},
+                        {title: '页面详情', path: '/development/template/html_page'},
+                        {title: '用户相关', path: '/development/template/html_user'},
+
+                    ],
+                },
+                {
+                    title: '插件开发',
+                    collapsable: true,
+                    children: [
+                        {title: '插件简介', path: '/development/addon/start'},
+                        {title: 'Hello World', path: '/development/addon/helloworld'},
+                        {title: '插件安装', path: '/development/addon/install'},
+                        {title: '插件升级', path: '/development/addon/upgrade'},
+                        {title: '插件资源', path: '/development/addon/resource'},
+                        {title: '插件代码生成器', path: '/development/addon/codegen'},
+                        {title: '微信插件', path: '/development/addon/wechat'},
+                        {title: '常见问题', path: '/development/addon/faq'},
+                    ],
+                },
                 {
                     title: '二次开发',
-                    collapsable: false,
+                    collapsable: true,
                     children: [
-                        {title: '开始', path: '/jbootadmin/start'},
-                        {title: '数据库设计', path: '/jbootadmin/db'},
-                        {title: '后台菜单', path: '/jbootadmin/menu'},
-                        {title: '权限设计', path: '/jbootadmin/permission'},
-                        {title: '前端组件', path: '/jbootadmin/front'},
-                        {title: '安全防护', path: '/jbootadmin/safety_precautions'},
+                        {title: '下载运行JPress', path: '/development/dev/start'},
+                        {title: '开始前注意事项', path: '/development/dev/note'},
+                        {title: 'JPress架构', path: '/development/dev/structure'},
+                        {title: '使用代码生成器', path: '/development/dev/codegen'},
+                        {title: 'ModuleBase', path: '/development/dev/modulebase'},
+                        {title: '菜单管理', path: '/development/dev/menu'},
+                        {title: '前端组件', path: '/development/dev/front'},
                     ],
                 },
                 {
-                    title: '微信开发',
-                    collapsable: false,
+                    title: 'API 接口',
+                    collapsable: true,
                     children: [
-                        {title: '部署', path: '/jbootadmin/deploy'},
-                        {title: 'CDN配置', path: '/jbootadmin/cdn'},
-                        {title: '文件同步', path: '/jbootadmin/attachment'},
-                        {title: '配置中心', path: '/jbootadmin/config'},
-                        {title: '门户网关', path: '/jbootadmin/gateway'},
-                        {title: '服务器管理', path: '/jbootadmin/server'},
-                    ],
-                },
-                {
-                    title: 'API接口',
-                    collapsable: false,
-                    children: [
-                        {title: '开始', path: '/jbootadmin/start'},
-                        {title: '数据库设计', path: '/jbootadmin/db'},
-                        {title: '后台菜单', path: '/jbootadmin/menu'},
-                        {title: '权限设计', path: '/jbootadmin/permission'},
-                        {title: '前端组件', path: '/jbootadmin/front'},
-                        {title: '安全防护', path: '/jbootadmin/safety_precautions'},
+                        {title: '文章相关', path: '/development/api/article'},
+                        {title: '产品相关', path: '/development/api/product'},
+                        {title: '页面相关', path: '/development/api/page'},
+                        {title: '用户相关', path: '/development/api/user'},
+                        {title: '微信相关', path: '/development/api/wechat'},
+                        {title: '系统设置', path: '/development/api/system'},
+                        {title: '其他', path: '/development/api/other'},
                     ],
                 },
             ]
@@ -130,6 +165,6 @@ module.exports = {
               var s = document.getElementsByTagName("script")[0]; 
               s.parentNode.insertBefore(hm, s);
             })();
-        `]
+        `],
     ]
 }

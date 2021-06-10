@@ -4,7 +4,7 @@
 set -e
 
 # build
-yarn build
+vuepress build .
 
 ossutil cp -rf .vuepress/dist  oss://jpress-doc-site-hk/
 

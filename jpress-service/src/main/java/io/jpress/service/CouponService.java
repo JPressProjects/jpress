@@ -6,71 +6,71 @@ import io.jpress.model.Coupon;
 
 import java.util.List;
 
-public interface CouponService  {
+public interface CouponService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Coupon findById(Object id);
+    Coupon findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Coupon
+     * @return 所有的 Coupon
      */
-    public List<Coupon> findAll();
+    List<Coupon> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Coupon model);
+    boolean delete(Coupon model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
-    public Object save(Coupon model);
+    Object save(Coupon model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(Coupon model);
+    Object saveOrUpdate(Coupon model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Coupon model);
+    boolean update(Coupon model);
 
 
     /**
@@ -80,13 +80,14 @@ public interface CouponService  {
      * @param pageSize
      * @return
      */
-    public Page<Coupon> paginate(int page, int pageSize);
-    public Page<Coupon> paginateByColumns(int page, int pageSize, Columns columns,String orderBy);
+    Page<Coupon> paginate(int page, int pageSize);
+
+    Page<Coupon> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public void doSyncTakeCount(long couponId);
+    void doSyncTakeCount(long couponId);
 
-    public void doSyncUsedCount(long couponId);
+    void doSyncUsedCount(long couponId);
 
 
 }

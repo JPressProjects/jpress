@@ -7,7 +7,7 @@ import io.jpress.module.product.model.ProductComment;
 import java.util.List;
 
 
-public interface ProductCommentService  {
+public interface ProductCommentService {
 
     /**
      * 根据ID查找model
@@ -15,7 +15,7 @@ public interface ProductCommentService  {
      * @param id
      * @return
      */
-    public ProductComment findById(Object id);
+    ProductComment findById(Object id);
 
 
     /**
@@ -24,7 +24,7 @@ public interface ProductCommentService  {
      * @param columns
      * @return
      */
-    public ProductComment findFirstByColumns(Columns columns);
+    ProductComment findFirstByColumns(Columns columns);
 
 
     /**
@@ -34,7 +34,7 @@ public interface ProductCommentService  {
      * @param orderBy
      * @return
      */
-    public ProductComment findFirstByColumns(Columns columns, String orderBy);
+    ProductComment findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -42,7 +42,7 @@ public interface ProductCommentService  {
      *
      * @return
      */
-    public List<ProductComment> findAll();
+    List<ProductComment> findAll();
 
 
     /**
@@ -51,7 +51,7 @@ public interface ProductCommentService  {
      * @param columns
      * @return
      */
-    public List<ProductComment> findListByColumns(Columns columns);
+    List<ProductComment> findListByColumns(Columns columns);
 
 
     /**
@@ -61,7 +61,7 @@ public interface ProductCommentService  {
      * @param orderBy
      * @return
      */
-    public List<ProductComment> findListByColumns(Columns columns, String orderBy);
+    List<ProductComment> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -70,7 +70,7 @@ public interface ProductCommentService  {
      * @param count
      * @return
      */
-    public List<ProductComment> findListByColumns(Columns columns, Integer count);
+    List<ProductComment> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -80,7 +80,7 @@ public interface ProductCommentService  {
      * @param count
      * @return
      */
-    public List<ProductComment> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<ProductComment> findListByColumns(Columns columns, String orderBy, Integer count);
 
     /**
      * 根据提交查询数据量
@@ -88,7 +88,7 @@ public interface ProductCommentService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -97,7 +97,7 @@ public interface ProductCommentService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -106,7 +106,7 @@ public interface ProductCommentService  {
      * @param model
      * @return
      */
-    public boolean delete(ProductComment model);
+    boolean delete(ProductComment model);
 
 
     /**
@@ -115,7 +115,7 @@ public interface ProductCommentService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -124,7 +124,7 @@ public interface ProductCommentService  {
      * @param model
      * @return id if success
      */
-    public Object save(ProductComment model);
+    Object save(ProductComment model);
 
 
     /**
@@ -133,7 +133,7 @@ public interface ProductCommentService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(ProductComment model);
+    Object saveOrUpdate(ProductComment model);
 
     /**
      * 更新
@@ -141,7 +141,7 @@ public interface ProductCommentService  {
      * @param model
      * @return
      */
-    public boolean update(ProductComment model);
+    boolean update(ProductComment model);
 
 
     /**
@@ -151,7 +151,7 @@ public interface ProductCommentService  {
      * @param pageSize
      * @return
      */
-    public Page<ProductComment> paginate(int page, int pageSize);
+    Page<ProductComment> paginate(int page, int pageSize);
 
 
     /**
@@ -161,7 +161,7 @@ public interface ProductCommentService  {
      * @param pageSize
      * @return
      */
-    public Page<ProductComment> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<ProductComment> paginateByColumns(int page, int pageSize, Columns columns);
 
     /**
      * 分页
@@ -172,40 +172,43 @@ public interface ProductCommentService  {
      * @param orderBy
      * @return
      */
-    public Page<ProductComment> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<ProductComment> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public long findCountByProductId(Long productId);
+    long findCountByProductId(Long productId);
 
 
     /**
      * batch del
+     *
      * @param ids
      * @return
      */
-    public boolean deleteByIds(Object... ids);
+    boolean deleteByIds(Object... ids);
 
 
-    public void deleteCacheById(Object id);
+    void deleteCacheById(Object id);
+
     /**
      * count
+     *
      * @param status
      * @return
      */
-    public long findCountByStatus(int status);
+    long findCountByStatus(int status);
 
 
-    public Page<ProductComment> _paginateByStatus(int page, int pagesize, Long productId, String keyword, int status);
+    Page<ProductComment> _paginateByStatus(int page, int pagesize, Long productId, String keyword, int status);
 
-    public Page<ProductComment> _paginateWithoutTrash(int page, int pagesize, Long productId, String keyword);
+    Page<ProductComment> _paginateWithoutTrash(int page, int pagesize, Long productId, String keyword);
 
-    public Page<ProductComment> _paginateByUserId(int page, int pagesize, long userId);
+    Page<ProductComment> _paginateByUserId(int page, int pagesize, long userId);
 
-    public Page<ProductComment> paginateByProductIdInNormal(int page, int pagesize, long productId);
+    Page<ProductComment> paginateByProductIdInNormal(int page, int pagesize, long productId);
 
-    public void doIncCommentReplyCount(long commentId);
+    void doIncCommentReplyCount(long commentId);
 
-    public boolean doChangeStatus(Long id, int status);
+    boolean doChangeStatus(Long id, int status);
 
-    public boolean deleteByProductId(Object productId);
+    boolean deleteByProductId(Object productId);
 }

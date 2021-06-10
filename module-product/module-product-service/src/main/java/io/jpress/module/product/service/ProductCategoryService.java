@@ -14,7 +14,7 @@ public interface ProductCategoryService {
      * @param id
      * @return
      */
-    public ProductCategory findById(Object id);
+    ProductCategory findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface ProductCategoryService {
      * @param columns
      * @return
      */
-    public ProductCategory findFirstByColumns(Columns columns);
+    ProductCategory findFirstByColumns(Columns columns);
 
 
     /**
@@ -33,7 +33,7 @@ public interface ProductCategoryService {
      * @param orderBy
      * @return
      */
-    public ProductCategory findFirstByColumns(Columns columns, String orderBy);
+    ProductCategory findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -41,7 +41,7 @@ public interface ProductCategoryService {
      *
      * @return
      */
-    public List<ProductCategory> findAll();
+    List<ProductCategory> findAll();
 
 
     /**
@@ -50,7 +50,7 @@ public interface ProductCategoryService {
      * @param columns
      * @return
      */
-    public List<ProductCategory> findListByColumns(Columns columns);
+    List<ProductCategory> findListByColumns(Columns columns);
 
 
     /**
@@ -60,7 +60,7 @@ public interface ProductCategoryService {
      * @param orderBy
      * @return
      */
-    public List<ProductCategory> findListByColumns(Columns columns, String orderBy);
+    List<ProductCategory> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -69,7 +69,7 @@ public interface ProductCategoryService {
      * @param count
      * @return
      */
-    public List<ProductCategory> findListByColumns(Columns columns, Integer count);
+    List<ProductCategory> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -79,7 +79,7 @@ public interface ProductCategoryService {
      * @param count
      * @return
      */
-    public List<ProductCategory> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<ProductCategory> findListByColumns(Columns columns, String orderBy, Integer count);
 
     /**
      * 根据提交查询数据量
@@ -87,7 +87,7 @@ public interface ProductCategoryService {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface ProductCategoryService {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface ProductCategoryService {
      * @param model
      * @return
      */
-    public boolean delete(ProductCategory model);
+    boolean delete(ProductCategory model);
 
 
     /**
@@ -114,7 +114,7 @@ public interface ProductCategoryService {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -123,7 +123,7 @@ public interface ProductCategoryService {
      * @param model
      * @return id if success
      */
-    public Object save(ProductCategory model);
+    Object save(ProductCategory model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface ProductCategoryService {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(ProductCategory model);
+    Object saveOrUpdate(ProductCategory model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface ProductCategoryService {
      * @param model
      * @return
      */
-    public boolean update(ProductCategory model);
+    boolean update(ProductCategory model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface ProductCategoryService {
      * @param pageSize
      * @return
      */
-    public Page<ProductCategory> paginate(int page, int pageSize);
+    Page<ProductCategory> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface ProductCategoryService {
      * @param pageSize
      * @return
      */
-    public Page<ProductCategory> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<ProductCategory> paginateByColumns(int page, int pageSize, Columns columns);
 
     /**
      * 分页
@@ -171,36 +171,36 @@ public interface ProductCategoryService {
      * @param orderBy
      * @return
      */
-    public Page<ProductCategory> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<ProductCategory> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public Page<ProductCategory> paginateByType(int page, int pagesize, String type);
+    Page<ProductCategory> paginateByType(int page, int pagesize, String type);
 
 
-    public List<ProductCategory> findListByProductId(long productId);
+    List<ProductCategory> findListByProductId(long productId);
 
-    public List<ProductCategory> findCategoryListByProductId(long productId);
+    List<ProductCategory> findCategoryListByProductId(long productId);
 
-    public List<ProductCategory> findTagListByProductId(long productId);
+    List<ProductCategory> findTagListByProductId(long productId);
 
-    public List<ProductCategory> findListByProductId(long productId, String type);
+    List<ProductCategory> findListByProductId(long productId, String type);
 
-    public List<ProductCategory> findListByType(String type);
+    List<ProductCategory> findListByType(String type);
 
-    public List<ProductCategory> findListByType(String type,String orderBy,Integer count);
+    List<ProductCategory> findListByType(String type, String orderBy, Integer count);
 
-    public List<ProductCategory> findOrCreateByTagString(String[] tags);
-
-
-    public ProductCategory findFirstByTypeAndSlug(String type, String slug);
+    List<ProductCategory> findOrCreateByTagString(String[] tags);
 
 
-    public Long[] findCategoryIdsByProductId(long productId);
+    ProductCategory findFirstByTypeAndSlug(String type, String slug);
 
 
-    public void doUpdateProductCount(long categoryId);
+    Long[] findCategoryIdsByProductId(long productId);
 
-    public ProductCategory findFirstByFlag(String flag);
+
+    void doUpdateProductCount(long categoryId);
+
+    ProductCategory findFirstByFlag(String flag);
 
 
 }

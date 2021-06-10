@@ -23,29 +23,29 @@ import java.util.List;
 public interface RoleService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Role findById(Object id);
+    Role findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Role
+     * @return 所有的 Role
      */
-    public List<Role> findAll();
+    List<Role> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -54,66 +54,66 @@ public interface RoleService {
      * @param ids
      * @return
      */
-    public boolean deleteByIds(Object... ids);
+    boolean deleteByIds(Object... ids);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Role model);
+    boolean delete(Role model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(Role model);
+    Object save(Role model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(Role model);
+    Object saveOrUpdate(Role model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Role model);
+    boolean update(Role model);
 
-    public boolean isSupperAdmin(long userId);
+    boolean isSupperAdmin(long userId);
 
-    public boolean hasRole(long userId, String... roles);
+    boolean hasRole(long userId, String... roles);
 
-    public boolean hasRole(long userId, long... roles);
+    boolean hasRole(long userId, long... roles);
 
-    public boolean hasAnyRole(long userId, String... roles);
+    boolean hasAnyRole(long userId, String... roles);
 
-    public boolean hasAnyRole(long userId);
+    boolean hasAnyRole(long userId);
 
-    public boolean addPermission(long roleId, long permissionId);
+    boolean addPermission(long roleId, long permissionId);
 
-    public boolean delPermission(long roleId, long permissionId);
+    boolean delPermission(long roleId, long permissionId);
 
-    public boolean hasPermission(long roleId, long permissionId);
+    boolean hasPermission(long roleId, long permissionId);
 
-    public boolean doResetUserRoles(long userId, Long... RoleIds);
+    boolean doResetUserRoles(long userId, Long... RoleIds);
 
-    public boolean doChangeRoleByIds(Long roleId, Object... ids);
+    boolean doChangeRoleByIds(Long roleId, Object... ids);
 
-    public List<Role> findRoleListByUserId(long userId);
+    List<Role> findRoleListByUserId(long userId);
 
-    public List<Record> findAllUserRoleMapping();
+    List<Record> findAllUserRoleMapping();
 
 }

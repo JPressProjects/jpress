@@ -14,7 +14,7 @@ public interface UserAmountPayoutService {
      * @param id
      * @return
      */
-    public UserAmountPayout findById(Object id);
+    UserAmountPayout findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface UserAmountPayoutService {
      * @param columns
      * @return
      */
-    public UserAmountPayout findFirstByColumns(Columns columns);
+    UserAmountPayout findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface UserAmountPayoutService {
      * @param orderBy
      * @return
      */
-    public UserAmountPayout findFirstByColumns(Columns columns, String orderBy);
+    UserAmountPayout findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface UserAmountPayoutService {
      *
      * @return
      */
-    public List<UserAmountPayout> findAll();
+    List<UserAmountPayout> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface UserAmountPayoutService {
      * @param columns
      * @return
      */
-    public List<UserAmountPayout> findListByColumns(Columns columns);
+    List<UserAmountPayout> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface UserAmountPayoutService {
      * @param orderBy
      * @return
      */
-    public List<UserAmountPayout> findListByColumns(Columns columns, String orderBy);
+    List<UserAmountPayout> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface UserAmountPayoutService {
      * @param count
      * @return
      */
-    public List<UserAmountPayout> findListByColumns(Columns columns, Integer count);
+    List<UserAmountPayout> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface UserAmountPayoutService {
      * @param count
      * @return
      */
-    public List<UserAmountPayout> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<UserAmountPayout> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -87,7 +87,7 @@ public interface UserAmountPayoutService {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface UserAmountPayoutService {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface UserAmountPayoutService {
      * @param model
      * @return
      */
-    public boolean delete(UserAmountPayout model);
+    boolean delete(UserAmountPayout model);
 
 
     /**
@@ -114,7 +114,7 @@ public interface UserAmountPayoutService {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -123,7 +123,7 @@ public interface UserAmountPayoutService {
      * @param model
      * @return id if success
      */
-    public Object save(UserAmountPayout model);
+    Object save(UserAmountPayout model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface UserAmountPayoutService {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(UserAmountPayout model);
+    Object saveOrUpdate(UserAmountPayout model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface UserAmountPayoutService {
      * @param model
      * @return
      */
-    public boolean update(UserAmountPayout model);
+    boolean update(UserAmountPayout model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface UserAmountPayoutService {
      * @param pageSize
      * @return
      */
-    public Page<UserAmountPayout> paginate(int page, int pageSize);
+    Page<UserAmountPayout> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface UserAmountPayoutService {
      * @param pageSize
      * @return
      */
-    public Page<UserAmountPayout> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<UserAmountPayout> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,10 +172,10 @@ public interface UserAmountPayoutService {
      * @param orderBy
      * @return
      */
-    public Page<UserAmountPayout> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<UserAmountPayout> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public Page<UserAmountPayout> paginateByUserId(int page, int pageSize, Object userId, Integer status);
+    Page<UserAmountPayout> paginateByUserId(int page, int pageSize, Object userId, Integer status);
 
 
 }

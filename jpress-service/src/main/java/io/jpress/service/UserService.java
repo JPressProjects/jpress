@@ -27,102 +27,102 @@ import java.util.List;
 public interface UserService extends JbootServiceJoiner {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public User findById(Object id);
+    User findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <User
+     * @return 所有的 User
      */
-    public List<User> findAll();
+    List<User> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
-    public boolean deleteByIds(Object... ids);
+    boolean deleteByIds(Object... ids);
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(User model);
+    boolean delete(User model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(User model);
+    Object save(User model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(User model);
+    Object saveOrUpdate(User model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(User model);
+    boolean update(User model);
 
-    public Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId, String tag);
+    Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId, String tag);
 
 
-    public User findByUsernameOrEmail(String usernameOrEmail);
+    User findByUsernameOrEmail(String usernameOrEmail);
 
-    public Ret doValidateUserPwd(User user, String pwd);
+    Ret doValidateUserPwd(User user, String pwd);
 
-    public int findCountByStatus(String status);
+    int findCountByStatus(String status);
 
-    public boolean doChangeStatus(long id, String status);
+    boolean doChangeStatus(long id, String status);
 
-    public User findFistByUsername(String username);
+    User findFistByUsername(String username);
 
-    public User findFistByEmail(String email);
+    User findFistByEmail(String email);
 
-    public User findFistByWxUnionid(String unioinId);
+    User findFistByWxUnionid(String unioinId);
 
-    public User findFistByWxOpenid(String openId);
+    User findFistByWxOpenid(String openId);
 
-    public User findFistByQQOpenid(String openId);
+    User findFistByQQOpenid(String openId);
 
-    public User findFistByWeiboOpenid(String openId);
+    User findFistByWeiboOpenid(String openId);
 
-    public User findFistByGithubOpenid(String openId);
+    User findFistByGithubOpenid(String openId);
 
-    public User findFistByGiteeOpenid(String openId);
+    User findFistByGiteeOpenid(String openId);
 
-    public User findFistByDingdingOpenid(String openId);
+    User findFistByDingdingOpenid(String openId);
 
-    public BigDecimal queryUserAmount(Object userId);
+    BigDecimal queryUserAmount(Object userId);
 
-    public boolean updateUserAmount(Object userId, BigDecimal oldAmount, BigDecimal updateAmount);
+    boolean updateUserAmount(Object userId, BigDecimal oldAmount, BigDecimal updateAmount);
 
-    public List<User> findListByTagIds( Columns columns, Object... tagIds);
+    List<User> findListByTagIds(Columns columns, Object... tagIds);
 
 
 }

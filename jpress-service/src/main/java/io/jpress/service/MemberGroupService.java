@@ -9,65 +9,65 @@ import java.util.List;
 public interface MemberGroupService extends JbootServiceJoiner {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public MemberGroup findById(Object id);
+    MemberGroup findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <MemberGroup
+     * @return 所有的 MemberGroup
      */
-    public List<MemberGroup> findAll();
+    List<MemberGroup> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(MemberGroup model);
+    boolean delete(MemberGroup model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
-    public Object save(MemberGroup model);
+    Object save(MemberGroup model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(MemberGroup model);
+    Object saveOrUpdate(MemberGroup model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(MemberGroup model);
+    boolean update(MemberGroup model);
 
 
     /**
@@ -77,12 +77,12 @@ public interface MemberGroupService extends JbootServiceJoiner {
      * @param pageSize
      * @return
      */
-    public Page<MemberGroup> paginate(int page, int pageSize);
+    Page<MemberGroup> paginate(int page, int pageSize);
 
 
-    public List<MemberGroup> findUcenterList();
+    List<MemberGroup> findUcenterList();
 
-    public List<MemberGroup> findNormalList();
+    List<MemberGroup> findNormalList();
 
 
 }

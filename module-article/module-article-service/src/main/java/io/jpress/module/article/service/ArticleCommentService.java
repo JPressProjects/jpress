@@ -24,35 +24,32 @@ import java.util.List;
 public interface ArticleCommentService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public ArticleComment findById(Object id);
+    ArticleComment findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <ArticleComment
+     * @return 所有的 ArticleComment
      */
-    public List<ArticleComment> findAll();
+    List<ArticleComment> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
-    public void deleteCacheById(Object id);
-
-
-
+    void deleteCacheById(Object id);
 
 
     /**
@@ -61,7 +58,7 @@ public interface ArticleCommentService {
      * @param ids
      * @return
      */
-    public boolean deleteByIds(Object... ids);
+    boolean deleteByIds(Object... ids);
 
 
     /**
@@ -71,65 +68,65 @@ public interface ArticleCommentService {
      * @param ids
      * @return
      */
-    public boolean batchChangeStatusByIds(String status, Object... ids);
+    boolean batchChangeStatusByIds(String status, Object... ids);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(ArticleComment model);
+    boolean delete(ArticleComment model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(ArticleComment model);
+    Object save(ArticleComment model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(ArticleComment model);
+    Object saveOrUpdate(ArticleComment model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(ArticleComment model);
+    boolean update(ArticleComment model);
 
-    public Page<ArticleComment> paginate(int page, int pagesieze);
+    Page<ArticleComment> paginate(int page, int pagesieze);
 
-    public List<ArticleComment> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<ArticleComment> findListByColumns(Columns columns, String orderBy, Integer count);
 
-    public boolean doChangeStatus(long id, String status);
+    boolean doChangeStatus(long id, String status);
 
-    public long findCountByStatus(String status);
+    long findCountByStatus(String status);
 
-    public long findCountByArticleId(Long articleId);
+    long findCountByArticleId(Long articleId);
 
-    public Page<ArticleComment> _paginateByStatus(int page, int pagesize,Columns columns, String status);
+    Page<ArticleComment> _paginateByStatus(int page, int pagesize, Columns columns, String status);
 
-    public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize, Columns columns);
+    Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize, Columns columns);
 
-    public Page<ArticleComment> _paginateByUserId(int page, int pagesize, long userId);
+    Page<ArticleComment> _paginateByUserId(int page, int pagesize, long userId);
 
-    public Page<ArticleComment> paginateByArticleIdInNormal(int page, int pagesize, long articleId);
+    Page<ArticleComment> paginateByArticleIdInNormal(int page, int pagesize, long articleId);
 
-    public void doIncCommentReplyCount(long commentId);
+    void doIncCommentReplyCount(long commentId);
 
-    public boolean deleteByArticleId(Object articleId);
+    boolean deleteByArticleId(Object articleId);
 
 
 }

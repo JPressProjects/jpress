@@ -6,7 +6,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface UserOrderDeliveryService  {
+public interface UserOrderDeliveryService {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface UserOrderDeliveryService  {
      * @param id
      * @return
      */
-    public UserOrderDelivery findById(Object id);
+    UserOrderDelivery findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface UserOrderDeliveryService  {
      * @param columns
      * @return
      */
-    public UserOrderDelivery findFirstByColumns(Columns columns);
+    UserOrderDelivery findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface UserOrderDeliveryService  {
      * @param orderBy
      * @return
      */
-    public UserOrderDelivery findFirstByColumns(Columns columns, String orderBy);
+    UserOrderDelivery findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface UserOrderDeliveryService  {
      *
      * @return
      */
-    public List<UserOrderDelivery> findAll();
+    List<UserOrderDelivery> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface UserOrderDeliveryService  {
      * @param columns
      * @return
      */
-    public List<UserOrderDelivery> findListByColumns(Columns columns);
+    List<UserOrderDelivery> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface UserOrderDeliveryService  {
      * @param orderBy
      * @return
      */
-    public List<UserOrderDelivery> findListByColumns(Columns columns, String orderBy);
+    List<UserOrderDelivery> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface UserOrderDeliveryService  {
      * @param count
      * @return
      */
-    public List<UserOrderDelivery> findListByColumns(Columns columns, Integer count);
+    List<UserOrderDelivery> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface UserOrderDeliveryService  {
      * @param count
      * @return
      */
-    public List<UserOrderDelivery> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<UserOrderDelivery> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -87,7 +87,7 @@ public interface UserOrderDeliveryService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface UserOrderDeliveryService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface UserOrderDeliveryService  {
      * @param model
      * @return
      */
-    public boolean delete(UserOrderDelivery model);
+    boolean delete(UserOrderDelivery model);
 
 
     /**
@@ -114,7 +114,7 @@ public interface UserOrderDeliveryService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -123,7 +123,7 @@ public interface UserOrderDeliveryService  {
      * @param model
      * @return id if success
      */
-    public Object save(UserOrderDelivery model);
+    Object save(UserOrderDelivery model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface UserOrderDeliveryService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(UserOrderDelivery model);
+    Object saveOrUpdate(UserOrderDelivery model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface UserOrderDeliveryService  {
      * @param model
      * @return
      */
-    public boolean update(UserOrderDelivery model);
+    boolean update(UserOrderDelivery model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface UserOrderDeliveryService  {
      * @param pageSize
      * @return
      */
-    public Page<UserOrderDelivery> paginate(int page, int pageSize);
+    Page<UserOrderDelivery> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface UserOrderDeliveryService  {
      * @param pageSize
      * @return
      */
-    public Page<UserOrderDelivery> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<UserOrderDelivery> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,7 +172,7 @@ public interface UserOrderDeliveryService  {
      * @param orderBy
      * @return
      */
-    public Page<UserOrderDelivery> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<UserOrderDelivery> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
 }

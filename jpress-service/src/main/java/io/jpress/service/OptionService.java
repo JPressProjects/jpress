@@ -22,29 +22,29 @@ import java.util.List;
 public interface OptionService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Option findById(Object id);
+    Option findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Option
+     * @return 所有的 Option
      */
-    public List<Option> findAll();
+    List<Option> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -53,55 +53,55 @@ public interface OptionService {
      * @param key
      * @return
      */
-    public boolean deleteByKey(String key);
+    boolean deleteByKey(String key);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Option model);
+    boolean delete(Option model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(Option model);
+    Object save(Option model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(Option model);
+    Object saveOrUpdate(Option model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Option model);
+    boolean update(Option model);
 
 
-    public String findByKey(String key);
+    String findByKey(String key);
 
 
-    public Boolean findAsBoolByKey(String key);
+    Boolean findAsBoolByKey(String key);
 
-    public Integer findAsIntegerByKey(String key);
+    Integer findAsIntegerByKey(String key);
 
-    public Float findAsFloatByKey(String key);
+    Float findAsFloatByKey(String key);
 
-    public Object saveOrUpdate(String key, String value);
+    Object saveOrUpdate(String key, String value);
 
 
 }

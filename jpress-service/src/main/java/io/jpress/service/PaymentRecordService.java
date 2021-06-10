@@ -24,78 +24,78 @@ import java.util.List;
 public interface PaymentRecordService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public PaymentRecord findById(Object id);
+    PaymentRecord findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <PaymentRecord
+     * @return 所有的 PaymentRecord
      */
-    public List<PaymentRecord> findAll();
+    List<PaymentRecord> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(PaymentRecord model);
+    boolean delete(PaymentRecord model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(PaymentRecord model);
+    Object save(PaymentRecord model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(PaymentRecord model);
+    Object saveOrUpdate(PaymentRecord model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(PaymentRecord model);
+    boolean update(PaymentRecord model);
 
 
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
-    public PaymentRecord findByTrxNo(String trxno);
+    PaymentRecord findByTrxNo(String trxno);
 
 
-    public Page<PaymentRecord> paginate(int page, int pagesize, Columns columns);
+    Page<PaymentRecord> paginate(int page, int pagesize, Columns columns);
 
-    public PaymentRecord queryCacheByTrxno(String trx);
+    PaymentRecord queryCacheByTrxno(String trx);
 
-    public void notifySuccess(long paymentId);
+    void notifySuccess(long paymentId);
 
-    public int queryMonthAmount();
+    int queryMonthAmount();
 }

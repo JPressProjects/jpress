@@ -10,67 +10,67 @@ import java.util.List;
 public interface UserOrderService extends JbootServiceJoiner {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public UserOrder findById(Object id);
+    UserOrder findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <UserOrder
+     * @return 所有的 UserOrder
      */
-    public List<UserOrder> findAll();
+    List<UserOrder> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(UserOrder model);
+    boolean delete(UserOrder model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
-    public Object save(UserOrder model);
+    Object save(UserOrder model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(UserOrder model);
+    Object saveOrUpdate(UserOrder model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(UserOrder model);
+    boolean update(UserOrder model);
 
-    public boolean updateOrderAndItems(UserOrder order, List<UserOrderItem> items);
+    boolean updateOrderAndItems(UserOrder order, List<UserOrderItem> items);
 
 
     /**
@@ -80,18 +80,18 @@ public interface UserOrderService extends JbootServiceJoiner {
      * @param pageSize
      * @return
      */
-    public Page<UserOrder> paginate(int page, int pageSize);
+    Page<UserOrder> paginate(int page, int pageSize);
 
 
-    public Page<UserOrder> paginate(int page, int pageSize, String title, String ns);
+    Page<UserOrder> paginate(int page, int pageSize, String title, String ns);
 
-    public Page<UserOrder> paginateByUserId(int page, int pageSize,long userid, String title, String ns);
+    Page<UserOrder> paginateByUserId(int page, int pageSize, long userid, String title, String ns);
 
-    public UserOrder findByPaymentId(Long id);
+    UserOrder findByPaymentId(Long id);
 
-    public int queryTotayCount();
+    int queryTotayCount();
 
-    public int queryMonthCount();
+    int queryMonthCount();
 
-    public int queryMonthUserCount();
+    int queryMonthUserCount();
 }

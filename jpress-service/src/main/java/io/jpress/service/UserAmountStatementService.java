@@ -6,68 +6,68 @@ import io.jpress.model.UserAmountStatement;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface UserAmountStatementService  {
+public interface UserAmountStatementService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public UserAmountStatement findById(Object id);
+    UserAmountStatement findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <UserAmountStatement
+     * @return 所有的 UserAmountStatement
      */
-    public List<UserAmountStatement> findAll();
+    List<UserAmountStatement> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(UserAmountStatement model);
+    boolean delete(UserAmountStatement model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
-    public Object save(UserAmountStatement model);
+    Object save(UserAmountStatement model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(UserAmountStatement model);
+    Object saveOrUpdate(UserAmountStatement model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(UserAmountStatement model);
+    boolean update(UserAmountStatement model);
 
 
     /**
@@ -77,17 +77,17 @@ public interface UserAmountStatementService  {
      * @param pageSize
      * @return
      */
-    public Page<UserAmountStatement> paginate(int page, int pageSize);
+    Page<UserAmountStatement> paginate(int page, int pageSize);
 
 
-    public List<UserAmountStatement> findListByUserId(Object userId, int count);
+    List<UserAmountStatement> findListByUserId(Object userId, int count);
 
 
-    public BigDecimal queryIncomeAmount(Long id);
+    BigDecimal queryIncomeAmount(Long id);
 
-    public BigDecimal queryPayAmount(Long id);
+    BigDecimal queryPayAmount(Long id);
 
-    public BigDecimal queryPayoutAmount(Long id);
+    BigDecimal queryPayoutAmount(Long id);
 
-    public UserAmountStatement findOneByUserIdAndRelative(Long userId,String relativeType,Long relativeId);
+    UserAmountStatement findOneByUserIdAndRelative(Long userId, String relativeType, Long relativeId);
 }

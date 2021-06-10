@@ -25,34 +25,34 @@ import java.util.List;
 public interface ArticleService extends JbootServiceJoiner {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Article findById(Object id);
+    Article findById(Object id);
 
-    public Article findByTitle(String title);
+    Article findByTitle(String title);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Article
+     * @return 所有的 Article
      */
-    public List<Article> findAll();
+    List<Article> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
-    public void removeCacheById(Object id);
+    void removeCacheById(Object id);
 
 
     /**
@@ -61,84 +61,84 @@ public interface ArticleService extends JbootServiceJoiner {
      * @param ids
      * @return
      */
-    public boolean deleteByIds(Object... ids);
+    boolean deleteByIds(Object... ids);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Article model);
+    boolean delete(Article model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(Article model);
+    Object save(Article model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(Article model);
+    Object saveOrUpdate(Article model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Article model);
+    boolean update(Article model);
 
 
-    public void doUpdateCategorys(long articleId, Long[] categoryIds);
+    void doUpdateCategorys(long articleId, Long[] categoryIds);
 
-    public void doUpdateCommentCount(long articleId);
+    void doUpdateCommentCount(long articleId);
 
-    public boolean doChangeStatus(long id, String status);
+    boolean doChangeStatus(long id, String status);
 
-    public Long findCountByStatus(String status);
+    Long findCountByStatus(String status);
 
-    public Article findFirstBySlug(String slug);
+    Article findFirstBySlug(String slug);
 
-    public Article findNextById(long id);
+    Article findNextById(long id);
 
-    public Article findPreviousById(long id);
+    Article findPreviousById(long id);
 
-    public List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
 
-    public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
+    List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
 
-    public List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);
+    List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);
 
-    public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
+    Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
 
-    public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
+    Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
-    public Page<Article> _paginateByUserId(int page, int pagesize, Long userId);
+    Page<Article> _paginateByUserId(int page, int pagesize, Long userId);
 
-    public Page<Article> paginateInNormal(int page, int pagesize);
+    Page<Article> paginateInNormal(int page, int pagesize);
 
-    public Page<Article> paginateInNormal(int page, int pagesize, String orderBy);
+    Page<Article> paginateInNormal(int page, int pagesize, String orderBy);
 
-    public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
+    Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
 
-    public void doIncArticleViewCount(long articleId);
+    void doIncArticleViewCount(long articleId);
 
-    public void doIncArticleCommentCount(long articleId);
+    void doIncArticleCommentCount(long articleId);
 
-    public Page<Article> search(String queryString, int pageNum, int pageSize);
+    Page<Article> search(String queryString, int pageNum, int pageSize);
 
-    public Page<Article> searchIndb(String queryString, int pageNum, int pageSize);
+    Page<Article> searchIndb(String queryString, int pageNum, int pageSize);
 
 
 }

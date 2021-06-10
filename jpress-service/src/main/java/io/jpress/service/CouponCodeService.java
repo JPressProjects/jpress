@@ -11,65 +11,65 @@ import java.util.List;
 public interface CouponCodeService extends JbootServiceJoiner {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public CouponCode findById(Object id);
+    CouponCode findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <CouponCode
+     * @return all CouponCode
      */
-    public List<CouponCode> findAll();
+    List<CouponCode> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(CouponCode model);
+    boolean delete(CouponCode model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return id value if save success
      */
-    public Object save(CouponCode model);
+    Object save(CouponCode model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(CouponCode model);
+    Object saveOrUpdate(CouponCode model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(CouponCode model);
+    boolean update(CouponCode model);
 
 
     /**
@@ -79,22 +79,22 @@ public interface CouponCodeService extends JbootServiceJoiner {
      * @param pageSize
      * @return
      */
-    public Page<CouponCode> paginate(int page, int pageSize);
+    Page<CouponCode> paginate(int page, int pageSize);
 
-    public Page<CouponCode> paginateByCouponId(int page, int pageSize, Long couponId);
-
-
-    public CouponCode findByCode(String code);
+    Page<CouponCode> paginateByCouponId(int page, int pageSize, Long couponId);
 
 
-    public Ret valid(CouponCode couponCode, BigDecimal orderTotalAmount, long usedUserId);
+    CouponCode findByCode(String code);
 
 
-    public long queryCountByCouponId(long couponId);
+    Ret valid(CouponCode couponCode, BigDecimal orderTotalAmount, long usedUserId);
 
 
-    public List<CouponCode> findAvailableByUserId(long userid, BigDecimal orderTotalAmount);
+    long queryCountByCouponId(long couponId);
 
-    public List<CouponCode> findAvailableByUserId(long userid);
+
+    List<CouponCode> findAvailableByUserId(long userid, BigDecimal orderTotalAmount);
+
+    List<CouponCode> findAvailableByUserId(long userid);
 
 }

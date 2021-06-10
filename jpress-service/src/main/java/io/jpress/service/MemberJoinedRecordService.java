@@ -6,7 +6,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface MemberJoinedRecordService  {
+public interface MemberJoinedRecordService {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface MemberJoinedRecordService  {
      * @param id
      * @return
      */
-    public MemberJoinedRecord findById(Object id);
+    MemberJoinedRecord findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface MemberJoinedRecordService  {
      * @param columns
      * @return
      */
-    public MemberJoinedRecord findFirstByColumns(Columns columns);
+    MemberJoinedRecord findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface MemberJoinedRecordService  {
      * @param orderBy
      * @return
      */
-    public MemberJoinedRecord findFirstByColumns(Columns columns, String orderBy);
+    MemberJoinedRecord findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface MemberJoinedRecordService  {
      *
      * @return
      */
-    public List<MemberJoinedRecord> findAll();
+    List<MemberJoinedRecord> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface MemberJoinedRecordService  {
      * @param columns
      * @return
      */
-    public List<MemberJoinedRecord> findListByColumns(Columns columns);
+    List<MemberJoinedRecord> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface MemberJoinedRecordService  {
      * @param orderBy
      * @return
      */
-    public List<MemberJoinedRecord> findListByColumns(Columns columns, String orderBy);
+    List<MemberJoinedRecord> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface MemberJoinedRecordService  {
      * @param count
      * @return
      */
-    public List<MemberJoinedRecord> findListByColumns(Columns columns, Integer count);
+    List<MemberJoinedRecord> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface MemberJoinedRecordService  {
      * @param count
      * @return
      */
-    public List<MemberJoinedRecord> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<MemberJoinedRecord> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -87,7 +87,7 @@ public interface MemberJoinedRecordService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface MemberJoinedRecordService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface MemberJoinedRecordService  {
      * @param model
      * @return
      */
-    public boolean delete(MemberJoinedRecord model);
+    boolean delete(MemberJoinedRecord model);
 
 
     /**
@@ -114,7 +114,7 @@ public interface MemberJoinedRecordService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -123,7 +123,7 @@ public interface MemberJoinedRecordService  {
      * @param model
      * @return id if success
      */
-    public Object save(MemberJoinedRecord model);
+    Object save(MemberJoinedRecord model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface MemberJoinedRecordService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(MemberJoinedRecord model);
+    Object saveOrUpdate(MemberJoinedRecord model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface MemberJoinedRecordService  {
      * @param model
      * @return
      */
-    public boolean update(MemberJoinedRecord model);
+    boolean update(MemberJoinedRecord model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface MemberJoinedRecordService  {
      * @param pageSize
      * @return
      */
-    public Page<MemberJoinedRecord> paginate(int page, int pageSize);
+    Page<MemberJoinedRecord> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface MemberJoinedRecordService  {
      * @param pageSize
      * @return
      */
-    public Page<MemberJoinedRecord> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<MemberJoinedRecord> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,9 +172,9 @@ public interface MemberJoinedRecordService  {
      * @param orderBy
      * @return
      */
-    public Page<MemberJoinedRecord> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<MemberJoinedRecord> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
-    public Page<MemberJoinedRecord> paginateByGroupId(int page, int pageSize, Long groupId);
+    Page<MemberJoinedRecord> paginateByGroupId(int page, int pageSize, Long groupId);
 
 
 }

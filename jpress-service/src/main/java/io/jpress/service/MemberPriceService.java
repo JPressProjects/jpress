@@ -15,7 +15,7 @@ public interface MemberPriceService {
      * @param id
      * @return
      */
-    public MemberPrice findById(Object id);
+    MemberPrice findById(Object id);
 
 
     /**
@@ -24,7 +24,7 @@ public interface MemberPriceService {
      * @param columns
      * @return
      */
-    public MemberPrice findFirstByColumns(Columns columns);
+    MemberPrice findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -33,7 +33,7 @@ public interface MemberPriceService {
      * @param orderBy
      * @return
      */
-    public MemberPrice findFirstByColumns(Columns columns, String orderBy);
+    MemberPrice findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -41,7 +41,7 @@ public interface MemberPriceService {
      *
      * @return
      */
-    public List<MemberPrice> findAll();
+    List<MemberPrice> findAll();
 
 
     /**
@@ -50,7 +50,7 @@ public interface MemberPriceService {
      * @param columns
      * @return
      */
-    public List<MemberPrice> findListByColumns(Columns columns);
+    List<MemberPrice> findListByColumns(Columns columns);
 
 
     /**
@@ -60,7 +60,7 @@ public interface MemberPriceService {
      * @param orderBy
      * @return
      */
-    public List<MemberPrice> findListByColumns(Columns columns, String orderBy);
+    List<MemberPrice> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -69,7 +69,7 @@ public interface MemberPriceService {
      * @param count
      * @return
      */
-    public List<MemberPrice> findListByColumns(Columns columns, Integer count);
+    List<MemberPrice> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -79,7 +79,7 @@ public interface MemberPriceService {
      * @param count
      * @return
      */
-    public List<MemberPrice> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<MemberPrice> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -88,7 +88,7 @@ public interface MemberPriceService {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -97,7 +97,7 @@ public interface MemberPriceService {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -106,7 +106,7 @@ public interface MemberPriceService {
      * @param model
      * @return
      */
-    public boolean delete(MemberPrice model);
+    boolean delete(MemberPrice model);
 
 
     /**
@@ -115,7 +115,7 @@ public interface MemberPriceService {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -124,7 +124,7 @@ public interface MemberPriceService {
      * @param model
      * @return id if success
      */
-    public Object save(MemberPrice model);
+    Object save(MemberPrice model);
 
 
     /**
@@ -133,7 +133,7 @@ public interface MemberPriceService {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(MemberPrice model);
+    Object saveOrUpdate(MemberPrice model);
 
     /**
      * 更新
@@ -141,7 +141,7 @@ public interface MemberPriceService {
      * @param model
      * @return
      */
-    public boolean update(MemberPrice model);
+    boolean update(MemberPrice model);
 
 
     /**
@@ -151,7 +151,7 @@ public interface MemberPriceService {
      * @param pageSize
      * @return
      */
-    public Page<MemberPrice> paginate(int page, int pageSize);
+    Page<MemberPrice> paginate(int page, int pageSize);
 
 
     /**
@@ -161,7 +161,7 @@ public interface MemberPriceService {
      * @param pageSize
      * @return
      */
-    public Page<MemberPrice> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<MemberPrice> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -173,14 +173,14 @@ public interface MemberPriceService {
      * @param orderBy
      * @return
      */
-    public Page<MemberPrice> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<MemberPrice> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public MemberPrice findByPorductAndGroup(String productType, Object productId, Object groupId);
+    MemberPrice findByPorductAndGroup(String productType, Object productId, Object groupId);
 
-    public void saveOrUpdateByProduct(String productType, Long productId, String[] memberGroupIds, String[] memberGroupPrices);
+    void saveOrUpdateByProduct(String productType, Long productId, String[] memberGroupIds, String[] memberGroupPrices);
 
-    public BigDecimal queryPrice(String productType, Long productId, Long userId);
+    BigDecimal queryPrice(String productType, Long productId, Long userId);
 
 
 }

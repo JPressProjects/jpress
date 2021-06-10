@@ -8,55 +8,55 @@ import java.util.List;
 public interface UserCartService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public UserCart findById(Object id);
+    UserCart findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <UserCart
+     * @return 所有的 UserCart
      */
-    public List<UserCart> findAll();
+    List<UserCart> findAll();
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(UserCart model);
+    boolean delete(UserCart model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return id value if save success
      */
-    public Object save(UserCart model);
+    Object save(UserCart model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(UserCart model);
+    Object saveOrUpdate(UserCart model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(UserCart model);
+    boolean update(UserCart model);
 
 
     /**
@@ -66,17 +66,17 @@ public interface UserCartService {
      * @param pageSize
      * @return
      */
-    public Page<UserCart> paginate(int page, int pageSize);
+    Page<UserCart> paginate(int page, int pageSize);
 
-    public List<UserCart> findListByUserId(Object userId);
+    List<UserCart> findListByUserId(Object userId);
 
-    public long findCountByUserId(Object userId);
+    long findCountByUserId(Object userId);
 
-    public List<UserCart> findSelectedListByUserId(Long id);
+    List<UserCart> findSelectedListByUserId(Long id);
 
-    public UserCart findByProductInfo(long userId, String productType, long productId, String productSpec);
+    UserCart findByProductInfo(long userId, String productType, long productId, String productSpec);
 
-    public Page<UserCart> paginateByUser(int page, int pageSize, Long userId);
+    Page<UserCart> paginateByUser(int page, int pageSize, Long userId);
 
-    public long querySelectedCount(Long userId);
+    long querySelectedCount(Long userId);
 }

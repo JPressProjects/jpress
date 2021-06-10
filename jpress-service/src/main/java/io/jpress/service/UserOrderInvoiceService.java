@@ -6,7 +6,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface UserOrderInvoiceService  {
+public interface UserOrderInvoiceService {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface UserOrderInvoiceService  {
      * @param id
      * @return
      */
-    public UserOrderInvoice findById(Object id);
+    UserOrderInvoice findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface UserOrderInvoiceService  {
      * @param columns
      * @return
      */
-    public UserOrderInvoice findFirstByColumns(Columns columns);
+    UserOrderInvoice findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface UserOrderInvoiceService  {
      * @param orderBy
      * @return
      */
-    public UserOrderInvoice findFirstByColumns(Columns columns, String orderBy);
+    UserOrderInvoice findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface UserOrderInvoiceService  {
      *
      * @return
      */
-    public List<UserOrderInvoice> findAll();
+    List<UserOrderInvoice> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface UserOrderInvoiceService  {
      * @param columns
      * @return
      */
-    public List<UserOrderInvoice> findListByColumns(Columns columns);
+    List<UserOrderInvoice> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface UserOrderInvoiceService  {
      * @param orderBy
      * @return
      */
-    public List<UserOrderInvoice> findListByColumns(Columns columns, String orderBy);
+    List<UserOrderInvoice> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface UserOrderInvoiceService  {
      * @param count
      * @return
      */
-    public List<UserOrderInvoice> findListByColumns(Columns columns, Integer count);
+    List<UserOrderInvoice> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface UserOrderInvoiceService  {
      * @param count
      * @return
      */
-    public List<UserOrderInvoice> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<UserOrderInvoice> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -87,7 +87,7 @@ public interface UserOrderInvoiceService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface UserOrderInvoiceService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface UserOrderInvoiceService  {
      * @param model
      * @return
      */
-    public boolean delete(UserOrderInvoice model);
+    boolean delete(UserOrderInvoice model);
 
 
     /**
@@ -114,7 +114,7 @@ public interface UserOrderInvoiceService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -123,7 +123,7 @@ public interface UserOrderInvoiceService  {
      * @param model
      * @return id if success
      */
-    public Object save(UserOrderInvoice model);
+    Object save(UserOrderInvoice model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface UserOrderInvoiceService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(UserOrderInvoice model);
+    Object saveOrUpdate(UserOrderInvoice model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface UserOrderInvoiceService  {
      * @param model
      * @return
      */
-    public boolean update(UserOrderInvoice model);
+    boolean update(UserOrderInvoice model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface UserOrderInvoiceService  {
      * @param pageSize
      * @return
      */
-    public Page<UserOrderInvoice> paginate(int page, int pageSize);
+    Page<UserOrderInvoice> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface UserOrderInvoiceService  {
      * @param pageSize
      * @return
      */
-    public Page<UserOrderInvoice> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<UserOrderInvoice> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,7 +172,7 @@ public interface UserOrderInvoiceService  {
      * @param orderBy
      * @return
      */
-    public Page<UserOrderInvoice> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<UserOrderInvoice> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
 }

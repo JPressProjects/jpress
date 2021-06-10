@@ -22,73 +22,73 @@ import java.util.List;
 public interface MenuService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Menu findById(Object id);
+    Menu findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Menu
+     * @return 所有的 Menu
      */
-    public List<Menu> findAll();
+    List<Menu> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Menu model);
+    boolean delete(Menu model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(Menu model);
+    Object save(Menu model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(Menu model);
+    Object saveOrUpdate(Menu model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Menu model);
+    boolean update(Menu model);
 
-    public int sync(List<Menu> menus);
+    int sync(List<Menu> menus);
 
-    public List<Menu> findListByType(String type);
+    List<Menu> findListByType(String type);
 
-    public List<Menu> findListByParentId(Object id);
+    List<Menu> findListByParentId(Object id);
 
-    public List<Menu> findListByRelatives(String table, Object id);
+    List<Menu> findListByRelatives(String table, Object id);
 
-    public Menu findFirstByRelatives(String table, Object id);
+    Menu findFirstByRelatives(String table, Object id);
 }

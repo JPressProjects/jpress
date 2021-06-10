@@ -7,7 +7,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface UserOpenidService  {
+public interface UserOpenidService {
 
     /**
      * 根据主键查找Model
@@ -15,7 +15,7 @@ public interface UserOpenidService  {
      * @param id
      * @return
      */
-    public UserOpenid findById(Object id);
+    UserOpenid findById(Object id);
 
 
     /**
@@ -24,7 +24,7 @@ public interface UserOpenidService  {
      * @param columns
      * @return
      */
-    public UserOpenid findFirstByColumns(Columns columns);
+    UserOpenid findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -33,7 +33,7 @@ public interface UserOpenidService  {
      * @param orderBy
      * @return
      */
-    public UserOpenid findFirstByColumns(Columns columns, String orderBy);
+    UserOpenid findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -41,7 +41,7 @@ public interface UserOpenidService  {
      *
      * @return
      */
-    public List<UserOpenid> findAll();
+    List<UserOpenid> findAll();
 
 
     /**
@@ -50,7 +50,7 @@ public interface UserOpenidService  {
      * @param columns
      * @return
      */
-    public List<UserOpenid> findListByColumns(Columns columns);
+    List<UserOpenid> findListByColumns(Columns columns);
 
 
     /**
@@ -60,7 +60,7 @@ public interface UserOpenidService  {
      * @param orderBy
      * @return
      */
-    public List<UserOpenid> findListByColumns(Columns columns, String orderBy);
+    List<UserOpenid> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -69,7 +69,7 @@ public interface UserOpenidService  {
      * @param count
      * @return
      */
-    public List<UserOpenid> findListByColumns(Columns columns, Integer count);
+    List<UserOpenid> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -79,7 +79,7 @@ public interface UserOpenidService  {
      * @param count
      * @return
      */
-    public List<UserOpenid> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<UserOpenid> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -88,7 +88,7 @@ public interface UserOpenidService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -97,7 +97,7 @@ public interface UserOpenidService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -106,7 +106,7 @@ public interface UserOpenidService  {
      * @param model
      * @return
      */
-    public boolean delete(UserOpenid model);
+    boolean delete(UserOpenid model);
 
 
     /**
@@ -115,7 +115,7 @@ public interface UserOpenidService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -124,7 +124,7 @@ public interface UserOpenidService  {
      * @param model
      * @return id if success
      */
-    public Object save(UserOpenid model);
+    Object save(UserOpenid model);
 
 
     /**
@@ -133,7 +133,7 @@ public interface UserOpenidService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(UserOpenid model);
+    Object saveOrUpdate(UserOpenid model);
 
     /**
      * 更新
@@ -141,7 +141,7 @@ public interface UserOpenidService  {
      * @param model
      * @return
      */
-    public boolean update(UserOpenid model);
+    boolean update(UserOpenid model);
 
 
     /**
@@ -151,7 +151,7 @@ public interface UserOpenidService  {
      * @param pageSize
      * @return
      */
-    public Page<UserOpenid> paginate(int page, int pageSize);
+    Page<UserOpenid> paginate(int page, int pageSize);
 
 
     /**
@@ -161,7 +161,7 @@ public interface UserOpenidService  {
      * @param pageSize
      * @return
      */
-    public Page<UserOpenid> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<UserOpenid> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -173,18 +173,18 @@ public interface UserOpenidService  {
      * @param orderBy
      * @return
      */
-    public Page<UserOpenid> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<UserOpenid> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public User findByTypeAndOpenId(String type,String openId);
+    User findByTypeAndOpenId(String type, String openId);
 
-    public boolean saveOrUpdate(Object userId,String type,String openId);
+    boolean saveOrUpdate(Object userId, String type, String openId);
 
-    public UserOpenid findByUserIdAndType(Object userId,String type);
+    UserOpenid findByUserIdAndType(Object userId, String type);
 
-    public void batchDeleteByUserId(Object userId);
+    void batchDeleteByUserId(Object userId);
 
-    public List<UserOpenid> findListByUserId(Object userId);
+    List<UserOpenid> findListByUserId(Object userId);
 
 
 }

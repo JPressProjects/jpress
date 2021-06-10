@@ -5,68 +5,68 @@ import io.jpress.model.Member;
 
 import java.util.List;
 
-public interface MemberService  {
+public interface MemberService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Member findById(Object id);
+    Member findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Member
+     * @return 所有的 Member
      */
-    public List<Member> findAll();
+    List<Member> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Member model);
+    boolean delete(Member model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
-    public Object save(Member model);
+    Object save(Member model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(Member model);
+    Object saveOrUpdate(Member model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Member model);
+    boolean update(Member model);
 
 
     /**
@@ -76,13 +76,13 @@ public interface MemberService  {
      * @param pageSize
      * @return
      */
-    public Page<Member> paginate(int page, int pageSize);
+    Page<Member> paginate(int page, int pageSize);
 
 
-    public List<Member> findListByUserId(Object userId);
+    List<Member> findListByUserId(Object userId);
 
 
-    public Member findByGroupIdAndUserId(Long groupId, Long payerUserId);
+    Member findByGroupIdAndUserId(Long groupId, Long payerUserId);
 
     boolean isMember(long userid);
 }

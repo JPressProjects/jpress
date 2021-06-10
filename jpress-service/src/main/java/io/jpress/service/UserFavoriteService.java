@@ -6,7 +6,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface UserFavoriteService  {
+public interface UserFavoriteService {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface UserFavoriteService  {
      * @param id
      * @return
      */
-    public UserFavorite findById(Object id);
+    UserFavorite findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface UserFavoriteService  {
      * @param columns
      * @return
      */
-    public UserFavorite findFirstByColumns(Columns columns);
+    UserFavorite findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface UserFavoriteService  {
      * @param orderBy
      * @return
      */
-    public UserFavorite findFirstByColumns(Columns columns, String orderBy);
+    UserFavorite findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface UserFavoriteService  {
      *
      * @return
      */
-    public List<UserFavorite> findAll();
+    List<UserFavorite> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface UserFavoriteService  {
      * @param columns
      * @return
      */
-    public List<UserFavorite> findListByColumns(Columns columns);
+    List<UserFavorite> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface UserFavoriteService  {
      * @param orderBy
      * @return
      */
-    public List<UserFavorite> findListByColumns(Columns columns, String orderBy);
+    List<UserFavorite> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface UserFavoriteService  {
      * @param count
      * @return
      */
-    public List<UserFavorite> findListByColumns(Columns columns, Integer count);
+    List<UserFavorite> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface UserFavoriteService  {
      * @param count
      * @return
      */
-    public List<UserFavorite> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<UserFavorite> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -87,7 +87,7 @@ public interface UserFavoriteService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface UserFavoriteService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface UserFavoriteService  {
      * @param model
      * @return
      */
-    public boolean delete(UserFavorite model);
+    boolean delete(UserFavorite model);
 
 
     /**
@@ -114,7 +114,7 @@ public interface UserFavoriteService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -123,7 +123,7 @@ public interface UserFavoriteService  {
      * @param model
      * @return id if success
      */
-    public Object save(UserFavorite model);
+    Object save(UserFavorite model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface UserFavoriteService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(UserFavorite model);
+    Object saveOrUpdate(UserFavorite model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface UserFavoriteService  {
      * @param model
      * @return
      */
-    public boolean update(UserFavorite model);
+    boolean update(UserFavorite model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface UserFavoriteService  {
      * @param pageSize
      * @return
      */
-    public Page<UserFavorite> paginate(int page, int pageSize);
+    Page<UserFavorite> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface UserFavoriteService  {
      * @param pageSize
      * @return
      */
-    public Page<UserFavorite> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<UserFavorite> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,10 +172,10 @@ public interface UserFavoriteService  {
      * @param orderBy
      * @return
      */
-    public Page<UserFavorite> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<UserFavorite> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public Page<UserFavorite> paginateByUserIdAndType(int pagePara, int pagesize, Long id, String type);
+    Page<UserFavorite> paginateByUserIdAndType(int pagePara, int pagesize, Long id, String type);
 
     boolean doDelFavoriteByType(String type, Long userid, Long id);
 

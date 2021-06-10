@@ -24,32 +24,32 @@ import java.util.List;
 public interface SinglePageService extends JbootServiceJoiner {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public SinglePage findById(Object id);
+    SinglePage findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <SinglePage
+     * @return 所有的 SinglePage
      */
-    public List<SinglePage> findAll();
+    List<SinglePage> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
-    public void deleteCacheById(Object id);
+    void deleteCacheById(Object id);
 
 
     /**
@@ -58,58 +58,58 @@ public interface SinglePageService extends JbootServiceJoiner {
      * @param ids
      * @return
      */
-    public boolean deleteByIds(Object... ids);
+    boolean deleteByIds(Object... ids);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(SinglePage model);
+    boolean delete(SinglePage model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(SinglePage model);
+    Object save(SinglePage model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(SinglePage model);
+    Object saveOrUpdate(SinglePage model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(SinglePage model);
+    boolean update(SinglePage model);
 
 
-    public Page<SinglePage> _paginateByStatus(int page, int pagesize, String title, String status);
+    Page<SinglePage> _paginateByStatus(int page, int pagesize, String title, String status);
 
 
-    public Page<SinglePage> _paginateWithoutTrash(int page, int pagesize, String title);
+    Page<SinglePage> _paginateWithoutTrash(int page, int pagesize, String title);
 
-    public boolean doChangeStatus(long id, String status);
+    boolean doChangeStatus(long id, String status);
 
-    public int findCountByStatus(String status);
+    int findCountByStatus(String status);
 
-    public SinglePage findFirstBySlug(String slug);
+    SinglePage findFirstBySlug(String slug);
 
-    public List<SinglePage> findListByFlag(String flag);
+    List<SinglePage> findListByFlag(String flag);
 
-    public void doIncViewCount(long id);
+    void doIncViewCount(long id);
 
 }

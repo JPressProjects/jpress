@@ -15,7 +15,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param id
      * @return
      */
-    public Product findById(Object id);
+    Product findById(Object id);
 
 
     /**
@@ -24,7 +24,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param columns
      * @return
      */
-    public Product findFirstByColumns(Columns columns);
+    Product findFirstByColumns(Columns columns);
 
 
     /**
@@ -34,7 +34,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param orderBy
      * @return
      */
-    public Product findFirstByColumns(Columns columns, String orderBy);
+    Product findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -42,7 +42,7 @@ public interface ProductService extends JbootServiceJoiner {
      *
      * @return
      */
-    public List<Product> findAll();
+    List<Product> findAll();
 
 
     /**
@@ -51,7 +51,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param columns
      * @return
      */
-    public List<Product> findListByColumns(Columns columns);
+    List<Product> findListByColumns(Columns columns);
 
 
     /**
@@ -61,7 +61,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param orderBy
      * @return
      */
-    public List<Product> findListByColumns(Columns columns, String orderBy);
+    List<Product> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -70,7 +70,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param count
      * @return
      */
-    public List<Product> findListByColumns(Columns columns, Integer count);
+    List<Product> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -80,7 +80,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param count
      * @return
      */
-    public List<Product> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<Product> findListByColumns(Columns columns, String orderBy, Integer count);
 
     /**
      * 根据提交查询数据量
@@ -88,7 +88,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -97,7 +97,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -106,7 +106,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param model
      * @return
      */
-    public boolean delete(Product model);
+    boolean delete(Product model);
 
 
     /**
@@ -115,7 +115,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -124,7 +124,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param model
      * @return id if success
      */
-    public Object save(Product model);
+    Object save(Product model);
 
 
     /**
@@ -133,7 +133,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(Product model);
+    Object saveOrUpdate(Product model);
 
     /**
      * 更新
@@ -141,7 +141,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param model
      * @return
      */
-    public boolean update(Product model);
+    boolean update(Product model);
 
 
     /**
@@ -151,7 +151,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param pageSize
      * @return
      */
-    public Page<Product> paginate(int page, int pageSize);
+    Page<Product> paginate(int page, int pageSize);
 
 
     /**
@@ -161,7 +161,7 @@ public interface ProductService extends JbootServiceJoiner {
      * @param pageSize
      * @return
      */
-    public Page<Product> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<Product> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -173,43 +173,43 @@ public interface ProductService extends JbootServiceJoiner {
      * @param orderBy
      * @return
      */
-    public Page<Product> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<Product> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
-    public void removeCacheById(Object id);
+    void removeCacheById(Object id);
 
-    public void doUpdateCategorys(long productId, Long[] categoryIds);
+    void doUpdateCategorys(long productId, Long[] categoryIds);
 
-    public void doUpdateCommentCount(long productId);
+    void doUpdateCommentCount(long productId);
 
-    public boolean doChangeStatus(long id, int status);
+    boolean doChangeStatus(long id, int status);
 
-    public Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, int status);
+    Page<Product> _paginateByStatus(int page, int pagesize, String title, Long categoryId, int status);
 
-    public Page<Product> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
+    Page<Product> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
 
-    public Page<Product> paginateInNormal(int page, int pagesize);
+    Page<Product> paginateInNormal(int page, int pagesize);
 
-    public Page<Product> paginateInNormal(int page, int pagesize, String orderBy);
+    Page<Product> paginateInNormal(int page, int pagesize, String orderBy);
 
-    public Page<Product> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
+    Page<Product> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
 
-    public Product findFirstBySlug(String slug);
+    Product findFirstBySlug(String slug);
 
-    public long findCountByStatus(int status);
+    long findCountByStatus(int status);
 
-    public void doIncProductViewCount(long productId);
+    void doIncProductViewCount(long productId);
 
-    public void doIncProductCommentCount(long productId);
+    void doIncProductCommentCount(long productId);
 
-    public List<Product> findRelevantListByProductId(Long productId, int status, Integer count);
+    List<Product> findRelevantListByProductId(Long productId, int status, Integer count);
 
-    public List<Product> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
+    List<Product> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
 
-    public Product findNextById(long id);
+    Product findNextById(long id);
 
-    public Product findPreviousById(long id);
+    Product findPreviousById(long id);
 
-    public Page<Product> search(String queryString, int pageNum, int pageSize);
+    Page<Product> search(String queryString, int pageNum, int pageSize);
 
-    public Page<Product> searchIndb(String queryString, int pageNum, int pageSize);
+    Page<Product> searchIndb(String queryString, int pageNum, int pageSize);
 }

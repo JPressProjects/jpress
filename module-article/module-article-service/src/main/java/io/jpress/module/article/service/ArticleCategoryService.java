@@ -23,95 +23,95 @@ import java.util.List;
 public interface ArticleCategoryService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public ArticleCategory findById(Object id);
+    ArticleCategory findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <ArticleCategory
+     * @return 所有的 ArticleCategory
      */
-    public List<ArticleCategory> findAll();
+    List<ArticleCategory> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(ArticleCategory model);
+    boolean delete(ArticleCategory model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(ArticleCategory model);
+    Object save(ArticleCategory model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(ArticleCategory model);
+    Object saveOrUpdate(ArticleCategory model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(ArticleCategory model);
+    boolean update(ArticleCategory model);
 
 
-    public List<ArticleCategory> findListByType(String type);
+    List<ArticleCategory> findListByType(String type);
 
-    public List<ArticleCategory> findTagList(String orderBy, int count);
+    List<ArticleCategory> findTagList(String orderBy, int count);
 
-    public Page<ArticleCategory> paginateByType(int page, int pagesize, String type);
+    Page<ArticleCategory> paginateByType(int page, int pagesize, String type);
 
-    public List<ArticleCategory> findListByArticleId(long articleId);
+    List<ArticleCategory> findListByArticleId(long articleId);
 
-    public List<ArticleCategory> findCategoryListByArticleId(long articleId);
+    List<ArticleCategory> findCategoryListByArticleId(long articleId);
 
-    public List<ArticleCategory> findTagListByArticleId(long articleId);
+    List<ArticleCategory> findTagListByArticleId(long articleId);
 
-    public List<ArticleCategory> findListByArticleId(long articleId, String type);
+    List<ArticleCategory> findListByArticleId(long articleId, String type);
 
-    public List<ArticleCategory> doNewOrFindByTagString(String[] tags);
+    List<ArticleCategory> doNewOrFindByTagString(String[] tags);
 
-    public List<ArticleCategory> doNewOrFindByCategoryString(String[] categories);
+    List<ArticleCategory> doNewOrFindByCategoryString(String[] categories);
 
-    public Long[] findCategoryIdsByArticleId(long articleId);
+    Long[] findCategoryIdsByArticleId(long articleId);
 
-    public Long[] findCategoryIdsByParentId(long parentId);
+    Long[] findCategoryIdsByParentId(long parentId);
 
-    public ArticleCategory findFirstByTypeAndSlug(String type, String slug);
+    ArticleCategory findFirstByTypeAndSlug(String type, String slug);
 
-    public ArticleCategory findFirstByFlag(String flag);
+    ArticleCategory findFirstByFlag(String flag);
 
-    public List<ArticleCategory> findListByFlag(String flag);
+    List<ArticleCategory> findListByFlag(String flag);
 
-    public void doUpdateArticleCount(long categoryId);
+    void doUpdateArticleCount(long categoryId);
 
 }

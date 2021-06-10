@@ -23,70 +23,70 @@ import java.util.List;
 public interface UtmService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Utm findById(Object id);
+    Utm findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Utm
+     * @return 所有的 Utm
      */
-    public List<Utm> findAll();
+    List<Utm> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Utm model);
+    boolean delete(Utm model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(Utm model);
+    Object save(Utm model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(Utm model);
+    Object saveOrUpdate(Utm model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Utm model);
+    boolean update(Utm model);
 
 
-    public Page<Utm> paginate(int page, int pagesize);
+    Page<Utm> paginate(int page, int pagesize);
 
-    public void doRecord(Utm utm);
+    void doRecord(Utm utm);
 
-    public Page<Utm> _paginateByUserId(int page, int pagesize, long userId);
+    Page<Utm> _paginateByUserId(int page, int pagesize, long userId);
 }

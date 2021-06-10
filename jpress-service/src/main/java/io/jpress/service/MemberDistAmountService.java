@@ -6,7 +6,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface MemberDistAmountService  {
+public interface MemberDistAmountService {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface MemberDistAmountService  {
      * @param id
      * @return
      */
-    public MemberDistAmount findById(Object id);
+    MemberDistAmount findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface MemberDistAmountService  {
      * @param columns
      * @return
      */
-    public MemberDistAmount findFirstByColumns(Columns columns);
+    MemberDistAmount findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface MemberDistAmountService  {
      * @param orderBy
      * @return
      */
-    public MemberDistAmount findFirstByColumns(Columns columns, String orderBy);
+    MemberDistAmount findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface MemberDistAmountService  {
      *
      * @return
      */
-    public List<MemberDistAmount> findAll();
+    List<MemberDistAmount> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface MemberDistAmountService  {
      * @param columns
      * @return
      */
-    public List<MemberDistAmount> findListByColumns(Columns columns);
+    List<MemberDistAmount> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface MemberDistAmountService  {
      * @param orderBy
      * @return
      */
-    public List<MemberDistAmount> findListByColumns(Columns columns, String orderBy);
+    List<MemberDistAmount> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface MemberDistAmountService  {
      * @param count
      * @return
      */
-    public List<MemberDistAmount> findListByColumns(Columns columns, Integer count);
+    List<MemberDistAmount> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface MemberDistAmountService  {
      * @param count
      * @return
      */
-    public List<MemberDistAmount> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<MemberDistAmount> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -87,7 +87,7 @@ public interface MemberDistAmountService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface MemberDistAmountService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface MemberDistAmountService  {
      * @param model
      * @return
      */
-    public boolean delete(MemberDistAmount model);
+    boolean delete(MemberDistAmount model);
 
 
     /**
@@ -114,7 +114,7 @@ public interface MemberDistAmountService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -123,7 +123,7 @@ public interface MemberDistAmountService  {
      * @param model
      * @return id if success
      */
-    public Object save(MemberDistAmount model);
+    Object save(MemberDistAmount model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface MemberDistAmountService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(MemberDistAmount model);
+    Object saveOrUpdate(MemberDistAmount model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface MemberDistAmountService  {
      * @param model
      * @return
      */
-    public boolean update(MemberDistAmount model);
+    boolean update(MemberDistAmount model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface MemberDistAmountService  {
      * @param pageSize
      * @return
      */
-    public Page<MemberDistAmount> paginate(int page, int pageSize);
+    Page<MemberDistAmount> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface MemberDistAmountService  {
      * @param pageSize
      * @return
      */
-    public Page<MemberDistAmount> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<MemberDistAmount> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,7 +172,7 @@ public interface MemberDistAmountService  {
      * @param orderBy
      * @return
      */
-    public Page<MemberDistAmount> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<MemberDistAmount> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
 }

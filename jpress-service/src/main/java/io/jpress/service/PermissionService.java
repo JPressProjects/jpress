@@ -23,83 +23,83 @@ import java.util.List;
 public interface PermissionService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Permission findById(Object id);
+    Permission findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Permission
+     * @return 所有的 Permission
      */
-    public List<Permission> findAll();
+    List<Permission> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Permission model);
+    boolean delete(Permission model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(Permission model);
+    Object save(Permission model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(Permission model);
+    Object saveOrUpdate(Permission model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Permission model);
+    boolean update(Permission model);
 
 
-    public int sync(List<Permission> permissions);
+    int sync(List<Permission> permissions);
 
-    public boolean hasPermission(long userId, String actionKey);
+    boolean hasPermission(long userId, String actionKey);
 
-    public boolean hasPermission(long userId, long permissionId);
+    boolean hasPermission(long userId, long permissionId);
 
-    public Page<Permission> page(int size, int count);
+    Page<Permission> page(int size, int count);
 
-    public Page<Permission> page(int size, int count, int type);
+    Page<Permission> page(int size, int count, int type);
 
-    public List<Permission> findListByType(String type);
+    List<Permission> findListByType(String type);
 
-    public List<Permission> findPermissionListByUserId(long userId);
+    List<Permission> findPermissionListByUserId(long userId);
 
-    public List<Permission> findPermissionListByRoleId(long roleId);
+    List<Permission> findPermissionListByRoleId(long roleId);
 
-    public List<Permission> findListByNode(String node);
+    List<Permission> findListByNode(String node);
 
 }

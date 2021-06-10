@@ -23,66 +23,66 @@ import java.util.List;
 public interface AttachmentService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public Attachment findById(Object id);
+    Attachment findById(Object id);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <Attachment
+     * @return 所有的 Attachment
      */
-    public List<Attachment> findAll();
+    List<Attachment> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(Attachment model);
+    boolean delete(Attachment model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
      * @return
      */
-    public Object save(Attachment model);
+    Object save(Attachment model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
-     * @return if save or update success
+     * @return 新增或更新成功后，返回该 Model 的主键值
      */
-    public Object saveOrUpdate(Attachment model);
+    Object saveOrUpdate(Attachment model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(Attachment model);
+    boolean update(Attachment model);
 
 
-    public Page _paginate(int page, int pagesieze, String title);
+    Page<Attachment> _paginate(int page, int pagesieze, String title);
 }

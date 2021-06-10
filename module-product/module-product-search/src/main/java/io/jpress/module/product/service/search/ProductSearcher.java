@@ -8,11 +8,11 @@ public interface ProductSearcher {
 
     String HIGH_LIGHT_CLASS = "search-highlight";
 
-    public void addProduct(Product article);
+    void addProduct(Product article);
 
-    public void deleteProduct(Object id);
+    void deleteProduct(Object id);
 
-    public void updateProduct(Product article);
+    void updateProduct(Product article);
 
-    public Page<Product> search(String keyword, int pageNum, int pageSize);
+    Page<Product> search(String keyword, int pageNum, int pageSize);
 }

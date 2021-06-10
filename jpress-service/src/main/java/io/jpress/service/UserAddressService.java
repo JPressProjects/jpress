@@ -6,76 +6,77 @@ import io.jpress.model.UserAddress;
 
 import java.util.List;
 
-public interface UserAddressService  {
+public interface UserAddressService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public UserAddress findById(Object id);
+    UserAddress findById(Object id);
 
 
     /**
      * 根据条件查询
+     *
      * @param column
      * @return
      */
-    public List<UserAddress> findListByColumns(Columns column);
+    List<UserAddress> findListByColumns(Columns column);
 
 
     /**
-     * find all model
+     * 查询所有的数据
      *
-     * @return all <UserAddress
+     * @return 所有的 UserAddress
      */
-    public List<UserAddress> findAll();
+    List<UserAddress> findAll();
 
 
     /**
-     * delete model by primary key
+     * 根据主键删除 Model
      *
      * @param id
      * @return success
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
-     * delete model
+     * 删除 Model
      *
      * @param model
      * @return
      */
-    public boolean delete(UserAddress model);
+    boolean delete(UserAddress model);
 
 
     /**
-     * save model to database
+     * 新增 Model 数据
      *
      * @param model
-     * @return  id value if save success
+     * @return id value if save success
      */
-    public Object save(UserAddress model);
+    Object save(UserAddress model);
 
 
     /**
-     * save or update model
+     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
      *
      * @param model
      * @return id value if saveOrUpdate success
      */
-    public Object saveOrUpdate(UserAddress model);
+    Object saveOrUpdate(UserAddress model);
 
 
     /**
-     * update data model
+     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
      *
      * @param model
      * @return
      */
-    public boolean update(UserAddress model);
+    boolean update(UserAddress model);
 
 
     /**
@@ -85,11 +86,11 @@ public interface UserAddressService  {
      * @param pageSize
      * @return
      */
-    public Page<UserAddress> paginate(int page, int pageSize,Long userId);
+    Page<UserAddress> paginate(int page, int pageSize, Long userId);
 
-    public UserAddress findDefaultAddress(long userId);
+    UserAddress findDefaultAddress(long userId);
 
-    public List<UserAddress> findListByUserId(long userId);
+    List<UserAddress> findListByUserId(long userId);
 
 
     void addUserAddress(UserAddress address, long userid);

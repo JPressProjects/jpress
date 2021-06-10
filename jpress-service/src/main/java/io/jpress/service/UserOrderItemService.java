@@ -8,15 +8,16 @@ import java.util.List;
 public interface UserOrderItemService {
 
     /**
-     * find model by primary key
+     * 根据 主键 查找 Model
      *
      * @param id
      * @return
      */
-    public UserOrderItem findById(Object id);
+    UserOrderItem findById(Object id);
 
 
-    public boolean update(UserOrderItem item);
+    boolean update(UserOrderItem item);
+
     /**
      * paginate query
      *
@@ -24,16 +25,16 @@ public interface UserOrderItemService {
      * @param pageSize
      * @return
      */
-    public Page<UserOrderItem> paginate(int page, int pageSize);
+    Page<UserOrderItem> paginate(int page, int pageSize);
 
 
-    public void batchSave(List<UserOrderItem> userOrderItems);
+    void batchSave(List<UserOrderItem> userOrderItems);
 
-    public List<UserOrderItem> findListByOrderId(Long orderId);
+    List<UserOrderItem> findListByOrderId(Long orderId);
 
-    public boolean doAddProductCountById(Object id, Long userId);
+    boolean doAddProductCountById(Object id, Long userId);
 
-    public boolean doSubtractProductCountById(Object id, Long userId);
+    boolean doSubtractProductCountById(Object id, Long userId);
 
-    public boolean deleteById(Object id,Long userId);
+    boolean deleteById(Object id, Long userId);
 }

@@ -6,7 +6,7 @@ import io.jpress.module.product.model.ProductImage;
 
 import java.util.List;
 
-public interface ProductImageService  {
+public interface ProductImageService {
 
     /**
      * 根据ID查找model
@@ -14,7 +14,7 @@ public interface ProductImageService  {
      * @param id
      * @return
      */
-    public ProductImage findById(Object id);
+    ProductImage findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface ProductImageService  {
      * @param columns
      * @return
      */
-    public ProductImage findFirstByColumns(Columns columns);
+    ProductImage findFirstByColumns(Columns columns);
 
 
     /**
@@ -33,7 +33,7 @@ public interface ProductImageService  {
      * @param orderBy
      * @return
      */
-    public ProductImage findFirstByColumns(Columns columns, String orderBy);
+    ProductImage findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -41,7 +41,7 @@ public interface ProductImageService  {
      *
      * @return
      */
-    public List<ProductImage> findAll();
+    List<ProductImage> findAll();
 
 
     /**
@@ -50,7 +50,7 @@ public interface ProductImageService  {
      * @param columns
      * @return
      */
-    public List<ProductImage> findListByColumns(Columns columns);
+    List<ProductImage> findListByColumns(Columns columns);
 
 
     /**
@@ -60,7 +60,7 @@ public interface ProductImageService  {
      * @param orderBy
      * @return
      */
-    public List<ProductImage> findListByColumns(Columns columns, String orderBy);
+    List<ProductImage> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -69,7 +69,7 @@ public interface ProductImageService  {
      * @param count
      * @return
      */
-    public List<ProductImage> findListByColumns(Columns columns, Integer count);
+    List<ProductImage> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -79,7 +79,7 @@ public interface ProductImageService  {
      * @param count
      * @return
      */
-    public List<ProductImage> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<ProductImage> findListByColumns(Columns columns, String orderBy, Integer count);
 
     /**
      * 根据提交查询数据量
@@ -87,7 +87,7 @@ public interface ProductImageService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface ProductImageService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface ProductImageService  {
      * @param model
      * @return
      */
-    public boolean delete(ProductImage model);
+    boolean delete(ProductImage model);
 
 
     /**
@@ -114,8 +114,7 @@ public interface ProductImageService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
-
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -124,7 +123,7 @@ public interface ProductImageService  {
      * @param model
      * @return id if success
      */
-    public Object save(ProductImage model);
+    Object save(ProductImage model);
 
 
     /**
@@ -133,7 +132,7 @@ public interface ProductImageService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(ProductImage model);
+    Object saveOrUpdate(ProductImage model);
 
     /**
      * 更新
@@ -141,7 +140,7 @@ public interface ProductImageService  {
      * @param model
      * @return
      */
-    public boolean update(ProductImage model);
+    boolean update(ProductImage model);
 
 
     /**
@@ -151,7 +150,7 @@ public interface ProductImageService  {
      * @param pageSize
      * @return
      */
-    public Page<ProductImage> paginate(int page, int pageSize);
+    Page<ProductImage> paginate(int page, int pageSize);
 
 
     /**
@@ -161,7 +160,7 @@ public interface ProductImageService  {
      * @param pageSize
      * @return
      */
-    public Page<ProductImage> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<ProductImage> paginateByColumns(int page, int pageSize, Columns columns);
 
     /**
      * 分页
@@ -172,11 +171,11 @@ public interface ProductImageService  {
      * @param orderBy
      * @return
      */
-    public Page<ProductImage> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<ProductImage> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
-    public List<ProductImage> findListByProductId(Long productId);
+    List<ProductImage> findListByProductId(Long productId);
 
-    public void saveOrUpdateByProductId(Long id, String[] imageIds, String[] imageSrcs);
+    void saveOrUpdateByProductId(Long id, String[] imageIds, String[] imageSrcs);
 
-    public boolean deleteByProductId(Long productId);
+    boolean deleteByProductId(Long productId);
 }

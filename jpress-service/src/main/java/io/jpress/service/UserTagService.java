@@ -6,7 +6,7 @@ import io.jpress.model.UserTag;
 
 import java.util.List;
 
-public interface UserTagService  {
+public interface UserTagService {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface UserTagService  {
      * @param id
      * @return
      */
-    public UserTag findById(Object id);
+    UserTag findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface UserTagService  {
      * @param columns
      * @return
      */
-    public UserTag findFirstByColumns(Columns columns);
+    UserTag findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface UserTagService  {
      * @param orderBy
      * @return
      */
-    public UserTag findFirstByColumns(Columns columns, String orderBy);
+    UserTag findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface UserTagService  {
      *
      * @return
      */
-    public List<UserTag> findAll();
+    List<UserTag> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface UserTagService  {
      * @param columns
      * @return
      */
-    public List<UserTag> findListByColumns(Columns columns);
+    List<UserTag> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface UserTagService  {
      * @param orderBy
      * @return
      */
-    public List<UserTag> findListByColumns(Columns columns, String orderBy);
+    List<UserTag> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface UserTagService  {
      * @param count
      * @return
      */
-    public List<UserTag> findListByColumns(Columns columns, Integer count);
+    List<UserTag> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface UserTagService  {
      * @param count
      * @return
      */
-    public List<UserTag> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<UserTag> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -87,7 +87,7 @@ public interface UserTagService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface UserTagService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface UserTagService  {
      * @param model
      * @return
      */
-    public boolean delete(UserTag model);
+    boolean delete(UserTag model);
 
 
     /**
@@ -114,8 +114,7 @@ public interface UserTagService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
-
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -124,7 +123,7 @@ public interface UserTagService  {
      * @param model
      * @return id if success
      */
-    public Object save(UserTag model);
+    Object save(UserTag model);
 
 
     /**
@@ -133,7 +132,7 @@ public interface UserTagService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(UserTag model);
+    Object saveOrUpdate(UserTag model);
 
     /**
      * 更新
@@ -141,7 +140,7 @@ public interface UserTagService  {
      * @param model
      * @return
      */
-    public boolean update(UserTag model);
+    boolean update(UserTag model);
 
 
     /**
@@ -151,7 +150,7 @@ public interface UserTagService  {
      * @param pageSize
      * @return
      */
-    public Page<UserTag> paginate(int page, int pageSize);
+    Page<UserTag> paginate(int page, int pageSize);
 
 
     /**
@@ -161,7 +160,7 @@ public interface UserTagService  {
      * @param pageSize
      * @return
      */
-    public Page<UserTag> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<UserTag> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -173,18 +172,18 @@ public interface UserTagService  {
      * @param orderBy
      * @return
      */
-    public Page<UserTag> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<UserTag> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    public UserTag findFirstByTag(String tag);
+    UserTag findFirstByTag(String tag);
 
 
-    public List<UserTag> findListByUserId(Object userId);
+    List<UserTag> findListByUserId(Object userId);
 
 
-    public List<UserTag> findOrCreateByTagString(String[] tags);
+    List<UserTag> findOrCreateByTagString(String[] tags);
 
-    public List<UserTag> findHotList(int count);
+    List<UserTag> findHotList(int count);
 
-    public void doUpdateTags(long userId, Long[] tagIds);
+    void doUpdateTags(long userId, Long[] tagIds);
 }

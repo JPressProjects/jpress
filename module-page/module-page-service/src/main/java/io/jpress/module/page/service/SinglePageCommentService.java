@@ -6,7 +6,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface SinglePageCommentService  {
+public interface SinglePageCommentService {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface SinglePageCommentService  {
      * @param id
      * @return
      */
-    public SinglePageComment findById(Object id);
+    SinglePageComment findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface SinglePageCommentService  {
      * @param columns
      * @return
      */
-    public SinglePageComment findFirstByColumns(Columns columns);
+    SinglePageComment findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface SinglePageCommentService  {
      * @param orderBy
      * @return
      */
-    public SinglePageComment findFirstByColumns(Columns columns, String orderBy);
+    SinglePageComment findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface SinglePageCommentService  {
      *
      * @return
      */
-    public List<SinglePageComment> findAll();
+    List<SinglePageComment> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface SinglePageCommentService  {
      * @param columns
      * @return
      */
-    public List<SinglePageComment> findListByColumns(Columns columns);
+    List<SinglePageComment> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface SinglePageCommentService  {
      * @param orderBy
      * @return
      */
-    public List<SinglePageComment> findListByColumns(Columns columns, String orderBy);
+    List<SinglePageComment> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface SinglePageCommentService  {
      * @param count
      * @return
      */
-    public List<SinglePageComment> findListByColumns(Columns columns, Integer count);
+    List<SinglePageComment> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface SinglePageCommentService  {
      * @param count
      * @return
      */
-    public List<SinglePageComment> findListByColumns(Columns columns, String orderBy, Integer count);
+    List<SinglePageComment> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -87,7 +87,7 @@ public interface SinglePageCommentService  {
      * @param columns
      * @return
      */
-    public long findCountByColumns(Columns columns);
+    long findCountByColumns(Columns columns);
 
 
     /**
@@ -96,7 +96,7 @@ public interface SinglePageCommentService  {
      * @param id
      * @return
      */
-    public boolean deleteById(Object id);
+    boolean deleteById(Object id);
 
 
     /**
@@ -105,7 +105,7 @@ public interface SinglePageCommentService  {
      * @param model
      * @return
      */
-    public boolean delete(SinglePageComment model);
+    boolean delete(SinglePageComment model);
 
 
     /**
@@ -114,7 +114,7 @@ public interface SinglePageCommentService  {
      * @param ids
      * @return
      */
-    public boolean batchDeleteByIds(Object... ids);
+    boolean batchDeleteByIds(Object... ids);
 
 
     /**
@@ -123,7 +123,7 @@ public interface SinglePageCommentService  {
      * @param model
      * @return id if success
      */
-    public Object save(SinglePageComment model);
+    Object save(SinglePageComment model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface SinglePageCommentService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(SinglePageComment model);
+    Object saveOrUpdate(SinglePageComment model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface SinglePageCommentService  {
      * @param model
      * @return
      */
-    public boolean update(SinglePageComment model);
+    boolean update(SinglePageComment model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface SinglePageCommentService  {
      * @param pageSize
      * @return
      */
-    public Page<SinglePageComment> paginate(int page, int pageSize);
+    Page<SinglePageComment> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface SinglePageCommentService  {
      * @param pageSize
      * @return
      */
-    public Page<SinglePageComment> paginateByColumns(int page, int pageSize, Columns columns);
+    Page<SinglePageComment> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,20 +172,20 @@ public interface SinglePageCommentService  {
      * @param orderBy
      * @return
      */
-    public Page<SinglePageComment> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    Page<SinglePageComment> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
-    public long findCountByStatus(String status);
+    long findCountByStatus(String status);
 
-    public Page<SinglePageComment> _paginateByStatus(int page, int pagesize, Long articleId, String keyword, String status);
+    Page<SinglePageComment> _paginateByStatus(int page, int pagesize, Long articleId, String keyword, String status);
 
-    public Page<SinglePageComment> _paginateWithoutTrash(int page, int pagesize, Long articleId, String keyword);
+    Page<SinglePageComment> _paginateWithoutTrash(int page, int pagesize, Long articleId, String keyword);
 
-    public Page<SinglePageComment> paginateByPageIdInNormal(int page, int pagesize, long pageId);
+    Page<SinglePageComment> paginateByPageIdInNormal(int page, int pagesize, long pageId);
 
-    public void doIncCommentReplyCount(long commentId);
+    void doIncCommentReplyCount(long commentId);
 
 
-    public boolean doChangeStatus(Long id, String status);
+    boolean doChangeStatus(Long id, String status);
 
-    public boolean batchChangeStatusByIds(String statusNormal, Object... toArray);
+    boolean batchChangeStatusByIds(String statusNormal, Object... toArray);
 }

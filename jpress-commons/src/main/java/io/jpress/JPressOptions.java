@@ -179,11 +179,11 @@ public class JPressOptions {
 
         //伪静态后缀
         else if (JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(key)) {
-            fakeStaticSuffix = StrUtil.defaultIfBlank(value,".html");
+            fakeStaticSuffix = StrUtil.defaultIfBlank(value, ".html");
         }
 
         //是否启用扁平化的URL
-        else if (JPressConsts.OPTION_WEB_FLAT_URL_ENABLE.equals(key)){
+        else if (JPressConsts.OPTION_WEB_FLAT_URL_ENABLE.equals(key)) {
             flatUrlEnable = "true".equalsIgnoreCase(value);
         }
 
@@ -205,9 +205,13 @@ public class JPressOptions {
     private static String fakeStaticSuffix = "";
 
     public static String getAppUrlSuffix() {
-        if (!fakeStaticEnable || StrUtil.isBlank(fakeStaticSuffix)) {
+        if (!fakeStaticEnable) {
             return StrUtil.EMPTY;
         }
+        if (StrUtil.isBlank(fakeStaticSuffix)) {
+            fakeStaticSuffix = StrUtil.defaultIfBlank(get(JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX), ".html");
+        }
+
         return fakeStaticSuffix;
     }
 

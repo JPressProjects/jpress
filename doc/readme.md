@@ -1,6 +1,6 @@
 
 
-![](images/screenshot.png)
+![](./images/screenshot.png)
 
 <h1 align="center" style="display: block!important;"> JPress </h1>
 

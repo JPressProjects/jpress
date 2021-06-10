@@ -2,7 +2,7 @@
 
 ![](./images/screenshot.png)
 
-<h1 align="center"> JPress </h1>
+<h1 align="center" style="display: block!important;"> JPress </h1>
 
 
 <p align="center">

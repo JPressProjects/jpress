@@ -5,7 +5,9 @@ module.exports = {
     title: 'JPress 官方文档',
     description: 'JPress，一个专业的建站神器，已有超过10万+网站使用 JPress 搭建',
     // base:'/docs/',
-
+    markdown: {
+        lineNumbers: true
+    },
     theme: 'vuepress-theme-reco',
     themeConfig: {
         //腾讯 404 公益配置
@@ -28,6 +30,17 @@ module.exports = {
         // custom text for edit link. Defaults to "Edit this page"
         editLinkText: '编辑此页面',
 
+        /**
+         * support for
+         * 'default'
+         * 'funky'
+         * 'okaidia'
+         * 'solarizedlight'
+         * 'tomorrow'
+         */
+        codeTheme: 'tomorrow',
+
+
 
         lastUpdated: '更新时间', // string | boolean
 
@@ -46,22 +59,24 @@ module.exports = {
 
         sidebar: {
             '/manual/': [{
-                title: '快速入门',
-                collapsable: false,
-                children: [
-                    {title: 'JPress 简介', path: '/manual/'},
-                    {title: '快速开始', path: '/manual/start'}
-                ],
-            },
+                    title: '快速入门',
+                    collapsable: false,
+                    children: [
+                        {title: 'JPress 简介', path: '/manual/'},
+                        {title: '快速开始', path: '/manual/start'}
+                    ],
+                },
                 {
                     title: '安装启动',
                     collapsable: false,
                     children: [
-                        {title: 'Linux', path: '/manual/install_linux'},
-                        {title: 'Windows', path: '/manual/install_windows'},
-                        {title: 'Mac', path: '/manual/install_mac'},
-                        {title: 'Docker', path: '/manual/install_docker'},
-                        {title: '宝塔', path: '/manual/install_baota'},
+                        {title: '在 Linux 上安装', path: '/manual/install_linux'},
+                        {title: '在 Windows 上安装', path: '/manual/install_windows'},
+                        {title: '在 Mac 上安装', path: '/manual/install_mac'},
+                        {title: '在 Docker 上安装', path: '/manual/install_docker'},
+                        {title: '在宝塔上安装', path: '/manual/install_baota'},
+                        {title: '一键安装', path: '/manual/install_oneclick'},
+                        {title: '如何升级', path: '/manual/upgrade'},
                     ],
                 },
                 {

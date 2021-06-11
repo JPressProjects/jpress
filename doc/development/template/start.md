@@ -13,27 +13,21 @@
 
 ```
 mytemplate
-├── article.html
-├── artlist.html
-├── css
-│   └── xxx.css
-├── img
-│   ├── xxx.png
-│   ├── xxx.jpg
 ├── index.html
-├── page.html
 ├── screenshot.png
-├── setting.html
 └── template.properties
 ```
 
 其中 `index.html` 、 `screenshot.png` 、`template.properties` 是模板的必须文件，一个模板最少由着三个文件组成。
+> 更多文件请参考: [模板的目录结构](./structure.md)
 
 - index.html : 网站首页的模板
 - screenshot.png : 后台的模板缩略图
 - template.properties 模板的配置信息
 
->当我们开始开发一个新的模板的时候，可以先用这个三个文件，打包成 zip 包之后，通过 JPress 后台进行安装，看一下效果。同时可以把 `mytemplate` 文件夹直接复制到 JPress 的 `templates` 目录下也等同于安装。
+::: tip 提示
+当我们开始开发一个新的模板的时候，可以先用这个三个文件，打包成 zip 包之后，通过 JPress 后台进行安装，看一下效果。同时可以把 `mytemplate` 文件夹直接复制到 JPress 的 `templates` 目录下也等同于安装。
+:::
 
 模板的配置文件 `template.properties` 内容如下
 

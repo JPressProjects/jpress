@@ -1,7 +1,5 @@
 # 在 Docker 上安装 JPress
 
-[[toc]]
-
 通过 Docker 进行安装 JPress，需要提前在本地安装好 Docker。
 
 ## Docker 的安装请参考官方文档：

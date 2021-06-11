@@ -46,8 +46,8 @@ module.exports = {
 
         nav: [
             {text: '首页', link: '/'},
-            {text: '开发文档', link: '/development/'},
             {text: '用户手册', link: '/manual/'},
+            {text: '开发文档', link: '/development/'},
             {text: '提问', link: 'https://gitee.com/JPressProjects/jpress/issues'},
             {
                 text: '源码下载', items: [

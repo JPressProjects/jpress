@@ -62,7 +62,7 @@ public class SqlUtils {
             "sql", "null", "like", "mysql", "information_schema",
             "sleep", "version", "join", "declare", "having", "signed", "alter",
             "union", "where", "create", "shutdown", "grant", "privileges",
-            "--", ";", "*", "%", "(", ")"};
+            "--", ";", "#", "*", "%", "(", ")"};
 
     public static boolean hasSqlInject(String str) {
 

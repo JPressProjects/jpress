@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>登录到用户中心</title>
+    <title>登录到JPress</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
 
@@ -40,7 +40,7 @@
         <div class="card">
             <div class="card-body login-card-body">
 
-                <form action="doLogin" method="post" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin/index" data-fail-function="loginFail">
+                <form action="#(CPATH)#(action)" method="post" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin/index" data-fail-function="loginFail">
 
                     <div class="form-group">
                         <label>账号</label>
@@ -56,10 +56,9 @@
                     <div class="form-group">
                         <label style="display: block;">验证码</label>
                         <div>
-                            <input type="text" id="captcha" class="form-control " style="float: left;width: 70%;"
+                            <input type="text" id="captcha" class="form-control" autocomplete="off" style="float: left;width: 70%;"
                                    placeholder="请输入验证码" name="captcha" required>
-                            <img src="#(CPATH)/commons/captcha" id="captcha-img"
-                                 style="float: right;height: 34px;margin-top: 2px;"
+                            <img src="#(CPATH)/commons/captcha" id="captcha-img" style="float: right;height: 34px;margin-top: 2px;"
                                  onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
                         </div>
                     </div>
@@ -68,26 +67,8 @@
                     <div class="form-group" style="padding-top: 30px;">
                         <div class="col-xs-12" style="padding-top: 15px">
                             <button type="submit" class="btn btn-primary btn-block btn-flat"> 登 录</button>
-                            <p class="text-muted" style="float: left;"> 还没有账号？点击 <a href="#(CPATH)/user/register">这里</a>
-                                注册。
-                            </p>
                         </div>
                     </div>
-
-
-                    #if(option('login_qq_enable') || option('login_wechat_enable'))
-                    <div class="form-group row">
-                        快速登录：
-
-                        #if(option('login_wechat_enable'))
-                        <a href="#(CPATH)/oauth/wechat"><i class="fa fa-fw fa-wechat"></i></a>
-                        #end
-
-                        #if(option('login_qq_enable'))
-                        <a href="#(CPATH)/oauth/qq"><i class="fa fa-fw fa-qq"></i></a>
-                        #end
-                    </div>
-                    #end
 
                 </form>
 
@@ -112,7 +93,7 @@
     function loginFail(result) {
         showErrorMessage(result.message);
         $('#captcha').val('');
-        $('#captcha-img').attr('src',"/commons/captcha?id="+Math.random())
+        $('#captcha-img').attr('src',"#(CPATH)/commons/captcha?id="+Math.random())
 
         if (result.errorCode == 11){
             $('input[name="account"]').val('')

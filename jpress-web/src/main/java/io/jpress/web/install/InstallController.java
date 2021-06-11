@@ -33,6 +33,7 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.core.install.DbExecuter;
 import io.jpress.core.install.InstallManager;
 import io.jpress.core.install.Installer;
@@ -91,13 +92,17 @@ public class InstallController extends ControllerBase {
         String dbHost = getPara("dbHost");
         int dbPort = getParaToInt("dbPort");
 
+        if (SqlUtils.hasSqlInject(dbName)){
+            renderJson(Ret.fail().set("message", "数据库名称存在非安全关键字，请重新填写。").set("errorCode", 5));
+            return;
+        }
 
+
+        //是否为用户创建数据库
         boolean dbAutoCreate = getParaToBoolean("dbAutoCreate", false);
-        if (dbAutoCreate) {
-            if (!createDatabase(dbName, dbUser, dbPwd, dbHost, dbPort)) {
-                renderJson(Ret.fail().set("message", "无法自动创建数据库，可能是用户名密码错误，或没有权限").set("errorCode", 5));
-                return;
-            }
+        if (dbAutoCreate && !createDatabase(dbName, dbUser, dbPwd, dbHost, dbPort)) {
+            renderJson(Ret.fail().set("message", "无法自动创建数据库，可能是用户名密码错误，或没有权限").set("errorCode", 5));
+            return;
         }
 
 

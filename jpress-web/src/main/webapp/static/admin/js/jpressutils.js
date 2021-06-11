@@ -458,3 +458,18 @@ function doActivateEmail(userId) {
         alert(result.message);
     })
 }
+
+function closeLayerAndRefresh() {
+    if ( typeof parent != "undefined" && parent.layer){
+        parent.layer.data.needRefresh = true;
+        parent.layer.closeAll();
+    }
+}
+
+
+function closeLayer() {
+    if ( typeof parent != "undefined" && parent.layer) {
+        parent.layer.closeAll();
+    }
+}
+

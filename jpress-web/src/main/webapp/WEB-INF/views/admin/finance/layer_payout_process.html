@@ -20,10 +20,6 @@
         }
     });
 
-    function closeLayer() {
-        parent.layer.data.needRefresh = true;
-        parent.layer.closeAll();
-    }
 </script>
 #end
 
@@ -54,7 +50,7 @@
             <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                   action="#(CPATH)/admin/finance/doPayoutProcess"
                   method="POST"
-                  data-ok-function="closeLayer()"
+                  data-ok-function="closeLayerAndRefresh()"
             >
                 <input type="hidden" name="id" value="#(payout.id ??)">
                 <div class="card-body">

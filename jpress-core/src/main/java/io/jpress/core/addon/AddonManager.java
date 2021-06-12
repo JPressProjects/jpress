@@ -55,7 +55,6 @@ import io.jpress.core.wechat.WechatAddonConfig;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.service.OptionService;
-import javassist.ClassPool;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -655,10 +654,6 @@ public class AddonManager implements JbootEventListener {
         AddonClassLoader classLoader = addonInfo.getClassLoader();
         if (classLoader != null){
             CommonsUtils.quietlyClose(classLoader);
-            AddonClassPath addonClassPath = classLoader.getAddonClassPath();
-            if (addonClassPath != null) {
-                ClassPool.getDefault().removeClassPath(addonClassPath);
-            }
         }
     }
 

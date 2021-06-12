@@ -33,7 +33,6 @@ import io.jboot.db.model.JbootModel;
 import io.jboot.utils.ArrayUtil;
 import io.jpress.core.addon.annotation.GlobalInterceptor;
 import io.jpress.core.wechat.WechatAddon;
-import javassist.ClassPool;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,19 +51,12 @@ public class AddonClassLoader extends URLClassLoader {
     private static final Log LOG = Log.getLog(AddonClassLoader.class);
 
     private AddonInfo addonInfo;
-    private AddonClassPath addonClassPath;
     private List<String> classNameList;
 
     public AddonClassLoader(AddonInfo addonInfo) throws Exception {
         super(new URL[]{}, Thread.currentThread().getContextClassLoader());
 
         URL addPath = addonInfo.buildJarFile().toURI().toURL();
-        this.addonClassPath = new AddonClassPath(addonInfo.buildJarFile().getCanonicalPath());
-
-        //fixed
-        //at javassist.ClassPool.get(ClassPool.java:430)
-        //at io.jboot.web.handler.JbootActionReporter.report(JbootActionReporter.java:85)
-        ClassPool.getDefault().appendClassPath(addonClassPath);
 
         this.addURL(addPath);
         this.addonInfo = addonInfo;
@@ -147,12 +139,11 @@ public class AddonClassLoader extends URLClassLoader {
     }
 
 
-    private static Class[] default_excludes = new Class[]{JbootEventListener.class, JbootmqMessageListener.class, Serializable.class};
 
     /**
      * 初始化 @Bean 注解的映射关系
      */
-    private void initBeanMapping(Class implClass) {
+    private void initBeanMapping(Class<?> implClass) {
 
         Class<?>[] interfaceClasses = implClass.getInterfaces();
 
@@ -160,26 +151,30 @@ public class AddonClassLoader extends URLClassLoader {
             return;
         }
 
-        Class[] excludes = buildExcludeClasses(implClass);
+        Class<?>[] excludes = buildExcludeClasses(implClass);
 
         for (Class interfaceClass : interfaceClasses) {
-            if (inExcludes(interfaceClass, excludes) == false) {
+            if (!inExcludes(interfaceClass, excludes)) {
                 AopManager.me().addMapping(interfaceClass, implClass);
             }
         }
     }
 
-    private Class[] buildExcludeClasses(Class implClass) {
-        BeanExclude beanExclude = (BeanExclude) implClass.getAnnotation(BeanExclude.class);
+
+    private static Class<?>[] DEFAULT_EXCLUDES = new Class[]{JbootEventListener.class, JbootmqMessageListener.class, Serializable.class};
+
+    private Class<?>[] buildExcludeClasses(Class<?> implClass) {
+        BeanExclude beanExclude = implClass.getAnnotation(BeanExclude.class);
 
         //对某些系统的类 进行排除，例如：Serializable 等
         return beanExclude == null
-                ? default_excludes
-                : ArrayUtil.concat(default_excludes, beanExclude.value());
+                ? DEFAULT_EXCLUDES
+                : ArrayUtil.concat(DEFAULT_EXCLUDES, beanExclude.value());
     }
 
-    private boolean inExcludes(Class interfaceClass, Class[] excludes) {
-        for (Class ex : excludes) {
+
+    private boolean inExcludes(Class<?> interfaceClass, Class<?>[] excludes) {
+        for (Class<?> ex : excludes) {
             if (ex.isAssignableFrom(interfaceClass)) {
                 return true;
             }
@@ -187,7 +182,7 @@ public class AddonClassLoader extends URLClassLoader {
         return false;
     }
 
-    static final List SUPPORT_NATIVE_SUFFIXES = Lists.newArrayList(".so", ".dylib", ".dll");
+    static final List<?> SUPPORT_NATIVE_SUFFIXES = Lists.newArrayList(".so", ".dylib", ".dll");
 
     @Override
     public InputStream getResourceAsStream(String name) {
@@ -209,8 +204,4 @@ public class AddonClassLoader extends URLClassLoader {
         return superStream;
     }
 
-
-    public AddonClassPath getAddonClassPath() {
-        return addonClassPath;
-    }
 }

@@ -15,12 +15,10 @@
  */
 package io.jpress.module.article.model;
 
-import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
-import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortModel;
-import io.jpress.commons.url.JPressUrlUtil;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.article.model.base.BaseArticleCategory;
 
 import java.util.ArrayList;
@@ -166,7 +164,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
 
     public String getUrl() {
         String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/product/tag/";
-        return JPressUrlUtil.getUrl(prefix, getSlug());
+        return UrlUtils.getUrl(prefix, getSlug());
     }
 
 

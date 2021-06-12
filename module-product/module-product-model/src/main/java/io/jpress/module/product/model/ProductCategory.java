@@ -1,11 +1,9 @@
 package io.jpress.module.product.model;
 
-import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
-import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortModel;
-import io.jpress.commons.url.JPressUrlUtil;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.product.model.base.BaseProductCategory;
 
 import java.util.ArrayList;
@@ -140,7 +138,7 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
 
     public String getUrl() {
         String prefix = TYPE_CATEGORY.equals(getType()) ? "/product/category/" : "/product/tag/";
-        return JPressUrlUtil.getUrl(prefix, getSlug());
+        return UrlUtils.getUrl(prefix, getSlug());
     }
 
 

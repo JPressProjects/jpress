@@ -31,16 +31,13 @@ public class FlatUrlHandler extends Handler {
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-        if (flatUrlProcessers.size() > 0 && isWebFlatUrlEnable()){
-            for (FlatUrlProcesser processer : flatUrlProcessers){
-                target = processer.flat(target,request);
+        if (JPressOptions.isFlatUrlEnable() && flatUrlProcessers.size() > 0) {
+            for (FlatUrlProcesser processer : flatUrlProcessers) {
+                target = processer.flat(target, request);
             }
         }
-        next.handle(target,request,response,isHandled);
+        next.handle(target, request, response, isHandled);
     }
 
 
-    private static boolean isWebFlatUrlEnable() {
-        return JPressOptions.getAsBool("web_flat_url_enable", false);
-    }
 }

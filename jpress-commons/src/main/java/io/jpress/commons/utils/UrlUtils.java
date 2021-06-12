@@ -1,10 +1,10 @@
-package io.jpress.commons.url;
+package io.jpress.commons.utils;
 
 
 import com.jfinal.core.JFinal;
 import io.jpress.JPressOptions;
 
-public class JPressUrlUtil {
+public class UrlUtils {
 
 
     public static String getUrl(Object... paths) {

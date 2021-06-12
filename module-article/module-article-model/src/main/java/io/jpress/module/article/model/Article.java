@@ -19,7 +19,7 @@ import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressConsts;
-import io.jpress.commons.url.JPressUrlUtil;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
@@ -85,7 +85,7 @@ public class Article extends BaseArticle<Article> {
         if (StrUtil.isNotBlank(link)) {
             return link;
         }
-        return JPressUrlUtil.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
+        return UrlUtils.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
     }
 
     public boolean isCommentEnable() {

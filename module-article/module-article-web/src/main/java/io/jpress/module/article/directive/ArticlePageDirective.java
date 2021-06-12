@@ -26,8 +26,8 @@ import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
-import io.jpress.JPressOptions;
 import io.jpress.commons.directive.DirectveKit;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleService;
@@ -93,8 +93,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
             // 如果当前页面是首页的话
             // 需要改变url的值，因为 上一页或下一页是通过当前的url解析出来的
             if (url.equals(contextPath + "/")) {
-                url = contextPath + "/article/category/index"
-                        + JPressOptions.getAppUrlSuffix();
+                url = UrlUtils.getUrl("/article/category/index");
             }
             return DirectveKit.replacePageNumber(url, pageNumber);
         }

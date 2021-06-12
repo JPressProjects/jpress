@@ -35,10 +35,10 @@ import java.util.stream.Collectors;
 /**
  * @author anjie 安杰 QQ489879492
  * @version V1.0
- * @Title: 商品多级分类
+ * @Title: 商品的所有分类，可以通过不同的条件进行筛选
  */
-@JFinalDirective("productCategoryList")
-public class ProductCategoryListDirective extends JbootDirectiveBase {
+@JFinalDirective("allProductCategories")
+public class AllProductCategoriesDirective extends JbootDirectiveBase {
 
     @Inject
     private ProductCategoryService categoryService;
@@ -89,7 +89,7 @@ public class ProductCategoryListDirective extends JbootDirectiveBase {
                     .collect(Collectors.toList());
         }
 
-        if (categories == null || categories.isEmpty()) {
+        if (categories.isEmpty()) {
             return;
         }
 
@@ -104,7 +104,6 @@ public class ProductCategoryListDirective extends JbootDirectiveBase {
      * @param categories
      */
     private void setActiveFlagByCurrentCategory(List<ProductCategory> categories) {
-
          Object data = JbootControllerContext.get().getAttr("category");
          if (data instanceof ProductCategory){
              doFlagByCurrentCategory(categories, (ProductCategory)data);

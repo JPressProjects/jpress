@@ -307,7 +307,7 @@ screenshot = screenshot.png
 | #nextProduct() | 产品详情：product.htm | 下一个产品 | 
 | #previousProduct() | 产品详情：product.htm| 上一个产品 | 
 | #productCategories() | 任意 | 获取某个产品对应的分类或者标签 | 
-| #productCategoryList() | 任意 | 产品分类列表 | 
+| #AllProductCategories() | 任意 | 产品分类列表 | 
 | #productCommentPage() | 产品详情：product.htm | 产品评论分页 | 
 | #product() | 任意 | 根据产品id或者slug读取产品信息 | 
 | #productPage() | 任意 | 产品分页 |

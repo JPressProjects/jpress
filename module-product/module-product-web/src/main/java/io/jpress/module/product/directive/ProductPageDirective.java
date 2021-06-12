@@ -26,8 +26,8 @@ import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
-import io.jpress.JPressOptions;
 import io.jpress.commons.directive.DirectveKit;
+import io.jpress.commons.url.JPressUrlUtil;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductService;
@@ -93,7 +93,7 @@ public class ProductPageDirective extends JbootDirectiveBase {
             // 如果当前页面是首页的话
             // 需要改变url的值，因为 上一页或下一页是通过当前的url解析出来的
             if (url.equals(contextPath + "/")) {
-                url = contextPath + "/product/category/index" + JPressOptions.getAppUrlSuffix();
+                url = JPressUrlUtil.getUrl("/product/category/index");
             }
 
             return DirectveKit.replacePageNumber(url, pageNumber);

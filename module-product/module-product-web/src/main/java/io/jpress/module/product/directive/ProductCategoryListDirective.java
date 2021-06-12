@@ -78,7 +78,7 @@ public class ProductCategoryListDirective extends JbootDirectiveBase {
         setActiveFlagByCurrentCategory(categories);
         setActiveFlagByCurrentProduct(categories);
 
-        if (asTree == true) {
+        if (asTree) {
             SortKit.toTree(categories);
         }
 
@@ -106,7 +106,7 @@ public class ProductCategoryListDirective extends JbootDirectiveBase {
     private void setActiveFlagByCurrentCategory(List<ProductCategory> categories) {
 
          Object data = JbootControllerContext.get().getAttr("category");
-         if (data != null && data instanceof ProductCategory){
+         if (data instanceof ProductCategory){
              doFlagByCurrentCategory(categories, (ProductCategory)data);
          }
 

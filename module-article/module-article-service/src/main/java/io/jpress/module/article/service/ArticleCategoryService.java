@@ -92,15 +92,13 @@ public interface ArticleCategoryService {
 
     List<ArticleCategory> findListByArticleId(long articleId);
 
-    List<ArticleCategory> findCategoryListByArticleId(long articleId);
-
     List<ArticleCategory> findTagListByArticleId(long articleId);
 
     List<ArticleCategory> findListByArticleId(long articleId, String type);
 
-    List<ArticleCategory> doNewOrFindByTagString(String[] tags);
+    List<ArticleCategory> doCreateOrFindByTagString(String[] tags);
 
-    List<ArticleCategory> doNewOrFindByCategoryString(String[] categories);
+    List<ArticleCategory> doCreateOrFindByCategoryString(String[] categories);
 
     Long[] findCategoryIdsByArticleId(long articleId);
 

@@ -234,7 +234,7 @@ public class _ArticleController extends AdminControllerBase {
             return null;
         }
 
-        List<ArticleCategory> categories = categoryService.doNewOrFindByTagString(tags);
+        List<ArticleCategory> categories = categoryService.doCreateOrFindByTagString(tags);
         long[] ids = categories.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
     }

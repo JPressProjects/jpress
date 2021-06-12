@@ -34,6 +34,7 @@ import io.jpress.web.render.TemplateRender;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -149,7 +150,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
      *
      * @param checker
      */
-    protected void setMenuActive(MenuActiveChecker checker) {
+    protected void setMenuActive(Function<Menu, Boolean> checker) {
         List<Menu> menus = getAttr(JPressConsts.ATTR_MENUS);
         if (menus == null || menus.isEmpty()) {
             return;
@@ -159,10 +160,10 @@ public abstract class TemplateControllerBase extends ControllerBase {
     }
 
 
-    private void setMenuActive(MenuActiveChecker checker, List<Menu> menus) {
+    private void setMenuActive(Function<Menu, Boolean> checker, List<Menu> menus) {
         for (Menu menu : menus) {
             if (StrUtil.isNotBlank(menu.getUrl())) {
-                if (checker.isActive(menu)) {
+                if (checker.apply(menu)) {
                     JPressActiveKit.makeItActive(menu);
                 }
             }
@@ -170,10 +171,6 @@ public abstract class TemplateControllerBase extends ControllerBase {
                 setMenuActive(checker, menu.getChilds());
             }
         }
-    }
-
-    public static interface MenuActiveChecker {
-        public boolean isActive(Menu menu);
     }
 
 

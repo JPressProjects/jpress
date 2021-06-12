@@ -95,10 +95,6 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ArticleCategory> findCategoryListByArticleId(long articleId) {
-        return findListByArticleId(articleId, ArticleCategory.TYPE_CATEGORY);
-    }
 
     @Override
     public List<ArticleCategory> findTagListByArticleId(long articleId) {
@@ -137,7 +133,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
 
 
     @Override
-    public List<ArticleCategory> doNewOrFindByTagString(String[] tags) {
+    public List<ArticleCategory> doCreateOrFindByTagString(String[] tags) {
         if (tags == null || tags.length == 0) {
             return null;
         }
@@ -181,7 +177,7 @@ public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCate
     }
 
     @Override
-    public List<ArticleCategory> doNewOrFindByCategoryString(String[] categories) {
+    public List<ArticleCategory> doCreateOrFindByCategoryString(String[] categories) {
         if (categories == null || categories.length == 0) {
             return null;
         }

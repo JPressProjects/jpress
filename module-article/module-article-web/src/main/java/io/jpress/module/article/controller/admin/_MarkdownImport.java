@@ -89,7 +89,7 @@ public class _MarkdownImport extends AdminControllerBase {
         }
 
         if (null != article && null != categoryNames && categoryNames.length > 0) {
-            List<ArticleCategory> categoryList = articleCategoryService.doNewOrFindByCategoryString(categoryNames);
+            List<ArticleCategory> categoryList = articleCategoryService.doCreateOrFindByCategoryString(categoryNames);
             Long[] allIds = new Long[categoryList.size()];
             for (int i = 0; i < allIds.length; i++) {
                 allIds[i] = categoryList.get(i).getId();

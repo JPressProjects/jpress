@@ -127,7 +127,7 @@ public class CategoriesDirective extends JbootDirectiveBase {
             return;
         }
 
-        List<ArticleCategory> articleCategories = categoryService.findCategoryListByArticleId(currentArticle.getId());
+        List<ArticleCategory> articleCategories = categoryService.findListByArticleId(currentArticle.getId());
         if (articleCategories == null || articleCategories.isEmpty()) {
             return;
         }

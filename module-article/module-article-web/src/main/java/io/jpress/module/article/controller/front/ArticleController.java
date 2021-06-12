@@ -115,7 +115,7 @@ public class ArticleController extends TemplateControllerBase {
 
         setMenuActive(menu -> menu.isUrlStartWidth(article.getUrl()));
 
-        List<ArticleCategory> articleCategories = categoryService.findCategoryListByArticleId(article.getId());
+        List<ArticleCategory> articleCategories = categoryService.findListByArticleId(article.getId());
         if (articleCategories == null || articleCategories.isEmpty()) {
             return;
         }

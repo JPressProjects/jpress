@@ -77,15 +77,15 @@
                 <input type="hidden" name="uid" value="#(user.id)">
                 <div class="card-body">
                     <div id="uploader">
-                                <span class="btn btn-block btn-primary fileinput-button">
+                                <span class="btn btn-block btn-primary fileinput-button" style="width: 160px">
                                     <i class="fas fa-plus"></i>
                                     <span>选择图片...</span>
                                     <input id="cfile" type="file" name="files[]" multiple>
                                 </span>
                     </div>
                     <div class="text-center" style="margin-bottom: 20px">
-                        <div style="max-width:200px;margin-top:10px;">
-                            <img src="#(CPATH)/static/commons/img/avatar.png" style="width: 100%;height: 100%"
+                        <div style="margin: 10px 0">
+                            <img src="#(CPATH)/static/commons/img/avatar.png" style="max-width: 100%;height: 100%"
                                  id="avatarimg">
                         </div>
                     </div>

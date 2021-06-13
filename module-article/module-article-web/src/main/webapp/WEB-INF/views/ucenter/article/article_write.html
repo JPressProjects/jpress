@@ -25,7 +25,7 @@
     });
 
 
-    $('.article-tags').selectize({
+    var $select = $('.article-tags').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
         persist: false,
@@ -36,6 +36,12 @@
                 return '<div class="create" style="padding-left: 5px"> 使用标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong></div>';
             }
         }
+    });
+
+    $(".newTag").each(function () {
+        $(this).on('click', function () {
+            $select[0].selectize.createItem($(this).text());
+        })
     });
 
     $("#submit").on("click", function () {
@@ -189,8 +195,8 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="card-body">
-                                                    <div class="card-body">
+                                                <div class="card-body p-2">
+                                                    <div class="card-body p-2">
 
                                                         <div class="form-group row">
                                                             <label class="col-sm-2 col-form-label">SEO关键字</label>
@@ -223,7 +229,7 @@
 
                             <div class="col-lg-3">
                                 <div class="card card-outlinecard-solid">
-                                    <div class="card-body">
+                                    <div class="card-body p-2">
                                         <button type="button" id="submit" class="btn btn-primary btn-sm ">保存并投稿</button>
                                     </div>
                                 </div>
@@ -231,7 +237,7 @@
                                     <div class="card-header with-border ">
                                         <h3 class="card-title">分类</h3>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body p-2">
                                         <div class="form-group row">
                                             #for(category : categories)
                                             <div class="form-check">
@@ -245,7 +251,6 @@
                                                     #else
                                                     <input type="checkbox" name="category" value="#(category.id)"/>
                                                     #end
-
                                                     #(category.title ??)
                                                 </label>
                                             </div>
@@ -258,7 +263,7 @@
                                     <div class="card-header with-border ">
                                         <h3 class="card-title">标签</h3>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body p-2">
                                         <select class="form-control article-tags" multiple="multiple" name="tag">
                                             #for(tag : tags)
                                             <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
@@ -281,7 +286,7 @@
                                     </div>
                                     <div class="card-body p-0">
                                         <img src="#(CPATH)#(article.thumbnail ??'/static/commons/img/nothumbnail.jpg')"
-                                             style="width: 100%;height: 150px"
+                                             style="width: 100%;"
                                              id="thumbnail">
                                         <input type="hidden" value="#(article.thumbnail ??)"
                                                name="article.thumbnail"

@@ -49,14 +49,15 @@
         #if(product.specs)
         <div class="product-specs">
             <ul>
-                #strSplit(product.specs)
-                #for(str : strs)
+                #stringSplit(product.specs)
+                #for(str : strings)
                 <li >#(str)</li>
                 #end
                 #end
             </ul>
         </div>
         #end
+
 
         <div class="product-btn">
             <a class="product-btn-buy" href="javascript:;" onclick="addProductToCart('#(product.id ??)')"> <i class="fa fa-shopping-cart"></i> 加入购物车</a>

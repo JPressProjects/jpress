@@ -111,10 +111,9 @@ public class ArticleCategoryController extends TemplateControllerBase {
         return category;
     }
 
+
     private String getRenderView(ArticleCategory category) {
-        return category == null
-                ? "artlist.html"
-                : category.getHtmlView();
+        return category == null  ? "artlist.html" : category.getHtmlView();
     }
 
 

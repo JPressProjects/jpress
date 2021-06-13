@@ -77,9 +77,7 @@ public class ProductUCenterController extends UcenterControllerBase {
 
     public void doCommentDel() {
 
-        long id = getIdPara();
-
-        ProductComment comment = commentService.findById(id);
+        ProductComment comment = commentService.findById(getLong("id"));
         if (comment == null) {
             renderFailJson();
             return;

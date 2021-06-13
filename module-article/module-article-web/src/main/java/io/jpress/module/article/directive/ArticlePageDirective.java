@@ -16,7 +16,6 @@
 package io.jpress.module.article.directive;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
@@ -26,13 +25,10 @@ import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
-import io.jpress.commons.directive.DirectveKit;
-import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleService;
-
-import javax.servlet.http.HttpServletRequest;
+import io.jpress.web.base.TemplateControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -47,9 +43,9 @@ public class ArticlePageDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Controller controller = JbootControllerContext.get();
+        TemplateControllerBase controller = (TemplateControllerBase) JbootControllerContext.get();
 
-        int page = controller.getParaToInt(1, 1);
+        int page = controller.getCommentPage();
         int pageSize = getParaToInt("pageSize", scope, 10);
         String orderBy = getPara("orderBy", scope, "id desc");
 
@@ -80,22 +76,13 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         @Override
         protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
-            HttpServletRequest request = JbootControllerContext.get().getRequest();
-            String url = request.getRequestURI();
-            String contextPath = JFinal.me().getContextPath();
-
             boolean firstGotoIndex = getPara("firstGotoIndex", scope, false);
-
             if (pageNumber == 1 && firstGotoIndex) {
-                return contextPath + "/";
+                return JFinal.me().getContextPath() + "/";
             }
 
-            // 如果当前页面是首页的话
-            // 需要改变url的值，因为 上一页或下一页是通过当前的url解析出来的
-            if (url.equals(contextPath + "/")) {
-                url = UrlUtils.getUrl("/article/category/index");
-            }
-            return DirectveKit.replacePageNumber(url, pageNumber);
+            ArticleCategory category = JbootControllerContext.get().getAttr("category");
+            return  category.getUrlWithPageNumber(pageNumber);
         }
 
         @Override

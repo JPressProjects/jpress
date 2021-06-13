@@ -142,7 +142,18 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
     }
 
 
+    public String getUrlWithPageNumber(int pageNumber) {
+        if (pageNumber <= 1) {
+            return getUrl();
+        }
+
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/product/category/" : "/product/tag/";
+        return UrlUtils.getUrl(prefix, getSlug(),"/",pageNumber);
+    }
+
+
     public String getHtmlView() {
         return StrUtil.isBlank(getStyle()) ? "prolist.html" : "prolist_" + getStyle().trim() + ".html";
     }
+
 }

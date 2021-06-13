@@ -163,8 +163,18 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     }
 
     public String getUrl() {
-        String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/product/tag/";
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/article/tag/";
         return UrlUtils.getUrl(prefix, getSlug());
+    }
+
+
+    public String getUrlWithPageNumber(int pageNumber){
+        if (pageNumber <= 1) {
+            return getUrl();
+        }
+
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/article/tag/";
+        return UrlUtils.getUrl(prefix, getSlug(),"/",pageNumber);
     }
 
 

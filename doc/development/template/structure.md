@@ -9,9 +9,11 @@
 mytemplate
 ├── index.html
 ├── article.html
+├── articles.html
 ├── artlist.html
 ├── artsearch.html
 ├── product.html
+├── products.html
 ├── prolist.html
 ├── prosearch.html
 ├── page.html
@@ -35,25 +37,27 @@ mytemplate
 └── template.properties
 ```
 
-| 文件名称 | 描述 |
-| :-----| ---- |
-| index.html | 首页模板 |
-| article.html | 文章详情页，用于显示文章的详情。可以扩展为 `article_aaa.html` 、`article_bbb.html` ，当模板有 `article_***.html` 时，我们在后台发布文章的时候，就可以选择使用哪个模板样式进行渲染。 |
-| artlist.html | 文章列表页，用于根据文章分类、文章标签等显示文章列表。可以扩展为 `artlist_aaa.html` 、`artlist_bbb.html` ，当模板有 `artlist_***.html` 时，我们在后台创建文章分类的时候，就可以选择使用哪个模板样式进行渲染。 |
-| artsearch.html | 文章搜索结果页 |
-| product.html | 产品详情页，可以扩展为 `product_aaa.html` 、`product_bbb.html` ，当模板有 `product_***.html` 时，我们在后台发布产品的时候，就可以选择使用哪个模板样式进行渲染。 |
-| prolist.html | 产品列表页，用于根据产品分类、产品标签等显示产品列表。可以扩展为 `prolist_aaa.html` 、`prolist_bbb.html` ，当模板有 `prolist_***.html` 时，我们在后台创建产品分类的时候，就可以选择使用哪个模板样式进行渲染。  |
-| prosearch.html | 产品搜索结果页 |
-| page.html | 页面模板，可以扩展为 `page_aaa.html` 、`page_bbbb.html` ，当模板有 `page_***.html` 时，我们在后台发布页面的时候，就可以选择使用哪个模板样式进行渲染。 |
-| user_login.html | 用户登录模板，若此 html 文件存在，当用户登录时，用此模板渲染 |
-| user_register.html | 用户注册模板，若此 html 文件存在，当用户注册时，用此模板渲染 |
-| user_activate.html | 用户激活模板，当开启用户激活才能使用，系统会自动给用户发送激活邮件，用户通过邮件可以进入到的网页通过此模板渲染 |
-| user_emailactivate.html | 邮件激活模板，当用户激活自己的邮件时，用此模板渲染。（默认情况下，用户填写的邮箱属于 "未激活" 的状态） |
-| error.html | 错误页面，当系统出错时，用此模板渲染。比如 404 错误，500 错误等。 可以扩展为 `error_404.html`（当发生404错误的时候优先使用此文件） 和 `error_500.html` （当系统发生500错误的时候调用此文件渲染）。|
-| setting.html | 该模板的后台设置页面 |
-| 其他的 html | 假设模板目录下存在 `xxx.html` 时，可以通过 `http://your-host.com/xxx.html` 进行访问。 |
-| screenshot.png | 模板缩略图，用于在后台的模板列表里显示的图片 |
-| template.properties | 模板信息描述文件 |
+| 文件名称 | 是否必须 |描述 |
+| :-----|  ---- |---- |
+| index.html | ✅ | 首页模板 |
+| article.html | ✅ | 文章详情页，用于显示文章的详情。可以扩展为 `article_aaa.html` 、`article_bbb.html` ，当模板有 `article_***.html` 时，我们在后台发布文章的时候，就可以选择使用哪个模板样式进行渲染。 |
+| articles.html | ❌ | 未指定分类的文章列表页，当 `articles.html` 不存在的时候，默认使用 `artlist.html` 渲染 |
+| artlist.html | ✅ | 文章列表页，用于根据文章分类、文章标签等显示文章列表。可以扩展为 `artlist_aaa.html` 、`artlist_bbb.html` ，当模板有 `artlist_***.html` 时，我们在后台创建文章分类的时候，就可以选择使用哪个模板样式进行渲染。 |
+| artsearch.html | ✅ | 文章搜索结果页 |
+| product.html | ✅ | 产品详情页，可以扩展为 `product_aaa.html` 、`product_bbb.html` ，当模板有 `product_***.html` 时，我们在后台发布产品的时候，就可以选择使用哪个模板样式进行渲染。 |
+| products.html | ❌ | 未指定分类的产品列表页，当 `products.html` 不存在的时候，默认使用 `prolist.html` 渲染 |
+| prolist.html | ✅ | 产品列表页，用于根据产品分类、产品标签等显示产品列表。可以扩展为 `prolist_aaa.html` 、`prolist_bbb.html` ，当模板有 `prolist_***.html` 时，我们在后台创建产品分类的时候，就可以选择使用哪个模板样式进行渲染。  |
+| prosearch.html | ✅ | 产品搜索结果页 |
+| page.html | ✅ | 页面模板，可以扩展为 `page_aaa.html` 、`page_bbbb.html` ，当模板有 `page_***.html` 时，我们在后台发布页面的时候，就可以选择使用哪个模板样式进行渲染。 |
+| user_login.html | ❌ | 用户登录模板，若此 html 文件存在，当用户登录时，用此模板渲染 |
+| user_register.html | ❌ | 用户注册模板，若此 html 文件存在，当用户注册时，用此模板渲染 |
+| user_activate.html | ❌ | 用户激活模板，当开启用户激活才能使用，系统会自动给用户发送激活邮件，用户通过邮件可以进入到的网页通过此模板渲染 |
+| user_emailactivate.html | ❌ | 邮件激活模板，当用户激活自己的邮件时，用此模板渲染。（默认情况下，用户填写的邮箱属于 "未激活" 的状态） |
+| error.html | ❌ | 错误页面，当系统出错时，用此模板渲染。比如 404 错误，500 错误等。 可以扩展为 `error_404.html`（当发生404错误的时候优先使用此文件） 和 `error_500.html` （当系统发生500错误的时候调用此文件渲染）。|
+| setting.html | ❌ | 该模板的后台设置页面 |
+| 其他的 html | ❌ | 假设模板目录下存在 `xxx.html` 时，可以通过 `http://your-host.com/xxx.html` 进行访问。 |
+| screenshot.png | ✅ | 模板缩略图，用于在后台的模板列表里显示的图片 |
+| template.properties | ✅ | 模板信息描述文件 |
 
 
 

@@ -77,20 +77,21 @@ public class ProductPageDirective extends JbootDirectiveBase {
 
         @Override
         protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
-            boolean firstGotoIndex = getPara("firstGotoIndex", scope, false);
-
-            if (pageNumber == 1 && firstGotoIndex) {
-                return JFinal.me().getContextPath() + "/";
-            }
 
             ProductCategory category = JbootControllerContext.get().getAttr("category");
             if (category != null) {
                 return category.getUrlWithPageNumber(pageNumber);
             } else {
+                boolean firstGotoIndex = getPara("firstGotoIndex", scope, false);
+
+                if (pageNumber == 1 && firstGotoIndex) {
+                    return JFinal.me().getContextPath() + "/";
+                }
+
                 if (pageNumber > 1) {
-                    return UrlUtils.getUrl("/product/category/index", "/", pageNumber);
+                    return UrlUtils.getUrl("/products", "/", pageNumber);
                 } else {
-                    return UrlUtils.getUrl("/product/category/index");
+                    return UrlUtils.getUrl("/products");
                 }
             }
         }

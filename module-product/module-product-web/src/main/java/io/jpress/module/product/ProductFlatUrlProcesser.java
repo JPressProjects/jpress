@@ -12,6 +12,7 @@ public class ProductFlatUrlProcesser extends CommonsFlatUrlProcesser {
         prefixAndTargets.put("/product-category-","/product/category/");
         prefixAndTargets.put("/product-tag-","/product/tag/");
         prefixAndTargets.put("/product-","/product/");
+        prefixAndTargets.put("/products-","/products/");
     }
 
 

@@ -175,7 +175,7 @@ public class _ArticleController extends AdminControllerBase {
         Article article = getModel(Article.class, "article");
 
         if (!validateSlug(article)) {
-            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
             return;
         }
 
@@ -287,7 +287,7 @@ public class _ArticleController extends AdminControllerBase {
 
     private void saveCategory(ArticleCategory category) {
         if (!validateSlug(category)) {
-            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
             return;
         }
 

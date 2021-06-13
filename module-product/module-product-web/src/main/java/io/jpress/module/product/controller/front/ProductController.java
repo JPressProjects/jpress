@@ -136,7 +136,7 @@ public class ProductController extends TemplateControllerBase {
 
 
     private Product getProduct() {
-        String idOrSlug = getPara(0);
+        String idOrSlug = getIdOrSlug();
         return StrUtil.isNumeric(idOrSlug)
                 ? productService.findById(idOrSlug)
                 : productService.findFirstBySlug(StrUtil.urlDecode(idOrSlug));

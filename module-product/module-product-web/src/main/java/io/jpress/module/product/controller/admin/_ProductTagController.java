@@ -95,7 +95,7 @@ public class _ProductTagController extends AdminControllerBase {
 
     private void saveCategory(ProductCategory category) {
         if (!validateSlug(category)) {
-            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
             return;
         }
 

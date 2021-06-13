@@ -65,7 +65,7 @@ public class ProductTagController extends TemplateControllerBase {
 
 
     private ProductCategory getTag() {
-        String idOrSlug = getPara(0);
+        String idOrSlug = getIdOrSlug();
 
         if (StrUtil.isBlank(idOrSlug)) {
             return null;

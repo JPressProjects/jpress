@@ -66,7 +66,7 @@ public class ArticleTagController extends TemplateControllerBase {
 
 
     private ArticleCategory getTag() {
-        String idOrSlug = getPara(0);
+        String idOrSlug = getIdOrSlug();
 
         if (StrUtil.isBlank(idOrSlug)) {
             return null;

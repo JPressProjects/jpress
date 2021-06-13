@@ -129,7 +129,7 @@ public class _PageController extends AdminControllerBase {
         SinglePage page = getModel(SinglePage.class, "page");
 
         if (!validateSlug(page)) {
-            renderJson(Ret.fail("message", "slug不能包含该字符：- "));
+            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
             return;
         }
 

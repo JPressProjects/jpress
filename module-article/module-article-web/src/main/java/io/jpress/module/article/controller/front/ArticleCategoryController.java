@@ -92,7 +92,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
 
     private ArticleCategory getCategory() {
-        String idOrSlug = getPara(0);
+        String idOrSlug = getIdOrSlug();
 
         if (StrUtil.isBlank(idOrSlug)) {
             return null;

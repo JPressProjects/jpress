@@ -133,7 +133,7 @@ public class _UserController extends AdminControllerBase {
 
         String slug = tag.getSlug();
         if (slug == null || slug.contains("-") || StrUtil.isNumeric(slug)) {
-            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
             return;
         }
 

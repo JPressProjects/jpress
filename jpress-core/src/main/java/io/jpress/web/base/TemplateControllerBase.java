@@ -199,5 +199,46 @@ public abstract class TemplateControllerBase extends ControllerBase {
         }
     }
 
+    @NotAction
+    public String getIdOrSlug(){
+        String idOrSlug = getPara();
+        if (StrUtil.isBlank(idOrSlug)){
+            return idOrSlug;
+        }
+
+        int indexOf = idOrSlug.lastIndexOf("-");
+        if (indexOf == -1){
+            return idOrSlug;
+        }
+
+        String lastString = idOrSlug.substring(indexOf + 1);
+        if (StrUtil.isNumeric(lastString)){
+            return idOrSlug.substring(0,indexOf);
+        }else {
+            return idOrSlug;
+        }
+    }
+
+
+    @NotAction
+    public int getCommentPage(){
+        String idOrSlug = getPara();
+        if (StrUtil.isBlank(idOrSlug)){
+            return 1;
+        }
+
+        int indexOf = idOrSlug.lastIndexOf("-");
+        if (indexOf == -1){
+            return 1;
+        }
+
+        String lastString = idOrSlug.substring(indexOf + 1);
+        if (StrUtil.isNumeric(lastString)){
+            return Integer.valueOf(lastString);
+        }else {
+            return 1;
+        }
+    }
+
 
 }

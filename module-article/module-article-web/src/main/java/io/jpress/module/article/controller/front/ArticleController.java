@@ -104,7 +104,7 @@ public class ArticleController extends TemplateControllerBase {
 
 
     private Article getArticle() {
-        String idOrSlug = getPara(0);
+        String idOrSlug = getIdOrSlug();
         return StrUtil.isNumeric(idOrSlug)
                 ? articleService.findById(idOrSlug)
                 : articleService.findFirstBySlug(StrUtil.urlDecode(idOrSlug));

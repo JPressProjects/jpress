@@ -16,7 +16,6 @@
 package io.jpress.module.product.directive;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
@@ -29,6 +28,7 @@ import io.jboot.web.directive.base.PaginateDirectiveBase;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductComment;
 import io.jpress.module.product.service.ProductCommentService;
+import io.jpress.web.base.TemplateControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -43,9 +43,9 @@ public class ProductCommentPageDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Controller controller = JbootControllerContext.get();
+        TemplateControllerBase controller = (TemplateControllerBase) JbootControllerContext.get();
 
-        int page = controller.getParaToInt(1, 1);
+        int page = controller.getCommentPage();
         int pageSize = getParaToInt("pageSize", scope, 10);
 
         Product product = controller.getAttr("product");

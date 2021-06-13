@@ -50,7 +50,7 @@
 |#userArticles()|任意|读取某个用户的投稿文章内容|
 |#articleSearchPage()|搜索结果:artsearch.html|用户显示搜索结果|
 
-以上的标签用法请参考：[https://gitee.com/fuhai/jpress/tree/master/doc](https://gitee.com/fuhai/jpress/tree/master/doc)
+以上的标签用法请参考：[https://gitee.com/JPressProjects/jpress/tree/master/doc](https://gitee.com/JPressProjects/jpress/tree/master/doc)
 
 
 ## 页面相关指令：

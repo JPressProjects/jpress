@@ -69,7 +69,7 @@ versionCode=3
 </build>
 ```
 
-可以参考插件的 hello world 项目：<a href="https://gitee.com/fuhai/jpress/blob/master/jpress-addons/jpress-addon-helloworld/pom.xml" target="_blank">https://gitee.com/fuhai/jpress/blob/master/jpress-addons/jpress-addon-helloworld/pom.xml</a>
+可以参考插件的 hello world 项目：<a href="https://gitee.com/JPressProjects/jpress/blob/master/jpress-addons/jpress-addon-helloworld/pom.xml" target="_blank">https://gitee.com/JPressProjects/jpress/blob/master/jpress-addons/jpress-addon-helloworld/pom.xml</a>
 
 
 

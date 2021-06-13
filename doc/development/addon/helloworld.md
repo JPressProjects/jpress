@@ -4,7 +4,7 @@
 
 在学习 JPress 插件的 hello world 之前，建议你把 JPress 的项目已经下载到了你本地，通过此文档在对比你本地的 helloworld 插件项目，会有更好的理解。
 
-倘若你不方便下载，也可以通过这个url进行了解：<a href="https://gitee.com/fuhai/jpress/tree/master/jpress-addons/jpress-addon-helloworld" target="_blank">https://gitee.com/fuhai/jpress/tree/master/jpress-addons/jpress-addon-helloworld</a>
+倘若你不方便下载，也可以通过这个url进行了解：<a href="https://gitee.com/JPressProjects/jpress/tree/master/jpress-addons/jpress-addon-helloworld" target="_blank">https://gitee.com/JPressProjects/jpress/tree/master/jpress-addons/jpress-addon-helloworld</a>
 
 首先，一个最基本的 插件目录结构，如下：
 

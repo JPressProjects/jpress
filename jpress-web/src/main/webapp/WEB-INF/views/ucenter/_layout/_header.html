@@ -30,10 +30,9 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-<!--                    <span class="dropdown-header">购物车列表</span>-->
                     <div class="dropdown-divider"></div>
                     #for(userCart : USER_CARTS)
-                    <a href="javascript:;" class="dropdown-item">
+                    <a href="#(userCart.product_link ?? 'javascript:;')" target="_blank" class="dropdown-item">
                         <div class="media">
                             #if(userCart.product_thumbnail)
                             <img src="#(userCart.product_thumbnail)" class="img-size-50 mr-3">

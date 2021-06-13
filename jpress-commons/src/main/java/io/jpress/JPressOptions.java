@@ -87,7 +87,6 @@ public class JPressOptions {
         return StrUtil.isBlank(value) ? defaultValue : Boolean.parseBoolean(value);
     }
 
-    @Deprecated
     public static boolean isTrueOrEmpty(String key) {
         return getAsBool(key, true);
     }

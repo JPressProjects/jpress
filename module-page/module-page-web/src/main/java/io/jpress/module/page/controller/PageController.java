@@ -55,7 +55,7 @@ public class PageController extends TemplateControllerBase {
     @Inject
     private OptionService optionService;
 
-    private static final Set<String> excludePage = Sets.newHashSet("setting", "layout", "header", "footer");
+    private static final Set<String> excludePage = Sets.newHashSet("setting", "setting_v4", "layout", "header", "footer");
 
     public void index() {
 
@@ -73,7 +73,7 @@ public class PageController extends TemplateControllerBase {
                 page = pageService.findFirstBySlug(slugOrId.substring(0, indexOf));
             }
         }
-        
+
 
         if (page == null || !page.isNormal()) {
             renderTemplateView(slugOrId, target);

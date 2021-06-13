@@ -163,7 +163,8 @@ public abstract class TemplateControllerBase extends ControllerBase {
     private void setMenuActive(Function<Menu, Boolean> checker, List<Menu> menus) {
         for (Menu menu : menus) {
             if (StrUtil.isNotBlank(menu.getUrl())) {
-                if (checker.apply(menu)) {
+                Boolean apply = checker.apply(menu);
+                if (apply != null && apply) {
                     JPressActiveKit.makeItActive(menu);
                 }
             }
@@ -174,12 +175,8 @@ public abstract class TemplateControllerBase extends ControllerBase {
     }
 
 
-    protected void renderHtmltoRet(String defaultTemplate, Map paras, Ret toRet) {
-        String render = getPara("render");
-        if (StrUtil.isBlank(render)) {
-            return;
-        }
-
+    protected void renderHtmltoRet(String defaultTemplate, Map<String,Object> paras, Ret toRet) {
+        String render = getPara("render", "default");
 
         Engine engine = RenderManager.me().getEngine();
         Template template = TemplateManager.me().getCurrentTemplate();
@@ -195,8 +192,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
             if (template != null) {
                 String matchedHtml = template.matchView(render + ".html", isMobileBrowser());
                 if (matchedHtml != null) {
-                    String html = engine.getTemplate(template.getRelativePath() + "/" + matchedHtml)
-                            .renderToString(paras);
+                    String html = engine.getTemplate(template.buildRelativePath(matchedHtml)).renderToString(paras);
                     toRet.set("html", html);
                 }
             }

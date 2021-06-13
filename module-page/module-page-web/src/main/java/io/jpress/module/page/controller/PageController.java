@@ -173,8 +173,8 @@ public class PageController extends TemplateControllerBase {
 
 
         //是否开启评论功能
-        Boolean commentEnable = JPressOptions.isTrueOrEmpty("page_comment_enable");
-        if (commentEnable == null || commentEnable == false) {
+        boolean commentEnable = JPressOptions.isTrueOrEmpty("page_comment_enable");
+        if (!commentEnable) {
             renderJson(Ret.fail().set("message", "评论功能已关闭"));
             return;
         }

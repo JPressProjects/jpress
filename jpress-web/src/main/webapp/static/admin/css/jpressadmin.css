@@ -13,6 +13,11 @@ body {
     background-color: #f3f5f8;
 }
 
+.iframe-mode{
+    /*修复 layer 弹出底部有小滚动条的问题*/
+    overflow: hidden;
+}
+
 .autoAjaxSubmit {
     /*只为了让 idea 在编写 html 时可以自动提示*/
 }

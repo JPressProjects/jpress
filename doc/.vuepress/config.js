@@ -139,7 +139,7 @@ module.exports = {
                     title: '二次开发',
                     collapsable: true,
                     children: [
-                        {title: '下载运行JPress', path: '/development/dev/start'},
+                        {title: '下载并运行JPress', path: '/development/dev/start'},
                         {title: '开始前注意事项', path: '/development/dev/note'},
                         {title: 'JPress架构', path: '/development/dev/structure'},
                         {title: '使用代码生成器', path: '/development/dev/codegen'},

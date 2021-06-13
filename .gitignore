@@ -1,5 +1,6 @@
 **/target/
 **/dist/
+**/ossutil_output/
 **/node_modules/
 */jpress-addon-club/
 */jpress-addon-articlemeta/

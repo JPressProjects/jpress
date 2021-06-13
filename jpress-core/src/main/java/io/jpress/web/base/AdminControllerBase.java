@@ -44,19 +44,17 @@ public abstract class AdminControllerBase extends ControllerBase {
     }
 
 
-
-
     protected boolean validateSlug(Model<?> model) {
         String slug = model.get("slug");
-        if (slug == null){
+        if (slug == null) {
             return true;
         }
 
-        if (!slug.contains("-")){
+        if (!slug.contains("-")) {
             return true;
         }
 
-        return !StrUtil.isNumeric(slug.substring(slug.lastIndexOf("-")+1));
+        return !StrUtil.isNumeric(slug.substring(slug.lastIndexOf("-") + 1));
     }
 
 

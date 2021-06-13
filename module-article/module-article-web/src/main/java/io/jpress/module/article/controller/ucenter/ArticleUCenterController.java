@@ -218,9 +218,17 @@ public class ArticleUCenterController extends UcenterControllerBase {
         renderJson(ret);
     }
 
-    private boolean validateSlug(Model model) {
-        String slug = (String) model.get("slug");
-        return slug == null ? true : !slug.contains("-");
+    private boolean validateSlug(Model<?> model) {
+        String slug = model.get("slug");
+        if (slug == null) {
+            return true;
+        }
+
+        if (!slug.contains("-")) {
+            return true;
+        }
+
+        return !StrUtil.isNumeric(slug.substring(slug.lastIndexOf("-") + 1));
     }
 
     private Long[] getTagIds(String[] tags) {

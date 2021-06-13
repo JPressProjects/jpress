@@ -58,6 +58,13 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         return UrlUtils.getUrl("/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
     }
 
+    public String getUrlWithPageNumber(int pageNumber) {
+        if (pageNumber <= 1) {
+            return getUrl();
+        }
+        return UrlUtils.getUrl("/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "/", pageNumber);
+    }
+
 
     public String getText() {
         return JsoupUtils.getText(getContent());
@@ -94,4 +101,6 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
     public PingData toPingData() {
         return PingData.create(getTitle(), getUrl());
     }
+
+
 }

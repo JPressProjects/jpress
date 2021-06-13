@@ -26,12 +26,9 @@ import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
-import io.jpress.commons.directive.DirectveKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -71,8 +68,8 @@ public class CommentPageDirective extends JbootDirectiveBase {
 
         @Override
         protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
-            HttpServletRequest request = JbootControllerContext.get().getRequest();
-            String url = DirectveKit.replacePageNumber(request.getRequestURI(), pageNumber);
+            Article article = JbootControllerContext.get().getAttr("article");
+            String url = article.getUrlWithPageNumber(pageNumber);
             String anchor = getPara("anchor", scope);
             return StrUtil.isBlank(anchor) ? url : url + "#" + anchor;
         }

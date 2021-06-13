@@ -74,9 +74,10 @@ public class Article extends BaseArticle<Article> {
 
     /**
      * 保证模板可以通过 model.isActive 属性进行高亮判断，而非 model.isActive()
+     *
      * @return
      */
-    public boolean getIsActive(){
+    public boolean getIsActive() {
         return isActive();
     }
 
@@ -86,6 +87,14 @@ public class Article extends BaseArticle<Article> {
             return link;
         }
         return UrlUtils.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
+    }
+
+
+    public String getUrlWithPageNumber(int pageNumber) {
+        if (pageNumber <= 1) {
+            return getUrl();
+        }
+        return UrlUtils.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "/", pageNumber);
     }
 
     public boolean isCommentEnable() {

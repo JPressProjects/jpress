@@ -43,6 +43,14 @@ public class Product extends BaseProduct<Product> {
         return UrlUtils.getUrl("/product/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
     }
 
+
+    public String getUrlWithPageNumber(int pageNumber) {
+        if (pageNumber <= 1) {
+            return getUrl();
+        }
+        return UrlUtils.getUrl("/product/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "/", pageNumber);
+    }
+
     public String getHtmlView() {
         return StrUtil.isBlank(getStyle()) ? "product.html" : "product_" + getStyle().trim() + ".html";
     }
@@ -178,4 +186,5 @@ public class Product extends BaseProduct<Product> {
     public void setHighlightTitle(String highlightTitle) {
         put("highlightTitle", highlightTitle);
     }
+
 }

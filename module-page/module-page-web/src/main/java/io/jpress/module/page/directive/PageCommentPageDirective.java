@@ -26,13 +26,10 @@ import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
-import io.jpress.commons.directive.DirectveKit;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.model.SinglePageComment;
 import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.web.handler.JPressHandler;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -81,8 +78,8 @@ public class PageCommentPageDirective extends JbootDirectiveBase {
 
         @Override
         protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
-            HttpServletRequest request = JbootControllerContext.get().getRequest();
-            String url = DirectveKit.replacePageNumber(request.getRequestURI(), pageNumber);
+            SinglePage page = JbootControllerContext.get().getAttr("page");
+            String url = page.getUrlWithPageNumber(pageNumber);
             String anchor = getPara("anchor", scope);
             return StrUtil.isBlank(anchor) ? url : url + "#" + anchor;
         }

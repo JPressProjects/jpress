@@ -295,7 +295,14 @@ function initAjaxSubmitForms() {
 
 function initCommentComponent() {
 
+
     $('#jpress-comment-form').on('submit', function () {
+        var commentContent = $('#jpress-comment-form').find('textarea[name="content"]').val();
+        if (!commentContent || commentContent == ""){
+            alert("评论内容不能为空");
+            return false;
+        }
+
         $(this).ajaxSubmit({
             type: "post",
             success: function (data) {
@@ -313,7 +320,7 @@ function initCommentComponent() {
                         }
                         $('.comment-textarea textarea').val('');
                     }else {
-                        alert('发布评论成功');
+                        alert('评论内容发布成功');
                         location.reload();
                     }
                 }

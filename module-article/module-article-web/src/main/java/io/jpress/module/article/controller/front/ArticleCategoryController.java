@@ -27,7 +27,7 @@ import io.jpress.web.base.TemplateControllerBase;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章前台页面Controller
+ * @Title:  文章分类的 Controller，主要是用过 {{@link io.jpress.module.article.directive.ArticlePageDirective 来渲染的}}
  * @Package io.jpress.module.article
  */
 @RequestMapping("/article/category")

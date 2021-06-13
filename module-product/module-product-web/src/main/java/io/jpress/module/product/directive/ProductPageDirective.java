@@ -25,6 +25,7 @@ import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductService;
@@ -45,7 +46,7 @@ public class ProductPageDirective extends JbootDirectiveBase {
 
         TemplateControllerBase controller = (TemplateControllerBase) JbootControllerContext.get();
 
-        int page = controller.getCommentPage();
+        int page = controller.getPageNumber();
         int pageSize = getParaToInt("pageSize", scope, 10);
         String orderBy = getPara("orderBy", scope, "id desc");
 
@@ -83,7 +84,15 @@ public class ProductPageDirective extends JbootDirectiveBase {
             }
 
             ProductCategory category = JbootControllerContext.get().getAttr("category");
-            return  category.getUrlWithPageNumber(pageNumber);
+            if (category != null) {
+                return category.getUrlWithPageNumber(pageNumber);
+            } else {
+                if (pageNumber > 1) {
+                    return UrlUtils.getUrl("/product/category/index", "/", pageNumber);
+                } else {
+                    return UrlUtils.getUrl("/product/category/index");
+                }
+            }
         }
 
         @Override

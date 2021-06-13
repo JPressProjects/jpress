@@ -11,6 +11,7 @@ public class ArticleFlatUrlProcesser extends CommonsFlatUrlProcesser {
         prefixAndTargets.put("/article-category-","/article/category/");
         prefixAndTargets.put("/article-tag-","/article/tag/");
         prefixAndTargets.put("/article-","/article/");
+        prefixAndTargets.put("/articles-","/articles/");
     }
 
 

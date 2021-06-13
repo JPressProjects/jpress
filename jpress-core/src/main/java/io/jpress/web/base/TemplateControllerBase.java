@@ -61,9 +61,9 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return;
         }
 
-        String viewPara = getPara("v");
+        String paraView = getPara("v");
 
-        String newView = StrUtil.isBlank(viewPara) ? view : viewPara + ".html";
+        String newView = StrUtil.isBlank(paraView) ? view : paraView + ".html";
         defaultView = StrUtil.isBlank(defaultView) ? view : defaultView;
 
         doRender(newView, defaultView);
@@ -175,7 +175,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
     }
 
 
-    protected void renderHtmltoRet(String defaultTemplate, Map<String,Object> paras, Ret toRet) {
+    protected void renderHtmltoRet(String defaultTemplate, Map<String, Object> paras, Ret toRet) {
         String render = getPara("render", "default");
 
         Engine engine = RenderManager.me().getEngine();
@@ -199,43 +199,49 @@ public abstract class TemplateControllerBase extends ControllerBase {
         }
     }
 
+
+
     @NotAction
-    public String getIdOrSlug(){
+    public String getIdOrSlug() {
         String idOrSlug = getPara();
-        if (StrUtil.isBlank(idOrSlug)){
+        if (StrUtil.isBlank(idOrSlug)) {
             return idOrSlug;
         }
 
         int indexOf = idOrSlug.lastIndexOf("-");
-        if (indexOf == -1){
+        if (indexOf == -1) {
             return idOrSlug;
         }
 
         String lastString = idOrSlug.substring(indexOf + 1);
-        if (StrUtil.isNumeric(lastString)){
-            return idOrSlug.substring(0,indexOf);
-        }else {
+        if (StrUtil.isNumeric(lastString)) {
+            return idOrSlug.substring(0, indexOf);
+        } else {
             return idOrSlug;
         }
     }
 
 
     @NotAction
-    public int getCommentPage(){
+    public int getPageNumber() {
         String idOrSlug = getPara();
-        if (StrUtil.isBlank(idOrSlug)){
+        if (StrUtil.isBlank(idOrSlug)) {
             return 1;
         }
 
         int indexOf = idOrSlug.lastIndexOf("-");
-        if (indexOf == -1){
-            return 1;
+        if (indexOf == -1) {
+            if (StrUtil.isNumeric(idOrSlug)) {
+                return Integer.parseInt(idOrSlug);
+            } else {
+                return 1;
+            }
         }
 
         String lastString = idOrSlug.substring(indexOf + 1);
-        if (StrUtil.isNumeric(lastString)){
-            return Integer.valueOf(lastString);
-        }else {
+        if (StrUtil.isNumeric(lastString)) {
+            return Integer.parseInt(lastString);
+        } else {
             return 1;
         }
     }

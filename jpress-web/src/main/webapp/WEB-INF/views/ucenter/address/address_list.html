@@ -10,30 +10,6 @@
         }
     }
 
-    function checkAll(checkbox) {
-        $('[name="tableItem"]').each(function () {
-            $(this).prop('checked', checkbox.checked);
-        });
-
-        dataItemChange();
-    }
-
-    function dataItemChange() {
-        $(".checkAction").each(function () {
-            getSelectedIds() != "" ? $(this).show().css("display", "inline-block") : $(this).hide();
-        })
-    }
-
-    function getSelectedIds() {
-        var selectedIds = "";
-        $('[name="tableItem"]').each(function () {
-            if ($(this).prop('checked')) {
-                selectedIds += $(this).val() + ",";
-            }
-        });
-        return selectedIds.substring(0, selectedIds.length - 1);
-    }
-
 </script>
 #end
 
@@ -80,23 +56,19 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
 
-                <table class="table table-striped table-responsive" id="table-address">
+                <table class="table table-striped" id="table-address">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px">收货人</th>
+                            <th style="width: 150px">手机号码</th>
+                            <th >地址</th>
+                            <th style="width: 100px">邮政编码</th>
+                            <th style="width: 80px">是否默认</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                    <tr>
-                        <th style="width: 10px">
-                            <input class="tableCheckAll" id="checkall" type="checkbox" value="0"/>
-                        </th>
-                        <th style="width: 150px">收货人</th>
-                        <th style="width: 150px">手机号码</th>
-                        <th style="width: 40%">地址</th>
-                        <th style="width: 100px">邮政编码</th>
-                        <th style="width: 80px">是否默认</th>
-                    </tr>
-
                     #for(data : page.list)
                     <tr>
-                        <td><input name="tableItem" type="checkbox" name="address.id" value="#(data.id)"
-                                   onchange="dataItemChange(this)"/></td>
                         <td style="width: 50px">
                             <strong><a href="#">#(data.username ??)</a></strong>
                             <div class="jp-action-card">
@@ -113,14 +85,16 @@
                             #(data.province ??) &nbsp;#(data.city ??) &nbsp; #(data.district ??) &nbsp;#(data.detail ??)
                         </td>
                         <td>
-                            #(data.zipcode ??) &nbsp;
+                            #(data.zipcode ??)
                         </td>
                         <td>
                             #(data.width_default?'是':'否')
                         </td>
                     </tr>
                     #else
-                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
+                    <tr class="nodata">
+                        <td colspan="999">暂无数据</td>
+                    </tr>
                     #end
 
                     </tbody>

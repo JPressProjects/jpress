@@ -33,6 +33,9 @@ public class ArticlesController extends TemplateControllerBase {
         //标识菜单高亮
         setMenuActive(menu -> menu.isUrlStartWidth("/articles"));
 
+        //设置当前页码
+        setPageNumber(getParaToInt());
+
         render("articles.html","artlist.html");
     }
 

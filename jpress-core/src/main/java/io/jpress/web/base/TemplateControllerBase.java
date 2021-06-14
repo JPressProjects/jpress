@@ -200,7 +200,6 @@ public abstract class TemplateControllerBase extends ControllerBase {
     }
 
 
-
     @NotAction
     public String getIdOrSlug() {
         String idOrSlug = getPara();
@@ -221,9 +220,18 @@ public abstract class TemplateControllerBase extends ControllerBase {
         }
     }
 
+    public void setPageNumber(int pageNumber) {
+        setAttr("__pageNumber", pageNumber);
+    }
+
 
     @NotAction
     public int getPageNumber() {
+        Integer pageNumber = getAttr("__pageNumber");
+        if (pageNumber != null && pageNumber > 0) {
+            return pageNumber;
+        }
+
         String idOrSlug = getPara();
         if (StrUtil.isBlank(idOrSlug)) {
             return 1;
@@ -231,13 +239,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
         int indexOf = idOrSlug.lastIndexOf("-");
         if (indexOf == -1) {
-//            if (StrUtil.isNumeric(idOrSlug)) {
-//                return Integer.parseInt(idOrSlug);
-//            } else {
-//                return 1;
-//            }
-
-           return  1;
+            return 1;
         }
 
         String lastString = idOrSlug.substring(indexOf + 1);

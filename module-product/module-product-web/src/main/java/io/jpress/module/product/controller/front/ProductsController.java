@@ -33,6 +33,9 @@ public class ProductsController extends TemplateControllerBase {
         //标识菜单高亮
         setMenuActive(menu -> menu.isUrlStartWidth("/products"));
 
+        //设置当前页码
+        setPageNumber(getParaToInt());
+
         render("products.html","prolist.html");
     }
 

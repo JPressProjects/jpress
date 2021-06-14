@@ -231,11 +231,13 @@ public abstract class TemplateControllerBase extends ControllerBase {
 
         int indexOf = idOrSlug.lastIndexOf("-");
         if (indexOf == -1) {
-            if (StrUtil.isNumeric(idOrSlug)) {
-                return Integer.parseInt(idOrSlug);
-            } else {
-                return 1;
-            }
+//            if (StrUtil.isNumeric(idOrSlug)) {
+//                return Integer.parseInt(idOrSlug);
+//            } else {
+//                return 1;
+//            }
+
+           return  1;
         }
 
         String lastString = idOrSlug.substring(indexOf + 1);

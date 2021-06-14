@@ -148,7 +148,7 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
         }
 
         String prefix = TYPE_CATEGORY.equals(getType()) ? "/product/category/" : "/product/tag/";
-        return UrlUtils.getUrl(prefix, getSlug(),"/",pageNumber);
+        return UrlUtils.getUrl(prefix, getSlug(),"-",pageNumber);
     }
 
 

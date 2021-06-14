@@ -62,7 +62,7 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         if (pageNumber <= 1) {
             return getUrl();
         }
-        return UrlUtils.getUrl("/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "/", pageNumber);
+        return UrlUtils.getUrl("/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "-", pageNumber);
     }
 
 

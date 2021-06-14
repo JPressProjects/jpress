@@ -94,7 +94,7 @@ public class Article extends BaseArticle<Article> {
         if (pageNumber <= 1) {
             return getUrl();
         }
-        return UrlUtils.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "/", pageNumber);
+        return UrlUtils.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "-", pageNumber);
     }
 
     public boolean isCommentEnable() {

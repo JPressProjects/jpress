@@ -174,7 +174,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
         }
 
         String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/article/tag/";
-        return UrlUtils.getUrl(prefix, getSlug(),"/",pageNumber);
+        return UrlUtils.getUrl(prefix, getSlug(),"-",pageNumber);
     }
 
 

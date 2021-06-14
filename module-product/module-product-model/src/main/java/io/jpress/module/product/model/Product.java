@@ -48,7 +48,7 @@ public class Product extends BaseProduct<Product> {
         if (pageNumber <= 1) {
             return getUrl();
         }
-        return UrlUtils.getUrl("/product/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "/", pageNumber);
+        return UrlUtils.getUrl("/product/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "-", pageNumber);
     }
 
     public String getHtmlView() {

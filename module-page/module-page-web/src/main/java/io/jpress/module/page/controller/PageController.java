@@ -17,6 +17,7 @@ package io.jpress.module.page.controller;
 
 import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.NotAction;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -59,39 +60,50 @@ public class PageController extends TemplateControllerBase {
 
     public void index() {
 
-        String target = StrUtil.urlDecode(JPressHandler.getCurrentTarget());
-        String slugOrId = target.substring(1);
+        String idOrSlug = getIdOrSlug();
 
-        SinglePage page = StrUtil.isNumeric(slugOrId)
-                ? pageService.findById(slugOrId)
-                : pageService.findFirstBySlug(slugOrId);
+        SinglePage singlePage = StrUtil.isNumeric(idOrSlug)
+                ? pageService.findById(idOrSlug)
+                : pageService.findFirstBySlug(idOrSlug);
 
-        // page 评论分页
-        if (page == null && !StrUtil.isNumeric(slugOrId) && slugOrId.contains("-")) {
-            int indexOf = slugOrId.lastIndexOf('-');
-            if (StrUtil.isNumeric(slugOrId.substring(indexOf + 1))) {
-                page = pageService.findFirstBySlug(slugOrId.substring(0, indexOf));
-            }
-        }
-
-
-        if (page == null || !page.isNormal()) {
-            renderTemplateView(slugOrId, target);
+        if (singlePage == null || !singlePage.isNormal()) {
+            renderTemplateView(idOrSlug);
         } else {
-            renderPage(page, target);
+            renderPage(singlePage, idOrSlug);
         }
 
     }
 
+    @Override
+    @NotAction
+    public String getIdOrSlug() {
+        String idOrSlug = StrUtil.urlDecode(JPressHandler.getCurrentTarget()).substring(1);
+        if (StrUtil.isBlank(idOrSlug)) {
+            return idOrSlug;
+        }
 
-    private void renderPage(SinglePage page, String target) {
+        int indexOf = idOrSlug.lastIndexOf("-");
+        if (indexOf == -1) {
+            return idOrSlug;
+        }
+
+        String lastString = idOrSlug.substring(indexOf + 1);
+        if (StrUtil.isNumeric(lastString)) {
+            return idOrSlug.substring(0, indexOf);
+        } else {
+            return idOrSlug;
+        }
+    }
+
+
+    private void renderPage(SinglePage page, String slugOrId) {
         pageService.doIncViewCount(page.getId());
 
         //设置SEO信息
         setSeoInfos(page);
 
         //设置菜单高亮
-        setMenuActive(menu -> menu.getUrl().indexOf("/") <= 1 && menu.isUrlStartWidth(target));
+        setMenuActive(menu -> menu.getUrl().indexOf("/") <= 1 && menu.isUrlStartWidth("/" + slugOrId));
 
         setAttr("page", page);
 
@@ -99,7 +111,7 @@ public class PageController extends TemplateControllerBase {
     }
 
 
-    private void renderTemplateView(String slugOrId, String target) {
+    private void renderTemplateView(String slugOrId) {
         if (excludePage.contains(slugOrId)) {
             renderError(404);
             return;
@@ -108,7 +120,7 @@ public class PageController extends TemplateControllerBase {
         String htmlView = slugOrId + ".html";
         if (hasTemplate(htmlView)) {
             //设置菜单高亮
-            setMenuActive(menu -> menu.isUrlStartWidth(target));
+            setMenuActive(menu -> menu.isUrlStartWidth("/" + slugOrId));
             render(htmlView);
         } else {
             renderError(404);
@@ -151,12 +163,10 @@ public class PageController extends TemplateControllerBase {
         }
 
         //是否对用户输入验证码进行验证
-        Boolean vCodeEnable = JPressOptions.isTrueOrEmpty("page_comment_vcode_enable");
-        if (vCodeEnable != null && vCodeEnable == true) {
-            if (validateCaptcha("captcha") == false) {
-                renderJson(Ret.fail().set("message", "验证码错误").set("errorCode", 2));
-                return;
-            }
+        boolean vCodeEnable = JPressOptions.isTrueOrEmpty("page_comment_vcode_enable");
+        if (vCodeEnable && !validateCaptcha("captcha")) {
+            renderJson(Ret.fail().set("message", "验证码错误").set("errorCode", 2));
+            return;
         }
 
         if (DFAUtil.isContainsSensitiveWords(content)) {

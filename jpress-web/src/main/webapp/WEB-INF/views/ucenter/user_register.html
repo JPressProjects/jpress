@@ -66,7 +66,7 @@
                 <form action="#(CPATH)/user/doRegister" method="post" class="autoAjaxSubmit" data-ok-function="ok">
                     <div class="form-group">
                         <label>账号</label>
-                        <input type="text" class="form-control" placeholder="请输入账号" name="username">
+                        <input type="text" class="form-control" placeholder="请输入账号" name="username" required>
                     </div>
                     #if(option('reg_sms_validate_enable'))
                     <div class="form-group">
@@ -87,15 +87,15 @@
                     #end
                     <div class="form-group">
                         <label>邮箱</label>
-                        <input type="text" class="form-control" placeholder="请输入邮箱" name="email">
+                        <input type="text" class="form-control" placeholder="请输入邮箱" name="email" required>
                     </div>
                     <div class="form-group">
                         <label>密码</label>
-                        <input type="password" class="form-control" placeholder="密码..." name="pwd">
+                        <input type="password" class="form-control" placeholder="密码..." name="pwd" required>
                     </div>
                     <div class="form-group">
                         <label>确认密码</label>
-                        <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd">
+                        <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd" required>
                     </div>
                     <div class="form-group">
                         <label style="display: block;">验证码</label>
@@ -127,7 +127,14 @@
 
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
-<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/jquery.validate.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/additional-methods.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/localization/messages_zh.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="#(CPATH)/static/admin/js/jpressutils.js"></script>
+<script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
+
 <script>
     function ok() {
         alert("注册成功，点击确定进行登录。")

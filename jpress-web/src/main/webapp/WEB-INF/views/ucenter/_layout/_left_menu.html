@@ -18,14 +18,12 @@
                 <li class="nav-header">我的内容</li>
 
                 #for(group : ucenterMenus)
-                #hasPermission(group.permission)
                 <li class="nav-item" id="#(group.id ??)">
                     <a href="#" class="nav-link">
                         #(group.icon ??'<i class="fas fa-tachometer-alt"></i>')<p>#(group.text ??)<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         #for(item : group.items)
-                        #hasPermission(item.permission)
                         <li class="nav-item" id="#(chiitemldMenu.id ??)">
                             <a href="#(item.url ??)" class="nav-link">
                                 <i class="far fa-circle"></i>
@@ -33,10 +31,8 @@
                             </a>
                         </li>
                         #end
-                        #end
                     </ul>
                 </li>
-                #end
                 #end
 
 

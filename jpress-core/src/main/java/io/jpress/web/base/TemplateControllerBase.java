@@ -220,7 +220,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
         }
     }
 
-    public void setPageNumber(int pageNumber) {
+    public void setPageNumber(Integer pageNumber) {
         setAttr("__pageNumber", pageNumber);
     }
 

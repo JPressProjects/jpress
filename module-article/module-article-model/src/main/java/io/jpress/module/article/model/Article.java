@@ -184,7 +184,8 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getHighlightContent() {
-        return getStr("highlightContent");
+        String content =  getStr("highlightContent");
+        return StrUtil.isNotBlank(content) ? content : CommonsUtils.maxLength(getText(),100,"...");
     }
 
     public void setHighlightContent(String highlightContent) {
@@ -192,7 +193,8 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getHighlightTitle() {
-        return getStr("highlightTitle");
+        String title =  getStr("highlightTitle");
+        return StrUtil.isNotBlank(title) ? title : getTitle();
     }
 
     public void setHighlightTitle(String highlightTitle) {

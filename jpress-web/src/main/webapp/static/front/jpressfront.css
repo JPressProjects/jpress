@@ -527,9 +527,15 @@ a.product-btn-cart:hover {
     margin-bottom: 4px;
 }
 /**
-产品详情页默认模块的相关 end
+    产品详情页默认模块的相关 end
  */
 .navbar-dark .navbar-nav .navbar-nav .nav-link{
     color:#333;
+}
+/**
+搜索引擎高亮关键字
+ */
+.search-highlight{
+    color: red;
 }
 

@@ -13,15 +13,14 @@
         <a class="card-link" href="#(article.url)">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
-                    <img src="#(article.showImage ? article.showImage  : 'img/default-img.jpg')" class="img-fluid"
-                         alt="">
+                    <img src="#(article.showImage ? article.showImage  : 'img/default-img.jpg')" class="img-fluid" alt="">
                 </div>
 
                 <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
                     <h3 class="cl-card-main-title">
-                        #(article.title)
+                        #(article.highlightTitle ??)
                     </h3>
-                    <p class="cl-card-main-info">#maxLength(article.text,100)</p>
+                    <p class="cl-card-main-info">#(article.highlightContent ??)</p>
                     <p class="cl-card-more">阅读更多...</p>
                 </div>
             </div>

@@ -52,7 +52,7 @@
         <fastjson.version>1.2.76</fastjson.version>
         <lucene.version>8.8.2</lucene.version>
         <jcseg.version>2.6.2</jcseg.version>
-        <elasticsearch.version>7.6.0</elasticsearch.version>
+        <elasticsearch.version>7.13.2</elasticsearch.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

@@ -981,6 +981,36 @@ function initInputClearButton() {
     });
 }
 
+var commandkeydown = false;
+
+/**
+ * 设置 ctrl+s 或者 command + s (Mac 系统) 要执行的方法
+ * @param func
+ */
+function setSaveHotKeyFunction(func) {
+    $(document).keydown(function (e) {
+        if (e.keyCode == 91 || e.keyCode == 224) {
+            commandkeydown = true;
+        }
+        if (commandkeydown && e.keyCode == 83) {
+            commandkeydown = false;
+            func();
+            return false;
+        }
+        if (e.ctrlKey == true && e.keyCode == 83) {
+            console.log('ctrl+s');
+            func();
+            return false;
+        }
+    });
+    $(document).keyup(function (e) {
+        if (e.keyCode == 91 || e.keyCode == 224) {
+            commandkeydown = false;
+        }
+    });
+}
+
+
 $(document).ready(function () {
 
     initStringMethods();

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.service.provider.search;
+package io.jpress.module.product.service.search;
 
 
 import com.jfinal.aop.Aop;
@@ -24,7 +24,6 @@ import io.jpress.module.product.search.AliyunOpenSearcher;
 import io.jpress.module.product.search.ElasticSearcher;
 import io.jpress.module.product.searcher.DbSearcher;
 import io.jpress.module.product.searcher.LuceneSearcher;
-import io.jpress.module.product.service.search.ProductSearcher;
 
 public class ProductSearcherFactory {
 

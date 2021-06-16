@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.service.provider.search;
+package io.jpress.module.product.service.search;
 
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.module.product.model.Product;
-import io.jpress.module.product.service.search.ProductSearcher;
 
 public class NoneSearcher implements ProductSearcher {
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.product.service.provider.task;
+package io.jpress.module.product.service.task;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.plugin.activerecord.Db;

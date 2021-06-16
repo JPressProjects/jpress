@@ -9,7 +9,7 @@ import io.jboot.service.JbootServiceBase;
 import io.jpress.module.product.model.ProductComment;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
-import io.jpress.module.product.service.provider.task.ProductCommentReplyCountUpdateTask;
+import io.jpress.module.product.service.task.ProductCommentReplyCountUpdateTask;
 import io.jpress.service.UserService;
 
 @Bean

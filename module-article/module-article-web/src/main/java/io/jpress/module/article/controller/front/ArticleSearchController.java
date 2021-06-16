@@ -16,15 +16,16 @@
 package io.jpress.module.article.controller.front;
 
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
 import io.jpress.web.base.TemplateControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
+ * 其内容渲染使用 {{@link io.jpress.module.article.directive.ArticleSearchPageDirective }} 进行渲染
  */
 @RequestMapping("/article/search")
 public class ArticleSearchController extends TemplateControllerBase {
-
 
     public void index() {
 
@@ -34,7 +35,7 @@ public class ArticleSearchController extends TemplateControllerBase {
          * 2、翻页翻到100页以上，一般是机器：可能是来抓取数据的。
          */
         int page = getParaToInt("page", 1);
-        if (page <= 0 || page > 100) {
+        if (page <= 1 || page > 100) {
             renderError(404);
             return;
         }
@@ -42,7 +43,7 @@ public class ArticleSearchController extends TemplateControllerBase {
         setAttr("keyword", getEscapeHtmlPara("keyword"));
         setAttr("page", page);
 
-        setMenuActive(menu -> menu.isUrlStartWidth("/article/search"));
+        setMenuActive(menu -> menu.isUrlStartWidth("/article/search") || (JPressOptions.isFlatUrlEnable() && menu.isUrlStartWidth("/article-search")));
         render("artsearch.html");
     }
 

@@ -1,6 +1,7 @@
 package io.jpress.module.product.controller.front;
 
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressOptions;
 import io.jpress.web.base.TemplateControllerBase;
 
 @RequestMapping("/product/search")
@@ -23,7 +24,7 @@ public class ProductSearchController extends TemplateControllerBase {
         setAttr("keyword", getEscapeHtmlPara("keyword"));
         setAttr("page", page);
 
-        setMenuActive(menu -> menu.isUrlStartWidth("/product/search"));
+        setMenuActive(menu -> menu.isUrlStartWidth("/product/search") || (JPressOptions.isFlatUrlEnable() && menu.isUrlStartWidth("product-search")));
         render("prosearch.html");
     }
 

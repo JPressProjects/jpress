@@ -18,7 +18,6 @@ package io.jpress.web.interceptor;
 import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
@@ -27,6 +26,7 @@ import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +62,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
     @Inject
     private UserService userService;
+
 
     @Override
     public void intercept(Invocation inv) {
@@ -121,7 +122,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        String localSign = createLocalSign(controller);
+        String localSign = createLocalSign(controller.getRequest());
         if (sign.equals(localSign) == false) {
             inv.getController().renderJson(Ret.fail().set("message", "数据签名错误。"));
             return;
@@ -136,9 +137,9 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
     }
 
 
-    private String createLocalSign(Controller controller) {
-        String queryString = controller.getRequest().getQueryString();
-        Map<String, String[]> params = controller.getRequest().getParameterMap();
+    public static String createLocalSign(HttpServletRequest request) {
+        String queryString = request.getQueryString();
+        Map<String, String[]> params = request.getParameterMap();
 
         String[] keys = params.keySet().toArray(new String[0]);
         Arrays.sort(keys);

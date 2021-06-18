@@ -7,15 +7,14 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-
 /**
- * test {{@link OptionApiController}}
+ * test {{@link UserApiController}}
  */
-public class OptionApiControllerTest extends BaseApiControllerTest {
+public class UserApiControllerTest extends BaseApiControllerTest {
 
 
     @Test
-    public void test_option_query_key() {
+    public void test_user_query() {
         JPressOptions.set("myKey", "myValue");
         mvc.get("/api/option/query?key=myKey").printResult()
                 .assertJson(jsonObject -> Assert.assertEquals(jsonObject.get("value"), "myValue"));
@@ -23,7 +22,7 @@ public class OptionApiControllerTest extends BaseApiControllerTest {
 
 
     @Test
-    public void test_option_query_multi_key() {
+    public void test_user_update() {
         JPressOptions.set("myKey1", "myValue1");
         JPressOptions.set("myKey2", "myValue2");
         mvc.get("/api/option/query?key=myKey1,myKey2").printResult();
@@ -31,7 +30,7 @@ public class OptionApiControllerTest extends BaseApiControllerTest {
 
 
     @Test
-    public void test_option_set() {
+    public void test_user_create() {
         Map<String, String> keyAndValues = new HashMap<>();
         keyAndValues.put("myKey1", "myValue1");
         keyAndValues.put("myKey2", "myValue2");
@@ -43,6 +42,4 @@ public class OptionApiControllerTest extends BaseApiControllerTest {
         Assert.assertEquals(JPressOptions.get("myKey1"), "myValue1");
         Assert.assertEquals(JPressOptions.get("myKey2"), "myValue2");
     }
-
-
 }

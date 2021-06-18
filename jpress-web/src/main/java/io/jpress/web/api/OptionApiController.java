@@ -16,11 +16,12 @@
 package io.jpress.web.api;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.JPressOptions;
-import io.jpress.commons.ApiResult;
+import io.jpress.commons.Rets;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiControllerBase;
 
@@ -51,27 +52,28 @@ public class OptionApiController extends ApiControllerBase {
     @Inject
     private OptionService optionService;
 
-    public ApiResult query(@NotEmpty(message = "key must not empty") String key) {
+
+    public Ret query(@NotEmpty(message = "key must not empty") String key) {
         if (key.contains(",")) {
             Set<String> keys = StrUtil.splitToSet(key, ",");
             Map<String, String> data = new HashMap<>();
             for (String k : keys) {
                 if (StrUtil.isNotBlank(k)) {
-                    data.put(k, optionService.findByKey(k));
+                    data.put(k, JPressOptions.get(k));
                 }
             }
-            return ApiResult.ok().setData(data);
+            return Ret.ok().set("values",data);
         } else {
-            return ApiResult.ok().setData(optionService.findByKey(key));
+            return Ret.ok().set("value",JPressOptions.get(key));
         }
     }
 
 
-    public ApiResult set(@NotEmpty @JsonBody Map<String, String> keyValues) {
+    public Ret set(@NotEmpty @JsonBody Map<String, String> keyValues) {
         keyValues.forEach((key, value) -> {
             optionService.saveOrUpdate(key, value);
             JPressOptions.set(key, value);
         });
-        return ApiResult.ok();
+        return Rets.OK;
     }
 }

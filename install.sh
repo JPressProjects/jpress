@@ -5,6 +5,10 @@
 # use : wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh
 # ----------------------------------------------------------------------
 
+# abort on errors
+set -e
+
+port="$1"
 
 # 安装docker
 if ! [ -x "$(command -v docker)" ]; then
@@ -52,6 +56,10 @@ if [ -x "$(command -v docker)" -a -x "$(command -v docker-compose)" ]; then
   # 安装jpress
   if [ ! -f "docker-compose.yml" ];then
     wget https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml
+  fi
+
+  if [[ "$port" != "" ]]; then
+    perl -pi -e "s/8080:8080/$port:8080/g" docker-compose.yml
   fi
 
   docker-compose up -d

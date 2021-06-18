@@ -1,4 +1,6 @@
 #!/bin/bash
+# abort on errors
+set -e
 
 version="$1"
 
@@ -7,9 +9,7 @@ if [[ "$version" == "" ]]; then
 	exit 0
 fi
 
-
 mvn clean package
-
 
 echo "exec : docker build . -t fuhai/jpress:"${version}
 docker build . -t fuhai/jpress:${version}

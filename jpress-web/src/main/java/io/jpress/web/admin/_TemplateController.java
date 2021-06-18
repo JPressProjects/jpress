@@ -222,7 +222,7 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        render(new TemplateRender(template.buildRelativePath("setting.html"), false));
+        render(new TemplateRender(template.buildRelativePath(view), false));
     }
 
     @AdminMenu(text = "编辑", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 99)

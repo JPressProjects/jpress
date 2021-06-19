@@ -130,7 +130,7 @@ JPress支持的收款方式有：
 
 2.在JPress后台找到【微信-基础配置】，然后把上面的3个值对应填写，如下图：
 
-![](./images/admin-doc/wecat.png)
+![](./images/admin-doc/wechat.png)
 
 3.然后就可以在【微信】下方的菜单中，设置公众号的默认回复、自动回复、还有公众号菜单、多客服等。
 
@@ -173,9 +173,9 @@ JPress后台自带四套模板，如果默认四套模板无法满足需求，
 ## 如何将WordPress文章导入到JPress？
 1.在 WordPress 后台，将文章导出；
 
-2.在JPress后台 【系统--小工具箱】，找到WordPress文章导入，如下图：
+2.在JPress后台 【系统--小工具箱】，找到WordPress文章导入：
 
-![](./images/admin-doc/wp.png)
+![](./images/admin-doc/code.png)
 
 3.选择从WordPress导出的文件，即可全部导入。
 

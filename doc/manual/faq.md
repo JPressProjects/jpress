@@ -14,7 +14,7 @@
 
 如果对添加完成的菜单进行编辑，删除等操作，只需要将鼠标移到右侧菜单上即可显示对应操作文字。
 
-![](./images/admin-doc/menu.png)
+![](../images/admin-doc/menu.png)
 
 2.  > 文章 > 分类
 
@@ -22,7 +22,7 @@
 
 然后将【显示到菜单】的开关打开，这个分类就会显示在导航上了。
 
-![](./images/admin-doc/category.png)
+![](../images/admin-doc/category.png)
 
 
 ## 菜单和分类的区别？
@@ -37,13 +37,13 @@
  如果模板支持评论功能，那么可以在这里控制开启/关闭评论功能、是否允许未登录客户发表评论、
  评论是直接显示在页面上，还要经过管理员的审核才能显示、以及评论的时候是否开启验证码。
  
-![](./images/admin-doc/reply.png)
+![](../images/admin-doc/reply.png)
 
 
 ## 当有用户评论能否邮件或者短信通知管理员？
 
 菜单：【文章--设置】找到评论邮件通知管理员或评论短信通知管理员，根据提示做好相应设置即可。
-![](./images/admin-doc/notice.png)
+![](../images/admin-doc/notice.png)
 
 ## JPress如何配置SEO相关？
 JPress目前对SEO方面的支持已经相当友好，我们从以下几个方面看看
@@ -55,12 +55,12 @@ JPress目前对SEO方面的支持已经相当友好，我们从以下几个方�
 
 另外，网站也可以设置伪静态，对搜索引擎更友好。
 
-![](./images/admin-doc/seo1.png)
-![](./images/admin-doc/seo2.png)
+![](../images/admin-doc/seo1.png)
+![](../images/admin-doc/seo2.png)
 
 除此之外，当新建文章、新建分类、新建页面时，可以对当前文章、分类、页面做针对性的SEO关键字和描述设置：
 
-![](./images/admin-doc/seo3.png)
+![](../images/admin-doc/seo3.png)
 
 
 ## 如何配置单页面，比如关于我们，招聘页面，或者营销落地页？
@@ -68,7 +68,7 @@ JPress目前对SEO方面的支持已经相当友好，我们从以下几个方�
 1.首先模板文件中要有制作好的单页面文件，比如：list.html
 
 2.打开菜单【页面--新建】，选择对应的模板样式，如下图：
-![](./images/admin-doc/page.png)
+![](../images/admin-doc/page.png)
 
 3.输入标题、页面内容、配置页面的SEO信息即可。
 
@@ -83,22 +83,22 @@ JPress目前对SEO方面的支持已经相当友好，我们从以下几个方�
 ## 支持分销功能吗？如何设置？
 JPress支持分销功能。
 菜单 【商品-商品列表】，新建商品时，启用分销功能，并设置分销收益即可，如下图：
-![](./images/admin-doc/goods.png)
+![](../images/admin-doc/goods.png)
 
 ## 如何支持给网站所有图片打水印？
 菜单：【附件--设置】，启用水印，然后设置好水印的图片，位置，以及透明度即可，如下图：
 
-![](./images/admin-doc/watermark.png)
+![](../images/admin-doc/watermark.png)
 
 ## 如何给某些用户发送优惠券？
 1. 菜单【财务--优惠券】，点击【新建】，如下图：
-![](./images/admin-doc/coupons.png)
+![](../images/admin-doc/coupons.png)
 
 2.  按照运营情况和提示，填写优惠券内容，点击提交。
 
 3.  返回到优惠券列表，鼠标移到标题上，点击【分配】选项，如下图：
 
-![](./images/admin-doc/coupons2.png)
+![](../images/admin-doc/coupons2.png)
 
 4.  填写分配的用户Id，点击提交即可；
 
@@ -115,13 +115,13 @@ JPress支持的收款方式有：
 
 对应菜单：【财务-支付设置】，如下图：
 
-![](./images/admin-doc/pay.png)
+![](../images/admin-doc/pay.png)
 
 > 提示：这些收款功能，都需要正确配置后方可使用。
 
 ## 当有客户付款的时候，是否可以收到通知？
 菜单：【商品--设置】，找到评论邮件通知管理员或评论短信通知管理员，根据提示做好相应设置即可，如下图：
-![](./images/admin-doc/notice2.png)
+![](../images/admin-doc/notice2.png)
 
 ## 如何给会员加特殊标识？
 ## 文章是否可以只给会员展示？
@@ -130,7 +130,7 @@ JPress支持的收款方式有：
 
 2.在JPress后台找到【微信-基础配置】，然后把上面的3个值对应填写，如下图：
 
-![](./images/admin-doc/wecat.png)
+![](../images/admin-doc/wechat.png)
 
 3.然后就可以在【微信】下方的菜单中，设置公众号的默认回复、自动回复、还有公众号菜单、多客服等。
 
@@ -141,10 +141,10 @@ JPress后台自带四套模板，如果默认四套模板无法满足需求，
 
 1.找到菜单【模板--安装】，然后选择模板（此时选择的文件是个包，不要解压），
 安装过程几秒钟就可以搞定，而且是自动安装；
-![](./images/admin-doc/template.png)
+![](../images/admin-doc/template.png)
 
 2.安装完成后，在【模板-所有模板】就可以找到刚才安装的那套模板，如下图：
-![](./images/admin-doc/template2.png)
+![](../images/admin-doc/template2.png)
 
 3.如果想卸载该套模板，只需启用其他模板后，点击该套模板的卸载按钮即可。
 
@@ -161,7 +161,7 @@ JPress后台自带四套模板，如果默认四套模板无法满足需求，
 当购买了一套模板，并不能完全满足需求，那就需要对该模板就行二次开发。
 
 1.在【模板--编辑】中，可以找到该模板的全部源码，如下图：
-![](./images/admin-doc/code.png)
+![](../images/admin-doc/code.png)
 
 2.有前端基础的人，对代码进行改动，确认后点击【更新文件】。
 
@@ -173,9 +173,8 @@ JPress后台自带四套模板，如果默认四套模板无法满足需求，
 ## 如何将WordPress文章导入到JPress？
 1.在 WordPress 后台，将文章导出；
 
-2.在JPress后台 【系统--小工具箱】，找到WordPress文章导入，如下图：
-
-![](./images/admin-doc/wp.png)
+2.在JPress后台 【系统--小工具箱】，找到WordPress文章导入：
+![](../images/admin-doc/wp.png)
 
 3.选择从WordPress导出的文件，即可全部导入。
 
@@ -191,7 +190,7 @@ JPress后台自带四套模板，如果默认四套模板无法满足需求，
 ## 如何对用户发的垃圾关键字过滤？
 
 网站运营者可以通过此功能过滤掉用户的不当言论，如下图：
-![](./images/admin-doc/filter.png)
+![](../images/admin-doc/filter.png)
 
 1.自定义垃圾关键字，当用户发表言论涉及到这些垃圾关键字时，该言论无法发表；
 

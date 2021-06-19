@@ -16,10 +16,14 @@ public class UrlUtils {
         boolean isWebFlatUrlEnable = JPressOptions.isFlatUrlEnable();
         StringBuilder url = new StringBuilder(JFinal.me().getContextPath());
         for (int i = 0; i < paths.length; i++) {
+            Object path = paths[i];
+            if (path == null){
+                continue;
+            }
             if (isWebFlatUrlEnable) {
-                url.append(toFlat(i, paths[i].toString()));
+                url.append(toFlat(i, path.toString()));
             } else {
-                url.append(paths[i].toString());
+                url.append(path);
             }
         }
         return url.append(JPressOptions.getAppUrlSuffix()).toString();

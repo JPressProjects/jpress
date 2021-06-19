@@ -7,6 +7,7 @@
 ### 读取配置
 
 - 访问路径: `/api/option/query`
+- 数据类型: `application/x-www-form-urlencoded`
 - 参数：
   
   | 参数名称 | 是否必须| 提交方式 |描述 |  
@@ -31,6 +32,7 @@
 ## 配置设置
 
 - 访问路径: `/api/option/set`
+- 数据类型: `application/json`
 - 参数：
 
   | 参数名称 | 是否必须| 提交方式 |描述 |  
@@ -45,8 +47,6 @@
 
 
 - 返回数据
- 
-  成功设置数据后，返回成功提示：
 
   ```json
   {"state":"ok"}

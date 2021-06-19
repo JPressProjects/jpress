@@ -123,7 +123,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         }
 
         String localSign = createLocalSign(controller.getRequest());
-        if (sign.equals(localSign) == false) {
+        if (!sign.equals(localSign)) {
             inv.getController().renderJson(Ret.fail().set("message", "数据签名错误。"));
             return;
         }

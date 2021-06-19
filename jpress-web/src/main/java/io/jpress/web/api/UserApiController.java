@@ -16,9 +16,12 @@
 package io.jpress.web.api;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
+import io.jpress.JPressConsts;
+import io.jpress.commons.utils.SessionUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
@@ -49,9 +52,10 @@ public class UserApiController extends ApiControllerBase {
             return ret;
         }
 
-        setJwtAttr("userId",ret.get("user_id"));
-        String jwt = createJwtToken();
+        SessionUtils.isLoginedOk(ret.get("user_id"));
+        setJwtAttr(JPressConsts.JWT_USERID,ret.get("user_id"));
 
+        String jwt = createJwtToken();
        return Ret.ok().set("Jwt",jwt);
     }
 
@@ -71,7 +75,30 @@ public class UserApiController extends ApiControllerBase {
      */
     public Ret update(@JsonBody @NotNull  User user) {
         user.keepUpdateSafe();
-        userService.saveOrUpdate(user);
+        userService.update(user);
+        return Ret.ok();
+    }
+
+    /**
+     * 更新用户信息
+     * @return
+     */
+    public Ret updatePassword(@NotNull Long userId,String newPassword) {
+        User user = userService.findById(userId);
+        if (user == null) {
+            return Ret.fail("message","该用户不存在");
+        }
+
+
+        String salt = user.getSalt();
+        String hashedPass = HashKit.sha256(salt + newPassword);
+
+        user.setPassword(hashedPass);
+        userService.update(user);
+
+        //移除用户登录 session
+        SessionUtils.forget(userId);
+
         return Ret.ok();
     }
 
@@ -81,8 +108,7 @@ public class UserApiController extends ApiControllerBase {
      * @return
      */
     public Ret create(@JsonBody @NotNull  User user) {
-        user.keepUpdateSafe();
         userService.save(user);
-        return Ret.ok();
+        return Ret.ok().set("userId",user.getId());
     }
 }

@@ -21,7 +21,9 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
 import io.jpress.JPressOptions;
+import io.jpress.commons.Rets;
 import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.model.User;
@@ -36,6 +38,9 @@ import io.jpress.service.OptionService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,40 +72,35 @@ public class ArticleApiController extends ApiControllerBase {
      * 文章详情的api
      * 可以传 id 获取文章详情，也可以通过 slug 来获取文章详情
      * 例如：
-     * http://127.0.0.1:8080/api/article?id=123
+     * http://127.0.0.1:8080/api/article/detail?id=123
      * 或者
-     * http://127.0.0.1:8080/api/article?slug=myslug
+     * http://127.0.0.1:8080/api/article/detail?slug=myslug
      */
-    public void index() {
-        Long id = getParaToLong("id");
-        String slug = getPara("slug");
+    public Ret detail(Long id, String slug) {
 
-        Article article = id != null ? articleService.findById(id)
-                : (StrUtil.isNotBlank(slug) ? articleService.findFirstBySlug(slug) : null);
+        if (id == null && slug == null) {
+            return Ret.fail().set("message", "id 或 slug 必须有一个值");
+        }
+
+        Article article = id != null ? articleService.findById(id) : articleService.findFirstBySlug(slug);
 
         if (article == null || !article.isNormal()) {
-            renderFailJson();
-            return;
+            return Ret.fail().set("message", "该文章不存在或已经下线");
         }
 
         articleService.doIncArticleViewCount(article.getId());
-        renderJson(Ret.ok("article", article));
+        return Ret.ok().set("article", article);
     }
 
     /**
      * 获取文章的分类
      */
-    public void categories() {
-        String type = getPara("type");
+    public Ret categories(@NotEmpty String type, Long pid) {
 
-        if (StrUtil.isBlank(type)
-                || StrUtil.isBlank(type)) {
-            renderFailJson();
-            return;
-        }
-
-        Long pid = getLong("pid");
         List<ArticleCategory> categories = categoryService.findListByType(type);
+        if (categories == null || categories.isEmpty()) {
+            return Ret.ok().set("categories", new HashMap<>());
+        }
 
         if (pid != null) {
             categories = categories.stream()
@@ -110,7 +110,7 @@ public class ArticleApiController extends ApiControllerBase {
             SortKit.toTree(categories);
         }
 
-        renderJson(Ret.ok("categories", categories));
+        return Ret.ok().set("categories", categories);
     }
 
 
@@ -126,26 +126,19 @@ public class ArticleApiController extends ApiControllerBase {
      * http://127.0.0.1:8080/api/article/category?type=category&slug=myslug
      * http://127.0.0.1:8080/api/article/category?type=tag&slug=myslug
      */
-    public void category() {
-        Long id = getParaToLong("id");
+    public Ret category(Long id, String slug, String type) {
         if (id != null) {
             ArticleCategory category = categoryService.findById(id);
-            renderJson(Ret.ok("category", category));
-            return;
+            return Ret.ok("category", category);
         }
 
-        String slug = getPara("slug");
-        String type = getPara("type");
 
-        if (StrUtil.isBlank(slug)
-                || StrUtil.isBlank(type)) {
-            renderFailJson();
-            return;
+        if (StrUtil.isBlank(slug) || StrUtil.isBlank(type)) {
+            return Rets.FAIL;
         }
-
 
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(type, slug);
-        renderJson(Ret.ok("category", category));
+        return Ret.ok("category", category);
     }
 
 
@@ -224,9 +217,14 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
 
-    public void save() {
-        Article article = getRawObject(Article.class);
-        articleService.saveOrUpdate(article);
+    public void create(@JsonBody @NotNull Article article) {
+        articleService.save(article);
+        renderOkJson();
+    }
+
+
+    public void update(@JsonBody @NotNull Article article) {
+        articleService.update(article);
         renderOkJson();
     }
 
@@ -260,7 +258,7 @@ public class ArticleApiController extends ApiControllerBase {
             content = StrUtil.escapeHtml(content);
         }
 
-        if (DFAUtil.isContainsSensitiveWords(content)){
+        if (DFAUtil.isContainsSensitiveWords(content)) {
             renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
             return;
         }
@@ -339,11 +337,12 @@ public class ArticleApiController extends ApiControllerBase {
 
     /**
      * 搜索文章
+     *
      * @param keyword
      */
-    public void articleSearch(String keyword){
-        int page = getParaToInt("page",1);
-        int pageSize = getParaToInt("size",10);
+    public void articleSearch(String keyword) {
+        int page = getParaToInt("page", 1);
+        int pageSize = getParaToInt("size", 10);
         Page<Article> dataPage = StrUtil.isNotBlank(keyword)
                 ? articleService.search(keyword, page, pageSize)
                 : null;

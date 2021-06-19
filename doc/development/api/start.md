@@ -99,3 +99,14 @@ const sign = paras => {
     return md5(str + secret);
 }
 ```
+
+## Jwt
+
+在 JPress 的 API 体系中，某些接口是必须用户登录才能进行操作，此时就需要传入 Jwt，而 Jwt 必须在 http 的 header 里进行传入的。
+
+## 如何获得 Jwt ？
+
+在 JPress 中，获得 Jwt 有两种方式：
+
+- 1、通过调用 `/api/user/login` 传入账号密码登录获取
+- 2、微信授权登录获取

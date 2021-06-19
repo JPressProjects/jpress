@@ -28,7 +28,6 @@ import io.jpress.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -89,11 +88,11 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             inv.getController().renderJson(Ret.fail().set("message", "请求参数错误。"));
             return;
         }
-        Map<String, String> parasMap = paramToMap(queryString);
 
-        String appId = parasMap.get("appId");
+        Map<String, String> parasMap = StrUtil.queryStringToMap(queryString);
+        String appId = parasMap.get("jpressAppId");
         if (StrUtil.isBlank(appId)) {
-            inv.getController().renderJson(Ret.fail().set("message", "在Url中未获取到appId内容，请注意Url是否正确。"));
+            inv.getController().renderJson(Ret.fail().set("message", "在 Url 中未获取到 jpressAppId 内容，请注意 Url 是否正确。"));
             return;
         }
 
@@ -103,13 +102,8 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        String sign = parasMap.get("sign");
-        if (StrUtil.isBlank(sign)) {
-            controller.renderJson(Ret.fail("message", "签名数据不能为空，请提交 sign 数据。"));
-            return;
-        }
 
-        String timeStr = parasMap.get("t");
+        String timeStr = parasMap.get("ct");
         Long time = timeStr == null ? null : Long.valueOf(timeStr);
         if (time == null) {
             controller.renderJson(Ret.fail("message", "时间参数不能为空，请提交 t 参数数据。"));
@@ -119,6 +113,13 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         // 时间验证，可以防止重放攻击
         if (Math.abs(System.currentTimeMillis() - time) > TIMEOUT) {
             controller.renderJson(Ret.fail("message", "请求超时，请重新请求。"));
+            return;
+        }
+
+
+        String sign = parasMap.get("sign");
+        if (StrUtil.isBlank(sign)) {
+            controller.renderJson(Ret.fail("message", "签名数据不能为空，请提交 sign 数据。"));
             return;
         }
 
@@ -139,45 +140,21 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
     public static String createLocalSign(HttpServletRequest request) {
         String queryString = request.getQueryString();
-        Map<String, String[]> params = request.getParameterMap();
-
-        String[] keys = params.keySet().toArray(new String[0]);
+        Map<String,String> queryParas = StrUtil.queryStringToMap(queryString);
+        String[] keys = queryParas.keySet().toArray(new String[0]);;
         Arrays.sort(keys);
-        StringBuilder query = new StringBuilder();
-        for (String key : keys) {
-            if ("sign".equals(key)) {
+
+        StringBuilder sb = new StringBuilder();
+        for (String key : keys){
+            if ("sign".equals(key)){
                 continue;
             }
 
-            //只对get参数里的进行签名
-            if (queryString.indexOf(key + "=") == -1) {
-                continue;
-            }
-
-            String value = params.get(key)[0];
-            query.append(key).append(value);
+            String value = queryParas.get(key);
+            sb.append(key).append(value);
         }
-        query.append(apiSecret);
-        return HashKit.md5(query.toString());
-    }
 
-
-
-    private static Map<String, String> paramToMap(String queryString) {
-        String[] params = queryString.split("&");
-        Map<String, String> resMap = new HashMap<>();
-        for (int i = 0; i < params.length; i++) {
-            String[] param = params[i].split("=");
-            if (param.length >= 2) {
-                String key = param[0];
-                String value = param[1];
-                for (int j = 2; j < param.length; j++) {
-                    value += "=" + param[j];
-                }
-                resMap.put(key, value);
-            }
-        }
-        return resMap;
+        return HashKit.md5(sb.append(apiSecret).toString());
     }
 
 

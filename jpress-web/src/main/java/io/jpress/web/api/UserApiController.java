@@ -39,7 +39,20 @@ public class UserApiController extends ApiControllerBase {
      * 用户登录
      */
     public Ret login(@NotNull String loginAccount, @NotNull  String password) {
-       return Ret.ok();
+       User loginUser = userService.findByUsernameOrEmail(loginAccount);
+        if (loginUser == null) {
+            return Ret.fail("message","没有该用户信息");
+        }
+
+        Ret ret = userService.doValidateUserPwd(loginUser, password);
+        if (!ret.isOk()){
+            return ret;
+        }
+
+        setJwtAttr("userId",ret.get("user_id"));
+        String jwt = createJwtToken();
+
+       return Ret.ok().set("Jwt",jwt);
     }
 
 
@@ -48,7 +61,7 @@ public class UserApiController extends ApiControllerBase {
      */
     public Ret query(@NotNull Long id) {
         User user = userService.findById(id);
-        return Ret.ok().set("user",user);
+        return Ret.ok().set("user",user.copy().keepSafe());
     }
 
 

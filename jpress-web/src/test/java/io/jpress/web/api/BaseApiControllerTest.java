@@ -6,6 +6,7 @@ import io.jboot.test.MockMethod;
 import io.jboot.test.MockMvc;
 import io.jboot.test.TestConfig;
 import io.jboot.test.junit4.JbootRunner;
+import io.jboot.web.handler.JbootActionReporter;
 import io.jpress.JPressConsts;
 import io.jpress.JPressCoreInitializer;
 import io.jpress.JPressOptions;
@@ -29,6 +30,8 @@ public class BaseApiControllerTest {
         JPressOptions.set(JPressConsts.OPTION_API_ENABLE, Boolean.TRUE.toString());
         JPressOptions.set(JPressConsts.OPTION_API_APPID, "myAppId");
         JPressOptions.set(JPressConsts.OPTION_API_SECRET, "mySecret");
+
+        JbootActionReporter.setReportEnable(true);
 
         mvc.setRequestStartListener(request -> {
             request.addQueryParameter("appId", "myAppId");

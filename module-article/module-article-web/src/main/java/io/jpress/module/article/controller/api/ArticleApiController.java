@@ -18,12 +18,12 @@ package io.jpress.module.article.controller.api;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.aop.annotation.DefaultValue;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.JPressOptions;
-import io.jpress.commons.Rets;
 import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.model.User;
@@ -127,14 +127,13 @@ public class ArticleApiController extends ApiControllerBase {
      * http://127.0.0.1:8080/api/article/category?type=tag&slug=myslug
      */
     public Ret category(Long id, String slug, String type) {
+        if (id == null && slug == null) {
+            return Ret.fail().set("message", "id 或者 slug 必须有一个不能为空");
+        }
+
         if (id != null) {
             ArticleCategory category = categoryService.findById(id);
             return Ret.ok("category", category);
-        }
-
-
-        if (StrUtil.isBlank(slug) || StrUtil.isBlank(type)) {
-            return Rets.FAIL;
         }
 
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(type, slug);
@@ -145,11 +144,7 @@ public class ArticleApiController extends ApiControllerBase {
     /**
      * 通过 分类ID 分页读取文章列表
      */
-    public void paginate() {
-        Long categoryId = getParaToLong("categoryId");
-        String orderBy = getPara("orderBy");
-        int pageNumber = getParaToInt("pageNumber", 1);
-
+    public void paginate(Long categoryId, String orderBy, @DefaultValue("1") int pageNumber) {
         Page<Article> page = categoryId == null
                 ? articleService.paginateInNormal(pageNumber, 10, orderBy)
                 : articleService.paginateByCategoryIdInNormal(pageNumber, 10, categoryId, orderBy);

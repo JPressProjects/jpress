@@ -51,6 +51,7 @@ public class BaseApiControllerTest {
         handlers.add(new JPressHandler());
     }
 
+
     @MockMethod(targetClass = UtmService.class)
     public void doRecord(Utm utm) {
     }

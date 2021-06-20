@@ -18,6 +18,7 @@ package io.jpress.module.article.model;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
+import io.jboot.web.json.JsonIgnore;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.UrlUtils;
 import io.jpress.commons.utils.CommonsUtils;
@@ -40,18 +41,22 @@ public class Article extends BaseArticle<Article> {
     public static final String STATUS_TRASH = "trash";
 
 
+    @JsonIgnore
     public boolean isNormal() {
         return STATUS_NORMAL.equals(getStatus());
     }
 
+    @JsonIgnore
     public boolean isDraft() {
         return STATUS_DRAFT.equals(getStatus());
     }
 
+    @JsonIgnore
     public boolean isTrash() {
         return STATUS_TRASH.equals(getStatus());
     }
 
+    @JsonIgnore
     public String getHtmlView() {
         return StrUtil.isBlank(getStyle()) ? "article.html" : "article_" + getStyle().trim() + ".html";
     }
@@ -61,6 +66,7 @@ public class Article extends BaseArticle<Article> {
      *
      * @return
      */
+    @JsonIgnore
     public boolean isActive() {
         Article currentArticle = JbootControllerContext.get().getAttr("article");
 
@@ -77,10 +83,12 @@ public class Article extends BaseArticle<Article> {
      *
      * @return
      */
+    @JsonIgnore
     public boolean getIsActive() {
         return isActive();
     }
 
+    @JsonIgnore
     public String getUrl() {
         String link = getLinkTo();
         if (StrUtil.isNotBlank(link)) {
@@ -97,11 +105,13 @@ public class Article extends BaseArticle<Article> {
         return UrlUtils.getUrl("/article/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "-", pageNumber);
     }
 
+    @JsonIgnore
     public boolean isCommentEnable() {
         Boolean cs = getCommentStatus();
         return cs != null && cs;
     }
 
+    @JsonIgnore
     public String getText() {
         return JsoupUtils.getText(getContent());
     }
@@ -121,6 +131,7 @@ public class Article extends BaseArticle<Article> {
         return JPressConsts.EDIT_MODE_MARKDOWN.equals(getEditMode());
     }
 
+    @JsonIgnore
     public String getOrignalContent() {
         return super.getContent();
     }
@@ -131,6 +142,7 @@ public class Article extends BaseArticle<Article> {
      *
      * @return
      */
+    @JsonIgnore
     public List<String> getImages() {
         return JsoupUtils.getImageSrcs(getContent());
     }
@@ -166,6 +178,7 @@ public class Article extends BaseArticle<Article> {
         return getFirstAudio() != null;
     }
 
+    @JsonIgnore
     public String getFirstImage() {
         return JsoupUtils.getFirstImageSrc(getContent());
     }

@@ -1,4 +1,4 @@
-# 文章板块文档
+# 文章板块
 
 如下图所示，是一个用JPress搭建的网站，里面的文章，都是通过JPress后台发布：
 ![](../images/admin-doc/article.jpg)

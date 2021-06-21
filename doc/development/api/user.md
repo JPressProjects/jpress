@@ -22,7 +22,7 @@
 
 ## 用户查询
 
-- 访问路径: `/api/user/query`
+- 访问路径: `/api/user/detail`
 - 数据类型: `application/x-www-form-urlencoded`
 - 参数：
 

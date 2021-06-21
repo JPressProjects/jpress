@@ -174,10 +174,10 @@
 curl -O https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml && docker-compose up -d
 ```
 
-**在阿里云（或腾讯云）一键通过 8080 端口安装运行**
+**在阿里云（或腾讯云）一键通过 80 端口安装运行**
 
 ```
-wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh 8080
+wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh 80
 ```
 
 > 视频教程链接: https://pan.baidu.com/s/1ciA2DglE-JV-YiU3ojtmew 提取码: 37g5

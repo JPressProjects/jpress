@@ -5,12 +5,12 @@
     <parent>
         <groupId>io.jpress</groupId>
         <artifactId>module-#(moduleName)</artifactId>
-        <version>3.0</version>
+        <version>4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.jpress</groupId>
-    <artifactId>module-#(moduleName)-service-api</artifactId>
+    <artifactId>module-#(moduleName)-service</artifactId>
 
     <dependencies>
         <dependency>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-#(moduleName)-model</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
 

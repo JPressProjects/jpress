@@ -65,11 +65,11 @@ public class WechatMiniProgramApiController extends BaseWechatDecryptController 
 
         User user = null;
         if (StrUtil.isNotBlank(unionId)) {
-            user = userService.findFistByWxUnionid(unionId);
+            user = userService.findFirstByWxUnionid(unionId);
         }
 
         if (user == null) {
-            user = userService.findFistByWxOpenid(openId);
+            user = userService.findFirstByWxOpenid(openId);
         }
 
         if (user != null) {
@@ -136,11 +136,11 @@ public class WechatMiniProgramApiController extends BaseWechatDecryptController 
         User user = null;
 
         if (StrUtil.isNotBlank(unionId)) {
-            user = userService.findFistByWxUnionid(unionId);
+            user = userService.findFirstByWxUnionid(unionId);
         }
 
         if (user == null) {
-            user = userService.findFistByWxOpenid(openId);
+            user = userService.findFirstByWxOpenid(openId);
         }
 
         if (user != null) {

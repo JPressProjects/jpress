@@ -49,6 +49,7 @@
         <commons-logging.version>1.2</commons-logging.version>
         <commons-codec.version>1.15</commons-codec.version>
         <slf4j.version>1.7.29</slf4j.version>
+        <log4j.version>2.14.1</log4j.version>
         <fastjson.version>1.2.76</fastjson.version>
         <lucene.version>8.8.2</lucene.version>
         <jcseg.version>2.6.2</jcseg.version>
@@ -154,6 +155,12 @@
                 </exclusions>
             </dependency>
 
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>io.jboot</groupId>
@@ -173,17 +180,33 @@
                 <version>${jjwt.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>ch.qos.logback</groupId>-->
+<!--                <artifactId>logback-core</artifactId>-->
+<!--                <version>${logback.version}</version>-->
+<!--            </dependency>-->
 
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>ch.qos.logback</groupId>-->
+<!--                <artifactId>logback-classic</artifactId>-->
+<!--                <version>${logback.version}</version>-->
+<!--            </dependency>-->
+
+
+            <!--slf4j-->
+<!--            <dependency>-->
+<!--                <groupId>org.slf4j</groupId>-->
+<!--                <artifactId>slf4j-api</artifactId>-->
+<!--                <version>1.7.25</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.slf4j</groupId>-->
+<!--                <artifactId>jcl-over-slf4j</artifactId>-->
+<!--                <version>1.7.25</version>-->
+<!--                <scope>runtime</scope>-->
+<!--            </dependency>-->
+            <!--log4j2-->
+
 
             <dependency>
                 <groupId>io.jpress</groupId>
@@ -364,6 +387,28 @@
                 <artifactId>jcl-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-web</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <!--log4j2+slf4j-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -409,6 +454,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

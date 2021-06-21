@@ -23,7 +23,6 @@ import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.validate.CaptchaValidate;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
@@ -269,13 +268,13 @@ public class UserController extends TemplateControllerBase {
             }
         }
 
-        User user = userService.findFistByUsername(username);
+        User user = userService.findFirstByUsername(username);
         if (user != null) {
             renderJson(Ret.fail().set("message", "该用户名已经存在").set("errorCode", 10));
             return;
         }
 
-        user = userService.findFistByEmail(email);
+        user = userService.findFirstByEmail(email);
         if (user != null) {
             renderJson(Ret.fail().set("message", "该邮箱已经存在").set("errorCode", 11));
             return;

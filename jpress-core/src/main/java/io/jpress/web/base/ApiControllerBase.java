@@ -16,7 +16,10 @@
 package io.jpress.web.base;
 
 import com.jfinal.aop.Before;
+import com.jfinal.core.NotAction;
 import com.jfinal.kit.Ret;
+import io.jboot.web.render.JbootJsonRender;
+import io.jpress.JPressConsts;
 import io.jpress.web.interceptor.ApiInterceptor;
 import io.jpress.web.interceptor.UserInterceptor;
 
@@ -27,6 +30,11 @@ import io.jpress.web.interceptor.UserInterceptor;
  */
 @Before({ApiInterceptor.class, UserInterceptor.class})
 public abstract class ApiControllerBase extends ControllerBase {
+
+    public static final int JWT_ERROR_CODE = 401;
+
+    public static final int JWT_LOGICAL_INVALID = 101;
+
 
     protected void renderFailJson(String message) {
         renderJson(Ret.fail("message", message));
@@ -41,6 +49,67 @@ public abstract class ApiControllerBase extends ControllerBase {
     }
     protected void renderOkDataJson(Object value){
         renderJson(Ret.ok("data", value));
+    }
+
+
+    /**
+     * 获取当前微信用户的 OpenId
+     * @return
+     */
+    @NotAction
+    public String getCurrentWechatOpenId() {
+        return getJwtPara(JPressConsts.JWT_OPENID);
+    }
+
+    /**
+     * 获取当前用户的 unionId
+     * @return
+     */
+    @NotAction
+    public String getCurrentWechatUnionId() {
+        return getJwtPara(JPressConsts.JWT_UNIONID,false);
+    }
+
+    /**
+     * 获取当前用户的 unionId
+     * @return
+     */
+    @NotAction
+    public String getCurrentWechatUnionId(boolean validateNullValue) {
+        return getJwtPara(JPressConsts.JWT_UNIONID,validateNullValue);
+    }
+
+    @Override
+    @NotAction
+    public <T> T getJwtPara(String name) {
+        return getJwtPara(name, true);
+    }
+
+
+    @NotAction
+    public <T> T getJwtPara(String name, boolean validateNullValue) {
+        T object = super.getJwtPara(name);
+        if (object == null && validateNullValue) {
+            renderRelogin();
+        }
+        return object;
+    }
+
+    /**
+     * 需要前端重新登录
+     */
+    @NotAction
+    public void renderRelogin() {
+        renderError(200, new JbootJsonRender(Ret.ok().set("code", JWT_ERROR_CODE)));
+    }
+
+
+    /**
+     * 用于在某些情况，用户已经被删除了，但是前端 JWT 未过期的情况
+     */
+    @NotAction
+    public void renderJwtLogicalInvalid() {
+        renderError(200, new JbootJsonRender(Ret.ok().set("code", JWT_LOGICAL_INVALID)));
     }
 
 

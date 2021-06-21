@@ -100,23 +100,23 @@ public interface UserService extends JbootServiceJoiner {
 
     boolean doChangeStatus(long id, String status);
 
-    User findFistByUsername(String username);
+    User findFirstByUsername(String username);
 
-    User findFistByEmail(String email);
+    User findFirstByEmail(String email);
 
-    User findFistByWxUnionid(String unioinId);
+    User findFirstByWxUnionid(String unioinId);
 
-    User findFistByWxOpenid(String openId);
+    User findFirstByWxOpenid(String openId);
 
-    User findFistByQQOpenid(String openId);
+    User findFirstByQQOpenid(String openId);
 
-    User findFistByWeiboOpenid(String openId);
+    User findFirstByWeiboOpenid(String openId);
 
-    User findFistByGithubOpenid(String openId);
+    User findFirstByGithubOpenid(String openId);
 
-    User findFistByGiteeOpenid(String openId);
+    User findFirstByGiteeOpenid(String openId);
 
-    User findFistByDingdingOpenid(String openId);
+    User findFirstByDingdingOpenid(String openId);
 
     BigDecimal queryUserAmount(Object userId);
 

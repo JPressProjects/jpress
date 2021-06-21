@@ -134,6 +134,8 @@ public class JPressConsts {
 
 
     public static final String JWT_USERID = "userId";
+    public static final String JWT_OPENID = "openId";
+    public static final String JWT_UNIONID = "unionId";
 
 
     public static final String DEFAULT_ADMIN_VIEW = "/WEB-INF/views/admin/";

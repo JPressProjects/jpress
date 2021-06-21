@@ -4,7 +4,7 @@
 
 ## 配置相关
 
-### 读取配置
+## 读取配置
 
 - 访问路径: `/api/option/query`
 - 数据类型: `application/x-www-form-urlencoded`

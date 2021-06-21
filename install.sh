@@ -62,6 +62,13 @@ if [ -x "$(command -v docker)" -a -x "$(command -v docker-compose)" ]; then
     perl -pi -e "s/8080:8080/$port:8080/g" docker-compose.yml
   fi
 
+  if [ ! -f "/etc/docker/daemon.json" ];then
+    sudo mkdir -p /etc/docker
+    echo -E '{"registry-mirrors": ["https://kn77wnbv.mirror.aliyuncs.com"]}' > /etc/docker/daemon.json
+    sudo systemctl daemon-reload
+    sudo systemctl restart docker
+  fi
+
   docker-compose up -d
 
 else

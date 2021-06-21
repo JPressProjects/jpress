@@ -63,7 +63,7 @@ public class UserApiController extends ApiControllerBase {
     /**
      * 获取用户信息
      */
-    public Ret query(@NotNull Long id) {
+    public Ret detail(@NotNull Long id) {
         User user = userService.findById(id);
         return Ret.ok().set("user",user.copy().keepSafe());
     }

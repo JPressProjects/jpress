@@ -183,7 +183,7 @@ public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChan
     public void updateArticle(Article article) {
         UpdateRequest updateRequest = new UpdateRequest(index, type, article.getId().toString());
         Map<String, Object> map = new HashMap<>();
-        map.putAll(CPI.getAttrs(article));
+        map.putAll(CPI.getAttrs(article.keep("id","title","content")));
         updateRequest.doc(map);
 
         try {

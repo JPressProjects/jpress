@@ -151,19 +151,14 @@
 
 ## 帮助文档
 
-- [了解JPress](http://www.jpress.io)
-- [快速开始](http://www.jpress.io/article/34)
-- [安装](http://www.jpress.io/article/34)
-- [升级](./doc/upgrade.md)
-- [使用](./doc/manual.md)
-- [模板开发](http://www.jpress.io/article/39)
-- [二次开发](http://www.jpress.io/article/68)
-- [插件开发](http://www.jpress.io/article/54)
-- [微信运营插件开发](http://www.jpress.io/article/65)
-- [微信小程序开发](http://www.jpress.io/article/67)
-- [视频教程](http://www.jpress.io/article/category/course)
-- [常见问题](./doc/faq.md)
-- [JPress-VIP 会员](./doc/vip.md)
+- [用户手册](http://doc.jpress.io/manual/)
+- [开发文档](http://doc.jpress.io/development/)
+- [模板开发](http://doc.jpress.io/development/template/start.html)
+- [插件开发](http://doc.jpress.io/development/addon/start.html)
+- [二次开发](hhttp://doc.jpress.io/development/dev/start.html)
+- [API 接口](http://doc.jpress.io/development/api/start.html)
+- [视频教程](http://www.ketang8.com/course/5)
+- [JPress-VIP 会员](http://www.jpress.io/article/vip)
 
 ## 运行JPress
 

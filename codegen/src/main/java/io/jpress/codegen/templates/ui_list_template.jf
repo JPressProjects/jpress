@@ -13,21 +13,33 @@
 #('#')define content()
 
     <section class="content-header">
-        <h1>
-            #(tableMeta.remarks)管理
-            <small>Items</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                #(tableMeta.remarks)管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / #(tableMeta.modelName) / #(tableMeta.remarks)管理</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section class="content">
 
         <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+            <div class="col-12">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
 
                         <div class="row admin-search-panel">
-                            <div class="col-xs-12">
+                            <div class="col-12">
                                 <a href="#(tableMeta.name)/edit" class="btn btn-primary ">
                                     <i class="fas fa-plus"></i> 新建
                                 </a>
@@ -35,8 +47,8 @@
                         </div>
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body ">
 
                         <table class="table table-striped">
                             <tbody>
@@ -77,8 +89,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12">
                             	 #('#')@_paginate()

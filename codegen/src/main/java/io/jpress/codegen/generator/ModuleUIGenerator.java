@@ -69,7 +69,7 @@ public class ModuleUIGenerator {
         this.modelPackage = modelPackage;
         modulePackage = modelPackage.substring(0, modelPackage.lastIndexOf("."));
 
-        basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
+        basePath = PathKit.getWebRootPath() + "/../../../../module-" + moduleName;
         webPath = basePath + "/module-" + moduleName + "-web";
 
         String upcasedModuleName = StrKit.firstCharToUpperCase(moduleName);

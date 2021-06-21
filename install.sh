@@ -64,11 +64,7 @@ if [ -x "$(command -v docker)" -a -x "$(command -v docker-compose)" ]; then
 
   if [ ! -f "/etc/docker/daemon.json" ];then
     sudo mkdir -p /etc/docker
-    sudo tee /etc/docker/daemon.json <<-'EOF'
-    {
-      "registry-mirrors": ["https://kn77wnbv.mirror.aliyuncs.com"]
-    }
-    EOF
+    echo -E '{"registry-mirrors": ["https://kn77wnbv.mirror.aliyuncs.com"]}' > /etc/docker/daemon.json
     sudo systemctl daemon-reload
     sudo systemctl restart docker
   fi

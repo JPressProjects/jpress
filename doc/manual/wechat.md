@@ -13,7 +13,7 @@
 
 在公众号后台找到 AppId、AppSecret 以及 Token，填入到JPress后台。
 
-![](../images/admin-doc/wecat1.jpg)
+![](../images/admin-doc/wechat1.jpg)
 
 在这里，还可以设置 网页授权方式，以及多客服关键字。
 
@@ -21,7 +21,7 @@
 
 > 微信-默认回复
 
-![](../images/admin-doc/wecat2.jpg)
+![](../images/admin-doc/wechat2.jpg)
 
 ## 公众号自动回复
 
@@ -29,4 +29,4 @@
 
 用户当输入关键字时，我们可以回复文字、图片以及小程序。
 
-![](../images/admin-doc/wecat3.jpg)
+![](../images/admin-doc/wechat3.jpg)

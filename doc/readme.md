@@ -19,7 +19,7 @@ JPress 是一个使用 Java 开发的、`开源免费` 的建站神器，灵感�
 
 
 ## JPress 联系方式
-1. JPress 官方网站：http://wwww.jpress.io
+1. JPress 官方网站：http://www.jpress.io
 2. JPress官方公众号：jpressio
 3. JPress交流QQ群：288397536
 

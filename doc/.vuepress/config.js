@@ -118,6 +118,7 @@ module.exports = {
                         {title: '产品相关', path: '/development/template/html_product'},
                         {title: '页面相关', path: '/development/template/html_page'},
                         {title: '用户相关', path: '/development/template/html_user'},
+                        {title: '设置页面', path: '/development/template/html_setting'},
 
                     ],
                 },

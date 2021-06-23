@@ -18,19 +18,16 @@ package io.jpress;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Routes;
-import com.jfinal.kit.PathKit;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
-import io.jpress.commons.utils.JPressJson;
+import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
 import io.jpress.core.addon.handler.AddonHandlerProcesser;
 import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.MenuManager;
-import io.jpress.core.support.ehcache.EhcacheManager;
 import io.jpress.core.wechat.WechatAddonManager;
-import io.jpress.web.captcha.JPressCaptchaCache;
 import io.jpress.web.functions.JPressCoreFunctions;
 import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.JPressInterceptor;
@@ -38,9 +35,6 @@ import io.jpress.web.interceptor.UTMInterceptor;
 import io.jpress.web.render.JPressRenderFactory;
 import io.jpress.web.sitemap.SitemapHandler;
 import io.jpress.web.sitemap.SitemapManager;
-
-import java.net.URISyntaxException;
-import java.net.URL;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -50,27 +44,10 @@ import java.net.URL;
  */
 public class JPressCoreInitializer extends JbootAppListenerBase {
 
-    @Override
-    public void onInit() {
-        try {
-            URL resourceUrl = JPressCoreInitializer.class.getResource("/");
-            if (resourceUrl != null) {
-                PathKit.setWebRootPath(resourceUrl.toURI().getPath());
-            }
-            EhcacheManager.init();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     @Override
     public void onConstantConfig(Constants constants) {
-
         constants.setRenderFactory(new JPressRenderFactory());
-        constants.setCaptchaCache(new JPressCaptchaCache());
-        constants.setJsonFactory(() -> new JPressJson());
-
     }
 
     @Override
@@ -78,17 +55,13 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
         routes.setClearAfterMapping(false);
     }
 
-//    @Override
-//    public void onFixedInterceptorConfig(FixedInterceptors fixedInterceptors) {
-//        fixedInterceptors.add(new AddonInterceptorProcesser());
-//    }
-
 
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
         handlers.add(new InstallHandler());
         handlers.add(new SitemapHandler());
         handlers.add(new JPressHandler());
+        handlers.add(new FlatUrlHandler());
         handlers.add(new AddonHandlerProcesser());
 
         handlers.setActionHandler(new AddonControllerProcesser());

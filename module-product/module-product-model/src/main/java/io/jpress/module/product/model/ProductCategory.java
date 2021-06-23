@@ -1,10 +1,9 @@
 package io.jpress.module.product.model;
 
-import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
-import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortModel;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.product.model.base.BaseProductCategory;
 
 import java.util.ArrayList;
@@ -138,18 +137,23 @@ public class ProductCategory extends BaseProductCategory<ProductCategory> implem
     }
 
     public String getUrl() {
-        switch (getType()) {
-            case TYPE_CATEGORY:
-                return JFinal.me().getContextPath() + "/product/category/" + getSlug() + JPressOptions.getAppUrlSuffix();
-            case TYPE_TAG:
-                return JFinal.me().getContextPath() + "/product/tag/" + getSlug() + JPressOptions.getAppUrlSuffix();
-            default:
-                return "";
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/product/category/" : "/product/tag/";
+        return UrlUtils.getUrl(prefix, getSlug());
+    }
+
+
+    public String getUrlWithPageNumber(int pageNumber) {
+        if (pageNumber <= 1) {
+            return getUrl();
         }
+
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/product/category/" : "/product/tag/";
+        return UrlUtils.getUrl(prefix, getSlug(),"-",pageNumber);
     }
 
 
     public String getHtmlView() {
         return StrUtil.isBlank(getStyle()) ? "prolist.html" : "prolist_" + getStyle().trim() + ".html";
     }
+
 }

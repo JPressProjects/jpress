@@ -5,10 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>用户邮箱激活</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
 
     <!--[if lt IE 9]>
     <script src="#(CPATH)/static/html5shiv/html5shiv.min.js"></script>
@@ -25,13 +22,13 @@
             text-align: left;
         }
 
-        .login-box {
+        .login-card {
             margin: 2% auto;
             width: 660px;
             padding: 0;
         }
 
-        .page-header {
+        .form-header {
             margin: 50px 0 30px 0;
             font-size: 16px;
             color: #999;
@@ -44,10 +41,10 @@
 <body class="hold-transition login-page">
 
 <div class="row">
-    <div class="login-box text-center">
-        <div class="login-box-body">
-            <form class="form-horizontal form-setting" method="post" id="form">
-                <div class="form-group">
+    <div class="login-card text-center">
+        <div class="login-card-body">
+            <form class=" form-setting" method="post" id="form">
+                <div class="form-group row">
                     <div class="col-sm-12">
                         #if(code == 0)
                         #(user.nickname)，您好，您的邮箱已经激活成功。点击<a href="#(CPATH)/user/login">这里</a>登录

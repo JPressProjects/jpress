@@ -1,70 +1,80 @@
 #@layout()
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            优惠券分配
-            <small>Coupon Code Gen</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                分配优惠券
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 财务 / 优惠券 / 分配优惠券</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
+
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/finance/coupon/doCodeSave"
                           method="POST"
                           data-ok-href="#(CPATH)/admin/finance/coupon/takes/#(coupon.id ??)"
                     >
                         <input type="hidden" name="couponId" value="#(coupon.id ??)">
                         <input type="hidden" name="codeId" value="#(code.id ??)">
-                        <div class="box-body ">
+                        <div class="card-body">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">优惠券名称</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">优惠券名称</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" value="#(coupon.title ??)" readonly>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">类型</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">类型</label>
                                 <div class="col-sm-6">
                                     <input type="input"class="form-control" value="#(coupon.typeStr ??)" readonly>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">优惠券金额</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">优惠券金额</label>
                                 <div class="col-sm-6">
                                     <input type="input"  class="form-control" value="#(coupon.amount ??)" readonly
                                            placeholder="">
-                                    <p class="help-block">单位：元。 </p>
+                                    <p class="text-muted">单位：元。 </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">分配的用户Id</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">分配的用户Id</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="userId" class="form-control" value="#(code.user_id ??)" #(code ? 'readonly' : '')
                                            placeholder="">
-                                    <p class="help-block">请填写用户的 ID 编号。 </p>
+                                    <p class="text-muted">请填写用户的 ID 编号。 </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">状态</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">状态</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="status">
                                         <option value="1" #selectedIf(code && code.status == 1)>
@@ -74,27 +84,25 @@
                                             失效
                                         </option>
                                     </select>
-                                    <p class="help-block">若选择 失效 后，该优惠码不能正常使用。 </p>
+                                    <p class="text-muted">若选择 失效 后，该优惠码不能正常使用。 </p>
                                 </div>
                             </div>
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
         </div>
 
     </section>
-
-</div>
 #end

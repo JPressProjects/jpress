@@ -21,33 +21,44 @@
 #end
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            通信设置
-            <small>Connection Setting</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                通信设置
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 系统 / 通信设置</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off"
+                    <form class=" form-setting" autocomplete="off"
                           id="optionForm">
-                        <div class="box-body ">
+                        <div class="card-body">
 
-                            <h4 class="page-first-header">邮件</h4>
+                            <h4 class="form-header">邮件</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="connection_email_enable"
                                            #checkedIf(option("connection_email_enable"))>
@@ -55,8 +66,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">SMTP地址</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">SMTP地址</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：smtp.qq.com"
@@ -64,8 +75,8 @@
                                            value="#option('connection_email_smtp')">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">用户名</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">用户名</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="邮箱账号..."
@@ -74,29 +85,29 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">密码</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">密码</label>
                                 <div class="col-sm-6">
                                     <input type="password" class="form-control" placeholder="及密码"
                                            name="connection_email_password"
                                            value="#option('connection_email_password')">
-                                    <p class="help-block"> 注意：QQ 邮箱的密码不是 QQ 密码，需要进入邮箱，在设置 -> 账户 里开启 SMTP，并生成授权密码。 </p>
+                                    <p class="text-muted"> 注意：QQ 邮箱的密码不是 QQ 密码，需要进入邮箱，在设置 -> 账户 里开启 SMTP，并生成授权密码。 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">使用SSL</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">使用SSL</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="connection_email_ssl_enable"
                                            #checkedIf(option("connection_email_ssl_enable"))>
                                     <input type="hidden" id="connection_email_ssl_enable"
                                            name="connection_email_ssl_enable">
-                                    <p class="help-block"> QQ邮箱，Gmail邮箱，163邮箱等请开启。 </p>
+                                    <p class="text-muted"> QQ邮箱，Gmail邮箱，163邮箱等请开启。 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">收件测试</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">收件测试</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="请输入接收邮件账号..." id="testemail">
@@ -107,10 +118,10 @@
                             </div>
 
 
-                            <h4 class="page-header">手机短信</h4>
+                            <h4 class="form-header">手机短信</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="connection_sms_enable"
                                            #checkedIf(option("connection_sms_enable"))>
@@ -118,8 +129,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">短信服务商</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">短信服务商</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="connection_sms_type">
                                         <option value="aliyun" #selectedIf(option(
@@ -130,8 +141,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">App Id</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">App Id</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="从服务商获取的appId ..."
                                            name="connection_sms_appid"
@@ -140,8 +151,8 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">App Secret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">App Secret</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="及appSecret"
@@ -152,15 +163,15 @@
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
@@ -168,5 +179,4 @@
 
     </section>
 
-</div>
 #end

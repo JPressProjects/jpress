@@ -28,7 +28,10 @@ import io.jpress.core.module.ModuleManager;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -43,6 +46,8 @@ public class MenuManager implements JbootEventListener {
     private MenuArrayList systemMenus = new MenuArrayList();
     private MenuArrayList moduleMenus = new MenuArrayList();
     private MenuArrayList ucenterMenus = new MenuArrayList();
+    private MenuGroup ucenterFinanceMenus = new MenuGroup(JPressConsts.UCENTER_MENU_FINANCE_INFO);
+    private MenuGroup ucenterPersonalMenus = new MenuGroup(JPressConsts.UCENTER_MENU_PERSONAL_INFO);
 
     private MenuManager() {
 
@@ -66,7 +71,7 @@ public class MenuManager implements JbootEventListener {
         //初始化后台的 module 菜单
         initAdminMenuItems();
 
-        //初始化 用户中心菜单
+        //初始化 用户中心 菜单
         initUCenterMenuItems();
     }
 
@@ -80,44 +85,43 @@ public class MenuManager implements JbootEventListener {
         MenuGroup orderMenuGroup = new MenuGroup();
         orderMenuGroup.setId(JPressConsts.SYSTEM_MENU_ORDER);
         orderMenuGroup.setText("财务");
-        orderMenuGroup.setIcon("<i class=\"fa fa-fw fa-gg-circle\"></i>");
+        orderMenuGroup.setIcon("<i class=\"fab fa-gg-circle\"></i>");
         systemMenus.add(orderMenuGroup);
 
 
         MenuGroup userMenuGroup = new MenuGroup();
         userMenuGroup.setId(JPressConsts.SYSTEM_MENU_USER);
         userMenuGroup.setText("用户");
-        userMenuGroup.setIcon("<i class=\"fa fa-fw fa-user\"></i>");
+        userMenuGroup.setIcon("<i class=\"fas fa-user\"></i>");
         systemMenus.add(userMenuGroup);
 
 
         MenuGroup wechatMenuGroup = new MenuGroup();
         wechatMenuGroup.setId(JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
         wechatMenuGroup.setText("微信");
-        wechatMenuGroup.setIcon("<i class=\"fa fa-fw fa-wechat\"></i>");
+        wechatMenuGroup.setIcon("<i class=\"fab fa-weixin\"></i>");
         systemMenus.add(wechatMenuGroup);
 
 
         MenuGroup templateMenuGroup = new MenuGroup();
         templateMenuGroup.setId(JPressConsts.SYSTEM_MENU_TEMPLATE);
         templateMenuGroup.setText("模板");
-        templateMenuGroup.setIcon("<i class=\"fa fa-magic\"></i>");
+        templateMenuGroup.setIcon("<i class=\"fas fa-magic\"></i>");
         systemMenus.add(templateMenuGroup);
 
 
         MenuGroup addonMenuGroup = new MenuGroup();
         addonMenuGroup.setId(JPressConsts.SYSTEM_MENU_ADDON);
         addonMenuGroup.setText("插件");
-        addonMenuGroup.setIcon("<i class=\"fa fa-plug\"></i>");
+        addonMenuGroup.setIcon("<i class=\"fas fa-plug\"></i>");
         systemMenus.add(addonMenuGroup);
 
 
         MenuGroup settingMenuGroup = new MenuGroup();
         settingMenuGroup.setId(JPressConsts.SYSTEM_MENU_SYSTEM);
         settingMenuGroup.setText("系统");
-        settingMenuGroup.setIcon("<i class=\"fa fa-cog\"></i>");
+        settingMenuGroup.setIcon("<i class=\"fas fa-cog\"></i>");
         systemMenus.add(settingMenuGroup);
-
     }
 
 
@@ -125,19 +129,22 @@ public class MenuManager implements JbootEventListener {
      * 初始化 子菜单
      */
     private void initAdminMenuItems() {
-
         for (ModuleListener listener : ModuleManager.me().getListeners()) {
             listener.onConfigAdminMenu(moduleMenus);
         }
 
+
         MenuGroup attachmentMenuGroup = new MenuGroup();
         attachmentMenuGroup.setId(JPressConsts.SYSTEM_MENU_ATTACHMENT);
         attachmentMenuGroup.setText("附件");
-        attachmentMenuGroup.setIcon("<i class=\"fa fa-fw fa-folder-open\"></i>");
+        attachmentMenuGroup.setIcon("<i class=\"fas fa-folder\"></i>");
         moduleMenus.add(attachmentMenuGroup);
 
 
         addMenuItems(buildAdminMenuItems());
+
+
+
     }
 
     public void deleteMenuItem(String id) {
@@ -156,7 +163,11 @@ public class MenuManager implements JbootEventListener {
                 group.getItems().removeIf(item -> item.getId().equals(id));
             }
         }
+
+        ucenterFinanceMenus.removeItem(item -> id.equals(item.getId()));
+        ucenterPersonalMenus.removeItem(item -> id.equals(item.getId()));
     }
+
 
     public void deleteMenuGroup(String id) {
         systemMenus.removeIf(group -> id.equals(group.getId()));
@@ -164,31 +175,44 @@ public class MenuManager implements JbootEventListener {
         ucenterMenus.removeIf(group -> id.equals(group.getId()));
     }
 
+
+
     public void addMenuItems(List<MenuItem> items) {
         if (items == null) {
             return;
         }
-        for (MenuItem item : items) {
-            addMenuItem(item);
-        }
+        items.forEach(this::addMenuItem);
     }
+
+
 
     public void addMenuItem(MenuItem item) {
         String ctxPath = JFinal.me().getContextPath();
+
         for (MenuGroup group : systemMenus) {
             if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin")) {
                 group.addItem(item);
             }
         }
+
         for (MenuGroup group : moduleMenus) {
             if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/admin")) {
                 group.addItem(item);
             }
         }
+
         for (MenuGroup group : ucenterMenus) {
             if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/ucenter")) {
                 group.addItem(item);
             }
+        }
+
+        if (ucenterPersonalMenus.getId().equals(item.getGroupId())){
+            ucenterPersonalMenus.addItem(item);
+        }
+
+        if (ucenterFinanceMenus.getId().equals(item.getGroupId())){
+            ucenterFinanceMenus.addItem(item);
         }
     }
 
@@ -202,7 +226,7 @@ public class MenuManager implements JbootEventListener {
         MenuGroup commentMenuGroup = new MenuGroup();
         commentMenuGroup.setId("comment");
         commentMenuGroup.setText("我的评论");
-        commentMenuGroup.setIcon("<i class=\"fa fa-fw fa-commenting\"></i>");
+        commentMenuGroup.setIcon("<i class=\"fas fa-comments\"></i>");
         commentMenuGroup.setOrder(88);
         ucenterMenus.add(commentMenuGroup);
 
@@ -210,12 +234,13 @@ public class MenuManager implements JbootEventListener {
         MenuGroup favoriteMenuGroup = new MenuGroup();
         favoriteMenuGroup.setId("favorite");
         favoriteMenuGroup.setText("我的收藏");
-        favoriteMenuGroup.setIcon("<i class=\"fa fa-fw fa-bookmark\"></i>");
+        favoriteMenuGroup.setIcon("<i class=\"fas fa-bookmark\"></i>");
         favoriteMenuGroup.setOrder(99);
         ucenterMenus.add(favoriteMenuGroup);
 
         addMenuItems(buildUCenterMenuItems());
     }
+
 
 
     // 用于排除掉 BaseController 中的几个成为了 action 的方法
@@ -258,7 +283,7 @@ public class MenuManager implements JbootEventListener {
 
     private static List<MenuItem> buildUCenterMenuItems() {
 
-        List<MenuItem> adminMenuItems = new ArrayList<>();
+        List<MenuItem> menuItems = new ArrayList<>();
         List<String> allActionKeys = JFinal.me().getAllActionKeys();
 
         String[] urlPara = new String[1];
@@ -276,11 +301,11 @@ public class MenuManager implements JbootEventListener {
                     continue;
                 }
 
-                adminMenuItems.add(new MenuItem(uCenterMenu, actionKey));
+                menuItems.add(new MenuItem(uCenterMenu, actionKey));
             }
         }
 
-        return adminMenuItems;
+        return menuItems;
     }
 
 
@@ -294,6 +319,14 @@ public class MenuManager implements JbootEventListener {
 
     public List<MenuGroup> getUcenterMenus() {
         return ucenterMenus;
+    }
+
+    public MenuGroup getUcenterFinanceMenus() {
+        return ucenterFinanceMenus;
+    }
+
+    public MenuGroup getUcenterPersonalMenus() {
+        return ucenterPersonalMenus;
     }
 
     @Override

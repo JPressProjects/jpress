@@ -57,7 +57,7 @@ public class ModuleGenerator {
         this.dbTables = dbTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
+        this.basePath = PathKit.getWebRootPath() + "/../../../../module-" + moduleName;
     }
 
     public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String optionsTables, String modelPackage, String servicePackage) {
@@ -69,7 +69,7 @@ public class ModuleGenerator {
         this.dbTables = dbTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getWebRootPath() + "/../module-" + moduleName;
+        this.basePath = PathKit.getWebRootPath() + "/../../../../module-" + moduleName;
     }
 
 
@@ -92,7 +92,7 @@ public class ModuleGenerator {
     private void genModule() {
         String modelPath = basePath + "/module-" + moduleName + "-model";
         String webPath = basePath + "/module-" + moduleName + "-web";
-        String serviceApiPath = basePath + "/module-" + moduleName + "-service-api";
+        String serviceApiPath = basePath + "/module-" + moduleName + "-service";
         String serviceProviderPath = basePath + "/module-" + moduleName + "-service-provider";
 
         File modelFile = new File(modelPath);
@@ -111,7 +111,7 @@ public class ModuleGenerator {
         String modulePath = basePath;
         String modelPath = basePath + "/module-" + moduleName + "-model";
         String webPath = basePath + "/module-" + moduleName + "-web";
-        String serviceApiPath = basePath + "/module-" + moduleName + "-service-api";
+        String serviceApiPath = basePath + "/module-" + moduleName + "-service";
         String serviceProviderPath = basePath + "/module-" + moduleName + "-service-provider";
 
 
@@ -148,7 +148,7 @@ public class ModuleGenerator {
 
         File serviceApiPomXmlFile = new File(serviceApiFile, "pom.xml");
         if (!serviceApiPomXmlFile.exists()) {
-            engine.getTemplate("io/jpress/codegen/templates/pom_service_api_template.jf").render(map, serviceApiPomXmlFile);
+            engine.getTemplate("io/jpress/codegen/templates/pom_service_template.jf").render(map, serviceApiPomXmlFile);
         }
 
         File serviceProviderPomXmlFile = new File(serviceProviderFile, "pom.xml");
@@ -173,7 +173,7 @@ public class ModuleGenerator {
     private void genCode() {
 
         String modelModuleName = "/module-" + moduleName + "-model";
-        String serviceApiModuleName = "/module-" + moduleName + "-service-api";
+        String serviceApiModuleName = "/module-" + moduleName + "-service";
         String serviceProviderModuleName = "/module-" + moduleName + "-service-provider";
 
         JbootApplication.setBootArg("jboot.datasource.url", dbUrl);

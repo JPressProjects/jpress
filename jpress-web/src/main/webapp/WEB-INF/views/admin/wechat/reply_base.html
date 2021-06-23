@@ -1,71 +1,80 @@
 #@layout()
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            默认回复
-            <small>Action Reply Management</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                默认回复
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 微信 / 默认回复</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+
+
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
-                        <div class="box-body ">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">新用户关注时</label>
+                    <form class=" form-setting" autocomplete="off" id="optionForm">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">新用户关注时</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="欢迎关系微信公众号..."
                                               name="wechat_reply_user_subscribe">#option("wechat_reply_user_subscribe")</textarea>
-                                    <p class="help-block">输入 key:关键字 会自动触发自动回复里的关键字配置内容。 </p>
+                                    <p class="text-muted">输入 key:关键字 会自动触发自动回复里的关键字配置内容。 </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">扫码带参数二维码</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">扫码带参数二维码</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="欢迎关系微信公众号..."
                                               name="wechat_reply_user_scan">#option("wechat_reply_user_scan")</textarea>
-                                    <p class="help-block">输入 key:关键字 会自动触发自动回复里的关键字配置内容。 </p>
+                                    <p class="text-muted">输入 key:关键字 会自动触发自动回复里的关键字配置内容。 </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">无法解析内容时</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">无法解析内容时</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="对不起，暂时不知道说说的是什么意思..."
+                                    <textarea rows="3" class="form-control" placeholder="对不起，暂时不知道您说的是什么意思..."
                                               name="wechat_reply_unknow">#option("wechat_reply_unknow")</textarea>
                                 </div>
                             </div>
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
 
     </section>
-
-</div>
 #end

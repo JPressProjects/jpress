@@ -53,6 +53,15 @@
         padding-top: 60px;
     }
 
+    .tab-content > .tab-pane {
+        padding: 1rem;
+    }
+
+    .card.card-outline-tabs .card-header a {
+        border-top-color: #dee2e6;
+    }
+
+
 </style>
 #end
 
@@ -93,107 +102,108 @@
 
 #define content()
 
-<div class="row" style="padding-top: 1px">
-    <div class="col-xs-12" style="padding: 0 20px">
+<div class="card card-outline card-tabs" style="box-shadow: none;">
+    <div class="card-header p-0 border-bottom-0">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">图片上传</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">图片库</a></li>
+        </ul>
 
-        <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                <li><a href="#timeline" data-toggle="tab">图片上传</a></li>
-                <li class="active"><a href="#activity" data-toggle="tab">图片库</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane" id="timeline">
-                    <div id="uploader">
-                            <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
-                                <i class="glyphicon glyphicon-plus"></i>
+    </div>
+
+    <div class="card-body">
+        <div class="tab-content" style="padding-top:20px;">
+            <div class="tab-pane" id="timeline">
+                <div id="uploader">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 160px;">
+                                <i class="fas fa-plus"></i>
                                 <span>选择文件...</span>
                                 <input id="cfile" type="file" name="files[]" multiple>
                             </span>
 
-                        <div class="myPanel">
-                            或者拖动文件到这里进行上传...
-                        </div>
-
+                    <div class="myPanel">
+                        或者拖动文件到这里进行上传...
                     </div>
+
+                </div>
+            </div>
+
+            <div class="active tab-pane" id="activity">
+                <div class="my-row">
+                    #for(attachment : page.list)
+                    <div class="attachment_item" data-aid="#(attachment.id ??)">
+                        #if(attachment.isImage())
+                        <img src="#(CPATH)#(attachment.path ??)"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isDoc())
+                        <img src="#(CPATH)/static/commons/img/suffix/doc.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isXls())
+                        <img src="#(CPATH)/static/commons/img/suffix/xls.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isPpt())
+                        <img src="#(CPATH)/static/commons/img/suffix/ppt.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isTxt())
+                        <img src="#(CPATH)/static/commons/img/suffix/txt.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isZip())
+                        <img src="#(CPATH)/static/commons/img/suffix/zip.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isRar())
+                        <img src="#(CPATH)/static/commons/img/suffix/rar.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isExe())
+                        <img src="#(CPATH)/static/commons/img/suffix/exe.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isPdf())
+                        <img src="#(CPATH)/static/commons/img/suffix/pdf.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isAudio())
+                        <img src="#(CPATH)/static/commons/img/suffix/audio.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #elseif(attachment.isVideo())
+                        <img src="#(CPATH)/static/commons/img/suffix/video.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #else
+                        <img src="#(CPATH)/static/commons/img/suffix/unknow.png"
+                             data-path="#(attachment.path ??)"
+                             title="#(attachment.title ??)"
+                             alt="#(attachment.title ??)">
+                        #end
+                        <div class="attachment_item_title">
+                            <p>#(attachment.title ??)</p>
+                        </div>
+                    </div>
+
+                    #end
                 </div>
 
-                <div class="active tab-pane" id="activity">
-                    <div class="my-row">
-                        #for(attachment : page.list)
-                        <div class="attachment_item" data-aid="#(attachment.id ??)">
-                            #if(attachment.isImage())
-                            <img src="#(CPATH)#(attachment.path ??)"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)" >
-                            #elseif(attachment.isDoc())
-                            <img src="#(CPATH)/static/commons/img/suffix/doc.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isXls())
-                            <img src="#(CPATH)/static/commons/img/suffix/xls.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isPpt())
-                            <img src="#(CPATH)/static/commons/img/suffix/ppt.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isTxt())
-                            <img src="#(CPATH)/static/commons/img/suffix/txt.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isZip())
-                            <img src="#(CPATH)/static/commons/img/suffix/zip.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isRar())
-                            <img src="#(CPATH)/static/commons/img/suffix/rar.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isExe())
-                            <img src="#(CPATH)/static/commons/img/suffix/exe.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isPdf())
-                            <img src="#(CPATH)/static/commons/img/suffix/pdf.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isAudio())
-                            <img src="#(CPATH)/static/commons/img/suffix/audio.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #elseif(attachment.isVideo())
-                            <img src="#(CPATH)/static/commons/img/suffix/video.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #else
-                            <img src="#(CPATH)/static/commons/img/suffix/unknow.png"
-                                 data-path="#(attachment.path ??)"
-                                 title="#(attachment.title ??)"
-                                 alt="#(attachment.title ??)">
-                            #end
-                            <div class="attachment_item_title">
-                                <p>#(attachment.title ??)</p>
-                            </div>
-                        </div>
-
-                        #end
-                    </div>
-
-                    <div class="row" style="padding-right: 20px">
-                        <div class="col-sm-12">
-                            #@_paginate()
-                        </div>
+                <div class="row" style="padding-right: 20px;padding-top: 30px">
+                    <div class="col-12">
+                        #@_paginate()
                     </div>
                 </div>
             </div>

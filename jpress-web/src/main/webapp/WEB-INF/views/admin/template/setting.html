@@ -14,21 +14,34 @@
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            模板设置
-            <small>Template Setting</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                模板设置
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 模板 / 模板设置</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+
     </section>
+
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-body myPanel">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-body myPanel">
                         当前模板#(template.title ??)不支持设置功能
                     </div>
                 </div>
@@ -36,6 +49,4 @@
         </div>
 
     </section>
-
-</div>
 #end

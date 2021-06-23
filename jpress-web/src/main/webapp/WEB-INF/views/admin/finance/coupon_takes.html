@@ -9,23 +9,10 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        if (confirm("确定要删除选中的优惠码吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/finance/coupon/doCodeDelByIds?ids=" + ids);
-        }
-    })
-
-
 </script>
 #end
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
         <h1>
@@ -36,29 +23,28 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
 
-                        <div class="row actionPanel">
+                        <div class="row admin-search-panel">
                             <div class="col-xs-12">
                                 <a href="#(CPATH)/admin/finance/coupon/takeEdit?cid=#(coupon.id)" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新分配
+                                    <i class="fas fa-plus"></i> 新分配
                                 </a>
                                 <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
                             </div>
                         </div>
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" id="checkall" type="checkbox"/>
 
                                 <th style="">优惠码</th>
                                 <th style="width: 25%">优惠券名称</th>
@@ -67,15 +53,15 @@
                                 <th style="width: 10%">状态</th>
                             </tr>
                             #for(code : page.list ??)
-                            <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(code.id ??)" />
+                            <tr>
+                                <td><input name="tableItem" type="checkbox" value="#(code.id ??)" />
                                 </td>
                                 <td>
                                     <strong>
                                         #(code.code ??)
                                     </strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
                                             <a href="#(CPATH)/admin/finance/coupon/takeEdit/#(code.id)?cid=#(code.coupon_id)">编辑</a> |
                                             <a href="#(CPATH)/admin/finance/coupon/useds/?codeid=#(code.id)">使用记录</a> |
                                             <a href="javascript:;" class="red-action" onclick="doDel('#(code.id)')">删除</a>
@@ -91,23 +77,47 @@
                                 </td>
                                 <td>#(code.statusStr ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+                                            <label class="form-check-label" for="checkall">全选</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select class="form-control" name="action">
+                                            <option value="">请选择...</option>
+                                            <option value="doDelByIds" open-type="del-confirm">
+                                                批量删除
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
-</div>
 #end

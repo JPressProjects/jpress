@@ -27,6 +27,9 @@ public class UserOpenidServiceProvider extends JbootServiceBase<UserOpenid> impl
     @Override
     @Cacheable(name = "useropenid",key = "#(type)-#(openId)")
     public User findByTypeAndOpenId(String type, String openId) {
+        if (StrUtil.isBlank(type) || StrUtil.isBlank(openId)){
+            return null;
+        }
         UserOpenid userOpenid = DAO.findFirstByColumns(Columns.create("type", type).eq("value", openId));
         return userOpenid != null ? userService.findById(userOpenid.getUserId()) : null;
     }

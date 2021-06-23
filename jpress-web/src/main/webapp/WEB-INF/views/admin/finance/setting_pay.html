@@ -1,43 +1,51 @@
 #@layout()
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-             支付设置
-            <small>Pay Setting</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                支付设置
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 财务 / 支付设置</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off"
-                          id="optionForm">
-                        <div class="box-body ">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">网站域名</label>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form class=" form-setting" autocomplete="off"
+                          id="optionForm">
+                        <div class="card-body">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">网站域名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="填写网站的域名"
                                            name="web_domain" value="#option('web_domain')">
-                                    <p class="help-block"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://www.jpress.io ，
+                                    <p class="text-muted"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://www.jpress.io ，
                                         <span style="color: red">要开启支付功能，必须正确填写此项内容。</span> </p>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">对私收款</h4>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">个人微信收款</label>
+                            <h4 class="form-header">对私收款</h4>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">个人微信收款</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="wechatx_pay_enable"
                                            #checkedIf(option("wechatx_pay_enable"))>
@@ -45,73 +53,65 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">微信收款二维码</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">微信收款二维码</label>
                                 <div class="col-sm-6">
-                                    <button type="button"
-                                            for-src="wechatx_pay_qrcode_img"
-                                            for-input="wechatx_pay_qrcode_input"
-                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                    </button>
-                                    <br/>
-                                    <img src="#(CPATH)#option('wechatx_pay_qrcode','/static/commons/img/nothumbnail.jpg')" id="wechatx_pay_qrcode_img">
-                                    <input type="hidden" id="wechatx_pay_qrcode_input" name="wechatx_pay_qrcode" value="#option('wechatx_pay_qrcode')">
+                                    <div class="jpress-image-browser">
+                                        <input type="hidden" name="wechatx_pay_qrcode" value="#option('wechatx_pay_qrcode')"/>
+                                        <img src="#(CPATH)#option('wechatx_pay_qrcode','/static/commons/img/nothumbnail.jpg')">
+                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                    </div>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">付款说明</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">付款说明</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="wechatx_pay_message">#option("wechatx_pay_message")</textarea>
-                                    <p class="help-block"> 这部分的内容会显示在用户的付款页面里 。
+                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：*** 进行入账" name="wechatx_pay_message">#option("wechatx_pay_message")</textarea>
+                                    <p class="text-muted"> 这部分的内容会显示在用户的付款页面里 。
                                     </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">个人支付宝收款</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">个人支付宝收款</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="alipayx_pay_enable" #checkedIf(option("alipayx_pay_enable"))>
                                     <input type="hidden" id="alipayx_pay_enable" name="alipayx_pay_enable">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">支付宝收款二维码</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">支付宝收款二维码</label>
                                 <div class="col-sm-6">
-                                    <button type="button"
-                                            for-src="alipayx_pay_qrcode_img"
-                                            for-input="alipayx_pay_qrcode_input"
-                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                    </button>
-                                    <br/>
-                                    <img src="#(CPATH)#option('alipayx_pay_qrcode','/static/commons/img/nothumbnail.jpg')" id="alipayx_pay_qrcode_img">
-                                    <input type="hidden" id="alipayx_pay_qrcode_input" name="alipayx_pay_qrcode" value="#option('alipayx_pay_qrcode')">
+                                    <div class="jpress-image-browser">
+                                        <input type="hidden" name="alipayx_pay_qrcode_input" value="#option('alipayx_pay_qrcode_input')"/>
+                                        <img src="#(CPATH)#option('alipayx_pay_qrcode_input','/static/commons/img/nothumbnail.jpg')">
+                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">付款说明</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">付款说明</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：wx198819880 进行入账" name="alipayx_pay_message">#option("alipayx_pay_message")</textarea>
-                                    <p class="help-block"> 这部分的内容会显示在用户的付款页面里 。
+                                    <textarea rows="3" class="form-control" placeholder="例如：付款成功后，请截图并联系微信号：*** 进行入账" name="alipayx_pay_message">#option("alipayx_pay_message")</textarea>
+                                    <p class="text-muted"> 这部分的内容会显示在用户的付款页面里 。
                                     </p>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">微信对公收款</h4>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">开启</label>
+                            <h4 class="form-header">微信对公收款</h4>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">开启</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="wechat_pay_enable"
                                            #checkedIf(option("wechat_pay_enable"))>
                                     <input type="hidden" id="wechat_pay_enable" name="wechat_pay_enable">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         1、PC 扫码支付需要开通 Native 支付功能才能正常使用 。<br/>
                                         2、微信浏览器内支付，需要配置服务号，并开启支付功能 。<br/>
                                         3、手机端、非微信浏览器支付，需要开启 H5 支付才能正常使用 。
@@ -121,44 +121,44 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">商户号</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">商户号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="wechat_pay_mchId" class="form-control" value="#option('wechat_pay_mchId')"
                                            placeholder="">
-                                    <p class="help-block">微信的对公收款要求必须有已经认证的服务号，同时服务号必须已经认证并开通微信支付功能。
+                                    <p class="text-muted">微信的对公收款要求必须有已经认证的服务号，同时服务号必须已经认证并开通微信支付功能。
                                         更多请参考 <a href="https://pay.weixin.qq.com" target="_blank">https://pay.weixin.qq.com</a> 。</p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">应用ID</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">应用ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="wechat_pay_appid" class="form-control" value="#option('wechat_pay_appid')"
                                            placeholder="">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         一般情况下是微信服务号的 appid 。
                                     </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">密钥</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">密钥</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="wechat_pay_secretkey" class="form-control" value="#option('wechat_pay_secretkey')"
                                            placeholder="">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                     密钥需要到微信的商户后台里，找到 API安全，然后再里面进行手动创建 。
                                     </p>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">支付宝对公收款</h4>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">开启</label>
+                            <h4 class="form-header">支付宝对公收款</h4>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">开启</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="alipay_pay_enable"
                                            #checkedIf(option("alipay_pay_enable"))>
@@ -166,28 +166,28 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">开启用户扫码支付功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">开启用户扫码支付功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="alipay_qrcode_pay_enable"
                                            #checkedIf(option("alipay_qrcode_pay_enable"))>
                                     <input type="hidden" id="alipay_qrcode_pay_enable" name="alipay_qrcode_pay_enable">
-                                    <p class="help-block">需要在支付宝申请 【当面付收单】才能开启此功能。 </p>
+                                    <p class="text-muted">需要在支付宝申请 【当面付收单】才能开启此功能。 </p>
 
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">合作者ID</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">合作者ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="alipay_pay_pid" class="form-control" value="#option('alipay_pay_pid')"
                                            placeholder="">
-                                    <p class="help-block">支付宝的合作者ID 和 应用ID 等信息请去 <a href="https://open.alipay.com" target="_blank" >https://open.alipay.com</a> 申请。 </p>
+                                    <p class="text-muted">支付宝的合作者ID 和 应用ID 等信息请去 <a href="https://open.alipay.com" target="_blank" >https://open.alipay.com</a> 申请。 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">应用ID</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">应用ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="alipay_pay_appid" class="form-control" value="#option('alipay_pay_appid')"
                                            placeholder="">
@@ -196,18 +196,18 @@
 
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">支付宝公钥</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">支付宝公钥</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="alipay_pay_publicKey">#option("alipay_pay_publicKey")</textarea>
-                                    <p class="help-block"><span style="color: red"> 注意：不是自己创建的公钥，需要通过支付宝商户后台获取。</span> </p>
+                                    <p class="text-muted"><span style="color: red"> 注意：不是自己创建的公钥，需要通过支付宝商户后台获取。</span> </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">应用私钥</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">应用私钥</label>
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control" placeholder="..."
                                               name="alipay_pay_privateKey">#option("alipay_pay_privateKey")</textarea>
@@ -215,37 +215,37 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">收款账号</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">收款账号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="alipay_pay_seller" class="form-control" value="#option('alipay_pay_seller')"
                                            placeholder="">
-                                    <p class="help-block">请填写支付宝的商户收款账号，一般情况下和 合作者ID 的值相同。 </p>
+                                    <p class="text-muted">请填写支付宝的商户收款账号，一般情况下和 合作者ID 的值相同。 </p>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">PayPal对公收款</h4>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">开启</label>
+                            <h4 class="form-header">PayPal对公收款</h4>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">开启</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="paypal_pay_enable"
                                            #checkedIf(option("paypal_pay_enable"))>
                                     <input type="hidden" id="paypal_pay_enable" name="paypal_pay_enable">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">商户号</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">商户号</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="paypal_pay_clientid" class="form-control" value="#option('paypal_pay_clientid')"
                                            placeholder="">
-                                    <p class="help-block">Paypal 的商户号及密钥等请去 <a href="https://developer.paypal.com/" target="_blank">https://developer.paypal.com/</a> 申请。 </p>
+                                    <p class="text-muted">Paypal 的商户号及密钥等请去 <a href="https://developer.paypal.com/" target="_blank">https://developer.paypal.com/</a> 申请。 </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">商户密钥</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">商户密钥</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="paypal_pay_clientsecret" class="form-control" value="#option('paypal_pay_clientsecret')"
                                            placeholder="">
@@ -254,21 +254,18 @@
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
-
     </section>
 
-</div>
 #end

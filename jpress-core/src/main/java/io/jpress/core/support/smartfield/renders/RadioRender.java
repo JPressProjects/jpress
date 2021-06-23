@@ -29,8 +29,8 @@ import java.util.Objects;
 public class RadioRender implements SmartFieldRender {
 
     protected static String template1 = "" +
-            "<div class=\"form-group\">\n" +
-            "    <label class=\"col-sm-2 control-label\">{label}</label>";
+            "<div class=\"form-group row\">\n" +
+            "    <label class=\"col-sm-2 col-form-label\">{label}</label>";
 
 
     protected static String template_item = "" +
@@ -58,7 +58,7 @@ public class RadioRender implements SmartFieldRender {
         int index = 0;
         StringBuilder items = new StringBuilder();
         for (String v : values) {
-            String item = template_item.replace("{offset}", index == 0 ? "" : "col-sm-offset-2")
+            String item = template_item.replace("{offset}", index == 0 ? "" : "offset-sm-2")
                     .replace("{text}", getText(texts, index++, v))
                     .replace("{checked}", getCheckedText(v, value))
                     .replace("{name}", field.getName())
@@ -67,7 +67,7 @@ public class RadioRender implements SmartFieldRender {
         }
 
         return RenderKit.replace(template1, "{label}", field.getLabel()) +
-                items.toString() + template2;
+                items + template2;
     }
 
     private String getCheckedText(String v, Object value) {

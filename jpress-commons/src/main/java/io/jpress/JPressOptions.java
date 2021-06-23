@@ -34,6 +34,8 @@ public class JPressOptions {
 
     private static OptionStore store = OptionStore.defaultOptionStore;
     private static List<OptionChangeListener> listeners = new ArrayList<>();
+    private static OptionNotifier notifier = null;
+
 
     public static void set(String key, String value) {
         if (StrUtil.isBlank(key)) {
@@ -58,6 +60,10 @@ public class JPressOptions {
             }
         }
 
+        if (notifier != null) {
+            notifier.notifyOptionSet(key, value);
+        }
+
         doFinishedChanged(key, value, oldValue);
     }
 
@@ -73,7 +79,7 @@ public class JPressOptions {
     }
 
     public static boolean getAsBool(String key) {
-        return getAsBool(key,false);
+        return getAsBool(key, false);
     }
 
     public static boolean getAsBool(String key, boolean defaultValue) {
@@ -81,7 +87,6 @@ public class JPressOptions {
         return StrUtil.isBlank(value) ? defaultValue : Boolean.parseBoolean(value);
     }
 
-    @Deprecated
     public static boolean isTrueOrEmpty(String key) {
         return getAsBool(key, true);
     }
@@ -132,10 +137,17 @@ public class JPressOptions {
         listeners.remove(listener);
     }
 
+    public static OptionNotifier getNotifier() {
+        return notifier;
+    }
+
+    public static void setNotifier(OptionNotifier notifier) {
+        JPressOptions.notifier = notifier;
+    }
 
     public static String getCDNDomain() {
         boolean cdnEnable = getAsBool(JPressConsts.OPTION_CDN_ENABLE);
-        if (cdnEnable == false) {
+        if (!cdnEnable) {
             return StrUtil.EMPTY;
         }
 
@@ -147,8 +159,8 @@ public class JPressOptions {
         return cdnDomain == null ? get(JPressConsts.OPTION_WEB_DOMAIN) : cdnDomain;
     }
 
-    public static interface OptionChangeListener {
-        public void onChanged(String key, String newValue, String oldValue);
+    public interface OptionChangeListener {
+        void onChanged(String key, String newValue, String oldValue);
     }
 
 
@@ -166,8 +178,19 @@ public class JPressOptions {
 
         //伪静态后缀
         else if (JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX.equals(key)) {
-            fakeStaticSuffix = value;
+            fakeStaticSuffix = StrUtil.defaultIfBlank(value, ".html");
         }
+
+        //是否启用扁平化的URL
+        else if (JPressConsts.OPTION_WEB_FLAT_URL_ENABLE.equals(key)) {
+            flatUrlEnable = "true".equalsIgnoreCase(value);
+        }
+
+        //是否开启模板预览功能
+        else if (JPressConsts.OPTION_WEB_TEMPLATE_PREVIEW_ENABLE.equals(key)) {
+            templatePreviewEnable = "true".equalsIgnoreCase(value);
+        }
+
     }
 
     private static String indexStyleValue = null;
@@ -181,11 +204,36 @@ public class JPressOptions {
     private static String fakeStaticSuffix = "";
 
     public static String getAppUrlSuffix() {
-        if (!fakeStaticEnable || StrUtil.isBlank(fakeStaticSuffix)) {
-            return "";
+        if (!fakeStaticEnable) {
+            return StrUtil.EMPTY;
+        }
+        if (StrUtil.isBlank(fakeStaticSuffix)) {
+            fakeStaticSuffix = StrUtil.defaultIfBlank(get(JPressConsts.OPTION_WEB_FAKE_STATIC_SUFFIX), ".html");
         }
 
         return fakeStaticSuffix;
+    }
+
+
+    private static boolean templatePreviewEnable = false;
+
+    public static boolean isTemplatePreviewEnable() {
+        return templatePreviewEnable;
+    }
+
+    public static void setTemplatePreviewEnable(boolean templatePreviewEnable) {
+        JPressOptions.templatePreviewEnable = templatePreviewEnable;
+    }
+
+
+    private static boolean flatUrlEnable = false;
+
+    public static boolean isFlatUrlEnable() {
+        return flatUrlEnable;
+    }
+
+    public static void setFlatUrlEnable(boolean flatUrlEnable) {
+        JPressOptions.flatUrlEnable = flatUrlEnable;
     }
 
     public static OptionStore getStore() {
@@ -196,15 +244,15 @@ public class JPressOptions {
         JPressOptions.store = store;
     }
 
-    public static interface OptionStore {
+    public interface OptionStore {
 
-        public String get(String key);
+        String get(String key);
 
-        public void put(String key, String value);
+        void put(String key, String value);
 
-        public void remove(String key);
+        void remove(String key);
 
-        public static final OptionStore defaultOptionStore = new OptionStore() {
+        OptionStore defaultOptionStore = new OptionStore() {
 
             private final Map<String, String> cache = new ConcurrentHashMap<>();
 
@@ -228,6 +276,10 @@ public class JPressOptions {
             }
         };
 
+    }
+
+    public interface OptionNotifier {
+        void notifyOptionSet(String key, String value);
     }
 
 

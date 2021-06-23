@@ -22,7 +22,7 @@
 通过git命令下载
 
 ```
-git clone https://gitee.com/fuhai/jpress.git
+git clone https://gitee.com/JPressProjects/jpress.git
 ```
 下载完成后，你需要通过 maven 进行编译才能使用，maven编译命令：
 
@@ -53,7 +53,7 @@ mvn clean install
 #### 下载tomcat压缩包
 进入 Gitee 的 JPress 发行页面进行下载
 
->链接地址： https://gitee.com/fuhai/jpress/releases
+>链接地址： https://gitee.com/JPressProjects/jpress/releases
 
 在每个版本的发行下方，会有对应版本的下载链接，点击即可下载，如下图所示：
 ![](./images/install_01.jpg)
@@ -80,14 +80,14 @@ mvn clean install
 #### 在 Linux 上安装 JPress :
 
 ```
-wget https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
+wget https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 ```
 
 #### 在 Mac OS（苹果电脑）上安装 JPress :
 
 ```
-curl -O https://gitee.com/fuhai/jpress/raw/master/docker-compose.yml
+curl -O https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml
 docker-compose up -d
 ```
 

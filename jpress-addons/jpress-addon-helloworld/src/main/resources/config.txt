@@ -2,7 +2,7 @@ db.type = mysql
 db.url
 db.user
 db.password
-db.driverClassName = "com.mysql.jdbc.Driver"
+db.driverClassName = com.mysql.jdbc.Driver
 db.connectionInitSql
 db.poolName
 db.cachePrepStmts = true

@@ -26,7 +26,7 @@
 ## 下载
 
 ```
-git clone https://gitee.com/fuhai/jpress.git
+git clone https://gitee.com/JPressProjects/jpress.git
 ```
 
 ## 编译

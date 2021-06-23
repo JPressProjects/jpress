@@ -606,7 +606,7 @@ CREATE TABLE `user_order` (
   `delivery_addr_zipcode` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人地址邮政编码',
   `invoice_id` int(11) unsigned DEFAULT NULL COMMENT '发票',
   `invoice_status` tinyint(2) DEFAULT NULL COMMENT '发票开具状态：1 未申请发票、 2 发票申请中、 3 发票开具中、 8 无需开具发票、 9发票已经开具',
-  `remarks` text COLLATE utf8mb4_unicode_ci COMMENT '管理员后台憋住',
+  `remarks` text COLLATE utf8mb4_unicode_ci COMMENT '管理员后台备注',
   `options` text COLLATE utf8mb4_unicode_ci COMMENT 'json字段扩展',
   `trade_status` tinyint(2) DEFAULT NULL COMMENT '交易状态：1交易中、 2交易完成（但是可以申请退款） 、3取消交易 、4申请退款、 5拒绝退款、 6退款中、 7退款完成、 9交易结束',
   `del_status` tinyint(2) DEFAULT NULL COMMENT '删除状态：1 正常 ，2 回收站 3 已经删除',

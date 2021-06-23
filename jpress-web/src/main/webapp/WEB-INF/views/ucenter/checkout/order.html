@@ -15,7 +15,7 @@
             title: "选择地址",
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['60%', '60%'],
             content: '#(CPATH)/ucenter/address/layer',
             end: function () {
@@ -42,7 +42,7 @@
 
 #define css()
 <style>
-    .page-header {
+    .form-header {
         margin: 10px 0 20px;
     }
 
@@ -66,7 +66,7 @@
         height: 60px;
         background-color: #fff;
         border-top: solid 1px #ccc;
-        box-shadow: -15px 10px 10px 10px #ccc;;
+        card-shadow: -15px 10px 10px 10px #ccc;;
     }
 
     .bottom-content {
@@ -94,12 +94,10 @@
         <!-- Main content -->
         <section class="invoice">
             <!-- title row -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2 class="page-header">
+            <div class="container-fluid">
+                    <h2 class="form-header">
                         <i class="fa fa-globe"></i> 产品信息.
                     </h2>
-                </div>
             </div>
 
 
@@ -146,13 +144,11 @@
             </div>
             <!-- /.row -->
 
-            <div class="row">
-                <div class="col-xs-12">
+            <div class="container-fluid">
                     <h2 class="page-footer">
-                        <small class="pull-right">应支付: <span
+                        <small class="float-right">应支付: <span
                                 id="totalPrice">#number(order.orderRealAmount,'0.00')</span>￥</small>
                     </h2>
-                </div>
             </div>
 
         </section>
@@ -160,41 +156,38 @@
         <!-- Main content -->
         <section class="invoice">
             <!-- title row -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2 class="page-header">
+            <div class="container-fluid">
+                    <h2 class="form-header">
                         <i class="fa fa-globe"></i> 订单信息.
                     </h2>
-                </div>
-                <!-- /.col -->
             </div>
 
 
             <div class="row">
                 <!-- accepted payments column -->
                 <div class="col-lg-6">
-                    <div class="box box-dashboard">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">收件人信息</h3>
+                    <div class="card card-outline card-dashboard">
+                        <div class="card-header with-border">
+                            <h3 class="card-title">收件人信息</h3>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
+                        <!-- /.card-header -->
+                        <div class="card-body">
                             <!-- text input -->
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>联系人</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_username"
                                        id="addr_username"
                                        placeholder="收件人的姓名..." value="#(defaultAddress.username ??)">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>联系电话</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_mobile"
                                        id="addr_mobile"
                                        placeholder="收件人的电话..." value="#(defaultAddress.mobile ??)">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>地址</label>
                                 <div data-toggle="distpicker" class="form-inline" data-autoselect="3" id="distpicker">
                                     <select class="form-control" name="order.delivery_addr_province" id="addr_province"
@@ -206,14 +199,14 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>详细地址</label>
                                 <textarea class="form-control" name="order.delivery_addr_detail" id="addr_detail"
                                           placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"
                                           rows="2">#(defaultAddress.detail ??)</textarea>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>邮政编码</label>
                                 <input type="text" class="form-control" name="order.delivery_addr_zipcode"
                                        id="addr_zipcode"
@@ -222,7 +215,7 @@
 
 
                             <div class="col-xs-12">
-                                <button type="button" class="btn btn-primary pull-right" onclick="seleteAddress()">
+                                <button type="button" class="btn btn-primary float-right" onclick="seleteAddress()">
                                     <i class="fa fa-fw fa-street-view"></i>
                                     选择其他地址
                                 </button>
@@ -236,13 +229,13 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-lg-6">
-                    <div class="box box-dashboard">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">支付信息</h3>
+                    <div class="card card-outline card-dashboard">
+                        <div class="card-header with-border">
+                            <h3 class="card-title">支付信息</h3>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="form-group">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="form-group row">
                                 <label>支付方式</label>
 
                                 #if(wechatxConfig.isEnable())
@@ -302,7 +295,7 @@
 
 
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label>买家留言</label>
                                 <textarea class="form-control" rows="3" name="payer_msg"
                                           placeholder="给卖家的留言信息"></textarea>
@@ -316,7 +309,7 @@
 
             <div class="row no-print">
                 <div class="col-xs-12">
-                    <button type="submit" id="submit" class="btn btn-success pull-right"><i
+                    <button type="submit" id="submit" class="btn btn-success float-right"><i
                             class="fa fa-credit-card"></i>
                         提交订单
                     </button>

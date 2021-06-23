@@ -23,8 +23,12 @@ package io.jpress;
  */
 public class JPressConsts {
 
-    public static final String VERSION = "v3.3.0";
-    public static final String VERSION_CODE = "25";
+    public static final String VERSION = "v4.0.7";
+
+    //v2.x not define
+    //v3.x  VERSION_CODE < 40
+    //v4.x  VERSION_CODE >= 40
+    public static final String VERSION_CODE = "47";
 
     /**
      * 后台系统菜单的 ID
@@ -38,6 +42,12 @@ public class JPressConsts {
     public static final String SYSTEM_MENU_FINANCE = "finance";
     public static final String SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT = "wechat_pubulic_account";
     public static final String SYSTEM_MENU_WECHAT_MINI_PROGRAM = "wechat_mini_program";
+
+    /**
+     * 用户中心的菜单ID
+     */
+    public static final String UCENTER_MENU_FINANCE_INFO ="ucenter_finance";
+    public static final String UCENTER_MENU_PERSONAL_INFO ="ucenter_Personal";
 
 
     /**
@@ -56,6 +66,8 @@ public class JPressConsts {
 
     public static final String OPTION_WEB_FAKE_STATIC_ENABLE = "web_fake_static_enable"; //是否启用伪静态
     public static final String OPTION_WEB_FAKE_STATIC_SUFFIX = "web_fake_static_suffix"; //网站伪静态后缀
+    public static final String OPTION_WEB_TEMPLATE_PREVIEW_ENABLE = "web_template_preview_enable"; //是否启用模板预览功能
+    public static final String OPTION_WEB_FLAT_URL_ENABLE = "web_flat_url_enable"; //是否启用扁平化 URL
 
     public static final String OPTION_CDN_ENABLE = "cdn_enable"; //是否启用CDN
     public static final String OPTION_CDN_DOMAIN = "cdn_domain"; //CDN域名
@@ -122,6 +134,8 @@ public class JPressConsts {
 
 
     public static final String JWT_USERID = "userId";
+    public static final String JWT_OPENID = "openId";
+    public static final String JWT_UNIONID = "unionId";
 
 
     public static final String DEFAULT_ADMIN_VIEW = "/WEB-INF/views/admin/";

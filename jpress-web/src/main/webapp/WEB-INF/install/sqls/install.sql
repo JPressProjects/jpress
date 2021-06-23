@@ -887,7 +887,7 @@ CREATE TABLE `user_order` (
   `delivery_addr_zipcode` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收件人地址邮政编码',
   `invoice_id` int(11) unsigned DEFAULT NULL COMMENT '发票',
   `invoice_status` tinyint(2) DEFAULT NULL COMMENT '发票开具状态：1 未申请发票、 2 发票申请中、 3 发票开具中、 8 无需开具发票、 9发票已经开具',
-  `remarks` text COLLATE utf8mb4_unicode_ci COMMENT '管理员后台憋住',
+  `remarks` text COLLATE utf8mb4_unicode_ci COMMENT '管理员后台备注',
   `options` text COLLATE utf8mb4_unicode_ci COMMENT 'json字段扩展',
   `trade_status` tinyint(2) DEFAULT NULL COMMENT '交易状态：1交易中、 2交易完成（但是可以申请退款） 、3取消交易 、4申请退款、 5拒绝退款、 6退款中、 7退款完成、 9交易结束',
   `del_status` tinyint(2) DEFAULT NULL COMMENT '删除状态：1 正常 ，2 回收站 3 已经删除',
@@ -1109,4 +1109,4 @@ CREATE TABLE `wechat_reply` (
 
 
 INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`)
-VALUES (1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,4,'2019-09-02 11:42:02','2019-09-02 11:44:26',NULL,NULL,NULL,NULL);
+VALUES (1,NULL,NULL,'欢迎使用JPress','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>','html',NULL,NULL,NULL,NULL,1,0,'normal',1,0,NULL,4,'2021-06-01 12:00:00','2021-06-01 12:00:00',NULL,NULL,NULL,NULL);

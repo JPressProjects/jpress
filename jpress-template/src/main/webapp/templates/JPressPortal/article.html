@@ -3,11 +3,9 @@
 
 #define css()
 <link href="highlight/styles/railscasts.css" rel="stylesheet">
-<link href="/static/commons/article.css" rel="stylesheet">
 #end
 #define script()
 <script src="/static/components/jquery/jquery.form.min.js"></script>
-<script src="/static/commons/article.js"></script>
 <script src="highlight/highlight.pack.js"></script>
 <script>
 
@@ -42,7 +40,7 @@
                 <h4 class="bl-title">相关文章</h4>
                 <div class="card-deck">
                     #for(article :relevantArticles )
-                    <div class="card bl-panel">
+                    <div class="card card-outlinebl-panel">
                         <a class="recommend-panel-link" href="#(article.url ??)">
                             <div class="recommend-panel-top">
                                 <img src="#(article.showImage ?? 'img/blog-image.jpg')" class="img-fluid"

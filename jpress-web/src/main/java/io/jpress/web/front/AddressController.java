@@ -6,6 +6,8 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jpress.JPressConsts;
+import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.UserAddress;
 import io.jpress.service.UserAddressService;
 import io.jpress.web.base.UcenterControllerBase;
@@ -22,8 +24,8 @@ public class AddressController extends UcenterControllerBase {
     /**
      * 用户地址列表
      */
+    @UCenterMenu(text = "我的地址", groupId = JPressConsts.UCENTER_MENU_PERSONAL_INFO, icon = "<i class=\"fas fa-map-marked\"></i>",order = 20)
     public void index() {
-
         Page<UserAddress> page = userAddressService.paginate(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
         render("address_list.html");
@@ -86,7 +88,7 @@ public class AddressController extends UcenterControllerBase {
     @EmptyValidate({
             @Form(name = "address.username",message = "请填写联系人"),
             @Form(name = "address.mobile",message = "请填写联系方式"),
-            @Form(name = "address.detail",message = "请填写联系地址"),
+            @Form(name = "address.detail",message = "请填写详细地址"),
     })
     public void doAdd() {
         UserAddress address = getBean(UserAddress.class, "address");

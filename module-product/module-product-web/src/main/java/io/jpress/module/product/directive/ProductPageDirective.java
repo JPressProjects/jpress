@@ -16,7 +16,6 @@
 package io.jpress.module.product.directive;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
@@ -26,13 +25,11 @@ import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
-import io.jpress.JPressOptions;
-import io.jpress.commons.directive.DirectveKit;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductService;
-
-import javax.servlet.http.HttpServletRequest;
+import io.jpress.web.base.TemplateControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -47,9 +44,9 @@ public class ProductPageDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Controller controller = JbootControllerContext.get();
+        TemplateControllerBase controller = (TemplateControllerBase) JbootControllerContext.get();
 
-        int page = controller.getParaToInt(1, 1);
+        int page = controller.getPageNumber();
         int pageSize = getParaToInt("pageSize", scope, 10);
         String orderBy = getPara("orderBy", scope, "id desc");
 
@@ -80,23 +77,23 @@ public class ProductPageDirective extends JbootDirectiveBase {
 
         @Override
         protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
-            HttpServletRequest request = JbootControllerContext.get().getRequest();
-            String url = request.getRequestURI();
-            String contextPath = JFinal.me().getContextPath();
 
-            boolean firstGotoIndex = getPara("firstGotoIndex", scope, false);
+            ProductCategory category = JbootControllerContext.get().getAttr("category");
+            if (category != null) {
+                return category.getUrlWithPageNumber(pageNumber);
+            } else {
+                boolean firstGotoIndex = getPara("firstGotoIndex", scope, false);
 
-            if (pageNumber == 1 && firstGotoIndex) {
-                return contextPath + "/";
+                if (pageNumber == 1 && firstGotoIndex) {
+                    return JFinal.me().getContextPath() + "/";
+                }
+
+                if (pageNumber > 1) {
+                    return UrlUtils.getUrl("/products", "/", pageNumber);
+                } else {
+                    return UrlUtils.getUrl("/products");
+                }
             }
-
-            // 如果当前页面是首页的话
-            // 需要改变url的值，因为 上一页或下一页是通过当前的url解析出来的
-            if (url.equals(contextPath + "/")) {
-                url = contextPath + "/product/category/index" + JPressOptions.getAppUrlSuffix();
-            }
-
-            return DirectveKit.replacePageNumber(url, pageNumber);
         }
 
         @Override

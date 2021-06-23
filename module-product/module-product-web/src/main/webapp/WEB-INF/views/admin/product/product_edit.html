@@ -1,10 +1,10 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/vditor/index.min.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
-<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
 
 
 <script>
@@ -17,16 +17,15 @@
         create: true,
         render: {
             option_create: function (data, escape) {
-                return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong> &hellip; </div>';
+                return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong></div>';
             }
         }
     });
 
-    var selectize = $select[0].selectize;
 
     $(".newTag").each(function () {
         $(this).on('click', function () {
-            selectize.createItem($(this).text());
+            $select[0].selectize.createItem($(this).text());
         })
     });
 
@@ -43,13 +42,19 @@
         doSubmit();
     });
 
-    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留product的status
+    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
     window.doSubmit = function () {
+        if (window.currentCKEditor) {
+            $("#content").val(window.currentCKEditor.getData());
+        } else if (window.currentVditor) {
+            $("#content").val(window.currentVditor.getHTML());
+        }
         ajaxSubmit("#form", function (data) {
             $("#productId").attr("value", data.id);
-            toastr.success('产品保存成功。');
+            toastr.success('产品信息保存成功。');
         });
-    }
+    };
+
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
@@ -57,10 +62,14 @@
     })
 
     var editMode = "#(editMode ?? 'html')";
+    if (editMode === 'html') {
+        initCkEdtior('#editor');
+    } else {
+        initVdtior('editor');
+    }
 
-    initEditor('contentEditor', 467, editMode);
 
-    doListenerCtrlsAndCommands(doSubmit);
+    setSaveHotKeyFunction(doSubmit);
 
     $(".choseImage").on("click", function () {
         var html = $("#imageItem").html();
@@ -70,7 +79,7 @@
             title: '选择图片',
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['90%', '90%'],
             content: jpress.cpath + '/admin/attachment/browse',
             end: function () {
@@ -109,17 +118,16 @@
         <img src="{{src}}">
         <input type="hidden" name="imageSrcs" value="{{src}}" />
         <input type="hidden" name="imageIds" value="0" />
-        <i class="fa fa-fw fa-remove image-reset" ></i>
+        <i class="fas fa-trash-alt image-reset" ></i>
     </div>
 </script>
 #end
 #define css()
 <link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.bootstrap4.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/vditor/index.css" rel="stylesheet">
 <style>
     .popover-content {
         padding: 9px 14px;
@@ -149,10 +157,6 @@
         border: none
     }
 
-    /*.img-hover{*/
-    /**/
-    /*}*/
-
     .image-reset {
         display: none;
     }
@@ -172,22 +176,46 @@
         -moz-opacity: 0.5;
         opacity: 0.5;
         cursor: pointer;
+        text-align: center;
     }
 
     .img-hover .image-reset {
         display: none;
     }
 
+    .vditor-wysiwyg pre.vditor-reset:focus {
+        outline: none;
+        background-color: #fff;
+    }
+
+    .ck-editor__editable_inline {
+        min-height: 500px;
+    }
+
 </style>
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            产品编辑
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                产品编辑
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 商品 / 产品编辑</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
@@ -198,12 +226,12 @@
             <div class="row">
                 <div class="col-lg-9">
 
-                    <!-- /.box-header -->
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <div class="form-horizontal">
-                        <div class="form-group">
+                    <div class="">
+                        <div class="form-group row">
                             <div class="col-sm-12">
-                                <input type="input" class="form-control input-lg" name="product.title"
+                                <input type="input" class="form-control form-control-lg" name="product.title" autocomplete="off"
                                        placeholder="请输入标题"
                                        id="product-title"
                                        value="#(product.title ??)">
@@ -211,7 +239,7 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12" style="padding-bottom: 2px">
                                 网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/product/<span id="slug"
                                                                                                                class="slugSpan"
@@ -222,32 +250,27 @@
                                 <input type="hidden" id="product-slug" name="product.slug" value="#(product.slug ??)">
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
-                                <textarea id="contentEditor" name="product.content"
-                                          style="height: 467px;width: 100%;background-color: white">#EditorContent(product.content ??)</textarea>
+                                <div id="editor" >#(product.content ??)</div>
+                                <input type="hidden" name="product.content" id="content"/>
                             </div>
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">产品缩略图</h3>
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
+                                <div class="card card-outlinecard-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">产品缩略图</h3>
                                     </div>
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <div class="card-body">
+                                        <div class="card-body p-0">
 
                                             #for(image : images)
                                             <div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
                                                 <img src="#(image.src ??)">
                                                 <input type="hidden" name="imageSrcs" value="#(image.src ??)" />
                                                 <input type="hidden" name="imageIds" value="#(image.id ?? '0' )" />
-                                                <i class="fa fa-fw fa-remove image-reset" ></i>
+                                                <i class="fas fa-trash-alt image-reset" ></i>
                                             </div>
                                             #end
 
@@ -261,51 +284,45 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">价格</h3>
-
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
+                                <div class="card card-outlinecard-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">价格</h3>
                                     </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">销售价格</label>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">销售价格</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="price"
                                                            name="product.price" placeholder="" value="#(product.price ??)">
-                                                    <p class="help-block">产品的实际销售价格。</p>
+                                                    <p class="text-muted">产品的实际销售价格。</p>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">原价</label>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">原价</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="origin_price"
                                                            name="product.origin_price" placeholder="" value="#(product.origin_price ??)">
-                                                    <p class="help-block">产品的原始价格，页面会使用删除线进行显示。</p>
+                                                    <p class="text-muted">产品的原始价格，页面会使用删除线进行显示。</p>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">限时价格</label>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">限时价格</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="limited_price"
                                                            name="product.limited_price" placeholder="" value="#(product.limited_price ??)">
-                                                    <p class="help-block">限时价格（早鸟价）。</p>
+                                                    <p class="text-muted">限时价格（早鸟价）。</p>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">限时时间</label>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">限时时间</label>
                                                 <div class="col-sm-6">
-                                                    <input type="text" class="form-control datetimepicker" id="limited_time"
+                                                    <input type="text" class="form-control datetime" id="limited_time"
                                                            name="product.limited_time" placeholder="" value="#(product.limited_time ??)">
-                                                    <p class="help-block">到该时间后，限时价格会自动恢复到原始价格。</p>
+                                                    <p class="text-muted">到该时间后，限时价格会自动恢复到原始价格。</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -315,30 +332,24 @@
                         </div>
 
                         #if(memberGroups)
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">会员价</h3>
-
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
+                                <div class="card card-outlinecard-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">会员价</h3>
                                     </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="card-body">
 
                                             #for(group : memberGroups)
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">#(group.name ??)</label>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">#(group.name ??)</label>
                                                 <div class="col-sm-6">
                                                     <input type="hidden" name="memberGroupIds" value="#(group.id ??)">
                                                     <input type="text" class="form-control"
                                                            name="memberGroupPrices" placeholder="" value="#number(group.priceInfo.price ??,'0.00')">
-                                                    <p class="help-block">#(group.name ??)购买该产品的价格。</p>
+                                                    <p class="text-muted">#(group.name ??)购买该产品的价格。</p>
                                                 </div>
                                             </div>
                                             #end
@@ -353,33 +364,28 @@
 
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">分销</h3>
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
+                                <div class="card card-outlinecard-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">分销</h3>
                                     </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">启用分销功能</label>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">启用分销功能</label>
                                                 <div class="col-sm-6">
                                                     <input type="checkbox" class="switchery"  data-for="dist_enable"  #checkedIf(product.dist_enable ??)>
                                                     <input type="hidden" id="dist_enable" name="product.dist_enable">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 control-label">分销收益</label>
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">分销收益</label>
                                                 <div class="col-sm-6">
                                                     <input type="text" class="form-control" id="dist_amount"
                                                            name="product.dist_amount" placeholder="" value="#(product.dist_amount ??)">
-                                                    <p class="help-block">当用户分享的产品连接有人付费后，用户将获得的分成（单位：元）。</p>
+                                                    <p class="text-muted">当用户分享的产品连接有人付费后，用户将获得的分成（单位：元）。</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -390,21 +396,15 @@
 
 
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">其他</h3>
-
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
+                                <div class="card card-outlinecard-solid">
+                                    <div class="card-header with-border">
+                                        <h3 class="card-title">其他</h3>
                                     </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="card-body">
 
                                             #(fields.render())
 
@@ -418,27 +418,27 @@
                 </div>
 
                 <div class="col-lg-3">
-                    <div class="box box-solid">
-                        <div class="box-body ">
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-body">
                             <button type="button" data-status="1" class="btn btn-primary btn-sm submitBtn">上架
                             </button>
                             <button type="button" data-status="2" class="btn btn-default btn-sm submitBtn">草稿
                             </button>
-                            <a href="#" data-status="3" class="pull-right submitBtn"
+                            <a href="#" data-status="3" class="float-right submitBtn"
                                style="padding-top: 5px;">移至垃圾箱</a>
                         </div>
                     </div>
 
 
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">分类</h3>
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">分类</h3>
                         </div>
-                        <div class="box-body ">
-                            <div class="form-group">
+                        <div class="card-body">
+                            <div class="form-group row">
                                 #for(category : categories)
-                                <div class="checkbox">
+                                <div class="form-check">
                                     <label>
                                         #for(i = 0; i < category.layerNumber; i++)
                                         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -459,17 +459,17 @@
                         </div>
                     </div>
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">标签</h3>
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">标签</h3>
                         </div>
-                        <div class="box-body">
-                            <select class="form-control product-tags" multiple="multiple" name="tag">
+                        <div class="card-body">
+                            <select class="product-tags" multiple="multiple" name="tag">
                                 #for(tag : tags)
                                 <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                                 #end
                             </select>
-                            <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                            <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
 
                             <div class="tags">
                                 #productTags(count = 20)
@@ -482,18 +482,18 @@
                     </div>
 
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">产品主图</h3>
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">产品封面</h3>
                         </div>
-                        <div class="box-body no-padding">
+                        <div class="card-body p-0">
                             <img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
-                                 style="width: 100%;height: 200px"
+                                 style="width: 100%;max-height: 500px"
                                  id="thumbnail">
                             <input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
                                    id="productThumbnail">
                         </div>
-                        <div class="box-footer">
+                        <div class="card-footer">
                             <button type="button" class="btn-image-browser btn btn-default btn-sm "
                                     for-src="thumbnail"
                                     for-input="productThumbnail">选择图片
@@ -503,14 +503,14 @@
                     </div>
 
 
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">模板样式</h3>
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">模板样式</h3>
                         </div>
-                        <div class="box-body ">
+                        <div class="card-body">
 
                             #if(styles && styles.size() > 0 )
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <select class="form-control" name="product.style">
                                     <option value="">默认样式</option>
                                     #for(style : styles)
@@ -522,11 +522,11 @@
                             </div>
                             #end
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <input type="text" class="form-control" name="product.flag"
                                        placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
                                 #if(flags && flags.size() > 0)
-                                <p class="help-block">当前模板支持的展示标识有：</p>
+                                <p class="text-muted">当前模板支持的展示标识有：</p>
                                 <div class="tags">
                                     #for(flag : flags ??)
                                     <a href="javascript:;" class="tflag">#(flag)</a>
@@ -544,5 +544,4 @@
         </form>
     </section>
 
-</div>
 #end

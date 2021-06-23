@@ -123,11 +123,9 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
 
     @Override
-    public Page<ArticleComment> _paginateByStatus(int page, int pagesize, Long articleId, String keyword, String status) {
+    public Page<ArticleComment> _paginateByStatus(int page, int pagesize, Columns columns, String status) {
 
-        Columns columns = Columns.create("article_id", articleId)
-                .eq("status", status)
-                .likeAppendPercent("content", keyword);
+        columns.eq("status", status);
 
         Page<ArticleComment> p = DAO.paginateByColumns(page,
                 pagesize,
@@ -141,11 +139,8 @@ public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComme
 
 
     @Override
-    public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize, Long articleId, String keyword) {
-
-        Columns columns = Columns.create("article_id", articleId)
-                .ne("status", ArticleComment.STATUS_TRASH)
-                .likeAppendPercent("content", keyword);
+    public Page<ArticleComment> _paginateWithoutTrash(int page, int pagesize,Columns columns) {
+        columns.ne("status", ArticleComment.STATUS_TRASH);
 
         Page<ArticleComment> p = DAO.paginateByColumns(
                 page,

@@ -1,4 +1,7 @@
 **/target/
+**/dist/
+**/ossutil_output/
+**/node_modules/
 */jpress-addon-club/
 */jpress-addon-articlemeta/
 */jpress-addon-wechatlogin/
@@ -6,9 +9,6 @@
 */jpress-addon-dcode/
 */jpress-addon-smartprogram/
 */jpress-addon-keygen/
-*/jpress-addon-newprod/
-*/jpress-addon-nkzx/
-*/jpress-addon-igetstock/
 starter-dev/
 starter-ent/
 .idea
@@ -28,3 +28,5 @@ logs
 ~$*
 */*.jar
 docker_volumes/
+package-lock.json
+yarn.lock

@@ -436,14 +436,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 管理员后台憋住
+     * 管理员后台备注
      */
 	public void setRemarks(java.lang.String remarks) {
 		set("remarks", remarks);
 	}
 
     /**
-     * 管理员后台憋住
+     * 管理员后台备注
      */
 	public java.lang.String getRemarks() {
 		return getStr("remarks");

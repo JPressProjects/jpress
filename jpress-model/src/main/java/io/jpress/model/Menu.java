@@ -17,6 +17,7 @@ package io.jpress.model;
 
 import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.layer.SortModel;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.base.BaseMenu;
@@ -141,20 +142,50 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
     private String baseUrl;
 
     private String getBaseUrl() {
-        if (baseUrl == null){
+        if (baseUrl == null) {
             baseUrl = CommonsUtils.removeSuffix(getUrl());
         }
         return baseUrl;
     }
 
-    private static String cp = JFinal.me().getContextPath();
+    private static String contextPath = JFinal.me().getContextPath();
 
-    public boolean isUrlStartWidth(String url){
-        return getBaseUrl() != null && getBaseUrl().startsWith(cp+url);
+
+    public boolean isUrlStartWidth(String url) {
+
+        String baseUrl = getBaseUrl();
+        if (StrUtil.isBlank(baseUrl)){
+            return false;
+        }
+
+        baseUrl =removeSuffix(baseUrl);
+        url = removeSuffix(contextPath + url);
+
+        return baseUrl.startsWith(url) || toFlat(baseUrl).startsWith(toFlat(url));
     }
 
-    public boolean isUrlEquals(String url){
-        return getBaseUrl() != null && getBaseUrl().equals(cp+url);
+
+    public boolean isUrlEquals(String url) {
+        String baseUrl = getBaseUrl();
+        if (StrUtil.isBlank(baseUrl)){
+            return false;
+        }
+
+        baseUrl =removeSuffix(baseUrl);
+        url = removeSuffix(contextPath + url);
+
+        return baseUrl.equals(url) || toFlat(baseUrl).equals(toFlat(url));
+    }
+
+
+    private String removeSuffix(String url){
+        int indexOf = url.indexOf(".");
+        return indexOf == -1 ? url : url.substring(0,indexOf);
+    }
+
+
+    private String toFlat(String url){
+        return url.replace("/","-");
     }
 
 

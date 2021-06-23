@@ -1,0 +1,27 @@
+#define _menuItem(menu,ulClass,liClass,aClass)
+<li class="#(liClass ??) #(menu.hasChild()?'jpress-menu-haschild':'') #(menu.isActive?'active':'')">
+    <a href="#(menu.hasChild()?'#':menu.url ??)" class="#(aClass??) #(menu.hasChild()?'has-arrow':'') #(menu.isActive?'active':'')" target="#(menu.target ??)">
+        #(menu.icon ??)  #(menu.text ??)
+    </a>
+    #if(menu.hasChild())
+    <ul class="#(ulClass ??) jpress-collapse">
+        #for(childMenu : menu.getChilds())
+        #call('_menuItem',childMenu,ulClass,liClass,aClass)
+        #end
+    </ul>
+    #end
+</li>
+#end
+
+
+#define defaultMenu(navClass,ulClass,liClass,aClass)
+<div class="#(navClass ??) jpress-nav is-hoverable" id="jpress-default-menu">
+    <ul class="#(ulClass ??) jpress-menu">
+        #for(menu : MENUS)
+        #call('_menuItem',menu,ulClass,liClass,aClass)
+        #end
+    </ul>
+</div>
+#end
+
+

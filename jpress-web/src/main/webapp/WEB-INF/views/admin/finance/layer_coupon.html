@@ -15,10 +15,9 @@
 #define content()
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <!-- /.box-header -->
-                <div class="box-body ">
+        <div class="container-fluid">
+                <!-- /.card-header -->
+                <div class="card-body p-0">
 
                     <table class="table table-striped">
                         <tbody>
@@ -33,14 +32,14 @@
                             <th style="width: 10%">操作</th>
                         </tr>
                         #for(coupon : page.list ??)
-                        <tr class="jp-actiontr">
+                        <tr>
                             </td>
                             <td>
                                 <strong>
                                     <a target="_blank" href="#(CPATH)/admin/finance/coupon/edit/#(coupon.id)"> #(coupon.title ??) </a>
                                 </strong>
-                                <div class="jp-actionblock">
-                                    <div class="jp-actionitem">
+                                <div class="jp-action-card">
+                                    <div class="jp-action-body">
                                     </div>
                                 </div>
                             </td>
@@ -58,8 +57,8 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
+                <!-- /.card-body -->
+                <div class="card-footer">
                     <div class="row">
                         <div class="col-sm-12">
                             #@_paginate()

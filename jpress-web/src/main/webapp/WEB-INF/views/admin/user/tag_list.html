@@ -15,43 +15,56 @@
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            用户标签
-            <small>User Tags</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                用户标签
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 用户 / 用户标签</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
+
+
 
     <section class="content">
 
         <div class="row">
             <div class="col-lg-5">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                    <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           action="#(CPATH)/admin/user/doTagSave"
                           data-ok-href="#(CPATH)/admin/user/tag"
+                          data-ok-message="用户标出保存成功"
                           method="post">
                         <input type="hidden" name="tag.id" value="#(tag.id ??)">
                         <input type="hidden" name="tag.type" value="tag">
-                        <div class="box-body ">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">名称</label>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 名称</label>
 
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="取个适合的标签名称..."
+                                    <input type="input" class="form-control" placeholder="取个适合的标签名称..." required
                                            value="#(tag.title ??)" name="tag.title">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">内容</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">内容</label>
                                 <div class="col-sm-9">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="tag.content">#(tag.content ??)</textarea>
@@ -59,37 +72,35 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">排序</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">排序</label>
                                 <div class="col-sm-9">
                                     <input type="input" class="form-control" placeholder="此标签排序的序号"
                                            value="#(tag.order_number ??)"
                                            name="tag.order_number">
-                                    <p class="help-block"> 其显示方式决定在模板的读取方式。 </p>
+                                    <p class="text-muted"> 其显示方式决定在模板的读取方式。 </p>
                                 </div>
                             </div>
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
             <div class="col-lg-7">
-                <div class="box box-primary">
+                <div class="card card-outline card-primary">
 
-                    <div class="box-header with-border">
 
-                    </div>
 
-                    <div class="box-body no-padding ">
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
@@ -99,7 +110,7 @@
                                 <th>排序</th>
                             </tr>
                             #for(tag : page.list ??)
-                            <tr class="jp-actiontr">
+                            <tr>
                                 <td>
                                     <strong>
                                         <a href="#(tag.url ??)" target="_blank">
@@ -107,10 +118,10 @@
                                         </a>
                                         （#(tag.count ?? 0)）
                                     </strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
                                             <a href="#(CPATH)/admin/user/tag/#(tag.id)">编辑</a> |
-                                            <a href="#(CPATH)/admin/user?&tag=#(tag.title)">查看用户</a> |
+                                            <a href="#(CPATH)/admin/user/list?&tag=#(tag.title)">查看用户</a> |
                                             <a href="javascript:;" class="del-action red-action"
                                                data-id="#(tag.id)">删除</a>
                                         </div>
@@ -119,25 +130,25 @@
                                 <td>#(tag.content ??)</td>
                                 <td>#(tag.order_number ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-12">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
+            </div>
     </section>
 
-
-</div>
 #end

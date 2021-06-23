@@ -51,7 +51,7 @@ public class _PermissionController extends AdminControllerBase {
     private PermissionService permissionService;
 
     @AdminMenu(text = "权限", groupId = JPressConsts.SYSTEM_MENU_USER, order = 10)
-    public void index() {
+    public void list() {
         String type = getPara("type");
 
 

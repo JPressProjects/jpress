@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ElasticSearcher implements ArticleSearcher {
+public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChangeListener {
 
     private static final Log LOG = Log.getLog(ElasticSearcher.class);
 
@@ -61,17 +61,48 @@ public class ElasticSearcher implements ArticleSearcher {
     private RestHighLevelClient client;
     private RestClient restClient;
 
-
     public ElasticSearcher() {
-        String host = JPressOptions.get("article_search_es_host");
-        int port = JPressOptions.getAsInt("article_search_es_port", 9200);
+        JPressOptions.addListener(this);
+    }
 
-        RestClientBuilder builder = RestClient.builder(new HttpHost(host, port));
-        configUserNameAndPassowrd(builder);
-        client = new RestHighLevelClient(builder);
-        restClient = builder.build();
+    @Override
+    public void onChanged(String key, String newValue, String oldValue) {
+        if ("article_search_es_host".equals(key) || "article_search_es_port".equals(key)){
+            this.client = null;
+            this.restClient = null;
+        }
+    }
 
-        tryCreateIndex();
+
+    public RestHighLevelClient getClient() {
+        if (client == null){
+
+            String host = JPressOptions.get("article_search_es_host");
+            int port = JPressOptions.getAsInt("article_search_es_port", 9200);
+
+            RestClientBuilder builder = RestClient.builder(new HttpHost(host, port));
+            configUserNameAndPassowrd(builder);
+            client = new RestHighLevelClient(builder);
+            restClient = builder.build();
+
+            tryCreateIndex();
+        }
+        return client;
+    }
+
+
+
+    public RestClient getRestClient() {
+        if (restClient == null){
+
+            String host = JPressOptions.get("article_search_es_host");
+            int port = JPressOptions.getAsInt("article_search_es_port", 9200);
+
+            RestClientBuilder builder = RestClient.builder(new HttpHost(host, port));
+            configUserNameAndPassowrd(builder);
+            restClient = builder.build();
+        }
+        return restClient;
     }
 
 
@@ -97,7 +128,7 @@ public class ElasticSearcher implements ArticleSearcher {
 
         CreateIndexRequest request = new CreateIndexRequest(index);
         try {
-            CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
+            CreateIndexResponse response = getClient().indices().create(request, RequestOptions.DEFAULT);
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
@@ -108,8 +139,8 @@ public class ElasticSearcher implements ArticleSearcher {
 
     public boolean checkIndexExist() {
         try {
-            Response response = restClient.performRequest(new Request("HEAD", index));
-            return response.getStatusLine().getReasonPhrase().equals("OK");
+            Response response = getRestClient().performRequest(new Request("HEAD", index));
+            return "OK".equals(response.getStatusLine().getReasonPhrase());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +155,7 @@ public class ElasticSearcher implements ArticleSearcher {
         IndexRequest indexRequest = new IndexRequest(index, type, article.getId().toString());
         indexRequest.source(article.toJson(), XContentType.JSON);
         try {
-            IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
+            IndexResponse response = getClient().index(indexRequest, RequestOptions.DEFAULT);
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
@@ -138,7 +169,7 @@ public class ElasticSearcher implements ArticleSearcher {
 
         DeleteRequest request = new DeleteRequest(index, type, id.toString());
         try {
-            DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
+            DeleteResponse response = getClient().delete(request, RequestOptions.DEFAULT);
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
@@ -152,11 +183,11 @@ public class ElasticSearcher implements ArticleSearcher {
     public void updateArticle(Article article) {
         UpdateRequest updateRequest = new UpdateRequest(index, type, article.getId().toString());
         Map<String, Object> map = new HashMap<>();
-        map.putAll(CPI.getAttrs(article));
+        map.putAll(CPI.getAttrs(article.keep("id","title","content")));
         updateRequest.doc(map);
 
         try {
-            UpdateResponse response = client.update(updateRequest, RequestOptions.DEFAULT);
+            UpdateResponse response = getClient().update(updateRequest, RequestOptions.DEFAULT);
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
@@ -185,7 +216,7 @@ public class ElasticSearcher implements ArticleSearcher {
         searchRequest.types(type);
 
         try {
-            SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+            SearchResponse response = getClient().search(searchRequest, RequestOptions.DEFAULT);
             if (response ==null || response.getHits() == null || response.getHits().getTotalHits().value <= 0){
                 return null;
             }
@@ -206,6 +237,7 @@ public class ElasticSearcher implements ArticleSearcher {
         }
         return null;
     }
+
 
 
 }

@@ -27,6 +27,7 @@ import io.jboot.web.validate.Form;
 import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.SessionUtils;
+import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.core.module.ModuleManager;
 import io.jpress.model.User;
@@ -113,7 +114,6 @@ public class _AdminController extends AdminControllerBase {
         CookieUtil.remove(this, JPressConsts.COOKIE_UID);
         redirect("/");
     }
-
 
     public void index() {
         List<String> moduleIncludes = new ArrayList<>();

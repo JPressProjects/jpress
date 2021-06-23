@@ -22,8 +22,10 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jpress.JPressConsts;
 import io.jpress.commons.pay.PayConfigUtil;
 import io.jpress.commons.pay.PayStatus;
+import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.Member;
 import io.jpress.model.MemberGroup;
 import io.jpress.model.PaymentRecord;
@@ -55,8 +57,9 @@ public class MemberController extends UcenterControllerBase {
 
 
     /**
-     * 购物车
+     * 加入会员
      */
+    @UCenterMenu(text = "加入会员", groupId = JPressConsts.UCENTER_MENU_FINANCE_INFO, icon = "<i class=\"fas fa-smile\"></i>",order = 10)
     public void index() {
         List<MemberGroup> memberGroups = memberGroupService.findUcenterList();
         List<Member> userMembers = memberService.findListByUserId(getLoginedUser().getId());
@@ -94,7 +97,7 @@ public class MemberController extends UcenterControllerBase {
 
         MemberGroup memberGroup = memberGroupService.findById(getPara("groupId"));
         if (memberGroup == null) {
-           renderFailJson("该会员可能已经被管理员下架");
+            renderFailJson("该会员可能已经被管理员下架");
             return;
         }
 

@@ -59,62 +59,51 @@
 </style>
 #end
 #define content()
-<div class="content-wrapper">
 
-    <section class="content-header">
-        <h1>
-            我的头像
-            <small>My Avatar</small>
-        </h1>
-    </section>
+<section class="content">
 
-    <section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-
-                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off" action="#(CPATH)/ucenter/doSaveAvatar"
-                          method="post"
-                          data-ok-function="submitSuccess"
-                          >
-                        <input type="hidden" name="path" id="path">
-                        <input type="hidden" name="x" id="x">
-                        <input type="hidden" name="y" id="y">
-                        <input type="hidden" name="w" id="w">
-                        <input type="hidden" name="h" id="h">
-                        <input type="hidden" name="uid" value="#(user.id)">
-                        <div class="box-body ">
-                            <div id="uploader">
-                                <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
-                                    <i class="glyphicon glyphicon-plus"></i>
+            <form class=" autoAjaxSubmit" autocomplete="off" action="#(CPATH)/ucenter/doSaveAvatar"
+                  method="post"
+                  data-ok-function="submitSuccess"
+            >
+                <input type="hidden" name="path" id="path">
+                <input type="hidden" name="x" id="x">
+                <input type="hidden" name="y" id="y">
+                <input type="hidden" name="w" id="w">
+                <input type="hidden" name="h" id="h">
+                <input type="hidden" name="uid" value="#(user.id)">
+                <div class="card-body">
+                    <div id="uploader">
+                                <span class="btn btn-block btn-primary fileinput-button" style="width: 160px">
+                                    <i class="fas fa-plus"></i>
                                     <span>选择图片...</span>
                                     <input id="cfile" type="file" name="files[]" multiple>
                                 </span>
-                            </div>
-                            <div class="text-center" style="margin-bottom: 20px">
-                                <div style="max-width:500px;margin: auto">
-                                    <img src="#(CPATH)/static/commons/img/avatar.png" style="width: 100%;height: 100%"
-                                         id="avatarimg">
-                                </div>
-                            </div>
+                    </div>
+                    <div class="text-center" style="margin-bottom: 20px">
+                        <div style="margin: 10px 0">
+                            <img src="#(CPATH)/static/commons/img/avatar.png" style="max-width: 100%;height: 100%"
+                                 id="avatarimg">
                         </div>
-
-                        <div class="box-footer">
-                            <div class="col-sm-10 submit-block">
-                                <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary"> 保存选择区域</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
+                    </div>
                 </div>
-            </div>
+
+                <div class="card-footer">
+                    <div class="col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="submit" class="btn btn-primary"> 保存选择区域</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
         </div>
+    </div>
 
-    </section>
+    </div>
 
-</div>
+</section>
 #end

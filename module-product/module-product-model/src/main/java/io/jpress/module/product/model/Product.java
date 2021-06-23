@@ -1,9 +1,8 @@
 package io.jpress.module.product.model;
 
-import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
-import io.jpress.JPressOptions;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.model.UserCart;
@@ -41,11 +40,15 @@ public class Product extends BaseProduct<Product> {
 
 
     public String getUrl() {
-        if (StrUtil.isBlank(getSlug())) {
-            return JFinal.me().getContextPath() + "/product/" + getId() + JPressOptions.getAppUrlSuffix();
-        } else {
-            return JFinal.me().getContextPath() + "/product/" + getSlug() + JPressOptions.getAppUrlSuffix();
+        return UrlUtils.getUrl("/product/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId());
+    }
+
+
+    public String getUrlWithPageNumber(int pageNumber) {
+        if (pageNumber <= 1) {
+            return getUrl();
         }
+        return UrlUtils.getUrl("/product/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "-", pageNumber);
     }
 
     public String getHtmlView() {
@@ -169,7 +172,8 @@ public class Product extends BaseProduct<Product> {
 
 
     public String getHighlightContent() {
-        return getStr("highlightContent");
+        String content =  getStr("highlightContent");
+        return StrUtil.isNotBlank(content) ? content : CommonsUtils.maxLength(getText(),100,"...");
     }
 
     public void setHighlightContent(String highlightContent) {
@@ -177,10 +181,12 @@ public class Product extends BaseProduct<Product> {
     }
 
     public String getHighlightTitle() {
-        return getStr("highlightTitle");
+        String title =  getStr("highlightTitle");
+        return StrUtil.isNotBlank(title) ? title : getTitle();
     }
 
     public void setHighlightTitle(String highlightTitle) {
         put("highlightTitle", highlightTitle);
     }
+
 }

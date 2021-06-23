@@ -48,19 +48,16 @@ public class JPressRenderFactory extends JbootRenderFactory {
             return super.getErrorRender(errorCode);
         }
 
-        StringBuilder errorViewbuilder = new StringBuilder("error_")
+        StringBuilder errorView = new StringBuilder("error_")
                 .append(errorCode)
                 .append(".html");
 
 
-        String view = template.matchView(errorViewbuilder.toString(),
+        String view = template.matchView(errorView.toString(),
                 RequestUtil.isMobileBrowser(JPressHandler.getCurrentRequest()));
-        if (view == null) {
-            return super.getErrorRender(errorCode);
-        }
 
 
-        return new TemplateRender(template.buildRelativePath(view), errorCode);
+        return view == null ? super.getErrorRender(errorCode) : new TemplateRender(template.buildRelativePath(view), errorCode);
     }
 
 

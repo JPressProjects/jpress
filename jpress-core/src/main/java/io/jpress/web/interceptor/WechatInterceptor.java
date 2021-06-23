@@ -59,7 +59,7 @@ public class WechatInterceptor implements Interceptor, JPressOptions.OptionChang
 
     @Override
     public void intercept(Invocation inv) {
-        if (enable == false) {
+        if (!enable) {
             inv.invoke();
             return;
         }
@@ -71,7 +71,7 @@ public class WechatInterceptor implements Interceptor, JPressOptions.OptionChang
             return;
         }
 
-        if (RequestUtil.isWechatBrowser(inv.getController().getRequest()) == false) {
+        if (!RequestUtil.isWechatBrowser(inv.getController().getRequest())) {
             inv.invoke();
             return;
         }

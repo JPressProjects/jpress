@@ -34,7 +34,7 @@
             title: '【' + title+'】详情',
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['90%', '90%'],
             content: jpress.cpath + '/admin/addon/readme?id='+id,
         });
@@ -48,7 +48,7 @@
             title: '【' + title+'】更新日志',
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['90%', '90%'],
             content: jpress.cpath + '/admin/addon/changelog?id='+id,
         });
@@ -61,31 +61,43 @@
 
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            插件列表
-            <small>Addons List</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                插件管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 插件 / 插件管理</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top: 15px">
+                        <a href="./install" class="btn btn-primary ">
+                            <i class="fas fa-plus"></i> 安装
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/addon/install" class="btn btn-primary "> <i
-                                        class="fa fa-fw fa-plus"></i> 安装 </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
@@ -97,7 +109,7 @@
                             </tr>
 
                             #for(addon : addons)
-                            <tr class="jp-actiontr">
+                            <tr>
                                 <td>
                                     <strong>
                                         <a href="#">#(addon.title ??)</a>
@@ -106,8 +118,8 @@
                                         #end
                                     </strong>
 
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
                                             #if(addon.isInstall())
                                             #if(addon.isStarted())
                                             <a href="javascript:;" style="color: #a00" data-id="#(addon.id)"
@@ -136,25 +148,23 @@
                                 <td>#(addon.author ??)</td>
                                 <td>#(addon.version ??)（#(addon.versionCode ?? 1)）</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">您未安装任何插件</td> </tr>
                             #end
 
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12">
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
-
-</div>
 #end

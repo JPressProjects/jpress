@@ -2,11 +2,9 @@
 #@user_msg_layout("email")
 
 #define layout_script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script>
-
-    initEditor('contenteditor', 300);
 
     var $select = $('.article-tags').selectize({
         plugins: ['remove_button'],
@@ -21,11 +19,9 @@
         }
     });
 
-    var selectize = $select[0].selectize;
-
     $(".newTag").each(function () {
         $(this).on('click', function () {
-            selectize.createItem($(this).text());
+            $select[0].selectize.createItem($(this).text());
         })
     });
 
@@ -34,27 +30,27 @@
 
 #define layout_css()
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<style>
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
+</style>
 #end
 
 #define detail()
-    <div class="box-header">
-        <h3 class="box-title"></h3>
-    </div>
-    <!-- /.box-header -->
 
-<form class="form-horizontal autoAjaxSubmit" autocomplete="off" action="#(CPATH)/admin/user/doSendEmail" data-ok-message="邮件发送成功，可能会有延迟，请稍后查收。">
-    <div class="box-body">
+<form class=" autoAjaxSubmit" autocomplete="off" action="#(CPATH)/admin/user/doSendEmail" data-ok-message="邮件发送成功，可能会有延迟，请稍后查收。">
+    <div class="card-body">
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">用户标签</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">用户标签</label>
             <div class="col-sm-8">
-                <select class="form-control article-tags" multiple="multiple" name="userTag">
+                <select class=" article-tags" multiple="multiple" name="userTag">
                     #for(tag : userTags)
                     <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                     #end
                 </select>
-                <p class="help-block">邮件将会发送给该标签下的所有用户，多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                <p class="text-muted">邮件将会发送给该标签下的所有用户，多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
                 <div class="tags">
                     #for(tag : hotTags)
                     <a href="javascript:;" class="newTag">#(tag.title)</a>
@@ -64,41 +60,41 @@
         </div>
 
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">抄送给</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">抄送给</label>
             <div class="col-sm-8">
                 <textarea rows="2" name="cc" class="form-control" ></textarea>
-                <p class="help-block">可以手动在这里输入邮箱账号，这里的邮箱也都会收到邮件。</p>
+                <p class="text-muted">可以手动在这里输入邮箱账号，这里的邮箱也都会收到邮件。</p>
             </div>
         </div>
 
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">邮件标题</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">邮件标题</label>
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="..."  name="title">
             </div>
         </div>
 
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">内容</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">内容</label>
             <div class="col-sm-8">
-             <textarea rows="5" name="content" class="form-control" id="contenteditor"></textarea>
+             <textarea rows="5" name="content" class="form-control" id="contenteditor" data-render="ckeditor" ></textarea>
             </div>
         </div>
 
 
     </div>
-    <!-- /.box-body -->
-    <div class="box-footer">
-        <div class="col-sm-offset-2 col-sm-10 submit-block">
-            <div class="box-submit">
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <div class="offset-sm-2 col-sm-10 submit-block">
+            <div class="card-submit">
                 <button type="submit" class="btn btn-primary">发送</button>
             </div>
         </div>
     </div>
 </form>
-    <!-- /.box-footer -->
+    <!-- /.card-footer -->
 #end
 

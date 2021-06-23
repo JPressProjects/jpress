@@ -32,7 +32,7 @@ public class SendSmsCodeController extends Controller {
 
 
     public void index() {
-        if (validateCaptcha("captcha") == false) {
+        if (!validateCaptcha("captcha")) {
             renderJson(Ret.fail().set("message", "验证码错误，请重新输入"));
             return;
         }
@@ -43,7 +43,7 @@ public class SendSmsCodeController extends Controller {
             return;
         }
 
-        if (StrUtil.isMobileNumber(phone) == false) {
+        if (!StrUtil.isMobileNumber(phone)) {
             renderJson(Ret.fail().set("message", "你输入的手机号码不正确"));
             return;
         }
@@ -53,7 +53,7 @@ public class SendSmsCodeController extends Controller {
         String template = JPressOptions.get("reg_sms_validate_template");
         String sign = JPressOptions.get("reg_sms_validate_sign");
 
-        Boolean sendOk = SmsKit.sendCode(phone, code, template, sign);
+        boolean sendOk = SmsKit.sendCode(phone, code, template, sign);
 
         if (sendOk) {
             renderJson(Ret.ok().set("message", "短信发送成功，请手机查看"));

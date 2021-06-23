@@ -73,7 +73,7 @@ public class SystemGenerator {
         new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String servicePackage = "io.jpress.service";
-        String apiPath = PathKit.getWebRootPath() + "/../jpress-service-api/src/main/java/" + servicePackage.replace(".", "/");
+        String apiPath = PathKit.getWebRootPath() + "/../jpress-service/src/main/java/" + servicePackage.replace(".", "/");
         String providerPath = PathKit.getWebRootPath() + "/../jpress-service-provider/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
 

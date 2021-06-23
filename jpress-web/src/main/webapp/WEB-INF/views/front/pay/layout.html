@@ -6,10 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>#(title ?? '在线支付')</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
 
     <!--[if lt IE 9]>
     <script src="#(CPATH)/static/html5shiv/html5shiv.min.js"></script>
@@ -25,23 +22,23 @@
         .form-group {
             text-align: left;
         }
-        .login-box {
+        .login-card {
             margin: 7% auto;
             width: 660px;
             padding: 0;
         }
 
         @media (max-width: 767px){
-            .login-box {
+            .login-card {
                 width: 90%;
             }
         }
 
-        .login-box-body{
+        .login-card-body{
             padding: 0;
         }
 
-        .page-header {
+        .form-header {
             margin: 50px 0 30px 0;
             font-size: 16px;
             color: #999;
@@ -92,8 +89,8 @@
 <body class="hold-transition login-page">
 
 <div class="row">
-    <div class="login-box text-center">
-        <div class="login-box-body">
+    <div class="login-card text-center">
+        <div class="login-card-body">
 
             #@content()
 

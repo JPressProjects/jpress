@@ -24,12 +24,8 @@ import io.jboot.app.JbootApplication;
  */
 public class Starter {
 
-    private static final String unScanJar = "pay-java,ahocorasick,tinypinyin,opencc4j" +
-            ",mapper-extras-,jieba-,heaven,apiguardian-,core-";
 
     public static void main(String[] args) {
-        JbootApplication.setBootArg("undertow.resourcePath", "classpath:webapp");
-        JbootApplication.setBootArg("jboot.app.scanner.unScanJarPrefix", unScanJar);
         JbootApplication.run(args);
     }
 

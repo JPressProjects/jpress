@@ -19,9 +19,13 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
+import io.jpress.JPressOptions;
+import io.jpress.commons.Rets;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiControllerBase;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -48,28 +52,28 @@ public class OptionApiController extends ApiControllerBase {
     @Inject
     private OptionService optionService;
 
-    public void index() {
 
-        String keyPara = getPara("key");
-
-        if (StrUtil.isBlank(keyPara)) {
-            renderFailJson("key must not empty");
-            return;
-        }
-
-        if (keyPara.contains(",")) {
-            Set<String> keys = StrUtil.splitToSet(keyPara, ",");
+    public Ret query(@NotEmpty(message = "key must not empty") String key) {
+        if (key.contains(",")) {
+            Set<String> keys = StrUtil.splitToSet(key, ",");
             Map<String, String> data = new HashMap<>();
-            for (String key : keys) {
-                if (StrUtil.isNotBlank(key)) {
-                    data.put(key, optionService.findByKey(key));
+            for (String k : keys) {
+                if (StrUtil.isNotBlank(k)) {
+                    data.put(k, JPressOptions.get(k));
                 }
             }
-            renderJson(Ret.ok().set("values", data));
+            return Ret.ok().set("values",data);
         } else {
-
-            renderOkJson("value", optionService.findByKey(keyPara));
+            return Ret.ok().set("value",JPressOptions.get(key));
         }
+    }
 
+
+    public Ret set(@NotEmpty @JsonBody Map<String, String> keyValues) {
+        keyValues.forEach((key, value) -> {
+            optionService.saveOrUpdate(key, value);
+            JPressOptions.set(key, value);
+        });
+        return Rets.OK;
     }
 }

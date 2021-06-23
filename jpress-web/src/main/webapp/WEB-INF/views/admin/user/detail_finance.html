@@ -1,10 +1,10 @@
 #include("_user_detail_layout.html")
-#@user_detail_layout("finance")
+#@user_detail_layout("detail-finance")
 
 
 #define layout_css()
 <style>
-    .page-header{
+    .form-header{
         margin: 10px 0 20px;
     }
 
@@ -24,12 +24,10 @@
     <!-- Main content -->
     <section class="invoice">
         <!-- title row -->
-        <div class="row">
-            <div class="col-xs-12">
-                <h2 class="page-header">
+        <div class="container-fluid">
+                <h2 class="form-header">
                     <i class="fa fa-globe"></i> 余额信息.
                 </h2>
-            </div>
             <!-- /.col -->
         </div>
         <!-- info row -->
@@ -41,14 +39,9 @@
                         #number(userAmount,'0.00')
                     </div>
                 </div>
-<!--                <div style="padding-top: 20px">-->
-<!--                    <a  href="#(CPATH)/ucenter/finance/amount/recharge" class="btn btn-success "><i class="fa fa-credit-card"></i>-->
-<!--                        充值-->
-<!--                    </a>-->
-<!--                </div>-->
             </div>
             <!-- /.col -->
-            <div class="col-sm-6 col-sm-offset-2">
+            <div class="col-sm-6 offset-sm-2">
                 <p class="lead">本月统计</p>
 
                 <div class="table-responsive">
@@ -76,12 +69,10 @@
     <!-- Main content -->
     <section class="invoice">
         <!-- title row -->
-        <div class="row">
-            <div class="col-xs-12">
-                <h2 class="page-header">
+        <div class="container-fluid">
+                <h2 class="form-header">
                     <i class="fa fa-globe"></i> 账户流水.
                 </h2>
-            </div>
             <!-- /.col -->
         </div>
 
@@ -108,6 +99,8 @@
                         <td>#(statement.change_amount > 0 ? '+' : '-')#(statement.change_amount ??)</td>
                         <td>#date(statement.created)</td>
                     </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                     #end
                     </tbody>
                 </table>

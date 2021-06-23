@@ -12,7 +12,7 @@
             title: title,
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['60%', '60%'],
             content: url,
             end: function () {
@@ -38,7 +38,7 @@
 
 #define css()
 <style>
-    .page-header {
+    .form-header {
         margin: 10px 0 20px;
     }
 
@@ -52,235 +52,241 @@
         align-items: center;
     }
 
-    address {
+    .invoice-col p{
         margin-top: 10px;
         margin-bottom: 30px;
+        font-size: 14px;
+    }
+    .invoice{
+        margin-bottom:20px;
+
+    }
+    .invoice-info{
+        padding:0 20px;
+    }
+    .no-print{
+        padding:20px;
+    }
+    .no-print .btn{
+        font-size: 14px;
+    }
+    table a{
+        color:#007bff;
     }
 
 </style>
 #end
 
 #define content()
-<div class="content-wrapper" style="min-height: 1126px;">
-    <section class="content-header">
-        <h1>
-            订单信息
-            <small>订单号：##(order.ns ??)</small>
-        </h1>
-    </section>
+<section class="content-header">
+    <h1>
+        订单信息
+        <small>订单号：##(order.ns ??)</small>
+    </h1>
+</section>
 
-    #if(order.buyer_msg)
-    <div class="pad margin no-print">
-        <div class="callout callout-info" style="margin-bottom: 0!important;">
-            <h4><i class="fa fa-info"></i> 用户留言:</h4>
-            #(order.buyer_msg)
+#if(order.buyer_msg)
+<div class="pad margin no-print">
+    <div class="callout callout-info" style="margin-bottom: 0!important;">
+        <h4><i class="fa fa-info"></i> 用户留言:</h4>
+        #(order.buyer_msg)
+    </div>
+</div>
+#end
+
+<!-- Main content -->
+<section class="invoice">
+    <!-- title row -->
+    <div class="container-fluid">
+        <h2 class="form-header">
+            <i class="fa fa-globe"></i> 订单信息
+            <span class="float-right" style="font-size: 14px;">下单时间: #date(order.created)</span>
+        </h2>
+    </div>
+    <!-- info row -->
+    <div class="row invoice-info">
+        <div class="col-4 invoice-col">
+            <strong>订单预览</strong>
+            <p>
+                价格：#number(order.orderRealAmount ,'0.00') 元<br>
+                订单用户：#(orderUser.nickname ??)<br>
+                支付状态：#(order.payStatusStr ??)<br>
+                物流状态：#(order.deliveryStatusStr ??)<br>
+                发票状态：#(order.invoiceStatusStr ??)
+            </p>
+        </div>
+        <!-- /.col -->
+        <div class="col-4 invoice-col">
+            <strong>收货信息</strong>
+            <p>
+                收件人：#(order.delivery_addr_username ??)<br>
+                电话：#(order.delivery_addr_mobile ??)<br>
+                编码: #(order.delivery_addr_zipcode ??)<br>
+                地址：#(order.delivery_addr_province ??) #(order.delivery_addr_city ??) #(order.delivery_addr_district
+                ??)<br>
+                #(order.delivery_addr_detail ??)
+            </p>
+        </div>
+        <!-- /.col -->
+        <div class="col-4 invoice-col">
+            <strong>发票信息</strong>
+            <p>
+                类型：#(invoice.type ??)<br>
+                抬头：#(invoice.title ??)<br>
+                内容：#(invoice.content ??)<br>
+                纳税人识别号：#(invoice.identity ??)
+            </p>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <div class="row no-print">
+        <div class="col-12" style="text-align: right">
+
+            #if(order.isUnpay() && !order.isClosed())
+            <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success" target="_blank">
+                <i class="fa fa-credit-card"></i> 去付款
+            </a>
+            #end
+
+            #if(order.isDeliveried() && !order.isDeliverFinished())
+            <a href="javascript:;" class="btn btn-success " onclick="doFlagDelivery()">
+                <i class="fa fa-fw fa-clipboard-check"></i> 确认收货
+            </a>
+            #end
+
+            #if(order.isCanApplyForInvoice())
+            <a href="javascript:;" class="btn btn-success " onclick="applyForInvoice()">
+                <i class="fa fa-fw fa-keyboard"></i> 申请发票
+            </a>
+            #end
+
+            <button type="button" class="btn btn-primary " onclick="addMessage()">
+                <i class="fa fa-fw fa-edit"></i> 提交留言
+            </button>
         </div>
     </div>
+
+</section>
+
+
+<!-- Main content -->
+<section class="invoice">
+    <!-- title row -->
+    <div class="container-fluid">
+        <h2 class="form-header">
+            <i class="fa fa-globe"></i> 商品信息
+        </h2>
+    </div>
+
+
+    <!-- Table row -->
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <table class="table table-striped" id="tab">
+                <thead>
+                <tr>
+                    <th style="text-align: center">商品</th>
+                    <th style="text-align: center">数量</th>
+                    <th style="text-align: center">单价</th>
+                    <th style="text-align: center">总价</th>
+                    <th style="text-align: center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                #for(item : orderItems)
+                <tr>
+                    <td style="width: 20%;text-align: center">
+                        #(item.product_title ??)
+                        <div style="color: #9c9c9c">
+                            #for(option : item.optionsMap)
+                            #(option.key ??) : #(option.value ??) #if(!(for.last))<br/>#end
+                            #end
+                        </div>
+                    </td>
+                    <td style="width: 20%;text-align: center">
+                        #(item.product_count ??)
+                    </td>
+                    <td style="width: 20%;text-align: center">
+                        #(item.product_price ??)
+                    </td>
+                    <td style="width: 20%;text-align: center">
+                        #(item.product_price * item.product_count ??)
+                    </td>
+                    <td style="width: 20%;text-align: center">
+                        #if(item.comment_path ??)
+                        <a href="#(CPATH)/ucenter/order/comment/#(item.id)" target="_blank">评价</a>
+                        #end
+
+                        #if(item.canView())
+                        <a href="#(CPATH)#(item.view_path ??)itemId=#(item.id)" target="_blank">
+                            #(item.view_text ??)
+                        </a>
+                        #end
+
+                        #if(!item.comment_path && !item.canview)
+                        - -
+                        #end
+                    </td>
+                </tr>
+                #end
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+
+<!-- Main content -->
+<section class="invoice">
+    <!-- title row -->
+    <div class="container-fluid">
+        <h2 class="form-header">
+            <i class="fa fa-globe"></i>
+            物流信息 ：
+            #if(order.isNotDeliveried())(尚未发货)
+            #else
+            #(delivery.company ??)（#(delivery.number ??)）
+            #end
+        </h2>
+    </div>
+
+
+    #if(expressInfos)
+    <!-- Table row -->
+    <div class="row">
+        <div class="col-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 18%">时间</th>
+                    <th>信息</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                #for(ex : expressInfos)
+                <tr>
+                    <td>#(ex.time ??)</td>
+                    <td>#(ex.info ??)</td>
+                </tr>
+                #end
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
     #end
 
-    <!-- Main content -->
-    <section class="invoice">
-        <!-- title row -->
-        <div class="row">
-            <div class="col-xs-12">
-                <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 订单信息
-                    <small class="pull-right">下单时间: #date(order.created)</small>
-                </h2>
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- info row -->
-        <div class="row invoice-info">
-            <div class="col-sm-4 invoice-col">
-                <strong>订单预览</strong>
-                <address>
-                    价格：#number(order.orderRealAmount ,'0.00') 元<br>
-                    订单用户：#(orderUser.nickname ??)<br>
-                    支付状态：#(order.payStatusStr ??)<br>
-                    物流状态：#(order.deliveryStatusStr ??)<br>
-                    发票状态：#(order.invoiceStatusStr ??)
-                </address>
-            </div>
-            <!-- /.col -->
-            <div class="col-sm-4 invoice-col">
-                <strong>收货信息</strong>
-                <address>
-                    收件人：#(order.delivery_addr_username ??)<br>
-                    电话：#(order.delivery_addr_mobile ??)<br>
-                    编码: #(order.delivery_addr_zipcode ??)<br>
-                    地址：#(order.delivery_addr_province ??) #(order.delivery_addr_city ??) #(order.delivery_addr_district
-                    ??)<br>
-                    #(order.delivery_addr_detail ??)
-                </address>
-            </div>
-            <!-- /.col -->
-            <div class="col-sm-4 invoice-col">
-                <strong>发票信息</strong>
-                <address>
-                    类型：#(invoice.type ??)<br>
-                    抬头：#(invoice.title ??)<br>
-                    内容：#(invoice.content ??)<br>
-                    纳税人识别号：#(invoice.identity ??)
-                </address>
-            </div>
 
-        </div>
-        <!-- /.row -->
-
-        <div class="row no-print">
-            <div class="col-xs-12" style="text-align: right">
-
-                #if(order.isUnpay() && !order.isClosed())
-                <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" class="btn btn-success" target="_blank">
-                    <i class="fa fa-credit-card"></i> 去付款
-                </a>
-                #end
-
-                #if(order.isDeliveried() && !order.isDeliverFinished())
-                <a href="javascript:;" class="btn btn-success " onclick="doFlagDelivery()">
-                    <i class="fa fa-fw fa-check"></i> 确认收货
-                </a>
-                #end
-
-                #if(order.isCanApplyForInvoice())
-                <a href="javascript:;" class="btn btn-success " onclick="applyForInvoice()">
-                    <i class="fa fa-fw fa-cc"></i> 申请发票
-                </a>
-                #end
-
-                <button type="button" class="btn btn-primary " onclick="addMessage()">
-                    <i class="fa fa-fw fa-commenting"></i> 提交留言
-                </button>
-            </div>
-        </div>
-
-    </section>
-
-
-    <!-- Main content -->
-    <section class="invoice">
-        <!-- title row -->
-        <div class="row">
-            <div class="col-xs-12">
-                <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 商品信息
-                </h2>
-            </div>
-            <!-- /.col -->
-        </div>
-
-
-        <!-- Table row -->
-        <div class="row">
-            <div class="col-xs-12 table-responsive">
-                <table class="table table-striped" id="tab">
-                    <thead>
-                    <tr>
-                        <th style="text-align: center">商品</th>
-                        <th style="text-align: center">数量</th>
-                        <th style="text-align: center">单价</th>
-                        <th style="text-align: center">总价</th>
-                        <th style="text-align: center">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    #for(item : orderItems)
-                    <tr>
-                        <td style="width: 20%;text-align: center">
-                            #(item.product_title ??)
-                            <div style="color: #9c9c9c">
-                                #for(option : item.optionsMap)
-                                #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
-                                #end
-                            </div>
-                        </td>
-                        <td style="width: 20%;text-align: center">
-                            #(item.product_count ??)
-                        </td>
-                        <td style="width: 20%;text-align: center">
-                            #(item.product_price ??)
-                        </td>
-                        <td style="width: 20%;text-align: center">
-                            #(item.product_price * item.product_count ??)
-                        </td>
-                        <td style="width: 20%;text-align: center">
-                            #if(item.comment_path ??)
-                            <a href="#(CPATH)/ucenter/order/comment/#(item.id)" target="_blank">评价</a>
-                            #end
-
-                            #if(item.canView())
-                            <a href="#(CPATH)#(item.view_path ??)itemId=#(item.id)" target="_blank">
-                                #(item.view_text ??)
-                            </a>
-                            #end
-
-                            #if(!item.comment_path && !item.canview)
-                            - -
-                            #end
-                        </td>
-                    </tr>
-                    #end
-
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </section>
-
-
-    <!-- Main content -->
-    <section class="invoice">
-        <!-- title row -->
-        <div class="row">
-            <div class="col-xs-12">
-                <h2 class="page-header">
-                    <i class="fa fa-globe"></i>
-                    物流信息 ：
-                    #if(order.isNotDeliveried())(尚未发货)
-                    #else
-                    #(delivery.company ??)（#(delivery.number ??)）
-                    #end
-                </h2>
-            </div>
-            <!-- /.col -->
-        </div>
-
-
-        #if(expressInfos)
-        <!-- Table row -->
-        <div class="row">
-            <div class="col-xs-12 table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th style="width: 18%">时间</th>
-                        <th>信息</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    #for(ex : expressInfos)
-                    <tr>
-                        <td>#(ex.time ??)</td>
-                        <td>#(ex.info ??)</td>
-                    </tr>
-                    #end
-
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-        #end
-
-
-    </section>
-    <!-- /.content -->
-    <div class="clearfix"></div>
-</div>
+</section>
+<!-- /.content -->
+<div class="clearfix"></div>
 #end

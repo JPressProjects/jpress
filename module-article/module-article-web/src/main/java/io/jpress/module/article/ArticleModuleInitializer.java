@@ -18,10 +18,10 @@ package io.jpress.module.article;
 import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
-import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
+import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.module.ModuleListener;
+import io.jpress.core.module.ModuleBase;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -37,7 +37,7 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.page
  */
-public class ArticleModuleInitializer extends JbootAppListenerBase implements ModuleListener {
+public class ArticleModuleInitializer extends ModuleBase {
 
 
     @Override
@@ -63,11 +63,12 @@ public class ArticleModuleInitializer extends JbootAppListenerBase implements Mo
         MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("article");
         menuGroup.setText("文章");
-        menuGroup.setIcon("<i class=\"fa fa-fw fa-file-text\"></i>");
+        menuGroup.setIcon("<i class=\"fas fa-edit\"></i>");
         menuGroup.setOrder(1);
 
         adminMenus.add(menuGroup);
     }
+
 
     @Override
     public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
@@ -75,11 +76,12 @@ public class ArticleModuleInitializer extends JbootAppListenerBase implements Mo
         MenuGroup articleMenuGroup = new MenuGroup();
         articleMenuGroup.setId("article");
         articleMenuGroup.setText("我的文章");
-        articleMenuGroup.setIcon("<i class=\"fa fa-fw fa-file-text\"></i>");
+        articleMenuGroup.setIcon("<i class=\"fas fa-edit\"></i>");
         articleMenuGroup.setOrder(1);
         ucenterMenus.add(articleMenuGroup);
 
     }
+
 
     @Override
     public void onEngineConfig(Engine engine) {
@@ -89,5 +91,6 @@ public class ArticleModuleInitializer extends JbootAppListenerBase implements Mo
     @Override
     public void onStart() {
         ArticleSitemapManager.me().init();
+        FlatUrlHandler.addProcesser(new ArticleFlatUrlProcesser());
     }
 }

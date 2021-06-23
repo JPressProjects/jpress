@@ -38,31 +38,44 @@
 #end
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            WordPress导入
-            <small>WordPress Import</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                WordPress导入
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 小工具箱 / WordPress导入</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-body">
-                        <div id="uploader">
+        <div class="container-fluid">
+            <div class="card card-outline card-primary">
+                <div class="card-body">
+                    <div id="uploader">
                             <span class="btn btn-block btn-primary fileinput-button" style="width: 220px">
-                                <i class="glyphicon glyphicon-plus"></i>
+                                <i class="fas fa-plus"></i>
                                 <span>请选择导出的WordPress文件</span>
                                 <input id="cfile" type="file" name="files[]" multiple>
                             </span>
 
-                            <div class="myPanel">
-                                支持WordPress文章和附件导入...
-                            </div>
+                        <div class="myPanel">
+                            支持WordPress文章和附件导入...
                         </div>
                     </div>
                 </div>
@@ -71,5 +84,4 @@
 
     </section>
 
-</div>
 #end

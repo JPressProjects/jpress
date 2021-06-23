@@ -71,13 +71,13 @@ public class AttachmentController extends UserControllerBase {
         String mineType = uploadFile.getContentType();
         String fileType = mineType.split("/")[0];
 
-        Integer maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 2);
-        Integer maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 10);
+        int maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 2);
+        int maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 10);
 
         Integer maxSize = "image".equals(fileType) ? maxImgSize : maxOtherSize;
 
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
-        if (maxSize != null && maxSize > 0 && fileSize > maxSize * 1024) {
+        if (maxSize > 0 && fileSize > maxSize * 1024) {
             file.delete();
             renderJson(Ret.fail().set("message", "上传文件大小不能超过 " + maxSize + " MB"));
             return;

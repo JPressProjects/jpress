@@ -2,6 +2,8 @@ package io.jpress.web.front;
 
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.JPressConsts;
+import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.CouponCode;
 import io.jpress.service.CouponCodeService;
 import io.jpress.service.CouponService;
@@ -26,6 +28,7 @@ public class CouponController extends UcenterControllerBase {
     /**
      * 用户优惠券列表
      */
+    @UCenterMenu(text = "优惠券", groupId = JPressConsts.UCENTER_MENU_FINANCE_INFO, icon = "<i class=\"fas fa-closed-captioning\"></i>",order = 40)
     public void index() {
         List<CouponCode> renderList = couponCodeService.findAvailableByUserId(getLoginedUser().getId());
         setAttr("couponCodeList", renderList);

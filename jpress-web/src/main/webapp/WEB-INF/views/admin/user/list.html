@@ -13,18 +13,6 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        if (confirm('确定要删除该用户吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/user/doUserDelByIds?ids=" + ids)
-        }
-    });
-
-
     $(".changeRoleAction").click(function () {
         var ids = getSelectedIds();
         var roleId = $(this).attr("data-rid");
@@ -40,123 +28,101 @@
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            用户管理
-            <small>User Management</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                用户管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 用户 / 用户管理</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12" style="padding-top: 20px">
+                            <a href="#(CPATH)/admin/user">全部 (#(totalCount ?? 0))</a> |
+                            <a href="?status=ok">正常 (#(okCount ?? 0))</a> |
+                            <a href="?status=registered" style="color: #a00">未激活 (#(regCount ?? 0))</a> |
+                            <a href="?status=locked" style="color: #a00">冻结 (#(lockedCount ?? 0))</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top: 45px">
+                        <a href="#(CPATH)/admin/user/edit" class="btn btn-primary "> <i
+                                class="fas fa-plus"></i> 新建</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
-    <section class="content-header text-tap">
-        <a href="#(CPATH)/admin/user">全部 (#(totalCount ?? 0))</a> |
-        <a href="?status=ok">正常 (#(okCount ?? 0))</a> |
-        <a href="?status=registered" style="color: #a00">未激活 (#(regCount ?? 0))</a> |
-        <a href="?status=locked" style="color: #a00">冻结 (#(lockedCount ?? 0))</a>
-    </section>
+
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/user" method="get">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
+                        <form class=" admin-search-panel" action="" method="get">
                             <input type="hidden" name="status" value="#para('status')">
                             <div class="row">
 
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">用户</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="username" value="#para('username')">
-                                    </div>
+                                <div class="form-group col-lg-2">
+                                        <input type="text" placeholder="用户" class="form-control" name="username" value="#para('username')">
                                 </div>
 
 
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">邮箱</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="email" value="#para('email')">
-                                    </div>
+                                <div class="form-group col-lg-2">
+                                        <input type="text" placeholder="邮箱" class="form-control" name="email" value="#para('email')">
                                 </div>
 
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">手机号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="mobile" value="#para('mobile')">
-                                    </div>
+                                <div class="form-group col-lg-2">
+                                        <input type="text" placeholder="手机号" class="form-control" name="mobile" value="#para('mobile')">
                                 </div>
 
 
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">会员组</label>
-                                    <div class="col-sm-9">
+                                <div class="form-group col-lg-2">
                                         <select class="form-control" name="group_id">
-                                            <option value="">请选择</option>
+                                            <option value="">会员组</option>
                                             #for(group : memberGroups)
                                             <option value="#(group.id)" #selectedIf(para("group_id") == group.id.toString()) >#(group.name ??)</option>
                                             #end
                                         </select>
-                                    </div>
                                 </div>
 
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">标签</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="tag" value="#para('tag')">
-                                    </div>
+                                <div class="form-group col-lg-2">
+                                        <input type="text" placeholder="标签" class="form-control" name="tag" value="#para('tag')">
                                 </div>
 
 
-                                <div class="form-group col-lg-4">
-                                    <div class="col-sm-12">
+                                <div class="form-group col-lg-2">
                                         <button type="submit" class="btn btn-primary ">查询</button>
                                         <button type="reset" class="btn btn-default">重置</button>
-                                        <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
-                                    </div>
                                 </div>
 
                             </div>
-                            <!-- /.box-body -->
+                            <!-- /.card-body -->
                         </form>
 
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/user/edit" class="btn btn-primary "> <i
-                                        class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                                <div class="btn-group checkAction">
-                                    <button type="button" class="btn btn-default">将角色修改为</button>
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                            aria-expanded="false">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">将角色修改为</span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        #for(role : roles)
-                                        <li>
-                                            <a data-rid="#(role.id)"
-                                               href="javascript:;"
-                                               class="changeRoleAction">
-                                                #(role.name??)
-                                            </a>
-                                        </li>
-                                        #end
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" id="checkall" type="checkbox"/>
                                 </th>
                                 <th style="width: 40px">ID</th>
                                 <th style="width: 20%">登录名</th>
@@ -167,9 +133,9 @@
                             </tr>
 
                             #for(user : page.list ??)
-                            <tr class="jp-actiontr">
+                            <tr>
                                 <td>
-                                    <input class="dataItem" type="checkbox" value="#(user.id)"/>
+                                    <input name="tableItem" type="checkbox" value="#(user.id)"/>
                                 </td>
                                 <td>#(user.id)</td>
                                 <td>
@@ -185,8 +151,8 @@
                                         #if(user.isStatusLocked()) （已冻结） #end
                                     </strong>
 
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
                                             <a href="#(CPATH)/admin/user/detail/#(user.id)"
                                                style="color: #006505">编辑</a> |
                                             <a href="#(CPATH)/admin/user/permissions/#(user.id)"
@@ -236,21 +202,41 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+                                            <label class="form-check-label" for="checkall">全选</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select class="form-control" name="action">
+                                            <option value="">请选择...</option>
+                                            <option value="doDelByIds" open-type="del-confirm">
+                                                批量删除
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
-
-
-</div>
 #end

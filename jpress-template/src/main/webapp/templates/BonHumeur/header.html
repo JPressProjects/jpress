@@ -1,7 +1,3 @@
 <nav class="bh-header">
-
-    #for(menu : MENUS)
-    <a href="#(menu.url ??)" class="#(menu.isActive ? 'active' : '')">#(menu.text ??) .</a>
-    #end
-
+    #@defaultMenu("","","","")
 </nav>

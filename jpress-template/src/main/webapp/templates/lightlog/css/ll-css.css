@@ -89,36 +89,35 @@ body{
 
 .ll-card .ll-card-image a{
     display: inline-block;
-    width: 150px;
-    height: 150px;
-    border-radius:50%;
-    -webkit-border-radius:50%;
-    -moz-border-radius:50%;
-    border:1px solid #999;
+    width: 240px;
+    height: 160px;
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
     overflow: hidden;
     line-height: 150px;
     text-align: center;
-    transition:0.4s ease-out;
-    -webkit-transition:0.4s ease-out;
-    -moz-transition:0.4s ease-out;
-    -o-transition:0.4s ease-out;
-    -ms-transition:0.4s ease-out;
+    /*transition:0.4s ease-out;*/
+    /*-webkit-transition:0.4s ease-out;*/
+    /*-moz-transition:0.4s ease-out;*/
+    /*-o-transition:0.4s ease-out;*/
+    /*-ms-transition:0.4s ease-out;*/
 
 
 }
-.ll-card .ll-card-image a:hover{
-    transform:rotate(5deg);
-    -webkit-transform:rotate(5deg);
-    -moz-transform:rotate(5deg);
-    -o-transform:rotate(5deg);
-    -ms-transform:rotate(5deg);
-}
+/*.ll-card .ll-card-image a:hover{*/
+/*    transform:rotate(5deg);*/
+/*    -webkit-transform:rotate(5deg);*/
+/*    -moz-transform:rotate(5deg);*/
+/*    -o-transform:rotate(5deg);*/
+/*    -ms-transform:rotate(5deg);*/
+/*}*/
 
 .ll-card .ll-card-image a img{
     width: 100%;
     max-width: 100%;
-    min-height: 150px;
-    min-width: 150px;
+    min-height: 160px;
+    min-width: 240px;
     vertical-align: top;
 }
 .ll-card-main a{
@@ -129,6 +128,7 @@ body{
     height:100%;
     padding:1rem;
     box-sizing: border-box;
+    justify-content: space-between;
 
 }
 .ll-card-main a:hover{
@@ -151,14 +151,17 @@ body{
         float: none;
         width: 100%;
     }
-
+    .ll-nav{
+        box-shadow: 0 0.05rem 0.4rem rgba(48 48 48 / 10%);
+    }
 
     .ll-nav .navbar-nav{
         background-color: #fff;
-        opacity: .9;
-        filter:alpha(opacity=90);
+        opacity: .95;
+        filter:alpha(opacity=95);
         margin-top:0.5rem;
-        width: 40%;
+        width: 100%;
+
     }
     .ll-nav .navbar-nav .nav-item{
         font-size:1rem;
@@ -166,6 +169,9 @@ body{
 
     }
     .ll-nav .navbar-nav .nav-item a{
+        color:#666;
+    }
+    .ll-nav .navbar-nav .nav-item a.active{
         color:#666;
     }
 
@@ -182,13 +188,16 @@ body{
     }
 
 }
-
+.ll-card-tag{
+    align-self: end;
+}
 .ll-card-tag>div{
     display: inline-block;
     padding-right:1rem;
     color:#999;
-    font-size:1rem;
+    font-size:0.9rem;
     font-weight: 300;
+
 
 }
 .ll-card-tag>div>i{
@@ -200,7 +209,7 @@ body{
 }
 .ll-card .ll-card-main-info{
     color:#666;
-    font-size:1.2rem;
+    font-size:0.9rem;
     font-weight: 300;
     line-height: 1.6rem;
 }
@@ -212,18 +221,10 @@ body{
     padding-bottom:2px;
 }
 .ll-card-main-title{
-    font-size:2.2rem;
-    font-weight: 600;
-    color:#333;
-}
-/*page*/
-.pagination .page-item.active .page-link{
-    background-color:#3F6600;
-    border-color:#3F6600;
-    color:#fff;
-}
-.pagination .page-item .page-link{
-    color:#3F6600;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #27282d;
+    line-height: 1.4em;
 }
 .pagination{
     margin:5rem 0 0 0;
@@ -250,39 +251,41 @@ body{
     color:#999;
 }
 .ll-copyright{
-    color:#999;
-    font-size:1rem;
-    line-height:1.4rem;
+    color: #999;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    margin-bottom: 0.2rem;
 }
 /*artical*/
 .ll-artical-title{
     margin:3rem 0 0.5rem 0;
-    font-size: 2.4rem;
+    font-size: 1.4rem;
     color: #333;
-    font-weight: 600;
+    font-weight: 400;
+    line-height: 1.4em;
 }
 .ll-artical h1,.ll-artical h2,.ll-artical h3,.ll-artical h4,.ll-artical h5{
     padding:1.5rem 0 0.5rem 0;
     font-weight: 600;
 }
 .ll-artical h1{
-    font-size:2.4rem;
+    font-size:1.6rem;
     color:#c7254e;
 }
 .ll-artical h2{
-    font-size:2.2rem;
+    font-size:1.4rem;
 }
 .ll-artical h3{
-    font-size:2rem;
+    font-size:1.2rem;
 }
 .ll-artical h4{
-    font-size:1.75rem;
+    font-size:1rem;
 }
 .ll-artical h5{
-    font-size:1.5rem;
+    font-size:0.8rem;
 }
 .ll-artical h6{
-    font-size:1.2rem;
+    font-size:0.8rem;
 }
 .ll-artical ul,.ll-artical ol,.ll-artical li{
     font-size:1.2rem;
@@ -318,12 +321,12 @@ body{
     height: auto;
 }
 .ll-artical p{
-    padding:0.5rem 0;
-    line-height: 1.8rem;
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom:1rem;
-    font-weight: 400;
+    padding: 0.5rem 0;
+    line-height: 1.6rem;
+    font-size: 1rem;
+    color: #27282d;
+    margin-bottom: 1rem;
+    font-weight: 300;
 }
 .ll-content-info{
     color:#999;
@@ -331,7 +334,9 @@ body{
 .ll-artical-content{
     margin-top: 40px;
 }
-
+.comment-page-title{
+    font-size: 1rem;
+}
 @media (min-width: 576px){
     .ll-panel{
         max-width: 30%;

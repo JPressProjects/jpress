@@ -10,44 +10,6 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-
-        if (confirm('确定要删除选中的记录吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/ucenter/address/doDelByIds?ids=" + ids);
-        }
-
-    });
-
-
-    function checkAll(checkbox) {
-        $(".dataItem").each(function () {
-            $(this).prop('checked', checkbox.checked);
-        });
-
-        dataItemChange();
-    }
-
-    function dataItemChange() {
-        $(".checkAction").each(function () {
-            getSelectedIds() != "" ? $(this).show().css("display", "inline-block") : $(this).hide();
-        })
-    }
-
-    function getSelectedIds() {
-        var selectedIds = "";
-        $(".dataItem").each(function () {
-            if ($(this).prop('checked')) {
-                selectedIds += $(this).val() + ",";
-            }
-        });
-        return selectedIds.substring(0,selectedIds.length - 1);
-    }
-
 </script>
 #end
 
@@ -55,17 +17,17 @@
 #define css()
 <style>
 
-    .box-dashboard {
+    .card-dashboard {
         position: relative;
         border-radius: 3px;
         background: #ffffff;
         border: 1px solid #d2d6de;
         margin-bottom: 20px;
         width: 100%;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+        card-shadow: 0 1px 1px rgba(0, 0, 0, 0);
     }
 
-    .box-dashboard .box-header .box-title {
+    .card-dashboard .card-header .card-title {
         display: inline-block;
         font-size: 14px;
         margin: 0;
@@ -77,90 +39,78 @@
 #end
 
 #define content()
-<div class="content-wrapper">
 
-    <section class="content-header">
-        <h1>
-            我的地址
-            <small>My Address</small>
-        </h1>
-    </section>
+<section class="content">
 
-    <section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header with-border">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/ucenter/address/edit" class="btn btn-primary "> <i class="fa fa-fw fa-plus"></i> 新建</a>
-                                <button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
-
-                        <table class="table table-striped" id="table-address">
-                            <tbody>
-                            <tr>
-                                <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
-                                </th>
-                                <th style="width: 150px">收货人</th>
-                                <th style="width: 150px">手机号码</th>
-                                <th style="width: 40%">地址</th>
-                                <th style="width: 100px">邮政编码</th>
-                                <th style="width: 80px">是否默认</th>
-                            </tr>
-
-                            #for(data : page.list)
-                            <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" name="address.id" value="#(data.id)" onchange="dataItemChange(this)"/></td>
-                                <td style="width: 50px">
-                                    <strong><a href="#">#(data.username ??)</a></strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
-                                            <a href="#(CPATH)/ucenter/address/edit?id=#(data.id)" style="color: #006505">编辑</a>|<a href="javascript:;" onclick="doDel('#(data.id)')" style="color: #a00">删除</a>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    #(data.mobile ??)
-                                </td>
-                                <td>
-                                    #(data.province ??) &nbsp;#(data.city ??) &nbsp; #(data.district ??) &nbsp;#(data.detail ??)
-                                </td>
-                                <td>
-                                    #(data.zipcode ??) &nbsp;
-                                </td>
-                                <td>
-                                    #(data.width_default?'是':'否')
-                                </td>
-                            </tr>
-                            #end
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                #@_paginate()
-                            </div>
-                        </div>
+                <div class="row admin-search-panel">
+                    <div class="col-xs-12">
+                        <a href="#(CPATH)/ucenter/address/edit" class="btn btn-primary "> <i class="fas fa-plus"></i> 新建</a>
                     </div>
                 </div>
-                <!-- /.box -->
+
             </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+
+                <table class="table table-striped" id="table-address">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px">收货人</th>
+                            <th style="width: 150px">手机号码</th>
+                            <th >地址</th>
+                            <th style="width: 100px">邮政编码</th>
+                            <th style="width: 80px">是否默认</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    #for(data : page.list)
+                    <tr>
+                        <td style="width: 50px">
+                            <strong><a href="#">#(data.username ??)</a></strong>
+                            <div class="jp-action-card">
+                                <div class="jp-action-body">
+                                    <a href="#(CPATH)/ucenter/address/edit?id=#(data.id)" style="color: #006505">编辑</a>|<a
+                                        href="javascript:;" onclick="doDel('#(data.id)')" style="color: #a00">删除</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            #(data.mobile ??)
+                        </td>
+                        <td>
+                            #(data.province ??) &nbsp;#(data.city ??) &nbsp; #(data.district ??) &nbsp;#(data.detail ??)
+                        </td>
+                        <td>
+                            #(data.zipcode ??)
+                        </td>
+                        <td>
+                            #(data.width_default?'是':'否')
+                        </td>
+                    </tr>
+                    #else
+                    <tr class="nodata">
+                        <td colspan="999">暂无数据</td>
+                    </tr>
+                    #end
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        #@_paginate()
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-footer -->
         </div>
-
-    </section>
-
-
-</div>
+        <!-- /.card -->
+    </div>
+</section>
 #end

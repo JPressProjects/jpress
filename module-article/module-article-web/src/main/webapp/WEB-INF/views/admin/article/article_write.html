@@ -1,10 +1,10 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/vditor/index.min.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
-<script src="#(CPATH)/static/components/simplemde/simplemde.min.js"></script>
 
 
 <script>
@@ -17,16 +17,14 @@
         create: true,
         render: {
             option_create: function (data, escape) {
-                return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong> &hellip; </div>';
+                return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong></div>';
             }
         }
     });
 
-    var selectize = $select[0].selectize;
-
     $(".newTag").each(function () {
         $(this).on('click', function () {
-            selectize.createItem($(this).text());
+            $select[0].selectize.createItem($(this).text());
         })
     });
 
@@ -43,19 +41,33 @@
 
     // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
     window.doSubmit = function () {
+        if (window.currentCKEditor) {
+            $("#content").val(window.currentCKEditor.getData());
+        } else if (window.currentVditor) {
+            $("#content").val(window.currentVditor.getHTML());
+        }
         ajaxSubmit("#form", function (data) {
             $("#articleId").attr("value", data.id);
+            window.history.replaceState({}, '', `#(CPATH)/admin/article/write/`+data.id)
             toastr.success('文章保存成功。');
         });
     };
 
+    setSaveHotKeyFunction(doSubmit);
+
+    /**
+     * 缩略图，移除图片的按钮功能
+     */
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
         $("#articleThumbnail").val("");
     })
 
-    var editMode = "#(editMode ?? 'html')";
 
+    /**
+     * 切换编辑器的按钮功能
+     * @param id
+     */
     function doChangeEditor(id) {
         if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
             var changeMode = editMode == "html" ? "markdown" : "html";
@@ -67,9 +79,13 @@
         }
     }
 
-    initEditor('editor1', 467, editMode);
-
-    doListenerCtrlsAndCommands(doSubmit);
+    //通过编辑模式来决定初始化不同的编辑器
+    var editMode = "#(editMode ?? 'html')";
+    if (editMode === 'html') {
+        initCkEdtior('#editor');
+    } else {
+        initVdtior('editor');
+    }
 
 
 </script>
@@ -77,10 +93,9 @@
 #define css()
 <link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.bootstrap4.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/simplemde/simplemde.min.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/simplemde/simplemde.jpress.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/vditor/index.css" rel="stylesheet">
 <style>
     .popover-content {
         padding: 9px 14px;
@@ -90,216 +105,229 @@
     #slug {
         cursor: pointer;
     }
+
+    .vditor-wysiwyg pre.vditor-reset:focus {
+        outline: none;
+        background-color: #fff;
+    }
+
+    .ck-editor__editable_inline {
+        min-height: 500px;
+    }
+
 </style>
 #end
 
 #define content()
-<div class="content-wrapper">
+<section class="content-header">
 
-    <section class="content-header">
-        <h1>
-            写文章
-        </h1>
-    </section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
 
-    <section class="content">
-        <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form">
-            <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
-            <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
-            <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
-            <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
-            <div class="row">
-                <div class="col-lg-9">
-
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <div class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <input type="input" class="form-control input-lg" name="article.title"
-                                       placeholder="请输入标题"
-                                       id="article-title"
-                                       value="#(article.title ??)">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12" style="padding-bottom: 2px">
-                                网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span id="slug"
-                                                                                                               class="slugSpan"
-                                                                                                               for-input="article-slug">#(article.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
-                                #if(article && article.isNormal())
-                                （<a href="#(article.url)" target="_blank">访问</a>）
-                                #end
-                                <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
-                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor('#(article.id ?? 0)')">
-                                    #if(editMode && editMode == 'html')
-                                    使用 markdown 编辑
-                                    #else
-                                    可视化编辑
-                                    #end
-                                </a>
-                            </div>
-                            <div class="col-sm-12" style="z-index: 9999;">
-                                <textarea id="editor1" name="article.content"
-                                          style="height: 467px;width: 100%;background-color: white">#EditorContent(article.orignalContent ??)</textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="box box-solid">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">属性设置</h3>
-
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <!-- /.box-header -->
-                                    <div class="box-body ">
-                                        <div class="box-body ">
-
-                                            #(fields.render())
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            写文章
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 文章 / 写文章</small>
+                        </h1>
                     </div>
-
-                </div>
-
-                <div class="col-lg-3">
-                    <div class="box box-solid">
-                        <div class="box-body ">
-
-                            <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">发布
-                            </button>
-                            <button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
-                            </button>
-                            <a href="#" data-status="trash" class="pull-right submitBtn"
-                               style="padding-top: 5px;">移至垃圾箱</a>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">分类</h3>
-                        </div>
-                        <div class="box-body ">
-                            <div class="form-group">
-                                #for(category : categories)
-                                <div class="checkbox">
-                                    <label>
-                                        #for(i = 0; i < category.layerNumber; i++)
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        #end
-
-                                        #if(category.isCheck)
-                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
-                                        #else
-                                        <input type="checkbox" name="category" value="#(category.id)"/>
-                                        #end
-
-
-                                        #(category.title ??)
-                                    </label>
-                                </div>
-                                #end
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">标签</h3>
-                        </div>
-                        <div class="box-body">
-                            <select class="form-control article-tags" multiple="multiple" name="tag">
-                                #for(tag : tags)
-                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
-                                #end
-                            </select>
-                            <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
-
-                            <div class="tags">
-                                #tags(count = 20)
-                                #for(tag : tags)
-                                <a href="javascript:;" class="newTag">#(tag.title)</a>
-                                #end
-                                #end
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">缩略图</h3>
-                        </div>
-                        <div class="box-body no-padding">
-                            <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
-                                 style="width: 100%;height: 200px"
-                                 id="thumbnail">
-                            <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
-                                   id="articleThumbnail">
-                        </div>
-                        <div class="box-footer">
-                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
-                                    for-src="thumbnail"
-                                    for-input="articleThumbnail">选择图片
-                            </button>
-                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
-                        </div>
-                    </div>
-
-
-                    <div class="box box-solid">
-                        <div class="box-header with-border ">
-                            <h3 class="box-title">模板样式</h3>
-                        </div>
-                        <div class="box-body ">
-
-                            #if(styles && styles.size() > 0 )
-                            <div class="form-group">
-                                <select class="form-control" name="article.style">
-                                    <option value="">默认样式</option>
-                                    #for(style : styles)
-                                    <option value="#(style)" #selectedIf(article && article.style==style)>
-                                        #(style)
-                                    </option>
-                                    #end
-                                </select>
-                            </div>
-                            #end
-
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="article.flag"
-                                       placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
-                                #if(flags && flags.size() > 0)
-                                <p class="help-block">当前模板支持的展示标识有：</p>
-                                <div class="tags">
-                                    #for(flag : flags ??)
-                                    <a href="javascript:;" class="tflag">#(flag)</a>
-                                    #end
-                                </div>
-                                #end
-                            </div>
-                        </div>
-                    </div>
-
-
-
                 </div>
             </div>
-        </form>
-    </section>
+        </div>
+    </div><!-- /.container-fluid -->
 
-</div>
+</section>
+
+
+<section class="content">
+    <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form">
+        <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
+        <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
+        <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
+        <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
+        <div class="row">
+            <div class="col-lg-9">
+
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input type="input" class="form-control form-control-lg" name="article.title" autocomplete="off"
+                                   placeholder="请输入标题"
+                                   id="article-title"
+                                   value="#(article.title ??)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12" style="padding-bottom: 2px">
+                            网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span id="slug"
+                                                                                                           class="slugSpan"
+                                                                                                           for-input="article-slug">#(article.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+                            #if(article && article.isNormal())
+                            （<a href="#(article.url)" target="_blank">访问</a>）
+                            #end
+                            <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
+                            <a href="javascript:;" style="float: right;padding: 5px 0"
+                               onclick="doChangeEditor('#(article.id ?? 0)')">
+                                #if(editMode && editMode == 'html')
+                                Markdown编辑
+                                #else
+                                可视化编辑
+                                #end
+                            </a>
+                        </div>
+                        <div class="col-sm-12">
+                            <div id="editor">#(article.orignalContent ??)</div>
+                            <input type="hidden" name="article.content" id="content"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="card card-outlinecard-solid">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">文章属性</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="card-body">
+                                        #(fields.render())
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card card-outlinecard-solid">
+                    <div class="card-body">
+
+                        <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn">发布
+                        </button>
+                        <button type="button" data-status="draft" class="btn btn-default btn-sm submitBtn">草稿
+                        </button>
+                        <a href="#" data-status="trash" class="float-right submitBtn"
+                           style="padding-top: 5px;">移至垃圾箱</a>
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">分类</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            #for(category : categories)
+                            <div>
+                                <label>
+                                    #for(i = 0; i < category.layerNumber; i++)
+                                    &nbsp;&nbsp;
+                                    #end
+
+                                    #if(category.isCheck)
+                                    <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                    #else
+                                    <input type="checkbox" name="category" value="#(category.id)"/>
+                                    #end
+
+                                    #(category.title ??)
+                                </label>
+                            </div>
+                            #else
+                            暂无分类
+                            #end
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">标签</h3>
+                    </div>
+                    <div class="card-body">
+                        <input class="form-control article-tags" multiple="multiple" name="tag">
+                        #for(tag : tags)
+                        <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                        #end
+                        </input>
+                        <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+
+                        <div class="tags">
+                            #tags(count = 20)
+                            #for(tag : tags)
+                            <a href="javascript:;" class="newTag">#(tag.title)</a>
+                            #end
+                            #end
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">缩略图</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+                             style="width: 100%;max-height: 500px"
+                             id="thumbnail">
+                        <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
+                               id="articleThumbnail">
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn-image-browser btn btn-default btn-sm "
+                                for-src="thumbnail"
+                                for-input="articleThumbnail">选择图片
+                        </button>
+                        <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">其他</h3>
+                    </div>
+                    <div class="card-body">
+
+                        #if(styles && styles.size() > 0 )
+                        <div class="form-group row">
+                            <select class="form-control" name="article.style">
+                                <option value="">默认样式</option>
+                                #for(style : styles)
+                                <option value="#(style)" #selectedIf(article && article.style==style)>
+                                    #(style)
+                                </option>
+                                #end
+                            </select>
+                        </div>
+                        #end
+
+                        <div class="form-group row">
+                            <input type="text" class="form-control" name="article.flag"
+                                   placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
+                            #if(flags && flags.size() > 0)
+                            <p class="text-muted">当前模板支持的展示标识有：</p>
+                            <div class="tags">
+                                #for(flag : flags ??)
+                                <a href="javascript:;" class="tflag">#(flag)</a>
+                                #end
+                            </div>
+                            #end
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+</section>
 #end

@@ -22,7 +22,7 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
-import io.jpress.commons.Copyer;
+import io.jboot.utils.ModelUtil;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
@@ -59,7 +59,7 @@ public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuS
 
     @Override
     public List<Menu> findListByType(String type) {
-        return Copyer.copy(findListByTypeInDb(type));
+        return ModelUtil.copy(findListByTypeInDb(type));
     }
 
     @Override

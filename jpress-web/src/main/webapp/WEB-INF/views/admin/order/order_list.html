@@ -8,13 +8,12 @@
     }
 
     function openlayer(title,url) {
-        layer.data = {};
         layer.open({
             type: 2,
             title: title,
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['70%', '90%'],
             content: url,
             end: function () {
@@ -28,21 +27,51 @@
 </script>
 #end
 
-#define content()
-<div class="content-wrapper">
+#define css()
+<style>
+    .card-title{
+        text-align: center;
+        float: none;
+    }
+    .card-title a{
+        color:#007bff;
+        font-weight: bold;
+    }
+</style>
+#end
 
+
+
+
+#define content()
     <section class="content-header">
-        <h1>
-            订单列表
-            <small>Order List</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                订单列表
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 财务 / 订单列表</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content-header text-tap">
         <div class="row">
 
             <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
+                <!-- small card -->
                 <div class="small-box bg-red">
                     <div class="inner">
                         <h3>#(todayOrderCount ?? 0)</h3>
@@ -57,8 +86,8 @@
             <!-- ./col -->
 
             <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
+                <!-- small card -->
+                <div class="small-box bg-info">
                     <div class="inner">
                         <h3>#(monthOrderCount ?? 0)</h3>
 
@@ -71,7 +100,7 @@
             </div>
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
+                <!-- small card -->
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>#(mouthPaymentAmount ?? 0)</h3>
@@ -85,7 +114,7 @@
             </div>
             <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
+                <!-- small card -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
                         <h3>#(mountOrderUserCount ?? 0)</h3>
@@ -105,36 +134,28 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/order" method="get">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
+                        <form class=" admin-search-panel" action="" method="get">
                             <div class="row">
-                                <div class="form-group col-xs-4">
-                                    <label class="col-sm-3 control-label">商品</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="productTitle" value="#(productTitle)">
-                                    </div>
+                                <div class="form-group col-lg-2">
+                                        <input type="text" placeholder="商品" class="form-control" name="productTitle" value="#(productTitle)">
                                 </div>
-                                <div class="form-group col-xs-4">
-                                    <label class="col-sm-3 control-label">订单号</label>
-                                    <div class="col-sm-9">
-                                        <input class="form-control" name="ns" value="#(ns)">
-                                    </div>
+                                <div class="form-group col-lg-2">
+                                        <input class="form-control" placeholder="订单号" name="ns" value="#(ns)">
                                 </div>
-                                <div class="form-group col-xs-4">
+                                <div class="form-group col-lg-2">
                                     <button type="submit" class="btn btn-primary ">查询</button>
                                     <button type="reset" class="btn btn-default">重置</button>
-                                    <a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
                                 </div>
                             </div>
-                            <!-- /.box-body -->
+                            <!-- /.card-body -->
                         </form>
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
@@ -150,8 +171,8 @@
                             #for(order : page.list ??)
                             <tr>
                                 <td colspan="5" bgcolor="#fff">
-                                    <div class="box box-dashboard" style="margin-bottom: 0px">
-                                        <div class="box-header with-border row">
+                                    <div class="card card-outline card-dashboard" style="margin-bottom: 0px">
+                                        <div class="card-header with-border row">
                                             <div class="col-lg-10">
                                                 订单号：#(order.ns ??)
                                                 #if(order.isFinished())
@@ -181,7 +202,7 @@
                                                 发票状态：<span style="padding-right: 20px">#(order.invoiceStatusStr ??)</span>
                                             </div>
                                             <div class="col-lg-2" style="text-align: right">
-                                                <h3 class="box-title">
+                                                <h3 class="card-title">
                                                     #if(!order.isUnpay() && !order.isClosed() && !order.isDeliveried())
                                                     <a href="javascript:;" onclick="deliver('#(order.id)')">发货</a>
                                                     #end
@@ -189,8 +210,8 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        <!-- /.box-header -->
-                                        <div class="box-body no-padding">
+                                        <!-- /.card-header -->
+                                        <div class="card-body p-0">
                                             <table class="table table-striped">
                                                 <tbody>
                                                 #for(item : order.items)
@@ -218,26 +239,25 @@
                                     </div>
                                 </td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
 
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="offset-6 col-sm-6">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
-
-</div>
 #end

@@ -7,7 +7,7 @@
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>3.0</version>
+    <version>4.0</version>
 
     <modules>
         <module>codegen</module>
@@ -16,7 +16,7 @@
         <module>jpress-commons</module>
         <module>jpress-core</module>
         <module>jpress-web</module>
-        <module>jpress-service-api</module>
+        <module>jpress-service</module>
         <module>jpress-service-provider</module>
         <module>jpress-model</module>
         <module>jpress-template</module>
@@ -27,32 +27,33 @@
 
         <module>starter</module>
         <module>starter-tomcat</module>
-<!--        <module>starter-ent</module>-->
 <!--        <module>starter-dev</module>-->
+<!--        <module>starter-ent</module>-->
     </modules>
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.9.11</jboot.version>
-        <jfinal-weixin.version>2.6</jfinal-weixin.version>
+        <jboot.version>3.9.19</jboot.version>
+        <jfinal-weixin.version>3.1</jfinal-weixin.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
-        <commons-io.version>2.7</commons-io.version>
-        <commonmark.version>0.15.2</commonmark.version>
-        <aliyunoss.version>3.10.2</aliyunoss.version>
-        <httpclient.version>4.5.11</httpclient.version>
-        <jackson.version>2.11.1</jackson.version>
-        <pay-java.version>2.13.2</pay-java.version>
-        <guava.version>29.0-jre</guava.version>
+        <commons-io.version>2.8.0</commons-io.version>
+        <commonmark.version>0.17.0</commonmark.version>
+        <aliyunoss.version>3.12.0</aliyunoss.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <jackson.version>2.12.3</jackson.version>
+        <pay-java.version>2.14.1-b</pay-java.version>
+        <guava.version>30.1.1-jre</guava.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>
-        <commons-codec.version>1.14</commons-codec.version>
+        <commons-codec.version>1.15</commons-codec.version>
         <slf4j.version>1.7.29</slf4j.version>
-        <fastjson.version>1.2.72</fastjson.version>
-        <lucene.version>8.4.1</lucene.version>
+        <log4j.version>2.14.1</log4j.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <lucene.version>8.8.2</lucene.version>
         <jcseg.version>2.6.2</jcseg.version>
-        <elasticsearch.version>7.6.0</elasticsearch.version>
+        <elasticsearch.version>7.13.2</elasticsearch.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -101,15 +102,9 @@
             </dependency>
 
             <dependency>
-                <groupId>net.sf.ehcache</groupId>
-                <artifactId>ehcache</artifactId>
-                <version>2.10.6</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.13</version>
+                <version>4.4.14</version>
             </dependency>
 
             <dependency>
@@ -160,6 +155,12 @@
                 </exclusions>
             </dependency>
 
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>io.jboot</groupId>
@@ -179,52 +180,68 @@
                 <version>${jjwt.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>ch.qos.logback</groupId>-->
+<!--                <artifactId>logback-core</artifactId>-->
+<!--                <version>${logback.version}</version>-->
+<!--            </dependency>-->
 
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>ch.qos.logback</groupId>-->
+<!--                <artifactId>logback-classic</artifactId>-->
+<!--                <version>${logback.version}</version>-->
+<!--            </dependency>-->
+
+
+            <!--slf4j-->
+<!--            <dependency>-->
+<!--                <groupId>org.slf4j</groupId>-->
+<!--                <artifactId>slf4j-api</artifactId>-->
+<!--                <version>1.7.25</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.slf4j</groupId>-->
+<!--                <artifactId>jcl-over-slf4j</artifactId>-->
+<!--                <version>1.7.25</version>-->
+<!--                <scope>runtime</scope>-->
+<!--            </dependency>-->
+            <!--log4j2-->
+
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-commons</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-core</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-model</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-web</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
-                <artifactId>jpress-service-api</artifactId>
-                <version>3.0</version>
+                <artifactId>jpress-service</artifactId>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-provider</artifactId>
-                <version>3.0</version>
+                <version>4.0</version>
             </dependency>
 
             <dependency>
@@ -315,18 +332,36 @@
                 <groupId>com.egzosn</groupId>
                 <artifactId>pay-java-ali</artifactId>
                 <version>${pay-java.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>com.egzosn</groupId>
                 <artifactId>pay-java-wx</artifactId>
                 <version>${pay-java.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>com.egzosn</groupId>
                 <artifactId>pay-java-paypal</artifactId>
                 <version>${pay-java.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -352,11 +387,39 @@
                 <artifactId>jcl-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-web</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <!--log4j2+slf4j-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.2</version>
             </dependency>
 
         </dependencies>
@@ -391,6 +454,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -399,6 +463,19 @@
                 </configuration>
             </plugin>
 
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <!--执行 mvn package 时跳过单元测试-->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+
+            <!-- 跳过测试：mvn package -Dmaven.test.skip=true   -->
             <!-- 检测依赖最新版本：mvn versions:display-dependency-updates  -->
             <!-- 统一修改版本号：mvn versions:set -DnewVersion=3.0  -->
             <!-- mvn -N versions:update-child-modules  -->
@@ -411,6 +488,10 @@
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
+
+
+
+
 
 
         </plugins>

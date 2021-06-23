@@ -29,26 +29,21 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 某个产品的标签
  */
 @JFinalDirective("productTags")
 public class ProductTagsDirective extends JbootDirectiveBase {
 
     @Inject
     private ProductCategoryService categoryService;
-    
+
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Long id = getParaToLong(0, scope);
+        String orderBy = getPara("orderBy", scope, "id desc");
+        int count = getParaToInt("count", scope, 10);
 
-        if (id == null) {
-            throw new IllegalArgumentException("#productTags(id) args error. id must not be null." + getLocation());
-        }
-
-
-        List<ProductCategory> categories = categoryService.findListByProductId(id, ProductCategory.TYPE_TAG);
+        List<ProductCategory> categories = categoryService.findListByType(ProductCategory.TYPE_TAG, orderBy, count);
         if (categories == null || categories.isEmpty()) {
             return;
         }

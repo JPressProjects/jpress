@@ -40,50 +40,78 @@
 #end
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            权限列表
-            <small>Permission List</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                用户权限
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 用户 / 用户权限</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
+
+
 
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                    <div class="box-header  ">
-                        <div class="actionPanel">
+                    <div class="card-header  ">
+                        <div class="admin-search-panel">
                             <div class="col-xs-12">
                                 <div class="btn-group">
-                                    <a href="#(CPATH)/admin/permission" id="group-all" class="btn btn-default">全部</a>
-                                    <a href="#(CPATH)/admin/permission?type=menu" id="group-menu"
+                                    <a href="#(CPATH)/admin/permission/list" id="group-all" class="btn btn-default">全部</a>
+                                    <a href="#(CPATH)/admin/permission/list?type=menu" id="group-menu"
                                        class="btn btn-default">菜单</a>
-                                    <a href="#(CPATH)/admin/permission?type=action" id="group-action"
+                                    <a href="#(CPATH)/admin/permission/list?type=action" id="group-action"
                                        class="btn btn-default">URL</a>
                                 </div>
 
-                                <button type="button" class="btn btn-primary pull-right" id="sync">
-                                    <i class="fa fa-fw fa-refresh"></i>同步所有权限
+                                <button type="button" class="btn btn-primary float-right" id="sync">
+                                    <i class="fa fa-fw fa-exchange-alt"></i>同步所有权限
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body waterfall-container">
+                    <!-- /.card-header -->
+                    <div class="card-body waterfall-container" style="
+                    -moz-column-count: 2;
+                    -webkit-column-count: 2;
+                    column-count: 2;
+                    -moz-column-gap: 1em;
+                    -webkit-column-gap: 1em;
+                    column-gap: 1em;">
 
                         #for(x : permissionGroup)
-                        <div class="waterfall-item">
-                            <div class="box box-dashboard">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">#(x.key ??)</h3>
+                        <div class="waterfall-item" style="
+                        -webkit-column-break-inside: avoid;
+                        break-inside: avoid;
+                        position: relative;
+
+        box-sizing: border-box;
+
+                            ">
+                            <div class="card card-outline card-dashboard">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">#(x.key ??)</h3>
                                 </div>
-                                <!-- /.box-header -->
-                                <div class="box-body no-padding">
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
                                     <table class="table table-striped">
                                         <tbody>
                                         <tr>
@@ -109,10 +137,6 @@
                 </div>
             </div>
 
-        </div>
 
     </section>
-
-
-</div>
 #end

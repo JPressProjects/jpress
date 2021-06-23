@@ -5,14 +5,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
+    <title>#(SEO_TITLE ?? (WEB_TITLE + ' - ' + WEB_SUBTITLE))</title>
     <meta name="referrer" content="always"/>
     <meta name="keywords" content="#(SEO_KEYWORDS)">
     <meta name="description" content="#(SEO_DESCRIPTION)">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bh-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="#(CPATH)/static/commons/img/jpress.jpg" type="image/x-icon">
+    <link href="#(CPATH)/static/front/jpressfront.css" rel="stylesheet">
+    <link href="#(CPATH)/static/commons/img/icon.png" type="image/x-icon" rel="shortcut icon">
     #@css?()
 </head>
 <body>
@@ -22,7 +23,7 @@
         <div class="bh-sidebar">
             <div class="bh-sidebar-main">
                 <p class="bh-portrait">
-                    <img src="#option('bonhumeur_web_avatar','img/list-image.jpg')" />
+                    <img src="#option('bonhumeur_web_avatar','img/list-image.jpg')"/>
                 </p>
                 <h1>#(WEB_NAME ?? '未设置网站名称')</h1>
                 <p>#option('bonhumeur_web_desc','请在后台设置描述')</p>
@@ -41,7 +42,8 @@
     </div>
 </div>
 
-<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/front/jpressfront.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 #@script?()
 </body>

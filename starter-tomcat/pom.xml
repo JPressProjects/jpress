@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.jpress</groupId>
         <artifactId>parent</artifactId>
-        <version>3.0</version>
+        <version>4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -111,13 +111,13 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-web</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-template</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
@@ -128,37 +128,37 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-web</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-web</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-service-provider</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-service-provider</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-web</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-service-provider</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
@@ -168,16 +168,23 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.2.3</version>
-        </dependency>
 
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
 
     </dependencies>
@@ -203,6 +210,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -214,6 +222,7 @@
 
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
@@ -250,6 +259,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>
                 <configuration>
                     <attachClasses>true</attachClasses>
                     <packagingExcludes>WEB-INF/web.xml</packagingExcludes>

@@ -29,14 +29,15 @@ import java.util.Date;
 public class SqlUtils {
 
     public static String toWhereSql(Columns columns) {
-        if (columns == null || columns.isEmpty()){
+        if (columns == null || columns.isEmpty()) {
             return "";
         }
 
         StringBuilder sql = new StringBuilder();
-        SqlBuilder.buildWhereSql(sql,columns.getList(),' ');
+        SqlBuilder.buildWhereSql(sql, columns.getList(), ' ');
         return sql.toString();
     }
+
 
     public static String buildInSqlPara(Object... ids) {
         int iMax = ids.length - 1;
@@ -56,19 +57,42 @@ public class SqlUtils {
     }
 
 
-    public static void main(String[] args){
+    private static final String stringsToCheck[] = {"select", "drop", "truncate", "from",
+            "exec", "exists", "update", "delete", "insert", "cast", "http", "order", "union",
+            "sql", "null", "like", "mysql", "information_schema",
+            "sleep", "version", "join", "declare", "having", "signed", "alter",
+            "union", "where", "create", "shutdown", "grant", "privileges",
+            "--", ";", "#", "*", "%", "(", ")"};
+
+    public static boolean hasSqlInject(String str) {
+
+        if (StrUtil.isBlank(str)) {
+            return false;
+        }
+
+        str = str.toLowerCase();
+        for (String checkString : stringsToCheck) {
+            if (str.contains(checkString)) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+
+    public static void main(String[] args) {
         Columns columns = Columns.create();
-        columns.eq("a.id",1);
+        columns.eq("a.id", 1);
         System.out.println(toWhereSql(columns));
 
-        columns.in("c.id",1,2,4,5);
+        columns.in("c.id", 1, 2, 4, 5);
         System.out.println(toWhereSql(columns));
 
         columns.or();
-        columns.between("created",new Date(),new Date());
+        columns.between("created", new Date(), new Date());
         System.out.println(toWhereSql(columns));
     }
-
 
 
 }

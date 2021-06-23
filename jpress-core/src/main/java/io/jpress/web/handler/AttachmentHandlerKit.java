@@ -37,7 +37,7 @@ public class AttachmentHandlerKit {
 
         String attachmentRoot = JPressConfig.me.getAttachmentRoot();
 
-        //不处理默认情况，由web容器去处理
+        //不处理默认情况，由 web 容器去处理
         if (StrUtil.isBlank(attachmentRoot)){
             return;
         }
@@ -46,7 +46,7 @@ public class AttachmentHandlerKit {
 
             isHandled[0] = true;
 
-            if (target.endsWith("/") || target.indexOf(".") == -1) {
+            if (target.endsWith("/") || !target.contains(".")) {
                 response.sendError(404);
                 return;
             }

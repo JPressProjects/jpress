@@ -85,7 +85,6 @@ public class UserInterceptor implements Interceptor {
         if (user != null) {
             c.setAttr(JPressConsts.ATTR_LOGINED_USER, user);
             setUserCartInfoAttrs(inv, user);
-
         }
 
         inv.invoke();

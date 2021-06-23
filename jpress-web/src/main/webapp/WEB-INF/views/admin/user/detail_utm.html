@@ -1,7 +1,7 @@
 #include("_user_detail_layout.html")
-#@user_detail_layout("utm")
+#@user_detail_layout("detail-utm")
 #define detail()
-<div class="box-body no-padding">
+<div class="card-body p-0">
     <table class="table table-striped">
         <tbody>
         <tr>
@@ -13,7 +13,7 @@
         </tr>
 
         #for(utm : page.list)
-        <tr class="jp-actiontr">
+        <tr>
             <td>
                 #if(utm.action_query)
                 <a href="#(utm.action_key ??)?#(utm.action_query)" target="_blank">
@@ -34,7 +34,7 @@
     </table>
 </div>
 
-<div class="box-footer">
+<div class="card-footer">
     <div class="row">
         <div class="col-sm-12">
             #@_paginate()

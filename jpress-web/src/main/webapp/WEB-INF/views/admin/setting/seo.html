@@ -1,88 +1,99 @@
 #@layout()
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            网站搜引擎优化
-            <small>SEO Setting</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                网站搜引擎优化
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 系统 / 网站搜引擎优化</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
-                        <div class="box-body ">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">标题</label>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form class=" form-setting" autocomplete="off" id="optionForm">
+                        <div class="card-body">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">标题</label>
                                 <div class="col-sm-6">
                                     <textarea rows="2" class="form-control" placeholder="请输入利于SEO的标题..."
                                               name="seo_title">#option("seo_title")</textarea>
-                                    <p class="help-block"> 此项设置，可能会覆盖掉网站首页标题和副标题的设置（是否覆盖决定于模板）。 </p>
+                                    <p class="text-muted"> 此项设置，可能会覆盖掉网站首页标题和副标题的设置（是否覆盖决定于模板）。 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">关键字</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">关键字</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..." name="seo_keywords">#option("seo_keywords")</textarea>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">描述</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">描述</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..." name="seo_description">#option("seo_description")</textarea>
                                 </div>
                             </div>
 
-                            <h4 class="page-header">百度实时推送</h4>
+                            <h4 class="form-header">百度实时推送</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用百度实时推送</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用百度实时推送</label>
 
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="seo_baidu_realtime_push_enable"
                                            #checkedIf(option("seo_baidu_realtime_push_enable"))>
                                     <input type="hidden" id="seo_baidu_realtime_push_enable" name="seo_baidu_realtime_push_enable">
-                                    <p class="help-block"> 在启用该功能之前，请先去 <a href="https://ziyuan.baidu.com" target="_blank">https://ziyuan.baidu.com</a> 申请链接提交功能 。</p>
+                                    <p class="text-muted"> 在启用该功能之前，请先去 <a href="https://ziyuan.baidu.com" target="_blank">https://ziyuan.baidu.com</a> 申请链接提交功能 。</p>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">推送站点</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">推送站点</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：www.jpress.io"
                                            name="seo_baidu_realtime_push_site" value="#option('seo_baidu_realtime_push_site')">
-                                    <p class="help-block"> 例如：www.jpress.io ，<span style="color: red">不要</span>前缀 http:// ，请务必保证和百度申请的填写一致。</p>
+                                    <p class="text-muted"> 例如：www.jpress.io ，<span style="color: red">不要</span>前缀 http:// ，请务必保证和百度申请的填写一致。</p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Token</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Token</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="..."
                                            name="seo_baidu_realtime_push_token" value="#option('seo_baidu_realtime_push_token')">
-                                    <p class="help-block"> 请到 <a href="https://ziyuan.baidu.com/linksubmit/index" target="_blank">https://ziyuan.baidu.com/linksubmit/index</a> 获取 token 。 </p>
+                                    <p class="text-muted"> 请到 <a href="https://ziyuan.baidu.com/linksubmit/index" target="_blank">https://ziyuan.baidu.com/linksubmit/index</a> 获取 token 。 </p>
                                 </div>
                             </div>
 
 
 
-                            <h4 class="page-header">Ping 与 Sitemap</h4>
+                            <h4 class="form-header">Ping 与 Sitemap</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用 百度 Ping</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用 百度 Ping</label>
 
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="seo_baidu_ping_enable"
@@ -91,8 +102,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用 Google Ping</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用 Google Ping</label>
 
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="seo_google_ping_enable"
@@ -101,54 +112,63 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">开启 Sitmap 功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">开启 Sitmap 功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="seo_sitemap_enable"
                                            #checkedIf(option("seo_sitemap_enable","true"))>
                                     <input type="hidden" id="seo_sitemap_enable" name="seo_sitemap_enable">
-                                    <p class="help-block"> sitemap 的默认地址是 <a href="#(CPATH)/sitemap.xml" target="_blank">sitemap.xml</a>，开启后才能访问。</p>
+                                    <p class="text-muted"> sitemap 的默认地址是 <a href="#(CPATH)/sitemap.xml" target="_blank">sitemap.xml</a>，开启后才能访问。</p>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">伪静态</h4>
+                            <h4 class="form-header">伪静态</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用伪静态</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用扁平URL</label>
 
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="web_flat_url_enable"
+                                           #checkedIf(option("web_flat_url_enable"))>
+                                    <input type="hidden" id="web_flat_url_enable" name="web_flat_url_enable">
+                                    <p class="text-muted"> 扁平化 URL 会让目录符号 "/" 修改为 "-"，例如 www.jpress.io/article/1.html 会变成 www.jpress.io/article-1.html </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用伪静态</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="web_fake_static_enable"
                                            #checkedIf(option("web_fake_static_enable"))>
                                     <input type="hidden" id="web_fake_static_enable" name="web_fake_static_enable">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">伪静态后缀</label>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">伪静态后缀</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="例如：.html"
+                                    <input type="input" class="form-control" placeholder="例如：.html "
                                            name="web_fake_static_suffix" value="#option('web_fake_static_suffix')">
-                                    <p class="help-block"> 以英文的点（.）开头，例如：.html </p>
+                                    <p class="text-muted"> 以英文的点（.）开头，例如：.html，当不填写时，默认值为: .html </p>
                                 </div>
                             </div>
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
         </div>
 
     </section>
-
-</div>
 #end

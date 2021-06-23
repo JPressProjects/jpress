@@ -3,21 +3,37 @@
 #define css()
 <style>
 
-    .box-dashboard {
+    .card-dashboard {
         position: relative;
         border-radius: 3px;
         background: #ffffff;
         border: 1px solid #d2d6de;
         margin-bottom: 20px;
         width: 100%;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+        box-shadow:none;
     }
 
-    .box-dashboard .box-header .box-title {
+    .card-dashboard .card-header .card-title {
         display: inline-block;
         font-size: 14px;
         margin: 0;
         line-height: 1;
+    }
+    .card-header{
+        font-size: 14px;
+    }
+    .card table td,.card table th{
+        border-top:0;
+        
+    }
+    .card table td{
+        font-size: 14px;
+    }
+    .order-header span{
+        margin-right:20px;
+    }
+    table a{
+        color:#007bff;
     }
 
 </style>
@@ -25,144 +41,134 @@
 #end
 
 #define content()
-<div class="content-wrapper">
 
-    <section class="content-header">
-        <h1>
-            我的订单
-            <small>My Orders</small>
-        </h1>
-    </section>
+<section class="content">
 
-    <section class="content">
-
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <form class="form-horizontal actionPanel" action="#(CPATH)/ucenter/order/#(user.id)" method="get">
-                            <div class="row">
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">商品</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="productTitle" value="#para('productTitle')">
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">订单号</label>
-                                    <div class="col-sm-9">
-                                        <input class="form-control" name="ns" value="#para('ns')">
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-primary ">查询</button>
-                                        <a href="#(CPATH)/ucenter/order" type="reset" class="btn btn-default">重置</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.box-body -->
-                        </form>
-
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
-
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr >
-                                <th style="text-align: center">商品</th>
-                                <th style="text-align: center">数量</th>
-                                <th style="text-align: center">单价</th>
-                                <th style="text-align: center">总价</th>
-                                <th style="text-align: center">操作</th>
-                            </tr>
-
-
-                            #for(order : userOrderPage.list ??)
-                            <tr>
-                                <td colspan="5" bgcolor="#fff">
-                                    <div class="box box-dashboard" style="margin-bottom: 0px">
-                                        <div class="box-header with-border">
-                                            <div class="col-lg-10">
-                                                订单号：#(order.ns ??)
-                                                总金额：<span style="padding-right: 20px">#(order.orderRealAmount ??)</span>
-
-                                                #if(order.isClosed())
-                                                (长时间未支付，订单已经关闭)
-                                                #else
-                                                支付状态：<span style="padding-right: 20px">#(order.payStatusStr ??)</span>
-                                                #end
-
-                                                #if(order.isPaySuccess())
-                                                物流状态：<span style="padding-right: 20px">#(order.deliveryStatusStr ??)</span>
-                                                #end
-
-                                            </div>
-                                            <div class="col-lg-2" style="text-align: right">
-                                                <h3 class="box-title">
-                                                    #if(order.isUnpay() && !order.isClosed())
-                                                    <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" target="_blank">
-                                                         去付款
-                                                    </a>
-                                                    #end
-                                                    <a href="#(CPATH)/ucenter/order/detail/#(order.id)">详情</a>
-                                                </h3>
-                                            </div>
-                                        </div>
-                                        <!-- /.box-header -->
-                                        <div class="box-body no-padding">
-                                            <table class="table table-striped">
-                                                <tbody>
-                                                #for(item : order.items)
-                                                <tr>
-                                                    <td style="width: 20%;text-align: center">#(item.product_title ??)</td>
-                                                    <td style="width: 20%;text-align: center">#(item.product_count ??)</td>
-                                                    <td style="width: 20%;text-align: center">#(item.product_price ??)</td>
-                                                    <td style="width: 20%;text-align: center">#(item.product_price *  item.product_count ??)</td>
-                                                    <td style="width: 20%;text-align: center">
-                                                        #if(item.comment_path ??)
-                                                        <a href="#(CPATH)/ucenter/order/comment/#(item.id)" target="_blank">评价</a>
-                                                        #end
-
-                                                        #if(item.canView())
-                                                        <a href="#(CPATH)#(item.view_path ??)itemId=#(item.id)" target="_blank">
-                                                            #(item.view_text ??)
-                                                        </a>
-                                                        #end
-
-                                                        #if(!item.comment_path && !item.canview)
-                                                        - -
-                                                        #end
-                                                    </td>
-                                                </tr>
-                                                #end
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            #end
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                #@_paginate()
-                            </div>
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header with-border">
+                <form class="admin-search-panel" action="" method="get">
+                    <div class="row">
+                        <div class="form-group col-lg-3">
+                            <input type="text" placeholder="商品" class="form-control" name="productTitle"
+                                   value="#para('productTitle')">
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <input type="text" placeholder="订单号" class="form-control" name="ns" value="#para('ns')">
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <button type="submit" class="btn btn-primary ">查询</button>
+                            <button type="reset" class="btn btn-default">重置</button>
                         </div>
                     </div>
-                </div>
-                <!-- /.box -->
+                    <!-- /.card-body -->
+                </form>
+
             </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th style="text-align: center">商品</th>
+                        <th style="text-align: center">数量</th>
+                        <th style="text-align: center">单价</th>
+                        <th style="text-align: center">总价</th>
+                        <th style="text-align: center">操作</th>
+                    </tr>
+
+
+                    #for(order : userOrderPage.list ??)
+                    <tr>
+                        <td colspan="5" bgcolor="#fff">
+                            <div class="card card-outline card-dashboard" style="margin-bottom: 0px">
+                                <div class="card-header with-border row m-0">
+                                    <div class="col-10 order-header">
+                                        <span>
+                                        订单号：#(order.ns ??)
+                                        </span>
+                                        总金额：<span>#(order.orderRealAmount ??)</span>
+
+                                        #if(order.isClosed())
+                                        (长时间未支付，订单已经关闭)
+                                        #else
+                                        支付状态：<span>#(order.payStatusStr ??)</span>
+                                        #end
+
+                                        #if(order.isPaySuccess())
+                                        物流状态：<span>#(order.deliveryStatusStr ??)</span>
+                                        #end
+
+                                    </div>
+                                    <div class="col-2" style="text-align: center;">
+
+                                            #if(order.isUnpay() && !order.isClosed())
+                                            <a href="#(CPATH)/ucenter/checkout/order/#(order.id)" target="_blank">
+                                                去付款
+                                            </a>
+                                            #end
+                                            <a href="#(CPATH)/ucenter/order/detail/#(order.id)">详情</a>
+
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        #for(item : order.items)
+                                        <tr>
+                                            <td style="width: 20%;text-align: center">#(item.product_title ??)</td>
+                                            <td style="width: 20%;text-align: center">#(item.product_count ??)</td>
+                                            <td style="width: 20%;text-align: center">#(item.product_price ??)</td>
+                                            <td style="width: 20%;text-align: center">#(item.product_price *
+                                                item.product_count ??)
+                                            </td>
+                                            <td style="width: 20%;text-align: center">
+                                                #if(item.comment_path ??)
+                                                <a href="#(CPATH)/ucenter/order/comment/#(item.id)"
+                                                   target="_blank">评价</a>
+                                                #end
+
+                                                #if(item.canView())
+                                                <a href="#(CPATH)#(item.view_path ??)itemId=#(item.id)" target="_blank">
+                                                    #(item.view_text ??)
+                                                </a>
+                                                #end
+
+                                                #if(!item.comment_path && !item.canview)
+                                                - -
+                                                #end
+                                            </td>
+                                        </tr>
+                                        #else
+                                        <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
+                                        #end
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
+                    #end
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        #@_paginate()
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-footer -->
         </div>
+        <!-- /.card -->
+    </div>
+</section>
 
-    </section>
-
-
-</div>
 #end

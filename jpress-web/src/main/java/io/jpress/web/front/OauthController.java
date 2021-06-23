@@ -63,22 +63,22 @@ public class OauthController extends Oauth2Controller {
         User user = null;
         switch (ouser.getSource()) {
             case "qq":
-                user = userService.findFistByQQOpenid(ouser.getOpenId());
+                user = userService.findFirstByQQOpenid(ouser.getOpenId());
                 break;
             case "wechat":
-                user = userService.findFistByWxOpenid(ouser.getOpenId());
+                user = userService.findFirstByWxOpenid(ouser.getOpenId());
                 break;
             case "weibo":
-                user = userService.findFistByWeiboOpenid(ouser.getOpenId());
+                user = userService.findFirstByWeiboOpenid(ouser.getOpenId());
                 break;
             case "github":
-                user = userService.findFistByGithubOpenid(ouser.getOpenId());
+                user = userService.findFirstByGithubOpenid(ouser.getOpenId());
                 break;
             case "gitee":
-                user = userService.findFistByGiteeOpenid(ouser.getOpenId());
+                user = userService.findFirstByGiteeOpenid(ouser.getOpenId());
                 break;
             case "dingding":
-                user = userService.findFistByDingdingOpenid(ouser.getOpenId());
+                user = userService.findFirstByDingdingOpenid(ouser.getOpenId());
                 break;
             default:
                 redirect("/user/login");

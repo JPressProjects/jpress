@@ -34,7 +34,6 @@ import io.jboot.Jboot;
 import io.jboot.aop.InterceptorBuilder;
 import io.jboot.aop.InterceptorBuilderManager;
 import io.jboot.aop.InterceptorCache;
-import io.jboot.aop.cglib.JbootCglibProxyFactory;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.db.annotation.Table;
@@ -56,7 +55,6 @@ import io.jpress.core.wechat.WechatAddonConfig;
 import io.jpress.core.wechat.WechatAddonInfo;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.service.OptionService;
-import javassist.ClassPool;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -65,7 +63,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Predicate;
 
 /**
  * 插件管理器：安装、卸载、启用、停用
@@ -657,10 +654,6 @@ public class AddonManager implements JbootEventListener {
         AddonClassLoader classLoader = addonInfo.getClassLoader();
         if (classLoader != null){
             CommonsUtils.quietlyClose(classLoader);
-            AddonClassPath addonClassPath = classLoader.getAddonClassPath();
-            if (addonClassPath != null) {
-                ClassPool.getDefault().removeClassPath(addonClassPath);
-            }
         }
     }
 
@@ -686,7 +679,7 @@ public class AddonManager implements JbootEventListener {
     private void removeTemplateCache(AddonInfo addonInfo) {
         // 清除模板引擎的 field 和 method 缓存
         // 否则可能会出现  object is not an instance of declaring class 的异常
-        // https://gitee.com/fuhai/jpress/issues/IS5YQ
+        // https://gitee.com/JPressProjects/jpress/issues/IS5YQ
         FieldKit.clearCache();
         MethodKit.clearCache();
         TemplateManager.me().clearCache(false);

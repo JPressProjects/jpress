@@ -52,29 +52,29 @@ public class PermissionFunctions {
     }
 
 
-    public static final boolean hasRole(long userId, long roleId) {
+    public static boolean hasRole(long userId, long roleId) {
         RoleService roleService = Aop.get(RoleService.class);
         return roleService.hasRole(userId, roleId);
     }
 
-    public static final boolean hasRole(long roleId) {
+    public static boolean hasRole(long roleId) {
         User user = UserInterceptor.getThreadLocalUser();
         RoleService roleService = Aop.get(RoleService.class);
         return user != null && user.isStatusOk() && roleService.hasRole(user.getId(), roleId);
     }
 
-    public static final boolean hasRole(String roleFlag) {
+    public static boolean hasRole(String roleFlag) {
         User user = UserInterceptor.getThreadLocalUser();
         RoleService roleService = Aop.get(RoleService.class);
         return roleService.hasRole(user.getId(), roleFlag);
     }
 
-    public static final boolean hasRole(long userId, String roleFlag) {
+    public static boolean hasRole(long userId, String roleFlag) {
         RoleService roleService = Aop.get(RoleService.class);
         return roleService.hasRole(userId, roleFlag);
     }
 
-    public static final boolean isSupperAdmin() {
+    public static boolean isSupperAdmin() {
         User user = UserInterceptor.getThreadLocalUser();
         RoleService roleService = Aop.get(RoleService.class);
         return user != null && user.isStatusOk() && roleService.isSupperAdmin(user.getId());

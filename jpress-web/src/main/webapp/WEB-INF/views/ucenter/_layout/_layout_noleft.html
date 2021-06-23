@@ -5,28 +5,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>#(title ?? '用户中心')</title>
-    <link rel="shortcut icon" href="#(CPATH)/static/commons/img/jpress.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/components/ionicons/css/ionicons.min.css">
+    <title>用户中心</title>
+    <link rel="shortcut icon" href="#(CPATH)/static/commons/img/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="#(CPATH)/static/components/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/switchery/switchery.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/toastr/toastr.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/skins/skin-black-light.min.css">
-    <link rel="stylesheet" href="#(CPATH)/static/ucenter/jpressucenter.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/air-datepicker/css/datepicker.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/admin/css/jpressadmin.css">
 
     <!--[if lt IE 9]>
     <script src="#(CPATH)/static/components/html5shiv/html5shiv.min.js"></script>
     <script src="#(CPATH)/static/components/respond/respond.min.js"></script>
     <![endif]-->
-
-    <style>
-        .content-wrapper, .main-footer{
-            margin-left: 0px;
-        }
-    </style>
 
     <script>
         var jpress = {
@@ -36,39 +27,38 @@
     #@css?()
 
 </head>
-<body class="wysihtml5-supported skin-black-light layout-boxed">
+<body class="layout-top-nav" style="height: auto;">
 <div class="wrapper">
 
-    #include("./_header.html")
-    #@content()
+    #include("./_header.html",showToggle=true)
+    <div class="content-wrapper" style="padding-top: 20px">
+        <section class="content">
+            <div class="container ">
+                #@content()
+            </div>
+        </section>
+    </div>
     #include("./_footer.html")
 
 </div>
 
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
-<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.min.js"></script>
-<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/jquery.validate.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/additional-methods.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/localization/messages_zh.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="#(CPATH)/static/components/fastclick/fastclick.js"></script>
+<script src="#(CPATH)/static/components/layer/layer.js"></script>
 <script src="#(CPATH)/static/components/switchery/switchery.min.js"></script>
 <script src="#(CPATH)/static/components/toastr/toastr.min.js"></script>
-<script src="#(CPATH)/static/components/layer/layer.js"></script>
+<script src="#(CPATH)/static/components/air-datepicker/js/datepicker.min.js"></script>
+<script src="#(CPATH)/static/components/air-datepicker/js/i18n/datepicker.zh.js"></script>
+<script src="#(CPATH)/static/components/sweetalert2/sweetalert2.all.min.js"></script>
 <script src="#(CPATH)/static/adminlte/js/adminlte.min.js"></script>
-<script src="#(CPATH)/static/ucenter/jpressucenter.js"></script>
-<script src="#(CPATH)/static/commons/jpresscommons.js"></script>
-<script src="#(CPATH)/static/commons/jpresscsrf.js"></script>
+<script src="#(CPATH)/static/admin/js/jpressutils.js"></script>
+<script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
 
-<script>
-    $('#form').on('submit', function () {
-
-        ajaxSubmit('#form',function () {
-            toastr.success('修改成功');
-        });
-
-        return false;
-    });
-</script>
 
 #@script?()
 </body>

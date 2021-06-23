@@ -1,50 +1,71 @@
 #@layout()
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            登录注册
-            <small>Register And Login</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                登录注册
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 系统 / 登录注册</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
-                        <div class="box-body ">
+                    <form class=" form-setting" autocomplete="off" id="optionForm">
+                        <div class="card-body">
 
-                            <h4 class="page-first-header">用户登录</h4>
+                            <h4 class="form-header">用户登录</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">登录成功跳转地址</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">登录须输入验证码</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="login_captcha_enable"
+                                           #checkedIf(option("login_captcha_enable","true"))>
+                                    <input type="hidden" id="login_captcha_enable" name="login_captcha_enable">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">登录成功跳转地址</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：/ucenter"
                                            name="login_goto_url"
                                            value="#option('login_goto_url')">
-                                    <p class="help-block"> 不填写时，当用户登录成功后会跳转到用户中心 <a href="#(CPATH)/ucenter" target="_blank">/ucenter</a> 。</p>
+                                    <p class="text-muted"> 不填写时，当用户登录成功后会跳转到用户中心 <a href="#(CPATH)/ucenter" target="_blank">/ucenter</a> 。</p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用微信登录功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用微信登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_wechat_enable" type="checkbox" #checkedIf(option('login_wechat_enable'))>
                                     <input type="hidden" id="login_wechat_enable" name="login_wechat_enable">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">微信 AppKey</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">微信 AppKey</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
@@ -52,32 +73,32 @@
                                            value="#option('login_wechat_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">微信 AppSecret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">微信 AppSecret</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
                                            name="login_wechat_appsecret"
                                            value="#option('login_wechat_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                          微信的 AppKey 和 AppSecret 请去 <a href=" https://open.weixin.qq.com/" target="_blank"> https://open.weixin.qq.com</a> 申请。
                                     </p>
                                 </div>
                             </div>
 
 
-                            <!--<h4 class="page-header">QQ登录支持</h4>-->
+                            <!--<h4 class="form-header">QQ登录支持</h4>-->
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用QQ登录功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用QQ登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_qq_enable" type="checkbox" #checkedIf(option('login_qq_enable'))>
                                     <input type="hidden" id="login_qq_enable" name="login_qq_enable">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">QQ AppKey </label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">QQ AppKey </label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
@@ -85,29 +106,29 @@
                                            value="#option('login_qq_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">QQ AppSecret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">QQ AppSecret</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
                                            name="login_qq_appsecret"
                                            value="#option('login_qq_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         QQ 的 AppKey 和 AppSecret 请去 <a href="https://connect.qq.com/" target="_blank">https://connect.qq.com</a> 申请。
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用微博登录功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用微博登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_weibo_enable" type="checkbox" #checkedIf(option('login_weibo_enable'))>
                                     <input id="login_weibo_enable" name="login_weibo_enable" type="hidden">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">微博 AppKey </label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">微博 AppKey </label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" name="login_weibo_appkey" placeholder=""
@@ -115,29 +136,29 @@
                                            value="#option('login_weibo_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">微博 AppSecret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">微博 AppSecret</label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" name="login_weibo_appsecret" placeholder=""
                                            type="input"
                                            value="#option('login_weibo_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         微博 的 AppKey 和 AppSecret 请去 <a href="https://open.weibo.com" target="_blank">https://open.weibo.com</a> 申请。
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用GitHub登录功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用GitHub登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_github_enable" type="checkbox" #checkedIf(option('login_github_enable'))>
                                     <input id="login_github_enable" name="login_github_enable" type="hidden">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">GitHub AppKey </label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">GitHub AppKey </label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" name="login_github_appkey" placeholder=""
@@ -145,29 +166,29 @@
                                            value="#option('login_github_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">GitHub AppSecret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">GitHub AppSecret</label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" name="login_github_appsecret" placeholder=""
                                            type="input"
                                            value="#option('login_github_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         GitHub 的 AppKey 和 AppSecret 请去 <a href="https://github.com/settings/applications/new" target="_blank">https://github.com/settings/applications/new</a> 申请。
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用码云登录功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用码云登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_gitee_enable" type="checkbox" #checkedIf(option('login_gitee_enable'))>
                                     <input id="login_gitee_enable" name="login_gitee_enable" type="hidden">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">码云 AppKey </label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">码云 AppKey </label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" name="login_gitee_appkey" placeholder=""
@@ -175,29 +196,29 @@
                                            value="#option('login_gitee_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">码云 AppSecret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">码云 AppSecret</label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" name="login_gitee_appsecret" placeholder=""
                                            type="input"
                                            value="#option('login_gitee_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         码云 的 AppKey 和 AppSecret 请去 <a href="https://gitee.com/oauth/applications/" target="_blank">https://gitee.com/oauth/applications</a> 申请。
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用钉钉登录功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用钉钉登录功能</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="login_dingding_enable" type="checkbox" #checkedIf(option('login_dingding_enable'))>
                                     <input id="login_dingding_enable" name="login_dingding_enable" type="hidden">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">钉钉 AppKey </label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">钉钉 AppKey </label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" name="login_dingding_appkey" placeholder=""
@@ -205,23 +226,23 @@
                                            value="#option('login_dingding_appkey')">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">钉钉 AppSecret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">钉钉 AppSecret</label>
 
                                 <div class="col-sm-6">
                                     <input class="form-control" name="login_dingding_appsecret" placeholder=""
                                            type="input"
                                            value="#option('login_dingding_appsecret')">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         钉钉 的 AppKey 和 AppSecret 请去 <a href="https://open-dev.dingtalk.com" target="_blank">https://open-dev.dingtalk.com</a> 申请。
                                     </p>
                                 </div>
                             </div>
 
-                            <h4 class="page-header">用户注册</h4>
+                            <h4 class="form-header">用户注册</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">开启注册功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">开启注册功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="reg_enable"
                                            #checkedIf(option("reg_enable","true"))>
@@ -230,21 +251,21 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">默认所有注册用户未激活</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">默认所有注册用户未激活</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="reg_users_is_not_activate"
                                            #checkedIf(option("reg_users_is_not_activate"))>
                                     <input type="hidden" id="reg_users_is_not_activate" name="reg_users_is_not_activate">
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         开启此功能后，需要管理员在后台对用户进行手动激活。
                                     </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用邮件验证</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用邮件验证</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="reg_email_validate_enable"
                                            #checkedIf(option("reg_email_validate_enable"))>
@@ -253,8 +274,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮件标题</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">邮件标题</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="例如：欢迎注册成为JPress会员"
@@ -263,20 +284,20 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮件模板</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">邮件模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="例如：尊敬的#('#(user.nickname ??)')，欢迎注册成为JPress会员，请先点击链接 #('#(url)') 进行激活..."
                                               name="reg_email_validate_template">#option("reg_email_validate_template")</textarea>
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
                                     </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">手机短信验证</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">手机短信验证</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="reg_sms_validate_enable"
                                            #checkedIf(option("reg_sms_validate_enable"))>
@@ -284,44 +305,41 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">短信模板</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">短信模板</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control" placeholder="..."
                                               name="reg_sms_validate_template">#option("reg_sms_validate_template")</textarea>
-                                    <p class="help-block">
+                                    <p class="text-muted">
                                         请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">短信签名</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">短信签名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
                                            name="reg_sms_validate_sign"
                                            value="#option('reg_sms_validate_sign')">
-                                    <p class="help-block"> 请填写阿里云或腾讯云的短信签名。</p>
+                                    <p class="text-muted"> 请填写阿里云或腾讯云的短信签名。</p>
                                 </div>
                             </div>
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
 
     </section>
-
-</div>
 #end

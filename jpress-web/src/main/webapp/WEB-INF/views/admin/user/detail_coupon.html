@@ -1,5 +1,5 @@
 #include("_user_detail_layout.html")
-#@user_detail_layout("coupon")
+#@user_detail_layout("detail-coupon")
 #define detail()
 #define layout_script()
 <script>
@@ -20,7 +20,7 @@
             title: "分配券码",
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['60%', '90%'],
             content: '#(CPATH)/admin/finance/coupon/layer?userid=#(user.id)',
             end: function () {
@@ -32,12 +32,12 @@
 
 #end
 
-<div class="box-header with-border">
+<div class="card-header with-border">
             <a href="javascript:;" id="takeCoupon" class="btn btn-primary "> <i
-                    class="fa fa-fw fa-plus"></i> 分配券码</a>
+                    class="fas fa-plus"></i> 分配券码</a>
 </div>
-<!-- /.box-header -->
-<div class="box-body ">
+<!-- /.card-header -->
+<div class="card-body p-0">
 
     <table class="table table-striped" id="table-address">
         <tbody>
@@ -52,11 +52,11 @@
         </tr>
 
         #for(data : couponCodeList)
-        <tr class="jp-actiontr">
+        <tr>
             <td>
                 #(data.coupon.title)
-                <div class="jp-actionblock">
-                    <div class="jp-actionitem">
+                <div class="jp-action-card">
+                    <div class="jp-action-body">
                         <a href="javascript:;" data-id="#(data.id)" class="del-action red-action"
                            >删除</a>
                     </div>

@@ -1,79 +1,90 @@
-<header class="main-header">
-    <!-- Logo -->
-    <a href="#(CPATH)/ucenter" class="logo">
-        <span class="logo-mini"><b>JPr</b></span>
-        <span class="logo-lg"><b>#option('web_name','JPress')</b></span>
-    </a>
-    <nav class="navbar navbar-static-top">
-        #if(showToggle)
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-            <span class="sr-only">切换</span>
+<nav class="main-header navbar navbar-expand-md navbar-light navbar-white" style="border:none;-webkit-box-shadow: 0 0 8px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 0 8px 0 rgb(0 0 0 / 10%);">
+    <div class="container">
+        <a href="#(CPATH)/" class="navbar-brand">
+            <span class="brand-text">#option('web_name','JPress')</span>
         </a>
-        #end
 
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                <li class="dropdown user user-menu">
-                    <a href="#(CPATH)/ucenter/index">
-                        <img src="#(USER.avatar ??)" class="user-image">
-                        <span class="hidden-xs">您好 #(user.nickname ??) , 欢迎回来</span>
+<!--        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+
+        <!-- Right navbar links -->
+        <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center;font-size:14px;">
+                    <span class="hidden-xs" >您好 #(user.nickname ??) , 欢迎回来</span>
+                </a>
+            </li>
+
+
+
+
+            <!--购物车开始-->
+            <li class="nav-item dropdown" style="border-left: 1px solid #eee;">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="fas fa-cart-arrow-down"></i>
+                    #if(USER_CARTS_COUNT && USER_CARTS_COUNT > 0)
+                    <span class="badge badge-danger navbar-badge" style="right:10px;">#(USER_CARTS_COUNT)</span>
+                    #end
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="dropdown-divider"></div>
+                    #for(userCart : USER_CARTS)
+                    <a href="#(userCart.product_link ?? 'javascript:;')" target="_blank" class="dropdown-item">
+                        <div class="media">
+                            #if(userCart.product_thumbnail)
+                            <img src="#(userCart.product_thumbnail)" class="img-size-50 mr-3">
+                            #end
+                            <div class="media-body">
+                                <h3 class="dropdown-item-title">
+                                    #maxLength(userCart.product_title ??,16,'...')
+                                </h3>
+                                <p class="cart-description">#maxLength(userCart.product_summary ??,14,'...')</p>
+                            </div>
+                        </div>
                     </a>
-                </li>
+                    <div class="dropdown-divider"></div>
+                    #else
+                    <div class="jpress-empty-cart">
+                    空空如也...
+                    </div>
+                    #end
+
+                    #if(USER_CARTS_COUNT && USER_CARTS_COUNT > 0)
+                    <a href="#(CPATH)/ucenter/cart" class="dropdown-item dropdown-footer">查看全部</a>
+                    #end
+                </div>
+
+            </li>
+            <!--购物车结束-->
 
 
 
+            <!-- 头像信息 -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center">
+                    <img src="#(USER.avatar ??)" class="img-circle" style="width:30px;height: 30px">
+                    <i class="fas fa-caret-down"></i>
+                </a>
 
-                <li class="dropdown messages-menu" style="border-left: 1px solid #ccc;">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-fw fa-shopping-cart"></i>
-                        #if(USER_CARTS_COUNT && USER_CARTS_COUNT > 0)
-                        <span class="label label-danger">#(USER_CARTS_COUNT)</span>
-                        #end
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="#(CPATH)/ucenter" class="dropdown-item">
+                        <i class="fas fa-home"></i> 用户中心
                     </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">购物车列表</li>
-                        <li>
-                            <ul class="menu" style="background-color: #f7f7f7">
-
-                                #for(userCart : USER_CARTS)
-                                <li>
-                                    <a href="#(userCart.product_link ?? '#')" target="_blank">
-                                        #if(userCart.product_thumbnail)
-                                        <div class="pull-left">
-                                            <img src="#(userCart.product_thumbnail)" class="img-circle" >
-                                        </div>
-                                        <h4>
-                                            #maxLength(userCart.product_title ??,16,'...')
-                                        </h4>
-                                        <p>#maxLength(userCart.product_summary ??,20,'...')</p>
-                                        #else
-                                        <h4 style="margin: 0">
-                                            #maxLength(userCart.product_title ??,16,'...')
-                                        </h4>
-                                        <p style="margin: 0">#maxLength(userCart.product_summary ??,20,'...')</p>
-                                        #end
-                                    </a>
-                                </li>
-                                #end
-
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#(CPATH)/ucenter/cart" style="color: #3c8dbc !important;" target="_blank">查看全部</a></li>
-                    </ul>
-                </li>
-
-                <li style="border-left: 1px solid #ccc;">
-                    <a href="#(CPATH)/" target="_blank">
-                        <i class="fa fa-fw fa-home"></i>
+                    <div class="dropdown-divider"></div>
+                    <a href="#(CPATH)/ucenter/info" class="dropdown-item">
+                        <i class="fas fa-user"></i> 个人信息
                     </a>
-                </li>
-
-                <li style="border-left: 1px solid #ccc;">
-                    <a href="#(CPATH)/ucenter/logout">
-                        <i class="fa fa-fw fa-circle-o-notch"></i>退出
+                    <div class="dropdown-divider"></div>
+                    <a href="#(CPATH)/ucenter/logout" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i> 退出登录
                     </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
+                </div>
+            </li>
+            <!-- 头像信息结束 -->
+
+        </ul>
+    </div>
+</nav>

@@ -53,7 +53,6 @@ import java.util.*;
 @RequestMapping(value = "/admin/user", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _UserController extends AdminControllerBase {
 
-    private static final String USER_ROLE_EDIT_ACTION = "/admin/user/roleEdit";
 
     @Inject
     private RoleService roleService;
@@ -81,7 +80,7 @@ public class _UserController extends AdminControllerBase {
 
 
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
-    public void index() {
+    public void list() {
 
         Columns columns = Columns.create("status", getPara("status"));
         columns.likeAppendPercent("username", getTrimPara("username"));
@@ -134,7 +133,7 @@ public class _UserController extends AdminControllerBase {
 
         String slug = tag.getSlug();
         if (slug == null || slug.contains("-") || StrUtil.isNumeric(slug)) {
-            renderJson(Ret.fail("message", "slug不能全是数字且不能包含字符：- "));
+            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
             return;
         }
 
@@ -188,14 +187,14 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        User dbUser = userService.findFistByUsername(user.getUsername());
+        User dbUser = userService.findFirstByUsername(user.getUsername());
         if (dbUser != null) {
             renderJson(Ret.fail().set("message", "该用户名已经存在").set("errorCode", 10));
             return;
         }
 
         if (StrUtil.isNotBlank(user.getEmail())) {
-            dbUser = userService.findFistByEmail(user.getEmail());
+            dbUser = userService.findFirstByEmail(user.getEmail());
             if (dbUser != null) {
                 renderJson(Ret.fail().set("message", "邮箱已经存在了").set("errorCode", 11));
                 return;
@@ -319,14 +318,6 @@ public class _UserController extends AdminControllerBase {
         renderOkJson();
     }
 
-
-    @AdminMenu(text = "会员组", groupId = JPressConsts.SYSTEM_MENU_USER, order = 4)
-    public void mgroup() {
-        List<MemberGroup> memberGroups = memberGroupService.findAll();
-        setAttr("memberGroups", memberGroups);
-        render("user/mgroup.html");
-    }
-
     @AdminMenu(text = "发消息", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
     public void sendMsg() {
         List<UserTag> hotTags = userTagService.findHotList(50);
@@ -391,136 +382,6 @@ public class _UserController extends AdminControllerBase {
 
 
         renderJson(AdminMessageSender.sendSms(smsTemplate, smsSign, cc, users));
-    }
-
-
-    public void mgroupjoined() {
-        Page<MemberJoinedRecord> page = memberJoinedRecordService.paginateByGroupId(getPagePara(), 20, getParaToLong());
-        setAttr("page", page);
-        setAttr("group", memberGroupService.findById(getPara()));
-        render("user/mgroupjoined.html");
-    }
-
-    public void mgroupEdit() {
-        Long id = getParaToLong();
-        if (id != null) {
-            setAttr("group", memberGroupService.findById(id));
-        }
-        render("user/mgroup_edit.html");
-    }
-
-
-    @EmptyValidate({
-            @Form(name = "group.name", message = "会员名称不能为空"),
-            @Form(name = "group.title", message = "会员标题不能为空"),
-            @Form(name = "group.price", message = "会员加入费用不能为空"),
-            @Form(name = "group.valid_term", message = "会员购买有效期不能为空"),
-    })
-    public void doMgroupSave() {
-        MemberGroup memberGroup = getModel(MemberGroup.class, "group");
-        memberGroupService.saveOrUpdate(memberGroup);
-        renderOkJson();
-    }
-
-    public void doMgroupDel() {
-        memberGroupService.deleteById(getIdPara());
-        renderOkJson();
-    }
-
-
-    @EmptyValidate(@Form(name = "ids"))
-    public void doMgroupDelByIds() {
-        Set<String> idsSet = getParaSet("ids");
-        for (String id : idsSet) {
-            memberGroupService.deleteById(id);
-        }
-        renderOkJson();
-    }
-
-
-    @AdminMenu(text = "角色", groupId = JPressConsts.SYSTEM_MENU_USER, order = 9)
-    public void role() {
-        List<Role> roles = roleService.findAll();
-        setAttr("roles", roles);
-        render("user/role.html");
-    }
-
-    public void rolePermissions() {
-        Long id = getParaToLong();
-        if (id == null) {
-            renderError(404);
-            return;
-        }
-
-        Role role = roleService.findById(id);
-        setAttr("role", role);
-
-        String type = getPara("type");
-
-
-        List<Permission> permissions = type == null
-                ? permissionService.findAll()
-                : permissionService.findListByType(type);
-
-        Map<String, List<Permission>> permissionGroup = PermissionKits.groupPermission(permissions);
-
-        Map<String, Boolean> groupCheck = new HashMap();
-        for (String groupKey : permissionGroup.keySet()) {
-            List<Permission> permList = permissionGroup.get(groupKey);
-            for (Permission permission : permList) {
-                boolean hasPerm = roleService.hasPermission(role.getId(), permission.getId());
-                if (!hasPerm) {
-                    groupCheck.put(groupKey, false);
-                    break;
-                } else {
-                    groupCheck.put(groupKey, true);
-                }
-            }
-        }
-
-        setAttr("groupCheck", groupCheck);
-        setAttr("permissionGroup", permissionGroup);
-
-        render("user/role_permissions.html");
-    }
-
-    @ActionKey(USER_ROLE_EDIT_ACTION)
-    public void roleEdit() {
-        Long id = getParaToLong();
-        if (id != null) {
-            setAttr("role", roleService.findById(id));
-        }
-        render("user/role_edit.html");
-    }
-
-    public void doRoleSave() {
-        Role role = getBean(Role.class);
-        if (getParaToBoolean("issuper", false)) {
-            role.setFlag(Role.ADMIN_FLAG);
-        } else {
-            role.setFlag(null);
-        }
-
-        roleService.saveOrUpdate(role);
-        redirect("/admin/user/role");
-    }
-
-    /**
-     * 删除角色
-     */
-    public void doRoleDel() {
-        roleService.deleteById(getIdPara());
-        renderOkJson();
-    }
-
-
-    /**
-     * 批量删除角色
-     */
-    @EmptyValidate(@Form(name = "ids"))
-    public void doRoleDelByIds() {
-        Set<String> idsSet = getParaSet("ids");
-        render(roleService.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 
@@ -595,7 +456,12 @@ public class _UserController extends AdminControllerBase {
             @Form(name = "newPwd", message = "新密码不能为空"),
             @Form(name = "confirmPwd", message = "确认密码不能为空")
     })
-    public void doUpdatePwd(long uid, String oldPwd, String newPwd, String confirmPwd) {
+    public void doUpdatePwd(long uid, String newPwd, String confirmPwd) {
+
+        if (!newPwd.equals(confirmPwd)) {
+            renderJson(Ret.fail().set("message", "两次出入密码不一致"));
+            return;
+        }
 
         User user = userService.findById(uid);
         if (user == null) {
@@ -603,24 +469,15 @@ public class _UserController extends AdminControllerBase {
             return;
         }
 
-        //超级管理员可以修改任何人的密码
-        if (!roleService.isSupperAdmin(getLoginedUser().getId())) {
-            if (StrUtil.isBlank(oldPwd)) {
-                renderJson(Ret.fail().set("message", "旧密码不能为空"));
-                return;
-            }
 
-            if (userService.doValidateUserPwd(user, oldPwd).isFail()) {
-                renderJson(Ret.fail().set("message", "密码错误"));
-                return;
-            }
-        }
+        User loginUser = getLoginedUser();
 
-
-        if (newPwd.equals(confirmPwd) == false) {
-            renderJson(Ret.fail().set("message", "两次出入密码不一致"));
+        //当前登录用户如果不是超级管理员，不能修改超级管理员的密码
+        if (!roleService.isSupperAdmin(loginUser.getId()) && roleService.isSupperAdmin(uid)){
+            renderJson(Ret.fail().set("message", "您没有权限修改该用户密码"));
             return;
         }
+
 
         String salt = user.getSalt();
         String hashedPass = HashKit.sha256(salt + newPwd);

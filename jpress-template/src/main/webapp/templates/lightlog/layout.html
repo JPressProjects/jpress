@@ -5,13 +5,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
+    <title>#(SEO_TITLE ?? (WEB_TITLE + ' - ' + WEB_SUBTITLE))</title>
     <meta name="keywords" content="#(SEO_KEYWORDS)">
     <meta name="description" content="#(SEO_DESCRIPTION)">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ll-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="#(CPATH)/static/commons/img/jpress.jpg" type="image/x-icon">
+    <link href="#(CPATH)/static/front/jpressfront.css" rel="stylesheet">
+    <link href="#(CPATH)/static/commons/img/icon.png" type="image/x-icon" rel="shortcut icon">
     #@css?()
 </head>
 <body>
@@ -25,19 +26,11 @@
 </div>
 <div class="ll-navbar">
     <nav class="navbar navbar-expand-lg navbar-dark ll-nav">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#jpress-default-menu"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                #for(menu : MENUS)
-                <li class="nav-item #(menu.isActive ? 'active' : '')" >
-                    <a href="#(menu.url ??)" target="#(menu.target ??)">#(menu.text ??)</a>
-                </li>
-                #end
-            </ul>
-        </div>
+        #@defaultMenu("collapse navbar-collapse","navbar-nav","nav-item","nav-link")
     </nav>
 </div>
 #@content()
@@ -47,7 +40,8 @@
         <p class="ll-copyright">#(WEB_COPYRIGHT ?? 'copyright @ 2018~2020 JPress（www.jpress.io）')</p>
     </div>
 </div>
-<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/front/jpressfront.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 #@script?()
 </body>

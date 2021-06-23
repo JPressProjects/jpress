@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="#(CPATH)/static/components/jquery-file-upload/css/jquery.fileupload.css">
 <style>
     #editor {
-        height: 500px;
+        height: 800px;
     }
 
     .table > tbody > tr > th {
@@ -21,15 +21,9 @@
         border-top: 1px solid #ddd;
     }
 
-    .ace-eclipse .ace_gutter {
-        background: #f7f7f7;
-        border-right: 1px solid rgb(159, 159, 159);
-        color: rgb(82, 82, 82);
-    }
 
-    .ace-eclipse .ace_gutter-active-line {
-        background-color: #b3b3b3;
-    }
+    #editor *{ font-family : monospace !important;font-size: 14px !important;direction:ltr !important;text-align:left !important;}
+
 
 </style>
 #end
@@ -55,7 +49,13 @@
     } else if (editFileName.indexOf(".xml") != -1) {
         model = "ace/mode/xml";
     }
+
     editor.session.setMode(model);
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false
+    });
 
     function doSubmit() {
         $("#fileContent").attr("value", editor.getSession().getValue());
@@ -65,7 +65,8 @@
         return false;
     }
 
-    doListenerCtrlsAndCommands(doSubmit);
+    setSaveHotKeyFunction(doSubmit);
+
 
 </script>
 #end
@@ -110,13 +111,26 @@
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            模板编辑
-            <small>Template Edit</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                模板编辑
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 模板 / 模板编辑</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
@@ -129,28 +143,28 @@
 
         <div class="row">
             <div class="col-lg-9">
-                <div class="box box-primary">
-                    <form class="form-horizontal" autocomplete="off">
+                <div class="card card-outline card-primary">
+                    <form class="" autocomplete="off">
                         #if(f)
                         #if(isImage(f))
                         <div class="text-center">
                             <img src="#(CPATH+prefixPath)/#(d ??)/#(f ??)" style="width: 50%">
                         </div>
                         #else
-                        <div class="box-body no-padding">
+                        <div class="card-body p-0">
                             <div id="editor" for-filename="#(f ??)">#(editFileContent ??)</div>
                         </div>
 
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="button" onclick="doSubmit()" class="btn btn-primary">更新文件</button>
                                     提示：按快捷键 ctrl + s 也能保存哦。（mac电脑：command+s）
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                         #end
                         #end
 
@@ -158,15 +172,15 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title">当前目录：/#(d ??)</h3>
+                <div class="card card-outline card-primary">
+                    <div class="card-header ">
+                        <h3 class="card-title">当前目录：/#(d ??)</h3>
                     </div>
-                    <!-- /.box-header -->
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off">
-                        <div class="box-body no-padding">
-                            <div class="form-group">
+                    <form class="" autocomplete="off">
+                        <div class="card-body p-0">
+                            <div class="form-group row">
                                 <div class="col-sm-12">
 
                                     <table class="table table-striped" style="margin-bottom: 0px">
@@ -174,7 +188,7 @@
                                         #if(parentDir != null)
                                         <tr>
                                             <th>
-                                                <a href="#(CPATH)/admin/template/edit?d=#(parentDir)"> .. </a>（上级目录）
+                                                <a href="#(CPATH)/admin/template/edit?d=#(parentDir)"> .. （上级目录）</a>
                                             </th>
                                         </tr>
                                         #end
@@ -185,22 +199,21 @@
                                                 #if(file.isDir())
                                                 #if(d != null)
                                                 <a href="#(CPATH)/admin/template/edit?d=#(d)/#(file.name ??)">
-                                                    #(file.name ??)
+                                                    <i class="fas fa-folder"></i> #(file.name ??)
                                                 </a>
                                                 #else
                                                 <a href="#(CPATH)/admin/template/edit?d=#(file.name ??)">
-                                                    #(file.name ??)
+                                                    <i class="fas fa-folder"></i> #(file.name ??)
                                                 </a>
                                                 #end
-                                                [目录]
                                                 #else
                                                 <a href="#(CPATH)/admin/template/edit?d=#(d ??)&f=#(file.name ??)">
-                                                    #(file.name ??)
+                                                    <i class="far fa-file"></i> #(file.name ??)
                                                 </a>
                                                 #if(file.name == f)
                                                 （#(isImage(f) ? '预览中...' : '编辑中...')）
                                                 #end
-                                                <a href="javascript:;" class="pull-right delBtn"
+                                                <a href="javascript:;" class="float-right delBtn"
                                                    data-path="#(d ??)/#(file.name ??)">[删除]</a>
                                                 #end
                                             </th>
@@ -213,7 +226,7 @@
 
                             <div id="uploader">
                                 <span class="btn btn-block  btn-flat btn-primary fileinput-button">
-                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <i class="fas fa-plus"></i>
                                     <span>上传模板文件...</span>
                                     <input id="cfile" type="file" multiple>
                                 </span>
@@ -227,5 +240,4 @@
 
     </section>
 
-</div>
 #end

@@ -20,6 +20,8 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.ProductManager;
@@ -68,7 +70,7 @@ public class _OrderController extends AdminControllerBase {
 
 
     @AdminMenu(text = "订单管理", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 1)
-    public void index() {
+    public void list() {
 
         int todayOrderCount = orderService.queryTotayCount();
         int monthOrderCount = orderService.queryMonthCount();
@@ -303,6 +305,9 @@ public class _OrderController extends AdminControllerBase {
         render("order/order_layer_update_price.html");
     }
 
+    @EmptyValidate({
+            @Form(name = "newPrice",message = "新的价格不能为空")
+    })
     public void doUpdatePrice() {
         UserOrder order = orderService.findById(getPara("orderId"));
         if (order == null) {

@@ -1,6 +1,6 @@
 package io.jpress.addon.helloworld;
 
-import io.jpress.core.addon.Addon;
+import io.jpress.core.addon.AddonBase;
 import io.jpress.core.addon.AddonInfo;
 
 /**
@@ -9,7 +9,7 @@ import io.jpress.core.addon.AddonInfo;
  * 其存在的目的是为了帮助开发者，通过 hello world ，了解如何开发一个 JPress 插件
  *
  */
-public class HelloWorldAddon implements Addon {
+public class HelloWorldAddon extends AddonBase {
 
     @Override
     public void onInstall(AddonInfo addonInfo) {

@@ -46,8 +46,8 @@
             title: '附件详情',
             anim: 2,
             shadeClose: true,
-            shade: 0.6,
-            area: ['90%', '90%'],
+            shade: 0.3,
+            area: ['80%', '60%'],
             content: '#(CPATH)/admin/attachment/detail/' + id,
             end: function () {
                 if (layer.data.needReload == true) {
@@ -60,51 +60,62 @@
 #end
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            附件管理
-            <small>Attachment Management</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                附件管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 附件 / 附件管理</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top:15px ">
+                        <a href="#(CPATH)/admin/attachment/upload" class="btn btn-primary ">
+                            <i class="fas fa-plus"></i> 上传
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <form class="form-horizontal actionPanel" action="#(CPATH)/admin/attachment" method="get">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
+                        <form class="admin-search-panel" action="" method="get">
                             <div class="row">
-                                <div class="form-group col-lg-4">
-                                    <label class="col-sm-3 control-label">标题</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="title" value="#para('title')">
-                                    </div>
+                                <div class="form-group col-lg-2">
+                                        <input type="text" placeholder="标题" class="form-control" name="title" value="#para('title')">
                                 </div>
-                                <div class="form-group col-lg-4">
-                                    <div class="col-sm-12">
+                                <div class="form-group col-lg-2">
                                         <button type="submit" class="btn btn-primary ">查询</button>
                                         <button type="reset" class="btn btn-default">重置</button>
-                                    </div>
+
                                 </div>
                             </div>
-                            <!-- /.box-body -->
+                            <!-- /.card-body -->
                         </form>
 
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <a href="#(CPATH)/admin/attachment/upload" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 上传
-                                </a>
-                                <button type="submit" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body">
 
                         <div class="col-xs-12 ">
                             <div class="row">
@@ -160,21 +171,43 @@
 
 
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+                                            <label class="form-check-label" for="checkall">全选</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select class="form-control" name="action">
+                                            <option value="">请选择...</option>
+                                            <option value="doDelByIds" open-type="del-confirm">
+                                                批量删除
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
 
-</div>
 #end

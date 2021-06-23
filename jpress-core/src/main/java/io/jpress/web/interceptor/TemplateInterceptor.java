@@ -54,8 +54,8 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
 
     public static void init() {
 
-        webTitle = JPressOptions.get(JPressConsts.OPTION_WEB_TITLE);
-        webSubTitle = JPressOptions.get(JPressConsts.OPTION_WEB_SUBTITLE);
+        webTitle = JPressOptions.get(JPressConsts.OPTION_WEB_TITLE,"JPress");
+        webSubTitle = JPressOptions.get(JPressConsts.OPTION_WEB_SUBTITLE,"欢迎使用JPress");
         webName = JPressOptions.get(JPressConsts.OPTION_WEB_NAME);
         webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
         webCopyright = JPressOptions.get(JPressConsts.OPTION_WEB_COPYRIGHT);

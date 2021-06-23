@@ -58,6 +58,7 @@ public class InstallUtil {
         //jboot.app.mode
         putPropertie(p, "jboot.app.mode", "product");
 
+
         //cookieEncryptKey
         String cookieEncryptKey = StrUtil.uuid();
         if (putPropertie(p, "jboot.web.cookieEncryptKey", cookieEncryptKey)) {
@@ -74,7 +75,7 @@ public class InstallUtil {
         p.put("jboot.datasource.type", "mysql");
         p.put("jboot.datasource.url", dbExecuter.getJdbcUrl());
         p.put("jboot.datasource.user", dbExecuter.getDbUser());
-        p.put("jboot.datasource.password", StrUtil.obtainDefaultIfBlank(dbExecuter.getDbPassword(), ""));
+        p.put("jboot.datasource.password", StrUtil.obtainDefault(dbExecuter.getDbPassword(), ""));
 
         return savePropertie(p, propertieFile);
     }

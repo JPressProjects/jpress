@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.jpress</groupId>
         <artifactId>module-product</artifactId>
-        <version>3.0</version>
+        <version>4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -27,42 +27,42 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-model</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-product-service-api</artifactId>
-            <version>3.0</version>
+            <artifactId>module-product-service</artifactId>
+            <version>4.0</version>
         </dependency>
         <dependency>
             <groupId>io.jpress</groupId>
-            <artifactId>module-product-search-api</artifactId>
-            <version>3.0</version>
+            <artifactId>module-product-search</artifactId>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-search-db</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-search-lucene</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-search-es</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-product-search-opensearch</artifactId>
-            <version>3.0</version>
+            <version>4.0</version>
         </dependency>
 
     </dependencies>

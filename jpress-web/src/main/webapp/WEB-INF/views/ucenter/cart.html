@@ -2,8 +2,11 @@
 
 #define css()
 <style>
-    .page-header {
-        margin: 10px 0 20px;
+    .form-header {
+        margin: 4px 0;
+        border:none;
+        padding:0 0 4px 0;
+        font-size:16px;
     }
 
     .input-number {
@@ -27,8 +30,8 @@
 
         height: 60px;
         background-color: #fff;
-        border-top: 1px solid #F0F0F0;
-        box-shadow: 0 -1px 8px rgba(0, 1, 1, .08);
+        border-top: 1px solid #ebedef;
+        card-shadow: 0 -1px 8px rgba(0, 1, 1, .08);
         z-index: 9999;
     }
 
@@ -40,7 +43,7 @@
         margin: 0 auto;
         padding-left: 40px;
         padding-right: 40px;
-        box-sizing: border-box;
+        card-sizing: border-card;
         z-index: 9999;
     }
 
@@ -72,8 +75,11 @@
     .bottom-content-price {
         display: flex;
         justify-content: flex-end;
+        align-items: center;
     }
-
+    .bottom-content-price div{
+        margin-right:10px;
+    }
     .select-sum, .price-sum {
         color: #999;
         font-size: 14px;
@@ -97,9 +103,9 @@
         vertical-align: middle;
     }
 
-    @media all and (max-width: 768px){
-        .bottom-content{
-            padding-left:0;
+    @media all and (max-width: 768px) {
+        .bottom-content {
+            padding-left: 0;
         }
     }
 
@@ -189,7 +195,7 @@
 
     function checkAll(checkbox) {
         if (checkbox.checked) {
-            $(".dataItem").each(function () {
+            $('[name="tableItem"]').each(function () {
                 $(this).prop('checked', checkbox.checked);
             });
         }
@@ -206,14 +212,14 @@
 
         if (checkbox.checked) {
             ajaxPost('#(CAPTH)/ucenter/cart/select', {id: itemIds}, function () {
-                $(".dataItem").each(function () {
+                $('[name="tableItem"]').each(function () {
                     $(this).parent().parent("tr").prop("style", "background-color: #fff4e8;");
                     querySelectedItemCountAndPrice();
                 });
             })
         } else {
             ajaxPost('#(CAPTH)/ucenter/cart/unselect', {id: itemIds}, function () {
-                $(".dataItem").each(function () {
+                $('[name="tableItem"]').each(function () {
                     $(this).prop('checked', false);
                     $(this).parent().parent("tr").prop("style", "");
                     querySelectedItemCountAndPrice();
@@ -240,7 +246,7 @@
 
     function getSelectedIds() {
         var selectedIds = "";
-        $(".dataItem").each(function () {
+        $('[name="tableItem"]').each(function () {
             if ($(this).prop('checked')) {
                 selectedIds += $(this).val() + ",";
             }
@@ -309,96 +315,91 @@
 #end
 
 #define content()
-<div class="content-wrapper" style="min-height: 1126px;">
-    <!-- Main content -->
-    <section class="invoice">
-        <div class="row">
-            <div class="col-xs-12">
-                <h2 class="page-header">
-                    <i class="fa fa-globe"></i> 购物车.
-                </h2>
-            </div>
-        </div>
+<!-- Main content -->
 
-
-        <!-- Table row -->
-        <div class="row">
-            <div class="col-xs-12 table-responsive">
-                <table class="table table-striped" id="tab">
-                    <thead>
-                    <tr>
-                        <th style="width: 10px">
-                            <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
-                        </th>
-                        <th style="width: 40%">商品</th>
-                        <th>单价 #</th>
-                        <th>数量</th>
-                        <th>总价</th>
-                        <th style="width: 100px">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    #for(userCart : page.list ??)
-                    <tr #(userCart.selected ?
-                    'style="background-color: #fff4e8;"' : '') >
-                    <td>
-                        <input class="dataItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
-                               onchange="dataItemChange(this)"/>
-                    </td>
-                    <td>
-                        <a href="#(userCart.product_link ?? '#')" target="_blank">
-                            #(userCart.product_title ??)
-                        </a>
-
-                        <div style="color: #9c9c9c">
-                            #for(option : userCart.optionsMap)
-                                 #(option.key ??) : #(option.value ??) #if(!(for.last))<br />#end
-                            #end
-                        </div>
-                    </td>
-                    <td>
-                        #if(userCart.memberPrice ??)
-                        <s>#(userCart.product_price ??)</s>
-                        会员：#(userCart.memberPrice)
-                        #else
-                        #(userCart.product_price ??)
-                        #end
-                    </td>
-                    <td>
-                        <div class="input-group input-number">
-                            <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
-                            <input type="text" class="form-control" value="#(userCart.product_count ??)">
-                            <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
-                        </div>
-                    </td>
-                    <td>#(userCart.shouldPayPrice ??)</td>
-                    <td>
-                        <a href="#(CPATH)/ucenter/checkout/#(userCart.id ??)">结算</a>
-                        <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
-                    </td>
-                    </tr>
-                    #end
-
-                    </tbody>
-                </table>
-
-                <div class="box-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            #@_paginate()
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </section>
-
-    <div class="clearfix"></div>
+<div class="container-fluid">
+    <h3 class="form-header" style="color:#666;">
+        <i class="fa fa-cart-plus" aria-hidden="true"></i> 购物车
+    </h3>
 </div>
+
+<section class="invoice" style="border-color:#e4e6e6;">
+
+
+    <!-- Table row -->
+    <div class="col-xs-12 table-responsive">
+        <table class="table " id="tab" style="font-size:14px;">
+            <thead>
+            <tr style="font-size:14px;">
+                <th style="width: 10px">
+                    <input class="tableCheckAll" id="checkall" type="checkbox"/>
+                </th>
+                <th style="width: 40%">商品</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>总价</th>
+                <th style="width: 100px">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            #for(userCart : page.list ??)
+            <tr #(userCart.selected ? 'style="background-color: #fff4e8;"' : '') >
+            <td>
+                <input name="tableItem" #checkedIf(userCart.selected) type="checkbox" value="#(userCart.id ??)"
+                       onchange="dataItemChange(this)"/>
+            </td>
+            <td>
+                <a href="#(userCart.product_link ?? '#')" target="_blank">
+                    #(userCart.product_title ??)
+                </a>
+
+                <div style="color: #9c9c9c">
+                    #for(option : userCart.optionsMap)
+                    #(option.key ??) : #(option.value ??) #if(!(for.last))<br/>#end
+                    #end
+                </div>
+            </td>
+            <td>
+                #if(userCart.memberPrice ??)
+                <s>#(userCart.product_price ??)</s>
+                会员：#(userCart.memberPrice)
+                #else
+                #(userCart.product_price ??)
+                #end
+            </td>
+            <td>
+                <div class="input-group input-number" style="align-items: center">
+                    <span class="input-group-addon subtract" data-value="#(userCart.id ??)">-</span>
+                    <input type="text" class="form-control" style="margin:0 10px;" value="#(userCart.product_count ??)">
+                    <span class="input-group-addon add" data-value="#(userCart.id ??)">+</span>
+                </div>
+            </td>
+            <td>#(userCart.shouldPayPrice ??)</td>
+            <td>
+                <a href="#(CPATH)/ucenter/checkout/#(userCart.id ??)">结算</a>
+                <a href="javascript:;" onclick="doDelCart('#(userCart.id)')">删除</a>
+            </td>
+            </tr>
+            #end
+
+            </tbody>
+        </table>
+
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    #@_paginate()
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.col -->
+    <!-- /.row -->
+</section>
+
+<div class="clearfix"></div>
 
 <div class="bottom-bar">
     <div class="row bottom-content">
@@ -413,12 +414,11 @@
             <div class="jp-operation">
                 <a href="javascript:;" onclick="doDelSelectedItems()" class="remove-batch">删除选中商品</a>
                 <a href="javascript:;" onclick="doRemoveSelectedItemsToFavorites()" class="follow-batch">移到收藏</a>
-                <!--                <a href="#" class="jp-cleaner" title="亲，点我可快速清理购物车商品哦！">清理购物车</a>-->
             </div>
 
 
         </div>
-        <div class="col-lg-7 col-xs-9 bottom-content-price">
+        <div class="col-lg-8 col-xs-12 bottom-content-price">
 
             <div class="select-sum">
                 已选择<em id="selectedItemCount">#(selectItemCount ?? '0')</em>件商品<b class="up"></b>
@@ -435,13 +435,17 @@
                 </div>
             </div>
 
+            <div class="bottom-content-buybtn">
+                <a href="javascript:;" class="btn-danger " onclick="gotoCheckout()">
+                    结算
+                </a>
+            </div>
+
 
         </div>
-        <div class="col-lg-1 col-xs-3 bottom-content-buybtn">
-            <a href="javascript:;" class="btn btn-danger " onclick="gotoCheckout()"><i class="fa fa-credit-card"></i>
-                去结算
-            </a>
-        </div>
+<!--        <div class="col-lg-2 col-xs-3 bottom-content-buybtn">-->
+<!--            -->
+<!--        </div>-->
     </div>
 </div>
 #end

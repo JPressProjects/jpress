@@ -21,92 +21,86 @@
 		}
 	}
 
-	$("#batchDel").click(function () {
-		var ids = getSelectedIds();
-		if (ids == "") {
-			alert('您未选择任何内容');
-			return
-		}
-		if (confirm('确定要删除该产品吗？删除后不可恢复')) {
-			ajaxGet("#(CPATH)/admin/product/doDelByIds?ids=" + ids);
-		}
-	})
 </script>
 
 #end
 
 #define content()
-<div class="content-wrapper">
 
 	<section class="content-header">
-		<h1>
-			商品管理
-			<small>Product Management</small>
-		</h1>
-	</section>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-6">
 
-	<section class="content-header text-tap">
-		<a href="#(CPATH)/admin/product">全部 (#(totalCount ?? 0))</a> |
-		<a href="?status=1">已上架 (#(normalCount ?? 0))</a> |
-		<a href="?status=2">草稿 (#(draftCount ?? 0))</a> |
-		<a href="?status=3" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+					<div class="row mb-2">
+						<div class="col-sm-12">
+							<h1>
+								商品管理
+								<small data-toggle="tooltip" title="" data-placement="right"
+									   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+								<small> 首页 / 商品 / 商品管理</small>
+							</h1>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12" style="padding-top: 20px">
+							<a href="#(CPATH)/admin/product/list">全部 (#(totalCount ??))</a> |
+							<a href="?status=normal">已发布 (#(normalCount ??))</a> |
+							<a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
+							<a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-sm-6 ">
+					<div class=" float-sm-right" style="padding-top: 45px">
+						<a href="./edit" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
+					</div>
+				</div>
+
+			</div>
+
+		</div><!-- /.container-fluid -->
 	</section>
 
 	<section class="content">
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="box box-primary">
-					<div class="box-header with-border">
-						<form class="form-horizontal actionPanel" action="#(CPATH)/admin/product" method="get">
+		<div class="container-fluid">
+				<div class="card card-outline card-primary">
+					<div class="card-header with-border">
+						<form class=" admin-search-panel" action="" method="get">
 							<input type="hidden" name="status" value="#para('status')">
 							<div class="row">
-								<div class="form-group col-lg-4">
-									<label class="col-sm-3 control-label">标题</label>
-									<div class="col-sm-9">
-										<input type="text" class="form-control" name="title" value="#para('title')">
-									</div>
+								<div class="form-group col-lg-2">
+										<input type="text" placeholder="标题" class="form-control" name="title" value="#para('title')">
 								</div>
-								<div class="form-group col-lg-4">
-									<label class="col-sm-3 control-label">分类</label>
-									<div class="col-sm-9">
+								<div class="form-group col-lg-2">
 										<select class="form-control" name="categoryId">
 											<option value="">全部分类</option>
 											#for(category : categories)
 											<option value="#(category.id ??)" #selectedIf(category.isCheck)>
-												#(category.layerString)#(category.title ??)
+												#(category.layerString) #(category.title ??)
 											</option>
 											#end
 										</select>
-									</div>
 								</div>
-								<div class="form-group col-lg-4">
-									<div class="col-sm-12">
+								<div class="form-group col-lg-2">
 										<button type="submit" class="btn btn-primary ">查询</button>
 										<button type="reset" class="btn btn-default">重置</button>
-										<a class="btn"> 更多<i class="fa fa-fw fa-angle-down"></i> </a>
-									</div>
 								</div>
 							</div>
-							<!-- /.box-body -->
+							<!-- /.card-body -->
 						</form>
 
-						<div class="row actionPanel">
-							<div class="col-xs-12">
-								<a href="#(CPATH)/admin/product/edit" class="btn btn-primary "> <i
-										class="fa fa-fw fa-plus"></i> 新建</a>
-								<button type="button" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-							</div>
-						</div>
-
 					</div>
-					<!-- /.box-header -->
-					<div class="box-body ">
+					<!-- /.card-header -->
+					<div class="card-body p-0">
 
 						<table class="table table-striped">
 							<tbody>
 							<tr>
 								<th style="width: 10px">
-									<input name="dataItem" onchange="checkAll(this)" type="checkbox" value="0"/>
+									<input class="tableCheckAll" id="checkall" type="checkbox" value="0"/>
 								</th>
 								<th style="width: 350px">标题</th>
 								<th style="width: 50px">价格</th>
@@ -118,8 +112,8 @@
 							</tr>
 
 							#for(product : page.list)
-							<tr class="jp-actiontr">
-								<td><input class="dataItem" type="checkbox" value="#(product.id)"/>
+							<tr>
+								<td><input name="tableItem" type="checkbox" value="#(product.id)"/>
 								</td>
 								<td>
 									<!--<div style="width: 20px;height: 20px">-->
@@ -132,9 +126,9 @@
 											（草稿）
 											#end
 										</strong>
-										<div class="jp-actionblock">
+										<div class="jp-action-card">
 											#if(product.isNormal())
-											<div class="jp-actionitem">
+											<div class="jp-action-body">
 												<a href="#(CPATH)/admin/product/edit/#(product.id)">编辑</a> |
 												<a href="javascript:;" onclick="draft('#(product.id??)')">草稿</a>
 												|
@@ -143,13 +137,13 @@
 												<a href="#(product.url ??)" target="_blank" class="red-action">查看</a>
 											</div>
 											#elseif(product.isDraft())
-											<div class="jp-actionitem">
+											<div class="jp-action-body">
 												<a href="#(CPATH)/admin/product/edit/#(product.id)">编辑</a> |
 												<a href="javascript:;" onclick="trash('#(product.id??)')"
 												   class="red-action">垃圾箱</a>
 											</div>
 											#else
-											<div class="jp-actionitem">
+											<div class="jp-action-body">
 												<a href="javascript:;" onclick="draft('#(product.id??)')">还原</a>
 												|
 												<a href="javascript:;" onclick="del('#(product.id??)')" class="red-action">永久删除</a>
@@ -159,10 +153,10 @@
 									<!--</div>-->
 
 								</td>
-								<td>
+								<td style="white-space:nowrap">
 										#(product.price ??)
 								</td>
-								<td>
+								<td style="white-space:nowrap">
 										#(product.real_sales_count ?? '0' )（#(product.sales_count ?? '0')）
 								</td>
 								
@@ -194,21 +188,41 @@
 							</tbody>
 						</table>
 					</div>
-					<!-- /.box-body -->
-					<div class="box-footer">
+					<!-- /.card-body -->
+					<div class="card-footer">
 						<div class="row">
-							<div class="col-sm-12">
+							<div class="col-sm-6">
+								<div class="row">
+
+									<div class="form-group">
+										<div class="form-check">
+											<input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+											<label class="form-check-label" for="checkall">全选</label>
+										</div>
+									</div>
+									<div class="form-group col-lg-3">
+										<select class="form-control" name="action">
+											<option value="">请选择...</option>
+											<option value="doDelByIds" open-type="del-confirm">
+												批量删除
+											</option>
+										</select>
+									</div>
+
+									<div class="form-group col-lg-3">
+										<button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-6">
 								#@_paginate()
 							</div>
 						</div>
 					</div>
+					<!-- /.card-footer -->
 				</div>
-				<!-- /.box -->
+				<!-- /.card -->
 			</div>
-		</div>
-
 	</section>
-
-
-</div>
 #end

@@ -250,7 +250,7 @@ public class _FinanceController extends AdminControllerBase {
         render("finance/setting_base.html");
     }
 
-    @AdminMenu(text = "收款设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 19)
+    @AdminMenu(text = "支付设置", groupId = JPressConsts.SYSTEM_MENU_ORDER, order = 19)
     public void setting_pay() {
         setAttr("querierNames", ExpressQuerierFactory.getQuerierNames());
         render("finance/setting_pay.html");

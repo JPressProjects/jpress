@@ -5,12 +5,12 @@
     <parent>
         <groupId>io.jpress</groupId>
         <artifactId>parent</artifactId>
-        <version>3.0</version>
+        <version>4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <packaging>pom</packaging>
-    <version>3.0</version>
+    <version>4.0</version>
 
     <groupId>io.jpress</groupId>
     <artifactId>module-product</artifactId>
@@ -23,14 +23,13 @@
     <modules>
         <module>module-product-model</module>
         <module>module-product-web</module>
-        <module>module-product-service-api</module>
+        <module>module-product-service</module>
         <module>module-product-service-provider</module>
-        <module>module-product-search-api</module>
+        <module>module-product-search</module>
         <module>module-product-search-db</module>
         <module>module-product-search-es</module>
         <module>module-product-search-lucene</module>
         <module>module-product-search-opensearch</module>
-
     </modules>
 
     <build>

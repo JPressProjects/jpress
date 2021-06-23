@@ -1,60 +1,70 @@
 #@layout()
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            API设置
-            <small>API Setting</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                API设置
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 系统 / API设置</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off"
-                          id="optionForm">
-                        <div class="box-body ">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">启用API接口</label>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form class=" form-setting" autocomplete="off"
+                          id="optionForm">
+                        <div class="card-body">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用API接口</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="api_enable" #checkedIf(option("api_enable"))>
                                     <input type="hidden" id="api_enable" name="api_enable">
-                                    <p class="help-block"> 注意：微信小程序必须开启API才能正常使用 </p>
+                                    <p class="text-muted"> 注意：微信小程序必须开启API才能正常使用 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">应用ID</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">应用ID</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="建议长度为32位"
                                            name="api_app_id" value="#option('api_app_id')">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">签名密钥</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">签名密钥</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="请设置API密钥"
                                            name="api_secret" value="#option('api_secret')">
-                                    <p class="help-block"> 请务必确保应用ID、签名密钥和客户端SDK（例如：小程序）的配置保持一致。 </p>
+                                    <p class="text-muted"> 请务必确保应用ID、签名密钥和客户端SDK（例如：小程序）的配置保持一致。 </p>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">测试环境</h4>
+                            <h4 class="form-header">测试环境</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">测试密钥</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">测试密钥</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="一般用于客户测试"
@@ -62,18 +72,18 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">允许的API接口</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">允许的API接口</label>
 
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control" name="api_test_urls"
                                               placeholder="一行一个...">#option("api_test_urls")</textarea>
-                                    <p class="help-block"> 不填写默认允许全部接口，一行一个接口 </p>
+                                    <p class="text-muted"> 不填写默认允许全部接口，一行一个接口 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">禁止的API接口</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">禁止的API接口</label>
 
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control" name="api_prohibit_urls"
@@ -81,21 +91,19 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
         </div>
 
     </section>
-
-</div>
 #end

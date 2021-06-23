@@ -1,63 +1,73 @@
 #@layout()
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-             基础设置
-            <small>Base Setting</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                基础设置
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 财务 / 基础设置</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
+
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off"
+                    <form class=" form-setting" autocomplete="off"
                           id="optionForm">
-                        <div class="box-body ">
+                        <div class="card-body">
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">开启提现功能</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">开启提现功能</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery"  data-for="payout_enable"
                                            #checkedIf(option("payout_enable"))>
                                     <input type="hidden" id="payout_enable" name="payout_enable">
-                                    <p class="help-block"> 当不开启提现功能时，用户分销等所赚取的佣金只能在本站进行消费。 </p>
+                                    <p class="text-muted"> 当不开启提现功能时，用户分销等所赚取的佣金只能在本站进行消费。 </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">提现手续费</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">提现手续费</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="payout_fee" value="#option('payout_fee')">
-                                    <p class="help-block"> 填写 0 ~ 1 小数点，每笔提现，按提现额乘以填写的小数点为总提现金额。 </p>
+                                    <p class="text-muted"> 填写 0 ~ 1 小数点，每笔提现，按提现额乘以填写的小数点为总提现金额。 </p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">订单关闭时间</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">订单关闭时间</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="不填写默认手续费为：0" name="order_timeout" value="#option('order_timeout','0')">
-                                    <p class="help-block"> 当某个订单在多少天内未支付，自动关闭。填写 0 为永久不关闭。 </p>
+                                    <p class="text-muted"> 当某个订单在多少天内未支付，自动关闭。填写 0 为永久不关闭。 </p>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">物流设置</h4>
+                            <h4 class="form-header">物流设置</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">物流信息API</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">物流信息API</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="express_api_type">
                                         #for(exq : querierNames)
@@ -66,21 +76,21 @@
                                         </option>
                                         #end
                                     </select>
-                                    <p class="help-block">如果只销售虚拟产品，无需对此项配置。</p>
+                                    <p class="text-muted">如果只销售虚拟产品，无需对此项配置。</p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">AppId（或 AppKey）</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">AppId（或 AppKey）</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="express_api_appid" class="form-control" value="#option('express_api_appid')" placeholder="">
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">AppSecret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">AppSecret</label>
                                 <div class="col-sm-6">
                                     <input type="input" name="express_api_appsecret" class="form-control" value="#option('express_api_appsecret')"
                                            placeholder="">
@@ -91,21 +101,17 @@
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
-
     </section>
-
-</div>
 #end

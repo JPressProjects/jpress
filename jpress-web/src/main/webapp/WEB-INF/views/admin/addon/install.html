@@ -36,7 +36,7 @@
 
             if (data.result.state == "ok") {
                 toastr.options.onHidden = function () {
-                    location.href = "#(CPATH)/admin/addon";
+                    location.href = "#(CPATH)/admin/addon/list";
                 }
                 toastr.success(" 插件安装成功 ")
             } else {
@@ -48,24 +48,38 @@
 #end
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            安装插件
-            <small>Addon Install</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                插件安装
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 插件 / 插件安装</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-body">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-body">
                         <div id="uploader">
                             <span class="btn btn-block btn-primary fileinput-button" style="width: 140px">
-                                <i class="glyphicon glyphicon-plus"></i>
+                                <i class="fas fa-plus"></i>
                                 <span>选择插件文件...</span>
                                 <input id="cfile" type="file" name="files[]" multiple>
                             </span>
@@ -77,9 +91,6 @@
                     </div>
                 </div>
             </div>
-        </div>
 
     </section>
-
-</div>
 #end

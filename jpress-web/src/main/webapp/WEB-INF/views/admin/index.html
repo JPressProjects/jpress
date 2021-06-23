@@ -19,23 +19,38 @@
 </script>
 #end
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            面板
-            <small>Dashboard Panel</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                面板
+                                <small data-toggle="tooltip" title="查看最近发布的文章和评论，并对评论回复或删除。" data-placement="bottom"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 面板</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+
+
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                    <div class="box-header  ">
-                        <div class="actionPanel">
+                    <div class="card-header  ">
+                        <div class="admin-search-panel">
                             <div class="col-xs-12">
                                 <div class="btn-group ">
                                     <a id="group-today" href="#(CPATH)/admin/index" class="btn btn-default">今天</a>
@@ -48,8 +63,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
+                    <!-- /.card-header -->
+                    <div class="card-body row">
 
                         #for(moduleHtml : moduleIncludes)
                         #render(moduleHtml)
@@ -58,10 +73,5 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-
     </section>
-
-</div>
 #end

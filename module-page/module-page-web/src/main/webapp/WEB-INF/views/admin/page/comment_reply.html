@@ -1,17 +1,16 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script>
-    initEditor('editor1', 200);
 
     function doChangeStatus(id, status) {
-        ajaxGet("#(CPATH)/admin/page/doCommentStatusChange?id=" + id + "&status=" + status)
+        ajaxGet("#(CPATH)/admin/page/comment/doChangeStatus?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/page/doCommentDel?id=" + id, function () {
-                location.href = "#(CPATH)/admin/page/comment";
+            ajaxGet("#(CPATH)/admin/page/comment/doDel?id=" + id, function () {
+                location.href = "#(CPATH)/admin/page/comment/list";
             }, function (result) {
                 alert(result.message);
             })
@@ -20,7 +19,7 @@
 
     function ok() {
         toastr.options.onHidden = function () {
-            location.href = "#(CPATH)/admin/page/comment";
+            location.href = "#(CPATH)/admin/page/comment/list";
         }
         toastr.success('回复成功。');
     }
@@ -43,35 +42,51 @@
         display: inline;
     }
 
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
+
 </style>
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            评论回复
-            <small>Comment Reply</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                评论回复
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 页面 / 评论回复</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                    <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           data-ok-function="ok"
                           method="post"
-                          action="#(CPATH)/admin/page/doCommentReply">
+                          action="#(CPATH)/admin/page/comment/doReply">
 
                         <input type="hidden" name="pid" value="#(comment.id)">
                         <input type="hidden" name="pageId" value="#(comment.pageId)">
                         <input type="hidden" name="pid" value="#(comment.id)">
 
-                        <div class="box-body ">
+                        <div class="card-body">
                             <div class="post">
                                 <div class="user-block">
                                     <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
@@ -88,7 +103,7 @@
                                 </div>
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="#(CPATH)/admin/page/commentEdit/#(comment.id)"
+                                        <a href="#(CPATH)/admin/page/comment/edit/#(comment.id)"
                                            style="color: #006505">编辑</a>
                                         |
                                         #if(comment.isNormal())
@@ -106,22 +121,22 @@
                                 </ul>
 
                                 <div class="">
-                                    <textarea id="editor1" name="content"
+                                    <textarea id="editor1" name="content" data-render="ckeditor"
                                               style="height: 200px;width: 100%;background-color: white"></textarea>
                                 </div>
 
                             </div>
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
                             <div class="col-sm-11 submit-block" style="padding-left: 20px">
-                                <div class="box-submit">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary"> 回 复</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
@@ -129,5 +144,4 @@
 
     </section>
 
-</div>
 #end

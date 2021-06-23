@@ -1,17 +1,16 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 <script>
-    initEditor('editor1', 200);
 
     function doChangeStatus(id, status) {
-        ajaxGet("#(CPATH)/admin/article/doCommentStatusChange?id=" + id + "&status=" + status)
+        ajaxGet("#(CPATH)/admin/article/comment/doChangeStatus?id=" + id + "&status=" + status)
     }
 
     function doDelComment(id) {
         if (confirm("确定要删除这条评论吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/article/doCommentDel?id=" + id, function () {
-                location.href = "#(CPATH)/admin/article/comment";
+            ajaxGet("#(CPATH)/admin/article/comment/doDel?id=" + id, function () {
+                location.href = "#(CPATH)/admin/article/comment/list";
             }, function (result) {
                 alert(result.message);
             })
@@ -20,7 +19,7 @@
 
     function ok() {
         toastr.options.onHidden = function () {
-            location.href = "#(CPATH)/admin/article/comment";
+            location.href = "#(CPATH)/admin/article/comment/list";
         }
         toastr.success('回复成功。');
     }
@@ -42,13 +41,14 @@
     .comment-content p {
         display: inline;
     }
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
 
 </style>
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
         <h1>
             评论回复
@@ -58,20 +58,19 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                    <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           data-ok-function="ok"
                           method="post"
-                          action="#(CPATH)/admin/article/doCommentReply">
+                          action="#(CPATH)/admin/article/comment/doReply">
 
                         <input type="hidden" name="pid" value="#(comment.id)">
                         <input type="hidden" name="articleId" value="#(comment.articleId)">
                         <input type="hidden" name="pid" value="#(comment.id)">
 
-                        <div class="box-body ">
+                        <div class="card-body">
                             <div class="post">
                                 <div class="user-block">
                                     <img class="img-circle img-bordered-sm" src="#(comment.user.avatar ??)">
@@ -88,7 +87,7 @@
                                 </div>
                                 <ul class="list-inline">
                                     <li>
-                                        <a href="#(CPATH)/admin/article/commentEdit/#(comment.id)"
+                                        <a href="#(CPATH)/admin/article/comment/edit/#(comment.id)"
                                            style="color: #006505">编辑</a>
                                         |
                                         #if(comment.isNormal())
@@ -106,28 +105,25 @@
                                 </ul>
 
                                 <div class="">
-                                    <textarea id="editor1" name="content"
+                                    <textarea id="editor1" name="content" data-render="ckeditor"
                                               style="height: 200px;width: 100%;background-color: white"></textarea>
                                 </div>
 
                             </div>
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
                             <div class="col-sm-11 submit-block" style="padding-left: 20px">
-                                <div class="box-submit">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary"> 回 复</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
-
     </section>
 
-</div>
 #end

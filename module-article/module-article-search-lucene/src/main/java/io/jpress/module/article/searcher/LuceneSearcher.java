@@ -36,7 +36,6 @@ import org.lionsoul.jcseg.dic.DictionaryFactory;
 import org.lionsoul.jcseg.segmenter.SegmenterConfig;
 
 import java.io.File;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -210,23 +209,32 @@ public class LuceneSearcher implements ArticleSearcher {
         List<Article> articles = new ArrayList<>();
         Analyzer analyzer = createAnalyzer();
         for (ScoreDoc item : topDocs.scoreDocs) {
+
             Document doc = searcher.doc(item.doc);
+
             Article article = new Article();
             String title = doc.get("title");
             String content = doc.get("content");
             article.setId(Long.valueOf(doc.get("aid")));
             article.setTitle(title);
             article.setContent(content);
+
             //关键字高亮
             try {
-                String highlightTitle = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(title)), title);
+                String highlightTitle = highlighter.getBestFragment(analyzer,"title",title);
                 article.setHighlightTitle(highlightTitle);
+            } catch (InvalidTokenOffsetsException e) {
+                // ignore
+            }
+
+            try {
                 String text = article.getText();
-                String highlightContent = highlighter.getBestFragment(analyzer.tokenStream(keyword, new StringReader(text)), text);
+                String highlightContent = highlighter.getBestFragment(analyzer,"content",text);
                 article.setHighlightContent(highlightContent);
             } catch (InvalidTokenOffsetsException e) {
-                LOG.error(e.getMessage(), e);
+                // ignore
             }
+
             articles.add(article);
         }
         return articles;

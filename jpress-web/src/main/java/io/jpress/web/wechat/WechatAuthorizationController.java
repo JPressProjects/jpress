@@ -201,7 +201,7 @@ public class WechatAuthorizationController extends ControllerBase {
 
         //优先根据 unioinId 进行查询
         if (StrUtil.isNotBlank(unionId)) {
-            user = userService.findFistByWxUnionid(unionId);
+            user = userService.findFirstByWxUnionid(unionId);
             if (user != null) {
                 return user.getId();
             }
@@ -209,7 +209,7 @@ public class WechatAuthorizationController extends ControllerBase {
 
         //之后根据 openId 进行查询
         if (StrUtil.isNotBlank(openId)) {
-            user = userService.findFistByWxOpenid(openId);
+            user = userService.findFirstByWxOpenid(openId);
             if (user != null) {
                 return user.getId();
             }

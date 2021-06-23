@@ -1,49 +1,66 @@
 #@layout()
 #define script()
-<script src="#(CPATH)/static/components/ckeditor/ckeditor.js"></script>
-<script>
-    initEditor('editor1', 200);
-</script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
 #end
+
+#define css()
+<style>
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
+</style>
+#end
+
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            评论编辑
-            <small>Comment Edit</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                评论编辑
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 页面 / 评论编辑</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting autoAjaxSubmit" autocomplete="off"
+                    <form class=" form-setting autoAjaxSubmit" autocomplete="off"
                           method="post"
-                          action="#(CPATH)/admin/page/doCommentSave"
+                          action="#(CPATH)/admin/page/comment/doSave"
                           data-ok-message="保存成功">
-                        <div class="box-body ">
+                        <div class="card-body">
 
                             <input type="hidden" name="comment.id" value="#(comment.id ??)">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">内容</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">内容</label>
 
                                 <div class="col-sm-8">
-                                     <textarea id="editor1" name="comment.content"
+                                     <textarea class="form-control"  name="comment.content" data-render="ckeditor"
                                                style="height: 200px;width: 100%;background-color: white">#(comment.content ??)</textarea>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">用户昵称</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">用户昵称</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="用户昵称..."
@@ -51,8 +68,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">状态</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">状态</label>
 
                                 <div class="col-sm-6">
                                     <select class="form-control" name="comment.status">
@@ -67,8 +84,8 @@
 
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">"顶" 数量</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">"顶" 数量</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
@@ -77,8 +94,8 @@
 
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">"踩" 数量</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">"踩" 数量</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder=""
@@ -88,31 +105,29 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">评论时间</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">评论时间</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder=""
-                                           name="web_ipc_no" value="#(comment.created ??)">
+                                    <input type="input" class="form-control datetime" placeholder=""
+                                           name="comment.created" value="#date(comment.created ??)">
                                 </div>
                             </div>
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
         </div>
 
     </section>
-
-</div>
 #end

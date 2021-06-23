@@ -1,8 +1,6 @@
 #@layout()
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
         <h1>
             新增用户
@@ -12,55 +10,52 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off"
+                    <form class=" autoAjaxSubmit" autocomplete="off"
                           method="post"
-                          data-ok-href="#(CPATH)/admin/user"
+                          data-ok-href="#(CPATH)/admin/user/list"
                           action="#(CPATH)/admin/user/doAdd">
-                        <div class="box-body ">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">登录账号</label>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">登录账号</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" placeholder="此项用于登录"
                                            name="user.username">
-                                    <p class="help-block"> 登录名不支持修改 </p>
+                                    <p class="text-muted"> 登录名不支持修改 </p>
 
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">昵称</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">昵称</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" placeholder="昵称..."
                                            name="user.nickname">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">新密码</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">新密码</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="密码" name="newPwd">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">确认密码</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">确认密码</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="及确认密码" name="confirmPwd">
                                 </div>
                             </div>
 
-                            <h4 class="page-header">联系信息</h4>
+                            <h4 class="form-header">联系信息</h4>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮箱</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">邮箱</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="请填写邮箱"
@@ -69,8 +64,8 @@
 
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">手机号</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">手机号</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="及手机号"
@@ -78,8 +73,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">地址</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">地址</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="地址"
@@ -87,8 +82,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮编</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">邮编</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="和邮编"
@@ -96,8 +91,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">个人网址</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">个人网址</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="网址..."
@@ -105,9 +100,9 @@
                                 </div>
                             </div>
 
-                            <h4 class="page-header">其他</h4>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">个人签名</label>
+                            <h4 class="form-header">其他</h4>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">个人签名</label>
 
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control" placeholder="个人签名一般显示在个人中心里..."
@@ -117,21 +112,18 @@
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
 
     </section>
-
-</div>
 #end

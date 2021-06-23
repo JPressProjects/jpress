@@ -18,7 +18,7 @@
             title: title,
             anim: 2,
             shadeClose: true,
-            shade: 0.5,
+            shade: 0.3,
             area: ['70%', '60%'],
             content: url,
             end: function () {
@@ -34,8 +34,6 @@
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
         <h1>
             提现申请
@@ -45,44 +43,41 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
 
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off">
-                        <div class="box-body ">
+                    <form class="" autocomplete="off">
+                        <div class="card-body">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">当前状态</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">当前状态</label>
                                 <div class="col-sm-7 form-text">
                                     #(payout.statusStr ??)
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">用户当前余额</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">用户当前余额</label>
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control" value="#number(userAmount,'0.00')" readonly>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">提现金额</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">提现金额</label>
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control"  value="#number(payout.amount,'0.00')" readonly>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">身份证号码</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">身份证号码</label>
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control"  value="#(payout.user_idcard ??)" readonly>
                                 </div>
@@ -90,24 +85,24 @@
 
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">身份证姓名</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">身份证姓名</label>
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control"  value="#(payout.user_real_name ??)" readonly>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">提现到</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">提现到</label>
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control"  value="#(payout.payTypeStr ??)" readonly>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">收款账号</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">收款账号</label>
 
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control"  value="#(payout.pay_to ??)" readonly>
@@ -115,24 +110,24 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">用户备注</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">用户备注</label>
                                 <div class="col-sm-7">
                                     <textarea rows="3" class="form-control" readonly >#(payout.remarks ??)</textarea>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">手续费</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">手续费</label>
 
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control"  value="#number(payout.fee,'0.00')" readonly>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">应转账</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">应转账</label>
 
                                 <div class="col-sm-7">
                                     <input type="input" class="form-control"  value="#number(payout.amount - payout.fee,'0.00')" readonly>
@@ -142,9 +137,9 @@
 
                         </div>
 
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <a href="#(CPATH)/admin/finance/payout" class="btn btn-primary">返回</a>
                                     #if(payout.isApplying())
                                     <button type="button" onclick="process()" class="btn btn-primary">处理</button>
@@ -160,6 +155,4 @@
         </div>
 
     </section>
-
-</div>
 #end

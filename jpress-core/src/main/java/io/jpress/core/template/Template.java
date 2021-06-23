@@ -296,6 +296,7 @@ public class Template {
     }
 
 
+
     private File findInstallPath(File templateRootPath,File file) {
         File parent = file.getParentFile();
         if (parent.getAbsolutePath().equals(templateRootPath.getAbsolutePath())

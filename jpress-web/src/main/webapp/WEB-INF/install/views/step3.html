@@ -1,24 +1,24 @@
 #include("layout.html")
 #@layout()
 #define content()
-<form class="form-horizontal form-setting"
+<form class=" form-setting"
       action="#(CPATH)/install/install" method="post" id="form">
-    <div class="form-group">
+    <div class="form-group row">
         <div class="col-sm-12">
             恭喜您，您已经进入JPress安装的最后一步，这一步非常重要，请认真填写。
         </div>
     </div>
-    <h4 class="page-header" style="margin-top: 20px">网站信息</h4>
-    <div class="form-group">
-        <label class="col-sm-2 control-label">网站名称</label>
+    <h4 class="form-header" style="margin-top: 20px">网站信息</h4>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">网站名称</label>
 
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="取个好听的名字"
                    name="web_name">
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-sm-2 control-label">网站标题</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">网站标题</label>
 
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="设置你的网站标题"
@@ -26,8 +26,8 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">网站副标题</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">网站副标题</label>
 
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="及副标题..."
@@ -35,29 +35,29 @@
         </div>
     </div>
 
-    <h4 class="page-header">超级管理员</h4>
+    <h4 class="form-header">超级管理员</h4>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">账号</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">账号</label>
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="管理员的登录账号"
                    name="username">
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-sm-2 control-label">密码</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">密码</label>
         <div class="col-sm-9">
             <input type="password" class="form-control" placeholder="及密码"
                    name="pwd">
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">确认密码</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">确认密码</label>
         <div class="col-sm-9">
             <input type="password" class="form-control" placeholder="..."
                    name="confirmPwd">
-            <p class="help-block" style="color: red">非常重要！请务必要牢记管理员的账号和密码。</p>
+            <p style="color: red">非常重要！请务必要牢记管理员的账号和密码。</p>
         </div>
     </div>
 

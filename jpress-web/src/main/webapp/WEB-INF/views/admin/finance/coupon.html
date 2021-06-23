@@ -9,56 +9,58 @@
         }
     }
 
-    $("#batchDel").click(function () {
-        var ids = getSelectedIds();
-        if (ids == "") {
-            alert('您未选择任何内容');
-            return
-        }
-        if (confirm("确定要删除选中的优惠券吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/finance/coupon/doDelByIds?ids=" + ids);
-        }
-    })
-
-
 </script>
 #end
 
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            优惠券管理
-            <small>Coupon Management</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                优惠券
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 财务 / 优惠券</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top: 15px">
+                        <a href="edit" class="btn btn-primary ">
+                            <i class="fas fa-plus"></i> 新建
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
 
-                        <div class="row actionPanel">
-                            <div class="col-xs-12">
-                                <a href="coupon/edit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建
-                                </a>
-                                <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
-                            </div>
-                        </div>
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
                             <tr>
                                 <th style="width: 10px">
-                                    <input name="dataItem" onchange="checkAll(this)" type="checkbox"/>
+                                    <input class="tableCheckAll" id="checkall" type="checkbox"/>
                                 </th>
                                 <th style="width: 35%">名称</th>
                                 <th style="width: 15%">类型</th>
@@ -69,15 +71,15 @@
                                 <th style="width: 10%">状态</th>
                             </tr>
                             #for(coupon : page.list ??)
-                            <tr class="jp-actiontr">
-                                <td><input class="dataItem" type="checkbox" value="#(coupon.id)" />
+                            <tr>
+                                <td><input name="tableItem" type="checkbox" value="#(coupon.id)" />
                                 </td>
                                 <td>
                                     <strong>
                                         <a href="#(CPATH)/admin/finance/coupon/edit/#(coupon.id)"> #(coupon.title ??) </a>
                                     </strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
                                             <a href="#(CPATH)/admin/finance/coupon/edit/#(coupon.id)">编辑</a> |
                                             <a href="#(CPATH)/admin/finance/coupon/takeEdit?cid=#(coupon.id)">分配</a> |
                                             <a href="javascript:;" class="red-action"
@@ -92,23 +94,47 @@
                                 <td><a href="#(CPATH)/admin/finance/coupon/useds?coid=#(coupon.id)">#(coupon.used_count ??)</a></td>
                                 <td>#(coupon.statusStr ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+                                            <label class="form-check-label" for="checkall">全选</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select class="form-control" name="action">
+                                            <option value="">请选择...</option>
+                                            <option value="doDelByIds" open-type="del-confirm">
+                                                批量删除
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
-</div>
 #end

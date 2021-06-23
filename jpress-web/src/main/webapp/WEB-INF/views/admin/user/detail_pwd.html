@@ -1,39 +1,30 @@
 #include("_user_detail_layout.html")
-#@user_detail_layout("pwd")
+#@user_detail_layout("detail-pwd")
 #define detail()
-<div class="box-header ">
-    <h3 class="box-title"></h3>
-</div>
-<form class="form-horizontal" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doUpdatePwd">
+
+<form class="" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doUpdatePwd">
     <input name="uid" type="hidden" value="#(user.id)">
-    <div class="box-body ">
+    <div class="card-body">
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">旧密码</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">新密码</label>
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="请输入之前的密码" name="oldPwd">
+                <input type="password" class="form-control" placeholder="新的密码" name="newPwd">
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">新密码</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">确认密码</label>
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="新的密码" name="newPwd">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">确认密码</label>
-            <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="及确认密码" name="confirmPwd">
+                <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd">
             </div>
         </div>
 
     </div>
 
-    <div class="box-footer">
-        <div class="col-sm-offset-2 col-sm-10 submit-block">
-            <div class="box-submit">
+    <div class="card-footer">
+        <div class="offset-sm-2 col-sm-10 submit-block">
+            <div class="card-submit">
                 <button type="submit" class="btn btn-primary">提交</button>
             </div>
         </div>

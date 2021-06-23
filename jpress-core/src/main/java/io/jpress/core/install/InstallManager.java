@@ -40,7 +40,7 @@ public class InstallManager {
 
     private static final InstallManager me = new InstallManager();
 
-    public static final InstallManager me() {
+    public static InstallManager me() {
         return me;
     }
 
@@ -58,14 +58,13 @@ public class InstallManager {
 
         //空数据库
         if (ArrayUtil.isNullOrEmpty(tables)) {
-
             dbExist = false;
             isJPressDb = false;
             isNeedUpgrade = false;
         }
 
-        //已经是 v3 版本
-        else if (tables.containsAll(Consts.V3_TABLES)) {
+        //已经是最新版本
+        else if (tables.containsAll(Consts.LATEST_TABLES)) {
             dbExist = true;
             isJPressDb = true;
             isNeedUpgrade = false;
@@ -86,7 +85,7 @@ public class InstallManager {
         }
     }
 
-    public boolean isInited(){
+    public boolean isInited() {
         return dbExecuter != null;
     }
 

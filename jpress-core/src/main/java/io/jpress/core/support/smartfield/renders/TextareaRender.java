@@ -26,14 +26,14 @@ import io.jpress.core.support.smartfield.SmartFieldRender;
 public class TextareaRender implements SmartFieldRender {
 
     protected static String template = "" +
-            "<div class=\"form-group\">\n" +
-            "<label class=\"col-sm-2 control-label\">{label}</label>\n" +
+            "<div class=\"form-group row\">\n" +
+            "<label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
             "<div class=\"col-sm-6\">\n" +
             "    <textarea class=\"form-control\" \n" +
             "       id=\"{id}\"\n" +
             "       name=\"{name}\"\n" +
             "       placeholder=\"{placeholder}\" {attrs}>{value}</textarea>\n" +
-            "    <p class=\"help-block\">{helpText}</p>\n" +
+            "    <p class=\"text-muted\">{helpText}</p>\n" +
             "</div>\n" +
             "</div>";
 

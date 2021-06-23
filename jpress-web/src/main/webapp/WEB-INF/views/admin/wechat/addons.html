@@ -27,25 +27,38 @@
 
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            微信运营插件
-            <small>Wechat Addons</small>
-        </h1>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                微信运营插件
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 微信 / 运营插件</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+
     </section>
 
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
@@ -57,15 +70,15 @@
                             </tr>
 
                             #for(wechatAddon : wechatAddons)
-                            <tr class="jp-actiontr">
+                            <tr>
                                 <td >
                                     <strong>
                                         <a href="#">#(wechatAddon.title ??)</a>
                                         #if(!wechatAddon.isEnable()) （已经关闭）#end
                                     </strong>
 
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
                                             #if(wechatAddon.isEnable())
                                             <a href="javascript:;" style="color: #a00" data-id="#(wechatAddon.id)"
                                                class="addon-close">关闭</a> |
@@ -82,25 +95,23 @@
                                 <td>#(wechatAddon.author ??)</td>
                                 <td>#(wechatAddon.version ??)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
 
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12">
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
-
-</div>
 #end

@@ -42,6 +42,9 @@ public class WebInitializer extends JbootAppListenerBase {
         engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout.html");
         engine.addSharedFunction("/WEB-INF/views/ucenter/_layout/_layout_noleft.html");
 
+        //默认菜单
+        engine.addSharedFunction("/WEB-INF/views/front/defaultMenu.html");
+
         engine.addSharedStaticMethod(PermissionFunctions.class);
     }
 

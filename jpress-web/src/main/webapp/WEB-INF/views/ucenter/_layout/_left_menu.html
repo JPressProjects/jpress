@@ -1,65 +1,66 @@
-<aside class="main-sidebar">
-    <section class="sidebar">
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree" id="sidebar-menu">
-            <li class="block"></li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/index"><i class="fa fa-fw fa-home"></i> <span>首页</span></a>
-            </li>
-
-            <li class="header">我的内容</li>
-            #for(group : ucenterMenus)
-            <li class="treeview">
-                <a href="#">
-                    #(group.icon ??) <span>#(group.text)</span>
-                    <span class="pull-right-container">
-                       <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    #for(item : group.items)
-                    <li><a href="#(item.url ??)" target="#(item.target)">#(item.text ??)</a></li>
-                    #end
-                </ul>
-            </li>
-            #end
-
-            <li class="header">财务信息</li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/order"><i class="fa fa-fw fa-paper-plane"></i> <span>我的订单</span></a>
-            </li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/finance/amount"><i class="fa fa-fw fa-gg-circle"></i> <span>我的余额</span></a>
-            </li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/coupon"><i class="fa fa-fw fa-money"></i> <span>优惠券</span></a>
-            </li>
 
 
-            <li class="header">个人信息</li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/member"><i class="fa fa-fw fa-coffee"></i> <span>会员信息</span></a>
-            </li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/address"><i class="fa fa-fw fa-street-view"></i> <span>我的地址</span></a>
-            </li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/info"><i class="fa fa-fw fa-user"></i> <span>基本信息</span></a>
-            </li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/signature"><i class="fa fa-fw fa-bars"></i> <span>个人签名</span></a>
-            </li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/avatar"><i class="fa fa-fw fa-black-tie"></i> <span>头像设置</span></a>
-            </li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/pwd"> <i class="fa fa-fw fa-key"></i> <span>账号密码</span></a>
-            </li>
-            <li class="link">
-                <a href="#(CPATH)/ucenter/bind"> <i class="fa fa-fw fa-futbol-o"></i> <span>账号绑定</span></a>
-            </li>
+<aside class="sidebar-light-primary" style="margin-top: -0.75rem">
+    <div class="sidebar">
 
-        </ul>
-    </section>
+        <nav class="mt-2" style="padding: 10px 0">
+            <ul class="nav nav-pills nav-sidebar flex-column text-sm" data-widget="treeview" role="menu"
+                data-accordion="false" id="sidebar-menu">
+
+
+                <li class="nav-item" >
+                    <a href="#(CPATH)/ucenter/index" class="nav-link">
+                        <i class="fas fa-home"></i><p>首页</p>
+                    </a>
+                </li>
+
+
+                <li class="nav-header">我的内容</li>
+
+                #for(group : ucenterMenus)
+                <li class="nav-item" id="#(group.id ??)">
+                    <a href="#" class="nav-link">
+                        #(group.icon ??'<i class="fas fa-tachometer-alt"></i>')<p>#(group.text ??)<i class="right fas fa-angle-left"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        #for(item : group.items)
+                        <li class="nav-item" id="#(chiitemldMenu.id ??)">
+                            <a href="#(item.url ??)" class="nav-link">
+                                <i class="far fa-circle"></i>
+                                <p> #(item.text ??)</p>
+                            </a>
+                        </li>
+                        #end
+                    </ul>
+                </li>
+                #end
+
+
+
+                <li class="nav-header">财务信息</li>
+
+                #for(item : ucenterFinanceMenus)
+                <li class="nav-item" >
+                    <a href="#(item.url ??)" class="nav-link">
+                        #(item.icon ?? '<i class="fas fa-smile"></i>')<p>#(item.text ??)</p>
+                    </a>
+                </li>
+                #end
+
+
+                <li class="nav-header">个人信息</li>
+                #for(item : ucenterPersonalMenus)
+                <li class="nav-item" >
+                    <a href="#(item.url ??)" class="nav-link">
+                        #(item.icon ?? '<i class="fas fa-smile"></i>')<p>#(item.text ??)</p>
+                    </a>
+                </li>
+                #end
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
     <!-- /.sidebar -->
 </aside>
+<!-- ./ sidebar -->

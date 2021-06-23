@@ -1,5 +1,5 @@
 #include("_user_detail_layout.html")
-#@user_detail_layout("tag")
+#@user_detail_layout("detail-tag")
 
 #define layout_script()
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
@@ -12,16 +12,15 @@
         create: true,
         render: {
             option_create: function (data, escape) {
-                return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong> &hellip; </div>';
+                return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong></div>';
             }
         }
     });
 
-    var selectize = $select[0].selectize;
 
     $(".newTag").each(function () {
         $(this).on('click', function () {
-            selectize.createItem($(this).text());
+            $select[0].selectize.createItem($(this).text());
         })
     });
 
@@ -32,31 +31,28 @@
 
 #define layout_css()
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
 #end
 
 
 #define detail()
-<div class="box-header ">
-    <h3 class="box-title"></h3>
-</div>
-<!-- /.box-header -->
+
+<!-- /.card-header -->
 <!-- form start -->
-<form class="form-horizontal" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doUpdateUserTags">
+<form class="" autocomplete="off" id="userForm" action="#(CPATH)/admin/user/doUpdateUserTags">
     <input name="userId" type="hidden" value="#(user.id)">
-    <div class="box-body ">
+    <div class="card-body">
 
-        <h4 class="page-first-header">用户标签</h4>
+        <h4 class="form-header">用户标签</h4>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label"></label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"></label>
             <div class="col-sm-6">
-                <select class="form-control article-tags" multiple="multiple" name="tag">
+                <select class="article-tags" multiple="multiple" name="tag">
                     #for(tag : userTags)
                     <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                     #end
                 </select>
-                <p class="help-block">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
 
                 <div class="tags">
                     #for(tag : hotTags)
@@ -69,9 +65,9 @@
 
     </div>
 
-    <div class="box-footer">
-        <div class="col-sm-offset-2 col-sm-10 submit-block">
-            <div class="box-submit">
+    <div class="card-footer">
+        <div class="offset-sm-2 col-sm-10 submit-block">
+            <div class="card-submit">
                 <button type="submit" class="btn btn-primary">提交</button>
             </div>
         </div>

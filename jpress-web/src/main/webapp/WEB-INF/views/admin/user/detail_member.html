@@ -1,5 +1,5 @@
 #include("_user_detail_layout.html")
-#@user_detail_layout("member")
+#@user_detail_layout("detail-member")
 
 #define layout_script()
 <script>
@@ -13,8 +13,8 @@
 
 #define detail()
 
-<div class="box-header with-border">
-    <div class="row actionPanel">
+<div class="card-header with-border">
+    <div class="row admin-search-panel">
         <div class="col-xs-12">
             <a href="javascript:;" class="btn btn-primary"
                data-opentype="layer"
@@ -23,7 +23,7 @@
                data-layer-area="['60%', '80%']"
                data-layer-end="reload"
             >
-                <i class="fa fa-fw fa-plus"></i> 添加会员
+                <i class="fas fa-plus"></i> 添加会员
             </a>
             <button type="submit" id="batchDel" class="btn btn-default checkAction"> 批量删除</button>
         </div>
@@ -31,7 +31,7 @@
 </div>
 
 
-<div class="box-body no-padding">
+<div class="card-body p-0">
     <table class="table table-striped">
         <tbody>
         <tr>
@@ -43,7 +43,7 @@
         </tr>
 
         #for(member : members ??)
-        <tr class="jp-actiontr">
+        <tr>
             <td>#(member.group.name ??)</td>
             <td>#date(member.duetime ??)</td>
             <td>#date(member.created ??)</td>
@@ -73,7 +73,7 @@
     </table>
 </div>
 
-<div class="box-footer">
+<div class="card-footer">
     <div class="row">
         <div class="col-sm-12">
 

@@ -1,39 +1,66 @@
 #@layout()
 #define content()
-<div class="content-wrapper">
+<!--    <section class="content-header">-->
+<!--        <h1>-->
+<!--            角色编辑-->
+<!--            <small>Role Edit</small>-->
+<!--        </h1>-->
+<!--    </section>-->
 
-    <section class="content-header">
-        <h1>
-            角色编辑
-            <small>Role Edit</small>
-        </h1>
-    </section>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            #(role ? '编辑' : '新建')角色
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 用户 / 用户角色 /  #(role ? '编辑' : '新建')角色</small>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+
+<!--            <div class="col-sm-6 ">-->
+<!--                <div class=" float-sm-right" style="padding-top: 15px">-->
+<!--                    <a href="role/edit" class="btn btn-primary ">-->
+<!--                        <i class="fas fa-plus"></i> 新建-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <form class="form-horizontal form-setting" autocomplete="off"
-                          action="#(CPATH)/admin/user/doRoleSave"
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <form class="autoAjaxSubmit form-setting" autocomplete="off"
+                          action="#(CPATH)/admin/user/role/doSave"
+                          data-ok-href="#(CPATH)/admin/user/role"
+                          data-ok-message="数据保存成功"
                           method="POST"
                     >
                         <input type="hidden" name="role.id" value="#(role.id ??)">
-                        <div class="box-body ">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">名称</label>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 名称</label>
 
                                 <div class="col-sm-6">
-                                    <input type="input" name="role.name" class="form-control" value="#(role.name ??)"
+                                    <input type="input" name="role.name" class="form-control" value="#(role.name ??)" required
                                            placeholder="建议设置一个直观的、不需要解释的名称">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">超级管理员</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">超级管理员</label>
                                 <div class="col-sm-6">
                                     #if(role)
                                     <input type="checkbox" class="switchery" name="issuper" value="true"
@@ -44,8 +71,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">描述</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">描述</label>
                                 <div class="col-sm-6">
                                     <textarea rows="5" name="role.description" class="form-control"
                                               placeholder="该角色的一些描述 或 备注">#(role.description ??)</textarea>
@@ -53,21 +80,18 @@
                             </div>
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
 
     </section>
-
-</div>
 #end

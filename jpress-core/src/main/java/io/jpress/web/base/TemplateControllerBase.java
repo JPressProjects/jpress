@@ -34,6 +34,7 @@ import io.jpress.web.render.TemplateRender;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -60,9 +61,9 @@ public abstract class TemplateControllerBase extends ControllerBase {
             return;
         }
 
-        String viewPara = getPara("v");
+        String paraView = getPara("v");
 
-        String newView = StrUtil.isBlank(viewPara) ? view : viewPara + ".html";
+        String newView = StrUtil.isBlank(paraView) ? view : paraView + ".html";
         defaultView = StrUtil.isBlank(defaultView) ? view : defaultView;
 
         doRender(newView, defaultView);
@@ -149,7 +150,7 @@ public abstract class TemplateControllerBase extends ControllerBase {
      *
      * @param checker
      */
-    protected void setMenuActive(MenuActiveChecker checker) {
+    protected void setMenuActive(Function<Menu, Boolean> checker) {
         List<Menu> menus = getAttr(JPressConsts.ATTR_MENUS);
         if (menus == null || menus.isEmpty()) {
             return;
@@ -159,10 +160,11 @@ public abstract class TemplateControllerBase extends ControllerBase {
     }
 
 
-    private void setMenuActive(MenuActiveChecker checker, List<Menu> menus) {
+    private void setMenuActive(Function<Menu, Boolean> checker, List<Menu> menus) {
         for (Menu menu : menus) {
             if (StrUtil.isNotBlank(menu.getUrl())) {
-                if (checker.isActive(menu)) {
+                Boolean apply = checker.apply(menu);
+                if (apply != null && apply) {
                     JPressActiveKit.makeItActive(menu);
                 }
             }
@@ -172,17 +174,9 @@ public abstract class TemplateControllerBase extends ControllerBase {
         }
     }
 
-    public static interface MenuActiveChecker {
-        public boolean isActive(Menu menu);
-    }
 
-
-    protected void renderHtmltoRet(String defaultTemplate, Map paras, Ret toRet) {
-        String render = getPara("render");
-        if (StrUtil.isBlank(render)) {
-            return;
-        }
-
+    protected void renderHtmltoRet(String defaultTemplate, Map<String, Object> paras, Ret toRet) {
+        String render = getPara("render", "default");
 
         Engine engine = RenderManager.me().getEngine();
         Template template = TemplateManager.me().getCurrentTemplate();
@@ -198,11 +192,61 @@ public abstract class TemplateControllerBase extends ControllerBase {
             if (template != null) {
                 String matchedHtml = template.matchView(render + ".html", isMobileBrowser());
                 if (matchedHtml != null) {
-                    String html = engine.getTemplate(template.getRelativePath() + "/" + matchedHtml)
-                            .renderToString(paras);
+                    String html = engine.getTemplate(template.buildRelativePath(matchedHtml)).renderToString(paras);
                     toRet.set("html", html);
                 }
             }
+        }
+    }
+
+
+    @NotAction
+    public String getIdOrSlug() {
+        String idOrSlug = getPara();
+        if (StrUtil.isBlank(idOrSlug)) {
+            return idOrSlug;
+        }
+
+        int indexOf = idOrSlug.lastIndexOf("-");
+        if (indexOf == -1) {
+            return idOrSlug;
+        }
+
+        String lastString = idOrSlug.substring(indexOf + 1);
+        if (StrUtil.isNumeric(lastString)) {
+            return idOrSlug.substring(0, indexOf);
+        } else {
+            return idOrSlug;
+        }
+    }
+
+    public void setPageNumber(Integer pageNumber) {
+        setAttr("__pageNumber", pageNumber);
+    }
+
+
+    @NotAction
+    public int getPageNumber() {
+        Integer pageNumber = getAttr("__pageNumber");
+        if (pageNumber != null && pageNumber > 0) {
+            return pageNumber;
+        }
+
+        String idOrSlug = getPara();
+        if (StrUtil.isBlank(idOrSlug)) {
+            return 1;
+        }
+
+        int indexOf = idOrSlug.lastIndexOf("-");
+        if (indexOf == -1) {
+            return 1;
+        }
+
+        String lastString = idOrSlug.substring(indexOf + 1);
+        if (StrUtil.isNumeric(lastString)) {
+            return Integer.parseInt(lastString);
+        } else {
+            return 1;
         }
     }
 

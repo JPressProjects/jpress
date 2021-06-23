@@ -8,8 +8,6 @@
 #end
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
         <h1>
             余额提现
@@ -26,23 +24,22 @@
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
 
-                        <div class="row actionPanel">
+                        <div class="row admin-search-panel">
                             <div class="col-xs-12">
                                 <a href="payoutsubmit" class="btn btn-primary ">
-                                    <i class="fa fa-fw fa-plus"></i> 新建申请
+                                    <i class="fas fa-plus"></i> 新建申请
                                 </a>
                             </div>
                         </div>
 
 
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
@@ -57,7 +54,7 @@
                             </tr>
 
                             #for(item : page.list ??)
-                            <tr class="jp-actiontr">
+                            <tr>
                                 <td>
                                     #(item.user_real_name)
                                 </td>
@@ -80,26 +77,48 @@
                                     <a href="#(CPATH)/ucenter/finance/amount/payoutdetail/#(item.id)">详情</a>
                                 </td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
 
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+                                            <label class="form-check-label" for="checkall">全选</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <select class="form-control" name="action">
+                                            <option value="">请选择...</option>
+                                            <option value="doDelByIds" open-type="del-confirm">
+                                                批量删除
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
-
-
-</div>
 #end

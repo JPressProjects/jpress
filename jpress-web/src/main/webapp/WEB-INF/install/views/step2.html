@@ -1,24 +1,24 @@
 #include("layout.html")
 #@layout()
 #define content()
-<form class="form-horizontal form-setting"
+<form class=" form-setting"
       action="#(CPATH)/install/gotoStep3" method="post" id="form">
-    <div class="form-group">
+    <div class="form-group row">
         <div class="col-sm-12">
             请填写数据库的相关信息。
         </div>
     </div>
-    <h4 class="page-header" style="margin-top: 20px"></h4>
-    <div class="form-group">
-        <label class="col-sm-2 control-label">数据库名</label>
+    <h4 class="form-header" style="margin-top: 20px"></h4>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">数据库名</label>
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="您要将JPress安装到哪个数据库？"
                    name="dbName" value="#(JPRESS_DB_NAME ??)">
-            <p class="help-block"> 注意：目前暂时只支持 mysql 5.6 或 5.7 版本。 </p>
+            <p class="text-muted"> 注意：目前暂时只支持 mysql 5.6 或 5.7 版本。 </p>
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-sm-2 control-label">用户名</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">用户名</label>
 
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="数据库用户名"
@@ -26,8 +26,8 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">密码</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">密码</label>
 
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="... 及密码"
@@ -35,34 +35,31 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" name="dbAutoCreate" value="true"> 当数据库不存在时，自动为我创建（需要以上用户拥有相关权限）。
-                </label>
-            </div>
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+            <label>
+                <input type="checkbox" name="dbAutoCreate" value="true"> 当数据库不存在时，自动为我创建（需要用户拥有相关权限）。
+            </label>
         </div>
     </div>
 
 
+    <h4 class="form-header">主机信息</h4>
 
-    <h4 class="page-header">主机信息</h4>
-
-    <div class="form-group">
-        <label class="col-sm-2 control-label">主机</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">主机</label>
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="主机或IP地址"
-                   name="dbHost"  value="#(JPRESS_DB_HOST ?? '127.0.0.1')">
-            <p class="help-block">如果 127.0.0.1 不能用，您通常可以从网站服务商得到正确的信息。</p>
+                   name="dbHost" value="#(JPRESS_DB_HOST ?? '127.0.0.1')">
+            <p class="text-muted">如果 127.0.0.1 不能用，您通常可以从网站服务商得到正确的信息。</p>
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-sm-2 control-label">端口号</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">端口号</label>
         <div class="col-sm-9">
             <input type="text" class="form-control" placeholder="数据库端口号"
                    name="dbPort" value="#(JPRESS_DB_PORT ?? '3306')">
-            <p class="help-block">MySQL 的默认端口号是 3306 。</p>
+            <p class="text-muted">MySQL 的默认端口号是 3306 。</p>
         </div>
     </div>
 

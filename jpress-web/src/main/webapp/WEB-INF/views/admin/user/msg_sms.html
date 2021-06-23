@@ -18,11 +18,9 @@
         }
     });
 
-    var selectize = $select[0].selectize;
-
     $(".newTag").each(function () {
         $(this).on('click', function () {
-            selectize.createItem($(this).text());
+            $select[0].selectize.createItem($(this).text());
         })
     });
 
@@ -31,27 +29,22 @@
 
 #define layout_css()
 <link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
-<link href="#(CPATH)/static/components/selectize/css/selectize.jpress.css" rel="stylesheet">
 #end
 
 #define detail()
-    <div class="box-header">
-        <h3 class="box-title"></h3>
-    </div>
-    <!-- /.box-header -->
 
-<form class="form-horizontal autoAjaxSubmit" autocomplete="off" action="#(CPATH)/admin/user/doSendSms" data-ok-message="短信发送成功，可能会有延迟，请稍后查收。">
-    <div class="box-body">
+<form class=" autoAjaxSubmit" autocomplete="off" action="#(CPATH)/admin/user/doSendSms" data-ok-message="短信发送成功，可能会有延迟，请稍后查收。">
+    <div class="card-body">
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">用户标签</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">用户标签</label>
             <div class="col-sm-8">
-                <select class="form-control article-tags" multiple="multiple" name="userTag">
+                <select class="article-tags" multiple="multiple" name="userTag">
                     #for(tag : userTags)
                     <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                     #end
                 </select>
-                <p class="help-block">邮件将会发送给该标签下的所有用户，多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                <p class="text-muted">邮件将会发送给该标签下的所有用户，多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
                 <div class="tags">
                     #for(tag : hotTags)
                     <a href="javascript:;" class="newTag">#(tag.title)</a>
@@ -61,46 +54,46 @@
         </div>
 
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">抄送给</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">抄送给</label>
             <div class="col-sm-8">
                 <textarea rows="2" name="cc" class="form-control" ></textarea>
-                <p class="help-block">可以手动在这里输入手机号，这里的手机也都会收到短信。</p>
+                <p class="text-muted">可以手动在这里输入手机号，这里的手机也都会收到短信。</p>
             </div>
         </div>
 
 
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">通知短信模板</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">通知短信模板</label>
             <div class="col-sm-8">
                 <textarea rows="2" class="form-control" placeholder="..." name="sms_template"></textarea>
-                <p class="help-block"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
+                <p class="text-muted"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启短信功能，这里填写阿里云或腾讯云的短信模板ID。
                 </p>
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">短信签名</label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">短信签名</label>
             <div class="col-sm-8">
                 <input type="input" class="form-control" placeholder="只有部分服务商需要短信签名"
                        name="sms_sign" >
-                <p class="help-block"> 请填写阿里云或腾讯云的短信签名。</p>
+                <p class="text-muted"> 请填写阿里云或腾讯云的短信签名。</p>
             </div>
         </div>
 
 
 
     </div>
-    <!-- /.box-body -->
-    <div class="box-footer">
-        <div class="col-sm-offset-2 col-sm-10 submit-block">
-            <div class="box-submit">
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <div class="offset-sm-2 col-sm-10 submit-block">
+            <div class="card-submit">
                 <button type="submit" class="btn btn-primary">发送</button>
             </div>
         </div>
     </div>
 </form>
-    <!-- /.box-footer -->
+    <!-- /.card-footer -->
 #end
 

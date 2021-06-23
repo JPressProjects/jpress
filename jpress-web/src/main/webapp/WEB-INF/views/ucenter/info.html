@@ -1,189 +1,172 @@
 #@ucenter_layout()
 
 #define content()
-<div class="content-wrapper">
 
-    <section class="content-header">
-        <h1>
-            我的信息
-            <small>My Profile</small>
-        </h1>
-    </section>
+<section class="content">
 
-    <section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+            <!-- form start -->
+            <form class="autoAjaxSubmit" data-ok-message="数据保存成功" autocomplete="off" action="#(CPATH)/ucenter/doSaveUser" >
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">登录账号</label>
 
-
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" value="#(user.username ??)" readonly>
+                        </div>
                     </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <form class="form-horizontal" autocomplete="off" id="form" action="#(CPATH)/ucenter/doSaveUser">
-                        <div class="box-body ">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">登录账号</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">昵称</label>
 
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" value="#(user.username ??)" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">昵称</label>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="取个好听的昵称..."
+                                   value="#(user.nickname ??)" name="user.nickname">
+                        </div>
+                    </div>
 
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="取个好听的昵称..."
-                                           value="#(user.nickname ??)" name="user.nickname">
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">身份</label>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">身份</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="设计师？程序员？..."
-                                           value="#(user.identity ??)" name="user.identity">
-                                </div>
-                            </div>
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="设计师？程序员？..."
+                                   value="#(user.identity ??)" name="user.identity">
+                        </div>
+                    </div>
 
 
-                            <h4 class="page-header">通信</h4>
+                    <h4 class="form-header">通信</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮箱</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">邮箱</label>
 
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="填写邮箱账号"
-                                           name="user.email" value="#(user.email ??)">
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="填写邮箱账号"
+                                   name="user.email" value="#(user.email ??)">
 
-                                    #if(user.email && !user.isEmailStatusOk())
-                                    <p class="help-block">
-                                        你的邮件尚未激活，点击<a href="javascript:doActivateEmail('#(user.id)')">这里</a>进行激活。
-                                    </p>
-                                    #end
-
-                                </div>
-
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">手机号</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="及手机号"
-                                           name="user.mobile" value="#(user.mobile ??)">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">地址</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="地址"
-                                           name="user.address" value="#(user.address ??)">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮编</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="和邮编"
-                                           name="user.zipcode" value="#(user.zipcode ??)">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">个人网址</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="user.site" value="#(user.site ??)">
-                                </div>
-                            </div>
-
-                            <h4 class="page-header">其他</h4>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">真实名字</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="user.realname" value="#(user.realname ??)">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">生日</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" id="birthday"
-                                           class="form-control datepicker"
-                                           data-date-format="yyyy-mm-dd"
-                                           placeholder="点击选择"
-                                           name="user.birthday" value="#date(user.birthday,'yyyy-MM-dd')">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">公司</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="user.company" value="#(user.company ??)">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">职位</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="user.occupation" value="#(user.occupation ??)">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">毕业学校</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="user.graduateschool" value="#(user.graduateschool ??)">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">学历</label>
-
-                                <div class="col-sm-7">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="user.education" value="#(user.education ??)">
-                                </div>
-                            </div>
-
+                            #if(user.email && !user.isEmailStatusOk())
+                            <p class="text-muted">
+                                你的邮件尚未激活，点击<a href="javascript:doActivateEmail('#(user.id)')">这里</a>进行激活。
+                            </p>
+                            #end
 
                         </div>
 
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
-                                </div>
-                            </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">手机号</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="及手机号"
+                                   name="user.mobile" value="#(user.mobile ??)">
                         </div>
-                    </form>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">地址</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="地址"
+                                   name="user.address" value="#(user.address ??)">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">邮编</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="和邮编"
+                                   name="user.zipcode" value="#(user.zipcode ??)">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">个人网址</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="..."
+                                   name="user.site" value="#(user.site ??)">
+                        </div>
+                    </div>
+
+                    <h4 class="form-header">其他</h4>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">真实名字</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="..."
+                                   name="user.realname" value="#(user.realname ??)">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">生日</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" id="birthday"
+                                   class="form-control date"
+                                   data-date-format="yyyy-mm-dd"
+                                   placeholder="点击选择"
+                                   name="user.birthday" value="#date(user.birthday,'yyyy-MM-dd')">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">公司</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="..."
+                                   name="user.company" value="#(user.company ??)">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">职位</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="..."
+                                   name="user.occupation" value="#(user.occupation ??)">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">毕业学校</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="..."
+                                   name="user.graduateschool" value="#(user.graduateschool ??)">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">学历</label>
+
+                        <div class="col-sm-7">
+                            <input type="input" class="form-control" placeholder="..."
+                                   name="user.education" value="#(user.education ??)">
+                        </div>
+                    </div>
+
+
                 </div>
-            </div>
 
+                <div class="card-footer">
+                    <div class="offset-sm-2 col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-    </section>
+</section>
 
-</div>
 #end

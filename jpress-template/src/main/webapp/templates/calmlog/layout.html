@@ -5,14 +5,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
+    <title>#(SEO_TITLE ?? (WEB_TITLE + ' - ' + WEB_SUBTITLE))</title>
     <meta name="keywords" content="#(SEO_KEYWORDS)">
     <meta name="description" content="#(SEO_DESCRIPTION)">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/cl-css.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="highlight/styles/railscasts.css">
-    <link rel="shortcut icon" href="#(CPATH)/static/commons/img/jpress.jpg" type="image/x-icon">
+    <link href="highlight/styles/railscasts.css" rel="stylesheet">
+    <link href="#(CPATH)/static/front/jpressfront.css" rel="stylesheet">
+    <link href="css/cl-css.css" rel="stylesheet">
+    <link href="#(CPATH)/static/commons/img/icon.png" type="image/x-icon" rel="shortcut icon">
     #@css?()
 </head>
 <body>
@@ -22,19 +23,11 @@
             <a class="navbar-brand" href="/">
                 <img src="#option('calmlog_logo','img/logo.jpg')" width="144" alt="">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#jpress-default-menu"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-
-                    #for(menu : MENUS)
-                    <li class="nav-item #(menu.isActive ? 'active' : '')">
-                        <a class="nav-link" href="#(menu.url)">#(menu.text) <span class="sr-only">(current)</span></a>
-                    </li>
-                    #end
-                </ul>
-            </div>
+            #@defaultMenu("collapse navbar-collapse justify-content-end","navbar-nav","nav-item","nav-link")
         </nav>
     </div>
 </div>
@@ -50,10 +43,11 @@
 
 <div class="container-fluid cl-footer">
     <div class="container">
-        #(WEB_COPYRIGHT ? WEB_COPYRIGHT : '本设计由简.工作室荣誉出品 <br /> copyright @ 2018~2020 JPress（www.jpress.io）')
+        #(WEB_COPYRIGHT ? WEB_COPYRIGHT : '本设计由简.工作室荣誉出品 <br/> copyright @ 2018~2020 JPress（www.jpress.io）')
     </div>
 </div>
-<script src="/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/front/jpressfront.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="highlight/highlight.pack.js"></script>
 #@script?()

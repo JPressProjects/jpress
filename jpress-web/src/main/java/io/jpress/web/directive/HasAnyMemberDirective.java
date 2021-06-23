@@ -43,7 +43,7 @@ public class HasAnyMemberDirective extends JbootDirectiveBase {
             return;
         }
 
-        String[] memberFlags = getParaArray(scope);
+        String[] memberFlags = getArrayParas(scope);
 
         if (memberFlags == null || memberFlags.length == 0) {
             throw new IllegalArgumentException("#hasAnyMember(memberFlags...) args is error." + getLocation());
@@ -73,7 +73,7 @@ public class HasAnyMemberDirective extends JbootDirectiveBase {
         return true;
     }
 
-    private String[] getParaArray(Scope scope) {
+    private String[] getArrayParas(Scope scope) {
         if (exprList == null || exprList.length() == 0) {
             return null;
         }

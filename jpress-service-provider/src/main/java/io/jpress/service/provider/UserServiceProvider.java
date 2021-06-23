@@ -155,47 +155,47 @@ public class UserServiceProvider extends JbootServiceBase<User> implements UserS
     }
 
     @Override
-    public User findFistByUsername(String username) {
+    public User findFirstByUsername(String username) {
         return DAO.findFirstByColumn("username", username);
     }
 
     @Override
-    public User findFistByEmail(String email) {
+    public User findFirstByEmail(String email) {
         return DAO.findFirstByColumn("email", email);
     }
 
     @Override
-    public User findFistByWxUnionid(String unioinId) {
+    public User findFirstByWxUnionid(String unioinId) {
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT_UNIONID, unioinId);
     }
 
     @Override
-    public User findFistByWxOpenid(String openId) {
+    public User findFirstByWxOpenid(String openId) {
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WECHAT, openId);
     }
 
     @Override
-    public User findFistByQQOpenid(String openId) {
+    public User findFirstByQQOpenid(String openId) {
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_QQ, openId);
     }
 
     @Override
-    public User findFistByWeiboOpenid(String openId) {
+    public User findFirstByWeiboOpenid(String openId) {
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_WEIBO, openId);
     }
 
     @Override
-    public User findFistByGithubOpenid(String openId) {
+    public User findFirstByGithubOpenid(String openId) {
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_GITHUB, openId);
     }
 
     @Override
-    public User findFistByGiteeOpenid(String openId) {
+    public User findFirstByGiteeOpenid(String openId) {
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_GITEE, openId);
     }
 
     @Override
-    public User findFistByDingdingOpenid(String openId) {
+    public User findFirstByDingdingOpenid(String openId) {
         return openidService.findByTypeAndOpenId(UserOpenid.TYPE_DINGDING, openId);
     }
 

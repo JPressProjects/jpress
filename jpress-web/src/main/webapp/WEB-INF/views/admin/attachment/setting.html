@@ -1,52 +1,63 @@
 #@layout()
 #define content()
-<div class="content-wrapper">
 
     <section class="content-header">
-        <h1>
-            附件设置
-            <small>Attachment Setting</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                附件功能设置
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 附件 / 附件功能设置</small>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
     </section>
 
     <section class="content">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal form-setting" autocomplete="off" id="optionForm">
-                        <div class="box-body ">
+                    <form class=" form-setting" autocomplete="off" id="optionForm">
+                        <div class="card-body">
 
 
-                            <h4 class="page-first-header">附件大小限制</h4>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">图片限制</label>
+                            <h4 class="form-header">附件大小限制</h4>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">图片限制</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="图片最大值"
                                            name="attachment_img_maxsize" value="#option('attachment_img_maxsize')">
-                                    <p class="help-block"> 单位兆（M），默认为2M，填写0允许任何大小。</p>
+                                    <p class="text-muted"> 单位兆（M），默认为2M，填写0允许任何大小。</p>
 
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">其他文件</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">其他文件</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="视频、文档等最大值"
                                            name="attachment_other_maxsize" value="#option('attachment_other_maxsize')">
-                                    <p class="help-block"> 单位兆（M），默认为10M，填写0允许任何大小。</p>
+                                    <p class="text-muted"> 单位兆（M），默认为10M，填写0允许任何大小。</p>
                                 </div>
                             </div>
 
 
-                            <h4 class="page-header">阿里云OSS同步</h4>
+                            <h4 class="form-header">阿里云OSS同步</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">是否启用附件同步</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">是否启用附件同步</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_enable"
                                            #checkedIf(option("attachment_aliyunoss_enable"))>
@@ -55,56 +66,56 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">OSS删除同步</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">OSS删除同步</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_del"
                                            #checkedIf(option("attachment_aliyunoss_del"))>
                                     <input type="hidden" id="attachment_aliyunoss_del"
                                            name="attachment_aliyunoss_del">
-                                    <p class="help-block"> 开启后会在删除附件时同时也删除OSS中的文件</p>
+                                    <p class="text-muted"> 开启后会在删除附件时同时也删除OSS中的文件</p>
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">API访问域名</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">API访问域名</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="阿里云oss的 endPoint"
                                            name="attachment_aliyunoss_endpoint" value="#option('attachment_aliyunoss_endpoint')">
-                                    <p class="help-block"> 阿里云API域名详情：<a target="_blank" href="https://help.aliyun.com/document_detail/31837.html">https://help.aliyun.com/document_detail/31837.html</a>。 </p>
+                                    <p class="text-muted"> 阿里云API域名详情：<a target="_blank" href="https://help.aliyun.com/document_detail/31837.html">https://help.aliyun.com/document_detail/31837.html</a>。 </p>
 
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">AccessKeyId</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">AccessKeyId</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
                                            name="attachment_aliyunoss_accesskeyid" value="#option('attachment_aliyunoss_accesskeyid')">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">AccessKeySecret</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">AccessKeySecret</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
                                            name="attachment_aliyunoss_accesskeysecret" value="#option('attachment_aliyunoss_accesskeysecret')">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">存储空间</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">存储空间</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="阿里云oss的 bucketName"
                                            name="attachment_aliyunoss_bucketname" value="#option('attachment_aliyunoss_bucketname')">
                                 </div>
                             </div>
 
-                            <h4 class="page-header">图片水印</h4>
+                            <h4 class="form-header">图片水印</h4>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">是否启用水印</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">是否启用水印</label>
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="attachment_watermark_enable"
                                            #checkedIf(option("attachment_watermark_enable"))>
@@ -113,8 +124,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">水印位置</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">水印位置</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="attachment_watermark_position">
                                         <option value="1" #selectedIf(option(
@@ -131,50 +142,42 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">透明度</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">透明度</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="..."
                                            name="attachment_watermark_transparency"
                                            value="#option('attachment_watermark_transparency')">
-                                    <p class="help-block"> 请填写0~1的数字，默认为1不透明 </p>
+                                    <p class="text-muted"> 请填写0~1的数字，默认为1不透明 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">水印图片</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">水印图片</label>
                                 <div class="col-sm-6">
-                                    <button type="button"
-                                            for-src="wimg"
-                                            for-input="imginput"
-                                            class="btn-image-browser btn btn-flat btn-default btn-xs">
-                                        <i class="fa fa-fw fa-image"></i> 选择图片
-                                    </button>
-                                    <br/>
-                                    <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/nothumbnail.jpg')"
-                                         id="img">
-                                    <input type="hidden" id="imginput" name="attachment_watermark_img"
-                                           value="#option('attachment_watermark_img')">
+                                    <div class="jpress-image-browser">
+                                        <input type="hidden" name="attachment_watermark_img" value="#option('attachment_watermark_img')"/>
+                                        <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/nothumbnail.jpg')">
+                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
+                                    </div>
                                 </div>
                             </div>
 
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
                                     <button type="submit" class="btn btn-primary">提交</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
-        </div>
 
     </section>
 
-</div>
 #end

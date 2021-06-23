@@ -31,7 +31,7 @@
             dataType: 'json',
             success: function (data) {
                 if (data.state == "ok") {
-                    callPayBox(data.orderInfo);
+                    callPaycard(data.orderInfo);
                 } else {
                     console.log("getWechatOrderInfo error ", data)
                 }
@@ -43,7 +43,7 @@
     }
 
 
-    function callPayBox(orderInfo) {
+    function callPaycard(orderInfo) {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
                 "appId": orderInfo.appId,                           //公众号名称，由商户传入

@@ -1,74 +1,44 @@
 #@ucenter_layout()
 
 #define script()
-
 <script src="#(CPATH)/static/components/distpicker/distpicker.min.js"></script>
-
-<script>
-
-    $("#add-address-event").on("click", function () {
-        $("#addressForm").ajaxSubmit({
-            type: "post",
-            success: function (data) {
-                if (data.state == "ok") {
-                    alert("操作成功");
-                    location.href = "#(CPATH)/ucenter/address/list";
-                } else {
-                    alert(data.message);
-                }
-            },
-            error: function () {
-                alert("系统错误，请联系管理员。");
-            }
-        });
-    })
-</script>
 #end
 
 #define content()
-<div class="content-wrapper">
-
-    <section class="content-header">
-        <h1>
-            新增/编辑地址
-            <small>Add/Edit Address </small>
-        </h1>
-    </section>
-
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
-                    </div>
-                    <!-- /.box-header -->
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+                    <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" id="addressForm" method="post" action="#(CPATH)/ucenter/address/doAdd">
+                    <form class="autoAjaxSubmit" data-ok-message="数据保存成功" data-ok-href="#(CPATH)/ucenter/address/list" method="post" action="#(CPATH)/ucenter/address/doAdd">
 
                         <input type="hidden" class="form-control" name="address.id" value="#(address.id ??)"/>
 
-                        <div class="box-body ">
+                        <div class="card-header">
+                            <h3>#(address ?'编辑' : '新增')地址</h3>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">联系人</label>
+                        <div class="card-body">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 联系人</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" placeholder="联系人" name="address.username" value="#(address.username ??)">
+                                    <input type="text" class="form-control" placeholder="联系人" required name="address.username" value="#(address.username ??)">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">联系电话</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 联系电话</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="联系电话" name="address.mobile" value="#(address.mobile ??)">
+                                    <input type="input" class="form-control" placeholder="联系电话" required name="address.mobile" value="#(address.mobile ??)">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">地址管理</label>
-                                <div class="col-sm-6">
-                                    <div data-toggle="distpicker"  class="form-inline" data-autoselect="3">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">地址管理</label>
+                                <div class="col-sm-9">
+                                    <div data-toggle="distpicker"  class="form-inline" data-autoselect="3" style="justify-content: space-between">
                                         <select class="form-control" data-province="#(address.province ?? '---- 选择省 ----')" name="address.province" ></select>
                                         <select class="form-control" data-city="#(address.city ?? '---- 选择市 ----')" name="address.city" ></select>
                                         <select class="form-control" data-district="#(address.district ?? '---- 选择区 ----')" name="address.district" ></select>
@@ -76,26 +46,26 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">详细地址</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span>详细地址</label>
                                 <div class="col-sm-6">
                                     <textarea rows="3" class="form-control"
-                                              placeholder="详细地址..."
+                                              placeholder="详细地址..." required
                                               name="address.detail">#(address.detail ??)</textarea>
-                                    <p class="help-block"> 请具体到街道、楼层以及门牌号 </p>
+                                    <p class="text-muted"> 请具体到街道、楼层以及门牌号 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮政编码</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">邮政编码</label>
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="" name="address.zipcode" value="#(address.zipcode ??)">
                                 </div>
                             </div>
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">设为默认</label>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">设为默认</label>
                                 <div class="col-sm-6">
                                     <input class="switchery" data-for="address_default" type="checkbox" #checkedIf(address.width_default??)>
                                     <input type="hidden" id="address_default" name="address.widthDefault">
@@ -103,22 +73,20 @@
                             </div>
 
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
-                                    <button type="button" class="btn btn-primary" id="add-address-event">提交</button>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
                                     <a href="#(CPATH)/ucenter/address/list"><button type="button" class="btn ">返回</button></a>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.box-footer -->
+                        <!-- /.card-footer -->
                     </form>
                 </div>
             </div>
         </div>
 
     </section>
-
-</div>
 #end

@@ -18,26 +18,14 @@
 #end
 
 #define content()
-<div class="content-wrapper">
-
-    <section class="content-header">
-        <h1>
-            文章收藏
-            <small>Article Favorites</small>
-        </h1>
-    </section>
-
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body ">
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
 
                         <table class="table table-striped">
                             <tbody>
@@ -47,13 +35,13 @@
                                 <th style="width: 90px">时间</th>
                             </tr>
                             #for(favorite : page.list ??)
-                            <tr class="jp-actiontr">
+                            <tr>
                                 <td>
                                     <strong>
                                         <a href="#(CPATH)#(favorite.link ??)" target="_blank">#(favorite.title ??)</a>
                                     </strong>
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
                                             <a href="#(CPATH)#(favorite.link ??)" target="_blank">查看</a> |
                                             <a href="javascript:;" onclick="doDelFavorite('#(favorite.id??)')"
                                                class="red-action">删除</a>
@@ -63,26 +51,25 @@
                                 <td>#(favorite.summary ??)</td>
                                 <td>#date(favorite.created)</td>
                             </tr>
+                            #else
+                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
                             #end
 
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12">
                                 #@_paginate()
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.box -->
+                <!-- /.card -->
             </div>
-        </div>
-
     </section>
 
-
-</div>
 #end

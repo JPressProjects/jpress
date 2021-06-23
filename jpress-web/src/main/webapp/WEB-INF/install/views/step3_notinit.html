@@ -1,37 +1,37 @@
 #include("layout.html")
 #@layout()
 #define content()
-<form class="form-horizontal form-setting"
+<form class=" form-setting"
       action="#(CPATH)/install/install" method="post" id="form">
-    <div class="form-group">
+    <div class="form-group row">
         <div class="col-sm-12">
             您好，您当前设置的是已经存在数据的 JPress 数据库。
         </div>
     </div>
-    <h4 class="page-header" style="margin-top: 20px">重置管理员</h4>
+    <h4 class="form-header" style="margin-top: 20px">重置管理员</h4>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">新账号</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">新账号</label>
         <div class="col-sm-9">
             <input type="input" class="form-control" placeholder="新管理员账号"
                    name="username">
-            <p class="help-block" style="color: red">若想保留之前的管理员账号，请不要填写任何内容。</p>
+            <p class="text-muted" style="color: red">若想保留之前的管理员账号，请不要填写任何内容。</p>
         </div>
     </div>
-    <div class="form-group">
-        <label class="col-sm-2 control-label">密码</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">密码</label>
         <div class="col-sm-9">
             <input type="password" class="form-control" placeholder="及密码"
                    name="pwd">
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">确认密码</label>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">确认密码</label>
         <div class="col-sm-9">
             <input type="password" class="form-control" placeholder="..."
                    name="confirmPwd">
-            <p class="help-block">非常重要！请务必要牢记管理员的账号和密码。</p>
+            <p style="color: red">非常重要！请务必要牢记管理员的账号和密码。</p>
         </div>
     </div>
 

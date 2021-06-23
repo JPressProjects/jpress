@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ElasticSearcher implements ProductSearcher {
+public class ElasticSearcher implements ProductSearcher,JPressOptions.OptionChangeListener {
 
     private static final Log LOG = Log.getLog(ElasticSearcher.class);
 
@@ -62,17 +62,51 @@ public class ElasticSearcher implements ProductSearcher {
     private RestHighLevelClient client;
     private RestClient restClient;
 
+
     public ElasticSearcher() {
-        String host = JPressOptions.get("product_search_es_host");
-        int port = JPressOptions.getAsInt("product_search_es_port", 9200);
-
-        RestClientBuilder builder = RestClient.builder(new HttpHost(host, port));
-        configUserNameAndPassowrd(builder);
-        client = new RestHighLevelClient(builder);
-        restClient = builder.build();
-
-        tryCreateIndex();
+        JPressOptions.addListener(this);
     }
+
+    @Override
+    public void onChanged(String key, String newValue, String oldValue) {
+        if ("product_search_es_host".equals(key) || "product_search_es_port".equals(key)){
+            this.client = null;
+            this.restClient = null;
+        }
+    }
+
+
+    public RestHighLevelClient getClient() {
+        if (client == null){
+
+            String host = JPressOptions.get("product_search_es_host");
+            int port = JPressOptions.getAsInt("product_search_es_port", 9200);
+
+            RestClientBuilder builder = RestClient.builder(new HttpHost(host, port));
+            configUserNameAndPassowrd(builder);
+            client = new RestHighLevelClient(builder);
+            restClient = builder.build();
+
+            tryCreateIndex();
+        }
+        return client;
+    }
+
+
+
+    public RestClient getRestClient() {
+        if (restClient == null){
+
+            String host = JPressOptions.get("product_search_es_host");
+            int port = JPressOptions.getAsInt("product_search_es_port", 9200);
+
+            RestClientBuilder builder = RestClient.builder(new HttpHost(host, port));
+            configUserNameAndPassowrd(builder);
+            restClient = builder.build();
+        }
+        return restClient;
+    }
+
 
 
     private void configUserNameAndPassowrd(RestClientBuilder builder) {
@@ -97,7 +131,7 @@ public class ElasticSearcher implements ProductSearcher {
 
         CreateIndexRequest request = new CreateIndexRequest(index);
         try {
-            CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
+            CreateIndexResponse response = getClient().indices().create(request, RequestOptions.DEFAULT);
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
@@ -108,8 +142,8 @@ public class ElasticSearcher implements ProductSearcher {
 
     public boolean checkIndexExist() {
         try {
-            Response response = restClient.performRequest(new Request("HEAD", index));
-            return response.getStatusLine().getReasonPhrase().equals("OK");
+            Response response = getRestClient().performRequest(new Request("HEAD", index));
+            return "OK".equals(response.getStatusLine().getReasonPhrase());
         } catch (Exception e) {
             LOG.error(e.toString(), e);
         }
@@ -124,7 +158,7 @@ public class ElasticSearcher implements ProductSearcher {
         IndexRequest indexRequest = new IndexRequest(index, type, product.getId().toString());
         indexRequest.source(product.toJson(), XContentType.JSON);
         try {
-            IndexResponse response = client.index(indexRequest, RequestOptions.DEFAULT);
+            IndexResponse response = getClient().index(indexRequest, RequestOptions.DEFAULT);
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
@@ -138,7 +172,7 @@ public class ElasticSearcher implements ProductSearcher {
 
         DeleteRequest request = new DeleteRequest(index, type, id.toString());
         try {
-            DeleteResponse response = client.delete(request, RequestOptions.DEFAULT);
+            DeleteResponse response = getClient().delete(request, RequestOptions.DEFAULT);
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
@@ -156,7 +190,7 @@ public class ElasticSearcher implements ProductSearcher {
         updateRequest.doc(map);
 
         try {
-            UpdateResponse response = client.update(updateRequest, RequestOptions.DEFAULT);
+            UpdateResponse response = getClient().update(updateRequest, RequestOptions.DEFAULT);
             if (LogKit.isDebugEnabled()) {
                 LogKit.debug(response.toString());
             }
@@ -185,7 +219,7 @@ public class ElasticSearcher implements ProductSearcher {
         searchRequest.types(type);
 
         try {
-            SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
+            SearchResponse response = getClient().search(searchRequest, RequestOptions.DEFAULT);
             if (response == null || response.getHits() == null || response.getHits().getTotalHits().value <= 0) {
                 return null;
             }

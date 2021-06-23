@@ -12,95 +12,82 @@
 #end
 
 #define content()
-<div class="content-wrapper">
+<section class="content">
 
-    <section class="content-header">
-        <h1>
-            文章管理
-            <small>Article Management</small>
-        </h1>
-    </section>
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+            <div class="card-header with-border">
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th style="width: 350px">标题</th>
+                        <th>分类</th>
+                        <th>标签</th>
+                        <th style="width: 50px"><i class="fa fa-commenting"></i></th>
+                        <th style="width: 90px">发布时间</th>
+                    </tr>
+                    #for(article : page.list ??)
+                    <tr>
+                        <td>
+                            <strong>
+                                #if(article.isNormal())
+                                <a href="#(article.url ??)" target="_blank">#(article.title ??)</a>
+                                #else
+                                <a href="#(CPATH)/ucenter/article/write/#(article.id)">#(article.title ??)</a>
+                                （审核中...）
+                                #end
+                            </strong>
 
-
-    <section class="content">
-
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body no-padding">
-
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 350px">标题</th>
-                                <th>分类</th>
-                                <th>标签</th>
-                                <th style="width: 50px"><i class="fa fa-commenting"></i></th>
-                                <th style="width: 90px">发布时间</th>
-                            </tr>
-                            #for(article : page.list ??)
-                            <tr class="jp-actiontr">
-                                <td>
-                                    <strong>
-                                        #if(article.isNormal())
-                                        <a href="#(article.url ??)" target="_blank">#(article.title ??)</a>
-                                        #else
-                                        <a href="#(CPATH)/ucenter/article/write/#(article.id)">#(article.title ??)</a>
-                                        （审核中...）
-                                        #end
-                                    </strong>
-
-                                    #if(!article.isNormal())
-                                    <div class="jp-actionblock">
-                                        <div class="jp-actionitem">
-                                            <a href="#(CPATH)/ucenter/article/write/#(article.id)">编辑</a> |
-                                            <a href="javascript:;" onclick="del('#(article.id??)')" class="red-action">永久删除</a>
-                                        </div>
-                                    </div>
-                                    #end
-
-                                </td>
-                                <td>
-                                    #articleCategories(article.id,"category")
-                                    #for(category : categories)
-                                    <a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
-                                    #if(!for.last) , #end
-                                    #end
-                                    #end
-                                </td>
-                                <td>
-                                    #articleCategories(article.id,"tag")
-                                    #for(category : categories)
-                                    <a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
-                                    #if(!for.last) , #end
-                                    #end
-                                    #end
-                                </td>
-                                <td>#(article.comment_count ??)</td>
-                                <td>#date(article.created)</td>
-                            </tr>
-                            #end
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                #@_paginate()
+                            #if(!article.isNormal())
+                            <div class="jp-action-card">
+                                <div class="jp-action-body">
+                                    <a href="#(CPATH)/ucenter/article/write/#(article.id)">编辑</a> |
+                                    <a href="javascript:;" onclick="del('#(article.id??)')" class="red-action">永久删除</a>
+                                </div>
                             </div>
-                        </div>
+                            #end
+
+                        </td>
+                        <td>
+                            #articleCategories(article.id,"category")
+                            #for(category : categories)
+                            <a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
+                            #if(!for.last) , #end
+                            #end
+                            #end
+                        </td>
+                        <td>
+                            #articleCategories(article.id,"tag")
+                            #for(category : categories)
+                            <a href="#(category.url ??)" target="_blank">#(category.title ??)</a>
+                            #if(!for.last) , #end
+                            #end
+                            #end
+                        </td>
+                        <td>#(article.comment_count ??)</td>
+                        <td>#date(article.created)</td>
+                    </tr>
+                    #else
+                    <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        #@_paginate()
                     </div>
                 </div>
-                <!-- /.box -->
             </div>
+            <!-- /.card-footer -->
         </div>
+        <!-- /.card -->
+    </div>
+</section>
 
-    </section>
-
-
-</div>
 #end

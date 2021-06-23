@@ -15,11 +15,11 @@
  */
 package io.jpress.module.article.model;
 
-import com.jfinal.core.JFinal;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
-import io.jpress.JPressOptions;
+import io.jboot.web.json.JsonIgnore;
 import io.jpress.commons.layer.SortModel;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.article.model.base.BaseArticleCategory;
 
 import java.util.ArrayList;
@@ -54,14 +54,17 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     public static final String TYPE_USER_CATEGORY = "user_category";
 
 
-    public boolean isTag() {
-        return TYPE_TAG.equals(getType());
-    }
 
     private int layerNumber;
     private SortModel parent;
     private List<SortModel> childs;
 
+
+
+    @JsonIgnore
+    public boolean isTag() {
+        return TYPE_TAG.equals(getType());
+    }
 
     /**
      * 是否是顶级菜单
@@ -69,11 +72,13 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
      * @return
      */
     @Override
+    @JsonIgnore
     public boolean isTop() {
         return getPid() != null && getPid() == 0;
     }
 
     @Override
+    @JsonIgnore
     public Long getParentId() {
         return getPid();
     }
@@ -84,6 +89,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     }
 
     @Override
+    @JsonIgnore
     public SortModel getParent() {
         return parent;
     }
@@ -102,6 +108,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     }
 
     @Override
+    @JsonIgnore
     public List getChilds() {
         return childs;
     }
@@ -116,10 +123,12 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     }
 
     @Override
+    @JsonIgnore
     public int getLayerNumber() {
         return layerNumber;
     }
 
+    @JsonIgnore
     public String getLayerString() {
 
         if (layerNumber == 0) {
@@ -163,18 +172,23 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
         return false;
     }
 
+    @JsonIgnore
     public String getUrl() {
-        switch (getType()) {
-            case TYPE_CATEGORY:
-                return JFinal.me().getContextPath() + "/article/category/" + getSlug() + JPressOptions.getAppUrlSuffix();
-            case TYPE_TAG:
-                return JFinal.me().getContextPath() + "/article/tag/" + getSlug() + JPressOptions.getAppUrlSuffix();
-            default:
-                return "";
-        }
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/article/tag/";
+        return UrlUtils.getUrl(prefix, getSlug());
     }
 
 
+    public String getUrlWithPageNumber(int pageNumber){
+        if (pageNumber <= 1) {
+            return getUrl();
+        }
+
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/article/tag/";
+        return UrlUtils.getUrl(prefix, getSlug(),"-",pageNumber);
+    }
+
+    @JsonIgnore
     public String getHtmlView() {
         return StrUtil.isBlank(getStyle()) ? "artlist.html" : "artlist_" + getStyle().trim() + ".html";
     }

@@ -56,17 +56,6 @@
     function addGroupRolePermission(groupId,roleId) {
         ajaxGet("#(CPATH)/admin/user/doAddGroupRolePermission?roleId=" + roleId  + "&groupId=" + groupId,
             function (data) {
-                //返回permissionid的list,用于改变页面样式
-                /**
-                var permissionIds=data.permissionIds;
-                permissionIds.forEach(function (permissionId) {
-                    var selectId = "[data-pid='"+permissionId+"']";
-                    $(selectId).attr("checked",true);
-                    //$(this).parent().find('span').addClass("checked");
-                    $(this).parent().find("span").attr("style","box-shadow: rgb(100, 189, 99) 0px 0px 0px 11px inset; border-color: rgb(100, 189, 99); background-color: rgb(100, 189, 99); transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;");
-                    $(this).parent().find("small").attr("style", "left: 13px; background-color: rgb(255, 255, 255); transition: background-color 0.4s ease 0s, left 0.2s ease 0s;");
-                });**/
-
                 toastr.options.onHidden = function () {
                     location.reload();
                 }
@@ -79,17 +68,6 @@
         ajaxGet("#(CPATH)/admin/user/doDelGroupRolePermission?roleId=" + roleId  + "&groupId=" + groupId,
             function (data) {
                 //返回permissionid的list,用于改变页面样式
-                /**
-                var permissionIds=data.permissionIds;
-                permissionIds.forEach(function (permissionId) {
-                    debugger;
-                    var selectId = "[data-pid='"+permissionId+"']";
-                    $(selectId).removeAttr("checked");
-                    //$(this).parent().find('span').attr("class",'switchery switchery-small');
-                    //$(this).parent().find('span').removeClass("checked");
-                    $(this).parent().find("span").attr("style","box-shadow: rgb(223, 223, 223) 0px 0px 0px 0px inset;border-color: rgb(223, 223, 223);background-color: rgb(255, 255, 255);transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s;");
-                    $(this).parent().find("small").attr("style", "left: 0px; transition: background-color 0.4s ease 0s, left 0.2s ease 0s;");
-                });**/
 
                 toastr.options.onHidden = function () {
                     location.reload();
@@ -109,7 +87,7 @@
         margin-top: 0px;
     }
 
-    .page-header {
+    .form-header {
         padding-bottom: 9px;
         padding-left: 20px;
         margin: 40px 0 20px;
@@ -121,31 +99,42 @@
 
 
 #define content()
-<div class="content-wrapper">
-
     <section class="content-header">
-        <h1>
-            角色权限管理
-            <small>Role Permission Management</small>
-        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                角色权限管理
+                                <small data-toggle="tooltip" title="查看最近发布的文章和评论，并对评论回复或删除。" data-placement="bottom"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 角色 /角色权限管理</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+
     </section>
 
 
     <section class="content">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
 
-                    <div class="box-header  ">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <h2 class="page-header">
+                    <div class="card-header  ">
+                        <div class="container-fluid">
+                                <h2 class="form-header">
                                     <i class="fa fa-globe"></i>
                                     #if(role.isSuperAdmin())
-                                    <span style="color: red">#(role.name ??)</span> 是超级管理员，默认拥有所有权限，无需设置。
+                                    <span style="color:#a00;font-size: 1.2rem;">#(role.name ??)</span> 是超级管理员，默认拥有所有权限，无需设置。
                                     #else
-                                    您正在设置角色 <span style="color: red">#(role.name ??)</span> 的权限
+                                    您正在设置角色 <span style="color: #a00">#(role.name ??)</span> 的权限
                                     #end
 
 
@@ -154,23 +143,32 @@
 
                             <div class="col-xs-12" style="margin-left: 15px">
                                 <div class="btn-group">
-                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)" id="group-all"
+                                    <a href="#(CPATH)/admin/user/role/permissions/#(role.id)" id="group-all"
                                        class="btn btn-default">全部</a>
-                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)?type=menu" id="group-menu"
+                                    <a href="#(CPATH)/admin/user/role/permissions/#(role.id)?type=menu" id="group-menu"
                                        class="btn btn-default">菜单</a>
-                                    <a href="#(CPATH)/admin/user/rolePermissions/#(role.id)?type=action" id="group-action"
+                                    <a href="#(CPATH)/admin/user/role/permissions/#(role.id)?type=action" id="group-action"
                                        class="btn btn-default">URL</a>
                                 </div>
                             </div>
                             <!-- /.col -->
                         </div>
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body waterfall-container">
+                    <!-- /.card-header -->
+                    <div class="card-body waterfall-container" style="
+                        -moz-column-count: 2;
+                        -webkit-column-count: 2;
+                        column-count: 2;
+                        -moz-column-gap: 1em;
+                        -webkit-column-gap: 1em;
+                        column-gap: 1em;">
                         #for(x : permissionGroup)
-                        <div class="waterfall-item">
-                            <div class="box box-dashboard">
-                                <div class="box-header with-border">
+                        <div class="waterfall-item" style="-webkit-column-break-inside: avoid;
+                            break-inside: avoid;
+                            position: relative;
+                            box-sizing: border-box;">
+                            <div class="card card-outline card-dashboard">
+                                <div class="card-header with-border">
                                     <div style="float: left;margin-right: 15px;">
                                         #if(role.isSuperAdmin())
                                         <input  type="checkbox" class="myswitchery"
@@ -180,10 +178,10 @@
                                                 data-gid="#(x.key ??)" data-rid="#(role.id ??)" #for(group:groupCheck)  #if(x.key==group.key && group.value) checked #end  #end>
                                         #end
                                     </div>
-                                    <h3 class="box-title">#(x.key ??)</h3>
+                                    <h3 class="card-title">#(x.key ??)</h3>
                                 </div>
-                                <!-- /.box-header -->
-                                <div class="box-body no-padding">
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
                                     <table class="table table-striped">
                                         <tbody>
                                         <tr>
@@ -226,12 +224,7 @@
 
                     </div>
                 </div>
-            </div>
-
-        </div>
 
     </section>
 
-
-</div>
 #end

@@ -17,139 +17,137 @@
 
 </script>
 #end
+#define css()
+<style>
+    .member-info{
+        font-size: 14px;
+    }
+    .col-form-label{
+        font-weight: 500;
+    }
+    .radio label{
+        margin:0;
+    }
 
+</style>
+#end
 
 #define content()
-<div class="content-wrapper">
+<section class="content">
 
-    <section class="content-header">
-        <h1>
-            加入会员
-            <small>Join Member</small>
-        </h1>
-    </section>
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
 
-    <section class="content">
+            <!-- form start -->
+            <form class=" autoAjaxSubmit" autocomplete="off" action="#(CPATH)/ucenter/member/joining" method="post"
+                  method="post"
+                  data-ok-function="ok"
+            >
+                <input type="hidden" name="groupId" value="#(memberGroup.id)">
+                <div class="card-body">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-primary">
+                    <h4 class="form-header">基本介绍</h4>
 
-
-                    <div class="box-header ">
-                        <h3 class="box-title"></h3>
+                    <div class="form-group row" style="align-items: center;">
+                        <label class="col-2 col-form-label">会员名称</label>
+                        <div class="col-10 member-info">
+                            #(memberGroup.title ??)
+                        </div>
                     </div>
-                    <!-- form start -->
-                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off" action="#(CPATH)/ucenter/member/joining" method="post"
-                          method="post"
-                          data-ok-function="ok"
-                    >
-                        <input type="hidden" name="groupId" value="#(memberGroup.id)">
-                        <div class="box-body ">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">会员名称</label>
-                                <div class="col-sm-7" style="padding: 7px">
-                                    #(memberGroup.title ??)
-                                </div>
+
+                    <div class="form-group row" style="align-items: center;">
+                        <label class="col-2 col-form-label">加入费用</label>
+                        <div class="col-10 member-info">
+                            #number(memberGroup.price,'0.00') 元 / #(memberGroup.valid_term) 天
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row"  style="align-items: center;">
+                        <label class="col-2 col-form-label">会员简介</label>
+                        <div class="col-10 member-info">
+                            #(memberGroup.summary ??)
+                        </div>
+                    </div>
+
+
+                    <h4 class="form-header">支付方式</h4>
+
+                    <div class="form-group row" style="align-items: center">
+                        <label class="col-2 col-form-label">支付类型</label>
+
+                        <div class="col-10 member-info">
+
+                            #if(wechatxConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="wechatx">
+                                    微信转账
+                                </label>
                             </div>
+                            #end
 
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">加入费用</label>
-                                <div class="col-sm-7" style="padding: 7px">
-                                    #number(memberGroup.price,'0.00') 元 / #(memberGroup.valid_term) 天
-                                </div>
+                            #if(alipayxConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="alipayx">
+                                    支付宝转账
+                                </label>
                             </div>
+                            #end
 
-
-                            <div class="form-group" style="padding-bottom: 30px">
-                                <label class="col-sm-2 control-label">会员简介</label>
-                                <div class="col-sm-7" style="padding: 7px">
-                                    #(memberGroup.summary ??)
-                                </div>
+                            #if(wechatConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="wechat">
+                                    微信支付
+                                </label>
                             </div>
+                            #end
 
-
-                            <h4 class="page-header">支付方式</h4>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">支付类型</label>
-
-                                <div class="col-sm-7">
-
-                                    #if(wechatxConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="wechatx">
-                                            微信转账
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    #if(alipayxConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="alipayx">
-                                            支付宝转账
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    #if(wechatConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="wechat">
-                                            微信支付
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    #if(alipayConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="alipay">
-                                            支付宝支付
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    #if(paypalConfig.isEnable())
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="paypal">
-                                            Paypal支付
-                                        </label>
-                                    </div>
-                                    #end
-
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paytype" value="amount">
-                                            使用账户余额支付
-                                        </label>
-                                    </div>
-
-                                </div>
+                            #if(alipayConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="alipay">
+                                    支付宝支付
+                                </label>
                             </div>
+                            #end
 
+                            #if(paypalConfig.isEnable())
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="paypal">
+                                    Paypal支付
+                                </label>
+                            </div>
+                            #end
+
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="paytype" value="amount">
+                                    使用账户余额支付
+                                </label>
+                            </div>
 
                         </div>
+                    </div>
 
-                        <div class="box-footer">
-                            <div class="col-sm-offset-2 col-sm-10 submit-block">
-                                <div class="box-submit">
-                                    <button type="submit" class="btn btn-primary">下一步</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+
                 </div>
-            </div>
 
+                <div class="card-footer">
+                    <div class="offset-sm-2 col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="submit" class="btn btn-primary">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 
-    </section>
+</section>
 
-</div>
 #end

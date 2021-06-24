@@ -151,7 +151,9 @@ function _initLayerByComponent(component) {
  * 设置 tooltip 组件
  */
 function initTooltip() {
-    $('[data-toggle="tooltip"],[data-render="tooltip"]').tooltip();
+    if ($.tooltip){
+        $('[data-toggle="tooltip"],[data-render="tooltip"]').tooltip();
+    }
 }
 
 

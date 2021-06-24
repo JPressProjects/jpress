@@ -194,7 +194,9 @@ function initStringMethods() {
 
 
 function initMenu(){
-    $(".jpress-menu").metisMenu();
+    if ($.metisMenu){
+        $(".jpress-menu").metisMenu();
+    }
 }
 
 
@@ -291,6 +293,82 @@ function initAjaxSubmitForms() {
         });
     });
 }
+
+
+function initCkEdtiorComponent() {
+    if (typeof ClassicEditor == "undefined") {
+        return;
+    }
+    let index = 0;
+    $('[data-render="ckeditor"]').each(function () {
+        var id = $(this).attr("id");
+        if (!id) {
+            id = "ckeditor" + (index++);
+            $(this).attr("id", id);
+        }
+        initCkEdtior('#' + id);
+    });
+}
+
+
+function initCkEdtior(selector) {
+    ClassicEditor
+        .create(document.querySelector(selector), {
+            toolbar: {
+                items: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    'underline',
+                    'link',
+                    'code',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'fontColor',
+                    'fontBackgroundColor',
+                    'outdent',
+                    'indent',
+                    'removeFormat',
+                    '|',
+                    'blockQuote',
+                    'imageInsert',
+                    'insertTable',
+                    'codeBlock',
+                    '|',
+                    'undo',
+                    'redo'
+                ]
+            },
+            simpleUpload: {
+                uploadUrl: getContextPath() + '/commons/ckeditor5/upload',
+            },
+            language: 'zh-cn',
+            image: {
+                toolbar: [
+                    'imageTextAlternative',
+                    'imageStyle:full',
+                    'imageStyle:side'
+                ]
+            },
+            table: {
+                contentToolbar: [
+                    'tableColumn',
+                    'tableRow',
+                    'mergeTableCells',
+                    'tableProperties'
+                ]
+            },
+        })
+        .then(editor => {
+            window.currentCKEditor = editor;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
 
 
 function initCommentComponent() {
@@ -447,7 +525,6 @@ function initProductSpec(){
 
 
 function setProductSpec(spec) {
-    console.log("setProductSpec : " + spec)
     productInfo.spec = spec;
 }
 

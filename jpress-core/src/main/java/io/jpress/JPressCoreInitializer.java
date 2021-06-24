@@ -15,13 +15,16 @@
  */
 package io.jpress;
 
+import com.jfinal.captcha.Captcha;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
 import com.jfinal.config.Routes;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
+import io.jboot.components.cache.support.JbootCaptchaCache;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.core.weight.Weight;
+import io.jboot.utils.StrUtil;
 import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
@@ -50,6 +53,12 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
     @Override
     public void onConstantConfig(Constants constants) {
         constants.setRenderFactory(new JPressRenderFactory());
+        constants.setCaptchaCache(new JbootCaptchaCache(){
+            @Override
+            public Captcha get(String key) {
+                return StrUtil.isBlank(key) ? null : super.get(key);
+            }
+        });
     }
 
     @Override

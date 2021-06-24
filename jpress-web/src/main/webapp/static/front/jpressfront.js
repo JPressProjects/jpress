@@ -295,6 +295,8 @@ function initAjaxSubmitForms() {
                 showErrorMessage('系统错误，请稍后重试。');
             }
         });
+
+        return false;
     });
 }
 

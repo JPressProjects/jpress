@@ -21,6 +21,7 @@ import com.jfinal.config.Routes;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.core.listener.JbootAppListenerBase;
+import io.jboot.core.weight.Weight;
 import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
@@ -42,6 +43,7 @@ import io.jpress.web.sitemap.SitemapManager;
  * @Title: JPress 初始化工具
  * @Package io.jpress
  */
+@Weight(-1)
 public class JPressCoreInitializer extends JbootAppListenerBase {
 
 

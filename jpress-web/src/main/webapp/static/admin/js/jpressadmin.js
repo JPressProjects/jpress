@@ -347,18 +347,18 @@ function initAjaxSubmitForms() {
                     window.currentCKEditor.updateSourceElement();
                 }
 
-                __form = $(form);
+                var $form = $(form);
 
-                var successFun = __form.attr('data-ok-function');
-                var successGoto = __form.attr('data-ok-href');
-                var successMsg = __form.attr('data-ok-message');
+                var successFun = $form.attr('data-ok-function');
+                var successGoto = $form.attr('data-ok-href');
+                var successMsg = $form.attr('data-ok-message');
 
-                var failFun = __form.attr('data-fail-function');
-                var failMsg = __form.attr('data-fail-message');
+                var failFun = $form.attr('data-fail-function');
+                var failMsg = $form.attr('data-fail-message');
 
-                var binds = __form.attr('data-binds');
+                var binds = $form.attr('data-binds');
 
-                __form.ajaxSubmit({
+                $form.ajaxSubmit({
                     type: "post",
                     success: function (result) {
 

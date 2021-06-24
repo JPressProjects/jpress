@@ -206,18 +206,22 @@ function initMenu(){
  */
 function initAjaxSubmitForms() {
     $('.autoAjaxSubmit').on('submit', function () {
-        __form = $(form);
+        var $form = $(this);
 
-        var successFun = __form.attr('data-ok-function');
-        var successGoto = __form.attr('data-ok-href');
-        var successMsg = __form.attr('data-ok-message');
+        if (window.currentCKEditor) {
+            window.currentCKEditor.updateSourceElement();
+        }
 
-        var failFun = __form.attr('data-fail-function');
-        var failMsg = __form.attr('data-fail-message');
+        var successFun = $form.attr('data-ok-function');
+        var successGoto = $form.attr('data-ok-href');
+        var successMsg = $form.attr('data-ok-message');
 
-        var binds = __form.attr('data-binds');
+        var failFun = $form.attr('data-fail-function');
+        var failMsg = $form.attr('data-fail-message');
 
-        __form.ajaxSubmit({
+        var binds = $form.attr('data-binds');
+
+        $form.ajaxSubmit({
             type: "post",
             success: function (result) {
 
@@ -292,81 +296,6 @@ function initAjaxSubmitForms() {
             }
         });
     });
-}
-
-
-function initCkEdtiorComponent() {
-    if (typeof ClassicEditor == "undefined") {
-        return;
-    }
-    let index = 0;
-    $('[data-render="ckeditor"]').each(function () {
-        var id = $(this).attr("id");
-        if (!id) {
-            id = "ckeditor" + (index++);
-            $(this).attr("id", id);
-        }
-        initCkEdtior('#' + id);
-    });
-}
-
-
-function initCkEdtior(selector) {
-    ClassicEditor
-        .create(document.querySelector(selector), {
-            toolbar: {
-                items: [
-                    'heading',
-                    '|',
-                    'bold',
-                    'italic',
-                    'underline',
-                    'link',
-                    'code',
-                    'bulletedList',
-                    'numberedList',
-                    '|',
-                    'fontColor',
-                    'fontBackgroundColor',
-                    'outdent',
-                    'indent',
-                    'removeFormat',
-                    '|',
-                    'blockQuote',
-                    'imageInsert',
-                    'insertTable',
-                    'codeBlock',
-                    '|',
-                    'undo',
-                    'redo'
-                ]
-            },
-            simpleUpload: {
-                uploadUrl: getContextPath() + '/commons/ckeditor5/upload',
-            },
-            language: 'zh-cn',
-            image: {
-                toolbar: [
-                    'imageTextAlternative',
-                    'imageStyle:full',
-                    'imageStyle:side'
-                ]
-            },
-            table: {
-                contentToolbar: [
-                    'tableColumn',
-                    'tableRow',
-                    'mergeTableCells',
-                    'tableProperties'
-                ]
-            },
-        })
-        .then(editor => {
-            window.currentCKEditor = editor;
-        })
-        .catch(error => {
-            console.log(error);
-        });
 }
 
 

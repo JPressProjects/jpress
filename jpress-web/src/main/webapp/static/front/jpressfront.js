@@ -194,7 +194,9 @@ function initStringMethods() {
 
 
 function initMenu(){
-    $(".jpress-menu").metisMenu();
+    if ($.metisMenu){
+        $(".jpress-menu").metisMenu();
+    }
 }
 
 
@@ -204,18 +206,22 @@ function initMenu(){
  */
 function initAjaxSubmitForms() {
     $('.autoAjaxSubmit').on('submit', function () {
-        __form = $(form);
+        var $form = $(this);
 
-        var successFun = __form.attr('data-ok-function');
-        var successGoto = __form.attr('data-ok-href');
-        var successMsg = __form.attr('data-ok-message');
+        if (window.currentCKEditor) {
+            window.currentCKEditor.updateSourceElement();
+        }
 
-        var failFun = __form.attr('data-fail-function');
-        var failMsg = __form.attr('data-fail-message');
+        var successFun = $form.attr('data-ok-function');
+        var successGoto = $form.attr('data-ok-href');
+        var successMsg = $form.attr('data-ok-message');
 
-        var binds = __form.attr('data-binds');
+        var failFun = $form.attr('data-fail-function');
+        var failMsg = $form.attr('data-fail-message');
 
-        __form.ajaxSubmit({
+        var binds = $form.attr('data-binds');
+
+        $form.ajaxSubmit({
             type: "post",
             success: function (result) {
 
@@ -289,8 +295,11 @@ function initAjaxSubmitForms() {
                 showErrorMessage('系统错误，请稍后重试。');
             }
         });
+
+        return false;
     });
 }
+
 
 
 function initCommentComponent() {
@@ -447,7 +456,6 @@ function initProductSpec(){
 
 
 function setProductSpec(spec) {
-    console.log("setProductSpec : " + spec)
     productInfo.spec = spec;
 }
 

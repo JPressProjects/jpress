@@ -20,10 +20,11 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Action;
-import com.jfinal.core.ActionMapping;
 import com.jfinal.core.Controller;
+import io.jboot.core.JbootCoreConfig;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.JbootAciontMapping;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.menu.MenuItem;
 import io.jpress.core.menu.MenuManager;
@@ -34,7 +35,6 @@ import io.jpress.web.interceptor.JPressInterceptor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
@@ -42,17 +42,19 @@ public class AddonControllerManager {
     private static Routes addonRoutes = new AddonRoutes();
     private static AddonActionMapping actionMapping = new AddonActionMapping(addonRoutes);
 
-    private static Map<Class, String> controllerAddonMapping = new ConcurrentHashMap<>();
+    private static Map<Class<?>, String> controllerAddonMapping = new ConcurrentHashMap<>();
 
 
     public static void addController(Class<? extends Controller> controllerClass, String addonId) {
-        RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
-        if (mapping == null) {
+        String[] mappingAndViewPath = JbootCoreConfig.getMappingAndViewPath(controllerClass);
+        if (mappingAndViewPath == null){
             return;
         }
 
-        String path = AnnotationUtil.get(mapping.value());
-        if (path == null) {
+        String mapping = mappingAndViewPath[0];
+        String viewPath = mappingAndViewPath[1];
+
+        if (StrUtil.isBlank(mapping)){
             return;
         }
 
@@ -60,16 +62,16 @@ public class AddonControllerManager {
         // 但是由于可能 stop() 出错等原因，没有执行到 deletController 的操作
         deleteController(controllerClass);
 
-        String viewPath = AnnotationUtil.get(mapping.viewPath());
         if (StrUtil.isBlank(viewPath)) {
             viewPath = "/";
         } else if (viewPath.indexOf("/") != 0) {
             viewPath = "/" + viewPath;
         }
 
-        addonRoutes.add(path, controllerClass, "/addons/" + addonId + viewPath);
+        addonRoutes.add(mapping, controllerClass, "/addons/" + addonId + viewPath);
         controllerAddonMapping.put(controllerClass, addonId);
     }
+
 
     public static List<String> getAllActionKeys() {
         return actionMapping.getAllActionKeys();
@@ -198,7 +200,7 @@ public class AddonControllerManager {
      * 1、ActionMapping 的 mapping 是 hashMap，随时对这个 mapping 进行操作可能存在线程不安全的问题，所以需要修改为 ConcurrentHashMap
      * 2、需要把 buildActionMapping() 方法给公布出来，才能在对 mapping 进行操作的时候重新构建 actionKey->Controller 的映射关系
      */
-    public static class AddonActionMapping extends ActionMapping {
+    public static class AddonActionMapping extends JbootAciontMapping {
 
         public AddonActionMapping(Routes routes) {
             super(routes);

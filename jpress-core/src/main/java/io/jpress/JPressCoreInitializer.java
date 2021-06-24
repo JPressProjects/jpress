@@ -43,7 +43,7 @@ import io.jpress.web.sitemap.SitemapManager;
  * @Title: JPress 初始化工具
  * @Package io.jpress
  */
-@Weight(-1)
+@Weight(100)
 public class JPressCoreInitializer extends JbootAppListenerBase {
 
 

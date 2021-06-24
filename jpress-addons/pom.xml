@@ -29,7 +29,7 @@
 <!--        <module>jpress-addon-wtask</module>-->
 <!--        <module>jpress-addon-wechatlogin</module>-->
 <!--        <module>jpress-addon-articlemeta</module>-->
-<!--        <module>jpress-addon-club</module>-->
+        <module>jpress-addon-club</module>
     </modules>
 
     <build>

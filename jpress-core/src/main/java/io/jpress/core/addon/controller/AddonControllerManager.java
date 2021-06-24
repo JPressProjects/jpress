@@ -22,8 +22,11 @@ import com.jfinal.config.Routes;
 import com.jfinal.core.Action;
 import com.jfinal.core.ActionMapping;
 import com.jfinal.core.Controller;
+import com.jfinal.core.Path;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.annotation.GetMapping;
+import io.jboot.web.controller.annotation.PostMapping;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.menu.MenuItem;
 import io.jpress.core.menu.MenuManager;
@@ -34,7 +37,6 @@ import io.jpress.web.interceptor.JPressInterceptor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AddonControllerManager {
@@ -46,29 +48,61 @@ public class AddonControllerManager {
 
 
     public static void addController(Class<? extends Controller> controllerClass, String addonId) {
-        RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
-        if (mapping == null) {
+//        RequestMapping mapping = controllerClass.getAnnotation(RequestMapping.class);
+//        if (mapping == null) {
+//            return;
+//        }
+//
+//        String path = AnnotationUtil.get(mapping.value());
+//        if (path == null) {
+//            return;
+//        }
+
+        String[] mappingAndViewPath = getMappingValueAndViewPath(controllerClass);
+        if (mappingAndViewPath == null){
             return;
         }
 
-        String path = AnnotationUtil.get(mapping.value());
-        if (path == null) {
-            return;
-        }
+        String mapping = mappingAndViewPath[0];
+        String viewPath = mappingAndViewPath[1];
 
         // 尝试去清除 Controller 以保障绝对安全, 虽然插件在 stop() 的时候会去清除
         // 但是由于可能 stop() 出错等原因，没有执行到 deletController 的操作
         deleteController(controllerClass);
 
-        String viewPath = AnnotationUtil.get(mapping.viewPath());
+//        String viewPath = AnnotationUtil.get(mapping.viewPath());
         if (StrUtil.isBlank(viewPath)) {
             viewPath = "/";
         } else if (viewPath.indexOf("/") != 0) {
             viewPath = "/" + viewPath;
         }
 
-        addonRoutes.add(path, controllerClass, "/addons/" + addonId + viewPath);
+        addonRoutes.add(mapping, controllerClass, "/addons/" + addonId + viewPath);
         controllerAddonMapping.put(controllerClass, addonId);
+    }
+
+    private static String[] getMappingValueAndViewPath(Class<? extends Controller> clazz) {
+        RequestMapping rm = clazz.getAnnotation(RequestMapping.class);
+        if (rm != null) {
+            return new String[]{rm.value(), rm.viewPath()};
+        }
+
+        Path path = clazz.getAnnotation(Path.class);
+        if (path != null) {
+            return new String[]{path.value(), path.viewPath()};
+        }
+
+        GetMapping gp = clazz.getAnnotation(GetMapping.class);
+        if (gp != null) {
+            return new String[]{gp.value(), gp.viewPath()};
+        }
+
+        PostMapping pp = clazz.getAnnotation(PostMapping.class);
+        if (pp != null) {
+            return new String[]{pp.value(), pp.viewPath()};
+        }
+
+        return null;
     }
 
     public static List<String> getAllActionKeys() {

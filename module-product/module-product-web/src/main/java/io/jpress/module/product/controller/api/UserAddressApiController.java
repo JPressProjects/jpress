@@ -40,7 +40,16 @@ public class UserAddressApiController extends ApiControllerBase {
     /**
      * 收货地址列表
      */
-    public void index() {
+    public void detail() {
+        List<UserAddress> addresses = userAddressService.findListByUserId(getLoginedUser().getId());
+        renderOkJson("data", addresses);
+    }
+
+
+    /**
+     * 收货地址列表
+     */
+    public void listByUserId() {
         List<UserAddress> addresses = userAddressService.findListByUserId(getLoginedUser().getId());
         renderOkJson("data", addresses);
     }

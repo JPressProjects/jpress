@@ -23,16 +23,11 @@ import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
-import io.jpress.JPressOptions;
-import io.jpress.commons.dfa.DFAUtil;
+import io.jpress.commons.Rets;
 import io.jpress.commons.layer.SortKit;
-import io.jpress.model.User;
-import io.jpress.module.article.kit.ArticleNotifyKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
-import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
-import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
 import io.jpress.service.UserService;
@@ -61,9 +56,6 @@ public class ArticleApiController extends ApiControllerBase {
 
     @Inject
     private OptionService optionService;
-
-    @Inject
-    private ArticleCommentService commentService;
 
     @Inject
     private UserService userService;
@@ -144,43 +136,48 @@ public class ArticleApiController extends ApiControllerBase {
     /**
      * 通过 分类ID 分页读取文章列表
      */
-    public void paginate(Long categoryId, String orderBy, @DefaultValue("1") int pageNumber) {
+    public Ret paginate(Long categoryId, String orderBy, @DefaultValue("1") int pageNumber, @DefaultValue("10") int pageSize) {
         Page<Article> page = categoryId == null
-                ? articleService.paginateInNormal(pageNumber, 10, orderBy)
-                : articleService.paginateByCategoryIdInNormal(pageNumber, 10, categoryId, orderBy);
+                ? articleService.paginateInNormal(pageNumber, pageSize, orderBy)
+                : articleService.paginateByCategoryIdInNormal(pageNumber, pageSize, categoryId, orderBy);
 
-        renderJson(Ret.ok().set("page", page));
+        return Ret.ok().set("page", page);
     }
 
 
-    public void tagArticles() {
-        String tag = getPara("tag");
-        int count = getParaToInt("count", 10);
-        if (StrUtil.isBlank(tag)) {
-            renderFailJson();
-            return;
-        }
+    /**
+     * 通过文章分类的 ID 操作文章列表
+     * @param categoryId
+     * @param count
+     * @return
+     */
+    public Ret articlesByCategoryId(@NotNull Long categoryId, @DefaultValue("10") int count) {
+        List<Article> articles = articleService.findListByCategoryId(categoryId, null, "id desc", count);
+        return Ret.ok().set("articles", articles);
+    }
 
-        ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, tag);
+
+    /**
+     * 通过文章分类的固定链接查找所有文章列表
+     * @param categorySlug
+     * @param count
+     * @return
+     */
+    public Ret articlesByCategorySlug(@NotEmpty String categorySlug, @DefaultValue("10") int count) {
+        ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, categorySlug);
         if (category == null) {
-            renderFailJson();
-            return;
+            return Rets.FAIL;
         }
 
         List<Article> articles = articleService.findListByCategoryId(category.getId(), null, "id desc", count);
-        renderJson(Ret.ok().set("articles", articles));
+        return Ret.ok().set("articles", articles);
     }
 
 
     /**
      * 通过 文章属性 获得文章列表
      */
-    public void list() {
-        String flag = getPara("flag");
-        Boolean hasThumbnail = getParaToBoolean("hasThumbnail");
-        String orderBy = getPara("orderBy", "id desc");
-        int count = getParaToInt("count", 10);
-
+    public Ret articlesByFlag(@NotEmpty String flag, Boolean hasThumbnail, String orderBy, @DefaultValue("10") int count) {
 
         Columns columns = Columns.create("flag", flag);
         if (hasThumbnail != null) {
@@ -192,156 +189,51 @@ public class ArticleApiController extends ApiControllerBase {
         }
 
         List<Article> articles = articleService.findListByColumns(columns, orderBy, count);
-        renderJson(Ret.ok("articles", articles));
+        return Ret.ok().set("articles", articles);
     }
 
     /**
      * 某一篇文章的相关文章
      */
-    public void relevantList() {
-
-        Long id = getParaToLong("articleId");
-        if (id == null) {
-            renderFailJson();
-        }
-
-        int count = getParaToInt("count", 3);
-
-        List<Article> relevantArticles = articleService.findRelevantListByArticleId(id, Article.STATUS_NORMAL, count);
-        renderOkJson("articles", relevantArticles);
+    public Ret articlesByRelevant(@NotNull Long articleId, @DefaultValue("3") int count) {
+        List<Article> relevantArticles = articleService.findRelevantListByArticleId(articleId, Article.STATUS_NORMAL, count);
+        return Ret.ok().set("articles", relevantArticles);
     }
 
-
-    public void create(@JsonBody @NotNull Article article) {
-        articleService.save(article);
-        renderOkJson();
-    }
-
-
-    public void update(@JsonBody @NotNull Article article) {
-        articleService.update(article);
-        renderOkJson();
-    }
-
-
-    public void commentPaginate() {
-        Long articleId = getParaToLong("articleId");
-        int pageNumber = getParaToInt("page", 1);
-
-        Page<ArticleComment> page = commentService.paginateByArticleIdInNormal(pageNumber, 10, articleId);
-        renderJson(Ret.ok().set("page", page));
-    }
-
-
-    /**
-     * 发布评论
-     */
-    public void postComment() {
-        Long articleId = getParaToLong("articleId");
-        Long pid = getParaToLong("pid");
-        String content = getRawData();
-
-        if (articleId == null || articleId <= 0) {
-            renderFailJson();
-            return;
-        }
-
-        if (StrUtil.isBlank(content)) {
-            renderJson(Ret.fail().set("message", "评论内容不能为空"));
-            return;
-        } else {
-            content = StrUtil.escapeHtml(content);
-        }
-
-        if (DFAUtil.isContainsSensitiveWords(content)) {
-            renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
-            return;
-        }
-
-
-        Article article = articleService.findById(articleId);
-        if (article == null) {
-            renderFailJson();
-            return;
-        }
-
-        // 文章关闭了评论的功能
-        if (!article.isCommentEnable()) {
-            renderJson(Ret.fail().set("message", "该文章的评论功能已关闭"));
-            return;
-        }
-
-        //是否开启评论功能
-        Boolean commentEnable = JPressOptions.isTrueOrEmpty("article_comment_enable");
-        if (commentEnable == null || commentEnable == false) {
-            renderJson(Ret.fail().set("message", "评论功能已关闭"));
-            return;
-        }
-
-        User user = getLoginedUser();
-        if (user == null) {
-            renderJson(Ret.fail().set("message", "用户未登录"));
-            return;
-        }
-
-        ArticleComment comment = new ArticleComment();
-
-        comment.setArticleId(articleId);
-        comment.setContent(content);
-        comment.setPid(pid);
-        comment.setEmail(user.getEmail());
-
-        comment.setUserId(user.getId());
-        comment.setAuthor(user.getNickname());
-
-        comment.put("user", user.keepSafe());
-
-        //是否是管理员必须审核
-        Boolean reviewEnable = optionService.findAsBoolByKey("article_comment_review_enable");
-        if (reviewEnable != null && reviewEnable == true) {
-            comment.setStatus(ArticleComment.STATUS_UNAUDITED);
-        }
-        /**
-         * 无需管理员审核、直接发布
-         */
-        else {
-            comment.setStatus(ArticleComment.STATUS_NORMAL);
-        }
-
-        //记录文章的评论量
-        articleService.doIncArticleCommentCount(articleId);
-
-        if (pid != null) {
-            //记录评论的回复数量
-            commentService.doIncCommentReplyCount(pid);
-        }
-        commentService.saveOrUpdate(comment);
-
-        Ret ret = Ret.ok();
-        if (comment.isNormal()) {
-            ret.set("comment", comment).set("code", 0);
-        } else {
-            ret.set("code", 0);
-        }
-
-
-        renderJson(ret);
-
-        ArticleNotifyKit.notify(article, comment, user);
-    }
 
     /**
      * 搜索文章
      *
      * @param keyword
      */
-    public void articleSearch(String keyword) {
-        int page = getParaToInt("page", 1);
-        int pageSize = getParaToInt("size", 10);
+    public Ret search(String keyword, @DefaultValue("1") int pageNumber, @DefaultValue("10") int pageSize) {
         Page<Article> dataPage = StrUtil.isNotBlank(keyword)
-                ? articleService.search(keyword, page, pageSize)
+                ? articleService.search(keyword, pageNumber, pageSize)
                 : null;
-        renderJson(dataPage);
+        return Ret.ok().set("page", dataPage);
     }
+
+
+    /**
+     * 创建新的文章
+     * @param article
+     * @return
+     */
+    public Ret create(@JsonBody @NotNull Article article) {
+        articleService.save(article);
+        return Rets.OK;
+    }
+
+
+    /**
+     * 更新文章
+     * @param article
+     * @return
+     */
+    public Ret update(@JsonBody @NotNull Article article) {
+        articleService.update(article);
+        return Rets.OK;
+    }
+
 
 }

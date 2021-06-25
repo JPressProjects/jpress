@@ -1,6 +1,4 @@
-# JPressSchool-VIP 会员
-
-
+# JPress School-VIP 会员
 
 
 
@@ -138,7 +136,7 @@ JSchool 是海哥为 JPress、Jboot 创办的知识付费社群，使用订阅�
 
 
 ## 如何付款
-直接扫描下方二维码支付，支付成功后，联系海哥的微信号：fuhai001 , 获取 JSchool 的相关权益。
+直接扫描下方二维码支付，支付成功后，联系海哥的微信号：fuhai001 , 加入 VIP 群，并获取 JSchool 的相关权益。
 ![](./images/jschool-pay.png)
 
 

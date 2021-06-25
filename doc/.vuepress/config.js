@@ -55,6 +55,7 @@ module.exports = {
                     {text: 'Github', link: 'https://github.com/JPressProjects/jpress'}
                 ]
             },
+            {text: 'JPress VIP', link: '/vip'},
         ],
 
         sidebar: {

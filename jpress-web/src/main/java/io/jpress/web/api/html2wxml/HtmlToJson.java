@@ -1,4 +1,4 @@
-package io.jpress.web.commons.controller.html2wxml;
+package io.jpress.web.api.html2wxml;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

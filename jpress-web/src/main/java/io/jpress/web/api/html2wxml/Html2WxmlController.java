@@ -1,36 +1,19 @@
-/**
- * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
- * <p>
- * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package io.jpress.web.commons.controller;
+package io.jpress.web.api.html2wxml;
 
 import com.jfinal.kit.StrKit;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.web.base.ApiControllerBase;
-import io.jpress.web.commons.controller.html2wxml.HtmlToJson;
-import io.jpress.web.commons.controller.html2wxml.Params;
 
 import java.util.Collections;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.web
+ * 把 html 内容转化为 微信的 wxml 用于显示文章详情、产品详情等
  */
-@RequestMapping("/commons/html2wxml")
+@RequestMapping("/api/wechat/mp/html2wxml")
 public class Html2WxmlController extends ApiControllerBase {
 
     public void index() {
@@ -54,12 +37,15 @@ public class Html2WxmlController extends ApiControllerBase {
     private Params getParams() {
         //类型 默认HMTL
         String type = getPara("type", Params.TYPE_HTML);
+
         //是否开启pre代码高亮 默认开启
         Boolean highlight = getParaToBoolean("highlight", true);
+
         //是否开启pre代码行号 默认开启
         Boolean linenums = getParaToBoolean("linenums", true);
+
         //获取a和img静态资源的根路径URL
-        String baseUri = StrUtil.obtainDefaultIfBlank(JPressOptions.getCDNDomain(),getBaseUrl());
+        String baseUri = StrUtil.obtainDefault(JPressOptions.getCDNDomain(),getBaseUrl());
 
         Params params = new Params();
         params.setHighlight(highlight);

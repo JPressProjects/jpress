@@ -73,7 +73,7 @@ public class SqlUtils {
         str = str.toLowerCase();
         for (String checkString : stringsToCheck) {
             if (str.contains(checkString)) {
-                return false;
+                return true;
             }
         }
 

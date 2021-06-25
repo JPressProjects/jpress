@@ -3,14 +3,15 @@
 目前只支持在 Linux 操作系统上一键安装 JPress，当我们购买了全新的阿里云、腾讯云等服务器，我们执行如下脚本进行一键安装。
 
 ```shell
-wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh
+wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh 80
 ```
 
-安装完成后，需要访问 `http://ip地址:8080` 即可访问到 JPress，并走自动安装流程。
+安装完成后，需要访问 `http://ip地址` 即可访问到 JPress，并走自动安装流程。
 
 ::: tip 提示
-若在安装的过程中有错误（一般情况都是网络错误），一般只需要再执行一遍即可。
+`install.sh` 后边的参数是端口号，不输入默认为 8080。若在安装的过程中有错误（一般情况都是网络错误），一般只需要再执行一遍即可。
 :::
+
 
 ## 脚本执行原理
 

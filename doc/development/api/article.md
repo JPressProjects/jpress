@@ -226,3 +226,32 @@
   | --- | --- | --- | --- |
   | data | 是 | POST | 文章 JSON |  
 
+
+
+## 获取文章评论
+
+- 访问路径: `/api/article/comment/paginate`
+- 数据类型: `application/x-www-form-urlencoded`
+- 参数：
+
+  | 参数名称 | 是否必须| 提交方式 |描述 |  
+  | --- | --- | --- | --- |
+  | articleId | 是 | GET | 文章id |  
+  | pageNumber | 否 | GET | 默认值 1 |  
+  | pageSize | 否 | GET | 默认值 10 |  
+
+
+
+
+## 发布文章评论
+
+- 访问路径: `/api/article/comment/post`
+- 数据类型: `application/x-www-form-urlencoded`
+- 参数：
+
+  | 参数名称 | 是否必须| 提交方式 |描述 |  
+  | --- | --- | --- | --- |
+  | articleId | 是 | POST | 文章 ID |  
+  | pid | 是 | POST | 父级评论ID |  
+  | content | 是 | POST | 评论内容 |  
+

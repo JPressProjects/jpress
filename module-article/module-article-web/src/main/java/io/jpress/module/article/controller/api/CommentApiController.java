@@ -32,6 +32,8 @@ import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.ApiControllerBase;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 
@@ -63,26 +65,14 @@ public class CommentApiController extends ApiControllerBase {
     /**
      * 发布评论
      */
-    public void post(@NotNull Long articleId, Long pid) {
-        String content = getRawData();
+    public void post(@NotNull @Min(1) Long articleId, Long pid, @NotEmpty String content) {
 
-        if (articleId == null || articleId <= 0) {
-            renderFailJson();
-            return;
-        }
-
-        if (StrUtil.isBlank(content)) {
-            renderJson(Ret.fail().set("message", "评论内容不能为空"));
-            return;
-        } else {
-            content = StrUtil.escapeHtml(content);
-        }
+        content = StrUtil.escapeHtml(content);
 
         if (DFAUtil.isContainsSensitiveWords(content)) {
             renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
             return;
         }
-
 
         Article article = articleService.findById(articleId);
         if (article == null) {

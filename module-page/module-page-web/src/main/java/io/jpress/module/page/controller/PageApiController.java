@@ -18,10 +18,14 @@ package io.jpress.module.page.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
+import io.jpress.commons.Rets;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.ApiControllerBase;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -35,28 +39,58 @@ public class PageApiController extends ApiControllerBase {
     @Inject
     private SinglePageService service;
 
-    public void index() {
-        Long id = getParaToLong("id");
+    /**
+     * 页面详情
+     * @param id
+     * @param slug
+     * @return
+     */
+    public Ret detail(Long id, String slug) {
         if (id != null) {
             SinglePage page = service.findById(id);
-            renderJson(Ret.ok("page", page));
-            return;
+            return Ret.ok("page", page);
         }
 
-        String slug = getPara("slug");
         if (slug != null) {
             SinglePage page = service.findFirstBySlug(slug);
-            renderJson(Ret.ok("page", page));
-            return;
+            return Ret.ok("page", page);
         }
 
-        renderFailJson();
+        return Rets.FAIL;
     }
 
-    public void list() {
-        String flag = getPara("flag");
+
+    /**
+     * 页面列表
+     * @param flag
+     * @return
+     */
+    public Ret list(@NotEmpty String flag) {
         List<SinglePage> pages = service.findListByFlag(flag);
-        renderOkJson("pages", pages);
+        return Ret.ok().set("pages", pages);
+    }
+
+
+
+    /**
+     * 创建新的文章
+     * @param page
+     * @return
+     */
+    public Ret create(@JsonBody @NotNull SinglePage page) {
+        service.save(page);
+        return Rets.OK;
+    }
+
+
+    /**
+     * 更新文章
+     * @param page
+     * @return
+     */
+    public Ret update(@JsonBody @NotNull SinglePage page) {
+        service.update(page);
+        return Rets.OK;
     }
 
 

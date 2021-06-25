@@ -53,7 +53,7 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
     @Override
     public void onConstantConfig(Constants constants) {
         constants.setRenderFactory(new JPressRenderFactory());
-        constants.setCaptchaCache(new JbootCaptchaCache(){
+        constants.setCaptchaCache(new JbootCaptchaCache() {
             @Override
             public Captcha get(String key) {
                 return StrUtil.isBlank(key) ? null : super.get(key);

@@ -97,25 +97,27 @@ public class ProductApiController extends ApiControllerBase {
     }
 
 
-
     /**
-     * 创建新的产品
-     * @param article
-     * @return
+     * 删除商品
      */
-    public Ret create(@JsonBody @NotNull Product article) {
-        productService.save(article);
+    public Ret doDelete(@NotNull Long id) {
+        productService.deleteById(id);
         return Rets.OK;
     }
 
+    /**
+     * 新增商品
+     */
+    public Ret doCreate(@JsonBody Product product) {
+        Object id = productService.save(product);
+        return Ret.ok().set("id",id);
+    }
 
     /**
-     * 更新产品
-     * @param article
-     * @return
+     * 更新商品
      */
-    public Ret update(@JsonBody @NotNull Product article) {
-        productService.update(article);
+    public Ret doUpdate(@JsonBody Product product) {
+        productService.update(product);
         return Rets.OK;
     }
 

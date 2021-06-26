@@ -16,11 +16,15 @@
 package io.jpress.module.product.controller.api;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
+import io.jpress.commons.Rets;
 import io.jpress.model.CouponCode;
 import io.jpress.service.CouponCodeService;
 import io.jpress.web.base.ApiControllerBase;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -28,7 +32,7 @@ import java.util.List;
  * @author haicuan139 (haicuan139@163.com)
  * @Date: 2019/12/24
  */
-@RequestMapping("/api/usercoupon")
+@RequestMapping("/api/userCoupon")
 public class UserCouponApiController extends ApiControllerBase {
 
     @Inject
@@ -51,6 +55,29 @@ public class UserCouponApiController extends ApiControllerBase {
         renderOkDataJson(couponCodes);
     }
 
+    /**
+     * 购物车中删除
+     */
+    public Ret doDelete(@NotNull Long id) {
+        couponCodeService.deleteById(id);
+        return Rets.OK;
+    }
+
+    /**
+     * 添加到购物车
+     */
+    public Ret doCreate(@JsonBody CouponCode couponCode) {
+        Object id = couponCodeService.save(couponCode);
+        return Ret.ok().set("id",id);
+    }
+
+    /**
+     * 改变购物车中商品的数量
+     */
+    public Ret doUpdate(@JsonBody CouponCode couponCode) {
+        couponCodeService.update(couponCode);
+        return Rets.OK;
+    }
 
 
 }

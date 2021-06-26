@@ -46,24 +46,25 @@ public class ProductCategoryApiController extends ApiControllerBase {
 
 
     /**
-     * 创建新的产品
-     *
-     * @param productCategory
-     * @return
+     * 删除商品分类
      */
-    public Ret create(@JsonBody @NotNull ProductCategory productCategory) {
-        productCategoryService.save(productCategory);
+    public Ret doDelete(@NotNull Long id) {
+        productCategoryService.deleteById(id);
         return Rets.OK;
     }
 
+    /**
+     * 新增商品分类
+     */
+    public Ret doCreate(@JsonBody ProductCategory productCategory) {
+        Object id = productCategoryService.save(productCategory);
+        return Ret.ok().set("id",id);
+    }
 
     /**
-     * 更新产品
-     *
-     * @param productCategory
-     * @return
+     * 更新商品分类
      */
-    public Ret update(@JsonBody @NotNull ProductCategory productCategory) {
+    public Ret doUpdate(@JsonBody ProductCategory productCategory) {
         productCategoryService.update(productCategory);
         return Rets.OK;
     }

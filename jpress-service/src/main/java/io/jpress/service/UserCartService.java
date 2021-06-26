@@ -32,6 +32,9 @@ public interface UserCartService {
     boolean delete(UserCart model);
 
 
+    boolean deleteById(Object id);
+
+
     /**
      * 新增 Model 数据
      *

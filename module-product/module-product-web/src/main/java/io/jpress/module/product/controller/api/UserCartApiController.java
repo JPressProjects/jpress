@@ -15,45 +15,55 @@
  */
 package io.jpress.module.product.controller.api;
 
+import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
+import io.jpress.commons.Rets;
+import io.jpress.model.UserCart;
+import io.jpress.service.UserCartService;
 import io.jpress.web.base.ApiControllerBase;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author haicuan139 (haicuan139@163.com)
  * @Date: 2019/12/24
  */
-@RequestMapping("/api/usercar")
-public class UserCarApiController extends ApiControllerBase {
+@RequestMapping("/api/userCart")
+public class UserCartApiController extends ApiControllerBase {
+
+    private UserCartService userCartService;
 
     /**
      * 购物车列表
      */
-    public void index(){
-
+    public Ret listByUser(@NotNull Long userId){
+        return Ret.ok().set("list",userCartService.findListByUserId(userId));
     }
 
     /**
      * 购物车中删除
      */
-    public void doDelCar(){
-
+    public Ret doDelete(@NotNull Long id){
+        userCartService.deleteById(id);
+        return Rets.OK;
     }
 
     /**
      * 添加到购物车
      */
-    public void doAddCar(){
-
+    public Ret doCreate(@JsonBody UserCart userCart){
+        Object id = userCartService.save(userCart);
+        return Ret.ok().set("id",id);
     }
 
     /**
      * 改变购物车中商品的数量
      */
-    public void changeCount(){
-
+    public Ret doUpdate(@JsonBody UserCart userCart){
+        userCartService.update(userCart);
+        return Rets.OK;
     }
-
-
 
 
 }

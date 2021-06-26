@@ -18,12 +18,13 @@ package io.jpress.module.product.controller.api;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.validate.EmptyValidate;
-import io.jboot.web.validate.Form;
+import io.jboot.web.json.JsonBody;
+import io.jpress.commons.Rets;
 import io.jpress.model.UserAddress;
 import io.jpress.service.UserAddressService;
 import io.jpress.web.base.ApiControllerBase;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -40,52 +41,49 @@ public class UserAddressApiController extends ApiControllerBase {
     /**
      * 收货地址列表
      */
-    public void detail() {
-        List<UserAddress> addresses = userAddressService.findListByUserId(getLoginedUser().getId());
-        renderOkJson("data", addresses);
+    public Ret detail(@NotNull Long id) {
+        return Ret.ok().set("address",userAddressService.findById(id));
     }
 
 
     /**
      * 收货地址列表
      */
-    public void listByUserId() {
-        List<UserAddress> addresses = userAddressService.findListByUserId(getLoginedUser().getId());
-        renderOkJson("data", addresses);
+    public Ret listByUserId(@NotNull Long userId) {
+        List<UserAddress> addresses = userAddressService.findListByUserId(userId);
+        return Ret.ok().set("addresses", addresses);
     }
-
-    /**
-     * 删除收货地址
-     */
-    @EmptyValidate({@Form(name = "id", message = "收货地址ID不能为空")})
-    public void doDelUserAddress(Long id) {
-        UserAddress address = userAddressService.findById(id);
-        if (isLoginedUserModel(address)) {
-            userAddressService.delete(address);
-        }
-        renderOkJson();
-    }
-
-    /**
-     * 添加收货地址
-     */
-    @EmptyValidate({
-            @Form(name = "address.username", message = "请填写联系人"),
-            @Form(name = "address.mobile", message = "请填写联系方式"),
-            @Form(name = "address.detail", message = "请填写联系地址"),
-    })
-    public void doAddUserAddress() {
-        UserAddress address = getBean(UserAddress.class, "address");
-        userAddressService.addUserAddress(address, getLoginedUser().getId());
-        renderJson(Ret.ok());
-    }
-
 
     /**
      * 获取用户默认的收货地址
      */
-    public void findDefaultAddress() {
-        renderOkJson("data", userAddressService.findDefaultAddress(getLoginedUser().getId()));
+    public Ret findUserDefaultAddress(@NotNull Long userId) {
+        return Ret.ok("address", userAddressService.findDefaultAddress(userId));
+    }
+
+
+    /**
+     * 删除用户地址
+     */
+    public Ret doDelete(@NotNull Long id) {
+        userAddressService.deleteById(id);
+        return Rets.OK;
+    }
+
+    /**
+     * 新增用户地址
+     */
+    public Ret doCreate(@JsonBody UserAddress userAddress) {
+        Object id = userAddressService.save(userAddress);
+        return Ret.ok().set("id",id);
+    }
+
+    /**
+     * 更新用户地址
+     */
+    public Ret doUpdate(@JsonBody UserAddress userAddress) {
+        userAddressService.update(userAddress);
+        return Rets.OK;
     }
 
 

@@ -37,14 +37,14 @@ public class UserOrderApiController extends ApiControllerBase {
     private UserOrderService userOrderService;
 
     /**
-     * 购物车列表
+     * 订单列表
      */
     public Ret paginateByUserId(@DefaultValue("1") int pageNumber, @DefaultValue("10") int pageSize, @NotNull Long userId, String title, String ns) {
         return Ret.ok().set("page", userOrderService.paginateByUserId(pageNumber, pageSize, userId, title, ns));
     }
 
     /**
-     * 购物车中删除
+     * 删除订单
      */
     public Ret doDelete(@NotNull Long id) {
         userOrderService.deleteById(id);
@@ -52,7 +52,7 @@ public class UserOrderApiController extends ApiControllerBase {
     }
 
     /**
-     * 添加到购物车
+     * 创建订单
      */
     public Ret doCreate(@JsonBody UserOrder userOrder) {
         Object id = userOrderService.save(userOrder);
@@ -60,7 +60,7 @@ public class UserOrderApiController extends ApiControllerBase {
     }
 
     /**
-     * 改变购物车中商品的数量
+     * 更新订单
      */
     public Ret doUpdate(@JsonBody UserOrder userOrder) {
         userOrderService.update(userOrder);

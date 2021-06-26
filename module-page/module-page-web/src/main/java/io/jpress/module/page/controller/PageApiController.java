@@ -48,12 +48,12 @@ public class PageApiController extends ApiControllerBase {
     public Ret detail(Long id, String slug) {
         if (id != null) {
             SinglePage page = service.findById(id);
-            return Ret.ok("page", page);
+            return Ret.ok("detail", page);
         }
 
         if (slug != null) {
             SinglePage page = service.findFirstBySlug(slug);
-            return Ret.ok("page", page);
+            return Ret.ok("detail", page);
         }
 
         return Rets.FAIL;
@@ -65,31 +65,34 @@ public class PageApiController extends ApiControllerBase {
      * @param flag
      * @return
      */
-    public Ret list(@NotEmpty String flag) {
+    public Ret listByFlag(@NotEmpty String flag) {
         List<SinglePage> pages = service.findListByFlag(flag);
-        return Ret.ok().set("pages", pages);
+        return Ret.ok().set("list", pages);
     }
 
 
 
     /**
-     * 创建新的文章
-     * @param page
-     * @return
+     * 删除页面
      */
-    public Ret create(@JsonBody @NotNull SinglePage page) {
-        service.save(page);
+    public Ret doDelete(@NotNull Long id) {
+        service.deleteById(id);
         return Rets.OK;
     }
 
+    /**
+     * 创建新页面
+     */
+    public Ret doCreate(@JsonBody SinglePage singlePage) {
+        Object id = service.save(singlePage);
+        return Ret.ok().set("id",id);
+    }
 
     /**
-     * 更新文章
-     * @param page
-     * @return
+     * 更新页面
      */
-    public Ret update(@JsonBody @NotNull SinglePage page) {
-        service.update(page);
+    public Ret doUpdate(@JsonBody SinglePage singlePage) {
+        service.update(singlePage);
         return Rets.OK;
     }
 

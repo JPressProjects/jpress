@@ -8,6 +8,10 @@ wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash insta
 
 安装完成后，需要访问 `http://ip地址` 即可访问到 JPress，并走自动安装流程。
 
+
+一键安装视频教程：[http://www.ketang8.com/course/study?chapterId=184](http://www.ketang8.com/course/study?chapterId=184)
+
+
 ::: tip 提示
 `install.sh` 后边的参数是端口号，不输入默认为 8080。若在安装的过程中有错误（一般情况都是网络错误），一般只需要再执行一遍即可。
 :::

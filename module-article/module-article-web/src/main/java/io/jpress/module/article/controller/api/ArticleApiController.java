@@ -42,8 +42,7 @@ import java.util.stream.Collectors;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 文章前台页面Controller
- * @Package io.jpress.module.article.admin
+ * @Title: 文章相关的 API
  */
 @RequestMapping("/api/article")
 public class ArticleApiController extends ApiControllerBase {
@@ -81,7 +80,7 @@ public class ArticleApiController extends ApiControllerBase {
         }
 
         articleService.doIncArticleViewCount(article.getId());
-        return Ret.ok().set("article", article);
+        return Ret.ok().set("detail", article);
     }
 
     /**
@@ -151,9 +150,9 @@ public class ArticleApiController extends ApiControllerBase {
      * @param count
      * @return
      */
-    public Ret articlesByCategoryId(@NotNull Long categoryId, @DefaultValue("10") int count) {
+    public Ret listByCategoryId(@NotNull Long categoryId, @DefaultValue("10") int count) {
         List<Article> articles = articleService.findListByCategoryId(categoryId, null, "id desc", count);
-        return Ret.ok().set("articles", articles);
+        return Ret.ok().set("list", articles);
     }
 
 
@@ -163,21 +162,21 @@ public class ArticleApiController extends ApiControllerBase {
      * @param count
      * @return
      */
-    public Ret articlesByCategorySlug(@NotEmpty String categorySlug, @DefaultValue("10") int count) {
+    public Ret listByCategorySlug(@NotEmpty String categorySlug, @DefaultValue("10") int count) {
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, categorySlug);
         if (category == null) {
             return Rets.FAIL;
         }
 
         List<Article> articles = articleService.findListByCategoryId(category.getId(), null, "id desc", count);
-        return Ret.ok().set("articles", articles);
+        return Ret.ok().set("list", articles);
     }
 
 
     /**
      * 通过 文章属性 获得文章列表
      */
-    public Ret articlesByFlag(@NotEmpty String flag, Boolean hasThumbnail, String orderBy, @DefaultValue("10") int count) {
+    public Ret listByFlag(@NotEmpty String flag, Boolean hasThumbnail, String orderBy, @DefaultValue("10") int count) {
 
         Columns columns = Columns.create("flag", flag);
         if (hasThumbnail != null) {
@@ -189,15 +188,15 @@ public class ArticleApiController extends ApiControllerBase {
         }
 
         List<Article> articles = articleService.findListByColumns(columns, orderBy, count);
-        return Ret.ok().set("articles", articles);
+        return Ret.ok().set("list", articles);
     }
 
     /**
      * 某一篇文章的相关文章
      */
-    public Ret articlesByRelevant(@NotNull Long articleId, @DefaultValue("3") int count) {
+    public Ret listByRelevant(@NotNull Long articleId, @DefaultValue("3") int count) {
         List<Article> relevantArticles = articleService.findRelevantListByArticleId(articleId, Article.STATUS_NORMAL, count);
-        return Ret.ok().set("articles", relevantArticles);
+        return Ret.ok().set("list", relevantArticles);
     }
 
 
@@ -215,22 +214,25 @@ public class ArticleApiController extends ApiControllerBase {
 
 
     /**
-     * 创建新的文章
-     * @param article
-     * @return
+     * 删除文章
      */
-    public Ret create(@JsonBody @NotNull Article article) {
-        articleService.save(article);
+    public Ret doDelete(@NotNull Long id) {
+        articleService.deleteById(id);
         return Rets.OK;
     }
 
+    /**
+     * 创建新文章
+     */
+    public Ret doCreate(@JsonBody Article article) {
+        Object id = articleService.save(article);
+        return Ret.ok().set("id",id);
+    }
 
     /**
      * 更新文章
-     * @param article
-     * @return
      */
-    public Ret update(@JsonBody @NotNull Article article) {
+    public Ret doUpdate(@JsonBody Article article) {
         articleService.update(article);
         return Rets.OK;
     }

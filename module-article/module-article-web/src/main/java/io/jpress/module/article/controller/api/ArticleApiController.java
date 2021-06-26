@@ -24,7 +24,6 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
-import io.jpress.commons.layer.SortKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -35,9 +34,7 @@ import io.jpress.web.base.ApiControllerBase;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -83,53 +80,7 @@ public class ArticleApiController extends ApiControllerBase {
         return Ret.ok().set("detail", article);
     }
 
-    /**
-     * 获取文章的分类
-     */
-    public Ret categories(@NotEmpty String type, Long pid) {
 
-        List<ArticleCategory> categories = categoryService.findListByType(type);
-        if (categories == null || categories.isEmpty()) {
-            return Ret.ok().set("categories", new HashMap<>());
-        }
-
-        if (pid != null) {
-            categories = categories.stream()
-                    .filter(category -> pid.equals(category.getPid()))
-                    .collect(Collectors.toList());
-        } else {
-            SortKit.toTree(categories);
-        }
-
-        return Ret.ok().set("categories", categories);
-    }
-
-
-    /**
-     * 获取分类详情的API
-     * <p>
-     * 可以通过 id 获取文章分类，也可以通过 type + slug 定位到分类
-     * 分类可能是后台对应的分类，有可以是一个tag（tag也是一种分类）
-     * <p>
-     * 例如：
-     * http://127.0.0.1:8080/api/article/category?id=123
-     * 或者
-     * http://127.0.0.1:8080/api/article/category?type=category&slug=myslug
-     * http://127.0.0.1:8080/api/article/category?type=tag&slug=myslug
-     */
-    public Ret category(Long id, String slug, String type) {
-        if (id == null && slug == null) {
-            return Ret.fail().set("message", "id 或者 slug 必须有一个不能为空");
-        }
-
-        if (id != null) {
-            ArticleCategory category = categoryService.findById(id);
-            return Ret.ok("category", category);
-        }
-
-        ArticleCategory category = categoryService.findFirstByTypeAndSlug(type, slug);
-        return Ret.ok("category", category);
-    }
 
 
     /**

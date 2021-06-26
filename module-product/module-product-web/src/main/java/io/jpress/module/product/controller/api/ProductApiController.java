@@ -54,14 +54,14 @@ public class ProductApiController extends ApiControllerBase {
         }
 
         productService.doIncProductViewCount(product.getId());
-        return Ret.ok().set("product", product);
+        return Ret.ok().set("detail", product);
     }
 
 
     /**
      * 根据产品的 Flag 获取产品列表
      */
-    public Ret productsByFlag(String flag, Boolean hasThumbnail, String orderBy, @DefaultValue("10") int count) {
+    public Ret listByFlag(String flag, Boolean hasThumbnail, String orderBy, @DefaultValue("10") int count) {
 
         Columns columns = Columns.create("flag", flag);
         if (hasThumbnail != null) {
@@ -73,16 +73,16 @@ public class ProductApiController extends ApiControllerBase {
         }
 
         List<Product> products = productService.findListByColumns(columns, orderBy, count);
-        return Ret.ok().set("products", products);
+        return Ret.ok().set("list", products);
     }
 
 
     /**
      * 某个商品的相关商品
      */
-    public Ret productsByRelevant(@NotNull @Min(1) Long id, @DefaultValue("3") int count) {
+    public Ret listByRelevant(@NotNull @Min(1) Long id, @DefaultValue("3") int count) {
         List<Product> relevantProducts = productService.findRelevantListByProductId(id, Product.STATUS_NORMAL, count);
-        return Ret.ok().set("products", relevantProducts);
+        return Ret.ok().set("list", relevantProducts);
     }
 
 

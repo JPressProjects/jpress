@@ -21,7 +21,7 @@
 
   ```json
   {"state":"ok",
-    "article":{
+    "detail":{
       "id":1,
       "title":"文章标题",
       "...."
@@ -31,7 +31,7 @@
 
 ## 获取文章分类
 
-- 访问路径: `/api/article/categories`
+- 访问路径: `/api/article/category/list`
 - 数据类型: `application/x-www-form-urlencoded`
 - 参数：
 
@@ -46,7 +46,7 @@
 
   ```json
   {"state":"ok",
-    "categories":[
+    "list":[
       {"pid":0,
         "title":"分类1",
         "id":1,
@@ -65,7 +65,7 @@
 
 ## 获取单个文章分类
 
-- 访问路径: `/api/article/category`
+- 访问路径: `/api/article/category/detail`
 - 数据类型: `application/x-www-form-urlencoded`
 - 参数：
 
@@ -83,7 +83,7 @@
   ```json
   {
   "state":"ok",
-    "category":{
+    "detail":{
       "pid":0,
       "title":"分类1",
       "id":1
@@ -130,7 +130,7 @@
 
 ## 根据文章分类获取文章列表
 
-- 访问路径: `/api/article/articlesByCategoryId`
+- 访问路径: `/api/article/listByCategoryId`
 - 数据类型: `application/x-www-form-urlencoded`
 - 参数：
 
@@ -142,7 +142,7 @@
 
 ## 根据文章分类的 Tag 获取文章列表
 
-- 访问路径: `/api/article/articlesByCategoryTag`
+- 访问路径: `/api/article/listByCategoryTag`
 - 数据类型: `application/x-www-form-urlencoded`
 - 参数：
 
@@ -154,7 +154,7 @@
 
 ## 根据文章标识获取文章
 
-- 访问路径: `/api/article/articlesByFlag`
+- 访问路径: `/api/article/listByFlag`
 - 数据类型: `application/x-www-form-urlencoded`
 - 参数：
 
@@ -168,7 +168,7 @@
 
 ## 获取某一篇文章的相关文章
 
-- 访问路径: `/api/article/articlesByRelevant`
+- 访问路径: `/api/article/listByRelevant`
 - 数据类型: `application/x-www-form-urlencoded`
 - 参数：
 
@@ -193,7 +193,7 @@
 
 ## 根据文章标识获取文章
 
-- 访问路径: `/api/article/articlesByFlag`
+- 访问路径: `/api/article/listByFlag`
 - 数据类型: `application/x-www-form-urlencoded`
 - 参数：
 
@@ -207,7 +207,7 @@
 
 ## 发布新文章
 
-- 访问路径: `/api/article/create`
+- 访问路径: `/api/article/doCreate`
 - 数据类型: `application/json`
 - 参数：
 
@@ -218,7 +218,7 @@
 
 ## 更新文章
 
-- 访问路径: `/api/article/update`
+- 访问路径: `/api/article/doUpdate`
 - 数据类型: `application/json`
 - 参数：
 

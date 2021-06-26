@@ -62,11 +62,11 @@ public class ArticleCategoryApiController extends ApiControllerBase {
 
         if (id != null) {
             ArticleCategory category = categoryService.findById(id);
-            return Ret.ok("category", category);
+            return Ret.ok("detail", category);
         }
 
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(type, slug);
-        return Ret.ok("category", category);
+        return Ret.ok("detail", category);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ArticleCategoryApiController extends ApiControllerBase {
 
         List<ArticleCategory> categories = categoryService.findListByType(type);
         if (categories == null || categories.isEmpty()) {
-            return Ret.ok().set("categories", new HashMap<>());
+            return Ret.ok().set("list", new HashMap<>());
         }
 
         if (pid != null) {
@@ -87,7 +87,7 @@ public class ArticleCategoryApiController extends ApiControllerBase {
             SortKit.toTree(categories);
         }
 
-        return Ret.ok().set("categories", categories);
+        return Ret.ok().set("list", categories);
     }
 
 

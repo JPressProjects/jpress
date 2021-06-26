@@ -37,6 +37,7 @@ public class UserCouponApiController extends ApiControllerBase {
 
     @Inject
     private CouponCodeService couponCodeService;
+
     /**
      * 用户的优惠券列表
      */
@@ -49,9 +50,8 @@ public class UserCouponApiController extends ApiControllerBase {
     /**
      * 支付是，获取用户可用的优惠券
      */
-    public void findAvailable(){
-        String price = getPara("price");
-        List<CouponCode> couponCodes = couponCodeService.findAvailableByUserId(getLoginedUser().getId(), new BigDecimal(price));
+    public void findAvailable(@NotNull BigDecimal price){
+        List<CouponCode> couponCodes = couponCodeService.findAvailableByUserId(getLoginedUser().getId(), price);
         renderOkDataJson(couponCodes);
     }
 

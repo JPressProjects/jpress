@@ -42,7 +42,7 @@ public class UserAddressApiController extends ApiControllerBase {
      * 收货地址列表
      */
     public Ret detail(@NotNull Long id) {
-        return Ret.ok().set("address",userAddressService.findById(id));
+        return Ret.ok().set("detail",userAddressService.findById(id));
     }
 
 
@@ -51,7 +51,7 @@ public class UserAddressApiController extends ApiControllerBase {
      */
     public Ret listByUserId(@NotNull Long userId) {
         List<UserAddress> addresses = userAddressService.findListByUserId(userId);
-        return Ret.ok().set("addresses", addresses);
+        return Ret.ok().set("list", addresses);
     }
 
     /**

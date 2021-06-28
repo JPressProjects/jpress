@@ -15,6 +15,7 @@
  */
 package io.jpress.module.product.controller.api;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.aop.annotation.DefaultValue;
 import io.jboot.apidoc.ContentType;
@@ -24,52 +25,52 @@ import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
-import io.jpress.model.UserOrder;
-import io.jpress.service.UserOrderService;
+import io.jpress.module.product.model.ProductComment;
+import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.web.base.ApiControllerBase;
 
 import javax.validation.constraints.NotNull;
 
+
 /**
- * @author haicuan139 (haicuan139@163.com)
- * @Date: 2019/12/24
+ * @author Michael Yang 杨福海 （fuhai999@gmail.com）
+ * @version V1.0
+ * @Title: 文章评论相关 API
  */
-@RequestMapping("/api/userOrder")
-@Api("订单相关API")
-public class UserOrderApiController extends ApiControllerBase {
+@RequestMapping("/api/product/comment")
+@Api("文章评论相关API")
+public class ProductCommentApiController extends ApiControllerBase {
+
+    @Inject
+    private ProductCommentService commentService;
 
 
-    private UserOrderService userOrderService;
-
-    @ApiOper("分页查询用户订单")
-    public Ret paginateByUserId(@ApiPara("用户ID") @NotNull Long userId
-            , @ApiPara(value = "订单标题", notes = "一般用户搜索") String title
-            , @ApiPara(value = "订单号", notes = "一般用户搜索") String ns
-            , @ApiPara("页码") @DefaultValue("1") int pageNumber
+    @ApiOper("分页查询谋个产品的评论")
+    public Ret paginateByProductId(@ApiPara("产品ID") @NotNull Long productId
+            , @ApiPara("分页页码") @DefaultValue("1") int pageNumber
             , @ApiPara("每页数据量") @DefaultValue("10") int pageSize) {
-        return Ret.ok().set("page", userOrderService.paginateByUserId(pageNumber, pageSize, userId, title, ns));
+        return Ret.ok().set("page", commentService.paginateByProductIdInNormal(pageNumber, pageSize, productId));
     }
 
 
-    @ApiOper("删除订单")
-    public Ret doDelete(@ApiPara("订单ID") @NotNull Long id) {
-        userOrderService.deleteById(id);
+    @ApiOper("删除评论")
+    public Ret doDelete(@ApiPara("评论ID") @NotNull Long id) {
+        commentService.deleteById(id);
         return Rets.OK;
     }
 
 
-    @ApiOper(value = "创建订单", contentType = ContentType.JSON)
-    public Ret doCreate(@ApiPara("订单的 JSON 信息") @NotNull @JsonBody UserOrder userOrder) {
-        Object id = userOrderService.save(userOrder);
+    @ApiOper(value = "创建新的评论", contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("评论的 json") @JsonBody ProductComment productComment) {
+        Object id = commentService.save(productComment);
         return Ret.ok().set("id", id);
     }
 
 
-    @ApiOper(value = "更新订单", contentType = ContentType.JSON)
-    public Ret doUpdate(@ApiPara("订单的 JSON 信息") @NotNull @JsonBody UserOrder userOrder) {
-        userOrderService.update(userOrder);
+    @ApiOper(value = "更新评论信息", contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("评论的 json") @JsonBody ProductComment productComment) {
+        commentService.update(productComment);
         return Rets.OK;
     }
-
 
 }

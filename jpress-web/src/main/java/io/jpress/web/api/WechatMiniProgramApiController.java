@@ -21,6 +21,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import io.jboot.Jboot;
+import io.jboot.apidoc.annotation.Api;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
@@ -29,6 +30,7 @@ import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
 import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
+import io.jpress.web.api.html2wxml.Html2WxmlController;
 import io.jpress.web.interceptor.ApiInterceptor;
 
 import java.util.Date;
@@ -39,6 +41,7 @@ import java.util.Date;
 @RequestMapping("/api/wechat/mp")
 @Before({ApiInterceptor.class,
         WechatMiniProgramApiInterceptor.class})
+@Api(value = "微信小程序相关API",collect = Html2WxmlController.class)
 public class WechatMiniProgramApiController extends BaseWechatDecryptController {
 
     @Inject

@@ -17,6 +17,10 @@ package io.jpress.module.product.controller.api;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.Api;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -33,48 +37,42 @@ import java.util.List;
  * @Date: 2019/12/24
  */
 @RequestMapping("/api/userCoupon")
+@Api("优惠券相关API")
 public class UserCouponApiController extends ApiControllerBase {
 
     @Inject
     private CouponCodeService couponCodeService;
 
-    /**
-     * 用户的优惠券列表
-     */
-    public void index(){
-        List<CouponCode> renderList = couponCodeService.findAvailableByUserId(getLoginedUser().getId());
-        renderOkDataJson(renderList);
+    @ApiOper("查询可用的优惠券")
+    public Ret listByUserId(@ApiPara("用户ID") @NotNull Long userId) {
+        List<CouponCode> renderList = couponCodeService.findAvailableByUserId(userId);
+        return Ret.ok().set("list", renderList);
     }
 
 
-    /**
-     * 支付是，获取用户可用的优惠券
-     */
-    public void findAvailable(@NotNull BigDecimal price){
-        List<CouponCode> couponCodes = couponCodeService.findAvailableByUserId(getLoginedUser().getId(), price);
-        renderOkDataJson(couponCodes);
+    @ApiOper("查询可用的优惠券")
+    public Ret listByUserIdAndPrice(@ApiPara("用户ID") @NotNull Long userId, @ApiPara("消费的订单价格") @NotNull BigDecimal price) {
+        List<CouponCode> couponCodes = couponCodeService.findAvailableByUserId(userId, price);
+        return Ret.ok().set("list", couponCodes);
     }
 
-    /**
-     * 购物车中删除
-     */
-    public Ret doDelete(@NotNull Long id) {
+
+    @ApiOper("删除优惠码")
+    public Ret doDelete(@ApiPara("优惠码ID") Long id) {
         couponCodeService.deleteById(id);
         return Rets.OK;
     }
 
-    /**
-     * 添加到购物车
-     */
-    public Ret doCreate(@JsonBody CouponCode couponCode) {
+
+    @ApiOper(value = "创建新的优惠码", contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("优惠码 JSON 信息") @JsonBody CouponCode couponCode) {
         Object id = couponCodeService.save(couponCode);
-        return Ret.ok().set("id",id);
+        return Ret.ok().set("id", id);
     }
 
-    /**
-     * 改变购物车中商品的数量
-     */
-    public Ret doUpdate(@JsonBody CouponCode couponCode) {
+
+    @ApiOper(value = "改变优惠码信息", contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("优惠码 JSON 信息") CouponCode couponCode) {
         couponCodeService.update(couponCode);
         return Rets.OK;
     }

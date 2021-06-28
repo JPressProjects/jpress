@@ -1,6 +1,9 @@
 package io.jpress.web.api.html2wxml;
 
 import com.jfinal.kit.StrKit;
+import io.jboot.apidoc.HttpMethod;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
@@ -16,8 +19,8 @@ import java.util.Collections;
 @RequestMapping("/api/wechat/mp/html2wxml")
 public class Html2WxmlController extends ApiControllerBase {
 
-    public void index() {
-        String html = getPara("html"); // 要求html内容必须通过post传过来
+    @ApiOper("Html 转为 Wxml")
+    public void index(@ApiPara(value = "html内容", method = HttpMethod.POST) String html) {
         Params params = getParams();
         String resultJson = HtmlToJson.by(html, params).get();
 
@@ -45,7 +48,7 @@ public class Html2WxmlController extends ApiControllerBase {
         Boolean linenums = getParaToBoolean("linenums", true);
 
         //获取a和img静态资源的根路径URL
-        String baseUri = StrUtil.obtainDefault(JPressOptions.getCDNDomain(),getBaseUrl());
+        String baseUri = StrUtil.obtainDefault(JPressOptions.getCDNDomain(), getBaseUrl());
 
         Params params = new Params();
         params.setHighlight(highlight);

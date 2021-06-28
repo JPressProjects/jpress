@@ -17,6 +17,10 @@ package io.jpress.module.product.controller.api;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.Api;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -32,56 +36,47 @@ import java.util.List;
  * @Date: 2019/12/24
  */
 @RequestMapping("/api/userAddress")
+@Api("用户地址相关API")
 public class UserAddressApiController extends ApiControllerBase {
 
 
     @Inject
     private UserAddressService userAddressService;
 
-    /**
-     * 收货地址列表
-     */
-    public Ret detail(@NotNull Long id) {
-        return Ret.ok().set("detail",userAddressService.findById(id));
+
+    @ApiOper("收货地址详情")
+    public Ret detail(@ApiPara("收货地址ID") @NotNull Long id) {
+        return Ret.ok().set("detail", userAddressService.findById(id));
     }
 
 
-    /**
-     * 收货地址列表
-     */
-    public Ret listByUserId(@NotNull Long userId) {
+    @ApiOper("某个用户的收货地址列表")
+    public Ret listByUserId(@ApiPara("用户ID") @NotNull Long userId) {
         List<UserAddress> addresses = userAddressService.findListByUserId(userId);
         return Ret.ok().set("list", addresses);
     }
 
-    /**
-     * 获取用户默认的收货地址
-     */
-    public Ret findUserDefaultAddress(@NotNull Long userId) {
+
+    @ApiOper("获取用户默认的收货地址")
+    public Ret findUserDefaultAddress(@ApiPara("用户ID") @NotNull Long userId) {
         return Ret.ok("address", userAddressService.findDefaultAddress(userId));
     }
 
 
-    /**
-     * 删除用户地址
-     */
-    public Ret doDelete(@NotNull Long id) {
+    @ApiOper("删除用户地址")
+    public Ret doDelete(@ApiPara("收货地址ID") @NotNull Long id) {
         userAddressService.deleteById(id);
         return Rets.OK;
     }
 
-    /**
-     * 新增用户地址
-     */
-    public Ret doCreate(@JsonBody UserAddress userAddress) {
+    @ApiOper(value = "新增用户地址", contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("收货地址ID") @JsonBody UserAddress userAddress) {
         Object id = userAddressService.save(userAddress);
-        return Ret.ok().set("id",id);
+        return Ret.ok().set("id", id);
     }
 
-    /**
-     * 更新用户地址
-     */
-    public Ret doUpdate(@JsonBody UserAddress userAddress) {
+    @ApiOper(value = "更新用户地址", contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("收货地址ID") @JsonBody UserAddress userAddress) {
         userAddressService.update(userAddress);
         return Rets.OK;
     }

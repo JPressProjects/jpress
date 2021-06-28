@@ -18,6 +18,10 @@ package io.jpress.module.article.controller.api;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.aop.annotation.DefaultValue;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.Api;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -34,36 +38,37 @@ import javax.validation.constraints.NotNull;
  * @Title: 文章评论相关 API
  */
 @RequestMapping("/api/article/comment")
+@Api("文章评论相关API")
 public class ArticleCommentApiController extends ApiControllerBase {
 
     @Inject
     private ArticleCommentService commentService;
 
 
-    public Ret paginateByArticleId(@NotNull Long articleId, @DefaultValue("1") int pageNumber, @DefaultValue("10") int pageSize) {
+    @ApiOper("分页查询谋篇文章的评论")
+    public Ret paginateByArticleId(@ApiPara("文章ID") @NotNull Long articleId
+            , @ApiPara("分页页码") @DefaultValue("1") int pageNumber
+            , @ApiPara("每页数据量") @DefaultValue("10") int pageSize) {
         return Ret.ok().set("page", commentService.paginateByArticleIdInNormal(pageNumber, pageSize, articleId));
     }
 
-    /**
-     * 删除评论
-     */
-    public Ret doDelete(@NotNull Long id) {
+
+    @ApiOper("删除评论")
+    public Ret doDelete(@ApiPara("评论ID") @NotNull Long id) {
         commentService.deleteById(id);
         return Rets.OK;
     }
 
-    /**
-     * 创建新评论
-     */
-    public Ret doCreate(@JsonBody ArticleComment articleComment) {
+
+    @ApiOper(value = "创建新的评论", contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("评论的 json") @JsonBody ArticleComment articleComment) {
         Object id = commentService.save(articleComment);
         return Ret.ok().set("id", id);
     }
 
-    /**
-     * 更新评论
-     */
-    public Ret doUpdate(@JsonBody ArticleComment articleComment) {
+
+    @ApiOper(value = "更新评论信息", contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("评论的 json") @JsonBody ArticleComment articleComment) {
         commentService.update(articleComment);
         return Rets.OK;
     }

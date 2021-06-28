@@ -16,6 +16,10 @@
 package io.jpress.module.product.controller.api;
 
 import com.jfinal.kit.Ret;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.Api;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -30,37 +34,30 @@ import javax.validation.constraints.NotNull;
  * @Date: 2019/12/24
  */
 @RequestMapping("/api/userCart")
+@Api("购物车相关API")
 public class UserCartApiController extends ApiControllerBase {
 
     private UserCartService userCartService;
 
-    /**
-     * 购物车列表
-     */
-    public Ret listByUser(@NotNull Long userId){
-        return Ret.ok().set("list",userCartService.findListByUserId(userId));
+    @ApiOper("某个用户的购物车列表")
+    public Ret listByUserId(@ApiPara("用户ID") @NotNull Long userId) {
+        return Ret.ok().set("list", userCartService.findListByUserId(userId));
     }
 
-    /**
-     * 购物车中删除
-     */
-    public Ret doDelete(@NotNull Long id){
+    @ApiOper("删除购物车产品")
+    public Ret doDelete(@ApiPara("购物车产品ID") @NotNull Long id) {
         userCartService.deleteById(id);
         return Rets.OK;
     }
 
-    /**
-     * 添加到购物车
-     */
-    public Ret doCreate(@JsonBody UserCart userCart){
+    @ApiOper(value = "创建购物车产品",contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("购物车产品 JSON 信息") @JsonBody UserCart userCart) {
         Object id = userCartService.save(userCart);
-        return Ret.ok().set("id",id);
+        return Ret.ok().set("id", id);
     }
 
-    /**
-     * 改变购物车中商品的数量
-     */
-    public Ret doUpdate(@JsonBody UserCart userCart){
+    @ApiOper(value = "更新购物车产品",contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("购物车产品 JSON 信息") @JsonBody UserCart userCart) {
         userCartService.update(userCart);
         return Rets.OK;
     }

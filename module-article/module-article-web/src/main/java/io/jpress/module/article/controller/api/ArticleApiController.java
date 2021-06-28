@@ -19,6 +19,10 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.DefaultValue;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.Api;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -28,8 +32,6 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.service.OptionService;
-import io.jpress.service.UserService;
 import io.jpress.web.base.ApiControllerBase;
 
 import javax.validation.constraints.NotEmpty;
@@ -42,6 +44,7 @@ import java.util.List;
  * @Title: 文章相关的 API
  */
 @RequestMapping("/api/article")
+@Api("文章相关API文档")
 public class ArticleApiController extends ApiControllerBase {
 
     @Inject
@@ -50,21 +53,9 @@ public class ArticleApiController extends ApiControllerBase {
     @Inject
     private ArticleCategoryService categoryService;
 
-    @Inject
-    private OptionService optionService;
 
-    @Inject
-    private UserService userService;
-
-    /**
-     * 文章详情的api
-     * 可以传 id 获取文章详情，也可以通过 slug 来获取文章详情
-     * 例如：
-     * http://127.0.0.1:8080/api/article/detail?id=123
-     * 或者
-     * http://127.0.0.1:8080/api/article/detail?slug=myslug
-     */
-    public Ret detail(Long id, String slug) {
+    @ApiOper(value = "文章详情", paraNotes = "id 或者 slug 必须传入一个值")
+    public Ret detail(@ApiPara("文章ID") Long id, @ApiPara("文章固定连接") String slug) {
 
         if (id == null && slug == null) {
             return Ret.fail().set("message", "id 或 slug 必须有一个值");
@@ -81,12 +72,14 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
 
-
-
     /**
      * 通过 分类ID 分页读取文章列表
      */
-    public Ret paginate(Long categoryId, String orderBy, @DefaultValue("1") int pageNumber, @DefaultValue("10") int pageSize) {
+    @ApiOper("文章分页读取")
+    public Ret paginate(@ApiPara("文章分类ID") Long categoryId
+            , @ApiPara("排序方式") String orderBy
+            , @ApiPara("分页的页码") @DefaultValue("1") int pageNumber
+            , @ApiPara("每页的数据数量") @DefaultValue("10") int pageSize) {
         Page<Article> page = categoryId == null
                 ? articleService.paginateInNormal(pageNumber, pageSize, orderBy)
                 : articleService.paginateByCategoryIdInNormal(pageNumber, pageSize, categoryId, orderBy);
@@ -97,11 +90,14 @@ public class ArticleApiController extends ApiControllerBase {
 
     /**
      * 通过文章分类的 ID 操作文章列表
+     *
      * @param categoryId
      * @param count
      * @return
      */
-    public Ret listByCategoryId(@NotNull Long categoryId, @DefaultValue("10") int count) {
+    @ApiOper("根据文章分的ID查找文章列表")
+    public Ret listByCategoryId(@ApiPara("文章分类ID") @NotNull Long categoryId
+            , @ApiPara("查询数量") @DefaultValue("10") int count) {
         List<Article> articles = articleService.findListByCategoryId(categoryId, null, "id desc", count);
         return Ret.ok().set("list", articles);
     }
@@ -109,11 +105,14 @@ public class ArticleApiController extends ApiControllerBase {
 
     /**
      * 通过文章分类的固定链接查找所有文章列表
+     *
      * @param categorySlug
      * @param count
      * @return
      */
-    public Ret listByCategorySlug(@NotEmpty String categorySlug, @DefaultValue("10") int count) {
+    @ApiOper("根据文章分类的固定连接查找文章列表")
+    public Ret listByCategorySlug(@ApiPara("分类的固定连接") @NotEmpty String categorySlug
+            , @ApiPara("查询数量") @DefaultValue("10") int count) {
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, categorySlug);
         if (category == null) {
             return Rets.FAIL;
@@ -127,7 +126,11 @@ public class ArticleApiController extends ApiControllerBase {
     /**
      * 通过 文章属性 获得文章列表
      */
-    public Ret listByFlag(@NotEmpty String flag, Boolean hasThumbnail, String orderBy, @DefaultValue("10") int count) {
+    @ApiOper("根据文章的 flag 查找文章列表")
+    public Ret listByFlag(@ApiPara("文章标识") @NotEmpty String flag
+            , @ApiPara(value = "是否必须要图片", notes = "true 必须有图片，false 必须无图片") Boolean hasThumbnail
+            , @ApiPara("排序方式") String orderBy
+            , @ApiPara("查询数量") @DefaultValue("10") int count) {
 
         Columns columns = Columns.create("flag", flag);
         if (hasThumbnail != null) {
@@ -142,21 +145,19 @@ public class ArticleApiController extends ApiControllerBase {
         return Ret.ok().set("list", articles);
     }
 
-    /**
-     * 某一篇文章的相关文章
-     */
-    public Ret listByRelevant(@NotNull Long articleId, @DefaultValue("3") int count) {
+
+    @ApiOper("查询某一篇文章的 相关文章")
+    public Ret listByRelevant(@ApiPara("文章ID") @NotNull Long articleId
+            , @ApiPara("查询数量") @DefaultValue("3") int count) {
         List<Article> relevantArticles = articleService.findRelevantListByArticleId(articleId, Article.STATUS_NORMAL, count);
         return Ret.ok().set("list", relevantArticles);
     }
 
 
-    /**
-     * 搜索文章
-     *
-     * @param keyword
-     */
-    public Ret search(String keyword, @DefaultValue("1") int pageNumber, @DefaultValue("10") int pageSize) {
+    @ApiOper("文章搜索")
+    public Ret search(@ApiPara("关键词") String keyword
+            , @ApiPara("分页页码") @DefaultValue("1") int pageNumber
+            , @ApiPara("每页数量") @DefaultValue("10") int pageSize) {
         Page<Article> dataPage = StrUtil.isNotBlank(keyword)
                 ? articleService.search(keyword, pageNumber, pageSize)
                 : null;
@@ -164,26 +165,20 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
 
-    /**
-     * 删除文章
-     */
-    public Ret doDelete(@NotNull Long id) {
+    @ApiOper("删除文章")
+    public Ret doDelete(@ApiPara("文章ID") @NotNull Long id) {
         articleService.deleteById(id);
         return Rets.OK;
     }
 
-    /**
-     * 创建新文章
-     */
-    public Ret doCreate(@JsonBody Article article) {
+    @ApiOper(value = "创建新文章", contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("文章的 JSON 信息") @JsonBody Article article) {
         Object id = articleService.save(article);
-        return Ret.ok().set("id",id);
+        return Ret.ok().set("id", id);
     }
 
-    /**
-     * 更新文章
-     */
-    public Ret doUpdate(@JsonBody Article article) {
+    @ApiOper(value = "更新文章", contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("文章的 JSON 信息") @JsonBody Article article) {
         articleService.update(article);
         return Rets.OK;
     }

@@ -17,6 +17,10 @@ package io.jpress.module.page.controller;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.Api;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -33,18 +37,14 @@ import java.util.List;
  * @version V1.0
  */
 @RequestMapping("/api/page")
+@Api("页面相关的API")
 public class PageApiController extends ApiControllerBase {
 
     @Inject
     private SinglePageService service;
 
-    /**
-     * 页面详情
-     * @param id
-     * @param slug
-     * @return
-     */
-    public Ret detail(Long id, String slug) {
+    @ApiOper(value = "页面详情", paraNotes = "id 和 slug 必须有一个不能为空")
+    public Ret detail(@ApiPara("页面ID") Long id, @ApiPara("页面固定连接") String slug) {
         if (id != null) {
             SinglePage page = service.findById(id);
             return Ret.ok("detail", page);
@@ -59,38 +59,29 @@ public class PageApiController extends ApiControllerBase {
     }
 
 
-    /**
-     * 页面列表
-     * @param flag
-     * @return
-     */
-    public Ret listByFlag(@NotEmpty String flag) {
+    @ApiOper("根据 flag 查询页面列表")
+    public Ret listByFlag(@ApiPara("页面的 flag 标识") @NotEmpty String flag) {
         List<SinglePage> pages = service.findListByFlag(flag);
         return Ret.ok().set("list", pages);
     }
 
 
-
-    /**
-     * 删除页面
-     */
-    public Ret doDelete(@NotNull Long id) {
+    @ApiOper("删除页面")
+    public Ret doDelete(@ApiPara("页面id") @NotNull Long id) {
         service.deleteById(id);
         return Rets.OK;
     }
 
-    /**
-     * 创建新页面
-     */
-    public Ret doCreate(@JsonBody SinglePage singlePage) {
+
+    @ApiOper(value = "创建新页面", contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("页面 json 数据") @JsonBody SinglePage singlePage) {
         Object id = service.save(singlePage);
-        return Ret.ok().set("id",id);
+        return Ret.ok().set("id", id);
     }
 
-    /**
-     * 更新页面
-     */
-    public Ret doUpdate(@JsonBody SinglePage singlePage) {
+
+    @ApiOper(value = "更新页面", contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("页面 json 数据") @JsonBody SinglePage singlePage) {
         service.update(singlePage);
         return Rets.OK;
     }

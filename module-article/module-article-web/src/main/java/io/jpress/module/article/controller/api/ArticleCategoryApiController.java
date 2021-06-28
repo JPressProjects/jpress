@@ -17,6 +17,10 @@ package io.jpress.module.article.controller.api;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.Api;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -37,25 +41,17 @@ import java.util.stream.Collectors;
  * @Title: 文章分类、tag 相关 api
  */
 @RequestMapping("/api/article/category")
+@Api("文章分类相关API文档")
 public class ArticleCategoryApiController extends ApiControllerBase {
 
     @Inject
     private ArticleCategoryService categoryService;
 
 
-    /**
-     * 获取分类详情的API
-     * <p>
-     * 可以通过 id 获取文章分类，也可以通过 type + slug 定位到分类
-     * 分类可能是后台对应的分类，有可以是一个tag（tag也是一种分类）
-     * <p>
-     * 例如：
-     * http://127.0.0.1:8080/api/article/category/detail?id=123
-     * 或者
-     * http://127.0.0.1:8080/api/article/category/detail?type=category&slug=myslug
-     * http://127.0.0.1:8080/api/article/category/detail?type=tag&slug=myslug
-     */
-    public Ret detail(Long id, String slug, String type) {
+    @ApiOper(value = "文章分类详情", paraNotes = "id 或者 slug 必须有一个不能为空")
+    public Ret detail(@ApiPara("分类ID") Long id
+            , @ApiPara("分类固定连接") String slug
+    ) {
         if (id == null && slug == null) {
             return Ret.fail().set("message", "id 或者 slug 必须有一个不能为空");
         }
@@ -65,14 +61,13 @@ public class ArticleCategoryApiController extends ApiControllerBase {
             return Ret.ok("detail", category);
         }
 
-        ArticleCategory category = categoryService.findFirstByTypeAndSlug(type, slug);
+        ArticleCategory category = categoryService.findFirstByFlag(slug);
         return Ret.ok("detail", category);
     }
 
-    /**
-     * 获取文章的分类
-     */
-    public Ret listByType(@NotEmpty String type, Long pid) {
+
+    @ApiOper("根据文章分类的type查询文章分类")
+    public Ret listByType(@ApiPara("分类type") @NotEmpty String type, @ApiPara("上级分类ID") Long pid) {
 
         List<ArticleCategory> categories = categoryService.findListByType(type);
         if (categories == null || categories.isEmpty()) {
@@ -91,26 +86,20 @@ public class ArticleCategoryApiController extends ApiControllerBase {
     }
 
 
-    /**
-     * 删除分类
-     */
-    public Ret doDelete(@NotNull Long id) {
+    @ApiOper("删除文章分类（Tag）")
+    public Ret doDelete(@ApiPara("分类ID") @NotNull Long id) {
         categoryService.deleteById(id);
         return Rets.OK;
     }
 
-    /**
-     * 创建新分类
-     */
-    public Ret doCreate(@JsonBody ArticleCategory articleCategory) {
+    @ApiOper(value = "创建新的文章分类",contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("文章分类json") @JsonBody ArticleCategory articleCategory) {
         Object id = categoryService.save(articleCategory);
-        return Ret.ok().set("id",id);
+        return Ret.ok().set("id", id);
     }
 
-    /**
-     * 更新分类
-     */
-    public Ret doUpdate(@JsonBody ArticleCategory articleCategory) {
+    @ApiOper(value = "更新文章分类",contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("文章分类json") @JsonBody ArticleCategory articleCategory) {
         categoryService.update(articleCategory);
         return Rets.OK;
     }

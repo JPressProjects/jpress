@@ -17,6 +17,10 @@ package io.jpress.module.product.controller.api;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.Api;
+import io.jboot.apidoc.annotation.ApiOper;
+import io.jboot.apidoc.annotation.ApiPara;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -26,45 +30,33 @@ import io.jpress.web.base.ApiControllerBase;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * @author michael yang (fuhai999@gmail.com)
- * @Date: 2019/11/30
- */
 @RequestMapping("/api/product/category")
+@Api("产品分类相关 API")
 public class ProductCategoryApiController extends ApiControllerBase {
 
     @Inject
     private ProductCategoryService productCategoryService;
 
-    /**
-     * 获取商品详情
-     */
-    public Ret detail(Long id, String slug) {
 
-        return Ret.ok();//.set("product", product);
+    @ApiOper(value = "获取商品分类详情", paraNotes = "id 和 slug 必须传入一个值")
+    public Ret detail(@ApiPara("产品ID") Long id, @ApiPara("产品固定连接") String slug) {
+        return Ret.ok();//.set("detail", product);
     }
 
-
-    /**
-     * 删除商品分类
-     */
-    public Ret doDelete(@NotNull Long id) {
+    @ApiOper("删除产品分类")
+    public Ret doDelete(@ApiPara("产品分类ID") @NotNull Long id) {
         productCategoryService.deleteById(id);
         return Rets.OK;
     }
 
-    /**
-     * 新增商品分类
-     */
-    public Ret doCreate(@JsonBody ProductCategory productCategory) {
+    @ApiOper(value = "创建新的产品分类", contentType = ContentType.JSON)
+    public Ret doCreate(@ApiPara("产品分类的 JSON 信息") @JsonBody ProductCategory productCategory) {
         Object id = productCategoryService.save(productCategory);
-        return Ret.ok().set("id",id);
+        return Ret.ok().set("id", id);
     }
 
-    /**
-     * 更新商品分类
-     */
-    public Ret doUpdate(@JsonBody ProductCategory productCategory) {
+    @ApiOper(value = "更新产品分类", contentType = ContentType.JSON)
+    public Ret doUpdate(@ApiPara("产品分类的 JSON 信息") @JsonBody ProductCategory productCategory) {
         productCategoryService.update(productCategory);
         return Rets.OK;
     }

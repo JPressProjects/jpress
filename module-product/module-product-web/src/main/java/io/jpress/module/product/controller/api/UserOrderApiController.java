@@ -15,6 +15,7 @@
  */
 package io.jpress.module.product.controller.api;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.aop.annotation.DefaultValue;
 import io.jboot.apidoc.ContentType;
@@ -39,7 +40,9 @@ import javax.validation.constraints.NotNull;
 public class UserOrderApiController extends ApiControllerBase {
 
 
+    @Inject
     private UserOrderService userOrderService;
+
 
     @ApiOper("分页查询用户订单")
     public Ret paginateByUserId(@ApiPara("用户ID") @NotNull Long userId

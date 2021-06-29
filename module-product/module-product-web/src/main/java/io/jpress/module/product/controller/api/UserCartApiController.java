@@ -15,6 +15,7 @@
  */
 package io.jpress.module.product.controller.api;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.apidoc.ContentType;
 import io.jboot.apidoc.annotation.Api;
@@ -37,6 +38,7 @@ import javax.validation.constraints.NotNull;
 @Api("购物车相关API")
 public class UserCartApiController extends ApiControllerBase {
 
+    @Inject
     private UserCartService userCartService;
 
     @ApiOper("某个用户的购物车列表")

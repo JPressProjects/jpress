@@ -21,6 +21,7 @@ import com.jfinal.kit.Ret;
 import io.jboot.apidoc.annotation.Api;
 import io.jboot.apidoc.annotation.ApiOper;
 import io.jboot.apidoc.annotation.ApiPara;
+import io.jboot.apidoc.annotation.ApiResp;
 import io.jboot.web.controller.annotation.PostRequest;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
@@ -46,6 +47,7 @@ public class UserApiController extends ApiControllerBase {
 
     @PostRequest
     @ApiOper("用户登录")
+    @ApiResp(name = "Jwt", notes = "Jwt 的 token 信息", mock = "ey1NiJ9.eyJpYX0ifQ.Y3p4akomy4")
     public Ret login(@ApiPara(value = "登录账户", notes = "可以是邮箱") @NotNull String loginAccount
             , @ApiPara("登录密码") @NotNull String password) {
         User loginUser = userService.findByUsernameOrEmail(loginAccount);
@@ -67,6 +69,7 @@ public class UserApiController extends ApiControllerBase {
 
 
     @ApiOper("用户详情")
+    @ApiResp(name = "user",dataType = User.class,notes = "用户信息")
     public Ret detail(@ApiPara("用户ID") @NotNull Long id) {
         User user = userService.findById(id);
         return Ret.ok().set("user", user.copy().keepSafe());

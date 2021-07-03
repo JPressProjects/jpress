@@ -23,6 +23,7 @@ import io.jboot.apidoc.ContentType;
 import io.jboot.apidoc.annotation.Api;
 import io.jboot.apidoc.annotation.ApiOper;
 import io.jboot.apidoc.annotation.ApiPara;
+import io.jboot.apidoc.annotation.ApiResp;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -76,6 +77,7 @@ public class ArticleApiController extends ApiControllerBase {
      * 通过 分类ID 分页读取文章列表
      */
     @ApiOper("文章分页读取")
+    @ApiResp(name = "page", notes = "文章分页数据", dataType = Page.class, genericTypes = Article.class)
     public Ret paginate(@ApiPara("文章分类ID") Long categoryId
             , @ApiPara("排序方式") String orderBy
             , @ApiPara("分页的页码") @DefaultValue("1") int pageNumber
@@ -96,6 +98,7 @@ public class ArticleApiController extends ApiControllerBase {
      * @return
      */
     @ApiOper("根据文章分的ID查找文章列表")
+    @ApiResp(name = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
     public Ret listByCategoryId(@ApiPara("文章分类ID") @NotNull Long categoryId
             , @ApiPara("查询数量") @DefaultValue("10") int count) {
         List<Article> articles = articleService.findListByCategoryId(categoryId, null, "id desc", count);

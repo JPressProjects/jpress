@@ -57,8 +57,8 @@ public class OptionApiController extends ApiControllerBase {
 
     @ApiOper("查询配置")
     @ApiResps({
-            @ApiResp(name = "value", notes = "查询单个配置的时候返回的数据", mock = "..."),
-            @ApiResp(name = "values", notes = "查询多个key的时候返回数据", dataType = Map.class, mock = "{\"key1\":\"value1\",\"key2\":\"value2\"}"),
+            @ApiResp(field = "value", notes = "查询单个配置的时候返回的数据", mock = "..."),
+            @ApiResp(field = "values", notes = "查询多个key的时候返回数据", dataType = Map.class, mock = "{\"key1\":\"value1\",\"key2\":\"value2\"}"),
     })
     public Ret query(@ApiPara(value = "查询的 key", notes = "多个 key 用引文逗号隔开") @NotEmpty(message = "key must not empty") String key) {
         if (key.contains(",")) {

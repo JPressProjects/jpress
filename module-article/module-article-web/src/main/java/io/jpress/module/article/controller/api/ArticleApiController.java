@@ -56,7 +56,7 @@ public class ArticleApiController extends ApiControllerBase {
 
 
     @ApiOper(value = "文章详情", paraNotes = "id 或者 slug 必须传入一个值")
-    @ApiResp(name = "detail", dataType = Article.class, notes = "文章详情")
+    @ApiResp(field = "detail", dataType = Article.class, notes = "文章详情")
     public Ret detail(@ApiPara("文章ID") Long id, @ApiPara("文章固定连接") String slug) {
 
         if (id == null && slug == null) {
@@ -78,7 +78,7 @@ public class ArticleApiController extends ApiControllerBase {
      * 通过 分类ID 分页读取文章列表
      */
     @ApiOper("文章分页读取")
-    @ApiResp(name = "page", notes = "文章分页数据", dataType = Page.class, genericTypes = Article.class)
+    @ApiResp(field = "page", notes = "文章分页数据", dataType = Page.class, genericTypes = Article.class)
     public Ret paginate(@ApiPara("文章分类ID") Long categoryId
             , @ApiPara("排序方式") String orderBy
             , @ApiPara("分页的页码") @DefaultValue("1") int pageNumber
@@ -99,7 +99,7 @@ public class ArticleApiController extends ApiControllerBase {
      * @return
      */
     @ApiOper("根据文章分的ID查找文章列表")
-    @ApiResp(name = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
+    @ApiResp(field = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
     public Ret listByCategoryId(@ApiPara("文章分类ID") @NotNull Long categoryId
             , @ApiPara("查询数量") @DefaultValue("10") int count) {
         List<Article> articles = articleService.findListByCategoryId(categoryId, null, "id desc", count);
@@ -115,7 +115,7 @@ public class ArticleApiController extends ApiControllerBase {
      * @return
      */
     @ApiOper("根据文章分类的固定连接查找文章列表")
-    @ApiResp(name = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
+    @ApiResp(field = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
     public Ret listByCategorySlug(@ApiPara("分类的固定连接") @NotEmpty String categorySlug
             , @ApiPara("查询数量") @DefaultValue("10") int count) {
         ArticleCategory category = categoryService.findFirstByTypeAndSlug(ArticleCategory.TYPE_TAG, categorySlug);
@@ -132,7 +132,7 @@ public class ArticleApiController extends ApiControllerBase {
      * 通过 文章属性 获得文章列表
      */
     @ApiOper("根据文章的 flag 查找文章列表")
-    @ApiResp(name = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
+    @ApiResp(field = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
     public Ret listByFlag(@ApiPara("文章标识") @NotEmpty String flag
             , @ApiPara(value = "是否必须要图片", notes = "true 必须有图片，false 必须无图片") Boolean hasThumbnail
             , @ApiPara("排序方式") String orderBy
@@ -153,7 +153,7 @@ public class ArticleApiController extends ApiControllerBase {
 
 
     @ApiOper("查询某一篇文章的 相关文章")
-    @ApiResp(name = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
+    @ApiResp(field = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
     public Ret listByRelevant(@ApiPara("文章ID") @NotNull Long articleId
             , @ApiPara("查询数量") @DefaultValue("3") int count) {
         List<Article> relevantArticles = articleService.findRelevantListByArticleId(articleId, Article.STATUS_NORMAL, count);
@@ -162,7 +162,7 @@ public class ArticleApiController extends ApiControllerBase {
 
 
     @ApiOper("文章搜索")
-    @ApiResp(name = "page", notes = "文章分页数据", dataType = Page.class, genericTypes = Article.class)
+    @ApiResp(field = "page", notes = "文章分页数据", dataType = Page.class, genericTypes = Article.class)
     public Ret search(@ApiPara("关键词") String keyword
             , @ApiPara("分页页码") @DefaultValue("1") int pageNumber
             , @ApiPara("每页数量") @DefaultValue("10") int pageSize) {
@@ -180,7 +180,7 @@ public class ArticleApiController extends ApiControllerBase {
     }
 
     @ApiOper(value = "创建新文章", contentType = ContentType.JSON)
-    @ApiResp(name = "id", notes = "文章ID", dataType = Long.class, mock = "123")
+    @ApiResp(field = "id", notes = "文章ID", dataType = Long.class, mock = "123")
     public Ret doCreate(@ApiPara("文章的 JSON 信息") @JsonBody Article article) {
         Object id = articleService.save(article);
         return Ret.ok().set("id", id);

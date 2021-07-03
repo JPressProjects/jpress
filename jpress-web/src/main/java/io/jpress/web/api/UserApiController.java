@@ -69,7 +69,7 @@ public class UserApiController extends ApiControllerBase {
 
 
     @ApiOper("用户详情")
-    @ApiResp(name = "user",dataType = User.class,notes = "用户信息")
+    @ApiResp(name = "user", dataType = User.class, notes = "用户信息")
     public Ret detail(@ApiPara("用户ID") @NotNull Long id) {
         User user = userService.findById(id);
         return Ret.ok().set("user", user.copy().keepSafe());
@@ -88,11 +88,11 @@ public class UserApiController extends ApiControllerBase {
     public Ret updatePassword(@ApiPara("用户ID") @NotNull Long userId
             , @ApiPara("用户新密码") @NotEmpty String newPassword
             , @ApiPara(value = "用户旧密码", notes = "如果登录用户是超级管理员，则可以不输入密码") String oldPassowrd) {
+
         User user = userService.findById(userId);
         if (user == null) {
             return Ret.fail("message", "该用户不存在");
         }
-
 
         String salt = user.getSalt();
         String hashedPass = HashKit.sha256(salt + newPassword);
@@ -108,6 +108,7 @@ public class UserApiController extends ApiControllerBase {
 
 
     @ApiOper("创建新的用户")
+    @ApiResp(name = "userId", notes = "用户ID，用户创建成功后返回此数据", dataType = Long.class)
     public Ret create(@ApiPara("用户 json 信息") @JsonBody @NotNull User user) {
         userService.save(user);
         return Ret.ok().set("userId", user.getId());

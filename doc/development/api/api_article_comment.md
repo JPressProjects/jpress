@@ -20,11 +20,13 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| id | `Long` | 评论的ID |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"id":"123"
 }
 ```
 
@@ -103,10 +105,67 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| page | `Page<ArticleComment>` | 文章评论分页数据 |  
+
+Page
+
+| 字段  | 数据类型 | 描述 |  
+| --- | --- | --- | 
+| totalRow | `int` | 总行数 |  
+| pageNumber | `int` | 当前页码 |  
+| firstPage | `boolean` | 是否是第一页 |  
+| lastPage | `boolean` | 是否是最后一页 |  
+| totalPage | `int` | 总页数 |  
+| pageSize | `int` | 每页数据量 |  
+| list | `List` | 数据列表 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"page":{
+		"list":[
+			{
+				"id":100,
+				"pid":100,
+				"articleId":100,
+				"userId":100,
+				"author":"评论的作者",
+				"email":"邮箱",
+				"wechat":"微信号",
+				"qq":"qq号",
+				"content":"评论的内容",
+				"replyCount":100,
+				"orderNumber":100,
+				"voteUp":100,
+				"voteDown":100,
+				"status":"评论的状态",
+				"created":"2021-07-03 10:04:53"
+			},
+			{
+				"id":100,
+				"pid":100,
+				"articleId":100,
+				"userId":100,
+				"author":"评论的作者",
+				"email":"邮箱",
+				"wechat":"微信号",
+				"qq":"qq号",
+				"content":"评论的内容",
+				"replyCount":100,
+				"orderNumber":100,
+				"voteUp":100,
+				"voteDown":100,
+				"status":"评论的状态",
+				"created":"2021-07-03 10:04:53"
+			}
+		],
+		"pageNumber":1,
+		"pageSize":10,
+		"totalPage":1,
+		"totalRow":2,
+		"firstPage":true,
+		"lastPage":true
+	}
 }
 ```

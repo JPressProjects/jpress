@@ -17,11 +17,13 @@ package io.jpress.module.article.controller.api;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.DefaultValue;
 import io.jboot.apidoc.ContentType;
 import io.jboot.apidoc.annotation.Api;
 import io.jboot.apidoc.annotation.ApiOper;
 import io.jboot.apidoc.annotation.ApiPara;
+import io.jboot.apidoc.annotation.ApiResp;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -46,6 +48,7 @@ public class ArticleCommentApiController extends ApiControllerBase {
 
 
     @ApiOper("分页查询谋篇文章的评论")
+    @ApiResp(name = "page", notes = "文章评论分页数据", dataType = Page.class, genericTypes = ArticleComment.class)
     public Ret paginateByArticleId(@ApiPara("文章ID") @NotNull Long articleId
             , @ApiPara("分页页码") @DefaultValue("1") int pageNumber
             , @ApiPara("每页数据量") @DefaultValue("10") int pageSize) {
@@ -61,6 +64,7 @@ public class ArticleCommentApiController extends ApiControllerBase {
 
 
     @ApiOper(value = "创建新的评论", contentType = ContentType.JSON)
+    @ApiResp(name = "id", notes = "评论的ID", dataType = Long.class, mock = "123")
     public Ret doCreate(@ApiPara("评论的 json") @JsonBody ArticleComment articleComment) {
         Object id = commentService.save(articleComment);
         return Ret.ok().set("id", id);

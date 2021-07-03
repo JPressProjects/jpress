@@ -20,11 +20,13 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| userId | `Long` | 用户ID，用户创建成功后返回此数据 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"userId":""
 }
 ```
 
@@ -104,7 +106,7 @@ User
 		"mobileStatus":"手机状态（是否认证等）",
 		"gender":"性别",
 		"signature":"签名",
-		"birthday":"2021-07-02 22:10:58",
+		"birthday":"2021-07-03 10:04:53",
 		"company":"公司",
 		"occupation":"职位、职业",
 		"address":"地址",
@@ -117,10 +119,10 @@ User
 		"idcard":"证件号码",
 		"remark":"备注",
 		"status":"状态",
-		"created":"2021-07-02 22:10:58",
+		"created":"2021-07-03 10:04:53",
 		"createSource":"用户来源（可能来之oauth第三方）",
-		"logged":"2021-07-02 22:10:58",
-		"activated":"2021-07-02 22:10:58"
+		"logged":"2021-07-03 10:04:53",
+		"activated":"2021-07-03 10:04:53"
 	}
 }
 ```

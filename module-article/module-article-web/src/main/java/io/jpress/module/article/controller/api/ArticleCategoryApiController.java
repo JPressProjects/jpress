@@ -21,6 +21,7 @@ import io.jboot.apidoc.ContentType;
 import io.jboot.apidoc.annotation.Api;
 import io.jboot.apidoc.annotation.ApiOper;
 import io.jboot.apidoc.annotation.ApiPara;
+import io.jboot.apidoc.annotation.ApiResp;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.commons.Rets;
@@ -49,6 +50,7 @@ public class ArticleCategoryApiController extends ApiControllerBase {
 
 
     @ApiOper(value = "文章分类详情", paraNotes = "id 或者 slug 必须有一个不能为空")
+    @ApiResp(name = "detail", dataType = ArticleCategory.class, notes = "文章分类详情")
     public Ret detail(@ApiPara("分类ID") Long id
             , @ApiPara("分类固定连接") String slug
     ) {
@@ -67,6 +69,7 @@ public class ArticleCategoryApiController extends ApiControllerBase {
 
 
     @ApiOper("根据文章分类的type查询文章分类")
+    @ApiResp(name = "list", notes = "文章分类列表", dataType = List.class, genericTypes = ArticleCategory.class)
     public Ret listByType(@ApiPara("分类type") @NotEmpty String type, @ApiPara("上级分类ID") Long pid) {
 
         List<ArticleCategory> categories = categoryService.findListByType(type);
@@ -93,6 +96,7 @@ public class ArticleCategoryApiController extends ApiControllerBase {
     }
 
     @ApiOper(value = "创建新的文章分类",contentType = ContentType.JSON)
+    @ApiResp(name = "id", notes = "文章分类D", dataType = Long.class, mock = "123")
     public Ret doCreate(@ApiPara("文章分类json") @JsonBody ArticleCategory articleCategory) {
         Object id = categoryService.save(articleCategory);
         return Ret.ok().set("id", id);

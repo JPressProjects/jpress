@@ -21,11 +21,65 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| detail | `Article` | 文章详情 |  
+
+Article
+
+| 字段  | 数据类型 | 描述 |  
+| --- | --- | --- | 
+| id | `Long` | 主键ID |  
+| pid | `Integer` | 子版本的文章id |  
+| slug | `String` | slug |  
+| title | `String` | 标题 |  
+| content | `String` | 内容 |  
+| editMode | `String` | 编辑模式，默认为html，其他可选项包括html，markdown .. |  
+| summary | `String` | 摘要 |  
+| linkTo | `String` | 连接到(常用于谋文章只是一个连接) |  
+| thumbnail | `String` | 缩略图 |  
+| style | `String` | 样式 |  
+| userId | `Long` | 用户ID |  
+| orderNumber | `Integer` | 排序编号 |  
+| status | `String` | 状态 |  
+| commentStatus | `Boolean` | 评论状态，默认允许评论 |  
+| commentCount | `Long` | 评论总数 |  
+| commentTime | `Date` | 最后评论时间 |  
+| viewCount | `Long` | 访问量 |  
+| created | `Date` | 创建日期 |  
+| modified | `Date` | 最后更新日期 |  
+| flag | `String` | 标识，通常用于对某几篇文章进行标识，从而实现单独查询 |  
+| metaKeywords | `String` | SEO关键字 |  
+| metaDescription | `String` | SEO描述信息 |  
+| remarks | `String` | 备注信息 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"detail":{
+		"id":100,
+		"pid":100,
+		"slug":"slug",
+		"title":"标题",
+		"content":"内容",
+		"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+		"summary":"摘要",
+		"linkTo":"连接到(常用于谋文章只是一个连接)",
+		"thumbnail":"缩略图",
+		"style":"样式",
+		"userId":100,
+		"orderNumber":100,
+		"status":"状态",
+		"commentStatus":true,
+		"commentCount":100,
+		"commentTime":"2021-07-03 10:04:53",
+		"viewCount":100,
+		"created":"2021-07-03 10:04:53",
+		"modified":"2021-07-03 10:04:53",
+		"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+		"metaKeywords":"SEO关键字",
+		"metaDescription":"SEO描述信息",
+		"remarks":"备注信息"
+	}
 }
 ```
 
@@ -48,11 +102,13 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| id | `Long` | 文章ID |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"id":"123"
 }
 ```
 
@@ -153,10 +209,10 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-02 22:10:58",
+			"commentTime":"2021-07-03 10:04:53",
 			"viewCount":100,
-			"created":"2021-07-02 22:10:58",
-			"modified":"2021-07-02 22:10:58",
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
@@ -178,10 +234,10 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-02 22:10:58",
+			"commentTime":"2021-07-03 10:04:53",
 			"viewCount":100,
-			"created":"2021-07-02 22:10:58",
-			"modified":"2021-07-02 22:10:58",
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
@@ -211,11 +267,64 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| list | `List<Article>` | 文章列表 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"list":[
+		{
+			"id":100,
+			"pid":100,
+			"slug":"slug",
+			"title":"标题",
+			"content":"内容",
+			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+			"summary":"摘要",
+			"linkTo":"连接到(常用于谋文章只是一个连接)",
+			"thumbnail":"缩略图",
+			"style":"样式",
+			"userId":100,
+			"orderNumber":100,
+			"status":"状态",
+			"commentStatus":true,
+			"commentCount":100,
+			"commentTime":"2021-07-03 10:04:53",
+			"viewCount":100,
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53",
+			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaKeywords":"SEO关键字",
+			"metaDescription":"SEO描述信息",
+			"remarks":"备注信息"
+		},
+		{
+			"id":100,
+			"pid":100,
+			"slug":"slug",
+			"title":"标题",
+			"content":"内容",
+			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+			"summary":"摘要",
+			"linkTo":"连接到(常用于谋文章只是一个连接)",
+			"thumbnail":"缩略图",
+			"style":"样式",
+			"userId":100,
+			"orderNumber":100,
+			"status":"状态",
+			"commentStatus":true,
+			"commentCount":100,
+			"commentTime":"2021-07-03 10:04:53",
+			"viewCount":100,
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53",
+			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaKeywords":"SEO关键字",
+			"metaDescription":"SEO描述信息",
+			"remarks":"备注信息"
+		}
+	]
 }
 ```
 
@@ -241,11 +350,64 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| list | `List<Article>` | 文章列表 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"list":[
+		{
+			"id":100,
+			"pid":100,
+			"slug":"slug",
+			"title":"标题",
+			"content":"内容",
+			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+			"summary":"摘要",
+			"linkTo":"连接到(常用于谋文章只是一个连接)",
+			"thumbnail":"缩略图",
+			"style":"样式",
+			"userId":100,
+			"orderNumber":100,
+			"status":"状态",
+			"commentStatus":true,
+			"commentCount":100,
+			"commentTime":"2021-07-03 10:04:53",
+			"viewCount":100,
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53",
+			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaKeywords":"SEO关键字",
+			"metaDescription":"SEO描述信息",
+			"remarks":"备注信息"
+		},
+		{
+			"id":100,
+			"pid":100,
+			"slug":"slug",
+			"title":"标题",
+			"content":"内容",
+			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+			"summary":"摘要",
+			"linkTo":"连接到(常用于谋文章只是一个连接)",
+			"thumbnail":"缩略图",
+			"style":"样式",
+			"userId":100,
+			"orderNumber":100,
+			"status":"状态",
+			"commentStatus":true,
+			"commentCount":100,
+			"commentTime":"2021-07-03 10:04:53",
+			"viewCount":100,
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53",
+			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaKeywords":"SEO关键字",
+			"metaDescription":"SEO描述信息",
+			"remarks":"备注信息"
+		}
+	]
 }
 ```
 
@@ -269,11 +431,64 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| list | `List<Article>` | 文章列表 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"list":[
+		{
+			"id":100,
+			"pid":100,
+			"slug":"slug",
+			"title":"标题",
+			"content":"内容",
+			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+			"summary":"摘要",
+			"linkTo":"连接到(常用于谋文章只是一个连接)",
+			"thumbnail":"缩略图",
+			"style":"样式",
+			"userId":100,
+			"orderNumber":100,
+			"status":"状态",
+			"commentStatus":true,
+			"commentCount":100,
+			"commentTime":"2021-07-03 10:04:53",
+			"viewCount":100,
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53",
+			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaKeywords":"SEO关键字",
+			"metaDescription":"SEO描述信息",
+			"remarks":"备注信息"
+		},
+		{
+			"id":100,
+			"pid":100,
+			"slug":"slug",
+			"title":"标题",
+			"content":"内容",
+			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+			"summary":"摘要",
+			"linkTo":"连接到(常用于谋文章只是一个连接)",
+			"thumbnail":"缩略图",
+			"style":"样式",
+			"userId":100,
+			"orderNumber":100,
+			"status":"状态",
+			"commentStatus":true,
+			"commentCount":100,
+			"commentTime":"2021-07-03 10:04:53",
+			"viewCount":100,
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53",
+			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaKeywords":"SEO关键字",
+			"metaDescription":"SEO描述信息",
+			"remarks":"备注信息"
+		}
+	]
 }
 ```
 
@@ -335,10 +550,10 @@ Page
 				"status":"状态",
 				"commentStatus":true,
 				"commentCount":100,
-				"commentTime":"2021-07-02 22:10:58",
+				"commentTime":"2021-07-03 10:04:53",
 				"viewCount":100,
-				"created":"2021-07-02 22:10:58",
-				"modified":"2021-07-02 22:10:58",
+				"created":"2021-07-03 10:04:53",
+				"modified":"2021-07-03 10:04:53",
 				"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
 				"metaKeywords":"SEO关键字",
 				"metaDescription":"SEO描述信息",
@@ -360,10 +575,10 @@ Page
 				"status":"状态",
 				"commentStatus":true,
 				"commentCount":100,
-				"commentTime":"2021-07-02 22:10:58",
+				"commentTime":"2021-07-03 10:04:53",
 				"viewCount":100,
-				"created":"2021-07-02 22:10:58",
-				"modified":"2021-07-02 22:10:58",
+				"created":"2021-07-03 10:04:53",
+				"modified":"2021-07-03 10:04:53",
 				"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
 				"metaKeywords":"SEO关键字",
 				"metaDescription":"SEO描述信息",
@@ -401,10 +616,83 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| page | `Page<Article>` | 文章分页数据 |  
+
+Page
+
+| 字段  | 数据类型 | 描述 |  
+| --- | --- | --- | 
+| totalRow | `int` | 总行数 |  
+| pageNumber | `int` | 当前页码 |  
+| firstPage | `boolean` | 是否是第一页 |  
+| lastPage | `boolean` | 是否是最后一页 |  
+| totalPage | `int` | 总页数 |  
+| pageSize | `int` | 每页数据量 |  
+| list | `List` | 数据列表 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"page":{
+		"list":[
+			{
+				"id":100,
+				"pid":100,
+				"slug":"slug",
+				"title":"标题",
+				"content":"内容",
+				"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+				"summary":"摘要",
+				"linkTo":"连接到(常用于谋文章只是一个连接)",
+				"thumbnail":"缩略图",
+				"style":"样式",
+				"userId":100,
+				"orderNumber":100,
+				"status":"状态",
+				"commentStatus":true,
+				"commentCount":100,
+				"commentTime":"2021-07-03 10:04:53",
+				"viewCount":100,
+				"created":"2021-07-03 10:04:53",
+				"modified":"2021-07-03 10:04:53",
+				"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+				"metaKeywords":"SEO关键字",
+				"metaDescription":"SEO描述信息",
+				"remarks":"备注信息"
+			},
+			{
+				"id":100,
+				"pid":100,
+				"slug":"slug",
+				"title":"标题",
+				"content":"内容",
+				"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
+				"summary":"摘要",
+				"linkTo":"连接到(常用于谋文章只是一个连接)",
+				"thumbnail":"缩略图",
+				"style":"样式",
+				"userId":100,
+				"orderNumber":100,
+				"status":"状态",
+				"commentStatus":true,
+				"commentCount":100,
+				"commentTime":"2021-07-03 10:04:53",
+				"viewCount":100,
+				"created":"2021-07-03 10:04:53",
+				"modified":"2021-07-03 10:04:53",
+				"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+				"metaKeywords":"SEO关键字",
+				"metaDescription":"SEO描述信息",
+				"remarks":"备注信息"
+			}
+		],
+		"pageNumber":1,
+		"pageSize":10,
+		"totalPage":1,
+		"totalRow":2,
+		"firstPage":true,
+		"lastPage":true
+	}
 }
 ```

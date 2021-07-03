@@ -21,11 +21,53 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| detail | `ArticleCategory` | 文章分类详情 |  
+
+ArticleCategory
+
+| 字段  | 数据类型 | 描述 |  
+| --- | --- | --- | 
+| id | `Long` | 主键ID |  
+| pid | `Long` | 父级分类的ID |  
+| userId | `Long` | 分类创建的用户ID |  
+| slug | `String` | slug |  
+| title | `String` | 标题 |  
+| content | `String` | 内容描述 |  
+| summary | `String` | 摘要 |  
+| style | `String` | 模板样式 |  
+| type | `String` | 类型，比如：分类、tag、专题 |  
+| icon | `String` | 图标 |  
+| count | `Long` | 该分类的内容数量 |  
+| orderNumber | `Integer` | 排序编码 |  
+| flag | `String` | 标识 |  
+| metaKeywords | `String` | SEO关键字 |  
+| metaDescription | `String` | SEO描述内容 |  
+| created | `Date` | 创建日期 |  
+| modified | `Date` | 修改日期 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"detail":{
+		"id":100,
+		"pid":100,
+		"userId":100,
+		"slug":"slug",
+		"title":"标题",
+		"content":"内容描述",
+		"summary":"摘要",
+		"style":"模板样式",
+		"type":"类型，比如：分类、tag、专题",
+		"icon":"图标",
+		"count":100,
+		"orderNumber":100,
+		"flag":"标识",
+		"metaKeywords":"SEO关键字",
+		"metaDescription":"SEO描述内容",
+		"created":"2021-07-03 10:04:53",
+		"modified":"2021-07-03 10:04:53"
+	}
 }
 ```
 
@@ -48,11 +90,13 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| id | `Long` | 文章分类D |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"id":"123"
 }
 ```
 
@@ -130,10 +174,51 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
+| list | `List<ArticleCategory>` | 文章分类列表 |  
 
 **JSON 示例：**
 ```json
 {
-	"state":"ok"
+	"state":"ok",
+	"list":[
+		{
+			"id":100,
+			"pid":100,
+			"userId":100,
+			"slug":"slug",
+			"title":"标题",
+			"content":"内容描述",
+			"summary":"摘要",
+			"style":"模板样式",
+			"type":"类型，比如：分类、tag、专题",
+			"icon":"图标",
+			"count":100,
+			"orderNumber":100,
+			"flag":"标识",
+			"metaKeywords":"SEO关键字",
+			"metaDescription":"SEO描述内容",
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53"
+		},
+		{
+			"id":100,
+			"pid":100,
+			"userId":100,
+			"slug":"slug",
+			"title":"标题",
+			"content":"内容描述",
+			"summary":"摘要",
+			"style":"模板样式",
+			"type":"类型，比如：分类、tag、专题",
+			"icon":"图标",
+			"count":100,
+			"orderNumber":100,
+			"flag":"标识",
+			"metaKeywords":"SEO关键字",
+			"metaDescription":"SEO描述内容",
+			"created":"2021-07-03 10:04:53",
+			"modified":"2021-07-03 10:04:53"
+		}
+	]
 }
 ```

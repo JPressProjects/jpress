@@ -175,7 +175,7 @@ curl -O https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml &&
 wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh 80
 ```
 
-> 视频教程链接: https://pan.baidu.com/s/1ciA2DglE-JV-YiU3ojtmew 提取码: 37g5
+> 一键安装的视频教程：[http://www.ketang8.com/course/study?chapterId=184](http://www.ketang8.com/course/study?chapterId=184)
 
 
 **通过 Eclipse 或者 Idea 等开发工具运行**

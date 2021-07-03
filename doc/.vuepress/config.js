@@ -18,6 +18,7 @@ module.exports = {
 
         // author
         //author: 'jpress',
+        subSidebar: 'auto',//在所有页面中启用自动生成子侧边栏，原 sidebar 仍然兼容
 
         // if your docs are in a different repo from your main project:
         docsRepo: 'JPressProjects/jpress',
@@ -55,6 +56,7 @@ module.exports = {
                     {text: 'Github', link: 'https://github.com/JPressProjects/jpress'}
                 ]
             },
+            {text: 'JPress VIP', link: '/vip'},
         ],
 
         sidebar: {
@@ -154,13 +156,20 @@ module.exports = {
                     collapsable: true,
                     children: [
                         {title: '概述', path: '/development/api/start'},
-                        {title: '文章相关', path: '/development/api/article'},
-                        {title: '产品相关', path: '/development/api/product'},
-                        {title: '页面相关', path: '/development/api/page'},
-                        {title: '用户相关', path: '/development/api/user'},
-                        {title: '微信相关', path: '/development/api/wechat'},
-                        {title: '系统设置', path: '/development/api/system'},
-                        {title: '其他', path: '/development/api/other'},
+                        {title: '文章', path: '/development/api/api_article'},
+                        {title: '文章分类', path: '/development/api/api_article_category'},
+                        {title: '文章评论', path: '/development/api/api_article_comment'},
+                        {title: '产品', path: '/development/api/api_product'},
+                        {title: '产品分类', path: '/development/api/api_product_category'},
+                        {title: '产品评论', path: '/development/api/api_product_comment'},
+                        {title: '页面', path: '/development/api/api_page'},
+                        {title: '用户', path: '/development/api/api_user'},
+                        {title: '用户地址', path: '/development/api/api_userAddress'},
+                        {title: '购物车', path: '/development/api/api_userCart'},
+                        {title: '订单', path: '/development/api/api_userOrder'},
+                        {title: '优惠券', path: '/development/api/api_userCoupon'},
+                        {title: '微信小程序', path: '/development/api/api_wechat_mp'},
+                        {title: '系统设置', path: '/development/api/api_option'},
                     ],
                 },
             ]

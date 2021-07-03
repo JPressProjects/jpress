@@ -21,10 +21,10 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
-import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.service.UserService;
+import io.jpress.web.base.ApiControllerBase;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -82,7 +82,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        JbootController controller = (JbootController) inv.getController();
+        ApiControllerBase controller = (ApiControllerBase) inv.getController();
         String queryString = controller.getRequest().getQueryString();
         if (StrUtil.isBlank(queryString)) {
             inv.getController().renderJson(Ret.fail().set("message", "请求参数错误。"));
@@ -106,7 +106,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
         String timeStr = parasMap.get("ct");
         Long time = timeStr == null ? null : Long.valueOf(timeStr);
         if (time == null) {
-            controller.renderJson(Ret.fail("message", "时间参数不能为空，请提交 t 参数数据。"));
+            controller.renderJson(Ret.fail("message", "时间参数不能为空，请提交 ct 参数数据。"));
             return;
         }
 
@@ -129,7 +129,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        Object userId = controller.getJwtPara(JPressConsts.JWT_USERID);
+        Object userId = controller.getJwtPara(JPressConsts.JWT_USERID,false);
         if (userId != null) {
             controller.setAttr(JPressConsts.ATTR_LOGINED_USER, userService.findById(userId));
         }

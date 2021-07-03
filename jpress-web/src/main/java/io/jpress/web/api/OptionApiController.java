@@ -17,6 +17,8 @@ package io.jpress.web.api;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import io.jboot.apidoc.ContentType;
+import io.jboot.apidoc.annotation.*;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
@@ -47,13 +49,18 @@ import java.util.Set;
  * }
  */
 @RequestMapping("/api/option")
+@Api("系统配置相关 API ")
 public class OptionApiController extends ApiControllerBase {
 
     @Inject
     private OptionService optionService;
 
-
-    public Ret query(@NotEmpty(message = "key must not empty") String key) {
+    @ApiOper("查询配置")
+    @ApiResps({
+            @ApiResp(name = "value", notes = "查询单个配置的时候返回的数据", mock = "..."),
+            @ApiResp(name = "values", notes = "查询多个key的时候返回数据", dataType = Map.class, mock = "{\"key1\":\"value1\",\"key2\":\"value2\"}"),
+    })
+    public Ret query(@ApiPara(value = "查询的 key", notes = "多个 key 用引文逗号隔开") @NotEmpty(message = "key must not empty") String key) {
         if (key.contains(",")) {
             Set<String> keys = StrUtil.splitToSet(key, ",");
             Map<String, String> data = new HashMap<>();
@@ -62,14 +69,14 @@ public class OptionApiController extends ApiControllerBase {
                     data.put(k, JPressOptions.get(k));
                 }
             }
-            return Ret.ok().set("values",data);
+            return Ret.ok().set("values", data);
         } else {
-            return Ret.ok().set("value",JPressOptions.get(key));
+            return Ret.ok().set("value", JPressOptions.get(key));
         }
     }
 
-
-    public Ret set(@NotEmpty @JsonBody Map<String, String> keyValues) {
+    @ApiOper(value = "更新配置", contentType = ContentType.JSON)
+    public Ret set(@ApiPara("要更新的数据 map") @NotEmpty @JsonBody Map<String, String> keyValues) {
         keyValues.forEach((key, value) -> {
             optionService.saveOrUpdate(key, value);
             JPressOptions.set(key, value);

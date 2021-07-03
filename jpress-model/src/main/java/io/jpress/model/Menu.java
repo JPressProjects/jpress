@@ -154,12 +154,12 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
     public boolean isUrlStartWidth(String url) {
 
         String baseUrl = getBaseUrl();
-        if (StrUtil.isBlank(baseUrl)){
+        if (StrUtil.isBlank(baseUrl)) {
             return false;
         }
 
-        baseUrl =removeSuffix(baseUrl);
-        url = removeSuffix(contextPath + url);
+        baseUrl = removeSuffix(baseUrl);
+        url = contextPath.length() > 0 && !url.startsWith(contextPath) ? removeSuffix(contextPath + url) : removeSuffix(url);
 
         return baseUrl.startsWith(url) || toFlat(baseUrl).startsWith(toFlat(url));
     }
@@ -167,25 +167,25 @@ public class Menu extends BaseMenu<Menu> implements SortModel {
 
     public boolean isUrlEquals(String url) {
         String baseUrl = getBaseUrl();
-        if (StrUtil.isBlank(baseUrl)){
+        if (StrUtil.isBlank(baseUrl)) {
             return false;
         }
 
-        baseUrl =removeSuffix(baseUrl);
-        url = removeSuffix(contextPath + url);
+        baseUrl = removeSuffix(baseUrl);
+        url = contextPath.length() > 0 && !url.startsWith(contextPath) ? removeSuffix(contextPath + url) : removeSuffix(url);
 
         return baseUrl.equals(url) || toFlat(baseUrl).equals(toFlat(url));
     }
 
 
-    private String removeSuffix(String url){
+    private String removeSuffix(String url) {
         int indexOf = url.indexOf(".");
-        return indexOf == -1 ? url : url.substring(0,indexOf);
+        return indexOf == -1 ? url : url.substring(0, indexOf);
     }
 
 
-    private String toFlat(String url){
-        return url.replace("/","-");
+    private String toFlat(String url) {
+        return url.replace("/", "-");
     }
 
 

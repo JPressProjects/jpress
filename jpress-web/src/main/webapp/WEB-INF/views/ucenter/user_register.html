@@ -76,7 +76,7 @@
                     <div class="form-group">
                         <label>手机验证码</label>
                         <div>
-                            <input type="text" class="form-control" style="width: 120px;float: left;margin-right: 10px"
+                            <input type="text" autocomplete="off" class="form-control" style="width: 120px;float: left;margin-right: 10px"
                                    placeholder="请输入验证码" name="sms_code">
                             <button type="button" class="btn btn-primary btn-block btn-flat" style="width: 100px;"
                                     onclick="doGetSmsCode()">
@@ -100,7 +100,7 @@
                     <div class="form-group">
                         <label style="display: block;">验证码</label>
                         <div >
-                            <input type="text" id="captcha" class="form-control " style="float: left;width: 70%;"
+                            <input type="text" id="captcha" autocomplete="off" class="form-control " style="float: left;width: 70%;"
                                    placeholder="请输入验证码" name="captcha" required>
                             <img src="#(CPATH)/commons/captcha" id="captcha-img"
                                  style="float: right;height: 34px;margin-top: 2px;"

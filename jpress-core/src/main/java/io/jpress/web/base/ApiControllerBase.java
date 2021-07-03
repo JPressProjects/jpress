@@ -33,7 +33,7 @@ public abstract class ApiControllerBase extends ControllerBase {
 
     public static final int JWT_ERROR_CODE = 401;
 
-    public static final int JWT_LOGICAL_INVALID = 101;
+    public static final int JWT_LOGICAL_INVALID_CODE = 101;
 
 
     protected void renderFailJson(String message) {
@@ -109,7 +109,7 @@ public abstract class ApiControllerBase extends ControllerBase {
      */
     @NotAction
     public void renderJwtLogicalInvalid() {
-        renderError(200, new JbootJsonRender(Ret.ok().set("code", JWT_LOGICAL_INVALID)));
+        renderError(200, new JbootJsonRender(Ret.ok().set("code", JWT_LOGICAL_INVALID_CODE)));
     }
 
 

@@ -4,7 +4,49 @@
 [[toc]]
 
 
-## Tomcat 下升级 JPress
+## 手动升级 JPress
+
+### Tomcat 下手动升级 JPress
+
+
+删除旧的 JPress 以下的所有目录：
+
+```
+WEB-INF/lib
+WEB-INF/install
+WEB-INF/views
+static
+```
+
+并把新的 JPress 以上的目录复制过去。倘若使用系统模板，而且未修改模板 html，建议也把 `templates` 目录全部删除，并替换新的 `templates`。
+
+
+替换完成这些文件后，重启 tomcat 即可。
+
+
+### Undertow 下手动升级 JPress
+
+
+删除旧的 JPress 以下的所有目录：
+
+```
+lib
+webapp/static
+webapp/WEB-INF
+```
+
+并把新的 JPress 以上的目录复制过去。倘若使用系统模板，而且未修改模板 html，建议也把 `webapp/templates` 目录全部删除，并替换新的 `webapp/templates`。
+
+
+替换完成这些文件后，重启 Undertow 即可。
+
+```shell
+./jpress.sh restart
+```
+
+
+
+## Tomcat 下一键升级 JPress
 
 **第一步**
 

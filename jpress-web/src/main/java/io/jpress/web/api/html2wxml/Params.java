@@ -1,4 +1,4 @@
-package io.jpress.web.commons.controller.html2wxml;
+package io.jpress.web.api.html2wxml;
 
 public class Params {
     public static final String TYPE_HTML = "html";

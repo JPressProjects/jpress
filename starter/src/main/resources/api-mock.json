@@ -15,10 +15,10 @@
 		"status":"状态",
 		"commentStatus":true,
 		"commentCount":100,
-		"commentTime":"2021-07-03 10:04:53",
+		"commentTime":"2021-07-04 10:07:01",
 		"viewCount":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53",
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01",
 		"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述信息",
@@ -40,8 +40,8 @@
 		"flag":"标识",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述内容",
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"articleCategoryMapping":{
 		"articleId":100,
@@ -62,7 +62,7 @@
 		"voteUp":100,
 		"voteDown":100,
 		"status":"评论的状态",
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"articleMetaInfo":{
 		"id":100,
@@ -85,8 +85,8 @@
 		"flag":"标示",
 		"orderNumber":100,
 		"accessible":true,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"clubCategory":{
 		"id":100,
@@ -99,8 +99,8 @@
 		"flag":"标识",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述内容",
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"clubMemberPermission":{
 		"typeId":100,
@@ -110,14 +110,14 @@
 		"id":100,
 		"userId":100,
 		"typeId":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53",
-		"duetime":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01",
+		"duetime":"2021-07-04 10:07:01"
 	},
 	"clubMemberType":{
 		"id":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"clubPost":{
 		"id":100,
@@ -125,14 +125,14 @@
 		"userId":100,
 		"commentEnable":true,
 		"commentCount":100,
-		"commentTime":"2021-07-03 10:04:53",
+		"commentTime":"2021-07-04 10:07:01",
 		"viewCount":100,
 		"titleBold":100,
 		"titleColor":"标题颜色",
 		"topLevel":100,
 		"adopt":true,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"clubPostComment":{
 		"id":100,
@@ -146,7 +146,7 @@
 		"voteDown":100,
 		"adopt":true,
 		"status":"评论的状态",
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"coupon":{
 		"id":100,
@@ -162,16 +162,16 @@
 		"quota":100,
 		"takeCount":100,
 		"usedCount":100,
-		"startTime":"2021-07-03 10:04:53",
-		"endTime":"2021-07-03 10:04:53",
+		"startTime":"2021-07-04 10:07:01",
+		"endTime":"2021-07-04 10:07:01",
 		"validType":100,
-		"validStartTime":"2021-07-03 10:04:53",
-		"validEndTime":"2021-07-03 10:04:53",
+		"validStartTime":"2021-07-04 10:07:01",
+		"validEndTime":"2021-07-04 10:07:01",
 		"validDays":100,
 		"status":100,
 		"createUserId":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"couponCode":{
 		"id":100,
@@ -180,8 +180,8 @@
 		"code":"优惠码",
 		"userId":100,
 		"status":100,
-		"validTime":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"validTime":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"couponProduct":{
 		"productType":"商品的类型，默认是 product",
@@ -199,16 +199,16 @@
 		"codeUserId":100,
 		"codeUserNickname":"优惠券归属的用户昵称",
 		"couponId":100,
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"member":{
 		"id":100,
 		"groupId":100,
 		"userId":100,
-		"duetime":"2021-07-03 10:04:53",
+		"duetime":"2021-07-04 10:07:01",
 		"status":100,
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"memberDistAmount":{
 		"id":100,
@@ -216,7 +216,7 @@
 		"productType":"产品类型",
 		"productId":100,
 		"amount":1,
-		"created":"2021-07-03 10:04:53",
+		"created":"2021-07-04 10:07:01",
 		"modified":100
 	},
 	"memberGroup":{
@@ -231,15 +231,15 @@
 		"orderNumber":100,
 		"price":1,
 		"limitedPrice":1,
-		"limitedTime":"2021-07-03 10:04:53",
+		"limitedTime":"2021-07-04 10:07:01",
 		"distEnable":true,
 		"distAmount":1,
 		"validTerm":100,
 		"flag":"标识",
 		"status":100,
 		"withUcenter":true,
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"memberJoinedRecord":{
 		"id":100,
@@ -251,14 +251,14 @@
 		"joinType":"加入的类型：付费加入、免费赠送等",
 		"joinFrom":100,
 		"validTerm":100,
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"memberPrice":{
 		"id":100,
 		"productId":100,
 		"groupId":100,
 		"price":1,
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"menu":{
 		"id":100,
@@ -272,8 +272,8 @@
 		"orderNumber":100,
 		"relativeTable":"该菜单是否和其他表关联",
 		"relativeId":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"option":{
 		"id":100,
@@ -300,22 +300,22 @@
 		"payBankType":"支付银行类型",
 		"payAmount":1,
 		"paySuccessAmount":1,
-		"paySuccessTime":"2021-07-03 10:04:53",
+		"paySuccessTime":"2021-07-04 10:07:01",
 		"paySuccessProof":"支付证明，手动入账时需要截图",
 		"paySuccessRemarks":"支付备注",
-		"payCompleteTime":"2021-07-03 10:04:53",
+		"payCompleteTime":"2021-07-04 10:07:01",
 		"refundNo":"退款流水号",
 		"refundAmount":100,
 		"refundDesc":"退款描述",
-		"refundTime":"2021-07-03 10:04:53",
+		"refundTime":"2021-07-04 10:07:01",
 		"thirdpartyType":"第三方支付平台",
 		"thirdpartyAppid":"微信appid 或者 支付宝的appid，thirdparty 指的是支付的第三方比如微信、支付宝、PayPal等",
 		"thirdpartyMchId":"商户号",
 		"thirdpartyTradeType":"交易类型",
 		"remark":"备注",
 		"status":100,
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"permission":{
 		"id":100,
@@ -323,8 +323,8 @@
 		"node":"属于大的分类，可能是Controller、大的DIV、或菜单组",
 		"type":"权限的类型：url、页面元素、菜单",
 		"text":"菜单描述",
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"product":{
 		"id":100,
@@ -344,20 +344,20 @@
 		"price":1,
 		"originPrice":1,
 		"limitedPrice":1,
-		"limitedTime":"2021-07-03 10:04:53",
+		"limitedTime":"2021-07-04 10:07:01",
 		"distEnable":true,
 		"distAmount":1,
 		"status":100,
 		"commentStatus":true,
 		"commentCount":100,
-		"commentTime":"2021-07-03 10:04:53",
+		"commentTime":"2021-07-04 10:07:01",
 		"viewCount":100,
 		"realViewCount":100,
 		"salesCount":100,
 		"realSalesCount":100,
 		"stock":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53",
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01",
 		"flag":"标识，通常用于对某几个商品进行标识，从而实现单独查询",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述信息",
@@ -379,8 +379,8 @@
 		"flag":"标识",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述内容",
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"productCategoryMapping":{
 		"productId":100,
@@ -398,21 +398,21 @@
 		"voteUp":100,
 		"voteDown":100,
 		"status":100,
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"productImage":{
 		"id":100,
 		"productId":100,
 		"orderNumber":100,
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"role":{
 		"id":100,
 		"name":"角色名称",
 		"description":"角色的描述",
 		"flag":"角色标识，全局唯一，jpsa 为超级管理员",
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"rolePermissionMapping":{
 		"roleId":100,
@@ -431,8 +431,8 @@
 		"flag":"标识",
 		"status":"状态",
 		"viewCount":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53",
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述信息",
 		"remarks":"备注信息"
@@ -452,7 +452,7 @@
 		"voteUp":100,
 		"voteDown":100,
 		"status":"评论的状态",
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"user":{
 		"id":100,
@@ -469,7 +469,7 @@
 		"mobileStatus":"手机状态（是否认证等）",
 		"gender":"性别",
 		"signature":"签名",
-		"birthday":"2021-07-03 10:04:53",
+		"birthday":"2021-07-04 10:07:01",
 		"company":"公司",
 		"occupation":"职位、职业",
 		"address":"地址",
@@ -482,10 +482,10 @@
 		"idcard":"证件号码",
 		"remark":"备注",
 		"status":"状态",
-		"created":"2021-07-03 10:04:53",
+		"created":"2021-07-04 10:07:01",
 		"createSource":"用户来源（可能来之oauth第三方）",
-		"logged":"2021-07-03 10:04:53",
-		"activated":"2021-07-03 10:04:53"
+		"logged":"2021-07-04 10:07:01",
+		"activated":"2021-07-04 10:07:01"
 	},
 	"userAddress":{
 		"id":100,
@@ -498,14 +498,14 @@
 		"detail":"详细地址到门牌号",
 		"zipcode":"邮政编码",
 		"widthDefault":true,
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"userAmount":{
 		"userId":100,
 		"amount":1,
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"userAmountPayout":{
 		"id":100,
@@ -521,8 +521,8 @@
 		"status":100,
 		"remarks":"用户备注",
 		"feedback":"回绝提现时给出原因",
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"userAmountStatement":{
 		"id":100,
@@ -537,7 +537,7 @@
 		"oldAmount":1,
 		"changeAmount":1,
 		"newAmount":1,
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"userCart":{
 		"id":100,
@@ -558,8 +558,8 @@
 		"viewText":"查看的文章内容，比如：查看、下载",
 		"viewEffectiveTime":100,
 		"selected":true,
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"userFavorite":{
 		"id":100,
@@ -569,7 +569,7 @@
 		"summary":"摘要",
 		"thumbnail":"缩略图",
 		"link":"详情页",
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"userOpenid":{
 		"id":100,
@@ -577,11 +577,11 @@
 		"type":"第三方类型：wechat，dingding，qq...",
 		"value":"第三方的openId的值",
 		"accessToken":"可能用不到",
-		"expiredTime":"2021-07-03 10:04:53",
+		"expiredTime":"2021-07-04 10:07:01",
 		"nickname":"昵称",
 		"avatar":"头像",
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"userOrder":{
 		"id":100,
@@ -597,7 +597,7 @@
 		"couponAmount":1,
 		"payStatus":100,
 		"paySuccessAmount":1,
-		"paySuccessTime":"2021-07-03 10:04:53",
+		"paySuccessTime":"2021-07-04 10:07:01",
 		"paySuccessProof":"支付证明，手动入账时需要截图",
 		"paySuccessRemarks":"支付备注",
 		"paymentId":100,
@@ -619,15 +619,15 @@
 		"options":"json字段扩展",
 		"tradeStatus":100,
 		"delStatus":100,
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"userOrderDelivery":{
 		"id":100,
 		"company":"快递公司",
 		"number":"快递单号",
-		"startTime":"2021-07-03 10:04:53",
-		"finishTime":"2021-07-03 10:04:53",
+		"startTime":"2021-07-04 10:07:01",
+		"finishTime":"2021-07-04 10:07:01",
 		"addrUsername":"收货人地址",
 		"addrMobile":"收货人手机号（电话）",
 		"addrProvince":"收件人省",
@@ -637,8 +637,8 @@
 		"addrZipcode":"收件人地址邮政编码",
 		"status":100,
 		"options":"json字段扩展",
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"userOrderInvoice":{
 		"id":100,
@@ -651,8 +651,8 @@
 		"email":"发票收取人邮箱",
 		"status":100,
 		"options":"json字段扩展",
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"userOrderItem":{
 		"id":100,
@@ -688,9 +688,9 @@
 		"refundNo":"退款订单号",
 		"refundAmount":1,
 		"refundDesc":"退款描述",
-		"refundTime":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53",
-		"created":"2021-07-03 10:04:53"
+		"refundTime":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01",
+		"created":"2021-07-04 10:07:01"
 	},
 	"userRoleMapping":{
 		"userId":100,
@@ -704,8 +704,8 @@
 		"type":"tag类别，用于以后扩展",
 		"count":100,
 		"orderNumber":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"userTagMapping":{
 		"userId":100,
@@ -732,7 +732,7 @@
 		"brand":"硬件平台",
 		"model":"硬件型号",
 		"network":"网络情况",
-		"created":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01"
 	},
 	"wechatMenu":{
 		"id":100,
@@ -741,14 +741,14 @@
 		"keyword":"关键字",
 		"type":"菜单类型",
 		"orderNumber":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	},
 	"wechatReply":{
 		"id":100,
 		"keyword":"关键字",
 		"content":"回复内容",
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53"
+		"created":"2021-07-04 10:07:01",
+		"modified":"2021-07-04 10:07:01"
 	}
 }

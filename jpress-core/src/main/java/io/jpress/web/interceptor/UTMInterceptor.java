@@ -19,6 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import io.jboot.support.jwt.JwtManager;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
@@ -26,6 +27,7 @@ import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
 import io.jpress.model.Utm;
 import io.jpress.service.UtmService;
+import io.jpress.web.base.ApiControllerBase;
 
 
 /**
@@ -68,9 +70,9 @@ public class UTMInterceptor implements Interceptor {
         /**
          * 可能是API的用户，API 通过 jwt 获取用户信息
          */
-        else if (controller instanceof JbootController) {
-            JbootController c = (JbootController) controller;
-            Number userId = c.getJwtPara(JPressConsts.JWT_USERID);
+        else if (controller instanceof ApiControllerBase) {
+            ApiControllerBase c = (ApiControllerBase) controller;
+            Number userId = c.getJwtPara(JPressConsts.JWT_USERID, false);
             if (userId != null) {
                 utm.setUserId(userId.longValue());
             }

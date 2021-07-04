@@ -191,7 +191,7 @@ public class TemplateManager {
     public void setCurrentTemplate(String templateId) {
         Template template = getTemplateById(templateId);
         if (template == null) {
-            throw new NullPointerException("template is null");
+            throw new NullPointerException("Template \"" + templateId +"\" is not exist.");
         }
         this.currentTemplateId.set(templateId);
         this.currentTemplate = template;

@@ -186,6 +186,8 @@ wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash insta
 - 4、在开发工具，右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
 - 5、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
 
+> Press下载、导入、运行视频教程，链接: https://pan.baidu.com/s/1bqbQ9_HjF95EW4qrQvOSag 提取码: 5jw8 
+
 
 > 可能遇到的问题： 
 > 

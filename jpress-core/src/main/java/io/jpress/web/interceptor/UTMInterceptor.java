@@ -19,7 +19,6 @@ import com.jfinal.aop.Inject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import io.jboot.support.jwt.JwtManager;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
@@ -70,24 +69,22 @@ public class UTMInterceptor implements Interceptor {
         /**
          * 可能是API的用户，API 通过 jwt 获取用户信息
          */
-        else if (controller instanceof ApiControllerBase) {
-            ApiControllerBase c = (ApiControllerBase) controller;
-            Number userId = c.getJwtPara(JPressConsts.JWT_USERID, false);
+        else {
+            Long userId = getUserIdInJwt(controller);
             if (userId != null) {
                 utm.setUserId(userId.longValue());
             }
-        }
-
-        /**
-         * 当用户未登录的情况下，创建匿名记录
-         */
-        else {
-            //anonym
-            String anonym = CookieUtil.get(controller, JPressConsts.COOKIE_ANONYM);
-            if (StrUtil.isNotBlank(anonym)) {
-                utm.setAnonym(anonym);
-            } else {
-                CookieUtil.put(controller, JPressConsts.COOKIE_ANONYM, StrUtil.uuid(), 60 * 60 * 24 * 365);
+            /**
+             * 当用户未登录的情况下，创建匿名记录
+             */
+            else {
+                //anonym
+                String anonym = CookieUtil.get(controller, JPressConsts.COOKIE_ANONYM);
+                if (StrUtil.isNotBlank(anonym)) {
+                    utm.setAnonym(anonym);
+                } else {
+                    CookieUtil.put(controller, JPressConsts.COOKIE_ANONYM, StrUtil.uuid(), 60 * 60 * 24 * 365);
+                }
             }
         }
 
@@ -98,5 +95,21 @@ public class UTMInterceptor implements Interceptor {
         utm.setTerm(controller.getPara("term"));
 
         utmService.doRecord(utm);
+    }
+
+
+    private static Long getUserIdInJwt(Controller controller) {
+        if (controller instanceof ApiControllerBase) {
+            Number userId = ((ApiControllerBase) controller).getJwtPara(JPressConsts.JWT_USERID, false);
+            if (userId != null) {
+                return userId.longValue();
+            }
+        } else if (controller instanceof JbootController) {
+            Number userId = ((JbootController) controller).getJwtPara(JPressConsts.JWT_USERID);
+            if (userId != null) {
+                return userId.longValue();
+            }
+        }
+        return null;
     }
 }

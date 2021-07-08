@@ -94,7 +94,6 @@ public class UserController extends TemplateControllerBase {
             @Form(name = "user", message = "账号不能为空"),
             @Form(name = "pwd", message = "密码不能为空")
     })
-//    @CaptchaValidate(form = "captcha", message = "验证码不正确，请重新输入")
     public void doLogin(String user, String pwd) {
 
         if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {
@@ -103,6 +102,11 @@ public class UserController extends TemplateControllerBase {
         }
 
         if (JPressOptions.getAsBool("login_captcha_enable",true)) {
+            String captcha = get("captcha");
+            if (StrUtil.isBlank(captcha)){
+                renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 7));
+                return;
+            }
             if (!validateCaptcha("captcha")) {
                 renderJson(Ret.fail().set("message", "验证码不正确").set("errorCode", 7));
                 return;

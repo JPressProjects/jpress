@@ -851,6 +851,7 @@ function initCkEdtior(selector) {
                     '|',
                     'blockQuote',
                     'imageInsert',
+                    'videoUpload',
                     'insertTable',
                     'codeBlock',
                     '|',

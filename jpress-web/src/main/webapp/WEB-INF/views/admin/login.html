@@ -52,7 +52,6 @@
                         <input type="password" class="form-control" placeholder="及密码..." name="pwd">
                     </div>
 
-                    #if(option('login_captcha_enable','true'))
                     <div class="form-group">
                         <label style="display: block;">验证码</label>
                         <div>
@@ -62,7 +61,6 @@
                                  onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
                         </div>
                     </div>
-                    #end
 
                     <div class="form-group" style="padding-top: 30px;">
                         <div class="col-xs-12" style="padding-top: 15px">

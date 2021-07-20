@@ -252,11 +252,11 @@
                         <h3 class="card-title">标签</h3>
                     </div>
                     <div class="card-body">
-                        <input class="form-control article-tags" multiple="multiple" name="tag">
+                        <select class="form-control article-tags" multiple="multiple" name="tag">
                         #for(tag : tags)
                         <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
                         #end
-                        </input>
+                        </select>
                         <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
 
                         <div class="tags">

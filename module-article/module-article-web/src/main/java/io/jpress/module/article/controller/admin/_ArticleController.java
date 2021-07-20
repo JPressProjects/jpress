@@ -38,6 +38,7 @@ import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -234,7 +235,12 @@ public class _ArticleController extends AdminControllerBase {
             return null;
         }
 
-        List<ArticleCategory> categories = categoryService.doCreateOrFindByTagString(tags);
+        Set<String> tagset = new HashSet<>();
+        for (String tag : tags) {
+            tagset.addAll(StrUtil.splitToSet(tag,","));
+        }
+
+        List<ArticleCategory> categories = categoryService.doCreateOrFindByTagString(tagset.toArray(new String[0]));
         long[] ids = categories.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
     }

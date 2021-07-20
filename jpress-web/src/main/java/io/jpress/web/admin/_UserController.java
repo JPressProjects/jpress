@@ -446,7 +446,12 @@ public class _UserController extends AdminControllerBase {
             return null;
         }
 
-        List<UserTag> userTags = userTagService.findOrCreateByTagString(tags);
+        Set<String> tagset = new HashSet<>();
+        for (String tag : tags) {
+            tagset.addAll(StrUtil.splitToSet(tag,","));
+        }
+
+        List<UserTag> userTags = userTagService.findOrCreateByTagString(tagset.toArray(new String[0]));
         long[] ids = userTags.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
     }

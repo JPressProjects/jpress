@@ -39,6 +39,7 @@ import io.jpress.service.MemberPriceService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -244,7 +245,12 @@ public class _ProductController extends AdminControllerBase {
             return null;
         }
 
-        List<ProductCategory> categories = categoryService.findOrCreateByTagString(tags);
+        Set<String> tagset = new HashSet<>();
+        for (String tag : tags) {
+            tagset.addAll(StrUtil.splitToSet(tag,","));
+        }
+
+        List<ProductCategory> categories = categoryService.findOrCreateByTagString(tagset.toArray(new String[0]));
         long[] ids = categories.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
     }

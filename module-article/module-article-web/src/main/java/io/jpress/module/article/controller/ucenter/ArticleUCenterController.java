@@ -41,7 +41,9 @@ import io.jpress.service.UserFavoriteService;
 import io.jpress.web.base.UcenterControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -236,7 +238,12 @@ public class ArticleUCenterController extends UcenterControllerBase {
             return null;
         }
 
-        List<ArticleCategory> categories = categoryService.doCreateOrFindByTagString(tags);
+        Set<String> tagset = new HashSet<>();
+        for (String tag : tags) {
+            tagset.addAll(StrUtil.splitToSet(tag,","));
+        }
+
+        List<ArticleCategory> categories = categoryService.doCreateOrFindByTagString(tagset.toArray(new String[0]));
         long[] ids = categories.stream().mapToLong(value -> value.getId()).toArray();
         return ArrayUtils.toObject(ids);
     }

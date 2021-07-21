@@ -122,20 +122,14 @@
                                     <div class="jp-action-body">
                                         #if(item.isNormal())
                                         <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
-                                        <a href="javascript:;" onclick="draft('#(item.id??)')"
-                                           style="color: #006505">草稿</a>
-                                        |
-                                        <a href="javascript:;" onclick="trash('#(item.id??)')"
-                                           style="color: #a00">垃圾箱</a> |
+                                        <a href="javascript:;" onclick="draft('#(item.id??)')" style="color: #006505">草稿</a> |
+                                        <a href="javascript:;" onclick="trash('#(item.id??)')" style="color: #a00">垃圾箱</a> |
                                         <a href="#(item.url ??)" target="_blank" style="color: #a00">查看</a>
                                         #elseif(item.isDraft())
                                         <a href="#(CPATH)/admin/page/write/#(item.id)" style="color: #006505">编辑</a> |
-                                        <a href="javascript:;" onclick="trash('#(item.id??)')"
-                                           style="color: #a00">垃圾箱</a>
+                                        <a href="javascript:;" onclick="trash('#(item.id??)')" style="color: #a00">垃圾箱</a>
                                         #else
-                                        <a href="javascript:;" onclick="draft('#(item.id??)')"
-                                           style="color: #006505">还原</a>
-                                        |
+                                        <a href="javascript:;" onclick="draft('#(item.id??)')" style="color: #006505">还原</a> |
                                         <a href="javascript:;" onclick="del('#(item.id??)')" style="color: #a00">永久删除</a>
                                         #end
                                     </div>

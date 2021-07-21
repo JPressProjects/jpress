@@ -113,7 +113,7 @@
 
     <section class="content">
         <form action="#(CPATH)/admin/page/doWriteSave" method="post" id="form">
-            <input type="hidden" id="pageStatus" name="page.status" value='#(page.id ?? "normal")'>
+            <input type="hidden" id="pageStatus" name="page.status" value='#(page.status ?? "normal")'>
             <input type="hidden" id="pageId" name="page.id" value="#(page.id ??)">
             <input type="hidden" id="editModeId" name="page.edit_mode" value="#(editMode ??)">
             <div class="row">

@@ -38,6 +38,7 @@ import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -175,6 +176,7 @@ public class _ArticleController extends AdminControllerBase {
 
         Article article = getModel(Article.class, "article");
 
+
         if (!validateSlug(article)) {
             renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
             return;
@@ -183,10 +185,18 @@ public class _ArticleController extends AdminControllerBase {
 
         if (StrUtil.isNotBlank(article.getSlug())) {
             Article existArticle = articleService.findFirstBySlug(article.getSlug());
-            if (existArticle != null && existArticle.getId().equals(article.getId()) == false) {
+            if (existArticle != null && !existArticle.getId().equals(article.getId())) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
                 return;
             }
+        }
+
+        if (article.getCreated() == null){
+            article.setCreated(new Date());
+        }
+
+        if (article.getModified() == null){
+            article.setModified(new Date());
         }
 
         if (article.getOrderNumber() == null) {

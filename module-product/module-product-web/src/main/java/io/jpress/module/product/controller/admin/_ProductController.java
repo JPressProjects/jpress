@@ -39,6 +39,7 @@ import io.jpress.service.MemberPriceService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -186,6 +187,14 @@ public class _ProductController extends AdminControllerBase {
             }
         }
 
+        if (product.getCreated() == null){
+            product.setCreated(new Date());
+        }
+
+        if (product.getModified() == null){
+            product.setModified(new Date());
+        }
+
         if (product.getOrderNumber() == null) {
             product.setOrderNumber(0);
         }
@@ -193,6 +202,7 @@ public class _ProductController extends AdminControllerBase {
         if (product.getViewCount() == null){
             product.setViewCount(0L);
         }
+
         long id = (long) productService.saveOrUpdate(product);
         productService.doUpdateCommentCount(id);
 

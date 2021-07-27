@@ -1,4 +1,4 @@
- /**
+/**
  * Copyright (c) 2016-2020, Michael Yang 杨福海 (fuhai999@gmail.com).
  * <p>
  * Licensed under the GNU Lesser General Public License (LGPL) ,Version 3.0 (the "License");
@@ -46,7 +46,7 @@ import java.util.Map;
  */
 public class TemplateRender extends Render {
 
-    private static String charSet =  JFinal.me().getConstants().getEncoding();
+    private static String charSet = JFinal.me().getConstants().getEncoding();
     private static Engine engine;
     private static final String contentType = "text/html; charset=" + getEncoding();
     private static String contextPath = JFinal.me().getContextPath();
@@ -120,7 +120,7 @@ public class TemplateRender extends Render {
 
     }
 
-    private void renderHtml(String html){
+    private void renderHtml(String html) {
         try {
             response.getWriter().write(html);
         } catch (IOException e) {
@@ -168,7 +168,10 @@ public class TemplateRender extends Render {
 
     public String buildNormalHtml(InputStream content) throws IOException {
 
-        Document doc = Jsoup.parse(content,charSet,"");
+        Document doc = Jsoup.parse(content, charSet, "");
+        if (doc.head().childNodeSize() == 0) {
+            return doc.body().html();
+        }
 
         doc.outputSettings().prettyPrint(false);
         doc.outputSettings().outline(false);

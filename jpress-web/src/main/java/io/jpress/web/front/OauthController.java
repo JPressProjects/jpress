@@ -26,6 +26,7 @@ import io.jpress.commons.oauth2.Oauth2Controller;
 import io.jpress.commons.oauth2.OauthConnector;
 import io.jpress.commons.oauth2.OauthUser;
 import io.jpress.commons.oauth2.connector.*;
+import io.jpress.commons.utils.SessionUtils;
 import io.jpress.model.User;
 import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
@@ -124,6 +125,7 @@ public class OauthController extends Oauth2Controller {
 
         }
 
+        SessionUtils.record(user.getId());
         CookieUtil.put(this, JPressConsts.COOKIE_UID, user.getId());
         String gotoUrl = JPressOptions.get("login_goto_url", "/ucenter");
         redirect(gotoUrl);

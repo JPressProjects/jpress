@@ -27,6 +27,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.commons.utils.SessionUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
 import io.jpress.service.UserOpenidService;
@@ -138,6 +139,7 @@ public class WechatAuthorizationController extends ControllerBase {
             return;
         }
 
+        SessionUtils.record(userId);
         CookieUtil.put(this, JPressConsts.COOKIE_UID, userId);
         redirect(StrUtil.urlDecode(gotoUrl));
     }

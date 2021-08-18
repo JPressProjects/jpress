@@ -60,7 +60,7 @@ public class WechatMiniProgramApiController extends BaseWechatDecryptController 
         String unionId = apiResult.get("unionid");
 
         //一般情况下，unionId 没有数据，需要通过微信第三方平台绑定才会有这个值
-        if (StrUtil.isBlank(unionId)) {
+        if (StrUtil.isNotBlank(unionId)) {
             setJwtAttr(JPressConsts.JWT_UNIONID, unionId);
         }
 

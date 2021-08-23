@@ -269,7 +269,7 @@ public class MenuManager implements JbootEventListener {
         String[] urlPara = new String[1];
         for (String actionKey : allActionKeys) {
 
-            if (actionKey.startsWith("/admin") && !JPressMenuConfig.me.isExclued(actionKey)) {
+            if (actionKey.startsWith("/admin") && !JPressMenuConfig.me.isExcludeActionKey(actionKey)) {
                 Action action = JFinal.me().getAction(actionKey, urlPara);
                 if (action == null || excludedMethodName.contains(action.getMethodName())) {
                     continue;
@@ -295,7 +295,7 @@ public class MenuManager implements JbootEventListener {
         String[] urlPara = new String[1];
         for (String actionKey : allActionKeys) {
             // 只处理后台的权限 和 API的权限
-            if (actionKey.startsWith("/ucenter") && !JPressMenuConfig.me.isExclued(actionKey)) {
+            if (actionKey.startsWith("/ucenter") && !JPressMenuConfig.me.isExcludeActionKey(actionKey)) {
 
                 Action action = JFinal.me().getAction(actionKey, urlPara);
                 if (action == null || excludedMethodName.contains(action.getMethodName())) {

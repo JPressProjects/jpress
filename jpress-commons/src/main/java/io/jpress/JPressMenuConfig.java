@@ -36,7 +36,7 @@ public class JPressMenuConfig {
     private boolean userEnable = true;
     private boolean wechatEnable = true;
 
-    private Set<String> excludeMenus;
+    private Set<String> excludeActionKeys;
 
     public boolean isOrderEnable() {
         return orderEnable;
@@ -86,16 +86,16 @@ public class JPressMenuConfig {
         this.wechatEnable = wechatEnable;
     }
 
-    public Set<String> getExcludeMenus() {
-        return excludeMenus;
+    public Set<String> getExcludeActionKeys() {
+        return excludeActionKeys;
     }
 
-    public void setExcludeMenus(Set<String> excludeMenus) {
-        this.excludeMenus = excludeMenus;
+    public void setExcludeActionKeys(Set<String> excludeActionKeys) {
+        this.excludeActionKeys = excludeActionKeys;
     }
 
-    public boolean isExclued(String actionKey) {
-        return excludeMenus != null && excludeMenus.contains(actionKey);
+    public boolean isExcludeActionKey(String actionKey) {
+        return excludeActionKeys != null && excludeActionKeys.contains(actionKey);
     }
 
     public static final JPressMenuConfig me = Jboot.config(JPressMenuConfig.class);

@@ -293,22 +293,20 @@
 
                 <div class="card card-outlinecard-solid">
                     <div class="card-header with-border ">
-                        <h3 class="card-title">其他</h3>
+                        <h3 class="card-title">模板</h3>
                     </div>
                     <div class="card-body">
 
-                        #if(styles && styles.size() > 0 )
                         <div class="form-group row">
                             <select class="form-control" name="article.style">
-                                <option value="">默认样式</option>
+                                <option value="">默认（article.html）</option>
                                 #for(style : styles)
                                 <option value="#(style)" #selectedIf(article && article.style==style)>
-                                    #(style)
+                                    article_#(style).html
                                 </option>
                                 #end
                             </select>
                         </div>
-                        #end
 
                         <div class="form-group row">
                             <input type="text" class="form-control" name="article.flag"

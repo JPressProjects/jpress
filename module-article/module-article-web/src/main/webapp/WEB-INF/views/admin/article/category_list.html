@@ -149,21 +149,19 @@
                             </div>
 
 
-                            #if(styles && styles.size() > 0)
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">样式</label>
+                                <label class="col-sm-2 col-form-label">模板</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="category.style">
-                                        <option value="">默认</option>
+                                        <option value="">默认（artlist.html）</option>
                                         #for(style : styles)
                                         <option value="#(style)" #selectedIf(category && category.style== style)>
-                                            #(style)
+                                            artlist_#(style).html
                                         </option>
                                         #end
                                     </select>
                                 </div>
                             </div>
-                            #end
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">显示到菜单</label>

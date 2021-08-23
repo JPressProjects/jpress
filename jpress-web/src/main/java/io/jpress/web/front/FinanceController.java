@@ -42,7 +42,7 @@ public class FinanceController extends UcenterControllerBase {
     /**
      * 用户余额信息
      */
-    @UCenterMenu(text = "我的余额", groupId = JPressConsts.UCENTER_MENU_FINANCE_INFO, icon = "<i class=\"fab fa-gg-circle\"></i>",order = 30)
+    @UCenterMenu(text = "我的余额", groupId = JPressConsts.UCENTER_MENU_FINANCE_INFO, icon = "<i class=\"fab fa-gg-circle\"></i>", order = 30)
     public void index() {
         BigDecimal incomeAmount = amountStatementService.queryIncomeAmount(getLoginedUser().getId());
         BigDecimal payAmount = amountStatementService.queryPayAmount(getLoginedUser().getId());

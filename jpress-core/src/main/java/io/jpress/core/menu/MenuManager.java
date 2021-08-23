@@ -20,6 +20,7 @@ import com.jfinal.core.JFinal;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jpress.JPressConsts;
+import io.jpress.JPressMenuConfig;
 import io.jpress.core.install.Installer;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.menu.annotation.UCenterMenu;
@@ -82,39 +83,48 @@ public class MenuManager implements JbootEventListener {
      */
     private void initAdminSystemMenuGroup() {
 
-        MenuGroup orderMenuGroup = new MenuGroup();
-        orderMenuGroup.setId(JPressConsts.SYSTEM_MENU_ORDER);
-        orderMenuGroup.setText("财务");
-        orderMenuGroup.setIcon("<i class=\"fab fa-gg-circle\"></i>");
-        systemMenus.add(orderMenuGroup);
+        if (JPressMenuConfig.me.isOrderEnable()) {
+            MenuGroup orderMenuGroup = new MenuGroup();
+            orderMenuGroup.setId(JPressConsts.SYSTEM_MENU_ORDER);
+            orderMenuGroup.setText("财务");
+            orderMenuGroup.setIcon("<i class=\"fab fa-gg-circle\"></i>");
+            systemMenus.add(orderMenuGroup);
+        }
 
 
-        MenuGroup userMenuGroup = new MenuGroup();
-        userMenuGroup.setId(JPressConsts.SYSTEM_MENU_USER);
-        userMenuGroup.setText("用户");
-        userMenuGroup.setIcon("<i class=\"fas fa-user\"></i>");
-        systemMenus.add(userMenuGroup);
+        if (JPressMenuConfig.me.isUserEnable()) {
+            MenuGroup userMenuGroup = new MenuGroup();
+            userMenuGroup.setId(JPressConsts.SYSTEM_MENU_USER);
+            userMenuGroup.setText("用户");
+            userMenuGroup.setIcon("<i class=\"fas fa-user\"></i>");
+            systemMenus.add(userMenuGroup);
+        }
+
+        if (JPressMenuConfig.me.isWechatEnable()) {
+            MenuGroup wechatMenuGroup = new MenuGroup();
+            wechatMenuGroup.setId(JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
+            wechatMenuGroup.setText("微信");
+            wechatMenuGroup.setIcon("<i class=\"fab fa-weixin\"></i>");
+            systemMenus.add(wechatMenuGroup);
+        }
 
 
-        MenuGroup wechatMenuGroup = new MenuGroup();
-        wechatMenuGroup.setId(JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT);
-        wechatMenuGroup.setText("微信");
-        wechatMenuGroup.setIcon("<i class=\"fab fa-weixin\"></i>");
-        systemMenus.add(wechatMenuGroup);
+        if (JPressMenuConfig.me.isTemplateEnable()) {
+            MenuGroup templateMenuGroup = new MenuGroup();
+            templateMenuGroup.setId(JPressConsts.SYSTEM_MENU_TEMPLATE);
+            templateMenuGroup.setText("模板");
+            templateMenuGroup.setIcon("<i class=\"fas fa-magic\"></i>");
+            systemMenus.add(templateMenuGroup);
+        }
 
 
-        MenuGroup templateMenuGroup = new MenuGroup();
-        templateMenuGroup.setId(JPressConsts.SYSTEM_MENU_TEMPLATE);
-        templateMenuGroup.setText("模板");
-        templateMenuGroup.setIcon("<i class=\"fas fa-magic\"></i>");
-        systemMenus.add(templateMenuGroup);
-
-
-        MenuGroup addonMenuGroup = new MenuGroup();
-        addonMenuGroup.setId(JPressConsts.SYSTEM_MENU_ADDON);
-        addonMenuGroup.setText("插件");
-        addonMenuGroup.setIcon("<i class=\"fas fa-plug\"></i>");
-        systemMenus.add(addonMenuGroup);
+        if (JPressMenuConfig.me.isAddonEnable()) {
+            MenuGroup addonMenuGroup = new MenuGroup();
+            addonMenuGroup.setId(JPressConsts.SYSTEM_MENU_ADDON);
+            addonMenuGroup.setText("插件");
+            addonMenuGroup.setIcon("<i class=\"fas fa-plug\"></i>");
+            systemMenus.add(addonMenuGroup);
+        }
 
 
         MenuGroup settingMenuGroup = new MenuGroup();
@@ -142,7 +152,6 @@ public class MenuManager implements JbootEventListener {
 
 
         addMenuItems(buildAdminMenuItems());
-
 
 
     }
@@ -176,14 +185,12 @@ public class MenuManager implements JbootEventListener {
     }
 
 
-
     public void addMenuItems(List<MenuItem> items) {
         if (items == null) {
             return;
         }
         items.forEach(this::addMenuItem);
     }
-
 
 
     public void addMenuItem(MenuItem item) {
@@ -207,11 +214,11 @@ public class MenuManager implements JbootEventListener {
             }
         }
 
-        if (ucenterPersonalMenus.getId().equals(item.getGroupId())){
+        if (ucenterPersonalMenus.getId().equals(item.getGroupId())) {
             ucenterPersonalMenus.addItem(item);
         }
 
-        if (ucenterFinanceMenus.getId().equals(item.getGroupId())){
+        if (ucenterFinanceMenus.getId().equals(item.getGroupId())) {
             ucenterFinanceMenus.addItem(item);
         }
     }
@@ -242,7 +249,6 @@ public class MenuManager implements JbootEventListener {
     }
 
 
-
     // 用于排除掉 BaseController 中的几个成为了 action 的方法
     private static Set<String> excludedMethodName = buildExcludedMethodName();
 
@@ -263,7 +269,7 @@ public class MenuManager implements JbootEventListener {
         String[] urlPara = new String[1];
         for (String actionKey : allActionKeys) {
 
-            if (actionKey.startsWith("/admin")) {
+            if (actionKey.startsWith("/admin") && !JPressMenuConfig.me.isExclued(actionKey)) {
                 Action action = JFinal.me().getAction(actionKey, urlPara);
                 if (action == null || excludedMethodName.contains(action.getMethodName())) {
                     continue;
@@ -289,7 +295,7 @@ public class MenuManager implements JbootEventListener {
         String[] urlPara = new String[1];
         for (String actionKey : allActionKeys) {
             // 只处理后台的权限 和 API的权限
-            if (actionKey.startsWith("/ucenter")) {
+            if (actionKey.startsWith("/ucenter") && !JPressMenuConfig.me.isExclued(actionKey)) {
 
                 Action action = JFinal.me().getAction(actionKey, urlPara);
                 if (action == null || excludedMethodName.contains(action.getMethodName())) {

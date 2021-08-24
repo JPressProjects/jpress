@@ -33,8 +33,8 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.10.5</jboot.version>
-        <jfinal-weixin.version>3.1</jfinal-weixin.version>
+        <jboot.version>3.10.7</jboot.version>
+        <jfinal-weixin.version>3.3</jfinal-weixin.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>
         <javax.mail.version>1.6.2</javax.mail.version>
@@ -50,7 +50,7 @@
         <commons-codec.version>1.15</commons-codec.version>
         <slf4j.version>1.7.29</slf4j.version>
         <log4j.version>2.14.1</log4j.version>
-        <fastjson.version>1.2.76</fastjson.version>
+        <fastjson.version>1.2.78</fastjson.version>
         <lucene.version>8.8.2</lucene.version>
         <jcseg.version>2.6.2</jcseg.version>
         <elasticsearch.version>7.13.2</elasticsearch.version>

@@ -106,7 +106,7 @@ public class AddonManager implements JbootEventListener {
         return me;
     }
 
-    private Map<String, AddonInfo> addonsCache = new ConcurrentHashMap<>();
+    private Map<String, AddonInfo> addonInfoMap = new ConcurrentHashMap<>();
     private AddonNotifier notifier;
 
     public void init() {
@@ -146,7 +146,7 @@ public class AddonManager implements JbootEventListener {
         for (File jarFile : addonJarFiles) {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
             if (addonInfo != null && StrUtil.isNotBlank(addonInfo.getId())) {
-                addonsCache.put(addonInfo.getId(), addonInfo);
+                addonInfoMap.put(addonInfo.getId(), addonInfo);
             }
         }
     }
@@ -154,7 +154,7 @@ public class AddonManager implements JbootEventListener {
 
     private void doInstallAddonsInApplicationStarted() {
         OptionService optionService = Aop.get(OptionService.class);
-        for (AddonInfo addonInfo : addonsCache.values()) {
+        for (AddonInfo addonInfo : addonInfoMap.values()) {
             if (optionService.findByKey(ADDON_INSTALL_PREFFIX + addonInfo.getId()) != null) {
                 addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
             }
@@ -163,7 +163,7 @@ public class AddonManager implements JbootEventListener {
 
     private void doStartAddonInApplicationStarted() {
         OptionService optionService = Aop.get(OptionService.class);
-        for (AddonInfo addonInfo : addonsCache.values()) {
+        for (AddonInfo addonInfo : addonInfoMap.values()) {
             if (optionService.findByKey(ADDON_START_PREFFIX + addonInfo.getId()) != null
                     && addonInfo.isInstall()
                     && !addonInfo.isStarted() ) {
@@ -181,11 +181,11 @@ public class AddonManager implements JbootEventListener {
         if (StrUtil.isBlank(id)) {
             return null;
         }
-        return addonsCache.get(id);
+        return addonInfoMap.get(id);
     }
 
     public List<AddonInfo> getAllAddonInfos() {
-        return new ArrayList<>(addonsCache.values());
+        return new ArrayList<>(addonInfoMap.values());
     }
 
 
@@ -206,7 +206,7 @@ public class AddonManager implements JbootEventListener {
     public boolean install(File jarFile) {
         try {
             AddonInfo addonInfo = AddonUtil.readAddonInfo(jarFile);
-            addonsCache.put(addonInfo.getId(), addonInfo);
+            addonInfoMap.put(addonInfo.getId(), addonInfo);
             Addon addon = addonInfo.getAddon();
 
             AddonUtil.unzipResources(addonInfo);
@@ -347,7 +347,7 @@ public class AddonManager implements JbootEventListener {
     private void clearAddonCache(AddonInfo addonInfo) {
         AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
         addonInfo.setStatus(AddonInfo.STATUS_INIT);
-        addonsCache.remove(addonInfo.getId());
+        addonInfoMap.remove(addonInfo.getId());
     }
 
 
@@ -867,7 +867,7 @@ public class AddonManager implements JbootEventListener {
 
     private boolean doSetAddonStatus(String id) {
 
-        AddonInfo addonInfo = addonsCache.get(id);
+        AddonInfo addonInfo = addonInfoMap.get(id);
         addonInfo.setStatus(AddonInfo.STATUS_INSTALL);
 
         OptionService optionService = Aop.get(OptionService.class);
@@ -892,7 +892,7 @@ public class AddonManager implements JbootEventListener {
         }
 
 
-        addonsCache.put(addon.getId(), addon);
+        addonInfoMap.put(addon.getId(), addon);
         return true;
     }
 
@@ -971,7 +971,7 @@ public class AddonManager implements JbootEventListener {
     private void doRestAddonInfo(AddonInfo addonInfo) {
         AddonUtil.clearAddonInfoCache(addonInfo.buildJarFile());
         AddonInfo addon = AddonUtil.readAddonInfo(addonInfo.buildJarFile());
-        addonsCache.put(addon.getId(), addon);
+        addonInfoMap.put(addon.getId(), addon);
     }
 
     private void doRollBackBackups(AddonInfo addon) {
@@ -1011,7 +1011,7 @@ public class AddonManager implements JbootEventListener {
         AddonUtil.forceDelete(addon.buildJarFile());
 
         //删除插件列表缓存
-        addonsCache.remove(addon.getId());
+        addonInfoMap.remove(addon.getId());
     }
 
     private Ret failRet(String msg) {
@@ -1063,8 +1063,8 @@ public class AddonManager implements JbootEventListener {
         this.notifier = notifier;
     }
 
-    public Map<String, AddonInfo> getAddonsCache() {
-        return addonsCache;
+    public Map<String, AddonInfo> getAddonInfoMap() {
+        return addonInfoMap;
     }
 
 }

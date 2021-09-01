@@ -84,9 +84,11 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
         controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);
 
         //添加CSRF的配置，方便在前台进行退出等操作
-        String uuid = StrUtil.uuid();
-        inv.getController().setCookie(CSRFInterceptor.CSRF_KEY, uuid, -1);
-        inv.getController().setAttr(CSRFInterceptor.CSRF_ATTR_KEY, uuid);
+        String csrfToken = CSRFInterceptor.createSCRFToken(inv);
+        if (csrfToken != null) {
+            inv.getController().setCookie(CSRFInterceptor.CSRF_KEY, csrfToken, -1);
+            inv.getController().setAttr(CSRFInterceptor.CSRF_ATTR_KEY, csrfToken);
+        }
 
         MenuService menuService = Aop.get(MenuService.class);
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);

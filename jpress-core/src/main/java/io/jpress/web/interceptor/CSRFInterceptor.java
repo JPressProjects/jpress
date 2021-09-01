@@ -47,7 +47,7 @@ public class CSRFInterceptor implements Interceptor {
     public void intercept(Invocation inv) {
 
         String uid = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
-        if (StrUtil.isBlank(uid) || !SessionUtils.isLoginedOk(uid)){
+        if (StrUtil.isBlank(uid) || !SessionUtils.isLoginedOk(uid)) {
             // 不用管用户未登录的情况
             inv.invoke();
             return;
@@ -58,13 +58,13 @@ public class CSRFInterceptor implements Interceptor {
         //在JPress里有一个共识：只要是 增、删、改的操作，都会用do开头对方法进行命名
         String methodName = inv.getMethodName();
         if (!methodName.startsWith(CSRF_METHOD_PREFIX)) {
-            renderNormal(inv,uid);
+            renderNormal(inv);
             return;
         }
 
         //是小写字母 或者 数字、中文等非大写字母，这个时候可能是个单词 比如：download
         if (!Character.isUpperCase(methodName.charAt(2))) {
-            renderNormal(inv,uid);
+            renderNormal(inv);
             return;
         }
 
@@ -88,26 +88,32 @@ public class CSRFInterceptor implements Interceptor {
             return;
         }
 
-        renderNormal(inv,uid);
+        renderNormal(inv);
     }
 
 
-    private void renderNormal(Invocation inv,String userId) {
+    private void renderNormal(Invocation inv) {
         // 若不是 ajax 请求，才需要重置本地的 token
         // ajax 请求，需要保证之前的token可以继续使用
         if (!RequestUtil.isAjaxRequest(inv.getController().getRequest())) {
-            String scrfToken =  createSCRFToken(userId);
-            inv.getController().setCookie(CSRF_KEY,scrfToken, -1);
+            String scrfToken = createSCRFToken(inv);
+            inv.getController().setCookie(CSRF_KEY, scrfToken, -1);
             inv.getController().setAttr(CSRF_ATTR_KEY, scrfToken);
         }
 
         inv.invoke();
     }
 
-    private String createSCRFToken(String userId){
+    public static String createSCRFToken(Invocation inv) {
+        String userId = CookieUtil.get(inv.getController(), JPressConsts.COOKIE_UID);
+
+        //user not login
+        if (StrUtil.isBlank(userId)) {
+            return null;
+        }
+
         return HashKit.md5(SessionUtils.getSessionId(userId) + encryptKey);
     }
-
 
 
     private static final Ret FAIL_RET = Ret.fail().set("message", "token失效，为了安全起见，请刷新后重试。");

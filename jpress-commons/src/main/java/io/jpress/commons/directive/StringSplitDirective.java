@@ -10,7 +10,7 @@ import io.jboot.web.directive.base.JbootDirectiveBase;
 import java.util.Set;
 
 @JFinalDirective("stringSplit")
-public class stringSplit extends JbootDirectiveBase {
+public class StringSplitDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
         String orginalStr = getPara(0, scope);

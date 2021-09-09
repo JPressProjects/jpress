@@ -31,7 +31,7 @@
                 <ul class="nav nav-treeview">
                     #for(item : group.items)
                     #hasPermission(item.permission)
-                    <li class="nav-item" id="#(chiitemldMenu.id ??)">
+                    <li class="nav-item" id="#(item.id ??)">
                         <a href="#(item.url ??)" class="nav-link">
                             <i class="far fa-circle"></i>
                             <p> #(item.text ??)</p>
@@ -60,7 +60,7 @@
                 <ul class="nav nav-treeview">
                     #for(item : group.items)
                     #hasPermission(item.permission)
-                    <li class="nav-item" id="#(chiitemldMenu.id ??)">
+                    <li class="nav-item" id="#(item.id ??)">
                         <a href="#(item.url ??)" class="nav-link">
                             <i class="far fa-circle"></i>
                             <p> #(item.text ??)</p>

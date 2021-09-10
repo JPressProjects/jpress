@@ -50,6 +50,11 @@ public abstract class AdminControllerBase extends ControllerBase {
             return true;
         }
 
+        //不能是纯数字
+        if (StrUtil.isNumeric(slug)){
+            return false;
+        }
+
         if (!slug.contains("-")) {
             return true;
         }

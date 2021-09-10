@@ -24,7 +24,7 @@ import com.jfinal.core.Controller;
 import io.jboot.core.JbootCoreConfig;
 import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.StrUtil;
-import io.jboot.web.JbootAciontMapping;
+import io.jboot.web.JbootActionMapping;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.menu.MenuItem;
 import io.jpress.core.menu.MenuManager;
@@ -200,7 +200,7 @@ public class AddonControllerManager {
      * 1、ActionMapping 的 mapping 是 hashMap，随时对这个 mapping 进行操作可能存在线程不安全的问题，所以需要修改为 ConcurrentHashMap
      * 2、需要把 buildActionMapping() 方法给公布出来，才能在对 mapping 进行操作的时候重新构建 actionKey->Controller 的映射关系
      */
-    public static class AddonActionMapping extends JbootAciontMapping {
+    public static class AddonActionMapping extends JbootActionMapping {
 
         public AddonActionMapping(Routes routes) {
             super(routes);

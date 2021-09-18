@@ -144,7 +144,8 @@ public abstract class BaseUserFavorite<M extends BaseUserFavorite<M>> extends Ba
      * 创建日期
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

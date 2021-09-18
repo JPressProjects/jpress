@@ -16,13 +16,13 @@
 package io.jpress.codegen.generator;
 
 
-public class BaseOptionsModelGenerator extends com.jfinal.plugin.activerecord.generator.BaseModelGenerator {
+public class BaseSortModelGenerator extends com.jfinal.plugin.activerecord.generator.BaseModelGenerator {
 
-    public BaseOptionsModelGenerator(String baseModelPackageName,
-                                     String baseModelOutputDir) {
+    public BaseSortModelGenerator(String baseModelPackageName,
+                                  String baseModelOutputDir) {
         super(baseModelPackageName, baseModelOutputDir);
 
-        this.template = "/io/jpress/codegen/templates/base_options_model_template.jf";
+        this.template = "/io/jpress/codegen/templates/base_sort_model_template.jf";
     }
 
 

@@ -150,7 +150,8 @@ public abstract class BaseCouponUsedRecord<M extends BaseCouponUsedRecord<M>> ex
      * 使用时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

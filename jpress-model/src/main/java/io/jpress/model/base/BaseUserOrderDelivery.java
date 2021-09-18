@@ -58,7 +58,7 @@ public abstract class BaseUserOrderDelivery<M extends BaseUserOrderDelivery<M>> 
      * 快递发货时间
      */
 	public java.util.Date getStartTime() {
-		return get("start_time");
+		return getDate("start_time");
 	}
 
     /**
@@ -72,7 +72,7 @@ public abstract class BaseUserOrderDelivery<M extends BaseUserOrderDelivery<M>> 
      * 快递送达时间
      */
 	public java.util.Date getFinishTime() {
-		return get("finish_time");
+		return getDate("finish_time");
 	}
 
     /**
@@ -212,7 +212,7 @@ public abstract class BaseUserOrderDelivery<M extends BaseUserOrderDelivery<M>> 
      * 修改时间
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
     /**
@@ -226,7 +226,8 @@ public abstract class BaseUserOrderDelivery<M extends BaseUserOrderDelivery<M>> 
      * 创建时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

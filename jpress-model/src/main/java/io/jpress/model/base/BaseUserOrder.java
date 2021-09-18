@@ -206,7 +206,7 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
      * 支付时间
      */
 	public java.util.Date getPaySuccessTime() {
-		return get("pay_success_time");
+		return getDate("pay_success_time");
 	}
 
     /**
@@ -436,14 +436,14 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
 	}
 
     /**
-     * 管理员后台备注
+     * 管理员后台憋住
      */
 	public void setRemarks(java.lang.String remarks) {
 		set("remarks", remarks);
 	}
 
     /**
-     * 管理员后台备注
+     * 管理员后台憋住
      */
 	public java.lang.String getRemarks() {
 		return getStr("remarks");
@@ -502,7 +502,7 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
      * 修改时间
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
     /**
@@ -516,7 +516,8 @@ public abstract class BaseUserOrder<M extends BaseUserOrder<M>> extends BaseOpti
      * 创建时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

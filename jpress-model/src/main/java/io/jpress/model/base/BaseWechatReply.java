@@ -58,7 +58,7 @@ public abstract class BaseWechatReply<M extends BaseWechatReply<M>> extends Jboo
      * 创建时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
     /**
@@ -72,7 +72,8 @@ public abstract class BaseWechatReply<M extends BaseWechatReply<M>> extends Jboo
      * 修改时间
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 }
+

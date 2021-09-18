@@ -86,7 +86,7 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
      * access_token的过期时间
      */
 	public java.util.Date getExpiredTime() {
-		return get("expired_time");
+		return getDate("expired_time");
 	}
 
     /**
@@ -130,7 +130,7 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 	public void setModified(java.util.Date modified) {
@@ -138,7 +138,8 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 }
+

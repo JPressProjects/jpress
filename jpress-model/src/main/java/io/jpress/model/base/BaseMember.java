@@ -58,7 +58,7 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
      * 到期时间
      */
 	public java.util.Date getDuetime() {
-		return get("duetime");
+		return getDate("duetime");
 	}
 
 	public void setRemark(java.lang.String remark) {
@@ -98,7 +98,7 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 	public void setCreated(java.util.Date created) {
@@ -106,7 +106,8 @@ public abstract class BaseMember<M extends BaseMember<M>> extends BaseOptionsMod
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

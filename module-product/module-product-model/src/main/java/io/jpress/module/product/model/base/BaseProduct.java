@@ -268,7 +268,7 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      * 限时优惠截止时间
      */
 	public java.util.Date getLimitedTime() {
-		return get("limited_time");
+		return getDate("limited_time");
 	}
 
     /**
@@ -352,7 +352,7 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      * 最后评论时间
      */
 	public java.util.Date getCommentTime() {
-		return get("comment_time");
+		return getDate("comment_time");
 	}
 
     /**
@@ -436,7 +436,7 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      * 创建日期
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
     /**
@@ -450,18 +450,18 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      * 最后更新日期
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
     /**
-     * 标识，通常用于对某几篇文章进行标识，从而实现单独查询
+     * 标识，通常用于对某几个商品进行标识，从而实现单独查询
      */
 	public void setFlag(java.lang.String flag) {
 		set("flag", flag);
 	}
 
     /**
-     * 标识，通常用于对某几篇文章进行标识，从而实现单独查询
+     * 标识，通常用于对某几个商品进行标识，从而实现单独查询
      */
 	public java.lang.String getFlag() {
 		return getStr("flag");
@@ -518,3 +518,4 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 	}
 
 }
+

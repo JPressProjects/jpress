@@ -48,7 +48,8 @@ public abstract class BaseProductImage<M extends BaseProductImage<M>> extends Jb
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

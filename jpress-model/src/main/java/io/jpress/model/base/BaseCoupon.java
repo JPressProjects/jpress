@@ -206,7 +206,7 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
      * 发放开始时间
      */
 	public java.util.Date getStartTime() {
-		return get("start_time");
+		return getDate("start_time");
 	}
 
     /**
@@ -220,7 +220,7 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
      * 发放结束时间
      */
 	public java.util.Date getEndTime() {
-		return get("end_time");
+		return getDate("end_time");
 	}
 
     /**
@@ -248,7 +248,7 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
      * 使用开始时间
      */
 	public java.util.Date getValidStartTime() {
-		return get("valid_start_time");
+		return getDate("valid_start_time");
 	}
 
     /**
@@ -262,7 +262,7 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
      * 使用结束时间
      */
 	public java.util.Date getValidEndTime() {
-		return get("valid_end_time");
+		return getDate("valid_end_time");
 	}
 
     /**
@@ -320,7 +320,7 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 	public void setModified(java.util.Date modified) {
@@ -328,7 +328,8 @@ public abstract class BaseCoupon<M extends BaseCoupon<M>> extends BaseOptionsMod
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 }
+

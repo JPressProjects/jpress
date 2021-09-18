@@ -15,7 +15,6 @@
  */
 package io.jpress.codegen;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.generator.MetaBuilder;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 import io.jboot.app.JbootApplication;
@@ -23,6 +22,7 @@ import io.jboot.codegen.CodeGenHelpler;
 import io.jboot.utils.StrUtil;
 import io.jpress.codegen.generator.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -49,6 +49,9 @@ public class SystemGenerator {
                 "user_amount_statement,user_amount_payout,user_cart,user_order,user_order_item,user_order_delivery,user_order_invoice," +
                 "payment_record,user_openid,member_joined_record,user_favorite,user_tag";
 
+        String sortTables = "menu,wechat_menu";
+        String sortOptionsTables = "";
+
         JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/jpress3");
         JbootApplication.setBootArg("jboot.datasource.user", "root");
         JbootApplication.setBootArg("jboot.datasource.password", "123456");
@@ -57,8 +60,8 @@ public class SystemGenerator {
 
         String baseModelPackage = modelPackage + ".base";
 
-        String modelDir = PathKit.getWebRootPath() + "/../jpress-model/src/main/java/" + modelPackage.replace(".", "/");
-        String baseModelDir = PathKit.getWebRootPath() + "/../jpress-model/src/main/java/" + baseModelPackage.replace(".", "/");
+        String modelDir = PathKit.getProjectRootPath() + "/jpress-model/src/main/java/" + modelPackage.replace(".", "/");
+        String baseModelDir = PathKit.getProjectRootPath() + "/jpress-model/src/main/java/" + baseModelPackage.replace(".", "/");
 
         System.out.println("start generate...dir:" + modelDir);
 
@@ -73,8 +76,8 @@ public class SystemGenerator {
         new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String servicePackage = "io.jpress.service";
-        String apiPath = PathKit.getWebRootPath() + "/../jpress-service/src/main/java/" + servicePackage.replace(".", "/");
-        String providerPath = PathKit.getWebRootPath() + "/../jpress-service-provider/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
+        String apiPath = PathKit.getProjectRootPath() + "/jpress-service/src/main/java/" + servicePackage.replace(".", "/");
+        String providerPath = PathKit.getProjectRootPath() + "/jpress-service-provider/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
 
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetas);
@@ -82,9 +85,33 @@ public class SystemGenerator {
 
         Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
         if (optionsTableNames != null && optionsTableNames.size() > 0) {
-            tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
-            new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+            new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(copyTableMetasByNames(tableMetas,optionsTableNames));
         }
+
+
+        //SortTables
+        Set<String> sortTableNames = StrUtil.splitToSet(sortTables, ",");
+        if (sortTableNames != null && sortTableNames.size() > 0) {
+            new BaseSortModelGenerator(baseModelPackage, baseModelDir).generate(copyTableMetasByNames(tableMetas,sortTableNames));
+        }
+
+        //SortOptionsTables
+        Set<String> sortOptionsTableNames = StrUtil.splitToSet(sortOptionsTables, ",");
+        if (sortOptionsTableNames != null && sortOptionsTableNames.size() > 0) {
+            new BaseSortOptionsModelGenerator(baseModelPackage, baseModelDir).generate(copyTableMetasByNames(tableMetas,sortOptionsTableNames));
+        }
+
+    }
+
+
+    private  static List<TableMeta> copyTableMetasByNames(List<TableMeta> tableMetas,Set<String> names){
+        List<TableMeta> retList = new ArrayList<>();
+        tableMetas.forEach(tableMeta -> {
+            if (names.contains(tableMeta.name.toLowerCase())){
+                retList.add(tableMeta);
+            }
+        });
+        return retList;
     }
 
 }

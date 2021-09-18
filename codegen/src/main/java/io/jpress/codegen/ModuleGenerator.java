@@ -15,7 +15,6 @@
  */
 package io.jpress.codegen;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.generator.MetaBuilder;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
@@ -41,6 +40,8 @@ public class ModuleGenerator {
     private String dbUser;
     private String dbPassword;
     private String optionsTables;
+    private String sortTables = "";
+    private String sortOptionsTables = "";
     private String dbTables;
     private String modelPackage;
     private String servicePackage;
@@ -57,7 +58,7 @@ public class ModuleGenerator {
         this.dbTables = dbTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getWebRootPath() + "/../../../../module-" + moduleName;
+        this.basePath = PathKit.getProjectRootPath() + "/module-" + moduleName;
     }
 
     public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String optionsTables, String modelPackage, String servicePackage) {
@@ -69,7 +70,22 @@ public class ModuleGenerator {
         this.dbTables = dbTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getWebRootPath() + "/../../../../module-" + moduleName;
+        this.basePath = PathKit.getProjectRootPath() + "/module-" + moduleName;
+    }
+
+
+    public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables,String optionsTables, String sortTables, String sortOptionsTables,  String modelPackage, String servicePackage) {
+        this.moduleName = moduleName;
+        this.dbUrl = dbUrl;
+        this.dbUser = dbUser;
+        this.dbPassword = dbPassword;
+        this.optionsTables = optionsTables;
+        this.sortTables = sortTables;
+        this.sortOptionsTables = sortOptionsTables;
+        this.dbTables = dbTables;
+        this.modelPackage = modelPackage;
+        this.servicePackage = servicePackage;
+        this.basePath = PathKit.getProjectRootPath() + "/module-" + moduleName;
     }
 
 
@@ -211,10 +227,33 @@ public class ModuleGenerator {
 
         Set<String> optionsTableNames = StrUtil.splitToSet(optionsTables, ",");
         if (optionsTableNames != null && optionsTableNames.size() > 0) {
-            tableMetas.removeIf(tableMeta -> !optionsTableNames.contains(tableMeta.name.toLowerCase()));
-            new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(tableMetas);
+            new BaseOptionsModelGenerator(baseModelPackage, baseModelDir).generate(copyTableMetasByNames(tableMetas,optionsTableNames));
         }
 
+
+        //SortTables
+        Set<String> sortTableNames = StrUtil.splitToSet(sortTables, ",");
+        if (sortTableNames != null && sortTableNames.size() > 0) {
+            new BaseSortModelGenerator(baseModelPackage, baseModelDir).generate(copyTableMetasByNames(tableMetas,sortTableNames));
+        }
+
+        //SortOptionsTables
+        Set<String> sortOptionsTableNames = StrUtil.splitToSet(sortOptionsTables, ",");
+        if (sortOptionsTableNames != null && sortOptionsTableNames.size() > 0) {
+            new BaseSortOptionsModelGenerator(baseModelPackage, baseModelDir).generate(copyTableMetasByNames(tableMetas,sortOptionsTableNames));
+        }
+
+    }
+
+
+    private  static List<TableMeta> copyTableMetasByNames(List<TableMeta> tableMetas,Set<String> names){
+        List<TableMeta> retList = new ArrayList<>();
+        tableMetas.forEach(tableMeta -> {
+            if (names.contains(tableMeta.name.toLowerCase())){
+                retList.add(tableMeta);
+            }
+        });
+        return retList;
     }
 
 }

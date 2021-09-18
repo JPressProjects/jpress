@@ -176,7 +176,7 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JbootM
      * 上传时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
     /**
@@ -190,7 +190,8 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JbootM
      * 修改时间
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 }
+

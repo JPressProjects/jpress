@@ -170,7 +170,7 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Base
      * 限时价格到期时间
      */
 	public java.util.Date getLimitedTime() {
-		return get("limited_time");
+		return getDate("limited_time");
 	}
 
     /**
@@ -270,7 +270,7 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Base
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 	public void setCreated(java.util.Date created) {
@@ -278,7 +278,8 @@ public abstract class BaseMemberGroup<M extends BaseMemberGroup<M>> extends Base
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

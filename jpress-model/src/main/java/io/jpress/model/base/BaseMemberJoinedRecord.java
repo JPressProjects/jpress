@@ -156,7 +156,8 @@ public abstract class BaseMemberJoinedRecord<M extends BaseMemberJoinedRecord<M>
      * 加入的时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

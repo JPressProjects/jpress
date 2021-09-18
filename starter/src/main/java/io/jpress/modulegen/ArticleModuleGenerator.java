@@ -31,13 +31,16 @@ public class ArticleModuleGenerator {
 
     private static String moduleName = "article";
     private static String dbTables = "article,article_category,article_comment";
+    private static String optionsTables = "";
+    private static String sortTables = "article_category";
+    private static String sortOptionsTables = "";
     private static String modelPackage = "io.jpress.module.article.model";
     private static String servicePackage = "io.jpress.module.article.service";
 
 
     public static void main(String[] args) {
 
-        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, optionsTables, sortTables, sortOptionsTables, modelPackage, servicePackage);
         moduleGenerator.gen();
 
     }

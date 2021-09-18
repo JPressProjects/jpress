@@ -54,3 +54,4 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JbootModel<M> 
 	}
 
 }
+

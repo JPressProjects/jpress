@@ -18,12 +18,8 @@ package io.jpress.module.article.model;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.json.JsonIgnore;
-import io.jpress.commons.layer.SortModel;
 import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.article.model.base.BaseArticleCategory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 此类用来定义 文章的类型，包含了：分类、标签和专题
@@ -33,7 +29,7 @@ import java.util.List;
  * 标签和专题  只能有一个层级，分类可以有多个层级
  */
 @Table(tableName = "article_category", primaryKey = "id")
-public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implements SortModel {
+public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
 
     /**
      * 普通的分类
@@ -54,122 +50,9 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> implem
     public static final String TYPE_USER_CATEGORY = "user_category";
 
 
-
-    private int layerNumber;
-    private SortModel parent;
-    private List<SortModel> childs;
-
-
-
     @JsonIgnore
     public boolean isTag() {
         return TYPE_TAG.equals(getType());
-    }
-
-    /**
-     * 是否是顶级菜单
-     *
-     * @return
-     */
-    @Override
-    @JsonIgnore
-    public boolean isTop() {
-        return getPid() != null && getPid() == 0;
-    }
-
-    @Override
-    @JsonIgnore
-    public Long getParentId() {
-        return getPid();
-    }
-
-    @Override
-    public void setParent(SortModel parent) {
-        this.parent = parent;
-    }
-
-    @Override
-    @JsonIgnore
-    public SortModel getParent() {
-        return parent;
-    }
-
-    @Override
-    public void setChilds(List childs) {
-        this.childs = childs;
-    }
-
-    @Override
-    public void addChild(SortModel child) {
-        if (childs == null) {
-            childs = new ArrayList<>();
-        }
-        childs.add(child);
-    }
-
-    @Override
-    @JsonIgnore
-    public List getChilds() {
-        return childs;
-    }
-
-    public boolean hasChild() {
-        return childs != null && !childs.isEmpty();
-    }
-
-    @Override
-    public void setLayerNumber(int layerNumber) {
-        this.layerNumber = layerNumber;
-    }
-
-    @Override
-    @JsonIgnore
-    public int getLayerNumber() {
-        return layerNumber;
-    }
-
-    @JsonIgnore
-    public String getLayerString() {
-
-        if (layerNumber == 0) {
-            return "";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < layerNumber; i++) {
-            if (i == 0) {
-                sb.append("|—");
-            } else {
-                sb.append("—");
-            }
-        }
-
-        return sb.toString();
-    }
-
-
-    public boolean isMyChild(long id) {
-        if (childs == null || childs.isEmpty()) {
-            return false;
-        }
-
-        return isMyChild(childs, id);
-    }
-
-    private boolean isMyChild(List<SortModel> categories, long id) {
-        for (SortModel category : categories) {
-            if (category.getId().equals(id)) {
-                return true;
-            }
-
-            if (category.getChilds() != null) {
-                boolean isChild = isMyChild(category.getChilds(), id);
-                if (isChild) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     @JsonIgnore

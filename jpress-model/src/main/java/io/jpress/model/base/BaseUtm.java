@@ -318,7 +318,8 @@ public abstract class BaseUtm<M extends BaseUtm<M>> extends JbootModel<M> implem
      * 创建时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

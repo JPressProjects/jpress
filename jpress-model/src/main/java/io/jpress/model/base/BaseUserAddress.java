@@ -152,7 +152,7 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 	public void setCreated(java.util.Date created) {
@@ -160,7 +160,8 @@ public abstract class BaseUserAddress<M extends BaseUserAddress<M>> extends Base
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

@@ -288,7 +288,7 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 	public void setCreated(java.util.Date created) {
@@ -296,7 +296,8 @@ public abstract class BaseUserCart<M extends BaseUserCart<M>> extends BaseOption
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

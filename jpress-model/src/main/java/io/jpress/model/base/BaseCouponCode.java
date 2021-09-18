@@ -100,7 +100,7 @@ public abstract class BaseCouponCode<M extends BaseCouponCode<M>> extends JbootM
      * 领取时间
      */
 	public java.util.Date getValidTime() {
-		return get("valid_time");
+		return getDate("valid_time");
 	}
 
     /**
@@ -114,7 +114,8 @@ public abstract class BaseCouponCode<M extends BaseCouponCode<M>> extends JbootM
      * 创建时间，创建时可能不会有人领取
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

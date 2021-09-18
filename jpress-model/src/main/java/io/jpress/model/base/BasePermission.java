@@ -80,7 +80,7 @@ public abstract class BasePermission<M extends BasePermission<M>> extends JbootM
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 	public void setModified(java.util.Date modified) {
@@ -88,7 +88,8 @@ public abstract class BasePermission<M extends BasePermission<M>> extends JbootM
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 }
+

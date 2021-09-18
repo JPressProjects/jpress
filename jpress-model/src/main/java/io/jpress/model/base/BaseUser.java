@@ -218,7 +218,7 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
      * 生日
      */
 	public java.util.Date getBirthday() {
-		return get("birthday");
+		return getDate("birthday");
 	}
 
     /**
@@ -400,7 +400,7 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
      * 创建日期
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
     /**
@@ -428,7 +428,7 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
      * 最后的登录时间
      */
 	public java.util.Date getLogged() {
-		return get("logged");
+		return getDate("logged");
 	}
 
     /**
@@ -442,7 +442,8 @@ public abstract class BaseUser<M extends BaseUser<M>> extends JbootModel<M> impl
      * 激活时间
      */
 	public java.util.Date getActivated() {
-		return get("activated");
+		return getDate("activated");
 	}
 
 }
+

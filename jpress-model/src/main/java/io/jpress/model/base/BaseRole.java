@@ -66,7 +66,7 @@ public abstract class BaseRole<M extends BaseRole<M>> extends JbootModel<M> impl
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 	public void setModified(java.util.Date modified) {
@@ -74,7 +74,8 @@ public abstract class BaseRole<M extends BaseRole<M>> extends JbootModel<M> impl
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 }
+

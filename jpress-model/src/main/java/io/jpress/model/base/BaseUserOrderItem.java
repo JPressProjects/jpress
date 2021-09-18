@@ -397,10 +397,16 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
 		return getStr("comment_path");
 	}
 
+    /**
+     * 发票
+     */
 	public void setInvoiceId(java.lang.Long invoiceId) {
 		set("invoice_id", invoiceId);
 	}
 
+    /**
+     * 发票
+     */
 	public java.lang.Long getInvoiceId() {
 		return getLong("invoice_id");
 	}
@@ -480,7 +486,7 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
      * 退款时间
      */
 	public java.util.Date getRefundTime() {
-		return get("refund_time");
+		return getDate("refund_time");
 	}
 
 	public void setOptions(java.lang.String options) {
@@ -502,7 +508,7 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
      * 修改时间
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
     /**
@@ -516,7 +522,8 @@ public abstract class BaseUserOrderItem<M extends BaseUserOrderItem<M>> extends 
      * 创建时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

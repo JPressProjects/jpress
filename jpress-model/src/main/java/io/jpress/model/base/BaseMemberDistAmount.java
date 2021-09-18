@@ -86,7 +86,7 @@ public abstract class BaseMemberDistAmount<M extends BaseMemberDistAmount<M>> ex
      * 创建时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
     /**
@@ -104,3 +104,4 @@ public abstract class BaseMemberDistAmount<M extends BaseMemberDistAmount<M>> ex
 	}
 
 }
+

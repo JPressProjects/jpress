@@ -62,7 +62,8 @@ public abstract class BaseMemberPrice<M extends BaseMemberPrice<M>> extends Jboo
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

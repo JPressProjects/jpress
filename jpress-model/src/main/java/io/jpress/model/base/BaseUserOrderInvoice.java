@@ -156,7 +156,7 @@ public abstract class BaseUserOrderInvoice<M extends BaseUserOrderInvoice<M>> ex
      * 修改时间
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
     /**
@@ -170,7 +170,8 @@ public abstract class BaseUserOrderInvoice<M extends BaseUserOrderInvoice<M>> ex
      * 创建时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

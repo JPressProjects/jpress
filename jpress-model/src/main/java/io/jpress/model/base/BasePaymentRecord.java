@@ -296,7 +296,7 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
      * 支付成功时间
      */
 	public java.util.Date getPaySuccessTime() {
-		return get("pay_success_time");
+		return getDate("pay_success_time");
 	}
 
     /**
@@ -338,7 +338,7 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
      * 完成时间
      */
 	public java.util.Date getPayCompleteTime() {
-		return get("pay_complete_time");
+		return getDate("pay_complete_time");
 	}
 
     /**
@@ -394,7 +394,7 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
      * 退款时间
      */
 	public java.util.Date getRefundTime() {
-		return get("refund_time");
+		return getDate("refund_time");
 	}
 
     /**
@@ -510,7 +510,7 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 	public void setCreated(java.util.Date created) {
@@ -518,7 +518,8 @@ public abstract class BasePaymentRecord<M extends BasePaymentRecord<M>> extends 
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

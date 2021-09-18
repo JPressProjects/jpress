@@ -176,7 +176,8 @@ public abstract class BaseProductComment<M extends BaseProductComment<M>> extend
      * 评论的时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

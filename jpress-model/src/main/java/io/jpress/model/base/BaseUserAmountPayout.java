@@ -200,7 +200,7 @@ public abstract class BaseUserAmountPayout<M extends BaseUserAmountPayout<M>> ex
 	}
 
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 	public void setModified(java.util.Date modified) {
@@ -208,7 +208,8 @@ public abstract class BaseUserAmountPayout<M extends BaseUserAmountPayout<M>> ex
 	}
 
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 }
+

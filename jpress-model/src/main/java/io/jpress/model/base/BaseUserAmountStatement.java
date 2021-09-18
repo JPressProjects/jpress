@@ -192,7 +192,8 @@ public abstract class BaseUserAmountStatement<M extends BaseUserAmountStatement<
      * 时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
 }
+

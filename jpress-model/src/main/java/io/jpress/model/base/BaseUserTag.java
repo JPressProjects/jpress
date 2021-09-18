@@ -128,7 +128,7 @@ public abstract class BaseUserTag<M extends BaseUserTag<M>> extends BaseOptionsM
      * 创建日期
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
     /**
@@ -142,7 +142,8 @@ public abstract class BaseUserTag<M extends BaseUserTag<M>> extends BaseOptionsM
      * 修改日期
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
 }
+

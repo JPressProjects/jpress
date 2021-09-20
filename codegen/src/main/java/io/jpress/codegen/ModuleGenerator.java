@@ -58,7 +58,7 @@ public class ModuleGenerator {
         this.dbTables = dbTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getProjectRootPath() + "/module-" + moduleName;
+        this.basePath = CodeGenKit.getProjectRootPath() + "/module-" + moduleName;
     }
 
     public ModuleGenerator(String moduleName, String dbUrl, String dbUser, String dbPassword, String dbTables, String optionsTables, String modelPackage, String servicePackage) {
@@ -70,7 +70,7 @@ public class ModuleGenerator {
         this.dbTables = dbTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getProjectRootPath() + "/module-" + moduleName;
+        this.basePath = CodeGenKit.getProjectRootPath() + "/module-" + moduleName;
     }
 
 
@@ -85,7 +85,7 @@ public class ModuleGenerator {
         this.dbTables = dbTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getProjectRootPath() + "/module-" + moduleName;
+        this.basePath = CodeGenKit.getProjectRootPath() + "/module-" + moduleName;
     }
 
 

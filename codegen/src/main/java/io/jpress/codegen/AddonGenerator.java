@@ -58,7 +58,7 @@ public class AddonGenerator {
         this.dbTables = dbTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getProjectRootPath() + "/jpress-addon-" + addonName;
+        this.basePath = CodeGenKit.getProjectRootPath() + "/jpress-addon-" + addonName;
     }
 
 
@@ -71,7 +71,7 @@ public class AddonGenerator {
         this.optionsTables = optionsTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getProjectRootPath() + "/jpress-addon-" + addonName;
+        this.basePath = CodeGenKit.getProjectRootPath() + "/jpress-addon-" + addonName;
     }
 
 
@@ -86,7 +86,7 @@ public class AddonGenerator {
         this.sortOptionsTables = sortOptionsTables;
         this.modelPackage = modelPackage;
         this.servicePackage = servicePackage;
-        this.basePath = PathKit.getProjectRootPath() + "/jpress-addons/jpress-addon-" + addonName;
+        this.basePath = CodeGenKit.getProjectRootPath() + "/jpress-addons/jpress-addon-" + addonName;
     }
 
 

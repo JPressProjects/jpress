@@ -60,8 +60,8 @@ public class SystemGenerator {
 
         String baseModelPackage = modelPackage + ".base";
 
-        String modelDir = PathKit.getProjectRootPath() + "/jpress-model/src/main/java/" + modelPackage.replace(".", "/");
-        String baseModelDir = PathKit.getProjectRootPath() + "/jpress-model/src/main/java/" + baseModelPackage.replace(".", "/");
+        String modelDir = CodeGenKit.getProjectRootPath() + "/jpress-model/src/main/java/" + modelPackage.replace(".", "/");
+        String baseModelDir = CodeGenKit.getProjectRootPath() + "/jpress-model/src/main/java/" + baseModelPackage.replace(".", "/");
 
         System.out.println("start generate...dir:" + modelDir);
 
@@ -76,8 +76,8 @@ public class SystemGenerator {
         new ModelGenerator(modelPackage, baseModelPackage, modelDir).generate(tableMetas);
 
         String servicePackage = "io.jpress.service";
-        String apiPath = PathKit.getProjectRootPath() + "/jpress-service/src/main/java/" + servicePackage.replace(".", "/");
-        String providerPath = PathKit.getProjectRootPath() + "/jpress-service-provider/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
+        String apiPath = CodeGenKit.getProjectRootPath() + "/jpress-service/src/main/java/" + servicePackage.replace(".", "/");
+        String providerPath = CodeGenKit.getProjectRootPath() + "/jpress-service-provider/src/main/java/" + servicePackage.replace(".", "/") + "/provider";
 
 
         new ServiceApiGenerator(servicePackage, modelPackage, apiPath).generate(tableMetas);

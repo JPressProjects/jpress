@@ -91,6 +91,13 @@ public class _SettingController extends AdminControllerBase {
         render("setting/api.html");
     }
 
+
+    @AdminMenu(text = "SEO", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 15)
+    public void seo() {
+        render("setting/seo.html");
+    }
+
+
     @AdminMenu(text = "登录注册", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 32)
     public void reg() {
         render("setting/reg.html");
@@ -107,10 +114,6 @@ public class _SettingController extends AdminControllerBase {
         render("setting/filter.html");
     }
 
-    @AdminMenu(text = "搜索优化", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 111)
-    public void seo() {
-        render("setting/seo.html");
-    }
 
     @AdminMenu(text = "小工具箱", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 222)
     public void tools() {

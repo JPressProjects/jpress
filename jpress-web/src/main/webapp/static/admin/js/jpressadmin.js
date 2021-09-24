@@ -847,16 +847,19 @@ function initCkEdtior(selector) {
                     'fontBackgroundColor',
                     'outdent',
                     'indent',
+                    'alignment',
                     'removeFormat',
                     '|',
                     'blockQuote',
                     'imageInsert',
-                    'videoUpload',
+                    // 'videoUpload',
                     'insertTable',
                     'codeBlock',
                     '|',
                     'undo',
-                    'redo'
+                    'redo',
+                    '|',
+                    'sourceEditing'
                 ]
             },
             simpleUpload: {
@@ -866,8 +869,14 @@ function initCkEdtior(selector) {
             image: {
                 toolbar: [
                     'imageTextAlternative',
-                    'imageStyle:full',
-                    'imageStyle:side'
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:inline',
+                    'imageStyle:side',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+
                 ]
             },
             table: {
@@ -875,7 +884,8 @@ function initCkEdtior(selector) {
                     'tableColumn',
                     'tableRow',
                     'mergeTableCells',
-                    'tableProperties'
+                    'tableProperties',
+                    'tableCellProperties'
                 ]
             },
         })

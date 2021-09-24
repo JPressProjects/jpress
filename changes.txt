@@ -1,3 +1,15 @@
+jpress v4.1.3:
+优化：重构 SortModel 以及代码生成器
+优化：优化系统设置的菜单名称
+优化：CKEditor 编辑器添加图片和表格更多的属性操作
+优化：CKEditor 添加对其方式按钮
+优化：CKEditor 新增 html 源码编辑的功能
+修复：JPress 模块代码生成器生成的目录错误的问题
+修复：CKEditor 复制记事本、wps 等内容到编辑器可能出错的问题
+修复：WordPress 导入时，可能存在的安全问题
+
+
+
 jpress v4.1.2:
 优化：升级 Layer 到最新版本
 优化：优化产品，修改 Slug 为 "固定链接"

@@ -130,6 +130,51 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
         return productCategories;
     }
 
+    @Override
+    public List<ProductCategory> findOrCreateByCategoryString(String[] Categorys) {
+        if (Categorys == null || Categorys.length == 0) {
+            return null;
+        }
+
+        List<ProductCategory> productCategories = new ArrayList<>();
+
+        boolean needClearCache = false;
+
+        for (String cate : Categorys) {
+
+            if (StrUtil.isBlank(cate)) {
+                continue;
+            }
+
+            //slug不能包含字符串点 " . "，否则url不能被访问
+            String slug = cate.contains(".")
+                    ? cate.replace(".", "_")
+                    : cate;
+
+            Columns columns = Columns.create("type", ProductCategory.TYPE_CATEGORY);
+            columns.add(Column.create("slug", slug));
+
+            ProductCategory productCategory = DAO.findFirstByColumns(columns);
+
+            if (productCategory == null) {
+                productCategory = new ProductCategory();
+                productCategory.setTitle(cate);
+                productCategory.setSlug(slug);
+                productCategory.setType(ProductCategory.TYPE_CATEGORY);
+                productCategory.save();
+                needClearCache = true;
+            }
+
+            productCategories.add(productCategory);
+        }
+
+        if (needClearCache) {
+            AopCache.removeAll("productCategory");
+        }
+
+        return productCategories;
+    }
+
 
     @Override
     public ProductCategory findFirstByTypeAndSlug(String type, String slug) {

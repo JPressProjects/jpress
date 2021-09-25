@@ -110,12 +110,7 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
             ac.setEncryptMessage(false); //采用明文模式，同时也支持混合模式
 
             //重新设置后，需要清空之前的配置。
-            try {
-                Field mapField =  ApiConfigKit.class.getDeclaredField("CFG_MAP");
-                mapField.setAccessible(true);
-                Map map = (Map) mapField.get(null);
-                map.clear();
-            } catch (Exception e) {}
+            ApiConfigKit.removeAll();
 
             ApiConfigKit.putApiConfig(ac);
         }

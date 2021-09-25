@@ -124,7 +124,7 @@ public class PrePayNotifytKit {
 
         Set<String> openIds = StrUtil.splitToSet(webMasterOpenId, ",");
         for (String openId : openIds) {
-            WechatMsgUtil.sendImageAsync(openId, content);
+            WechatMsgUtil.sendTextAsync(openId, content);
         }
 
     }

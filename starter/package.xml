@@ -3,7 +3,7 @@
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
 
     <!--
-      assembly 打包配置更多配置可参考官司方文档：
+      assembly 打包配置更多配置可参考官方文档：
       http://maven.apache.org/plugins/maven-assembly-plugin/assembly.html
     -->
 

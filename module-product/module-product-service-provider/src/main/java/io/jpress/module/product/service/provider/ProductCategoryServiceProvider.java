@@ -131,8 +131,8 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
     }
 
     @Override
-    public List<ProductCategory> findOrCreateByCategoryString(String[] Categorys) {
-        if (Categorys == null || Categorys.length == 0) {
+    public List<ProductCategory> findOrCreateByCategoryString(String[] categories) {
+        if (categories == null || categories.length == 0) {
             return null;
         }
 
@@ -140,7 +140,7 @@ public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCate
 
         boolean needClearCache = false;
 
-        for (String cate : Categorys) {
+        for (String cate : categories) {
 
             if (StrUtil.isBlank(cate)) {
                 continue;

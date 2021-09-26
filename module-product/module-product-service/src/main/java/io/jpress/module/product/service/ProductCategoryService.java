@@ -190,7 +190,7 @@ public interface ProductCategoryService {
     List<ProductCategory> findListByType(String type, String orderBy, Integer count);
 
     List<ProductCategory> findOrCreateByTagString(String[] tags);
-    List<ProductCategory> findOrCreateByCategoryString(String[] Category);
+    List<ProductCategory> findOrCreateByCategoryString(String[] categories);
 
 
     ProductCategory findFirstByTypeAndSlug(String type, String slug);

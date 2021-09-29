@@ -10,6 +10,7 @@
     <!-- 自己设置属性，后面通过${}来访问 -->
     <properties>
         <property name="LOG_HOME">.logs</property>
+        <property name="FILE_NAME">app</property>
     </properties>
     <appenders>
         <!--Appender 1. 输出到Console控制台，指定输出格式和过滤器等级为INFO -->
@@ -28,7 +29,7 @@
 
 
         <!--Appender 3. 输出到滚动保存的文件, 触发保存日志文件的条件是日志文件大于3KB，只保存最新的10个日志-->
-        <RollingFile name="debugLog" fileName="${LOG_HOME}/debug.log" filePattern="${log.path}/debug-%i.log">
+        <RollingFile name="debugLog" fileName="${LOG_HOME}/debug.log" filePattern="${LOG_HOME}/debug-%i.log">
             <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout charset="UTF-8" pattern="[%-5level][%d{yyyy-MM-dd HH:mm:ss}][%F:%L] - %m%n"/>
             <SizeBasedTriggeringPolicy size="3KB"/>
@@ -38,7 +39,7 @@
 
         <!--Appender 4. 输出到滚动保存的文件, 触发保存日志文件的条件是每分钟第一次的日志事件。ERROR日志是按分钟产生日志 -->
         <RollingFile name="errorLog" fileName="${LOG_HOME}/error.log"
-                     filePattern="${log.path}/error-%d{yyyy-MM-dd_HH-mm}.log">
+                     filePattern="${LOG_HOME}/error-%d{yyyy-MM-dd_HH-mm}.log">
             <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout charset="UTF-8" pattern="[%-5level][%d{yyyy-MM-dd HH:mm:ss}][%C:%F:%L] - %m%n"/>
             <TimeBasedTriggeringPolicy/>

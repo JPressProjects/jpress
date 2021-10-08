@@ -183,10 +183,10 @@ wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash insta
 - 1、在电脑安装好 Java、Maven 等开发环境
 - 2、将源码下载、并导入 eclipse 或者 idea 
 - 3、在项目的**根目录**，执行 `mvn clean package` 命令进行编译
-- 4、在开发工具，右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main()` 方法
-- 5、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装
+- 4、在开发工具，右键运行 `starter/src/main/java/io.jpress.Starter` 下的 `main` 方法
+- 5、通过浏览器访问 `http://127.0.0.1:8080`，进行自动安装，安装的过程会自动建库建表
 
-> Press下载、导入、运行视频教程，链接: https://pan.baidu.com/s/1bqbQ9_HjF95EW4qrQvOSag 提取码: 5jw8 
+> JPress下载、导入、运行视频教程，链接: https://pan.baidu.com/s/1bqbQ9_HjF95EW4qrQvOSag 提取码: 5jw8 
 
 
 > 可能遇到的问题： 

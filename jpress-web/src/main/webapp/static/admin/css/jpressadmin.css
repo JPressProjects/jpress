@@ -439,6 +439,10 @@ label:not(.form-check-label):not(.custom-file-label) {
     color: #999;
 }
 
+.form-control-clear .fa-times{
+    cursor: pointer;
+}
+
 .form-group img {
     max-width: 300px;
     vertical-align: middle;

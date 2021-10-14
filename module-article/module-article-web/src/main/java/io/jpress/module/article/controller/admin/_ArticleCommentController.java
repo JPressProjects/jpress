@@ -94,6 +94,7 @@ public class _ArticleCommentController extends AdminControllerBase {
 
     public void doSave() {
         ArticleComment comment = getBean(ArticleComment.class, "comment");
+        comment.setContent(getCleanedOriginalPara("comment.content"));
         commentService.saveOrUpdate(comment);
         renderOkJson();
     }
@@ -102,11 +103,11 @@ public class _ArticleCommentController extends AdminControllerBase {
     /**
      * 进行评论回复
      */
-    public void doReply(String content, Long articleId, Long pid) {
+    public void doReply(Long articleId, Long pid) {
         User user = getLoginedUser();
 
         ArticleComment comment = new ArticleComment();
-        comment.setContent(content);
+        comment.setContent(getCleanedOriginalPara("content"));
         comment.setUserId(user.getId());
         comment.setAuthor(user.getNickname());
         comment.setStatus(ArticleComment.STATUS_NORMAL);

@@ -23,6 +23,7 @@ import io.jboot.aop.jfinal.JfinalHandlers;
 import io.jboot.components.cache.support.JbootCaptchaCache;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.core.weight.Weight;
+import io.jboot.web.xss.XSSHandler;
 import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
@@ -62,11 +63,13 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
 
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
+
         handlers.add(new InstallHandler());
         handlers.add(new SitemapHandler());
         handlers.add(new JPressHandler());
         handlers.add(new FlatUrlHandler());
         handlers.add(new AddonHandlerProcesser());
+        handlers.add(new XSSHandler());
 
         handlers.setActionHandler(new AddonControllerProcesser());
     }

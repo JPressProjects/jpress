@@ -83,11 +83,11 @@ public class _ProductCommentController extends AdminControllerBase {
     }
 
 
-    public void doReply(String content, Long productId, Long pid) {
+    public void doReply( Long productId, Long pid) {
         User user = getLoginedUser();
 
         ProductComment comment = new ProductComment();
-        comment.setContent(content);
+        comment.setContent(getCleanedOriginalPara("content"));
         comment.setUserId(user.getId());
         comment.setAuthor(user.getNickname());
         comment.setStatus(ProductComment.STATUS_NORMAL);
@@ -103,6 +103,7 @@ public class _ProductCommentController extends AdminControllerBase {
 
     public void doSave() {
         ProductComment entry = getModel(ProductComment.class, "productComment");
+        entry.setContent(getCleanedOriginalPara("productComment.content"));
         commentService.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

@@ -367,7 +367,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
 
-        String fileContent = getPara("fileContent");
+        String fileContent = getOriginalPara("fileContent");
         if (StrUtil.isBlank(fileContent)) {
             renderJson(Ret.fail().set("message", "不能存储空内容"));
             return;

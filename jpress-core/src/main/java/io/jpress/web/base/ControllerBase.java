@@ -21,6 +21,7 @@ import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.model.User;
 
 import java.util.Map;
@@ -80,13 +81,11 @@ public abstract class ControllerBase extends JbootController {
         }
     }
 
-
-    @Override
     @NotAction
-    public String getPara(String name) {
-        String value = super.getPara(name);
-        return "".equals(value) ? null : value;
+    public String getCleanedOriginalPara(String name) {
+        return JsoupUtils.clean(super.getOriginalPara(name));
     }
+
 
     @NotAction
     public Set<String> getParaSet(String name) {

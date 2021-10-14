@@ -217,12 +217,14 @@ public class Article extends BaseArticle<Article> {
     @Override
     public boolean save() {
         CommonsUtils.escapeModel(this, "content", "summary");
+        JsoupUtils.clean(this,"content","summary");
         return super.save();
     }
 
     @Override
     public boolean update() {
         CommonsUtils.escapeModel(this, "content", "summary");
+        JsoupUtils.clean(this,"content","summary");
         return super.update();
     }
 

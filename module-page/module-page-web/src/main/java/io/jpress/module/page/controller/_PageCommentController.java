@@ -123,11 +123,11 @@ public class _PageCommentController extends AdminControllerBase {
     /**
      * 进行评论回复
      */
-    public void doReply(String content, Long pageId, Long pid) {
+    public void doReply(Long pageId, Long pid) {
         User user = getLoginedUser();
 
         SinglePageComment comment = new SinglePageComment();
-        comment.setContent(content);
+        comment.setContent(getCleanedOriginalPara("content"));
         comment.setUserId(user.getId());
         comment.setStatus(SinglePageComment.STATUS_NORMAL);
         comment.setPageId(pageId);
@@ -150,6 +150,7 @@ public class _PageCommentController extends AdminControllerBase {
 
     public void doSave() {
         SinglePageComment comment = getBean(SinglePageComment.class, "comment");
+        comment.setContent(getCleanedOriginalPara("comment.content"));
         commentService.saveOrUpdate(comment);
         renderOkJson();
     }

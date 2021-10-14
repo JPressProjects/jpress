@@ -173,6 +173,10 @@ public class _ProductController extends AdminControllerBase {
     public void doSave() {
         Product product = getModel(Product.class, "product");
 
+        if (getParas().containsKey("product.content")){
+            product.setContent(getCleanedOriginalPara("product.content"));
+        }
+
         if (!validateSlug(product)) {
             renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
             return;
@@ -181,7 +185,7 @@ public class _ProductController extends AdminControllerBase {
 
         if (StrUtil.isNotBlank(product.getSlug())) {
             Product existModel = productService.findFirstBySlug(product.getSlug());
-            if (existModel != null && existModel.getId().equals(product.getId()) == false) {
+            if (existModel != null && !existModel.getId().equals(product.getId())) {
                 renderJson(Ret.fail("message", "该slug已经存在"));
                 return;
             }

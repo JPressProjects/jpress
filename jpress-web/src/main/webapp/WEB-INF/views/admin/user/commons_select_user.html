@@ -39,13 +39,16 @@
         <div class="container-fluid p-0">
             <div class="card card-outline shadow-none p-0 m-0">
                 <div class="card-header">
-                    <form class="form-horizontal admin-search-panel" action="account" method="get">
+                    <form class="form-horizontal admin-search-panel" action="" method="get">
                         <div class="row">
                             <div class="form-group col-lg-2">
-                                <input type="text" class="form-control" placeholder="员工姓名" name="name" value="#para('name')">
+                                <input type="text" class="form-control" placeholder="登录名" name="username" value="#para('username')">
                             </div>
                             <div class="form-group col-lg-2">
-                                <input type="text" class="form-control" placeholder="员工手机号" name="mobile" value="#para('mobile')">
+                                <input type="text" class="form-control" placeholder="姓名" name="nickname" value="#para('nickname')">
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <input type="text" class="form-control" placeholder="手机号" name="mobile" value="#para('mobile')">
                             </div>
                             <div class="form-group col-lg-2">
                                 <button type="submit" class="btn btn-primary ">查询</button>

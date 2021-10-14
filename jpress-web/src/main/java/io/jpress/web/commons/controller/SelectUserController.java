@@ -24,9 +24,6 @@ import io.jpress.model.User;
 import io.jpress.service.UserService;
 import io.jpress.web.base.UserControllerBase;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -40,12 +37,13 @@ public class SelectUserController extends UserControllerBase {
     @Inject
     private UserService userService;
 
-    public void index() {
-        Map map = new HashMap();
-        map.put("name", getPara("name"));
-        map.put("mobile", getPara("mobile"));
 
-        Page<User> page = userService._paginate(getPagePara(), getPageSizePara(), Columns.create(), null, null);
+    public void index() {
+        Columns columns = Columns.create().likeAppendPercent("username",get("username"))
+                .likeAppendPercent("nickname",get("nickname"))
+                .likeAppendPercent("mobile",get("mobile"));
+
+        Page<User> page = userService._paginate(getPagePara(), getPageSizePara(), columns, null, null);
         setAttr("page", page);
         render("user/commons_select_user.html");
     }

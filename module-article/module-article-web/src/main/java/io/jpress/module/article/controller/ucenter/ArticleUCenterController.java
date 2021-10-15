@@ -186,7 +186,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
         if (StrUtil.isNotBlank(article.getSlug())) {
             Article slugArticle = articleService.findFirstBySlug(article.getSlug());
             if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
-                renderJson(Ret.fail("message", "该slug已经存在"));
+                renderJson(Ret.fail("message", "该固定链接已经存在"));
                 return;
             }
         }

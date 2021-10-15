@@ -139,7 +139,7 @@ public class _PageController extends AdminControllerBase {
         if (StrUtil.isNotBlank(page.getSlug())) {
             SinglePage exsitModel = sps.findFirstBySlug(page.getSlug());
             if (exsitModel != null && !exsitModel.getId().equals(page.getId())) {
-                renderJson(Ret.fail("message", "该slug已经存在"));
+                renderJson(Ret.fail("message", "该固定链接已经存在"));
                 return;
             }
         }

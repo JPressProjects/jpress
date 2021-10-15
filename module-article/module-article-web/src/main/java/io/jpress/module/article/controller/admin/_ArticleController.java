@@ -189,7 +189,7 @@ public class _ArticleController extends AdminControllerBase {
         if (StrUtil.isNotBlank(article.getSlug())) {
             Article existArticle = articleService.findFirstBySlug(article.getSlug());
             if (existArticle != null && !existArticle.getId().equals(article.getId())) {
-                renderJson(Ret.fail("message", "该slug已经存在"));
+                renderJson(Ret.fail("message", "该固定链接已经存在"));
                 return;
             }
         }

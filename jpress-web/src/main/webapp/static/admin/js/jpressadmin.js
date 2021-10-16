@@ -981,16 +981,21 @@ function initVdtior(id, height) {
 
 function initInputClearButton() {
     $('.form-control-clear').click(function () {
-        $(this).siblings('input[type="text"],.clear').val('')
+        $(this).siblings('.clear').val('')
+            .trigger('propertychange');
+
+        $(this).siblings('input[type="text"]').val('')
             .trigger('propertychange').focus();
     });
 
     $('.form-control-clear').each(function () {
         $(this).siblings('input[type="text"]').on('input propertychange', function () {
             var $this = $(this);
-            $this.siblings('.clear').val('').trigger('propertychange');
             $this.siblings('.form-control-clear').toggleClass('d-none', !Boolean($this.val()));
         }).trigger('propertychange');
+
+        $(this).toggleClass('d-none', !Boolean($(this).siblings('input[type="text"]').val()));
+
     });
 }
 

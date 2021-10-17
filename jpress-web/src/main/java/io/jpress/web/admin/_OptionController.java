@@ -15,6 +15,7 @@
  */
 package io.jpress.web.admin;
 
+import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
@@ -24,8 +25,10 @@ import io.jpress.JPressOptions;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -36,30 +39,30 @@ import java.util.Map;
 @RequestMapping(value = "/admin/option", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _OptionController extends AdminControllerBase {
 
+    private static final Set<String> allowHtmlTagKeys = Sets.newHashSet("wechat_reply_user_subscribe"
+    ,"wechat_reply_user_scan"
+    ,"wechat_reply_unknow"
+    ,"web_copyright"
+    );
 
     @Inject
     private OptionService service;
 
     public void doSave() {
 
-        Map<String, String[]> paraMap = getParaMap();
-        if (paraMap == null || paraMap.isEmpty()) {
+        Enumeration<String> paraNames = getParaNames();
+        if (paraNames == null || !paraNames.hasMoreElements()) {
             renderJson(Ret.fail("msg", "para is empty"));
             return;
         }
 
 
-        HashMap<String, String> datasMap = new HashMap<String, String>();
-        for (Map.Entry<String, String[]> entry : paraMap.entrySet()) {
-            if (entry.getValue() != null && entry.getValue().length > 0) {
-                String value = null;
-                for (String v : entry.getValue()) {
-                    if (StrUtil.isNotEmpty(v)) {
-                        value = v;
-                        break;
-                    }
-                }
-                datasMap.put(entry.getKey(), value);
+        HashMap<String, String> datasMap = new HashMap<>();
+        while (paraNames.hasMoreElements()){
+            String key = paraNames.nextElement();
+            String value = allowHtmlTagKeys.contains(key) ? getCleanedOriginalPara(key) : getPara(key);
+            if (StrUtil.isNotEmpty(value)){
+                datasMap.put(key, value);
             }
         }
 

@@ -330,7 +330,7 @@ public class _UserController extends AdminControllerBase {
 
         List<User> users = userService.findListByTagIds(Columns.create(), tagIds);
         String title = getPara("title");
-        String content = getPara("content");
+        String content = getCleanedOriginalPara("content");
         String cc = getPara("cc");
 
         renderJson(AdminMessageSender.sendEmail(title, content, cc, users));

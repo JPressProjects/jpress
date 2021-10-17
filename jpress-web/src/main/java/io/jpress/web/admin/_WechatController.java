@@ -154,6 +154,8 @@ public class _WechatController extends AdminControllerBase {
     })
     public void doReplySave() {
         WechatReply reply = getBean(WechatReply.class, "");
+        reply.setContent(getCleanedOriginalPara("content"));
+
         Map<String, String> map = getParas();
         if (map != null) {
             for (Map.Entry<String, String> e : map.entrySet()) {

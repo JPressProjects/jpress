@@ -78,6 +78,7 @@ public class _UserMemberGroupController extends AdminControllerBase {
     })
     public void doSave() {
         MemberGroup memberGroup = getModel(MemberGroup.class, "group");
+        memberGroup.setContent(getCleanedOriginalPara("group.content"));
         memberGroupService.saveOrUpdate(memberGroup);
         renderOkJson();
     }

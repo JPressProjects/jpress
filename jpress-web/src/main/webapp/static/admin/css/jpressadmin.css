@@ -15,7 +15,7 @@ body {
 
 .iframe-mode{
     /*修复 layer 弹出底部有小滚动条的问题*/
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .autoAjaxSubmit {

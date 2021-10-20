@@ -91,6 +91,7 @@
             $(".myPanel").text("或者拖动文件到这里进行上传...");
             if (data.result.state == "ok") {
                 parent.layer.data.src = data.result.src;
+                parent.layer.data.title = data.result.title;
                 parent.layer.closeAll();
             }
         }
@@ -99,6 +100,7 @@
     $(".attachment_item").click(function () {
         var src = $(this).children().attr("data-path");
         parent.layer.data.src = src;
+        parent.layer.data.title = $(this).children().attr("title");
         parent.layer.closeAll();
     })
 
@@ -110,8 +112,8 @@
 <div class="card card-outline card-tabs" style="box-shadow: none;">
     <div class="card-header p-0 border-bottom-0">
         <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">图片上传</a></li>
-            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">图片库</a></li>
+            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">上传#para("uititle","图片")</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">#para("uititle","图片")库</a></li>
         </ul>
 
     </div>

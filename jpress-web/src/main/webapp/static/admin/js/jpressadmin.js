@@ -888,6 +888,15 @@ function initCkEdtior(selector) {
                     'tableCellProperties'
                 ]
             },
+            htmlSupport: {
+                allow: [{
+                    name: /.*/,
+                    attributes: true,
+                    classes: true,
+                    styles: true
+                }]
+                // disallow: [ /* HTML features to disallow */ ]
+            }
         })
         .then(editor => {
             window.currentCKEditor = editor;

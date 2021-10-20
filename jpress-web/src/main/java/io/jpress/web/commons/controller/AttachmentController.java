@@ -93,9 +93,13 @@ public class AttachmentController extends UserControllerBase {
         attachment.setSuffix(FileUtil.getSuffix(uploadFile.getFileName()));
         attachment.setMimeType(uploadFile.getContentType());
 
-        service.save(attachment);
+        Object attachmentId = service.save(attachment);
 
-        renderJson(Ret.ok().set("success", true).set("src", attachment.getPath()));
+        renderJson(Ret.ok().set("success", true)
+                .set("src", attachment.getPath())
+                .set("title",attachment.getTitle())
+                .set("attachmentId",attachmentId)
+        );
     }
 
 

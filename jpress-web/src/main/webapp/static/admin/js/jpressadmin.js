@@ -658,7 +658,6 @@ function initImageBrowserButton() {
 
                     if (img) {
                         $("#" + img).attr("src", getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
-                        ;
                     } else {
                         $this.siblings('img').attr('src', getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
                     }
@@ -666,7 +665,6 @@ function initImageBrowserButton() {
                         $("#" + input).val(layer.data.src).trigger("valChanged", layer.data.src);
                     } else {
                         $this.siblings('input[type="hidden"]').val(layer.data.src).trigger("valChanged", layer.data.src);
-                        ;
                     }
                 }
             }

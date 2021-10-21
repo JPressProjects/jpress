@@ -386,7 +386,7 @@ function sweetConfirm(title, text, btnText, actionUrl, successTitle, successText
                     return
                 }
 
-                if (result.value.message) {
+                if (result.value && result.value.message) {
                     showMessage(result.value.message);
                     return;
                 }

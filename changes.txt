@@ -1,3 +1,15 @@
+jpress v4.1.5:
+新增：文章、页面、产品编辑器新增选择附件的功能，可以直接插入附件、图片和视频
+优化：加强对 xss 的防护，默认启用全局 xss 拦截
+优化：输入选择框 'form-control-clear' 的样式
+优化：优化许些提示文字，使之更加友好
+修复：选择用户弹出页面，输入关键字搜索时 404 的问题
+修复：JPress 弹出 layer 无法上下滚动的问题
+修复：#defaultMenu() 指令三级以上菜单无法打开的问题
+修复：后台 Dashboard 移动评论到垃圾箱出错的问题
+
+
+
 jpress v4.1.4:
 新增：新增 ProductCategoryService.findOrCreateByCategoryString() 方法，便于批量发布商品时，新建商品分类。感谢 @吓死猫的老鼠
 优化：修改 package.xml 注释的文字错误，感谢 @yueyang

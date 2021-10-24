@@ -194,7 +194,7 @@ function initStringMethods() {
 
 
 function initMenu(){
-    if ($.metisMenu){
+    if ($().metisMenu){
         $(".jpress-menu").metisMenu();
     }
 }

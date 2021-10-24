@@ -14,7 +14,7 @@
     });
 
 
-    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
+    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留page的status
     window.doSubmit = function () {
         if (window.currentCKEditor){
             $("#content").val(window.currentCKEditor.getData());
@@ -34,7 +34,7 @@
 
     $("#removeThumbnail").on("click", function () {
         $("#thumbnail").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
-        $("#articleThumbnail").val("");
+        $("#pageThumbnail").val("");
     })
 
 
@@ -54,6 +54,75 @@
         initCkEdtior('#editor');
     } else {
         initVdtior('editor');
+    }
+
+
+    $(".chooseAttachment").on("click", function () {
+        var $this = $(this);
+        layer.open({
+            type: 2,
+            title: '选择附件',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.3,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/attachment/browse?uititle=附件',
+            end: function () {
+                if (layer.data.src != null) {
+
+                    var src = layer.data.src;
+                    //video ".mp4", ".avi", ".wmv", ".mpeg", ".mov", ".mkv", ".flv", ".rmvb", ".rm", ".3gp", ".ts", ".vob", ".m3u8"
+                    if (src.endsWith(".mp4") || src.endsWith(".avi") || src.endsWith(".wmv") || src.endsWith(".mpeg") || src.endsWith(".mov")
+                        || src.endsWith(".mkv") || src.endsWith(".flv") || src.endsWith(".rmvb") || src.endsWith(".rm") || src.endsWith(".3gp") ||
+                        src.endsWith(".ts") || src.endsWith(".vob") || src.endsWith(".m3u8")) {
+
+                        if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
+                            var video = document.createElement('video') // 添加的内容可以自定义， 这里以添加图片为例
+                            video.setAttribute('src', src)
+                            video.setAttribute('style', 'max-width:100%;')
+
+                            insertHtmlToEditor(video.outerHTML);
+                        } else if (currentVditor) {
+                            currentVditor.insertValue('附件：[' + layer.data.title + '](' + src + ')')
+                        }
+
+
+                    }
+
+                    //image ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"
+                    else if (src.endsWith(".jpg") || src.endsWith(".jpeg") || src.endsWith(".png")
+                        || src.endsWith(".bmp") || src.endsWith(".gif") || src.endsWith(".webp")) {
+
+                        if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
+                            var img = document.createElement('img') // 添加的内容可以自定义， 这里以添加图片为例
+                            img.setAttribute('src', src)
+                            insertHtmlToEditor(img.outerHTML);
+                        } else if (currentVditor) {
+                            //![图片alt](图片地址 ''图片title'')
+                            currentVditor.insertValue('![' + layer.data.title + '](' + src + ')')
+                        }
+                    }
+                    // other file
+                    else {
+                        if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
+                            var a = document.createElement('a') // 添加的内容可以自定义， 这里以添加图片为例
+                            a.setAttribute('href', src)
+                            a.setAttribute("target", "_blank")
+                            a.innerHTML = layer.data.title;
+                            insertHtmlToEditor('附件：' + a.outerHTML);
+                        } else if (currentVditor) {
+                            currentVditor.insertValue('附件：[' + layer.data.title + '](' + src + ')')
+                        }
+                    }
+                }
+            }
+        });
+    })
+
+    function insertHtmlToEditor(html) {
+        const viewFragment = currentCKEditor.data.processor.toView(html);
+        const modelFragment = currentCKEditor.data.toModel(viewFragment);
+        currentCKEditor.model.insertContent(modelFragment, currentCKEditor.model.document.selection);
     }
 
 
@@ -131,22 +200,28 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-sm-12" style="padding-bottom: 2px">
-                                网址：<span class="domainSpan">#option('web_domain')</span>/<span id="slug"
-                                                                                               class="slugSpan"
-                                                                                               for-input="page-slug">#(page.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
-
-                                #if(page && page.isNormal())
-                                （<a href="#(page.url)" target="_blank">访问</a>）
-                                #end
-                                <input type="hidden" id="page-slug" name="page.slug" value="#(page.slug ??)">
-                                <a href="javascript:;" style="float: right;padding: 5px 0" onclick="doChangeEditor('#(page.id ?? 0)')">
-                                    #if(editMode && editMode == 'html')
-                                    使用 markdown 编辑
-                                    #else
-                                    可视化编辑
+                            <div class="col-sm-12"style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">
+                                <div>
+                                    网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/page/<span id="slug"
+                                                                                                                   class="slugSpan"
+                                                                                                                   for-input="page-slug">#(page.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+                                    #if(page && page.isNormal())
+                                    （<a href="#(page.url)" target="_blank">访问</a>）
                                     #end
-                                </a>
+                                    <input type="hidden" id="page-slug" name="page.slug" value="#(page.slug ??)">
+                                </div>
+
+
+                                <div>
+                                    <button type="button" class="btn btn-default btn-sm "
+                                            onclick="doChangeEditor('#(page.id ?? 0)')">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </button>
+
+                                    <button type="button" class="chooseAttachment btn btn-default btn-sm ">
+                                        <i class="fas fa-paperclip"></i> 选择附件
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-sm-12" style="z-index: 9999;">
                                 <div id="editor" >#(page.orignalContent ??)</div>
@@ -258,12 +333,12 @@
                                  style="width: 100%;max-height: 500px"
                                  id="thumbnail">
                             <input type="hidden" value="#(page.thumbnail ??)" name="page.thumbnail"
-                                   id="articleThumbnail">
+                                   id="pageThumbnail">
                         </div>
                         <div class="card-footer">
                             <button type="button" class="btn-image-browser btn btn-default btn-sm "
                                     for-src="thumbnail"
-                                    for-input="articleThumbnail">选择图片
+                                    for-input="pageThumbnail">选择图片
                             </button>
                             <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
                         </div>

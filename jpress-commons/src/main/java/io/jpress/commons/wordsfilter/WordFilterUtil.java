@@ -139,7 +139,7 @@ public class WordFilterUtil {
 
 
     public static void main(String[] args) {
-        String text = "江泽民";
+        String text = "";
         File file = new File(io.jboot.codegen.PathKit.getUserDir(),"/jpress-web/src/main/webapp/WEB-INF/other/sys_sensitive_words.txt");
         initFromWordsFile(file);
         System.out.println(isMatchedFilterWords(text));

@@ -79,7 +79,7 @@ public class WordFilterUtil {
         String filterContent = JPressOptions.get("text_filter_content");
 
         if (StrUtil.isNotBlank(filterContent)) {
-            if (!Objects.equals(dynamicFilterTexts, filterContent)) {
+            if (Objects.equals(dynamicFilterTexts, filterContent)) {
                 if (isMatchedFilterWords(dynamicFilter, content)) {
                     return true;
                 }

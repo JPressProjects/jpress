@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.commons.dfa;
+package io.jpress.commons.wordsfilter;
 
+import com.jfinal.kit.Base64Kit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
+import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
-import io.jpress.commons.dfa.algorithm.DFAConfig;
-import io.jpress.commons.dfa.algorithm.DFAFilter;
-import io.jpress.commons.dfa.algorithm.DFAMatch;
-import org.apache.commons.io.FileUtils;
+import io.jpress.commons.wordsfilter.algorithm.DFAConfig;
+import io.jpress.commons.wordsfilter.algorithm.DFAFilter;
+import io.jpress.commons.wordsfilter.algorithm.DFAMatch;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -36,7 +36,7 @@ import java.util.Set;
  * <p>
  * https://github.com/aijingsun6/sensitive-words-filter
  */
-public class DFAUtil {
+public class WordFilterUtil {
 
     private static DFAConfig config = new DFAConfig.Builder()
             .setIgnoreCase(true)
@@ -58,32 +58,29 @@ public class DFAUtil {
     public static void init() {
         File sysSensitiveWordsFile = new File(PathKit.getWebRootPath(), "WEB-INF/other/sys_sensitive_words.txt");
         if (sysSensitiveWordsFile.exists()) {
-            initBy(sysSensitiveWordsFile);
+            initFromWordsFile(sysSensitiveWordsFile);
         }
     }
 
-    public static void initBy(File sensitiveWordsFile) {
-        try {
-            List<String> lines = FileUtils.readLines(sensitiveWordsFile, "utf-8");
-            for (String line : lines) {
-                if (line.startsWith("--") || StrUtil.isBlank(line)) {
-                    continue;
-                }
-                sysFilter.putWord(line.trim(), 1);
+    public static void initFromWordsFile(File sensitiveWordsFile) {
+        String filterWordsBase64 = FileUtil.readString(sensitiveWordsFile);
+        String[] lines = Base64Kit.decodeToStr(filterWordsBase64).split("\n");
+        for (String line : lines) {
+            if (line.startsWith("--") || StrUtil.isBlank(line)) {
+                continue;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            sysFilter.putWord(line.trim(), 1);
         }
     }
 
 
-    public static boolean isContainsSensitiveWords(String content) {
+    public static boolean isMatchedFilterWords(String content) {
 
         String filterContent = JPressOptions.get("text_filter_content");
 
         if (StrUtil.isNotBlank(filterContent)) {
             if (!Objects.equals(dynamicFilterTexts, filterContent)) {
-                if (isContainsSensitiveWords(dynamicFilter, content)) {
+                if (isMatchedFilterWords(dynamicFilter, content)) {
                     return true;
                 }
             } else {
@@ -103,16 +100,16 @@ public class DFAUtil {
                         dynamicFilter.putWord(keyword, 1);
                     }
                 }
-                if (isContainsSensitiveWords(dynamicFilter, content)) {
+                if (isMatchedFilterWords(dynamicFilter, content)) {
                     return true;
                 }
             }
         }
 
-        return isContainsSensitiveWords(sysFilter, content);
+        return isMatchedFilterWords(sysFilter, content);
     }
 
-    private static boolean isContainsSensitiveWords(DFAFilter filter, String content) {
+    private static boolean isMatchedFilterWords(DFAFilter filter, String content) {
         if (filter == null || StrUtil.isBlank(content)) {
             return false;
         }
@@ -142,10 +139,10 @@ public class DFAUtil {
 
 
     public static void main(String[] args) {
-        String text = "";
-        File file = new File(PathKit.getRootClassPath(),"../../../jpress-web/src/main/webapp/WEB-INF/other/sys_sensitive_words.txt");
-        initBy(file);
-        System.out.println(isContainsSensitiveWords(text));
+        String text = "江泽民";
+        File file = new File(io.jboot.codegen.PathKit.getUserDir(),"/jpress-web/src/main/webapp/WEB-INF/other/sys_sensitive_words.txt");
+        initFromWordsFile(file);
+        System.out.println(isMatchedFilterWords(text));
     }
 
 

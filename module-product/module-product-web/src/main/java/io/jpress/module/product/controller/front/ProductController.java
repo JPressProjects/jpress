@@ -24,7 +24,7 @@ import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
-import io.jpress.commons.dfa.DFAUtil;
+import io.jpress.commons.wordsfilter.WordFilterUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserCart;
@@ -197,7 +197,7 @@ public class ProductController extends TemplateControllerBase {
             }
         }
 
-        if (DFAUtil.isContainsSensitiveWords(content)) {
+        if (WordFilterUtil.isMatchedFilterWords(content)) {
             renderJson(Ret.fail().set("message", "非法内容，无法发布评论信息"));
             return;
         }

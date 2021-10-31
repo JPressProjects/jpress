@@ -25,7 +25,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
-import io.jpress.commons.dfa.DFAUtil;
+import io.jpress.commons.wordsfilter.WordFilterUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.core.menu.annotation.UCenterMenu;
@@ -172,6 +172,11 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         article.setUserId(getLoginedUser().getId());
 
+        if (!getLoginedUser().isStatusOk()){
+            renderJson(Ret.fail().set("message", "当前脏话未激活，无法投稿。"));
+            return;
+        }
+
 
         if (article.getId() != null && notLoginedUserModel(article)) {
             renderJson(Ret.fail().set("message", "非法操作"));
@@ -184,15 +189,15 @@ public class ArticleUCenterController extends UcenterControllerBase {
         }
 
         if (StrUtil.isNotBlank(article.getSlug())) {
-            Article slugArticle = articleService.findFirstBySlug(article.getSlug());
-            if (slugArticle != null && slugArticle.getId().equals(article.getId()) == false) {
+            Article existArticle = articleService.findFirstBySlug(article.getSlug());
+            if (existArticle != null && !existArticle.getId().equals(article.getId())) {
                 renderJson(Ret.fail("message", "该固定链接已经存在"));
                 return;
             }
         }
 
-        if (DFAUtil.isContainsSensitiveWords(article.getText())){
-            renderJson(Ret.fail().set("message", "投稿内容可能包含非法字符。"));
+        if (WordFilterUtil.isMatchedFilterWords(article.getText())){
+            renderJson(Ret.fail().set("message", "投稿内容包含非法字符。"));
             return;
         }
 

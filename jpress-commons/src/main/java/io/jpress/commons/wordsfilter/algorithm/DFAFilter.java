@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.commons.dfa.algorithm;
+package io.jpress.commons.wordsfilter.algorithm;
 
 import com.github.houbb.opencc4j.util.ZhConverterUtil;
 import com.github.promeg.pinyinhelper.Pinyin;

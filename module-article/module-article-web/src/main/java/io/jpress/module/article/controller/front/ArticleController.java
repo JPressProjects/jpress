@@ -15,6 +15,7 @@
  */
 package io.jpress.module.article.controller.front;
 
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
@@ -23,6 +24,7 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.dfa.DFAUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
+import io.jpress.module.article.interceptor.ArticleInterceptor;
 import io.jpress.module.article.kit.ArticleNotifyKit;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
@@ -31,6 +33,7 @@ import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.OptionService;
+import io.jpress.service.UserFavoriteService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 
@@ -59,6 +62,9 @@ public class ArticleController extends TemplateControllerBase {
 
     @Inject
     private ArticleCommentService commentService;
+
+    @Inject
+    private UserFavoriteService favoriteService;
 
 
     public void index() {
@@ -267,6 +273,15 @@ public class ArticleController extends TemplateControllerBase {
             redirect(getReferer());
         }
     }
-
+    @Before(ArticleInterceptor.class)
+    public void doAddFavorite() {
+        Article article = ArticleInterceptor.getThreadLocalArticle();
+        User user = getLoginedUser();
+        if (favoriteService.doAddToFavorite(article.toFavorite(user.getId()))) {
+            renderOkJson();
+        } else {
+            renderFailJson("已经收藏过了!");
+        }
+    }
 
 }

@@ -414,7 +414,23 @@ function addProductToFavorite(productId, ok, fail) {
             }
         })
 }
-
+/*
+添加文章到收藏夹
+ */
+function addArticleToFavorite(articleId, ok, fail) {
+    ajaxPost(getContextPath() + '/article/doAddFavorite', {
+            id: articleId
+        },
+        ok ? ok : function () {
+            alert('成功添加到收藏夹。')
+        },
+        fail ? fail : function (data) {
+            alert('添加到收藏夹失败：' + data.message)
+            if (data.gotoUrl) {
+                location.href = data.gotoUrl;
+            }
+        })
+}
 
 /*
 购买产品

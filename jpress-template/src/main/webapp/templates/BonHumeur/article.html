@@ -32,6 +32,7 @@
             <div><i class="fa fa-clock-o"></i> #date(article.created)</div>
             <div><i class="fa fa-eye"></i> #(article.view_count)</div>
             <div><i class="fa fa-commenting-o"></i> #(article.comment_count)</div>
+            <div><i class="fa fa-heart-o"></i> <span><a href="javascript:;" onclick="addArticleToFavorite('#(article.id)')"> 添加收藏</a></span></div>
         </div>
         <div class="bh-artical">
             #(article.content ??)

@@ -18,7 +18,6 @@ package io.jpress.web.admin;
 import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -40,9 +39,9 @@ import java.util.Set;
 public class _OptionController extends AdminControllerBase {
 
     private static final Set<String> allowHtmlTagKeys = Sets.newHashSet("wechat_reply_user_subscribe"
-    ,"wechat_reply_user_scan"
-    ,"wechat_reply_unknow"
-    ,"web_copyright"
+            , "wechat_reply_user_scan"
+            , "wechat_reply_unknow"
+            , "web_copyright"
     );
 
     @Inject
@@ -58,12 +57,10 @@ public class _OptionController extends AdminControllerBase {
 
 
         HashMap<String, String> datasMap = new HashMap<>();
-        while (paraNames.hasMoreElements()){
+        while (paraNames.hasMoreElements()) {
             String key = paraNames.nextElement();
             String value = allowHtmlTagKeys.contains(key) ? getCleanedOriginalPara(key) : getPara(key);
-            if (StrUtil.isNotEmpty(value)){
-                datasMap.put(key, value);
-            }
+            datasMap.put(key, value);
         }
 
 
@@ -85,6 +82,7 @@ public class _OptionController extends AdminControllerBase {
      */
     public void doDeleteByKey(String key) {
         if (service.deleteByKey(key)) {
+            JPressOptions.set(key, null);
             renderOkJson();
         } else {
             renderFailJson();

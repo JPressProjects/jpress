@@ -10,8 +10,11 @@
 <div class="col-md-9 cl-left">
     <div class="cl-artical-content">
         <h2 class="cl-artical-title">#(article.title)</h2>
+
+
+
         <div class="cl-card-tag">
-            <div><span>#(article.view_count ?? 0)</span>人浏览 / <span>#(article.comment_count ?? 0)</span>人评论</div>
+            <div><span>#(article.view_count ?? 0)</span>人浏览 / <span>#(article.comment_count ?? 0)</span>人评论 / <span><a href="javascript:;" onclick="addArticleToFavorite('#(article.id)')"><i class="fa fa-heart-o"></i> 添加收藏</a></span></div>
         </div>
         <div class="cl-artical">
             #(article.content)

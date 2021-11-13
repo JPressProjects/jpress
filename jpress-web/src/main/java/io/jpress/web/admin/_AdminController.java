@@ -21,7 +21,6 @@ import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.validate.CaptchaValidate;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConfig;
@@ -71,14 +70,26 @@ public class _AdminController extends AdminControllerBase {
     @EmptyValidate({
             @Form(name = "user", message = "账号不能为空"),
             @Form(name = "pwd", message = "密码不能为空"),
-            @Form(name = "captcha", message = "验证码不能为空"),
     })
-    @CaptchaValidate(form = "captcha",message = "验证码不正确，请重新输入")
     public void doLogin(String user, String pwd) {
 
         if (!JPressHandler.getCurrentTarget().equals(JPressConfig.me.getAdminLoginAction())) {
             renderError(404);
             return;
+        }
+
+        //必须使用验证码进行验证
+        if (JPressConfig.me.isAdminLoginCaptchValidateEnable()){
+            String captchaPara = getPara("captcha");
+            if (StrUtil.isBlank(captchaPara)){
+                renderFailJson("验证码不能为空");
+                return;
+            }
+
+            if (!validateCaptcha("captcha")) {
+                renderFailJson("验证码不正确，请重新输入");
+                return;
+            }
         }
 
         if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {

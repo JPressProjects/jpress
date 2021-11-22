@@ -17,6 +17,7 @@ package io.jpress.web.install;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.aop.Before;
+import com.jfinal.aop.Clear;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
@@ -55,6 +56,7 @@ import java.util.List;
  * @Package io.jpress.web
  */
 @RequestMapping("/install")
+@Clear
 @Before(InstallInterceptor.class)
 public class InstallController extends ControllerBase {
 

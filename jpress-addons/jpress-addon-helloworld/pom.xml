@@ -13,14 +13,43 @@
     <artifactId>jpress-addon-helloworld</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-core</artifactId>
+            <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
 
     <build>
+
+        <plugins>
+
+<!--           若没有依赖外部的jar，可以不用添加这个插件，相反，如果依赖了外部的jar，则必须添加 maven-assembly-plugin 插件-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <version>3.1.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>make-assembly</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>single</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+
+<!--                            <descriptorRefs>-->
+<!--                                <descriptorRef>jar-with-dependencies</descriptorRef>-->
+<!--                            </descriptorRefs>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+
+        </plugins>
 
         <resources>
             <resource>

@@ -123,7 +123,7 @@ public class _AddonController extends AdminControllerBase {
                 renderFail("该插件安装失败，请联系管理员。",ufile);
                 return;
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             LOG.error("addon install error : ", e);
             renderFail("该插件安装失败，请联系管理员。",ufile);
             deleteFileQuietly(newAddonFile);

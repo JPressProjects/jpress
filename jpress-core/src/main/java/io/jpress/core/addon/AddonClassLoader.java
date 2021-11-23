@@ -90,7 +90,6 @@ public class AddonClassLoader extends URLClassLoader {
                     //可能会出现类存在，但是无法连接的情况
                     //比如 com.alibaba.fastjson.support.retrofit.Retrofit2ConverterFactory
                     //虽然使用了 fastjson，但是却未引用 Retrofit2 的依赖就会是 Retrofit2ConverterFactory 导致无法 load
-                    LOG.warn("Can not load Class {}",className);
                     continue;
                 }
 

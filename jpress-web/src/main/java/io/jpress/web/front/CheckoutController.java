@@ -27,9 +27,11 @@ import io.jpress.core.finance.ProductManager;
 import io.jpress.model.*;
 import io.jpress.service.*;
 import io.jpress.web.base.UcenterControllerBase;
+import io.jpress.web.commons.finance.PayNotifytKit;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -381,7 +383,6 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setPayerUserId(getLoginedUser().getId());
         payment.setPayerName(getLoginedUser().getNickname());
         payment.setPayerFee(BigDecimal.ZERO);
-        payment.setPayStatus(PayStatus.UNPAY.getStatus());//预支付
 
         payment.setPayAmount(userOrder.getOrderRealAmount());
         payment.setPayType(getPara("paytype"));
@@ -390,20 +391,53 @@ public class CheckoutController extends UcenterControllerBase {
         payment.setOrderRefererUrl(getReferer());
 
 
-        payment.setStatus(PaymentRecord.STATUS_PAY_PRE); //预支付
+        // 支付的金额为0，直接跳转支付成功，不调用第三方支付
+        if (payment.getPayAmount().compareTo(BigDecimal.ZERO)  == 0) {
+            payment.setStatus(PaymentRecord.STATUS_PAY_SUCCESS); //支付成功
+            payment.setPayStatus(PayStatus.getSuccessIntStatusByType(payment.getPayType()));
+            payment.setPaySuccessAmount(payment.getPayAmount());
+            payment.setPaySuccessTime(new Date());
+            payment.setPayCompleteTime(new Date());
+
+            //保存 或 更新 payment
+            paymentService.saveOrUpdate(payment);
+
+            //更新 order 的 payment id
+            if (userOrder.getPaymentId() == null) {
+                userOrder.setPaymentId(payment.getId());
+                userOrderService.update(userOrder);
+            }
+
+            // 订单支付成功
+            paymentService.notifySuccess(payment.getId());
 
 
-        //保存 或 更新 payment
-        paymentService.saveOrUpdate(payment);
+            PayNotifytKit.notify(payment, getLoginedUser());
 
-        //更新 order 的 payment id
-        if (userOrder.getPaymentId() == null) {
-            userOrder.setPaymentId(payment.getId());
-            userOrderService.update(userOrder);
+            if (payment.isPaySuccess()) {
+                redirect("/pay/success/" + payment.getTrxNo());
+            } else {
+                redirect("/pay/fail/" + payment.getTrxNo());
+            }
+        } else {
+            //预支付
+            payment.setStatus(PaymentRecord.STATUS_PAY_PRE);
+            payment.setPayStatus(PayStatus.UNPAY.getStatus());
+
+            //保存 或 更新 payment
+            paymentService.saveOrUpdate(payment);
+
+            //更新 order 的 payment id
+            if (userOrder.getPaymentId() == null) {
+                userOrder.setPaymentId(payment.getId());
+                userOrderService.update(userOrder);
+            }
+
+            PayKit.redirect(payment.getPayType(), payment.getTrxNo());
+
         }
 
 
-        PayKit.redirect(payment.getPayType(), payment.getTrxNo());
     }
 
 

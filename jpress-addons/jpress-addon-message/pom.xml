@@ -17,12 +17,14 @@
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>jpress-core</artifactId>
+            <version>4.0</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>codegen</artifactId>
+            <version>4.0</version>
             <scope>provided</scope>
         </dependency>
 

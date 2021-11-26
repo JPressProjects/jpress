@@ -454,7 +454,6 @@ public class PayController extends TemplateControllerBase {
      * 支付状态的异步回调地址
      */
     public void callback() {
-
         PayService service = getPayService();
         render404If(service == null);
 
@@ -598,25 +597,37 @@ public class PayController extends TemplateControllerBase {
         PayService service = getPayService();
         render404If(service == null);
 
-        String trxNo = null;
-        PaymentRecord payment = null;
+        Map<String, Object> params = getParams(service);
+        if (Jboot.isDevMode()) {
+            LOG.debug("back:" + JSON.toJSONString(params));
+        }
+
+        String trxNo = getTrxNo(service, params);
+        if (StrUtil.isBlank(trxNo)){
+            redirect("/pay/fail");
+            return;
+        }
+
+        if (params == null || !service.verify(params)) {
+            redirect("/pay/fail/" + trxNo);
+            return;
+        }
+
+        if (service instanceof  WxPayService) {
+            trxNo = getPara("trxNo");
+            if (StrUtil.isBlank(trxNo)) {
+                redirect("/pay/fail");
+                return;
+            }
+        }
+
+
+        PaymentRecord payment = paymentService.findByTrxNo(trxNo);
 
         // paypal 不走异步回调，需要在这进行处理，只要 service.verify(params) 验证通过
         // 就代表 paypal 支付成功了
         if (service instanceof  PayPalPayService) {
-            Map<String, Object> params = getParams(service);
-            if (Jboot.isDevMode()) {
-                LOG.debug("back:" + JSON.toJSONString(params));
-            }
 
-            trxNo = getTrxNo(service, params);
-
-            if (params == null || !service.verify(params)) {
-                redirect("/pay/fail/" + trxNo);
-                return;
-            }
-
-            payment = paymentService.findByTrxNo(trxNo);
 
             if (payment.getPaySuccessAmount() == null) {
                 payment.setPaySuccessAmount(payment.getPayAmount());
@@ -635,16 +646,7 @@ public class PayController extends TemplateControllerBase {
             if (paymentService.update(payment)) {
                 paymentService.notifySuccess(payment.getId());
             }
-        } else {
-            trxNo = getPara("trxNo");
-            if (StrUtil.isBlank(trxNo)) {
-                redirect("/pay/fail");
-                return;
-            }
-
-            payment = paymentService.findByTrxNo(trxNo);
         }
-
 
         if (payment.isPaySuccess()) {
             redirect("/pay/success/" + trxNo);

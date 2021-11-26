@@ -20,6 +20,9 @@ import com.egzosn.pay.ali.api.AliPayService;
 import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.wx.api.WxPayService;
 import com.jfinal.core.Controller;
+import io.jboot.utils.StrUtil;
+
+import java.util.Map;
 
 public class PayConfigUtil {
 
@@ -49,6 +52,12 @@ public class PayConfigUtil {
         return config.isEnable() && config.isConfigOk() ? new WxPayService(config.toConfigStorage()) : null;
     }
 
+    public static WxPayService getWxPayService(Map<String,Object> paras) {
+        String queryString = StrUtil.mapToQueryString(paras);
+        WechatPayConfig config = getWechatPayConfig();
+        config.setReturnUrl(config.getReturnUrl() + "?" + queryString);
+        return config.isEnable() && config.isConfigOk() ? new WxPayService(config.toConfigStorage()) : null;
+    }
 
     public static AliPayService getAlipayService() {
         AlipayPayConfig config = getAlipayPayConfig();

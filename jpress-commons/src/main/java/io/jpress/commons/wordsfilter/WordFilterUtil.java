@@ -18,6 +18,7 @@ package io.jpress.commons.wordsfilter;
 import com.jfinal.kit.Base64Kit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
+import io.jboot.codegen.CodeGenHelpler;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
@@ -140,7 +141,7 @@ public class WordFilterUtil {
 
     public static void main(String[] args) {
         String text = "";
-        File file = new File(io.jboot.codegen.PathKit.getUserDir(),"/jpress-web/src/main/webapp/WEB-INF/other/sys_sensitive_words.txt");
+        File file = new File(CodeGenHelpler.getUserDir(),"/jpress-web/src/main/webapp/WEB-INF/other/sys_sensitive_words.txt");
         initFromWordsFile(file);
         System.out.println(isMatchedFilterWords(text));
     }

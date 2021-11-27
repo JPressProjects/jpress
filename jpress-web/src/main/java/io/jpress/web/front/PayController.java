@@ -665,7 +665,7 @@ public class PayController extends TemplateControllerBase {
             } else {
                 Map<String,Object> ret = new HashMap<>();
                 for (String key : getParas().keySet()) {
-                    ret.put(key,getPara(key));
+                    ret.put(key,getOriginalPara(key));
                 }
                 return ret;
             }

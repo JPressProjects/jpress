@@ -39,7 +39,6 @@ import io.jpress.web.interceptor.WechatInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -128,8 +127,8 @@ public class PayController extends TemplateControllerBase {
         PaymentRecord payment = paymentService.findByTrxNo(getPara());
         render404If(payment == null);
 
-        Map<String,Object> para = new HashMap<>();
-        para.put("trxNo",payment.getTrxNo());
+        Map<String, Object> para = new HashMap<>();
+        para.put("trxNo", payment.getTrxNo());
 
         PayService service = PayConfigUtil.getWxPayService(para);
         render404If(service == null);
@@ -586,9 +585,12 @@ public class PayController extends TemplateControllerBase {
 
 
     private String getTrxNo(PayService service, Map<String, Object> params) {
-        return service instanceof PayPalPayService
-                ? Jboot.getCache().get("paypal", params.get("paymentId"))
-                : String.valueOf(params.get("out_trade_no"));
+        if (service instanceof PayPalPayService) {
+            return Jboot.getCache().get("paypal", params.get("paymentId"));
+        }
+
+        Object trxNoStr = params.get("out_trade_no");
+        return trxNoStr != null ? trxNoStr.toString() : getPara("trxNo");
     }
 
 
@@ -603,31 +605,28 @@ public class PayController extends TemplateControllerBase {
         }
 
         String trxNo = getTrxNo(service, params);
-        if (StrUtil.isBlank(trxNo)){
+        if (StrUtil.isBlank(trxNo)) {
             redirect("/pay/fail");
             return;
         }
 
-        if (params == null || !service.verify(params)) {
+
+        //微信的 h5 支付，返回时不对其进行验证，其他要对参数进行验证
+        if (!(service instanceof WxPayService) && !service.verify(params)) {
             redirect("/pay/fail/" + trxNo);
             return;
         }
 
-        if (service instanceof  WxPayService) {
-            trxNo = getPara("trxNo");
-            if (StrUtil.isBlank(trxNo)) {
-                redirect("/pay/fail");
-                return;
-            }
-        }
-
 
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
+        if (payment == null){
+            redirect("/pay/fail/" + trxNo);
+            return;
+        }
 
         // paypal 不走异步回调，需要在这进行处理，只要 service.verify(params) 验证通过
         // 就代表 paypal 支付成功了
-        if (service instanceof  PayPalPayService) {
-
+        if (service instanceof PayPalPayService) {
 
             if (payment.getPaySuccessAmount() == null) {
                 payment.setPaySuccessAmount(payment.getPayAmount());
@@ -663,13 +662,14 @@ public class PayController extends TemplateControllerBase {
             if (available > 0) {
                 return service.getParameter2Map(request.getParameterMap(), request.getInputStream());
             } else {
-                Map<String,Object> ret = new HashMap<>();
-                for (String key : getParas().keySet()) {
-                    ret.put(key,getOriginalPara(key));
+                Map<String, Object> ret = new HashMap<>();
+                Map<String, String> paras = getParas();
+                if (paras != null) {
+                    ret.putAll(paras);
                 }
                 return ret;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

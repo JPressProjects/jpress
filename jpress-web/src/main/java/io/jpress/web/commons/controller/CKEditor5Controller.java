@@ -30,10 +30,6 @@ import io.jpress.service.OptionService;
 import io.jpress.web.base.UserControllerBase;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by michael on 16/11/30.
@@ -85,8 +81,8 @@ public class CKEditor5Controller extends UserControllerBase {
         String mineType = uploadFile.getContentType();
         String fileType = mineType.split("/")[0];
 
-        int maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 2);
-        int maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 10);
+        int maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 10);
+        int maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 100);
         Integer maxSize = "image".equals(fileType) ? maxImgSize : maxOtherSize;
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
 

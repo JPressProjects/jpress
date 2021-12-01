@@ -100,8 +100,8 @@ public class VditorController extends UserControllerBase {
         String mineType = uploadFile.getContentType();
         String fileType = mineType.split("/")[0];
 
-        int maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 2);
-        int maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 10);
+        int maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 10);
+        int maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 100);
         Integer maxSize = "image".equals(fileType) ? maxImgSize : maxOtherSize;
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
 

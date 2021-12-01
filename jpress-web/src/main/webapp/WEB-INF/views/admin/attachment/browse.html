@@ -93,6 +93,8 @@
                 parent.layer.data.src = data.result.src;
                 parent.layer.data.title = data.result.title;
                 parent.layer.closeAll();
+            } else {
+                showErrorMessage(data.result.message);
             }
         }
     });

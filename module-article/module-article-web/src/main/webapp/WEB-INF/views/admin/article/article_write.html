@@ -112,6 +112,7 @@
                             var video = document.createElement('video') // 添加的内容可以自定义， 这里以添加图片为例
                             video.setAttribute('src', src)
                             video.setAttribute('style', 'max-width:100%;')
+                            video.setAttribute('controls', 'controls')
 
                             insertHtmlToEditor(video.outerHTML);
                         } else if (currentVditor) {

@@ -33,7 +33,6 @@ public class TemplateManager {
 
     private Template currentTemplate;
     private CacheObject currentTemplateId = new CacheObject("template", "id");
-    private TemplateNotifier notifier;
 
     private static final TemplateManager me = new TemplateManager();
 
@@ -203,25 +202,7 @@ public class TemplateManager {
      * 需要调用此方法清除模板缓存，才能 "实时生效"
      */
     public void clearCache() {
-        clearCache(true);
-    }
-
-    public void clearCache(boolean withNotify) {
         RenderManager.me().getEngine().removeAllTemplateCache();
-        if (withNotify && notifier != null) {
-            notifier.notifyClearCache();
-        }
     }
 
-    /**
-     * 分布式部署的情况下，需要通过 TemplateNotifier 去通知分布式的其他节点清除缓存
-     * @return
-     */
-    public TemplateNotifier getNotifier() {
-        return notifier;
-    }
-
-    public void setNotifier(TemplateNotifier notifier) {
-        this.notifier = notifier;
-    }
 }

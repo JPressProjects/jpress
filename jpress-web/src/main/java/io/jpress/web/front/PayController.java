@@ -604,6 +604,12 @@ public class PayController extends TemplateControllerBase {
             LOG.debug("back:" + JSON.toJSONString(params));
         }
 
+        if (params == null) {
+            redirect("/pay/fail");
+            return;
+        }
+
+
         String trxNo = getTrxNo(service, params);
         if (StrUtil.isBlank(trxNo)) {
             redirect("/pay/fail");
@@ -611,15 +617,8 @@ public class PayController extends TemplateControllerBase {
         }
 
 
-        //微信的 h5 支付，返回时不对其进行验证，其他要对参数进行验证
-        if (!(service instanceof WxPayService) && !service.verify(params)) {
-            redirect("/pay/fail/" + trxNo);
-            return;
-        }
-
-
         PaymentRecord payment = paymentService.findByTrxNo(trxNo);
-        if (payment == null){
+        if (payment == null) {
             redirect("/pay/fail/" + trxNo);
             return;
         }
@@ -627,6 +626,11 @@ public class PayController extends TemplateControllerBase {
         // paypal 不走异步回调，需要在这进行处理，只要 service.verify(params) 验证通过
         // 就代表 paypal 支付成功了
         if (service instanceof PayPalPayService) {
+
+            if (!service.verify(params)) {
+                redirect("/pay/fail/" + trxNo);
+                return;
+            }
 
             if (payment.getPaySuccessAmount() == null) {
                 payment.setPaySuccessAmount(payment.getPayAmount());

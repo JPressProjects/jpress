@@ -47,6 +47,40 @@ public abstract class ControllerBase extends JbootController {
     }
 
 
+    @NotAction
+    @Override
+    public <T> T getModel(Class<T> modelClass) {
+        return removeOptionsAttr(super.getModel(modelClass));
+    }
+
+    @NotAction
+    @Override
+    public <T> T getModel(Class<T> modelClass, String modelName) {
+        return removeOptionsAttr(super.getModel(modelClass, modelName));
+    }
+
+    @NotAction
+    @Override
+    public <T> T getModel(Class<T> modelClass, boolean skipConvertError) {
+        return removeOptionsAttr(super.getModel(modelClass, skipConvertError));
+    }
+
+    @NotAction
+    @Override
+    public <T> T getModel(Class<T> modelClass, String modelName, boolean skipConvertError) {
+        return removeOptionsAttr(super.getModel(modelClass, modelName, skipConvertError));
+    }
+
+    //options 应该是通过代码去覆盖的，而非通过 options 来设置
+    //此处是为了保证安全
+    private <T> T removeOptionsAttr(T model) {
+        if (model instanceof Model) {
+            ((Model<?>) model).remove("options");
+        }
+        return model;
+    }
+
+
     /**
      * 获得当前页面的页码
      *

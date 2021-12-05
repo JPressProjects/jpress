@@ -18,10 +18,7 @@ package io.jpress.web.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import com.jfinal.kit.LogKit;
 import io.jpress.JPressOptions;
-
-import java.util.Enumeration;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -41,20 +38,6 @@ public class JPressInterceptor implements Interceptor {
         controller.setAttr("C", controller);
         controller.setAttr("CDN", JPressOptions.getCDNDomain());
         controller.setAttr(ADDON_PATH_KEY, "");
-
-        Enumeration<String> paraKeys = controller.getParaNames();
-        if (paraKeys != null) {
-            while (paraKeys.hasMoreElements()) {
-                String key = paraKeys.nextElement();
-                // 有很多 options 字段的 model，为了扩展 model 本身的内容
-                // 为了安全起见，不让客户端提交 .options 对 model 本身的 options 字段进行覆盖
-                if (key != null && key.endsWith(".options")) {
-                    LogKit.error("paras has options key :" + key);
-                    controller.renderError(404);
-                    return;
-                }
-            }
-        }
 
         inv.invoke();
     }

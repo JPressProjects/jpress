@@ -16,8 +16,10 @@
 package io.jpress.web;
 
 import com.jfinal.template.Engine;
+import com.jfinal.template.source.FileSource;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.commons.wordsfilter.WordFilterUtil;
+import io.jpress.core.addon.controller.AddonControllerProcesser;
 import io.jpress.core.finance.OrderManager;
 import io.jpress.core.finance.PaymentManager;
 import io.jpress.web.commons.finance.*;
@@ -46,6 +48,10 @@ public class WebInitializer extends JbootAppListenerBase {
         engine.addSharedFunction("/WEB-INF/views/front/defaultMenu.html");
 
         engine.addSharedStaticMethod(PermissionFunctions.class);
+
+        engine.setSourceFactory((baseTemplatePath, fileName, encoding)
+                -> new FileSource(AddonControllerProcesser.getBaseTemplatePath(baseTemplatePath), fileName, encoding));
+
     }
 
 

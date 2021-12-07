@@ -20,6 +20,7 @@ import com.google.common.collect.Sets;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.HandlerKit;
 import io.jboot.utils.StrUtil;
+import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 
@@ -70,6 +71,9 @@ public class JPressHandler extends Handler {
                     || target.contains("WEB-INF")) {
                 HandlerKit.renderError404(request, response, isHandled);
                 return;
+            } else if (target.contains(".")) {
+                AttachmentHandlerKit.handle(JPressConfig.me.getAddonRoot(), target, request, response, isHandled);
+                return;
             }
         }
 
@@ -97,7 +101,7 @@ public class JPressHandler extends Handler {
 
         //附件目录
         if (target.startsWith(ATTACHMENT_TARGET_PREFIX)) {
-            AttachmentHandlerKit.handle(target, request, response, isHandled);
+            AttachmentHandlerKit.handle(JPressConfig.me.getAttachmentRoot(), target, request, response, isHandled);
             return;
         }
 

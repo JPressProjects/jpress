@@ -39,6 +39,9 @@ public class JPressConfig {
     private boolean adminLoginCaptchValidateEnable = true; //后台登录是否使用验证码进行验证
 
 
+    private String addonRoot; //插件安装的目录，方便在插件安装后，进行 clear 无效重新安装
+
+
     public String getIndexAction() {
         return indexAction;
     }
@@ -92,6 +95,14 @@ public class JPressConfig {
         return StrUtil.isNotBlank(attachmentRoot)
                 ? attachmentRoot
                 : PathKit.getWebRootPath();
+    }
+
+    public String getAddonRoot() {
+        return StrUtil.isNotBlank(addonRoot) ? addonRoot : PathKit.getWebRootPath();
+    }
+
+    public void setAddonRoot(String addonRoot) {
+        this.addonRoot = addonRoot;
     }
 
     public static final JPressConfig me = Jboot.config(JPressConfig.class);

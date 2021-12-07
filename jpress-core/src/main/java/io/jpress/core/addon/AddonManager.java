@@ -20,7 +20,6 @@ import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
 import com.jfinal.kit.LogKit;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
@@ -44,6 +43,7 @@ import io.jboot.utils.ClassUtil;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
+import io.jpress.JPressConfig;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.core.addon.controller.AddonControllerManager;
 import io.jpress.core.addon.handler.AddonHandlerManager;
@@ -124,8 +124,7 @@ public class AddonManager implements JbootEventListener {
      * 备注：插件可能是复制到插件目录下，而非通过后台进行 "安装"
      */
     private void doInitAddons() {
-
-        File addonDir = new File(PathKit.getWebRootPath(), "WEB-INF/addons");
+        File addonDir = new File(JPressConfig.me.getAddonRoot(), "WEB-INF/addons");
         if (!addonDir.exists()) {
             return;
         }
@@ -138,7 +137,6 @@ public class AddonManager implements JbootEventListener {
         initAddonsCache(addonJarFiles);
         doInstallAddonsInApplicationStarted();
         doStartAddonInApplicationStarted();
-
     }
 
 
@@ -304,7 +302,7 @@ public class AddonManager implements JbootEventListener {
     }
 
     private void clearAddonFiles(AddonInfo addonInfo) {
-        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addonInfo.getId()));
+        FileUtils.deleteQuietly(new File(JPressConfig.me.getAddonRoot(), "addons/" + addonInfo.getId()));
         AddonUtil.forceDelete(addonInfo.buildJarFile());
     }
 
@@ -906,7 +904,7 @@ public class AddonManager implements JbootEventListener {
     private void doBackupOldAddon(AddonInfo oldAddon) throws IOException {
 
         //备份 资源文件
-        String resPath = PathKit.getWebRootPath()
+        String resPath = JPressConfig.me.getAddonRoot()
                 + File.separator
                 + "addons"
                 + File.separator
@@ -976,7 +974,7 @@ public class AddonManager implements JbootEventListener {
 
     private void doRollBackBackups(AddonInfo addon) {
         //备份 资源文件
-        String resPath = PathKit.getWebRootPath()
+        String resPath = JPressConfig.me.getAddonRoot()
                 + File.separator
                 + "addons"
                 + File.separator
@@ -1005,7 +1003,7 @@ public class AddonManager implements JbootEventListener {
         AddonUtil.clearAddonInfoCache(addon.buildJarFile());
 
         //删除已解压缩的资源文件
-        FileUtils.deleteQuietly(new File(PathKit.getWebRootPath(), "addons/" + addon.getId()));
+        FileUtils.deleteQuietly(new File(JPressConfig.me.getAddonRoot(), "addons/" + addon.getId()));
 
         //删除jar包
         AddonUtil.forceDelete(addon.buildJarFile());

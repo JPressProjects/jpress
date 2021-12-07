@@ -17,7 +17,6 @@ package io.jpress.core.addon;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.LogKit;
-import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.render.RenderManager;
@@ -33,6 +32,7 @@ import io.jboot.db.datasource.DataSourceConfig;
 import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.JPressConfig;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.core.addon.template.AddonTemplateEnv;
 import org.apache.commons.lang3.StringUtils;
@@ -85,7 +85,7 @@ public class AddonUtil {
     }
 
     public static String getAddonBasePath(String addonId) {
-        StringBuilder basePath = new StringBuilder(PathKit.getWebRootPath());
+        StringBuilder basePath = new StringBuilder(JPressConfig.me.getAddonRoot());
         basePath.append(File.separator)
                 .append("addons")
                 .append(File.separator)

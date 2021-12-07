@@ -19,7 +19,6 @@ import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.Controller;
 import com.jfinal.handler.Handler;
-import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.template.Directive;
 import io.jboot.aop.InterceptorBuilder;
@@ -27,6 +26,7 @@ import io.jboot.db.annotation.Table;
 import io.jboot.db.model.JbootModel;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
+import io.jpress.JPressConfig;
 import io.jpress.core.wechat.WechatAddon;
 import io.jpress.core.wechat.WechatAddonConfig;
 
@@ -353,7 +353,7 @@ public class AddonInfo implements Serializable {
 
     public File buildJarFile() {
 
-        String webRoot = PathKit.getWebRootPath();
+        String webRoot = JPressConfig.me.getAddonRoot();
 
         StringBuilder fileName = new StringBuilder(webRoot);
         fileName.append(File.separator);

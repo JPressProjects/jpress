@@ -35,7 +35,7 @@ mytemplate
 id = cn.jeanstudio.bluelight
 title = BlueLight
 description = BlueLight是JeanStudio工作室为JPress设计的官网模板
-anthor = jeanStudio
+author = jeanStudio
 authorWebsite = http://www.jeanstudio.cn
 version = 1.0
 versionCode = 1
@@ -46,7 +46,7 @@ screenshot = screenshot.png
 * id ：模板ID，全网唯一，建议用 `域名+名称` 的命名方式
 * title ：模板名称
 * description ：模板简介
-* anthor ：模板作者
+* author ：模板作者
 * authorWebsite ：模板作者的官网
 * version ：版本（不添加默认为1.0.0）
 * versionCode ：版本号（只能是数字，不填写默认为1）

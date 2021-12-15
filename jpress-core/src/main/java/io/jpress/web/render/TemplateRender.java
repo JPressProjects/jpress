@@ -182,6 +182,9 @@ public class TemplateRender extends Render {
         Elements imgElements = doc.select("img");
         replace(imgElements, "src");
 
+        Elements sourceElements = doc.select("source");
+        replace(sourceElements, "src");
+
         Elements linkElements = doc.select("link");
         replace(linkElements, "href");
 

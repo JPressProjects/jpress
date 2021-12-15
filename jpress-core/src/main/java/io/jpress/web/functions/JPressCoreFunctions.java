@@ -16,10 +16,8 @@
 package io.jpress.web.functions;
 
 import com.google.common.collect.Lists;
-import io.jboot.JbootConsts;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
-import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.bean.RenderList;
 import io.jpress.commons.utils.AttachmentUtils;
@@ -42,6 +40,15 @@ public class JPressCoreFunctions {
         }
         return StrUtil.escapeHtml(html);
     }
+
+
+    public static String unescape(String html) {
+        if (html == null || html.trim().length() == 0) {
+            return "";
+        }
+        return StrUtil.unEscapeHtml(html);
+    }
+
 
     public static boolean hasAddon(String id) {
         AddonInfo addonInfo = AddonManager.me().getAddonInfo(id);

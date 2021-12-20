@@ -38,10 +38,7 @@ import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -307,6 +304,12 @@ public class _ArticleController extends AdminControllerBase {
     private void saveCategory(ArticleCategory category) {
         if (!validateSlug(category)) {
             renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
+            return;
+        }
+
+        ArticleCategory existModel = categoryService.findFirstByTypeAndSlug(category.getType(), category.getSlug());
+        if (existModel != null && !Objects.equals(existModel.getId(), category.getId())) {
+            renderJson(Ret.fail("message", "该分类的固定连接以及被占用"));
             return;
         }
 

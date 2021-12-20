@@ -80,9 +80,9 @@ public class BaseSortModel<M extends BaseSortModel<M>> extends JbootModel<M> imp
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < layerNumber; i++) {
             if (i == 0) {
-                sb.append("|—");
+                sb.append("|— ");
             } else {
-                sb.append("—");
+                sb.append("— ");
             }
         }
         return sb.toString();

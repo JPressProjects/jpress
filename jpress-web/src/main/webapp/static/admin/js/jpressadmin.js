@@ -608,6 +608,8 @@ function initPagenationPagesize() {
                 if (pair[0] != "pagesize" && pair[0] != "page") {
                     if (url.indexOf("?") == -1) {
                         url += "?"
+                    }else {
+                        url +="&"
                     }
                     url = url + pair[0] + "=" + pair[1];
                 }

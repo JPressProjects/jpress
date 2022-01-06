@@ -62,7 +62,7 @@ public class InstallUtil {
         //cookieEncryptKey
         String cookieEncryptKey = StrUtil.uuid();
         if (putPropertie(p, "jboot.web.cookieEncryptKey", cookieEncryptKey)) {
-            Jboot.config(JbootWebConfig.class).setCookieEncryptKey("cookieEncryptKey");
+            Jboot.config(JbootWebConfig.class).setCookieEncryptKey(cookieEncryptKey);
             CookieUtil.initEncryptKey(cookieEncryptKey);
         }
 

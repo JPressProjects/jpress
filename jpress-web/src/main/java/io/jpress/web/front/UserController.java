@@ -96,6 +96,8 @@ public class UserController extends TemplateControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
+        pwd = getOriginalPara("pwd");
+
         if (StrUtil.isBlank(user) || StrUtil.isBlank(pwd)) {
             LogKit.error("你当前的 idea 或者 eclipse 配置有问题，请参考文档：http://www.jfinal.com/doc/3-3 进行配置");
             return;

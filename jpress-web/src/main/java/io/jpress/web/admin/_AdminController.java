@@ -73,6 +73,8 @@ public class _AdminController extends AdminControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
+        pwd  = getOriginalPara("pwd");
+
         if (!JPressHandler.getCurrentTarget().equals(JPressConfig.me.getAdminLoginAction())) {
             renderError(404);
             return;

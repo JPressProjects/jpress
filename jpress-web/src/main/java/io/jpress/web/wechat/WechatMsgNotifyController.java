@@ -290,9 +290,13 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
 
         List<WechatAddonInfo> list = new ArrayList<>();
         for (WechatAddonInfo addonInfo : enableAddons) {
-            WechatAddon addon = addonInfo.getAddon();
-            if (addon != null && addon.onMatchingMessage(getInMsg(), this)) {
-                list.add(addonInfo);
+            try {
+                WechatAddon addon = addonInfo.getAddon();
+                if (addon != null && addon.onMatchingMessage(getInMsg(), this)) {
+                    list.add(addonInfo);
+                }
+            } catch (Exception e) {
+                LOG.error(e.toString(), e);
             }
         }
 

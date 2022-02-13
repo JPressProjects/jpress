@@ -24,7 +24,7 @@
         ajaxSubmit("#form", function (data) {
             $("#pageId").attr("value", data.id);
             window.history.replaceState({}, '', `#(CPATH)/admin/page/write/`+data.id)
-            toastr.success('文章保存成功。');
+            toastr.success('页面保存成功。');
         });
     };
 

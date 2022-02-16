@@ -151,12 +151,12 @@
 
 ## 帮助文档
 
-- [用户手册](http://doc.jpress.io/manual/)
-- [开发文档](http://doc.jpress.io/development/)
-- [模板开发](http://doc.jpress.io/development/template/start.html)
-- [插件开发](http://doc.jpress.io/development/addon/start.html)
-- [二次开发](hhttp://doc.jpress.io/development/dev/start.html)
-- [API 接口](http://doc.jpress.io/development/api/start.html)
+- [用户手册](http://doc.jpress.cn/manual/)
+- [开发文档](http://doc.jpress.cn/development/)
+- [模板开发](http://doc.jpress.cn/development/template/start.html)
+- [插件开发](http://doc.jpress.cn/development/addon/start.html)
+- [二次开发](hhttp://doc.jpress.cn/development/dev/start.html)
+- [API 接口](http://doc.jpress.cn/development/api/start.html)
 - [视频教程](http://www.ketang8.com/course/5)
 - [JPress-VIP 会员](http://www.jpress.io/article/vip)
 

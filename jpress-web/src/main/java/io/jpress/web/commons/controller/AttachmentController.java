@@ -58,7 +58,7 @@ public class AttachmentController extends UserControllerBase {
         File file = uploadFile.getFile();
         if (!getLoginedUser().isStatusOk()) {
             file.delete();
-            renderJson(Ret.create("error", Ret.create("message", "当前用户未激活，不允许上传任何文件。")));
+            renderJson(Ret.of("error", Ret.of("message", "当前用户未激活，不允许上传任何文件。")));
             return;
         }
 

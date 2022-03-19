@@ -179,6 +179,12 @@
             <scope>test</scope>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>io.jpress</groupId>-->
+<!--            <artifactId>jpress-addon-wtask</artifactId>-->
+<!--            <version>4.0</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>
@@ -235,6 +241,9 @@
                                 </resource>
                                 <resource>
                                     <directory>${basedir}/../module-product/module-product-web/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../jpress-addons/jpress-addon-wtask/src/main/webapp</directory>
                                 </resource>
                             </resources>
                         </configuration>

@@ -81,7 +81,7 @@ public class Product extends BaseProduct<Product> {
         }
 
         List<String> newList = new ArrayList<>();
-        for (int i = 0; 0 < count; i++) {
+        for (int i = 0; i < count; i++) {
             newList.add(list.get(i));
         }
         return newList;
@@ -172,8 +172,8 @@ public class Product extends BaseProduct<Product> {
 
 
     public String getHighlightContent() {
-        String content =  getStr("highlightContent");
-        return StrUtil.isNotBlank(content) ? content : CommonsUtils.maxLength(getText(),100,"...");
+        String content = getStr("highlightContent");
+        return StrUtil.isNotBlank(content) ? content : CommonsUtils.maxLength(getText(), 100, "...");
     }
 
     public void setHighlightContent(String highlightContent) {
@@ -181,7 +181,7 @@ public class Product extends BaseProduct<Product> {
     }
 
     public String getHighlightTitle() {
-        String title =  getStr("highlightTitle");
+        String title = getStr("highlightTitle");
         return StrUtil.isNotBlank(title) ? title : getTitle();
     }
 

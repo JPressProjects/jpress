@@ -162,7 +162,7 @@ public class Article extends BaseArticle<Article> {
         }
 
         List<String> newList = new ArrayList<>();
-        for (int i = 0; 0 < count; i++) {
+        for (int i = 0; i < count; i++) {
             newList.add(list.get(i));
         }
         return newList;
@@ -199,8 +199,8 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getHighlightContent() {
-        String content =  getStr("highlightContent");
-        return StrUtil.isNotBlank(content) ? content : CommonsUtils.maxLength(getText(),100,"...");
+        String content = getStr("highlightContent");
+        return StrUtil.isNotBlank(content) ? content : CommonsUtils.maxLength(getText(), 100, "...");
     }
 
     public void setHighlightContent(String highlightContent) {
@@ -208,7 +208,7 @@ public class Article extends BaseArticle<Article> {
     }
 
     public String getHighlightTitle() {
-        String title =  getStr("highlightTitle");
+        String title = getStr("highlightTitle");
         return StrUtil.isNotBlank(title) ? title : getTitle();
     }
 
@@ -219,14 +219,14 @@ public class Article extends BaseArticle<Article> {
     @Override
     public boolean save() {
         CommonsUtils.escapeModel(this, "content", "summary");
-        JsoupUtils.clean(this,"content","summary");
+        JsoupUtils.clean(this, "content", "summary");
         return super.save();
     }
 
     @Override
     public boolean update() {
         CommonsUtils.escapeModel(this, "content", "summary");
-        JsoupUtils.clean(this,"content","summary");
+        JsoupUtils.clean(this, "content", "summary");
         return super.update();
     }
 
@@ -236,6 +236,7 @@ public class Article extends BaseArticle<Article> {
 
     /**
      * 添加入收藏夹
+     *
      * @param userId
      * @return
      */

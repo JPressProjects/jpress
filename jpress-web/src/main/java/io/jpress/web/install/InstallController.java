@@ -23,10 +23,12 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbKit;
+import com.jfinal.plugin.activerecord.Model;
 import io.jboot.app.config.JbootConfigManager;
 import io.jboot.db.ArpManager;
+import io.jboot.db.TableInfo;
+import io.jboot.db.TableInfoManager;
 import io.jboot.db.datasource.DataSourceConfig;
-import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.handler.JbootActionReporter;
@@ -94,7 +96,7 @@ public class InstallController extends ControllerBase {
         String dbHost = getPara("dbHost");
         int dbPort = getParaToInt("dbPort");
 
-        if (SqlUtils.hasSqlInject(dbName)){
+        if (SqlUtils.hasSqlInject(dbName)) {
             renderJson(Ret.fail().set("message", "数据库名称存在非安全关键字，请重新填写。").set("errorCode", 5));
             return;
         }
@@ -253,7 +255,7 @@ public class InstallController extends ControllerBase {
                 return Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4);
             }
 
-            if (pwd.equals(confirmPwd) == false) {
+            if (!pwd.equals(confirmPwd)) {
                 return Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5);
             }
         }
@@ -442,20 +444,35 @@ public class InstallController extends ControllerBase {
     private void initActiveRecordPlugin() {
 
 
-        DataSourceConfig config = InstallManager.me().getDataSourceConfig();
+        DataSourceConfig dataSourceConfig = InstallManager.me().getDataSourceConfig();
 
         // 在只有 jboot.properties 但是没有 install.lock 的情况下
         // jboot 启动的时候会出初始化 jboot.properties 里配置的插件
         // 此时，会出现 config already exist 的异常
         if (DbKit.getConfig(DataSourceConfig.NAME_DEFAULT) == null) {
-            config.setName(DataSourceConfig.NAME_DEFAULT);
+            dataSourceConfig.setName(DataSourceConfig.NAME_DEFAULT);
         } else {
-            config.setName(StrUtil.uuid());
+            dataSourceConfig.setName(StrUtil.uuid());
         }
 
-        DataSourceConfigManager.me().addConfig(config);
+        ActiveRecordPlugin arPlugin = ArpManager.me().createRecordPlugin(dataSourceConfig);
 
-        ActiveRecordPlugin arPlugin = ArpManager.me().createRecordPlugin(config);
+        TableInfoManager.me().initConfigMappingTables(dataSourceConfig);
+        List<TableInfo> tableInfos = dataSourceConfig.getTableInfos();
+
+        if (tableInfos != null && !tableInfos.isEmpty()) {
+            for (TableInfo table : tableInfos) {
+                String tableName = StrUtil.isNotBlank(dataSourceConfig.getTablePrefix())
+                        ? dataSourceConfig.getTablePrefix() + table.getTableName()
+                        : table.getTableName();
+                if (StrUtil.isNotBlank(table.getPrimaryKey())) {
+                    arPlugin.addMapping(tableName, table.getPrimaryKey(), (Class<? extends Model<?>>) table.getModelClass());
+                } else {
+                    arPlugin.addMapping(tableName, (Class<? extends Model<?>>) table.getModelClass());
+                }
+            }
+        }
+
         arPlugin.start();
     }
 

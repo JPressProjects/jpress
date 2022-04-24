@@ -21,6 +21,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.generator.TableMeta;
 import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
+import io.jpress.codegen.CodeGenKit;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -69,7 +70,7 @@ public class ModuleUIGenerator {
         this.modelPackage = modelPackage;
         modulePackage = modelPackage.substring(0, modelPackage.lastIndexOf("."));
 
-        basePath = PathKit.getWebRootPath() + "/../../../../module-" + moduleName;
+        basePath = CodeGenKit.getProjectRootPath() + "/module-" + moduleName;
         webPath = basePath + "/module-" + moduleName + "-web";
 
         String upcasedModuleName = StrKit.firstCharToUpperCase(moduleName);

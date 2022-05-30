@@ -151,7 +151,7 @@ function _initLayerByComponent(component) {
  * 设置 tooltip 组件
  */
 function initTooltip() {
-    if ($.tooltip){
+    if ($.tooltip) {
         $('[data-toggle="tooltip"],[data-render="tooltip"]').tooltip();
     }
 }
@@ -608,8 +608,8 @@ function initPagenationPagesize() {
                 if (pair[0] != "pagesize" && pair[0] != "page") {
                     if (url.indexOf("?") == -1) {
                         url += "?"
-                    }else {
-                        url +="&"
+                    } else {
+                        url += "&"
                     }
                     url = url + pair[0] + "=" + pair[1];
                 }
@@ -968,7 +968,7 @@ function initVdtior(id, height) {
         }]
 
     window.currentVditor = new Vditor(id, {
-        "cdn":jpress.cpath+"/static/components/vditor",
+        "cdn": jpress.cpath + "/static/components/vditor",
         "height": height,
         "toolbar": toolbar,
         "upload": {

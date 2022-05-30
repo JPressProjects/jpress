@@ -1,5 +1,5 @@
 **/target/
-**/dist/
+**/.vuepress/dist/
 **/ossutil_output/
 **/node_modules/
 */jpress-addon-club/

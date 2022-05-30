@@ -968,6 +968,7 @@ function initVdtior(id, height) {
         }]
 
     window.currentVditor = new Vditor(id, {
+        "cdn":jpress.cpath+"/static/components/vditor",
         "height": height,
         "toolbar": toolbar,
         "upload": {

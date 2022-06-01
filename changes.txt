@@ -1,3 +1,12 @@
+jpress v4.2.2:
+新增：文章面包屑指令 #articleCrumb
+新增：新增输出指令 #unescape
+优化：升级 JFinal/Jboot 等相关依赖到最新版本
+修复：JPress 内置代码生成器UI生成器路径错误的bug，感谢 @AlienJunX
+修复：Vditor 走的 CDN 国内无法使用的问题
+
+
+
 jpress v4.2.1:
 新增：模板共享方法新增 unescape 方法
 优化：增强微信插件稳定性，保证各个插件运行不会相互影响

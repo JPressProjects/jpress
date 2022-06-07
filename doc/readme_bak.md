@@ -396,7 +396,8 @@ screenshot = screenshot.png
 
 **#categoryArticles() 指令支持的参数有：**
 
-* categoryFlag：分类的标识。
+* categoryId：分类的Id
+* categoryFlag：分类的标识，对应后台分类管理里的 "展示标识"
 * hasThumbnail：是否需要缩略图，值为 true 和 false。
 * orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
 * count ：要显示多少篇文章

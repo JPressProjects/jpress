@@ -280,7 +280,10 @@ public class _TemplateController extends AdminControllerBase {
         File editFile = StrUtil.isBlank(editFileName) ? files[0] : getEditFile(editFileName, files);
 
         setAttr("f", editFile.getName());
-        setAttr("editFileContent", StrUtil.escapeHtml(FileUtil.readString(editFile)));
+
+        if (editFile.isFile()){
+            setAttr("editFileContent", StrUtil.escapeHtml(FileUtil.readString(editFile)));
+        }
 
     }
 
@@ -379,6 +382,12 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
+
+        if (file.exists() && file.isDirectory()){
+            renderJson(Ret.fail().set("message", "存储失败，未指定任何文件"));
+            return;
+        }
+
         FileUtil.writeString(file, fileContent);
 
         TemplateManager.me().clearCache();
@@ -451,7 +460,7 @@ public class _TemplateController extends AdminControllerBase {
 
         UploadFile uploadFile = getFile();
         String fileName = uploadFile.getFileName();
-        String dirName = getPara("d").trim();
+        String dirName = getPara("d","").trim();
 
         //防止浏览非模板目录之外的其他目录
         render404If(dirName.contains(".."));

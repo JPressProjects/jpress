@@ -31,7 +31,7 @@ public class PageModuleGenerator {
 
 
     private static String moduleName = "page";
-    private static String dbTables = "single_page,single_page_comment";
+    private static String dbTables = "single_page,single_page_comment,single_page_category";
     private static String modelPackage = "io.jpress.module.page.model";
     private static String servicePackage = "io.jpress.module.page.service";
 

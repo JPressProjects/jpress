@@ -175,4 +175,26 @@ public interface SinglePageCategoryService  {
     public Page<SinglePageCategory> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+    /**
+     * 根据type 查询
+     * @param type
+     * @return
+     */
+    List<SinglePageCategory> findListByType(String type);
+
+    /**
+     * 根据 type,slug 查询
+     * @param type
+     * @param slug
+     * @return
+     */
+    SinglePageCategory findFirstByTypeAndSlug(String type, String slug);
+
+    /**
+     * 根据category_id 更新
+     * @param categoryId
+     */
+    void doUpdatePageCount(Long categoryId);
+
+    Long[] findCategoryIdsBySinglePageId(Long singlePageId);
 }

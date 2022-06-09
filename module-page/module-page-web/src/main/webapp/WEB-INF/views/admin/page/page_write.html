@@ -291,6 +291,31 @@
                         </div>
                     </div>
 
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">分类</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                #for(category : categories)
+                                <div>
+                                    <label>
+                                        #if(category.isCheck)
+                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                        #else
+                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                        #end
+
+                                        #(category.title ??)
+                                    </label>
+                                </div>
+                                #else
+                                暂无分类
+                                #end
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div class="card card-outlinecard-solid">
                         <div class="card-header with-border ">

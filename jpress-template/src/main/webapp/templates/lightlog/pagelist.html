@@ -1,0 +1,55 @@
+#include("./layout.html")
+#@layout()
+#define content()
+<div class="container ll-cantainer">
+
+    #pageList()
+    #for(page : singlePages.list)
+    <div class="ll-card">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 ll-card-image">
+                <a href="#">
+                    <img src="#(page.thumbnail ?? 'img/default-img.jpg')" class="img-fluid" alt="#(page.title ??)">
+                </a>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-12 ll-card-main">
+                <a href="#(page.url ??)">
+                    <div>
+                        <h3 class="ll-card-main-title">
+                            #(page.title ??)
+                        </h3>
+                        <p class="ll-card-main-info">
+                            #maxLength(page.text,100)
+                        </p>
+                    </div>
+                    <div class="ll-card-tag">
+                        <div><i class="fa fa-clock-o"></i>#date(page.created)</div>
+                        <div><i class="fa fa-eye"></i>#(page.view_count)</div>
+                        <div></div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+    #end
+
+
+    #pagePaginate(firstGotoIndex=true)
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+            #for(page : pages)
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
+            #end
+        </ul>
+    </nav>
+    #end
+
+    #end
+
+</div>
+#end

@@ -26,12 +26,18 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.model.Menu;
 import io.jpress.module.page.model.SinglePage;
+import io.jpress.module.page.model.SinglePageCategory;
+import io.jpress.module.page.service.SinglePageCategoryService;
 import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.module.page.service.SinglePageService;
+import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -47,6 +53,12 @@ public class _PageController extends AdminControllerBase {
 
     @Inject
     private SinglePageCommentService commentService;
+
+    @Inject
+    private SinglePageCategoryService categoryService;
+
+    @Inject
+    private MenuService menuService;
 
     @AdminMenu(text = "页面管理", groupId = "page", order = 1)
     public void list() {
@@ -75,9 +87,17 @@ public class _PageController extends AdminControllerBase {
 
     @AdminMenu(text = "新建", groupId = "page", order = 2)
     public void write() {
+
+        List<SinglePageCategory> categories = categoryService.findListByType(SinglePageCategory.TYPE_CATEGORY);
+        setAttr("categories", categories);
+
         int pageId = getParaToInt(0, 0);
 
         SinglePage page = pageId > 0 ? sps.findById(pageId) : null;
+        if(page != null){
+            Long[] categoryIds = categoryService.findCategoryIdsBySinglePageId(page.getId());
+            flagCheck(categories, categoryIds);
+        }
         setAttr("page", page);
 
         Template template = TemplateManager.me().getCurrentTemplate();
@@ -144,7 +164,35 @@ public class _PageController extends AdminControllerBase {
             }
         }
 
-        sps.saveOrUpdate(page);
+        long id = (long) sps.saveOrUpdate(page);
+
+        Long[] saveBeforeCategoryIds = null;
+        if (page.getId() != null){
+            saveBeforeCategoryIds = categoryService.findCategoryIdsBySinglePageId(page.getId());
+        }
+
+
+        Long[] categoryIds = getParaValuesToLong("category");
+
+        Long[] updateCategoryIds = ArrayUtils.addAll(categoryIds);
+
+        sps.doUpdateCategorys(id, updateCategoryIds);
+
+
+        if (updateCategoryIds != null && updateCategoryIds.length > 0) {
+            for (Long categoryId : updateCategoryIds) {
+                categoryService.doUpdatePageCount(categoryId);
+            }
+        }
+
+        if (saveBeforeCategoryIds != null && saveBeforeCategoryIds.length > 0) {
+            for (Long categoryId : saveBeforeCategoryIds) {
+                categoryService.doUpdatePageCount(categoryId);
+            }
+        }
+
+
+
         renderJson(Ret.ok().set("id", page.getId()));
     }
 
@@ -175,4 +223,112 @@ public class _PageController extends AdminControllerBase {
         Long id = getIdPara();
         render(sps.doChangeStatus(id, SinglePage.STATUS_NORMAL) ? OK : FAIL);
     }
+
+
+    @AdminMenu(text = "分类", groupId = "page", order = 2)
+    public void category() {
+        List<SinglePageCategory> categories = categoryService.findListByType(SinglePageCategory.TYPE_CATEGORY);
+        setAttr("categories", categories);
+        long id = getParaToLong(0, 0L);
+        if (id > 0 && categories != null) {
+            for (SinglePageCategory category : categories) {
+                if (category.getId().equals(id)) {
+                    setAttr("category", category);
+                    setAttr("isDisplayInMenu", menuService.findFirstByRelatives("single_page_category", id) != null);
+                }
+            }
+        }
+        initStylesAttr("pagelist_");
+        render("page/page_category_list.html");
+    }
+
+    private void initStylesAttr(String prefix) {
+        Template template = TemplateManager.me().getCurrentTemplate();
+        if (template == null) {
+            return;
+        }
+        setAttr("flags", template.getFlags());
+        List<String> styles = template.getSupportStyles(prefix);
+        setAttr("styles", styles);
+    }
+
+    private void flagCheck(List<SinglePageCategory> categories, Long... checkIds) {
+        if (checkIds == null || checkIds.length == 0
+                || categories == null || categories.size() == 0) {
+            return;
+        }
+
+        for (SinglePageCategory category : categories) {
+            for (Long id : checkIds) {
+                if (id != null && id.equals(category.getId())) {
+                    category.put("isCheck", true);
+                }
+            }
+        }
+    }
+
+
+    @EmptyValidate({
+            @Form(name = "category.title", message = "分类名称不能为空"),
+            @Form(name = "category.slug", message = "slug 不能为空")
+    })
+    public void doCategorySave() {
+        SinglePageCategory category = getModel(SinglePageCategory.class, "category");
+        saveCategory(category);
+    }
+
+    private void saveCategory(SinglePageCategory category) {
+        if (!validateSlug(category)) {
+            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
+            return;
+        }
+
+        SinglePageCategory existModel = categoryService.findFirstByTypeAndSlug(category.getType(), category.getSlug());
+        if (existModel != null && !Objects.equals(existModel.getId(), category.getId())) {
+            renderJson(Ret.fail("message", "该分类的固定连接以及被占用"));
+            return;
+        }
+
+        Object id = categoryService.saveOrUpdate(category);
+        categoryService.doUpdatePageCount(category.getId());
+
+        Menu displayMenu = menuService.findFirstByRelatives("single_page_category", id);
+        Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");
+        if (isDisplayInMenu != null && isDisplayInMenu) {
+            if (displayMenu == null) {
+                displayMenu = new Menu();
+            }
+
+            displayMenu.setUrl(category.getUrl());
+            displayMenu.setText(category.getTitle());
+            displayMenu.setType(Menu.TYPE_MAIN);
+            displayMenu.setOrderNumber(category.getOrderNumber());
+            displayMenu.setRelativeTable("single_page_category");
+            displayMenu.setRelativeId((Long) id);
+
+            if (displayMenu.getPid() == null) {
+                displayMenu.setPid(0L);
+            }
+
+            if (displayMenu.getOrderNumber() == null) {
+                displayMenu.setOrderNumber(99);
+            }
+
+            menuService.saveOrUpdate(displayMenu);
+        } else if (displayMenu != null) {
+            menuService.delete(displayMenu);
+        }
+
+        renderOkJson();
+    }
+
+    public void doCategoryDel() {
+        categoryService.deleteById(getIdPara());
+        renderOkJson();
+    }
+
+
+
+
+
 }

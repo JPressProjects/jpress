@@ -1,0 +1,50 @@
+#include("./layout.html")
+#@layout()
+
+
+#define content()
+<div class="col-md-9 cl-left">
+
+    #pageList()
+    #for(page : singlePages.list)
+    <div class="cl-card">
+        <a class="card-link" href="#(page.url)">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-12 cl-card-image">
+                    <img src="#(page.showImage ? page.showImage  : 'img/default-img.jpg')" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
+                    <h3 class="cl-card-main-title">
+                        #(page.title)
+                    </h3>
+                    <p class="cl-card-main-info">#maxLength(page.text,100)</p>
+                    <p class="cl-card-more">阅读更多...</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    #end
+
+
+
+
+
+    #pagePaginate(firstGotoIndex=true)
+    <nav aria-label="">
+        <ul class="pagination justify-content-center">
+            #for(page : pages)
+            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            #end
+        </ul>
+    </nav>
+    #end
+    #end
+
+</div>
+
+
+<div class="col-md-3 cl-right">
+    #include("./_rightbar.html")
+</div>
+#end

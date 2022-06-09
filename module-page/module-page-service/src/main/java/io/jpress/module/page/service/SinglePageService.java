@@ -112,4 +112,9 @@ public interface SinglePageService extends JbootServiceJoiner {
 
     void doIncViewCount(long id);
 
+    Page<SinglePage> paginateInNormal(int page, int pageSize, String orderBy);
+
+    Page<SinglePage> paginateByCategoryIdInNormal(int page, int pageSize, Long categoryId, String orderBy);
+
+    void doUpdateCategorys(long pageId, Long[] categoryIds);
 }

@@ -1,0 +1,46 @@
+#include("./layout.html")
+#@layout(true)
+#define content()
+<div class="bh-main-body">
+
+    #include("header.html")
+
+    #pageList()
+    #for(page : singlePages.list)
+
+    <div class="bh-card">
+        <div class="bh-card-main">
+            <a href="#(page.url ??)">
+                <h3 class="bh-card-main-title">
+                    #(page.title ??)
+                </h3>
+                <div class="bh-card-tag">
+                    <div><i class="fa fa-clock-o"></i> #date(page.created)</div>
+                    <div><i class="fa fa-eye"></i> #(page.view_count)</div>
+                    <div></div>
+                </div>
+                <p class="bh-card-main-info">
+                    #maxLength(page.text,100)
+                </p>
+            </a>
+        </div>
+    </div>
+    #end
+
+
+    #pagePaginate(firstGotoIndex=true)
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+            #for(page : pages)
+            <li class="page-item #(page.style ??)">
+                <a class="page-link" href="#(page.url ??)">
+                    #(page.text ??)
+                </a>
+            </li>
+            #end
+        </ul>
+    </nav>
+    #end
+    #end
+</div>
+#end

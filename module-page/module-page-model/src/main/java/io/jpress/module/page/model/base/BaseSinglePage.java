@@ -26,6 +26,20 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 	}
 
     /**
+     * 分类ID
+     */
+	public void setCategoryId(java.lang.Long categoryId) {
+		set("category_id", categoryId);
+	}
+
+    /**
+     * 分类ID
+     */
+	public java.lang.Long getCategoryId() {
+		return getLong("category_id");
+	}
+
+    /**
      * slug
      */
 	public void setSlug(java.lang.String slug) {
@@ -190,7 +204,7 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
      * 创建日期
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
 	}
 
     /**
@@ -204,7 +218,7 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
      * 最后更新日期
      */
 	public java.util.Date getModified() {
-		return get("modified");
+		return getDate("modified");
 	}
 
     /**
@@ -250,3 +264,4 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 	}
 
 }
+

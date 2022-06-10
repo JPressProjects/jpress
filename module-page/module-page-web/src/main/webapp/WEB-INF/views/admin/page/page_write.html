@@ -300,12 +300,7 @@
                                 #for(category : categories)
                                 <div>
                                     <label>
-                                        #if(category.isCheck)
-                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
-                                        #else
-                                        <input type="checkbox" name="category" value="#(category.id)"/>
-                                        #end
-
+                                        <input type="radio" name="page.category_id" value="#(category.id)" #if(page && page.categoryId == category.id) checked #end/>
                                         #(category.title ??)
                                     </label>
                                 </div>

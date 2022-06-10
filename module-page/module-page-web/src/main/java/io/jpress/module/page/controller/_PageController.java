@@ -34,7 +34,6 @@ import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -65,6 +64,7 @@ public class _PageController extends AdminControllerBase {
 
         String status = getPara("status");
         String title = getPara("title");
+        Long categoryId = getParaToLong("categoryId");
 
         Page<SinglePage> page =
                 StrUtil.isBlank(status)
@@ -82,6 +82,9 @@ public class _PageController extends AdminControllerBase {
         setAttr("normalCount", normalCount);
         setAttr("totalCount", draftCount + trashCount + normalCount);
 
+        List<SinglePageCategory> categories = categoryService.findListByType(SinglePageCategory.TYPE_CATEGORY);
+        setAttr("categories", categories);
+
         render("page/page_list.html");
     }
 
@@ -94,10 +97,6 @@ public class _PageController extends AdminControllerBase {
         int pageId = getParaToInt(0, 0);
 
         SinglePage page = pageId > 0 ? sps.findById(pageId) : null;
-        if(page != null){
-            Long[] categoryIds = categoryService.findCategoryIdsBySinglePageId(page.getId());
-            flagCheck(categories, categoryIds);
-        }
         setAttr("page", page);
 
         Template template = TemplateManager.me().getCurrentTemplate();
@@ -166,32 +165,8 @@ public class _PageController extends AdminControllerBase {
 
         long id = (long) sps.saveOrUpdate(page);
 
-        Long[] saveBeforeCategoryIds = null;
-        if (page.getId() != null){
-            saveBeforeCategoryIds = categoryService.findCategoryIdsBySinglePageId(page.getId());
-        }
-
-
-        Long[] categoryIds = getParaValuesToLong("category");
-
-        Long[] updateCategoryIds = ArrayUtils.addAll(categoryIds);
-
-        sps.doUpdateCategorys(id, updateCategoryIds);
-
-
-        if (updateCategoryIds != null && updateCategoryIds.length > 0) {
-            for (Long categoryId : updateCategoryIds) {
-                categoryService.doUpdatePageCount(categoryId);
-            }
-        }
-
-        if (saveBeforeCategoryIds != null && saveBeforeCategoryIds.length > 0) {
-            for (Long categoryId : saveBeforeCategoryIds) {
-                categoryService.doUpdatePageCount(categoryId);
-            }
-        }
-
-
+        //更新该分类的内容数量
+        categoryService.doUpdatePageCount(id);
 
         renderJson(Ret.ok().set("id", page.getId()));
     }
@@ -252,20 +227,6 @@ public class _PageController extends AdminControllerBase {
         setAttr("styles", styles);
     }
 
-    private void flagCheck(List<SinglePageCategory> categories, Long... checkIds) {
-        if (checkIds == null || checkIds.length == 0
-                || categories == null || categories.size() == 0) {
-            return;
-        }
-
-        for (SinglePageCategory category : categories) {
-            for (Long id : checkIds) {
-                if (id != null && id.equals(category.getId())) {
-                    category.put("isCheck", true);
-                }
-            }
-        }
-    }
 
 
     @EmptyValidate({

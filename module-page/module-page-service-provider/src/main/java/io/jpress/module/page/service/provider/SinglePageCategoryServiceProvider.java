@@ -1,14 +1,12 @@
 package io.jpress.module.page.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.ModelUtil;
 import io.jpress.module.page.model.SinglePageCategory;
 import io.jpress.module.page.service.SinglePageCategoryService;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 
@@ -27,22 +25,12 @@ public class SinglePageCategoryServiceProvider extends JbootServiceBase<SinglePa
 
     @Override
     public void doUpdatePageCount(Long categoryId) {
-        long articleCount = Db.queryLong("select count(*) from single_page_category_mapping where category_id = ? ", categoryId);
+        long count = Db.queryLong("select count(*) from single_page where category_id = ? ", categoryId);
         SinglePageCategory category = findById(categoryId);
         if (category != null) {
-            category.setCount(articleCount);
+            category.setCount(count);
             update(category);
         }
-    }
-
-    @Override
-    public Long[] findCategoryIdsBySinglePageId(Long singlePageId) {
-        List<Record> records = Db.find("select * from single_page_category_mapping where single_page_id = ?", singlePageId);
-        if (records == null || records.isEmpty()) {
-            return null;
-        }
-
-        return ArrayUtils.toObject(records.stream().mapToLong(record -> record.get("category_id")).toArray());
     }
 
     //    @Cacheable(name = "singlePageCategory", key = "type:#(type)")

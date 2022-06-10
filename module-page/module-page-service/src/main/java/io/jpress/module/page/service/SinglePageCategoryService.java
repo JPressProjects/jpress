@@ -196,5 +196,4 @@ public interface SinglePageCategoryService  {
      */
     void doUpdatePageCount(Long categoryId);
 
-    Long[] findCategoryIdsBySinglePageId(Long singlePageId);
 }

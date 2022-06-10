@@ -17,7 +17,6 @@ package io.jpress.module.page.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
@@ -28,7 +27,6 @@ import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.seoping.SeoManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Bean
@@ -133,33 +131,11 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
     public Page<SinglePage> paginateByCategoryIdInNormal(int page, int pageSize, Long categoryId, String orderBy) {
 
         Columns columns = new Columns();
-        columns.eq("m.category_id", categoryId);
-        columns.eq("single_page.status", SinglePage.STATUS_NORMAL);
+        columns.eq("category_id", categoryId);
+        columns.eq("status", SinglePage.STATUS_NORMAL);
 
-        Page<SinglePage> dataPage = DAO.leftJoin("single_page_category_mapping")
-                .as("m").on("single_page.id=m.`single_page_id`")
-                .paginateByColumns(page, pageSize, columns, orderBy);
+        Page<SinglePage> dataPage = DAO.paginateByColumns(page, pageSize, columns, orderBy);
         return dataPage;
     }
 
-    @Override
-    public void doUpdateCategorys(long pageId, Long[] categoryIds) {
-
-        Db.tx(() -> {
-            Db.update("delete from single_page_category_mapping where single_page_id = ?", pageId);
-
-            if (categoryIds != null && categoryIds.length > 0) {
-                List<Record> records = new ArrayList<>();
-                for (long categoryId : categoryIds) {
-                    Record record = new Record();
-                    record.set("single_page_id", pageId);
-                    record.set("category_id", categoryId);
-                    records.add(record);
-                }
-                Db.batchSave("single_page_category_mapping", records, records.size());
-            }
-
-            return true;
-        });
-    }
 }

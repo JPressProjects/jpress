@@ -279,6 +279,13 @@ screenshot = screenshot.png
 
 **2、数据指令，数据指令一般情况下只能用于特有页面**
 
+通用指令：
+
+| 指令名称 | 可用页面 |描述 |  
+| --- | --- | --- | 
+| #maxLength(内容,长度,截取后追加的内容) | 任意 | 字符串截取 |  
+| #date(时间对象,'YYYY-MM-dd') | 任意 | 时间格式化 | 
+
 文章相关指令：
 
 | 指令名称 | 可用页面 |描述 |  
@@ -296,6 +303,7 @@ screenshot = screenshot.png
 | #tags() | 任意 | 用于读取文章标签 |  
 | #articleCategories() | 任意 | 用于读取某一篇文章的所属分类，例如：文章的标签、文章的分类等 |  
 | #articleSearchPage() | 文章搜索结果页 artsearch.html | 用于渲染搜索结果 |  
+| #articleCrumb() | 面包屑指令 | 可用于文章列表 或者 文章详情 |  
 
 
 产品相关指令：
@@ -325,11 +333,6 @@ screenshot = screenshot.png
 | #pages() | 任意 | 用于读取页面列表 | 
  
  
- 用户相关指令：
-
-| 指令名称 | 可用页面 |描述 |  
-| --- | --- | --- |  
-| #users() | 暂不支持 | 用于读取页面列表 | 
 
 
 ##### #article() 指令的用法
@@ -405,7 +408,7 @@ screenshot = screenshot.png
 ##### #articlePage() 指令的用法
 指令 #articlePage() 只能用在文章列表页，也就是 artlist.html 模板文件及其扩展文件。
 
-```java
+```html
 #articlePage()
 
     #for(article : articlePage.list)
@@ -523,6 +526,7 @@ screenshot = screenshot.png
 **指令#categories()的参数有**
 
 * flag ：读取哪些flag的分类列表。
+* parentId ：读取父级必须是该flag的分类列表。
 * parentFlag ：读取父级必须是该flag的分类列表。
 * asTree ：是否以树状的数据进行返回，默认是false，返回全部分类。
 

@@ -22,6 +22,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
@@ -30,6 +31,8 @@ import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Attachment;
+import io.jpress.model.AttachmentCategory;
+import io.jpress.service.AttachmentCategoryService;
 import io.jpress.service.AttachmentService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.io.FileUtils;
@@ -57,6 +60,10 @@ public class _AttachmentController extends AdminControllerBase {
     @Inject
     private AttachmentService service;
 
+    @Inject
+    private AttachmentCategoryService categoryService;
+
+
     @AdminMenu(text = "所有附件", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 0)
     public void list() {
         Page<Attachment> page = service._paginate(getPagePara(), 15, getPara("title"));
@@ -66,6 +73,9 @@ public class _AttachmentController extends AdminControllerBase {
 
     @AdminMenu(text = "上传", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 1)
     public void upload() {
+        List<AttachmentCategory> categories = categoryService.findListByColumns(Columns.create(), "order_number asc,id desc");
+        setAttr("categories",categories);
+
         render("attachment/upload.html");
     }
 
@@ -87,6 +97,35 @@ public class _AttachmentController extends AdminControllerBase {
         setAttr("files", RootFile.toFiles(files));
         render("attachment/root.html");
     }
+
+    @AdminMenu(text = "分类",groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 9)
+    public void category(){
+        List<AttachmentCategory> categories = categoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
+        setAttr("categories", categories);
+        long id = getParaToLong(0, 0L);
+        if (id > 0 && categories != null) {
+            for (AttachmentCategory category : categories) {
+                if (category.getId().equals(id)) {
+                    setAttr("category", category);
+                }
+            }
+        }
+        render("attachment/category_list.html");
+    }
+
+    public void doCategorySave() {
+        AttachmentCategory category = getModel(AttachmentCategory.class, "category");
+
+        categoryService.saveOrUpdate(category);
+        categoryService.doUpdateAttachmentCategoryCount(category.getId());
+        renderOkJson();
+    }
+
+    public void doCategoryDel() {
+        categoryService.deleteById(getIdPara());
+        renderOkJson();
+    }
+
 
     public void doDelRootFile() {
         String fileName = getPara("name");

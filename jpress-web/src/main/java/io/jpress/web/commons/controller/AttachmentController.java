@@ -28,6 +28,7 @@ import io.jpress.service.AttachmentService;
 import io.jpress.web.base.UserControllerBase;
 
 import java.io.File;
+import java.math.BigInteger;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -43,6 +44,13 @@ public class AttachmentController extends UserControllerBase {
     private AttachmentService service;
 
     public void upload() {
+
+        BigInteger categoryId = getParaToBigInteger("attachment.categoryId");
+        if(categoryId == null){
+            renderJson(Ret.fail().set("message", "请先选择分类"));
+            return;
+        }
+
         if (!isMultipartRequest()) {
             renderError(404);
             return;

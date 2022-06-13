@@ -16,6 +16,7 @@
 package io.jpress.module.page.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceJoiner;
 import io.jpress.module.page.model.SinglePage;
 
@@ -116,4 +117,21 @@ public interface SinglePageService extends JbootServiceJoiner {
 
     Page<SinglePage> paginateByCategoryIdInNormal(int page, int pageSize, Long categoryId, String orderBy);
 
+    /**
+     * 根据 columns 查询
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @return
+     */
+    Page<SinglePage> _paginateWithoutTrashAndCol(int page, int pageSize, Columns columns);
+
+    /**
+     * 根据 col 查询
+     * @param page
+     * @param pageSize
+     * @param col
+     * @return
+     */
+    Page<SinglePage> _paginateByColumns(int page, int pageSize, Columns col);
 }

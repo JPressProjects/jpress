@@ -138,4 +138,33 @@ public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> impl
         return dataPage;
     }
 
+    /**
+     * 根据 columns 查询
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @return
+     */
+    @Override
+    public Page<SinglePage> _paginateWithoutTrashAndCol(int page, int pageSize, Columns columns) {
+
+        return DAO.paginateByColumns(page,
+                pageSize,
+                columns.ne("status", SinglePage.STATUS_TRASH),
+                "id desc");
+    }
+
+    /**
+     * 根据 columns 查询
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @return
+     */
+    @Override
+    public Page<SinglePage> _paginateByColumns(int page, int pageSize, Columns columns) {
+
+        return DAO.paginateByColumns(page, pageSize, columns, "id desc");
+    }
+
 }

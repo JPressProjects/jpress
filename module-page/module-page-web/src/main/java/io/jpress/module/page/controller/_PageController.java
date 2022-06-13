@@ -18,6 +18,7 @@ package io.jpress.module.page.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -66,10 +67,23 @@ public class _PageController extends AdminControllerBase {
         String title = getPara("title");
         Long categoryId = getParaToLong("categoryId");
 
+        Columns col= Columns.create();
+        col.likeAppendPercent("title",title);
+        col.eq("category_id",categoryId);
+
         Page<SinglePage> page =
                 StrUtil.isBlank(status)
-                        ? sps._paginateWithoutTrash(getPagePara(), 10, title)
-                        : sps._paginateByStatus(getPagePara(), 10, title, status);
+                        ? sps._paginateWithoutTrashAndCol(getPagePara(), 10, col)
+                        : sps._paginateByColumns(getPagePara(), 10, col.eq("status",status));
+
+        if(page != null){
+            for (SinglePage singlePage : page.getList()) {
+                if(singlePage.getCategoryId() != null){
+                    SinglePageCategory category = categoryService.findById(singlePage.getCategoryId());
+                    singlePage.put("category",category);
+                }
+            }
+        }
 
         setAttr("page", page);
 
@@ -146,6 +160,7 @@ public class _PageController extends AdminControllerBase {
     })
     public void doWriteSave() {
         SinglePage page = getModel(SinglePage.class, "page");
+        Long oldCategoryId = getParaToLong("oldCategoryId");
 
         //默认情况下，请求会被 escape，通过 getOriginalPara 获得非 escape 的数据
         page.setContent(getCleanedOriginalPara("page.content"));
@@ -163,10 +178,17 @@ public class _PageController extends AdminControllerBase {
             }
         }
 
-        long id = (long) sps.saveOrUpdate(page);
+        sps.saveOrUpdate(page);
 
-        //更新该分类的内容数量
-        categoryService.doUpdatePageCount(id);
+        if(page.getCategoryId() != null){
+            //更新该分类的内容数量
+            categoryService.doUpdatePageCategoryCount(page.getCategoryId());
+
+            //编辑页面时选择了其他的页面分类，也要更新掉之前分类下的内容数量 (count-1)
+            if(oldCategoryId != null && !page.getCategoryId().equals(oldCategoryId)){
+                categoryService.doUpdatePageCategoryCount(oldCategoryId);
+            }
+        }
 
         renderJson(Ret.ok().set("id", page.getId()));
     }
@@ -251,7 +273,7 @@ public class _PageController extends AdminControllerBase {
         }
 
         Object id = categoryService.saveOrUpdate(category);
-        categoryService.doUpdatePageCount(category.getId());
+        categoryService.doUpdatePageCategoryCount(category.getId());
 
         Menu displayMenu = menuService.findFirstByRelatives("single_page_category", id);
         Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");

@@ -24,7 +24,7 @@ public class SinglePageCategoryServiceProvider extends JbootServiceBase<SinglePa
     }
 
     @Override
-    public void doUpdatePageCount(Long categoryId) {
+    public void doUpdatePageCategoryCount(Long categoryId) {
         long count = Db.queryLong("select count(*) from single_page where category_id = ? ", categoryId);
         SinglePageCategory category = findById(categoryId);
         if (category != null) {

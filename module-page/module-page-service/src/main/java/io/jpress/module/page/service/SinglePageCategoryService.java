@@ -194,6 +194,6 @@ public interface SinglePageCategoryService  {
      * 根据category_id 更新
      * @param categoryId
      */
-    void doUpdatePageCount(Long categoryId);
+    void doUpdatePageCategoryCount(Long categoryId);
 
 }

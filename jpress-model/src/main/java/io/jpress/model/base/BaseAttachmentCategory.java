@@ -26,34 +26,6 @@ public abstract class BaseAttachmentCategory<M extends BaseAttachmentCategory<M>
 	}
 
     /**
-     * 分类创建的用户ID
-     */
-	public void setUserId(java.lang.Long userId) {
-		set("user_id", userId);
-	}
-
-    /**
-     * 分类创建的用户ID
-     */
-	public java.lang.Long getUserId() {
-		return getLong("user_id");
-	}
-
-    /**
-     * slug
-     */
-	public void setSlug(java.lang.String slug) {
-		set("slug", slug);
-	}
-
-    /**
-     * slug
-     */
-	public java.lang.String getSlug() {
-		return getStr("slug");
-	}
-
-    /**
      * 标题
      */
 	public void setTitle(java.lang.String title) {
@@ -65,34 +37,6 @@ public abstract class BaseAttachmentCategory<M extends BaseAttachmentCategory<M>
      */
 	public java.lang.String getTitle() {
 		return getStr("title");
-	}
-
-    /**
-     * 内容描述
-     */
-	public void setContent(java.lang.String content) {
-		set("content", content);
-	}
-
-    /**
-     * 内容描述
-     */
-	public java.lang.String getContent() {
-		return getStr("content");
-	}
-
-    /**
-     * 图标
-     */
-	public void setIcon(java.lang.String icon) {
-		set("icon", icon);
-	}
-
-    /**
-     * 图标
-     */
-	public java.lang.String getIcon() {
-		return getStr("icon");
 	}
 
     /**
@@ -121,48 +65,6 @@ public abstract class BaseAttachmentCategory<M extends BaseAttachmentCategory<M>
      */
 	public java.lang.Integer getOrderNumber() {
 		return getInt("order_number");
-	}
-
-    /**
-     * 标识
-     */
-	public void setFlag(java.lang.String flag) {
-		set("flag", flag);
-	}
-
-    /**
-     * 标识
-     */
-	public java.lang.String getFlag() {
-		return getStr("flag");
-	}
-
-    /**
-     * SEO关键字
-     */
-	public void setMetaKeywords(java.lang.String metaKeywords) {
-		set("meta_keywords", metaKeywords);
-	}
-
-    /**
-     * SEO关键字
-     */
-	public java.lang.String getMetaKeywords() {
-		return getStr("meta_keywords");
-	}
-
-    /**
-     * SEO描述内容
-     */
-	public void setMetaDescription(java.lang.String metaDescription) {
-		set("meta_description", metaDescription);
-	}
-
-    /**
-     * SEO描述内容
-     */
-	public java.lang.String getMetaDescription() {
-		return getStr("meta_description");
 	}
 
     /**

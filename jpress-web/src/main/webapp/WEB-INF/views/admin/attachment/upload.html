@@ -21,25 +21,30 @@
 <script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
 <script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script>
-    $('#cfile').fileupload({
-        dropZone: $('#uploader'),
-        url: '#(CPATH)/commons/attachment/upload',
-        sequentialUploads: true,
-        progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $(".myPanel").text("上传进度：" + progress + "%")
-        },
-        done: function (e, data) {
 
-            $(".myPanel").text("或者拖动文件到这里进行上传...");
+    function selectFile(){
+        var categoryId = $("#category").val();
+        $('#cfile').fileupload({
+            dropZone: $('#uploader'),
+            url: '#(CPATH)/commons/attachment/upload?categoryId='+categoryId,
+            sequentialUploads: true,
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $(".myPanel").text("上传进度：" + progress + "%")
+            },
+            done: function (e, data) {
 
-            if(data.result.state == "ok"){
-                toastr.success("文件上传成功...")
-            }else {
-                toastr.error(data.result.message)
+                $(".myPanel").text("或者拖动文件到这里进行上传...");
+
+                if(data.result.state == "ok"){
+                    toastr.success("文件上传成功...")
+                }else {
+                    toastr.error(data.result.message)
+                }
             }
-        }
-    });
+        });
+    }
+
 
 </script>
 #end
@@ -75,7 +80,7 @@
                 <div class="card card-outline card-primary">
                     <div class="card-body">
                         <div id="uploader">
-                            <span class="btn btn-block btn-primary fileinput-button" style="width: 120px">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 120px" onclick="selectFile()">
                                 <i class="fas fa-plus"></i>
                                 <span>选择文件...</span>
                                 <input id="cfile" type="file" name="files[]" multiple>
@@ -86,6 +91,29 @@
                             </div>
 
                         </div>
+
+                        <div class="row-cols-3 col-lg-3" style="position: absolute; left: 180px; top:20px">
+                            <select class="form-control" id="category" name="attachment.categoryId">
+                                <option value="">选择分类</option>
+                                #for(item : categories ??)
+                                <option value="#(item.id ??)">#(item.title ??)</option>
+                                #end
+                            </select>
+                        </div>
+
+<!--                        <div class="form-group row">-->
+<!--                            <label class="col-lg-3 row-cols-3">附近分类</label>-->
+
+<!--                            <div class="col-lg-3">-->
+<!--                                <select class="form-control"  id="category"  name="attachment.categoryId">-->
+<!--                                    <option value="">请选择分类</option>-->
+<!--                                    #for(item : categories ??)-->
+<!--                                    <option value="#(item.id ??)">#(item.title ??)</option>-->
+<!--                                    #end-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
                     </div>
                 </div>
             </div>

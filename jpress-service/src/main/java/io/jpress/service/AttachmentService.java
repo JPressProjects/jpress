@@ -16,6 +16,7 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jpress.model.Attachment;
 
 import java.util.List;
@@ -85,4 +86,13 @@ public interface AttachmentService {
 
 
     Page<Attachment> _paginate(int page, int pagesieze, String title);
+
+    /**
+     * 根据 columns 查询
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @return
+     */
+    Page<Attachment> _paginateByColumns(int page, int pageSize, Columns columns);
 }

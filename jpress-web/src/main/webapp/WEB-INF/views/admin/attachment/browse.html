@@ -79,25 +79,29 @@
     //clear layer.data
     parent.layer.data = {};
 
-    $('#cfile').fileupload({
-        dropZone: $('#uploader'),
-        url: '#(CPATH)/commons/attachment/upload',
-        sequentialUploads: true,
-        progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $(".myPanel").text("上传进度：" + progress + "%")
-        },
-        done: function (e, data) {
-            $(".myPanel").text("或者拖动文件到这里进行上传...");
-            if (data.result.state == "ok") {
-                parent.layer.data.src = data.result.src;
-                parent.layer.data.title = data.result.title;
-                parent.layer.closeAll();
-            } else {
-                showErrorMessage(data.result.message);
+    function selectFile() {
+        var categoryId = $("#category").val();
+        $('#cfile').fileupload({
+            dropZone: $('#uploader'),
+            url: '#(CPATH)/commons/attachment/upload?categoryId=' + categoryId,
+            sequentialUploads: true,
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $(".myPanel").text("上传进度：" + progress + "%")
+            },
+            done: function (e, data) {
+                $(".myPanel").text("或者拖动文件到这里进行上传...");
+                if (data.result.state == "ok") {
+                    parent.layer.data.src = data.result.src;
+                    parent.layer.data.title = data.result.title;
+                    parent.layer.closeAll();
+                } else {
+                    showErrorMessage(data.result.message);
+                }
             }
-        }
-    });
+        });
+    }
+
 
     $(".attachment_item").click(function () {
         var src = $(this).children().attr("data-path");
@@ -107,15 +111,44 @@
     })
 
 </script>
+
+<script>
+    $(function () {
+        var id = $("#activeCategory").val();
+        if (id != null && id != "") {
+            $("#category" + id).addClass('active');
+            $("#uititle").removeClass('active');
+        }
+    })
+
+    function addCategoryActive(id) {
+        //给当前a标签添加class="active",同时移除同级别a标签上的class="active"
+        $("#category" + id).addClass('active').parent().siblings('li').find('a').removeClass('active');
+    }
+
+
+</script>
+
 #end
 
 #define content()
 
 <div class="card card-outline card-tabs" style="box-shadow: none;">
     <div class="card-header p-0 border-bottom-0">
+        <input type="hidden" id="activeCategory" value="#(categoryId ??)">
         <ul class="nav nav-tabs">
+
             <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">上传#para("uititle","图片")</a></li>
-            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">#para("uititle","图片")库</a></li>
+            <li class="nav-item"><a class="nav-link active" id="uititle" href="/admin/attachment/browse?uititle=附件">#para("uititle","图片")库</a>
+            </li>
+<!--            <span style="position: relative;left: 10px;top:10px;font-weight: bold;">附件分类:</span>-->
+            #for(item : categories ??)
+            <li class="nav-item">
+                <a class="nav-link" id="category#(item.id ??)" onclick="addCategoryActive('#(item.id ??)')"
+                    href="/admin/attachment/browse?categoryId=#(item.id ??)&uititle=附件"> #(item.title ??)
+                </a>
+            </li>
+            #end
         </ul>
 
     </div>
@@ -124,7 +157,8 @@
         <div class="tab-content" style="padding-top:20px;">
             <div class="tab-pane" id="timeline">
                 <div id="uploader">
-                            <span class="btn btn-block btn-primary fileinput-button" style="width: 160px;">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 160px;"
+                                  onclick="selectFile()">
                                 <i class="fas fa-plus"></i>
                                 <span>选择文件...</span>
                                 <input id="cfile" type="file" name="files[]" multiple>
@@ -134,6 +168,15 @@
                         或者拖动文件到这里进行上传...
                     </div>
 
+                </div>
+
+                <div class="row-cols-3 col-lg-3" style="position: absolute; left: 210px; top:100px">
+                    <select class="form-control" id="category" name="attachment.categoryId">
+                        <option value="">选择分类</option>
+                        #for(item : categories ??)
+                        <option value="#(item.id ??)">#(item.title ??)</option>
+                        #end
+                    </select>
                 </div>
             </div>
 
@@ -216,6 +259,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

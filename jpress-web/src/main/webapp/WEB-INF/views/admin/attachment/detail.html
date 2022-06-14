@@ -126,6 +126,7 @@
             <div>
                 <form action="#(CPATH)/admin/attachment/doUpdate" id="form">
                     <input type="hidden" name="attachment.id" value="#(attachment.id ??)">
+                    <input type="hidden" name="oldCategoryId" value="#(attachment.categoryId ??)">
                     <div class="form-group row jp-group">
                         <label class="col-2">URL</label>
                         <input class="form-control col-10" readonly value="#(CPATH)#(attachment.path ??)"/>
@@ -135,6 +136,16 @@
                     <div class="form-group row jp-group">
                         <label class="col-2">文件名</label>
                         <input type="text" class="form-control col-10" name="attachment.title" value="#(attachment.title ??)">
+                    </div>
+
+                    <div class="form-group row jp-group">
+                        <label class="col-2">分类</label>
+                        <select class="form-control col-10" name="attachment.categoryId">
+                            <option value="">选择分类</option>
+                            #for(item : categories ??)
+                            <option value="#(item.id ??)" #selectedIf(attachment && attachment.categoryId == item.id)>#(item.title ??)</option>
+                            #end
+                        </select>
                     </div>
 
                     <div class="form-group row jp-group">

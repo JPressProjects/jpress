@@ -24,11 +24,11 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.model.Attachment;
+import io.jpress.service.AttachmentCategoryService;
 import io.jpress.service.AttachmentService;
 import io.jpress.web.base.UserControllerBase;
 
 import java.io.File;
-import java.math.BigInteger;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -43,14 +43,10 @@ public class AttachmentController extends UserControllerBase {
     @Inject
     private AttachmentService service;
 
+    @Inject
+    private AttachmentCategoryService categoryService;
+
     public void upload() {
-
-        BigInteger categoryId = getParaToBigInteger("attachment.categoryId");
-        if(categoryId == null){
-            renderJson(Ret.fail().set("message", "请先选择分类"));
-            return;
-        }
-
         if (!isMultipartRequest()) {
             renderError(404);
             return;
@@ -94,14 +90,22 @@ public class AttachmentController extends UserControllerBase {
         String path = AttachmentUtils.moveFile(uploadFile);
         AliyunOssUtils.upload(path, AttachmentUtils.file(path));
 
+        //附件分类id
+        Integer categoryId = getParaToInt("categoryId");
+
         Attachment attachment = new Attachment();
         attachment.setUserId(getLoginedUser().getId());
+        attachment.setCategoryId(categoryId);
         attachment.setTitle(uploadFile.getOriginalFileName());
         attachment.setPath(path.replace("\\", "/"));
         attachment.setSuffix(FileUtil.getSuffix(uploadFile.getFileName()));
         attachment.setMimeType(uploadFile.getContentType());
 
         Object attachmentId = service.save(attachment);
+        //更新分类下的内容数量
+        if(attachment.getCategoryId() != null){
+            categoryService.doUpdateAttachmentCategoryCount(attachment.getCategoryId().longValue());
+        }
 
         renderJson(Ret.ok().set("success", true)
                 .set("src", attachment.getPath())

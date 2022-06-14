@@ -44,6 +44,11 @@ public class AttachmentServiceProvider extends JbootServiceBase<Attachment> impl
         return DAO.paginateByColumns(page, pagesieze, columns, "id desc");
     }
 
+    @Override
+    public Page<Attachment> _paginateByColumns(int page, int pageSize, Columns columns) {
+        return DAO.paginateByColumns(page, pageSize, columns, "id desc");
+    }
+
 
     @Override
     public Object save(Attachment model) {

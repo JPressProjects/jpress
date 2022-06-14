@@ -39,6 +39,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.*;
@@ -66,8 +67,17 @@ public class _AttachmentController extends AdminControllerBase {
 
     @AdminMenu(text = "所有附件", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 0)
     public void list() {
-        Page<Attachment> page = service._paginate(getPagePara(), 15, getPara("title"));
+//        Page<Attachment> page = service._paginate(getPagePara(), 15, getPara("title"));
+
+        Columns columns = Columns.create();
+        columns.likeAppendPercent("title",getPara("title"));
+        columns.eq("category_id",getPara("categoryId"));
+        Page<Attachment> page =service._paginateByColumns(getPagePara(),15, columns);
         setAttr("page", page);
+
+        List<AttachmentCategory> categories = categoryService.findListByColumns(Columns.create(), "order_number asc,id desc");
+        setAttr("categories",categories);
+
         render("attachment/list.html");
     }
 
@@ -117,6 +127,7 @@ public class _AttachmentController extends AdminControllerBase {
         AttachmentCategory category = getModel(AttachmentCategory.class, "category");
 
         categoryService.saveOrUpdate(category);
+        //更新分类下的内容数量
         categoryService.doUpdateAttachmentCategoryCount(category.getId());
         renderOkJson();
     }
@@ -274,8 +285,17 @@ public class _AttachmentController extends AdminControllerBase {
 
 
     public void browse() {
-        Page<Attachment> page = service._paginate(getPagePara(), getPageSizePara(), getPara("title"));
+//        Page<Attachment> page = service._paginate(getPagePara(), getPageSizePara(), getPara("title"));
+
+        String categoryId = getPara("categoryId");
+        setAttr("categoryId",categoryId);
+
+        Page<Attachment> page = service._paginateByColumns(getPagePara(), getPageSizePara(), Columns.create("category_id", categoryId));
         setAttr("page", page);
+
+        List<AttachmentCategory> categories = categoryService.findAll();
+        setAttr("categories",categories);
+
         render("attachment/browse.html");
     }
 
@@ -310,6 +330,10 @@ public class _AttachmentController extends AdminControllerBase {
             LOG.error("detail() ratioAsString error", e);
         }
 
+        //附件分类
+        List<AttachmentCategory> categories = categoryService.findAll();
+        setAttr("categories",categories);
+
         render("attachment/detail.html");
     }
 
@@ -325,6 +349,7 @@ public class _AttachmentController extends AdminControllerBase {
             renderError(404);
             return;
         }
+        Integer nowCategoryId = attachment.getCategoryId();
 
         if (service.delete(attachment)) {
             File attachmentFile = AttachmentUtils.file(attachment.getPath());
@@ -332,6 +357,10 @@ public class _AttachmentController extends AdminControllerBase {
                 attachmentFile.delete();
                 AliyunOssUtils.delete(new StringBuilder(attachment.getPath()).delete(0, 1).toString());
             }
+        }
+        //更新分类下的内容数量
+        if(nowCategoryId != null){
+            categoryService.doUpdateAttachmentCategoryCount(nowCategoryId.longValue());
         }
 
         renderOkJson();
@@ -341,6 +370,17 @@ public class _AttachmentController extends AdminControllerBase {
     public void doUpdate() {
         Attachment attachment = getBean(Attachment.class);
         service.saveOrUpdate(attachment);
+
+        BigInteger oldCategoryId = getParaToBigInteger("oldCategoryId");
+
+        if(attachment.getCategoryId() != null){
+            //更新分类下的内容数量
+            categoryService.doUpdateAttachmentCategoryCount(attachment.getCategoryId().longValue());
+            if(oldCategoryId != null && !oldCategoryId.equals(attachment.getCategoryId())){
+                //更新之前附件分类下的内容数量
+                categoryService.doUpdateAttachmentCategoryCount(oldCategoryId.longValue());
+            }
+        }
         renderOkJson();
     }
 

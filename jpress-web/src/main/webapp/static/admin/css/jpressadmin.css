@@ -460,6 +460,7 @@ label:not(.form-check-label):not(.custom-file-label) {
     border-top: 1px solid #dee2e6;
 }
 
+
 .jpress-image-browser {
     position: relative;
     border: 1px solid #eee;
@@ -471,6 +472,42 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .jpress-image-browser img {
     width: 100%;
+}
+
+.jpress-image-browser:hover .image-action {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #FFF;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 10;
+    height: 100%;
+    background-image: linear-gradient(
+            -180deg, hsla(0, 0%, 74.9%, 0), rgba(0, 0, 0, .78) 97%);
+    transition: all .5s;
+    filter: alpha(opacity=30);
+    -moz-opacity: 0.3;
+    font-size: 22px;
+    /*cursor: pointer;*/
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+}
+
+.jpress-image-browser .image-action {
+    display: none;
+}
+
+.jpress-image-browser:hover .image-action a {
+    color: #fff;
+    margin-left: 30px;
+    cursor: pointer;
+}
+
+.jpress-image-browser:hover .image-action a:hover {
+    border: none;
 }
 
 .jpress-image-browser:hover .image-reset {
@@ -495,6 +532,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 .jpress-image-browser .image-reset {
     display: none;
 }
+
 .page-header {
     padding-bottom: 9px;
     padding-left: 20px;

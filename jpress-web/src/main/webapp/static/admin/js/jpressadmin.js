@@ -643,11 +643,11 @@ function initOptionFormSubmit() {
 
 
 function initImageBrowserButton() {
-    $(".btn-image-browser,.jpress-image-browser a").on("click", function () {
+    $(".btn-image-browser,.jpress-image-browser .image-reset").on("click", function () {
         var $this = $(this);
         layer.open({
             type: 2,
-            title: '选择图片',
+            title: '閫夋嫨鍥剧墖',
             anim: 2,
             shadeClose: true,
             shade: 0.3,
@@ -672,7 +672,57 @@ function initImageBrowserButton() {
             }
         });
     })
+
+
+    $(".jpress-image-browser .image-edit").on("click", function () {
+        var $this = $(this);
+        layer.open({
+            type: 2,
+            title: '閫夋嫨鍥剧墖',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.3,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/attachment/browse',
+            end: function () {
+                if (layer.data.src != null) {
+                    $this.parent().siblings('img').attr('src', getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
+                    $this.parent().siblings('input[type="hidden"]').val(layer.data.src).trigger("valChanged", layer.data.src);
+                }
+            }
+        });
+    })
+
+
+    $(".jpress-image-browser .image-delete").on("click", function () {
+        var $this = $(this);
+        $this.parent().siblings('img').attr('src', getContextPath() + '/static/commons/img/nothumbnail.jpg')
+            .trigger("srcChanged", getContextPath() + '/static/commons/img/nothumbnail.jpg');
+        $this.parent().siblings('input[type="hidden"]').val('').trigger("valChanged", '');
+
+    })
+
+
+    $(".jpress-image-browser").each(function (){
+        var imgsrc = $(this).children("img").attr('src');
+        if (imgsrc.endsWith("nothumbnail.jpg")){
+            $(this).find('.image-delete').css("display","none");
+        }else {
+            $(this).find('.image-delete').css("display","block");
+        }
+    });
+
+
+    $(".jpress-image-browser img").on("srcChanged", function (e,imgsrc) {
+        if (imgsrc.endsWith("nothumbnail.jpg")){
+            $(this).parent().find('.image-delete').css("display","none");
+        }else {
+            $(this).parent().find('.image-delete').css("display","block");
+        }
+    })
+
 }
+
 
 function initCSRFForms() {
     $("form").each(function () {

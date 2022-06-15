@@ -138,6 +138,34 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
 	}
 
     /**
+     * 装饰图
+     */
+	public void setOrnament(java.lang.String ornament) {
+		set("ornament", ornament);
+	}
+
+    /**
+     * 装饰图
+     */
+	public java.lang.String getOrnament() {
+		return getStr("ornament");
+	}
+
+    /**
+     * 顶部装饰图
+     */
+	public void setTopBg(java.lang.String topBg) {
+		set("top_bg", topBg);
+	}
+
+    /**
+     * 顶部装饰图
+     */
+	public java.lang.String getTopBg() {
+		return getStr("top_bg");
+	}
+
+    /**
      * 该分类的内容数量
      */
 	public void setCount(java.lang.Long count) {

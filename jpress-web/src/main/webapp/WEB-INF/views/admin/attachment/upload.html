@@ -79,8 +79,8 @@
         <div class="container-fluid">
                 <div class="card card-outline card-primary">
                     <div class="card-body">
-                        <div id="uploader">
-                            <span class="btn btn-block btn-primary fileinput-button" style="width: 120px" onclick="selectFile()">
+                        <div id="uploader" onclick="selectFile()">
+                            <span class="btn btn-block btn-primary fileinput-button" style="width: 120px" >
                                 <i class="fas fa-plus"></i>
                                 <span>选择文件...</span>
                                 <input id="cfile" type="file" name="files[]" multiple>
@@ -92,8 +92,8 @@
 
                         </div>
 
-                        <div class="row-cols-3 col-lg-3" style="position: absolute; left: 180px; top:20px">
-                            <select class="form-control" id="category" name="attachment.categoryId">
+                        <div class="row-cols-3 col-lg-3" style="position: absolute; left: 180px; top:20px" >
+                            <select class="form-control" id="category" name="attachment.categoryId" onchange="selectFile()">
                                 <option value="">选择分类</option>
                                 #for(item : categories ??)
                                 <option value="#(item.id ??)">#(item.title ??)</option>

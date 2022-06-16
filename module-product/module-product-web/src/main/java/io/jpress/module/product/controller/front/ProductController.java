@@ -15,21 +15,17 @@
  */
 package io.jpress.module.product.controller.front;
 
-import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
-import com.jfinal.core.JFinal;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
-import io.jpress.commons.wordsfilter.WordFilterUtil;
 import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.commons.wordsfilter.WordFilterUtil;
 import io.jpress.model.User;
-import io.jpress.model.UserCart;
 import io.jpress.module.product.ProductNotifyKit;
-import io.jpress.module.product.interceptor.ProductValidate;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.model.ProductComment;
@@ -39,8 +35,6 @@ import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
 import io.jpress.service.OptionService;
-import io.jpress.service.UserCartService;
-import io.jpress.service.UserFavoriteService;
 import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 
@@ -75,11 +69,6 @@ public class ProductController extends TemplateControllerBase {
     @Inject
     private ProductCommentService commentService;
 
-    @Inject
-    private UserCartService cartService;
-
-    @Inject
-    private UserFavoriteService favoriteService;
 
 
     public void index() {
@@ -291,52 +280,6 @@ public class ProductController extends TemplateControllerBase {
 
     }
 
-
-    /**
-     * 添加到购物车
-     */
-    @Before(ProductValidate.class)
-    public void doAddCart() {
-
-        Product product = ProductValidate.getThreadLocalProduct();
-        User user = getLoginedUser();
-        Long distUserId = CookieUtil.getLong(this, buildDistUserCookieName(product.getId()));
-        UserCart userCart = product.toUserCartItem(user.getId(), distUserId, getPara("spec"));
-
-        Object cartId = cartService.save(userCart);
-        renderJson(Ret.ok().set("cartId",cartId));
-    }
-
-
-    @Before(ProductValidate.class)
-    public void doAddFavorite() {
-        Product product = ProductValidate.getThreadLocalProduct();
-        User user = getLoginedUser();
-        if (favoriteService.doAddToFavorite(product.toFavorite(user.getId()))) {
-            renderOkJson();
-        } else {
-            renderFailJson("已经收藏过了!");
-        }
-    }
-
-    /**
-     * 购买商品
-     */
-    @Before(ProductValidate.class)
-    public void doBuy() {
-        Product product = ProductValidate.getThreadLocalProduct();
-        User user = getLoginedUser();
-        Long distUserId = CookieUtil.getLong(this, buildDistUserCookieName(product.getId()));
-        UserCart userCart = product.toUserCartItem(user.getId(), distUserId, getPara("spec"));
-
-        Object cartId = cartService.save(userCart);
-
-        if (isAjaxRequest()) {
-            renderJson(Ret.ok().set("gotoUrl", JFinal.me().getContextPath() + "/ucenter/checkout/" + cartId));
-        } else {
-            redirect("/ucenter/checkout/" + cartId);
-        }
-    }
 
 
 }

@@ -2,15 +2,12 @@ package io.jpress.module.product.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
-import io.jpress.commons.utils.UrlUtils;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
-import io.jpress.model.UserCart;
-import io.jpress.model.UserFavorite;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.product.model.base.BaseProduct;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -121,54 +118,6 @@ public class Product extends BaseProduct<Product> {
         return cs != null && cs == true;
     }
 
-
-    public UserCart toUserCartItem(Long userId, Long distUserId, String spec) {
-        UserCart userCart = new UserCart();
-
-        userCart.setUserId(userId);
-        userCart.setSellerId(this.getUserId());
-        userCart.setProductId(getId());
-        userCart.setProductType("product");
-        userCart.setProductTypeText("产品");
-        userCart.setProductPrice(this.getPrice());
-        userCart.setProductCount(1);
-        userCart.setProductTitle(getTitle());
-        userCart.setProductSummary(CommonsUtils.maxLength(getText(), 200));
-        userCart.setSelected(false);
-        userCart.setProductLink(getUrl());
-        userCart.setWithVirtual(false);//非虚拟产品
-        userCart.setWithRefund(true);//可以退货
-        userCart.setCommentPath(getUrl());
-        userCart.setCreated(new Date());
-        userCart.setProductSpec(spec);
-
-        Boolean disEnable = getDistEnable();
-        if (disEnable != null && disEnable) {
-            userCart.setDistUserId(distUserId);
-        }
-
-
-        String showImage = getShowImage();
-        if (StrUtil.isNotBlank(showImage)) {
-            userCart.setProductThumbnail(showImage);
-        }
-
-        return userCart;
-    }
-
-    public UserFavorite toFavorite(Long userId) {
-        UserFavorite favorite = new UserFavorite();
-        favorite.setUserId(userId);
-        favorite.setType(UserFavorite.FAV_TYPE_PRODUCT);
-        favorite.setTypeText(UserFavorite.FAV_TYPE_PRODUCT_TEXT);
-        favorite.setTypeId(String.valueOf(getId()));
-        favorite.setTitle(getTitle());
-        favorite.setSummary(getSummary());
-        favorite.setThumbnail(getShowImage());
-        favorite.setLink(getUrl());
-        favorite.setCreated(new Date());
-        return favorite;
-    }
 
 
     public String getHighlightContent() {

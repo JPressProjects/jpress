@@ -19,11 +19,13 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
-import io.jpress.model.*;
+import io.jpress.model.Role;
+import io.jpress.model.User;
+import io.jpress.model.UserTag;
+import io.jpress.model.Utm;
 import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -49,25 +51,8 @@ public class _UserInfoController extends AdminControllerBase {
     private UtmService utmService;
 
     @Inject
-    private MemberService memberService;
-
-    @Inject
-    private MemberGroupService memberGroupService;
-
-    @Inject
-    private MemberJoinedRecordService memberJoinedRecordService;
-
-    @Inject
-    private UserAmountStatementService amountStatementService;
-
-    @Inject
     private UserTagService userTagService;
 
-
-    @Inject
-    private CouponCodeService couponCodeService;
-    @Inject
-    private UserOrderService orderService;
 
 
     public void index() {
@@ -106,37 +91,8 @@ public class _UserInfoController extends AdminControllerBase {
 
 
 
-    public void finance() {
-        Long uid = getParaToLong();
-        User user = userService.findById(uid);
-        setAttr("user", user);
-
-        BigDecimal incomeAmount = amountStatementService.queryIncomeAmount(user.getId());
-        BigDecimal payAmount = amountStatementService.queryPayAmount(user.getId());
-        BigDecimal payoutAmount = amountStatementService.queryPayoutAmount(user.getId());
-
-        setAttr("incomeAmount",incomeAmount);
-        setAttr("payAmount",payAmount);
-        setAttr("payoutAmount",payoutAmount);
-
-        setAttr("userAmount",userService.queryUserAmount(user.getId()));
-        setAttr("userAmountStatements",amountStatementService.findListByUserId(user.getId(),10));
-
-        render("user/detail_finance.html");
-    }
 
 
-
-    public void member() {
-        Long uid = getParaToLong();
-        User user = userService.findById(uid);
-        setAttr("user", user);
-
-        List<Member> members = memberService.findListByUserId(user.getId());
-        setAttr("members", members);
-
-        render("user/detail_member.html");
-    }
 
 
     public void communication() {
@@ -195,23 +151,5 @@ public class _UserInfoController extends AdminControllerBase {
         render("user/detail_utm.html");
     }
 
-    public void coupon(){
-        Long uid = getParaToLong();
-        User user = userService.findById(uid);
-        setAttr("user", user);
-        List<CouponCode> renderList = couponCodeService.findAvailableByUserId(user.getId());
-        setAttr("couponCodeList",renderList);
-        render("user/detail_coupon.html");
-    }
-
-
-    public void order(){
-        Long uid = getParaToLong();
-        User user = userService.findById(uid);
-        setAttr("user", user);
-        Page<UserOrder> userOrderPage = orderService.paginateByUserId(getPagePara(), 10, user.getId(), getPara("title"), getPara("ns"));
-        setAttr("userOrderPage", userOrderPage);
-        render("user/detail_order.html");
-    }
 
 }

@@ -25,19 +25,17 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
-import io.jpress.commons.wordsfilter.WordFilterUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.commons.utils.JsoupUtils;
+import io.jpress.commons.wordsfilter.WordFilterUtil;
 import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.User;
-import io.jpress.model.UserFavorite;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCategoryService;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.service.UserFavoriteService;
 import io.jpress.web.base.UcenterControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -61,8 +59,6 @@ public class ArticleUCenterController extends UcenterControllerBase {
     @Inject
     private ArticleCommentService commentService;
 
-    @Inject
-    private UserFavoriteService favoriteService;
 
     @UCenterMenu(text = "文章列表", groupId = "article", order = 0)
     public void index() {
@@ -263,23 +259,6 @@ public class ArticleUCenterController extends UcenterControllerBase {
         render("article/comment_list.html");
     }
 
-
-    @UCenterMenu(text = "文章收藏", groupId = "favorite", order = 0)
-    public void favorite() {
-        Page<UserFavorite> page = favoriteService.paginateByUserIdAndType(getPagePara(), 10, getLoginedUser().getId(), "article");
-        setAttr("page", page);
-        render("article/article_favorite.html");
-    }
-
-
-    public void doDelFavorite() {
-        UserFavorite userFavorite = favoriteService.findById(getPara("id"));
-
-        if (isLoginedUserModel(userFavorite)) {
-            favoriteService.delete(userFavorite);
-        }
-        renderOkJson();
-    }
 
 
     public void doCommentDel() {

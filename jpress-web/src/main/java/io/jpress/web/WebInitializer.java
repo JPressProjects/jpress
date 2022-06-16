@@ -20,9 +20,6 @@ import com.jfinal.template.source.FileSource;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jpress.commons.wordsfilter.WordFilterUtil;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
-import io.jpress.core.finance.OrderManager;
-import io.jpress.core.finance.PaymentManager;
-import io.jpress.web.commons.finance.*;
 import io.jpress.web.functions.PermissionFunctions;
 
 /**
@@ -62,16 +59,6 @@ public class WebInitializer extends JbootAppListenerBase {
 
     @Override
     public void onStart() {
-        PaymentManager.me().addListener(new OrderPaymentSuccessListener());
-        PaymentManager.me().addListener(new RechargePaymentSuccessListener());
-        PaymentManager.me().addListener(new MemberPaymentSuccessListener());
-        PaymentManager.me().addListener(new CouponInfoProcesser());
-
-        OrderManager.me().addOrderItemStatusChangeListener(new OrderDistProcesser());
-        OrderManager.me().addOrderItemStatusChangeListener(new OrderFinishedFlagProcesser());
-
-        OrderManager.me().addOrderStatusChangeListener(new CouponAwardProcesser());
-
         WordFilterUtil.init();
     }
 }

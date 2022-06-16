@@ -15,10 +15,8 @@
  */
 package io.jpress.module.product;
 
-import com.jfinal.aop.Aop;
 import com.jfinal.template.Engine;
 import io.jpress.commons.url.FlatUrlHandler;
-import io.jpress.core.finance.ProductManager;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleBase;
 
@@ -52,7 +50,6 @@ public class ProductModuleInitializer extends ModuleBase {
 
     @Override
     public void onStart() {
-        ProductManager.me().registerQuerier("product", Aop.get(JPressProductInfoQuerier.class));
         FlatUrlHandler.addProcesser(new ProductFlatUrlProcesser());
     }
 }

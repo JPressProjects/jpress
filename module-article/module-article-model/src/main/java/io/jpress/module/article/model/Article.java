@@ -20,16 +20,14 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.json.JsonIgnore;
 import io.jpress.JPressConsts;
-import io.jpress.commons.utils.UrlUtils;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.MarkdownUtils;
-import io.jpress.model.UserFavorite;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.article.model.base.BaseArticle;
 import io.jpress.web.seoping.PingData;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -234,23 +232,4 @@ public class Article extends BaseArticle<Article> {
         return PingData.create(getTitle(), getUrl());
     }
 
-    /**
-     * 添加入收藏夹
-     *
-     * @param userId
-     * @return
-     */
-    public UserFavorite toFavorite(Long userId) {
-        UserFavorite favorite = new UserFavorite();
-        favorite.setUserId(userId);
-        favorite.setType(UserFavorite.FAV_TYPE_ARTICLE);
-        favorite.setTypeText(UserFavorite.FAV_TYPE_ARTICLE_TEXT);
-        favorite.setTypeId(String.valueOf(getId()));
-        favorite.setTitle(getTitle());
-        favorite.setSummary(getSummary());
-        favorite.setThumbnail(getShowImage());
-        favorite.setLink(getUrl());
-        favorite.setCreated(new Date());
-        return favorite;
-    }
 }

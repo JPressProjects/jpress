@@ -89,30 +89,16 @@
                             <div class="myPanel">
                                 或者拖动文件到这里进行上传...
                             </div>
-
                         </div>
 
-                        <div class="row-cols-3 col-lg-3" style="position: absolute; left: 180px; top:20px" >
+                        <div style="position: absolute; left: 150px; top:20px" >
                             <select class="form-control" id="category" name="attachment.categoryId" onchange="selectFile()">
-                                <option value="">选择分类</option>
+                                <option value="">上传至分类...</option>
                                 #for(item : categories ??)
                                 <option value="#(item.id ??)">#(item.title ??)</option>
                                 #end
                             </select>
                         </div>
-
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-lg-3 row-cols-3">附近分类</label>-->
-
-<!--                            <div class="col-lg-3">-->
-<!--                                <select class="form-control"  id="category"  name="attachment.categoryId">-->
-<!--                                    <option value="">请选择分类</option>-->
-<!--                                    #for(item : categories ??)-->
-<!--                                    <option value="#(item.id ??)">#(item.title ??)</option>-->
-<!--                                    #end-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
 
                     </div>
                 </div>

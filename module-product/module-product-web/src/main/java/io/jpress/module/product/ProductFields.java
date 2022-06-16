@@ -48,16 +48,6 @@ public class ProductFields {
                 "此卖点内容会显示在产品详情的价格下方",
                 10).addAttr("rows", 4));
 
-        fields.add(new SmartField("specs",
-                "产品规格",
-                "product.specs",
-                "请输入",
-                SmartField.TYPE_TEXTAREA,
-                null,
-                null,
-                "多个规格用英文逗号（,）隔开",
-                11).addAttr("rows", 4));
-
         fields.add(new SmartField("summary",
                 "摘要",
                 "product.summary",
@@ -109,35 +99,6 @@ public class ProductFields {
                 "",
                 40));
 
-        fields.add(new SmartField("stock",
-                "剩余库存",
-                "product.stock",
-                "请输入",
-                SmartField.TYPE_INPUT,
-                null,
-                null,
-                "只是显示达到促进消费者购买欲的作用。",
-                50));
-
-        fields.add(new SmartField("video",
-                "视频链接",
-                "product.video",
-                "请输入",
-                SmartField.TYPE_INPUT,
-                null,
-                null,
-                "",
-                60));
-
-        fields.add(new SmartField("video_cover",
-                "视频封面链接",
-                "product.video_cover",
-                "请输入",
-                SmartField.TYPE_INPUT,
-                null,
-                null,
-                "",
-                61));
 
         fields.add(new SmartField("comment_status",
                 "允许评论",

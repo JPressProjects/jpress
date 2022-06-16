@@ -104,7 +104,6 @@
 								</th>
 								<th style="width: 350px">标题</th>
 								<th style="width: 50px">价格</th>
-								<th style="width: 50px">销量</th>
 								<th>分类</th>
 								<th>标签</th>
 								<th style="width: 50px"><i class="fa fa-commenting"></i></th>
@@ -156,10 +155,7 @@
 								<td style="white-space:nowrap">
 										#(product.price ??)
 								</td>
-								<td style="white-space:nowrap">
-										#(product.real_sales_count ?? '0' )（#(product.sales_count ?? '0')）
-								</td>
-								
+
 								<td>
 									#productCategories(product.id,"category")
 									#for(category : categories)

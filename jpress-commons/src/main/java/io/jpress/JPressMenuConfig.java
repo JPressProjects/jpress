@@ -29,8 +29,6 @@ import java.util.Set;
 @ConfigModel(prefix = "jpress.menu")
 public class JPressMenuConfig {
 
-    private boolean orderEnable = true;
-    private boolean financeEnable = true;
     private boolean addonEnable = true;
     private boolean templateEnable = true;
     private boolean userEnable = true;
@@ -38,21 +36,6 @@ public class JPressMenuConfig {
 
     private Set<String> excludeActionKeys;
 
-    public boolean isOrderEnable() {
-        return orderEnable;
-    }
-
-    public void setOrderEnable(boolean orderEnable) {
-        this.orderEnable = orderEnable;
-    }
-
-    public boolean isFinanceEnable() {
-        return financeEnable;
-    }
-
-    public void setFinanceEnable(boolean financeEnable) {
-        this.financeEnable = financeEnable;
-    }
 
     public boolean isAddonEnable() {
         return addonEnable;

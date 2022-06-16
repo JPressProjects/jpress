@@ -106,10 +106,10 @@ public class _WechatController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "小程序", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
-    public void miniprogram() {
-        render("wechat/miniprogram.html");
-    }
+//    @AdminMenu(text = "小程序", groupId = JPressConsts.SYSTEM_MENU_WECHAT_PUBULIC_ACCOUNT, order = 99)
+//    public void miniprogram() {
+//        render("wechat/miniprogram.html");
+//    }
 
 
     public void doDelReply() {

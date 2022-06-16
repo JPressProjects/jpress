@@ -80,26 +80,6 @@
                                                               href="#(CPATH)/admin/user/detail/role/#(user.id)"><i
                                     class="fas fa-user-friends"></i> 角色分配</a></li>
                             #end
-                            #hasPermission('/admin/user/detail/finance')
-                            <li class="nav-item" id="detail-finance"><a class="nav-link"
-                                                                 href="#(CPATH)/admin/user/detail/finance/#(user.id)"><i
-                                    class="fab fa-gg-circle"></i> 财务信息</a></li>
-                            #end
-                            #hasPermission('/admin/user/detail/order')
-                            <li class="nav-item" id="detail-order"><a class="nav-link"
-                                                               href="#(CPATH)/admin/user/detail/order/#(user.id)"><i
-                                    class="fas fa-cart-arrow-down"></i> 订单列表</a></li>
-                            #end
-                            #hasPermission('/admin/user/detail/coupon')
-                            <li class="nav-item" id="detail-coupon"><a class="nav-link"
-                                                                href="#(CPATH)/admin/user/detail/coupon/#(user.id)"><i
-                                    class="fas fa-closed-captioning"></i> 优惠券码 </a></li>
-                            #end
-                            #hasPermission('/admin/user/detail/member')
-                            <li class="nav-item" id="detail-member"><a class="nav-link"
-                                                                href="#(CPATH)/admin/user/detail/member/#(user.id)"><i
-                                    class="fas fa-smile"></i> 会员信息</a></li>
-                            #end
                             #hasPermission('/admin/user/detail/communication')
                             <li class="nav-item" id="detail-communication">
                                 <a class="nav-link" href="#(CPATH)/admin/user/detail/communication/#(user.id)"><i

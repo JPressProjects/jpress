@@ -128,7 +128,6 @@
                                 <th style="width: 20%">登录名</th>
                                 <th style="width: 10%">昵称</th>
                                 <th>标签</th>
-                                <th>会员组</th>
                                 <th style="width: 130px">来源</th>
                             </tr>
 
@@ -182,15 +181,6 @@
                                             #if(!for.last) , #end
                                         #end
                                     #end
-                                </td>
-                                <td>
-                                    #userMembers(userId = user.id)
-                                        #for(m : members)
-                                            #(m.group.name ??)
-                                            #if(!for.last) , #end
-                                        #end
-                                    #end
-
                                 </td>
                                 <td>
                                     #(user.sourceString ??)<br />

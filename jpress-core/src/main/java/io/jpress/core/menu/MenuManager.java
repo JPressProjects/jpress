@@ -80,14 +80,6 @@ public class MenuManager implements JbootEventListener {
      */
     private void initAdminSystemMenuGroup() {
 
-        if (JPressMenuConfig.me.isOrderEnable()) {
-            MenuGroup orderMenuGroup = new MenuGroup();
-            orderMenuGroup.setId(JPressConsts.SYSTEM_MENU_ORDER);
-            orderMenuGroup.setText("财务");
-            orderMenuGroup.setIcon("<i class=\"fab fa-gg-circle\"></i>");
-            systemMenus.add(orderMenuGroup);
-        }
-
 
         if (JPressMenuConfig.me.isUserEnable()) {
             MenuGroup userMenuGroup = new MenuGroup();

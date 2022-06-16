@@ -46,8 +46,7 @@ public class MenuManager implements JbootEventListener {
 
     private MenuArrayList systemMenus = new MenuArrayList();
     private MenuArrayList moduleMenus = new MenuArrayList();
-    private MenuArrayList ucenterMenus = new MenuArrayList();
-    private MenuGroup ucenterFinanceMenus = new MenuGroup(JPressConsts.UCENTER_MENU_FINANCE_INFO);
+    private MenuGroup ucenterCommentMenus = new MenuGroup(JPressConsts.UCENTER_MENU_COMMENT);
     private MenuGroup ucenterPersonalMenus = new MenuGroup(JPressConsts.UCENTER_MENU_PERSONAL_INFO);
 
     private MenuManager() {
@@ -72,8 +71,6 @@ public class MenuManager implements JbootEventListener {
         //初始化后台的 module 菜单
         initAdminMenuItems();
 
-        //初始化 用户中心 菜单
-        initUCenterMenuItems();
     }
 
 
@@ -152,6 +149,8 @@ public class MenuManager implements JbootEventListener {
 
 
         addMenuItems(buildAdminMenuItems());
+        addMenuItems(buildUCenterMenuItems());
+
 
 
     }
@@ -167,13 +166,8 @@ public class MenuManager implements JbootEventListener {
                 group.getItems().removeIf(item -> item.getId().equals(id));
             }
         }
-        for (MenuGroup group : ucenterMenus) {
-            if (group.getItems() != null) {
-                group.getItems().removeIf(item -> item.getId().equals(id));
-            }
-        }
 
-        ucenterFinanceMenus.removeItem(item -> id.equals(item.getId()));
+        ucenterCommentMenus.removeItem(item -> id.equals(item.getId()));
         ucenterPersonalMenus.removeItem(item -> id.equals(item.getId()));
     }
 
@@ -181,7 +175,6 @@ public class MenuManager implements JbootEventListener {
     public void deleteMenuGroup(String id) {
         systemMenus.removeIf(group -> id.equals(group.getId()));
         moduleMenus.removeIf(group -> id.equals(group.getId()));
-        ucenterMenus.removeIf(group -> id.equals(group.getId()));
     }
 
 
@@ -208,45 +201,17 @@ public class MenuManager implements JbootEventListener {
             }
         }
 
-        for (MenuGroup group : ucenterMenus) {
-            if (group.getId().equals(item.getGroupId()) && item.getUrl().startsWith(ctxPath + "/ucenter")) {
-                group.addItem(item);
-            }
+
+        if (ucenterCommentMenus.getId().equals(item.getGroupId())) {
+            ucenterCommentMenus.addItem(item);
         }
 
         if (ucenterPersonalMenus.getId().equals(item.getGroupId())) {
             ucenterPersonalMenus.addItem(item);
         }
 
-        if (ucenterFinanceMenus.getId().equals(item.getGroupId())) {
-            ucenterFinanceMenus.addItem(item);
-        }
     }
 
-    private void initUCenterMenuItems() {
-
-        for (ModuleListener listener : ModuleManager.me().getListeners()) {
-            listener.onConfigUcenterMenu(ucenterMenus);
-        }
-
-
-        MenuGroup commentMenuGroup = new MenuGroup();
-        commentMenuGroup.setId("comment");
-        commentMenuGroup.setText("我的评论");
-        commentMenuGroup.setIcon("<i class=\"fas fa-comments\"></i>");
-        commentMenuGroup.setOrder(88);
-        ucenterMenus.add(commentMenuGroup);
-
-
-        MenuGroup favoriteMenuGroup = new MenuGroup();
-        favoriteMenuGroup.setId("favorite");
-        favoriteMenuGroup.setText("我的收藏");
-        favoriteMenuGroup.setIcon("<i class=\"fas fa-bookmark\"></i>");
-        favoriteMenuGroup.setOrder(99);
-        ucenterMenus.add(favoriteMenuGroup);
-
-        addMenuItems(buildUCenterMenuItems());
-    }
 
 
     // 用于排除掉 BaseController 中的几个成为了 action 的方法
@@ -323,12 +288,8 @@ public class MenuManager implements JbootEventListener {
         return moduleMenus;
     }
 
-    public List<MenuGroup> getUcenterMenus() {
-        return ucenterMenus;
-    }
-
-    public MenuGroup getUcenterFinanceMenus() {
-        return ucenterFinanceMenus;
+    public MenuGroup getUcenterCommentMenus() {
+        return ucenterCommentMenus;
     }
 
     public MenuGroup getUcenterPersonalMenus() {

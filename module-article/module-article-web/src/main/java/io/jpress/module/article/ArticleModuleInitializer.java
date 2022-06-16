@@ -70,18 +70,6 @@ public class ArticleModuleInitializer extends ModuleBase {
     }
 
 
-    @Override
-    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
-
-        MenuGroup articleMenuGroup = new MenuGroup();
-        articleMenuGroup.setId("article");
-        articleMenuGroup.setText("我的文章");
-        articleMenuGroup.setIcon("<i class=\"fas fa-edit\"></i>");
-        articleMenuGroup.setOrder(1);
-        ucenterMenus.add(articleMenuGroup);
-
-    }
-
 
     @Override
     public void onEngineConfig(Engine engine) {

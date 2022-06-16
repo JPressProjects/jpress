@@ -46,8 +46,8 @@ public class JPressConsts {
     /**
      * 用户中心的菜单ID
      */
-    public static final String UCENTER_MENU_FINANCE_INFO ="ucenter_finance";
-    public static final String UCENTER_MENU_PERSONAL_INFO ="ucenter_Personal";
+    public static final String UCENTER_MENU_COMMENT ="comment";
+    public static final String UCENTER_MENU_PERSONAL_INFO ="personal";
 
 
     /**

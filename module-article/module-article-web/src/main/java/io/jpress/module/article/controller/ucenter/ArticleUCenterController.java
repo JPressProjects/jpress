@@ -168,7 +168,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         article.setUserId(getLoginedUser().getId());
 
-        if (!getLoginedUser().isStatusOk()){
+        if (!getLoginedUser().isStatusOk()) {
             renderJson(Ret.fail().set("message", "当前脏话未激活，无法投稿。"));
             return;
         }
@@ -192,7 +192,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
             }
         }
 
-        if (WordFilterUtil.isMatchedFilterWords(article.getText())){
+        if (WordFilterUtil.isMatchedFilterWords(article.getText())) {
             renderJson(Ret.fail().set("message", "投稿内容包含非法字符。"));
             return;
         }
@@ -243,7 +243,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
 
         Set<String> tagset = new HashSet<>();
         for (String tag : tags) {
-            tagset.addAll(StrUtil.splitToSet(tag,","));
+            tagset.addAll(StrUtil.splitToSet(tag, ","));
         }
 
         List<ArticleCategory> categories = categoryService.doCreateOrFindByTagString(tagset.toArray(new String[0]));
@@ -252,13 +252,12 @@ public class ArticleUCenterController extends UcenterControllerBase {
     }
 
 
-    @UCenterMenu(text = "文章评论", groupId = "comment", order = 0)
+    @UCenterMenu(text = "文章评论", groupId = "comment", order = 0, icon = "<i class=\"fas fa-comment\"></i>")
     public void comment() {
         Page<ArticleComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
         render("article/comment_list.html");
     }
-
 
 
     public void doCommentDel() {

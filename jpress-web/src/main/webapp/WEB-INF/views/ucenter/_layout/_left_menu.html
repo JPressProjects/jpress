@@ -15,37 +15,16 @@
                 </li>
 
 
-                <li class="nav-header">我的内容</li>
+                <li class="nav-header">我的评论</li>
 
-                #for(group : ucenterMenus)
-                <li class="nav-item" id="#(group.id ??)">
-                    <a href="#" class="nav-link">
-                        #(group.icon ??'<i class="fas fa-tachometer-alt"></i>')<p>#(group.text ??)<i class="right fas fa-angle-left"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        #for(item : group.items)
-                        <li class="nav-item" id="#(item.id ??)">
-                            <a href="#(item.url ??)" class="nav-link">
-                                <i class="far fa-circle"></i>
-                                <p> #(item.text ??)</p>
-                            </a>
-                        </li>
-                        #end
-                    </ul>
-                </li>
-                #end
-
-
-
-                <li class="nav-header">财务信息</li>
-
-                #for(item : ucenterFinanceMenus)
+                #for(item : ucenterCommentMenus)
                 <li class="nav-item" >
                     <a href="#(item.url ??)" class="nav-link">
                         #(item.icon ?? '<i class="fas fa-smile"></i>')<p>#(item.text ??)</p>
                     </a>
                 </li>
                 #end
+
 
 
                 <li class="nav-header">个人信息</li>

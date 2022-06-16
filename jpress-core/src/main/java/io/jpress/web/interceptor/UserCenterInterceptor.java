@@ -20,8 +20,6 @@ import com.jfinal.aop.Invocation;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.menu.MenuManager;
 
-import java.util.List;
-
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -33,12 +31,8 @@ public class UserCenterInterceptor implements Interceptor {
     @Override
     public void intercept(Invocation inv) {
 
-        List<MenuGroup> ucenterMenus = MenuManager.me().getUcenterMenus();
-        inv.getController().setAttr("ucenterMenus", ucenterMenus);
-
-
-        MenuGroup ucenterFinanceMenus = MenuManager.me().getUcenterFinanceMenus();
-        inv.getController().setAttr("ucenterFinanceMenus", ucenterFinanceMenus.getItems());
+        MenuGroup ucenterCommentMenus = MenuManager.me().getUcenterCommentMenus();
+        inv.getController().setAttr("ucenterCommentMenus", ucenterCommentMenus.getItems());
 
 
         MenuGroup ucenterPersonalMenus = MenuManager.me().getUcenterPersonalMenus();

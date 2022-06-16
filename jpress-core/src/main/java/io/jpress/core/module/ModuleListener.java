@@ -38,7 +38,9 @@ public interface ModuleListener {
      * @param controller
      * @return 返回要 html 文件地址
      */
-    public String onRenderDashboardBox(Controller controller);
+    default String onRenderDashboardBox(Controller controller) {
+        return null;
+    }
 
 
     /**
@@ -47,7 +49,9 @@ public interface ModuleListener {
      * @param controller
      * @return
      */
-    public String onRenderToolsBox(Controller controller);
+    default String onRenderToolsBox(Controller controller) {
+        return null;
+    }
 
 
     /**
@@ -55,15 +59,7 @@ public interface ModuleListener {
      *
      * @param adminMenus
      */
-    public void onConfigAdminMenu(List<MenuGroup> adminMenus);
-
-
-    /**
-     * 配置用户中心的菜单
-     *
-     * @param ucenterMenus
-     */
-    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus);
+    default void onConfigAdminMenu(List<MenuGroup> adminMenus){};
 
 
 }

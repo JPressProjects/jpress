@@ -45,7 +45,7 @@ public class ProductUCenterController extends UcenterControllerBase {
 
 
 
-    @UCenterMenu(text = "产品评论", groupId = "comment", order = 0)
+    @UCenterMenu(text = "产品评论", groupId = "comment", order = 0, icon = "<i class=\"fas fa-comment\"></i>")
     public void comment() {
         Page<ProductComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);

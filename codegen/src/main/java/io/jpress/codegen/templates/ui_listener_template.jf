@@ -52,11 +52,6 @@ public class #(upcasedModuleName)ModuleInitializer extends JbootAppListenerBase 
         adminMenus.add(menuGroup);
     }
 
-    @Override
-    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
-
-      
-    }
 
 
 }

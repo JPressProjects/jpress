@@ -73,20 +73,20 @@ mvn package
 └── jpress.bat
 ```
 
-若编译不通过注意事项：
-
-* maven版本建议用3.0 以上，2.x没有测试过
-* java版本1.8
-* maven注意添加aliyun的源，修改 `maven/conf/setting.xml`文件，找到 mirrors 节点 ，修改如下：
+ 若编译不通过注意事项：
+ 
+ * maven版本建议用3.0 以上，2.x没有测试过
+ * java版本1.8
+ * maven注意添加aliyun的源，修改 `maven/conf/setting.xml`文件，找到 mirrors 节点 ，修改如下：
 
  ```xml
 <mirrors>
-  <mirror>
-    <id>alimaven</id>
-    <name>aliyun maven</name>
-    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-    <mirrorOf>central</mirrorOf>
-  </mirror>
+        <mirror>  
+        	  <id>alimaven</id>  
+        	  <name>aliyun maven</name>  
+        	  <url>http://maven.aliyun.com/nexus/content/groups/public/</url>  
+        	  <mirrorOf>central</mirrorOf>  
+    	</mirror>
 </mirrors>
 
  ```
@@ -140,7 +140,7 @@ JPress模板主要是由html、css、js和JPress标签组成，JPress标签的�
 例如：首页的渲染模板是 `index.html` ，如果当前目录下有 `index_h5.html`，那么，当用户通过手机访问网站的时候，JPress 会自动使用 `index_h5.html` 去渲染。 page 和 article、artlist 同理。
 
 template.properties 文件配置如下
-
+  
 ```
 id = cn.jeanstudio.bluelight
 title = BlueLight
@@ -190,7 +190,7 @@ screenshot = screenshot.png
 
 标签描述，标签建议用 `#( 名称 ??)` 的方式来读取数据，而不是用 `#(名称)` 两个问号（??）的意思是如果 后台填写的名称为空格，那么就用 两个问号（??）之后的内容来显示。
 
-例如：
+例如： 
 `#(WEB_NAME ??)` 表示优先使用 WEB_NAME 来显示，但是当 WEB_NAME 为空的时候，显示空数据（因为两个问好（??）之后的内容为空）。
 
 `#(WEB_NAME ?? WEB_TITLE)` 表示优先使用 WEB_NAME 来显示，但是当 WEB_NAME 为空的时候，用 WEB_TITLE（网站标题） 来显示。
@@ -203,9 +203,9 @@ screenshot = screenshot.png
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
-  <meta name="keywords" content="#(SEO_KEYWORDS ??)">
-  <meta name="description" content="#(SEO_DESCRIPTION ??)">
+    <title>#(SEO_TITLE ?? (WEB_TITLE + '-' + WEB_SUBTITLE))</title>
+    <meta name="keywords" content="#(SEO_KEYWORDS ??)">
+    <meta name="description" content="#(SEO_DESCRIPTION ??)">
 </head>
 <body>
 这是首页....
@@ -218,8 +218,8 @@ screenshot = screenshot.png
 这个时候`#( 名称 ??)`就不能正常显示了，需要用到一个新的标签：
 
 ```html
-#for
-...
+#for 
+... 
 #end
 ```
 
@@ -227,10 +227,10 @@ screenshot = screenshot.png
 
 对于 `MENUS` 这种数据类型为 `数据列表( list )` 的数据，`#for ... #end` 标签使用如下。
 
-
+   
 ```html
 #for(menu : MENUS)
-<li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
+    <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
 #end
 ```
 
@@ -242,14 +242,14 @@ screenshot = screenshot.png
 
 ```html
 #for(menu : MENUS)
-<li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
-#if(menu.hasChild())
-<div class="二级菜单的class">
-  #for(childMenu : menu.getChilds())
-  <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
-  #end
-</div>
-#end
+    <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
+    #if(menu.hasChild())
+        <div class="二级菜单的class">
+        #for(childMenu : menu.getChilds())
+            <li> <a href="#(menu.url ??)">#(menu.text ??)</a> </li>
+        #end
+    </div>
+    #end
 #end
 ```
 
@@ -260,31 +260,24 @@ screenshot = screenshot.png
 
 ```html
 #for(me: MENUS)
-#if(me.isActive && me.hasChild())
-<h3 class="menut-title">#(me.text ??)</h3>
-<ul class="inner-menut">
-  #for(m : me.getChilds())
-  <li class="#(m.isActive ? 'active' : '')">
-    <a href="#(CPATH)#(m.url ??)">
-      #(m.text ??)
-    </a>
-  </li>
-  #end
-</ul>
-#end
+    #if(me.isActive && me.hasChild())
+        <h3 class="menut-title">#(me.text ??)</h3>
+        <ul class="inner-menut">
+            #for(m : me.getChilds())
+                <li class="#(m.isActive ? 'active' : '')">
+                    <a href="#(CPATH)#(m.url ??)">
+                    #(m.text ??)
+                    </a>
+                </li>
+            #end
+        </ul>
+    #end
 #end
 ```
 
 
 
 **2、数据指令，数据指令一般情况下只能用于特有页面**
-
-通用指令：
-
-| 指令名称 | 可用页面 |描述 |  
-| --- | --- | --- | 
-| #maxLength(内容,长度,截取后追加的内容) | 任意 | 字符串截取 |  
-| #date(时间对象,'YYYY-MM-dd') | 任意 | 时间格式化 | 
 
 文章相关指令：
 
@@ -303,7 +296,6 @@ screenshot = screenshot.png
 | #tags() | 任意 | 用于读取文章标签 |  
 | #articleCategories() | 任意 | 用于读取某一篇文章的所属分类，例如：文章的标签、文章的分类等 |  
 | #articleSearchPage() | 文章搜索结果页 artsearch.html | 用于渲染搜索结果 |  
-| #articleCrumb() | 面包屑指令 | 可用于文章列表 或者 文章详情 |  
 
 
 产品相关指令：
@@ -331,8 +323,13 @@ screenshot = screenshot.png
 | --- | --- | --- | 
 | #page() | 任意 | 用于读取某个页面 |  
 | #pages() | 任意 | 用于读取页面列表 | 
+ 
+ 
+ 用户相关指令：
 
-
+| 指令名称 | 可用页面 |描述 |  
+| --- | --- | --- |  
+| #users() | 暂不支持 | 用于读取页面列表 | 
 
 
 ##### #article() 指令的用法
@@ -352,9 +349,9 @@ screenshot = screenshot.png
 
 ```html
 #articles(flag="",hasThumbnail="",orderBy="",count=10)
-#for(article : articles)
-<a href="#(article.url)">#(article.title)</a>
-#end
+    #for(article : articles)
+        <a href="#(article.url)">#(article.title)</a>
+    #end
 #end
 ```
 
@@ -362,14 +359,13 @@ screenshot = screenshot.png
 
 * flag：文章标识，这个是在编辑文章的时候自由填写。
 * hasThumbnail：是否需要缩略图，值为 true 和 false。
-* orderBy ：根据什么进行排序，orderBy有两个值，目前支持的第一个值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）,
-  第二个是升序排列（默认升序，默认不写）或者降序排列（desc） 例如：根据浏览量进行降序排列orderBy="view_count desc"
+* orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
 * count ：要显示多少篇文章
 * style ：文章样式
 
 ##### #tagArticles() 指令的用法
 
-此指令是在任何页面，用来读取某个后台定义好的标签类文章列表。例如：最新文章、热门文章等
+此指令是在任何页面，用来读取文章列表。例如：最新文章、热门文章等
 
 ```html
 #tagArticles(tag="aaa",hasThumbnail="",orderBy="",count=10)
@@ -383,8 +379,7 @@ screenshot = screenshot.png
 
 * tag：哪个tag。
 * hasThumbnail：是否需要缩略图，值为 true 和 false。
-* orderBy ：根据什么进行排序，orderBy有两个值，目前支持的第一个值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
-  第二个是升序排列（默认升序，可以不写）或者降序排列（desc） 例如：根据浏览量进行降序排列orderBy="view_count desc"
+* orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
 * count ：要显示多少篇文章
 
 ##### #categoryArticles() 指令的用法
@@ -404,14 +399,13 @@ screenshot = screenshot.png
 * categoryId：分类的Id
 * categoryFlag：分类的标识，对应后台分类管理里的 "展示标识"
 * hasThumbnail：是否需要缩略图，值为 true 和 false。
-* orderBy ：根据什么进行排序，orderBy有两个值，目前支持的第一个值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
-  第二个是升序排列（默认升序，可以不写）或者降序排列（desc） 例如：根据浏览量进行降序排列orderBy="view_count desc"
+* orderBy ：根据什么进行排序，目前支持的值有：order_number（用户自定义排序）、comment_count（文章的评论数量）、comment_time（文章的评论时间）、view_count（文章的访问量）、created（文章的创建时间）、modified（文章的修改时间）
 * count ：要显示多少篇文章
 
 ##### #articlePage() 指令的用法
 指令 #articlePage() 只能用在文章列表页，也就是 artlist.html 模板文件及其扩展文件。
 
-```html
+```java
 #articlePage()
 
     #for(article : articlePage.list)
@@ -423,9 +417,9 @@ screenshot = screenshot.png
         </div>    
     #end
 
-    #articlePaginate(activeClass="newClass",previousText="上一页",nextText="下一页",firstGotoIndex=true)
+    #articlePaginate()
         #for(page : pages)
-            <a class="page-link #(page.style ??)" href="#(page.url ??)">
+            <a class="page-link" href="#(page.url ??)">
                 #(page.text ??)
             </a>
         #end
@@ -434,7 +428,7 @@ screenshot = screenshot.png
 #end
 ```
 **说明**
-指令 #articlePage() 内部又包含了另一个指令 #articlePaginate()，#articlePaginate()是用于文章分页，当文章数据较多时，使用分页可以快速进行数据切换。。
+指令 #articlePage() 内部又包含了另一个指令 #articlePaginate()，#articlePaginate()是用于显示上一页和下一下。
 
 **指令 #articlePage() 的参数有：**
 
@@ -444,7 +438,7 @@ screenshot = screenshot.png
 
 * previousClass ：上一页的样式，默认值：previous
 * nextClass ：下一页的样式，默认值：next
-* activeClass ：当前页面的样式，默认值：active;如果自定义了非active名的class，那么要在添加该样式的html标签中的class添上这句：`#(page.style??)` （如上html所示），自定义class方可有效
+* activeClass ：当前页面的样式，默认值：active
 * disabledClass ：禁用的样式（当下一页没有数据的时候，会使用此样式），默认值：disabled
 * anchor ：锚点链接
 * onlyShowPreviousAndNext ：是否只显示上一页和下一页（默认值为false，一般情况下在手机端才会把这个值设置true）
@@ -464,9 +458,9 @@ screenshot = screenshot.png
         <div>评论作者是：#(comment.authro ??)</div>  
     #end
 
-    #commentPaginate(activeClass="newActive")
+    #commentPaginate()
         #for(page : pages)
-            <a class="page-link #(page.style ??)" href="#(page.url ??)">
+            <a class="page-link" href="#(page.url ??)">
                 #(page.text ??)
             </a>
         #end
@@ -475,7 +469,7 @@ screenshot = screenshot.png
 #end
 ```
 **说明**
-和一样#articlePage()，#commentPage()指令  内部又包含了另一个指令 #commentPaginate()，#commentPaginate()是评论分页，当评论数据较多时，使用分页可以快速进行数据切换。
+和一样#articlePage()，#commentPage()指令  内部又包含了另一个指令 #commentPaginate()，#commentPaginate()是用于显示评论的上一页和下一下。
 
 **指令 #commentPage() 的参数有：**
 
@@ -485,7 +479,7 @@ screenshot = screenshot.png
 
 * previousClass ：上一页的样式，默认值：previous
 * nextClass ：下一页的样式，默认值：next
-* activeClass ：当前页面的样式，默认值：active;如果自定义了非active名的class，那么要在添加该样式的html标签中的class添上这句：#(page.style ??) （如上html所示），自定义class方可有效
+* activeClass ：当前页面的样式，默认值：active
 * disabledClass ：禁用的样式（当下一页没有数据的时候，会使用此样式），默认值：disabled
 * anchor ：锚点链接
 * onlyShowPreviousAndNext ：是否只显示上一页和下一页（默认值为false，一般情况下在手机端才会把这个值设置true）
@@ -529,7 +523,6 @@ screenshot = screenshot.png
 **指令#categories()的参数有**
 
 * flag ：读取哪些flag的分类列表。
-* parentId ：读取父级必须是该flag的分类列表。
 * parentFlag ：读取父级必须是该flag的分类列表。
 * asTree ：是否以树状的数据进行返回，默认是false，返回全部分类。
 
@@ -563,25 +556,12 @@ screenshot = screenshot.png
 * articleCategories的使用必须传入两个值，顺序不能相反。第一个是文章的id，第二个是指定要获取文章分类的类型。
 
 
-
-##### #articleCrumb() 指令的用法
-指令 #articleCrumb() 是面包屑，可用于文章列表 或者 文章详情。
-
-**指令#articleCrumb()的参数有**
-
-* aClass ：生成的 a 标签的 class 样式。
-* indexUrl ：首页的链接。
-* indexText ：首页的标题。
-
-
-
-
 ##### #tags() 指令的用法
 ```html
 #tags()
-#for(tag : tags)
-<li><a href="#(tag.url)">#(tag.title)</a></li>
-#end
+    #for(tag : tags)
+        <li><a href="#(tag.url)">#(tag.title)</a></li>
+    #end
 #end
 ```
 
@@ -619,10 +599,10 @@ screenshot = screenshot.png
 
 ```html
 #pages()
-#for(page : pages)
-这个页面的标题是：#(page.title ??)
-这个页面的内容是：#(page.content ??)
-#end
+    #for(page : pages)
+    这个页面的标题是：#(page.title ??)
+    这个页面的内容是：#(page.content ??)
+    #end
 #end
 ```
 
@@ -712,22 +692,22 @@ JPress 是一个内置了几乎任何互联网系统都必须模块：
 public class PageModuleGenerator {
 
 
-  private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/newjpress";
-  private static String dbUser = "root";
-  private static String dbPassword = "123456";
+    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/newjpress";
+    private static String dbUser = "root";
+    private static String dbPassword = "123456";
 
 
-  private static String moduleName = "club";
-  private static String dbTables = "club_category,club_post,club_post_comment";
-  private static String modelPackage = "io.jpress.module.club.model";
-  private static String servicePackage = "io.jpress.module.club.service";
+    private static String moduleName = "club";
+    private static String dbTables = "club_category,club_post,club_post_comment";
+    private static String modelPackage = "io.jpress.module.club.model";
+    private static String servicePackage = "io.jpress.module.club.service";
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
-    moduleGenerator.gen();
+        ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, modelPackage, servicePackage);
+        moduleGenerator.gen();
 
-  }
+    }
 }
 ```
 
@@ -742,24 +722,19 @@ public class PageModuleGenerator {
 ```java
 public class ClubModuleListener implements ModuleListener {
 
-  @Override
-  public String onRenderDashboardBox(Controller controller) {
-    //在这里配置后台首页的相关模块
-    //代码可以参考 ArticleModuleLisenter
-    return null;
-  }
+    @Override
+    public String onRenderDashboardBox(Controller controller) {
+        //在这里配置后台首页的相关模块
+        //代码可以参考 ArticleModuleLisenter
+        return null;
+    }
 
-  @Override
-  public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
-    //这里配置后台菜单
-    //代码参考 ArticleModuleLisenter
-  }
+    @Override
+    public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
+        //这里配置后台菜单
+        //代码参考 ArticleModuleLisenter
+    }
 
-  @Override
-  public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
-    //这里配置用户中心菜单
-    //代码参考 ArticleModuleLisenter
-  }
 }
 ```
 以上提到的`ArticleModuleLisenter`代码在： https://gitee.com/JPressProjects/jpress/blob/master/module-article/module-article-web/src/main/java/io/jpress/module/article/ArticleModuleLisenter.java
@@ -790,20 +765,20 @@ public class ClubModuleListener implements ModuleListener {
 @RequestMapping("/admin/club")
 public class _ClubController extends AdminControllerBase {
 
-  @AdminMenu(text = "帖子列表", groupId = "club")
-  public void index() {
-    render("club/post_list.html");
-  }
+    @AdminMenu(text = "帖子列表", groupId = "club")
+    public void index() {
+        render("club/post_list.html");
+    }
+    
+    @AdminMenu(text = "回帖管理", groupId = "club")
+    public void index() {
+        render("club/post_comment_list.html");
+    }
 
-  @AdminMenu(text = "回帖管理", groupId = "club")
-  public void index() {
-    render("club/post_comment_list.html");
-  }
-
-  @AdminMenu(text = "版块管理", groupId = "club")
-  public void index() {
-    render("club/category_list.html");
-  }
+    @AdminMenu(text = "版块管理", groupId = "club")
+    public void index() {
+        render("club/category_list.html");
+    }  
 }
 ```
 
@@ -824,9 +799,9 @@ public class _ClubController extends AdminControllerBase {
 
 ```xml
 <parent>
-  <groupId>io.jpress</groupId>
-  <artifactId>parent</artifactId>
-  <version>3.0</version>
+    <groupId>io.jpress</groupId>
+    <artifactId>parent</artifactId>
+    <version>3.0</version>
 </parent>
 ```
 maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找不到这个 module 就会出现 maven编译错误。
@@ -857,15 +832,15 @@ maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找
 
 ```xml
 <dependency>
-  <groupId>io.jpress</groupId>
-  <artifactId>module-club-web</artifactId>
-  <version>3.0</version>
+    <groupId>io.jpress</groupId>
+    <artifactId>module-club-web</artifactId>
+    <version>3.0</version>
 </dependency>
 
 <dependency>
-<groupId>io.jpress</groupId>
-<artifactId>module-club-service-provider</artifactId>
-<version>3.0</version>
+    <groupId>io.jpress</groupId>
+    <artifactId>module-club-service-provider</artifactId>
+    <version>3.0</version>
 </dependency>
 ```
 
@@ -874,38 +849,38 @@ maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找
 
 ```xml
 <plugin>
-  <artifactId>maven-resources-plugin</artifactId>
-  <executions>
-    <execution>
-      <id>copy-resources</id>
-      <phase>validate</phase>
-      <goals>
-        <goal>copy-resources</goal>
-      </goals>
-      <configuration>
-        <outputDirectory>${basedir}/target/classes/webapp</outputDirectory>
-        <resources>
-          <resource>
-            <directory>${basedir}/../jpress-web/src/main/webapp</directory>
-          </resource>
-          <resource>
-            <directory>${basedir}/../jpress-template/src/main/webapp</directory>
-          </resource>
-          <resource>
-            <directory>${basedir}/../module-page/module-page-web/src/main/webapp</directory>
-          </resource>
-          <resource>
-            <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
-          </resource>
+    <artifactId>maven-resources-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
+            <goals>
+                <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>${basedir}/target/classes/webapp</outputDirectory>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/../jpress-web/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../jpress-template/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../module-page/module-page-web/src/main/webapp</directory>
+                    </resource>
+                    <resource>
+                        <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
+                    </resource>
 
-          <!-- 添加如下代码-->
-          <resource>
-            <directory>${basedir}/../module-club/module-club-web/src/main/webapp</directory>
-          </resource>
-        </resources>
-      </configuration>
-    </execution>
-  </executions>
+                    <!-- 添加如下代码-->
+                    <resource>
+                        <directory>${basedir}/../module-club/module-club-web/src/main/webapp</directory>
+                    </resource>
+                </resources>
+            </configuration>
+        </execution>
+    </executions>
 </plugin>
 
 ```
@@ -922,25 +897,25 @@ maven 会去自动下载 io.jpress.parent 这个module，maven中央仓库上找
 ```java
 public class HelloWechatAddon implements WechatAddon {
 
-  @Override
-  public boolean onMatchingMessage(InMsg inMsg, MsgController msgController) {
+    @Override
+    public boolean onMatchingMessage(InMsg inMsg, MsgController msgController) {
 
-    return false;
-  }
+        return false;
+    }
 
-  @Override
-  public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
-
-    return true;
-  }
+    @Override
+    public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
+      
+        return true;
+    }
 }
 ```
 **说明：**
 
 * 1、在任意maven module下，编写任意名称的类，实现WechatAddon接口。JPress 会自动扫描到该类，并添加到 JPress 的管理体系里去。
 * 2、复写方法`onMatchingMessage`和`onRenderMessage`。
-  * onMatchingMessage ：用来匹配是否是本插件要处理的消息
-  * onRenderMessage ：用来返回给微信客户端一个消息
+    * onMatchingMessage ：用来匹配是否是本插件要处理的消息
+    * onRenderMessage ：用来返回给微信客户端一个消息
 
 * 3、添加 `@WechatAddonConfig` 注解的配置，用来给这个插件添加描述。
 
@@ -955,37 +930,37 @@ public class HelloWechatAddon implements WechatAddon {
 )
 public class HelloWechatAddon implements WechatAddon {
 
-  @Override
-  public boolean onMatchingMessage(InMsg inMsg, MsgController msgController) {
+    @Override
+    public boolean onMatchingMessage(InMsg inMsg, MsgController msgController) {
+        
+        //当用户给公众号发送的不是文本消息的时候
+        //返回 false 不由本插件处理
+        if (!(inMsg instanceof InTextMsg)) {
+            return false;
+        }
 
-    //当用户给公众号发送的不是文本消息的时候
-    //返回 false 不由本插件处理
-    if (!(inMsg instanceof InTextMsg)) {
-      return false;
+        InTextMsg inTextMsg = (InTextMsg) inMsg;
+        String content = inTextMsg.getContent();
+        
+        //当用户输入的内容不是 hello 的时候
+        //返回false，不由本插件处理
+        return content != null && content.equalsIgnoreCase("hello");
     }
 
-    InTextMsg inTextMsg = (InTextMsg) inMsg;
-    String content = inTextMsg.getContent();
 
-    //当用户输入的内容不是 hello 的时候
-    //返回false，不由本插件处理
-    return content != null && content.equalsIgnoreCase("hello");
-  }
-
-
-  @Override
-  public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
-
-    //创建一个新的文本消息
-    //通过 msgController 进行渲染返回给用户
-    OutTextMsg outTextMsg = new OutTextMsg(inMsg);
-    outTextMsg.setContent("world");
-    msgController.render(outTextMsg);
-
-    //返回 true，表示本插件已经成功处理该消息
-    //若返回false，表示本插件处理消息失败，将会交给系统或者其他插件去处理
-    return true;
-  }
+    @Override
+    public boolean onRenderMessage(InMsg inMsg, MsgController msgController) {
+    
+        //创建一个新的文本消息
+        //通过 msgController 进行渲染返回给用户
+        OutTextMsg outTextMsg = new OutTextMsg(inMsg);
+        outTextMsg.setContent("world");
+        msgController.render(outTextMsg);
+        
+        //返回 true，表示本插件已经成功处理该消息
+        //若返回false，表示本插件处理消息失败，将会交给系统或者其他插件去处理
+        return true;
+    }
 }
 ```
 完整代码可以看这里：https://gitee.com/JPressProjects/jpress/blob/master/jpress-web/src/main/java/io/jpress/web/wechat/HelloWechatAddon.java
@@ -1014,11 +989,11 @@ http://127.0.0.1:8080/api/option?key=key1,key2
 ```json
  {
   state : "ok",
-  data : {
-    key1: "data1",
-    key2: "data2"
-  }
-}
+     data : {
+         key1: "data1",
+         key2: "data2"
+     }
+ }
 ```
 
 
@@ -1048,7 +1023,7 @@ http://127.0.0.1:8080/api/option?key=key1,key2
  {
   state : "ok",
   sessionId : "session_id_data"
-}
+ }
 ```
 
 **第三步：小程序调用wx.getUserInfo() 得到加密的用户数据**
@@ -1073,7 +1048,7 @@ http://127.0.0.1:8080/api/option?key=key1,key2
  {
   state : "ok",
   token : "token_data"
-}
+ }
 ```
 token 非常重要，是用户的唯一标识。其数据是通过jwt进行加密得到的，客户端也可以通过jwt解密后得到原始的 userId。
 
@@ -1103,8 +1078,8 @@ http://127.0.0.1:8080/api/article?id=123
 
 ```json
  {
-  "state": "ok",
-  "article": {
+"state": "ok",
+"article": {
     "commentCount": 9,
     "commentEnable": true,
     "commentStatus": true,
@@ -1127,7 +1102,7 @@ http://127.0.0.1:8080/api/article?id=123
     "url": "/article/slug.html",
     "userId": 1,
     "viewCount": 328
-  }
+    }
 }
 ```
 
@@ -1151,8 +1126,8 @@ http://127.0.0.1:8080/api/article/category?id=100
 
 ```json
  {
-  "state": "ok",
-  "category": {
+"state": "ok",
+"category": {
     "count": 0,
     "htmlView": "artlist.html",
     "id": 10,
@@ -1167,7 +1142,7 @@ http://127.0.0.1:8080/api/article/category?id=100
     "top": true,
     "type": "category",
     "url": "/article/category/keji.html"
-  }
+    }
 }
 ```
 

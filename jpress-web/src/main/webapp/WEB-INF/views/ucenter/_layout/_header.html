@@ -5,9 +5,6 @@
             <span class="brand-text">#option('web_name','JPress')</span>
         </a>
 
-<!--        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
 
         <!-- Right navbar links -->
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -16,49 +13,6 @@
                     <span class="hidden-xs" >您好 #(user.nickname ??) , 欢迎回来</span>
                 </a>
             </li>
-
-
-
-
-            <!--购物车开始-->
-            <li class="nav-item dropdown" style="border-left: 1px solid #eee;">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="fas fa-cart-arrow-down"></i>
-                    #if(USER_CARTS_COUNT && USER_CARTS_COUNT > 0)
-                    <span class="badge badge-danger navbar-badge" style="right:10px;">#(USER_CARTS_COUNT)</span>
-                    #end
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <div class="dropdown-divider"></div>
-                    #for(userCart : USER_CARTS)
-                    <a href="#(userCart.product_link ?? 'javascript:;')" target="_blank" class="dropdown-item">
-                        <div class="media">
-                            #if(userCart.product_thumbnail)
-                            <img src="#(userCart.product_thumbnail)" class="img-size-50 mr-3">
-                            #end
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    #maxLength(userCart.product_title ??,16,'...')
-                                </h3>
-                                <p class="cart-description">#maxLength(userCart.product_summary ??,14,'...')</p>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    #else
-                    <div class="jpress-empty-cart">
-                    购物车空空如也...
-                    </div>
-                    #end
-
-                    #if(USER_CARTS_COUNT && USER_CARTS_COUNT > 0)
-                    <a href="#(CPATH)/ucenter/cart" class="dropdown-item dropdown-footer">查看全部</a>
-                    #end
-                </div>
-
-            </li>
-            <!--购物车结束-->
 
 
 

@@ -45,9 +45,4 @@ public class ModuleBase extends JbootAppListenerBase implements ModuleListener, 
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 
     }
-
-    @Override
-    public void onConfigUcenterMenu(List<MenuGroup> ucenterMenus) {
-
-    }
 }

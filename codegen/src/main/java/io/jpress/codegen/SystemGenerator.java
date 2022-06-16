@@ -36,24 +36,18 @@ public class SystemGenerator {
 
     public static void main(String[] args) {
 
-        String dbTables = "user,attachment,menu,option,payment_record,permission,role,utm," +
-                "wechat_menu,wechat_reply," +
-                "member,member_group,member_dist_amount,member_joined_record,member_price," +
-                "user_address,user_amount,user_amount_statement,user_amount_payout," +
-                "coupon,coupon_code,coupon_used_record," +
-                "user_cart,user_order,user_order_item,user_order_delivery,user_order_invoice," +
-                "user_openid,user_favorite,user_tag," +
-                "payment_record," +
-                "attachment_category";
+        String dbTables = "attachment,attachment_category,attachment_video,attachment_video_category," +
+                "menu,option,permission,role," +
+                "site_info," +
+                "user,user_openid,user_tag," +
+                "utm,";
 
-        String optionsTables = "coupon,member,member_group,product,product_category,user_address," +
-                "user_amount_statement,user_amount_payout,user_cart,user_order,user_order_item,user_order_delivery,user_order_invoice," +
-                "payment_record,user_openid,member_joined_record,user_favorite,user_tag";
+        String optionsTables = "user_openid,user_tag,attachment_video";
 
         String sortTables = "menu,wechat_menu";
         String sortOptionsTables = "";
 
-        JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://127.0.0.1:3306/jpress3");
+        JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://192.168.1.2:3306/jpress");
         JbootApplication.setBootArg("jboot.datasource.user", "root");
         JbootApplication.setBootArg("jboot.datasource.password", "123456");
 

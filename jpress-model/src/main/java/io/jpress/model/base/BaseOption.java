@@ -53,5 +53,13 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JbootModel<M> 
 		return getStr("value");
 	}
 
+	public void setSite(java.lang.Long site) {
+		set("site", site);
+	}
+
+	public java.lang.Long getSite() {
+		return getLong("site");
+	}
+
 }
 

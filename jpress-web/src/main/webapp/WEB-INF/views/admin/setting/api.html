@@ -39,7 +39,7 @@
                                 <div class="col-sm-6">
                                     <input type="checkbox" class="switchery" data-for="api_enable" #checkedIf(option("api_enable"))>
                                     <input type="hidden" id="api_enable" name="api_enable">
-                                    <p class="text-muted"> 注意：微信小程序必须开启API才能正常使用 </p>
+                                    <p class="text-muted"> 注意：微信小程序等必须开启API才能正常使用 </p>
                                 </div>
                             </div>
 
@@ -61,35 +61,37 @@
                             </div>
 
 
-                            <h4 class="form-header">测试环境</h4>
+                            <h4 class="form-header">其他</h4>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">测试密钥</label>
-
+                                <label class="col-sm-2 col-form-label">模块数据的 读取API 无需签名</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="一般用于客户测试"
-                                           name="api_test_secret" value="#option('api_test_secret')">
+                                    <input type="checkbox" class="switchery" data-for="api_no_sign_for_module_enable" #checkedIf(option("api_no_sign_for_module_enable"))>
+                                    <input type="hidden" id="api_no_sign_for_module_enable" name="api_no_sign_for_module_enable">
+                                    <p class="text-muted"> 注意：开启后，其他程序可以正常读取文章模块等模块信息 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">允许的API接口</label>
 
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">用户信息 读取API 无需签名</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="5" class="form-control" name="api_test_urls"
-                                              placeholder="一行一个...">#option("api_test_urls")</textarea>
-                                    <p class="text-muted"> 不填写默认允许全部接口，一行一个接口 </p>
+                                    <input type="checkbox" class="switchery" data-for="api_no_sign_for_user_enable" #checkedIf(option("api_no_sign_for_user_enable"))>
+                                    <input type="hidden" id="api_no_sign_for_user_enable" name="api_no_sign_for_user_enable">
+                                    <p class="text-muted"> 注意：开启后，其他程序可以读取用户信息（非密码等敏感信息），请谨慎开启。 </p>
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">禁止的API接口</label>
 
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">配置信息 读取API 无需签名</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="5" class="form-control" name="api_prohibit_urls"
-                                              placeholder="同上">#option("api_prohibit_urls")</textarea>
+                                    <input type="checkbox" class="switchery" data-for="api_no_sign_for_option_enable" #checkedIf(option("api_no_sign_for_option_enable"))>
+                                    <input type="hidden" id="api_no_sign_for_option_enable" name="api_no_sign_for_option_enable">
+                                    <p class="text-muted"> 注意：开启后，其他程序可以读取系统配置信息，请谨慎开启。 </p>
                                 </div>
                             </div>
+
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">

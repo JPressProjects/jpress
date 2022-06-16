@@ -19,12 +19,10 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.core.menu.annotation.UCenterMenu;
-import io.jpress.model.UserFavorite;
 import io.jpress.module.product.model.ProductComment;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
-import io.jpress.service.UserFavoriteService;
 import io.jpress.web.base.UcenterControllerBase;
 
 /**
@@ -45,9 +43,6 @@ public class ProductUCenterController extends UcenterControllerBase {
     @Inject
     private ProductCommentService commentService;
 
-    @Inject
-    private UserFavoriteService favoriteService;
-
 
 
     @UCenterMenu(text = "产品评论", groupId = "comment", order = 0)
@@ -55,23 +50,6 @@ public class ProductUCenterController extends UcenterControllerBase {
         Page<ProductComment> page = commentService._paginateByUserId(getPagePara(), 10, getLoginedUser().getId());
         setAttr("page", page);
         render("product/comment_list.html");
-    }
-
-
-    @UCenterMenu(text = "产品收藏", groupId = "favorite", order = 0)
-    public void favorite() {
-        Page<UserFavorite> page = favoriteService.paginateByUserIdAndType(getPagePara(),10,getLoginedUser().getId(),"product");
-        setAttr("page", page);
-        render("product/product_favorite.html");
-    }
-
-    public void doDelFavorite(){
-        UserFavorite userFavorite = favoriteService.findById(getPara("id"));
-
-        if (isLoginedUserModel(userFavorite)){
-            favoriteService.delete(userFavorite);
-        }
-        renderOkJson();
     }
 
 

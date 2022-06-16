@@ -27,15 +27,12 @@ import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
-import io.jpress.model.MemberGroup;
 import io.jpress.module.product.ProductFields;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
-import io.jpress.service.MemberGroupService;
-import io.jpress.service.MemberPriceService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -57,11 +54,6 @@ public class _ProductController extends AdminControllerBase {
     @Inject
     private ProductImageService imageService;
 
-    @Inject
-    private MemberGroupService memberGroupService;
-
-    @Inject
-    private MemberPriceService memberPriceService;
 
 
     @AdminMenu(text = "商品列表", groupId = "product", order = 1)
@@ -125,15 +117,6 @@ public class _ProductController extends AdminControllerBase {
             setAttr("images", imageService.findListByProductId(productId));
         }
 
-        List<MemberGroup> memberGroups = memberGroupService.findAll();
-        if (memberGroups != null && !memberGroups.isEmpty()) {
-            if (product != null) {
-                for (MemberGroup group : memberGroups) {
-                    group.put("priceInfo", memberPriceService.findByPorductAndGroup("product", product.getId(), group.getId()));
-                }
-            }
-            setAttr("memberGroups", memberGroups);
-        }
 
         initStylesAttr("product_");
         render("product/product_edit.html");
@@ -242,11 +225,6 @@ public class _ProductController extends AdminControllerBase {
         String[] imageIds = getParaValues("imageIds");
         String[] imageSrcs = getParaValues("imageSrcs");
         imageService.saveOrUpdateByProductId(product.getId(), imageIds, imageSrcs);
-
-
-        String[] memberGroupIds = getParaValues("memberGroupIds");
-        String[] memberGroupPrices = getParaValues("memberGroupPrices");
-        memberPriceService.saveOrUpdateByProduct("product", product.getId(), memberGroupIds, memberGroupPrices);
 
 
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();

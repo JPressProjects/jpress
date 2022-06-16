@@ -33,7 +33,8 @@ import java.util.List;
  * @Title: 相关产品
  */
 @JFinalDirective("relevantProducts")
-public class RelevantProductsDirective extends JbootDirectiveBase {
+public class
+RelevantProductsDirective extends JbootDirectiveBase {
 
     @Inject
     private ProductService service;

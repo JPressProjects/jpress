@@ -52,23 +52,6 @@ public class UserCenterController extends UcenterControllerBase {
     @Inject
     private UserService userService;
 
-    @Inject
-    private UserCartService cartService;
-
-    @Inject
-    private UserAddressService addressService;
-
-    @Inject
-    private CouponCodeService couponCodeService;
-
-    @Inject
-    private CouponService couponService;
-
-    @Inject
-    private UserOrderService userOrderService;
-
-    @Inject
-    private UserOrderItemService userOrderItemService;
 
     /**
      * 用户中心首页

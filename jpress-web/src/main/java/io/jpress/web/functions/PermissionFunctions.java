@@ -16,16 +16,12 @@
 package io.jpress.web.functions;
 
 import com.jfinal.aop.Aop;
-import io.jpress.model.Member;
-import io.jpress.model.MemberGroup;
 import io.jpress.model.Role;
 import io.jpress.model.User;
-import io.jpress.service.MemberService;
 import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
 import io.jpress.web.interceptor.UserInterceptor;
 
-import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -80,68 +76,6 @@ public class PermissionFunctions {
         return user != null && user.isStatusOk() && roleService.isSupperAdmin(user.getId());
     }
 
-    public static boolean hasMember(String... memberFlags) {
 
-        User user = UserInterceptor.getThreadLocalUser();
-        if (user == null || !user.isStatusOk()) {
-            return false;
-        }
-
-        if (memberFlags == null || memberFlags.length == 0) {
-            throw new IllegalArgumentException("hasMember(memberFlags...) args is error.");
-        }
-
-        MemberService memberService = Aop.get(MemberService.class);
-        List<Member> members = memberService.findListByUserId(user.getId());
-
-        if (members == null || members.isEmpty()) {
-            return false;
-        }
-
-        for (String flag : memberFlags) {
-            boolean hasFlag = false;
-            for (Member member : members) {
-                MemberGroup group = member.get("group");
-                if (group != null && flag.equals(group.getFlag())) {
-                    hasFlag = true;
-                }
-            }
-            if (!hasFlag) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public static boolean hasAnyMember(String... memberFlags) {
-
-        User user = UserInterceptor.getThreadLocalUser();
-        if (user == null || !user.isStatusOk()) {
-            return false;
-        }
-
-        if (memberFlags == null || memberFlags.length == 0) {
-            throw new IllegalArgumentException("hasAnyMember(memberFlags...) args is error.");
-        }
-
-        MemberService memberService = Aop.get(MemberService.class);
-        List<Member> members = memberService.findListByUserId(user.getId());
-
-        if (members == null || members.isEmpty()) {
-            return false;
-        }
-
-        for (String flag : memberFlags) {
-            for (Member member : members) {
-                MemberGroup group = member.get("group");
-                if (group != null && flag.equals(group.getFlag())) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 
 }

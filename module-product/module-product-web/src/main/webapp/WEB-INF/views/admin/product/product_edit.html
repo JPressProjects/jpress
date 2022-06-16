@@ -258,7 +258,7 @@
         background-color: #fff;
     }
 
-    .ck-editor__editable_inline {
+    .ck-editor__editable_inline, .ck-source-editing-area {
         min-height: 500px;
     }
 
@@ -325,7 +325,7 @@
 
                                 <div>
                                     <button type="button" class="chooseAttachment btn btn-default btn-sm ">
-                                        <i class="fas fa-paperclip"></i> 选择附件
+                                        <i class="fas fa-paperclip"></i> 插入附件
                                     </button>
                                 </div>
                             </div>
@@ -405,69 +405,6 @@
                                                     <input type="text" class="form-control datetime" id="limited_time"
                                                            name="product.limited_time" placeholder="" value="#(product.limited_time ??)">
                                                     <p class="text-muted">到该时间后，限时价格会自动恢复到原始价格。</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        #if(memberGroups)
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <div class="card card-outlinecard-solid">
-                                    <div class="card-header with-border">
-                                        <h3 class="card-title">会员价</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <div class="card-body">
-
-                                            #for(group : memberGroups)
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">#(group.name ??)</label>
-                                                <div class="col-sm-6">
-                                                    <input type="hidden" name="memberGroupIds" value="#(group.id ??)">
-                                                    <input type="text" class="form-control"
-                                                           name="memberGroupPrices" placeholder="" value="#number(group.priceInfo.price ??,'0.00')">
-                                                    <p class="text-muted">#(group.name ??)购买该产品的价格。</p>
-                                                </div>
-                                            </div>
-                                            #end
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end memberGroups-->
-                        #end
-
-
-
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <div class="card card-outlinecard-solid">
-                                    <div class="card-header with-border">
-                                        <h3 class="card-title">分销</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <div class="card-body">
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">启用分销功能</label>
-                                                <div class="col-sm-6">
-                                                    <input type="checkbox" class="switchery"  data-for="dist_enable"  #checkedIf(product.dist_enable ??)>
-                                                    <input type="hidden" id="dist_enable" name="product.dist_enable">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">分销收益</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control" id="dist_amount"
-                                                           name="product.dist_amount" placeholder="" value="#(product.dist_amount ??)">
-                                                    <p class="text-muted">当用户分享的产品连接有人付费后，用户将获得的分成（单位：元）。</p>
                                                 </div>
                                             </div>
                                         </div>

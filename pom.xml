@@ -7,7 +7,7 @@
     <groupId>io.jpress</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.0</version>
+    <version>5.0</version>
 
     <modules>
         <module>codegen</module>
@@ -43,7 +43,6 @@
         <aliyunoss.version>3.15.0</aliyunoss.version>
         <httpclient.version>4.5.13</httpclient.version>
         <jackson.version>2.13.3</jackson.version>
-        <pay-java.version>2.14.4-fix</pay-java.version>
         <guava.version>31.1-jre</guava.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>
@@ -211,37 +210,37 @@
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-commons</artifactId>
-                <version>4.0</version>
+                <version>5.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-core</artifactId>
-                <version>4.0</version>
+                <version>5.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-model</artifactId>
-                <version>4.0</version>
+                <version>5.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-web</artifactId>
-                <version>4.0</version>
+                <version>5.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service</artifactId>
-                <version>4.0</version>
+                <version>5.0</version>
             </dependency>
 
             <dependency>
                 <groupId>io.jpress</groupId>
                 <artifactId>jpress-service-provider</artifactId>
-                <version>4.0</version>
+                <version>5.0</version>
             </dependency>
 
             <dependency>
@@ -328,41 +327,6 @@
                 <version>${jackson.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.egzosn</groupId>
-                <artifactId>pay-java-ali</artifactId>
-                <version>${pay-java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>com.egzosn</groupId>
-                <artifactId>pay-java-wx</artifactId>
-                <version>${pay-java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>com.egzosn</groupId>
-                <artifactId>pay-java-paypal</artifactId>
-                <version>${pay-java.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
             <dependency>
                 <groupId>org.slf4j</groupId>

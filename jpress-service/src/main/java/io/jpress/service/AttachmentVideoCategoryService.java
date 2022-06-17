@@ -174,5 +174,9 @@ public interface AttachmentVideoCategoryService  {
      */
     public Page<AttachmentVideoCategory> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
-
+    /**
+     * 根据category_id 更新model
+     * @param categoryId
+     */
+    void doUpdateVideoCategoryCount(Integer categoryId);
 }

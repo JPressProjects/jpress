@@ -1,11 +1,21 @@
 package io.jpress.service.provider;
 
+import com.jfinal.plugin.activerecord.Db;
 import io.jboot.aop.annotation.Bean;
-import io.jpress.service.AttachmentVideoCategoryService;
-import io.jpress.model.AttachmentVideoCategory;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.model.AttachmentVideoCategory;
+import io.jpress.service.AttachmentVideoCategoryService;
 
 @Bean
 public class AttachmentVideoCategoryServiceProvider extends JbootServiceBase<AttachmentVideoCategory> implements AttachmentVideoCategoryService {
 
+    @Override
+    public void doUpdateVideoCategoryCount(Integer categoryId) {
+        long count = Db.queryLong("select count(*) from attachment_video where category_id = ? ", categoryId);
+        AttachmentVideoCategory category = findById(categoryId);
+        if (category != null) {
+            category.setCount(count);
+            update(category);
+        }
+    }
 }

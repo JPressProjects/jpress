@@ -1,0 +1,258 @@
+#@layout()
+
+#define css()
+<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
+#end
+
+#define script()
+<!--<script src="/static/components/aliyun-upload-sdk/lib/es6-promise.min.js"></script>-->
+<!--<script src="/static/components/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.13.0.min.js"></script>-->
+<!--<script src="/static/components/aliyun-upload-sdk/aliyun-upload-sdk-1.5.2.min.js"></script>-->
+
+<script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
+
+
+#end
+
+#define content()
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            视频中心管理
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 视频中心 </small>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+
+
+
+            <div class=" col-lg-12" >
+                    <form class=" form-setting autoAjaxSubmit" autocomplete="off"
+                          action="#(CPATH)/admin/attachment/video/doSave"
+                          data-ok-href="#(CPATH)/admin/attachment/video/list"
+                          data-ok-message="视频保存成功"
+                          method="post">
+
+                    <input type="hidden" name="video.id" value="#(video.id ??)" id="videoId">
+
+                    <div class="card card-primary card-outline">
+                        <div class="card-body">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>视频标题</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" required placeholder="请输入视频标题"
+                                           id="videoTitle"
+                                           name="video.vod_name"
+                                           value="#(video.vodName ??)">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"> 状态</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" placeholder="请选状态"
+                                            name="video.vod_status">
+                                        <option value="1" #selectedIf(video && video.vodStatus== '1')>正常
+                                        </option>
+                                        <option value="9" #selectedIf(video && video.vodStatus== '9')>下线
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"> 视频分类 </label>
+                                <div class="col-sm-6">
+                                    <select class="form-control"  name="video.category_id">
+                                        <option value="">请选择视频分类</option>
+                                        #for(item : categories ??)
+                                        <option value="#(item.id ??)" #selectedIf(video && video.categoryId== item.id)>#(item.title ??) </option>
+                                        #end
+                                    </select>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"> 类型 </label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="contentType" placeholder="请选择类型"
+                                            name="video.video_type"
+                                            onchange="videoContentTypeChange(this)">
+                                        <option value="vod" #selectedIf(video && video.videoType == 'vod')>视频
+                                        </option>
+                                        <option value="live" #selectedIf(video && video.videoType== 'live')>直播
+                                        </option>
+                                        <option value="code" #selectedIf(video && video.videoType== 'code')>代码
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">视频封面</label>
+                                <div class="col-sm-9">
+                                    <div class="jpress-image-browser">
+                                        <input type="hidden" name="video.cover" value="#(video.cover ??)"/>
+                                        <img src="#(video.cover ??'/static/commons/img/nothumbnail.jpg')">
+                                        <div class="image-action">
+                                            <a class="image-delete"> <i class="fa fa-trash"></i></a>
+                                            <a class="image-edit"> <i class="fa fa-edit"></i></a>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted"> </p>
+                                </div>
+                            </div>
+
+
+
+<!--                            <div id="videos">-->
+
+<!--                                <input type="hidden" name="video.vodVid" id="contentVideoId"-->
+<!--                                       value="#(video.vodVid ??)">-->
+
+<!--                                <div class="form-group row">-->
+<!--                                    <label class="col-sm-2 col-form-label">选择视频文件</label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <div class="input-group">-->
+<!--                                            <div class="custom-file">-->
+<!--                                                <input type="file" class="custom-file-input" id="videoInputFile">-->
+<!--                                                <label class="custom-file-label" for="videoInputFile"-->
+<!--                                                       id="videoInputFileLable">点击选择上传视频</label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+
+<!--                                <div class="form-group row">-->
+<!--                                    <label class="col-sm-2 col-form-label"> 视频</label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <div class=" pr-0 bg-gray" id="player" style="height: 350px;"></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+<!--                            </div>-->
+
+
+<!--                            <div id="live">-->
+
+<!--                                <input type="hidden" name="video.contentLiveId"-->
+<!--                                       value="#(video.contentLiveId ??)" id="contentLiveId">-->
+<!--                                <input type="hidden" name="video.contentLivePushUrl"-->
+<!--                                       value="#(video.contentLivePushUrl ??)" id="contentLivePushUrl">-->
+
+<!--                                <div class="form-group row">-->
+<!--                                    <label class="col-sm-2 col-form-label"> 直播推流地址 </label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <div class="input-group ">-->
+<!--                                            <input type="text" class="form-control" disabled readonly-->
+<!--                                                   value="#(video.contentLivePushUrl ??)" id="livePushUrl">-->
+<!--                                            <span class="input-group-append">-->
+<!--                                                <button type="button" class="btn btn-primary btn-flat" id="createLive">创建</button>-->
+<!--                                          </span>-->
+<!--                                        </div>-->
+<!--                                        <span class="text-muted"> 推流地址有效时间为 2 个小时，创建后请及时使用。</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="form-group row">-->
+<!--                                    <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>开播时间</label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <input type="text" class="form-control datetime" required placeholder="请选择开播时间"-->
+<!--                                               name="video.liveStartTime"-->
+<!--                                               value="#date(video.liveStartTime ??)">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+<!--                                <div class="form-group row">-->
+<!--                                    <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>直播结束时间</label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <input type="text" class="form-control datetime" required placeholder="请选择直播结束时间"-->
+<!--                                               name="video.liveEndTime"-->
+<!--                                               value="#date(video.liveEndTime ??)">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+
+<!--                                <div class="form-group row">-->
+<!--                                    <label class="col-sm-2 col-form-label"> 直播 / 回放</label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <div class=" pr-0 bg-gray" id="livePlayer" style="height: 350px;"></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+<!--                            </div>-->
+
+
+<!--                            <div id="text">-->
+<!--                                <input type="hidden" name="pkText.id" value="#(pkText.id ??)">-->
+<!--                                <div class="form-group row">-->
+<!--                                    <label class="col-sm-2 col-form-label"> 文本内容</label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <textarea rows="3" class="form-control" placeholder="请输入视频简介"-->
+<!--                                                  name="pkText.content" data-render="ckeditor"-->
+<!--                                        >#(pkText.content ??)</textarea>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+
+
+
+                        </div><!-- /.card-body -->
+
+
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="offset-sm-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary submitBtm">
+                                        <i class="fa fa-fw fa-check"></i> 保存
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary back">
+                                        <i class="fa fa-fw fa-arrow-left"></i> 返回
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+#end

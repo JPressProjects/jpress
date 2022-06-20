@@ -164,6 +164,23 @@
                             </div>
 
                             <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">是否推荐</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" class="switchery" data-for="with_recommend" #checkedIf(category && category.with_recommend ??)>
+                                    <input type="hidden" id="with_recommend" name="category.with_recommend" value="false">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">是否置顶</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" class="switchery" data-for="with_top" #checkedIf(category && category.with_top ??)>
+                                    <input type="hidden" id="with_top"  name="category.with_top" value="false">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">显示到菜单</label>
                                 <div class="col-sm-9">
                                     <input type="checkbox" class="switchery" data-for="displayInMenu" #checkedIf(isDisplayInMenu)>
@@ -174,7 +191,7 @@
                             <h4 class="form-header">装饰</h4>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">推荐背景装饰图</label>
+                                <label class="col-sm-2 col-form-label">装饰图</label>
                                 <div class="col-sm-9">
                                     <div class="jpress-image-browser">
                                         <input type="hidden" name="category.ornament" value="#(category.ornament ??)"/>
@@ -190,11 +207,11 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">分类页顶部背景图</label>
+                                <label class="col-sm-2 col-form-label">缩略图</label>
                                 <div class="col-sm-9">
                                     <div class="jpress-image-browser">
-                                        <input type="hidden" name="category.top_bg" value="#(category.top_bg ??)"/>
-                                        <img src="#(category.top_bg ?? '/static/commons/img/nothumbnail.jpg')">
+                                        <input type="hidden" name="category.thumbnail" value="#(category.thumbnail ??)"/>
+                                        <img src="#(category.thumbnail ?? '/static/commons/img/nothumbnail.jpg')">
                                         <div class="image-action">
                                             <a class="image-delete"> <i class="fa fa-trash"></i></a>
                                             <a class="image-edit"> <i class="fa fa-edit"></i></a>

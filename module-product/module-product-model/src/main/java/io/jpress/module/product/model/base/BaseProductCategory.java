@@ -152,6 +152,34 @@ public abstract class BaseProductCategory<M extends BaseProductCategory<M>> exte
 	}
 
     /**
+     * 是否推荐
+     */
+	public void setWithRecommend(java.lang.Boolean withRecommend) {
+		set("with_recommend", withRecommend);
+	}
+
+    /**
+     * 是否推荐
+     */
+	public java.lang.Boolean getWithRecommend() {
+		return get("with_recommend");
+	}
+
+    /**
+     * 是否置顶
+     */
+	public void setWithTop(java.lang.Boolean withTop) {
+		set("with_top", withTop);
+	}
+
+    /**
+     * 是否置顶
+     */
+	public java.lang.Boolean getWithTop() {
+		return get("with_top");
+	}
+
+    /**
      * 装饰图
      */
 	public void setOrnament(java.lang.String ornament) {

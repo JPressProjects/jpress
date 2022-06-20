@@ -1,12 +1,15 @@
 #@layout()
 
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/bootstrap-font/bootstrap-icons.css">
+<link rel="stylesheet" href="#(CPATH)/static/admin/css/tool.css">
+
+#end
+
 #define script()
 <script>
-    function del(id) {
-        if (confirm('确定要删除该菜单吗？删除后不可恢复')) {
-            ajaxGet("#(CPATH)/admin/template/doMenuDel/" + id);
-        }
-    }
+    $(function() {
+    });
 </script>
 #end
 
@@ -23,7 +26,7 @@
                                 菜单管理
                                 <small data-toggle="tooltip" title="" data-placement="right"
                                        data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / 模板 / 菜单管理</small>
+                                <small> 首页 / 模板 / 小工具</small>
                             </h1>
                         </div>
                     </div>
@@ -34,172 +37,373 @@
     </section>
 
     <section class="content">
+        <div class="card">
+            <div class="container-fluid">
+                <form action="" class="jp-form">
+                    <div class="jp-header">小工具</div>
+                    <div class="row bsFormBuilderRoot">
+                        <!-- 左侧 -->
+                        <div class="col-md-3 col-sm-4 ">
+                            <div class="leftContent pd10 border-right">
+                                <div class="input-group mb-3 mt-3">
+                                    <input type="text" class="form-control" placeholder="搜索" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="component-title">
+                                        文字
+                                    </div>
+                                    <div class="component-group d-flex align-items-center">
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-paragraph"></i></div>
+                                            <div class="form-name">段落</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-bookmark-fill"></i></div>
+                                            <div class="form-name">标题</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-blockquote-left"></i></div>
+                                            <div class="form-name">列表</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-quote"></i></div>
+                                            <div class="form-name">引用</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-code"></i></div>
+                                            <div class="form-name">代码</div>
+                                        </ol>
 
-        <div class="row">
-            <div class="col-lg-5">
-                <div class="card card-outline card-primary">
-
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form class=" form-setting autoAjaxSubmit" autocomplete="off"
-                          action="#(CPATH)/admin/template/doMenuSave"
-                          data-ok-href="#(CPATH)/admin/template/menu"
-                          method="post" >
-
-                        <input type="hidden" name="menu.id" value="#(menu.id ??)">
-                        <input type="hidden" name="menu.type" value="main">
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 名称</label>
-
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="请输入菜单名称" required
-                                           value="#(menu.text ??)" name="menu.text">
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-terminal-split"></i></div>
+                                            <div class="form-name">预格式</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-layout-sidebar"></i></div>
+                                            <div class="form-name">引文</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-table"></i></div>
+                                            <div class="form-name">表格</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-pen"></i></div>
+                                            <div class="form-name">诗篇</div>
+                                        </ol>
+                                    </div>
+                                    <div class="component-title">
+                                        媒体
+                                    </div>
+                                    <div class="component-group d-flex align-items-center">
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-card-image"></i></div>
+                                            <div class="form-name">图片</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-images"></i></div>
+                                            <div class="form-name">画廊</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-music-note"></i></div>
+                                            <div class="form-name">音频</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+                                            <div class="form-name">封面</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-folder"></i></div>
+                                            <div class="form-name">文件</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-person-video2"></i></div>
+                                            <div class="form-name">媒体和文本</div>
+                                        </ol>
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-camera-video"></i></div>
+                                            <div class="form-name">视频</div>
+                                        </ol>
+                                    </div>
+                                    <div class="component-title">
+                                        设计
+                                    </div>
+                                    <div class="component-group d-flex align-items-center">
+                                        <ol>
+                                            <div class="component-icon"><i class="bi bi-grid-1x2"></i></div>
+                                            <div class="form-name">栅格</div>
+                                        </ol>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> URL</label>
-
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="以及菜单对应的连接地址..." required
-                                           value="#(menu.url ??)" name="menu.url">
-<!--                                    <p class="text-muted">首页链接为：/ ，文章列表页：/articles，产品列表页：/products </p>-->
-                                </div>
-
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">父级</label>
-
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="menu.pid">
-                                        #if(menu && menu.pid == 0)
-                                        <option value="0" selected>顶级</option>
-                                        #else
-                                        <option value="0">顶级</option>
-                                        #end
-
-                                        #for(m : menus)
-                                        #if(menu && menu.pid == m.id)
-                                        <option value="#(m.id)" selected>#(m.layerString) #(m.text)</option>
-                                        #elseif(menu && (menu.id == m.id || menu.isMyChild(m.id)))
-                                        <option value="#(m.id)" disabled>#(m.layerString) #(m.text)</option>
-                                        #else
-                                        <option value="#(m.id)">#(m.layerString) #(m.text)</option>
-                                        #end
-                                        #end
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">排序</label>
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="此菜单排序的序号"
-                                           name="menu.order_number"
-                                           value="#(menu.order_number ??)">
-                                    <p class="text-muted"> 越小的数字越靠前，只在同级分类上影响。 </p>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">图标</label>
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="菜单的图标"
-                                           value="#escape(menu.icon ??)" name="menu.icon">
-                                    <p class="text-muted">
-                                        图标只用于前台显示，是否显示决定于模板。
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">目标</label>
-
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="menu.target">
-                                        #if(menu)
-                                        <option value="_self" #selectedIf(menu.target==
-                                        '_self')>当前页</option>
-                                        <option value="_blank" #selectedIf(menu.target==
-                                        '_blank')>新窗口</option>
-                                        #else
-                                        <option value="_self" selected>当前页</option>
-                                        <option value="_blank">新窗口</option>
-                                        #end
-                                    </select>
-                                </div>
-                            </div>
-
 
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <div class="offset-sm-2 col-sm-10 submit-block">
-                                <div class="card-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.card-footer -->
-                    </form>
-                </div>
-            </div>
-            <div class="col-lg-7">
-                <div class="card card-outline card-primary">
-
-
-
-                    <div class="card-body p-0  ">
-
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 50%">文本</th>
-                                <th>URL</th>
-                                <th>排序</th>
-                            </tr>
-                            #for(menu : menus)
-                            <tr>
-                                <td>
-                                    <strong>
-                                        <a href="#(menu.url ??)" target="_blank">
-                                            #(menu.layerString) #(menu.text ??)
-                                        </a>
-                                    </strong>
-                                    <div class="jp-action-card">
-                                        <div class="jp-action-body">
-                                            <a href="#(CPATH)/admin/template/menu/#(menu.id)"
-                                               style="color: #006505">编辑</a> |
-                                            <a href="javascript:;" onclick="del('#(menu.id??)')"
-                                               style="color: #a00">删除</a> |
-                                            <a href="#(menu.url ??)" target="_blank" style="color: #a00">查看</a>
+                        <!-- 中间内容 -->
+                        <div class="col-md-6  col-sm-4 middleContent">
+                            <div class="card mt-3 mb-3">
+                                <h5 class="card-header">Footer</h5>
+                                <div class="card-body">
+                                    <div class="w-100 middleContainer">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="可选的占位文字" aria-label="可选的占位文字" aria-describedby="addTitle">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="addTitle">添加按钮文字</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </td>
-                                <td>#(menu.url ??)</td>
-                                <td>#(menu.order_number ??)</td>
-                            </tr>
-                            #else
-                            <tr class="nodata"><td colspan="999">暂无数据</td> </tr>
-                            #end
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
+                                </div>
+                            </div>
+                        </div>
+                        <!--右侧内容-->
+                        <div class="col-md-3  col-sm-4 mb-3">
+                            <div class="rightContent pd10 border-left">
+                                <ul class="nav nav-tabs mb-2" id="formAttrTab" role="tablist">
+                                    <li class="nav-item w-50">
+                                        <a class="nav-link active" id="componentAttr-tab" data-toggle="tab" href="#componentAttr" role="tab" aria-controls="component" aria-selected="true">Footer</a>
+                                    </li>
+                                    <li class="nav-item w-50">
+                                        <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab" aria-controls="module" aria-selected="false">区块</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content pt-3" id="formAttrTabContent">
+                                    <div class="tab-pane fade show active" id="componentAttr" role="tabpanel" aria-labelledby="componentAttr-tab">
+                                        <!-- 拖拽input -->
+                                        <div data-target="input">
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <label for="exampleInput">组件类型</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="text" class="form-control" id="exampleInput" value="input" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <span class="red">*</span>
+                                                    <label for="label">标签名</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="text" class="form-control" id="label" value="标题">
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <label for="name">字段名</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="text" class="form-control" id="name" value="字段名">
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <legend class="col-form-label pt-0">表单类型</legend>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <select class="custom-select">
+                                                        <option value="text" selected>文本</option>
+                                                        <option value="password">密码</option>
+                                                        <option value="number">数字</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <label for="placeholder">占位提示</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="text" class="form-control" id="placeholder" value="请输入">
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <label for="default">默认值</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="text" class="form-control" id="default" value="请输入">
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <label for="maxlength">文本长度</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="number" min="1" class="form-control" id="maxlength" value="254">
+                                                </div>
+                                            </div>
+                                            <div class="form-group  clearfix">
+                                                <div class="form-label-left">
+                                                    <label for="formControlRange">文本宽度</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <div class="form-range-box">
+                                                        <input type="range" min="0" max="150" class="form-control-range" id="formControlRange">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <label for="min">最小</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="number" min="0" class="form-control" id="min" value="0">
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <label for="max">最大</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="number" min="0" class="form-control" id="max" value="0">
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <legend class="col-form-label pt-0">必填项</legend>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="must">
+                                                        <label class="custom-control-label" for="must"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <legend class="col-form-label pt-0">只读属性</legend>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" class="custom-control-input" id="readonlySwitch">
+                                                        <label class="custom-control-label" for="readonlySwitch"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <legend class="col-form-label pt-0">验证规则</legend>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="ruleMobile">
+                                                        <label class="form-check-label" for="ruleMobile">手机
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="ruleEmail">
+                                                        <label class="form-check-label" for="ruleEmail">邮箱
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="checkbox" id="ruleUrl">
+                                                        <label class="form-check-label" for="ruleUrl">网址
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="option-box">
+                                                <div class="divider-title">选项</div>
+                                                <!-- 选项一 -->
+                                                <div class="form-group form-check-inline clearfix">
+                                                    <i class="bi bi-arrows-move pointer pr-2"></i>
+                                                    <input type="text" value="选项一" class="form-control mr-2">
+                                                    <input type="text" value="1" class="form-control mr-2">
+                                                    <i class="bi bi-dash-square pointer"></i>
+                                                </div>
+                                                <!-- 选项二 -->
+                                                <div class="form-group form-check-inline clearfix">
+                                                    <i class="bi bi-arrows-move pointer pr-2"></i>
+                                                    <input type="text" value="选项二" class="form-control mr-2">
+                                                    <input type="text" value="2" class="form-control mr-2">
+                                                    <i class="bi bi-dash-square pointer"></i>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button class="btn btn-primary btn-sm">添 加</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="formAttr" role="tabpanel" aria-labelledby="formAttr-tab">
+                                        <div data-target="input">
+                                            <div class="form-group clearfix">
+                                                <div class="form-label-left">
+                                                    <span class="red">*</span>
+                                                    <label for="formItemId">表单id</label>
+                                                </div>
+                                                <div class="flex-auto">
+                                                    <input type="text" class="form-control" id="formItemId" value="formItem" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <div class="form-label-left">
+                                                <label for="label">表单类型</label>
+                                            </div>
+                                            <div class="flex-auto">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="formtype" id="radio1" value="option1" checked>
+                                                    <label class="form-check-label" for="radio1">内置</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="formtype" id="radio2" value="option2">
+                                                    <label class="form-check-label" for="radio2">弹窗</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <div class="form-label-left">
+                                                <label for="label">表单按钮</label>
+                                            </div>
+                                            <div class="flex-auto">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="postBtn" id="radioBtn1" value="option1" checked>
+                                                    <label class="form-check-label" for="radioBtn1">开启</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="postBtn" id="radioBtn2" value="option2">
+                                                    <label class="form-check-label" for="radioBtn2">关闭</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <div class="form-label-left">
+                                                <label for="name">表单宽度</label>
+                                            </div>
+                                            <div class="flex-auto">
+                                                <input type="number" min="1" class="form-control jp-range" id="maxlength" value="254">
+                                                <span>-</span>
+                                                <input type="number" min="1" class="form-control jp-range" id="maxlength" value="254">
+                                            </div>
+                                        </div>
+                                        <div class="option-box">
+                                            <div class="divider-title">选项</div>
+                                            <!-- 选项一 -->
+                                            <div class="form-group form-check-inline clearfix">
+                                                <i class="bi bi-arrows-move pointer pr-2"></i>
+                                                <input type="text" value="选项一" class="form-control mr-2">
+                                                <input type="text" value="1" class="form-control mr-2">
+                                                <i class="bi bi-dash-square pointer"></i>
+                                            </div>
+                                            <!-- 选项二 -->
+                                            <div class="form-group form-check-inline clearfix">
+                                                <i class="bi bi-arrows-move pointer pr-2"></i>
+                                                <input type="text" value="选项二" class="form-control mr-2">
+                                                <input type="text" value="2" class="form-control mr-2">
+                                                <i class="bi bi-dash-square pointer"></i>
+                                            </div>
+                                            <div class="text-center">
+                                                <button class="btn btn-primary btn-sm">添 加</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.card -->
+                </form>
             </div>
-            </div>
+        </div>
     </section>
 #end

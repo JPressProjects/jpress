@@ -57,15 +57,6 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-12" style="padding-top: 20px">
-                            <a href="?">全部 (#(totalCount ??))</a> |
-                            <a href="?status=normal">已发布 (#(normalCount ??))</a> |
-                            <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |
-                            <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="col-sm-6 ">
                     <div class=" float-sm-right" style="padding-top: 45px">
@@ -123,6 +114,7 @@
                                     <input class="tableCheckAll"  type="checkbox">
                                 </th>
                                 <th style="width: 30%">标题</th>
+                                <th>分类</th>
 
                                 <th>创建时间</th>
 
@@ -148,6 +140,7 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>#(item.category.title ??)</td>
                             <td>#date(item.created ??)</td>
                         </tr>
                         #end

@@ -11,6 +11,32 @@
 
 <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
 
+<script>
+
+    /**
+     *  设置 视频类型 选择的显示和隐藏
+     */
+    function videoContentTypeChange(select) {
+        var selectedValue = select.options[select.options.selectedIndex].value;
+        if (selectedValue == 'vod') {
+            $("#videos").show();
+            $("#live").hide();
+            $("#code").hide();
+        } else if (selectedValue == 'live') {
+            $("#videos").hide();
+            $("#live").show();
+            $("#code").hide();
+        } else {
+            $("#videos").hide();
+            $("#live").hide();
+            $("#code").show();
+        }
+    }
+
+    videoContentTypeChange(document.getElementById("videoType"))
+
+</script>
+
 
 #end
 
@@ -53,6 +79,8 @@
 
                     <input type="hidden" name="video.id" value="#(video.id ??)" id="videoId">
 
+                    <input type="hidden" name="video.vod_vid" id="contentVideoId" value="#(video.vodVid ??)">
+
                     <div class="card card-primary card-outline">
                         <div class="card-body">
 
@@ -94,24 +122,15 @@
                                 </div>
                             </div>
 
-
-
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"> 类型 </label>
+                                <label class="col-sm-2 col-form-label"> 时长：单位秒</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" id="contentType" placeholder="请选择类型"
-                                            name="video.video_type"
-                                            onchange="videoContentTypeChange(this)">
-                                        <option value="vod" #selectedIf(video && video.videoType == 'vod')>视频
-                                        </option>
-                                        <option value="live" #selectedIf(video && video.videoType== 'live')>直播
-                                        </option>
-                                        <option value="code" #selectedIf(video && video.videoType== 'code')>代码
-                                        </option>
-                                    </select>
-
+                                    <input type="text" class="form-control" placeholder="请输入时长：单位秒" name="video.vod_duration"
+                                           value="#(video.vodDuration ??)">
                                 </div>
                             </div>
+
+
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">视频封面</label>
@@ -128,103 +147,113 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label"> 类型 </label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="videoType" placeholder="请选择类型"
+                                            name="video.video_type"
+                                            onchange="videoContentTypeChange(this)">
+                                        <option value="vod" #selectedIf(video && video.videoType == 'vod')>视频
+                                        </option>
+                                        <option value="live" #selectedIf(video && video.videoType== 'live')>直播
+                                        </option>
+                                        <option value="code" #selectedIf(video && video.videoType== 'code')>代码
+                                        </option>
+                                    </select>
 
-
-<!--                            <div id="videos">-->
-
-<!--                                <input type="hidden" name="video.vodVid" id="contentVideoId"-->
-<!--                                       value="#(video.vodVid ??)">-->
-
-<!--                                <div class="form-group row">-->
-<!--                                    <label class="col-sm-2 col-form-label">选择视频文件</label>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <div class="input-group">-->
-<!--                                            <div class="custom-file">-->
-<!--                                                <input type="file" class="custom-file-input" id="videoInputFile">-->
-<!--                                                <label class="custom-file-label" for="videoInputFile"-->
-<!--                                                       id="videoInputFileLable">点击选择上传视频</label>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                </div>
+                            </div>
 
 
 
-<!--                                <div class="form-group row">-->
-<!--                                    <label class="col-sm-2 col-form-label"> 视频</label>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <div class=" pr-0 bg-gray" id="player" style="height: 350px;"></div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-
-<!--                            </div>-->
-
-
-<!--                            <div id="live">-->
-
-<!--                                <input type="hidden" name="video.contentLiveId"-->
-<!--                                       value="#(video.contentLiveId ??)" id="contentLiveId">-->
-<!--                                <input type="hidden" name="video.contentLivePushUrl"-->
-<!--                                       value="#(video.contentLivePushUrl ??)" id="contentLivePushUrl">-->
-
-<!--                                <div class="form-group row">-->
-<!--                                    <label class="col-sm-2 col-form-label"> 直播推流地址 </label>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <div class="input-group ">-->
-<!--                                            <input type="text" class="form-control" disabled readonly-->
-<!--                                                   value="#(video.contentLivePushUrl ??)" id="livePushUrl">-->
-<!--                                            <span class="input-group-append">-->
-<!--                                                <button type="button" class="btn btn-primary btn-flat" id="createLive">创建</button>-->
-<!--                                          </span>-->
-<!--                                        </div>-->
-<!--                                        <span class="text-muted"> 推流地址有效时间为 2 个小时，创建后请及时使用。</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-<!--                                <div class="form-group row">-->
-<!--                                    <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>开播时间</label>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <input type="text" class="form-control datetime" required placeholder="请选择开播时间"-->
-<!--                                               name="video.liveStartTime"-->
-<!--                                               value="#date(video.liveStartTime ??)">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-
-<!--                                <div class="form-group row">-->
-<!--                                    <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>直播结束时间</label>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <input type="text" class="form-control datetime" required placeholder="请选择直播结束时间"-->
-<!--                                               name="video.liveEndTime"-->
-<!--                                               value="#date(video.liveEndTime ??)">-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                            <div id="videos">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">选择视频文件</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="videoInputFile">
+                                                <label class="custom-file-label" for="videoInputFile"
+                                                       id="videoInputFileLable">点击选择上传视频</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
 
-<!--                                <div class="form-group row">-->
-<!--                                    <label class="col-sm-2 col-form-label"> 直播 / 回放</label>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <div class=" pr-0 bg-gray" id="livePlayer" style="height: 350px;"></div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"> 视频</label>
+                                    <div class="col-sm-6">
+                                        <div class=" pr-0 bg-gray" id="player" style="height: 350px;"></div>
+                                    </div>
+                                </div>
 
 
-<!--                            </div>-->
+                            </div>
 
 
-<!--                            <div id="text">-->
-<!--                                <input type="hidden" name="pkText.id" value="#(pkText.id ??)">-->
-<!--                                <div class="form-group row">-->
-<!--                                    <label class="col-sm-2 col-form-label"> 文本内容</label>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <textarea rows="3" class="form-control" placeholder="请输入视频简介"-->
-<!--                                                  name="pkText.content" data-render="ckeditor"-->
-<!--                                        >#(pkText.content ??)</textarea>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <div id="live">
+                                <input type="hidden" name="video.live_stream"
+                                       value="#(video.liveStream ??)" id="contentLivePushUrl">
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"> 直播推流地址 </label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group ">
+<!--                                           disabled readonly-->
+                                            <input type="text" class="form-control" name="video.live_stream"
+                                                   value="#(video.liveStream ??)" id="livePushUrl">
+                                            <span class="input-group-append">
+                                                <button type="button" class="btn btn-primary btn-flat" id="createLive">创建</button>
+                                          </span>
+                                        </div>
+                                        <span class="text-muted"> 推流地址有效时间为 2 个小时，创建后请及时使用。</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>开播时间</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control datetime" required placeholder="请选择开播时间"
+                                               name="video.live_start_time"
+                                               value="#date(video.liveStartTime ??)">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>直播结束时间</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control datetime" required placeholder="请选择直播结束时间"
+                                               name="video.live_end_time"
+                                               value="#date(video.liveEndTime ??)">
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"> 直播 / 回放</label>
+                                    <div class="col-sm-6">
+                                        <div class=" pr-0 bg-gray" id="livePlayer" style="height: 350px;"></div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <div id="code">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"> iframe 代码</label>
+                                    <div class="col-sm-6">
+                                        <textarea rows="3" class="form-control" placeholder="请输入"
+                                                  name="video.content" data-render="ckeditor"
+                                        >#(video.content ??)</textarea>
+                                    </div>
+                                </div>
+                            </div>
 
 
 

@@ -29,8 +29,24 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
     @AdminMenu(text = "视频", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 29)
     public void list() {
-        Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(), Columns.create(), "id desc");
+        Columns columns = Columns.create();
+        //条件查询
+        columns.likeAppendPercent("vod_name",getPara("title"));
+        columns.eq("category_id",getPara("categoryId"));
+        Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(), columns, "id desc");
+        if(page != null){
+            for (AttachmentVideo attachmentVideo : page.getList()) {
+                if(attachmentVideo.getCategoryId() != null){
+                    AttachmentVideoCategory category = videoCategoryService.findById(attachmentVideo.getCategoryId());
+                    attachmentVideo.put("category",category);
+                }
+            }
+        }
         setAttr("page",page);
+
+        //视频分类
+        List<AttachmentVideoCategory> categories = videoCategoryService.findAll();
+        setAttr("categories",categories);
 
         render("attachment/video_list.html");
     }

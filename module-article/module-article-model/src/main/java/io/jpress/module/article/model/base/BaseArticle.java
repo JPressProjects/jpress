@@ -392,15 +392,15 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
     /**
      * 是否允许被搜索
      */
-	public void setWithAllowSelect(java.lang.Boolean withAllowSelect) {
-		set("with_allow_select", withAllowSelect);
+	public void setWithAllowSearch(java.lang.Boolean withAllowSearch) {
+		set("with_allow_search", withAllowSearch);
 	}
 
     /**
      * 是否允许被搜索
      */
-	public java.lang.Boolean getWithAllowSelect() {
-		return get("with_allow_select");
+	public java.lang.Boolean getWithAllowSearch() {
+		return get("with_allow_search");
 	}
 
     /**

@@ -150,9 +150,9 @@ public class ArticleFields {
                 null,
                 81));
 
-        fields.add(new SmartField("with_allow_select",
+        fields.add(new SmartField("with_allow_search",
                 "是否允许被搜索",
-                "article.with_allow_select",
+                "article.with_allow_search",
                 "请输入",
                 SmartField.TYPE_SWITCH,
                 "true",

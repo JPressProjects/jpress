@@ -263,5 +263,13 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 		return getStr("remarks");
 	}
 
+	public void setSite(java.lang.Long site) {
+		set("site", site);
+	}
+
+	public java.lang.Long getSite() {
+		return getLong("site");
+	}
+
 }
 

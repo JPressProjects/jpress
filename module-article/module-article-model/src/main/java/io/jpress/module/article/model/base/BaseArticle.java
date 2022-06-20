@@ -333,5 +333,19 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getStr("remarks");
 	}
 
+    /**
+     * 站点ID
+     */
+	public void setSite(java.lang.Long site) {
+		set("site", site);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSite() {
+		return getLong("site");
+	}
+
 }
 

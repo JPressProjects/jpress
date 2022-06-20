@@ -152,6 +152,34 @@ public abstract class BaseProductCategory<M extends BaseProductCategory<M>> exte
 	}
 
     /**
+     * 装饰图
+     */
+	public void setOrnament(java.lang.String ornament) {
+		set("ornament", ornament);
+	}
+
+    /**
+     * 装饰图
+     */
+	public java.lang.String getOrnament() {
+		return getStr("ornament");
+	}
+
+    /**
+     * 缩略图
+     */
+	public void setThumbnail(java.lang.String thumbnail) {
+		set("thumbnail", thumbnail);
+	}
+
+    /**
+     * 缩略图
+     */
+	public java.lang.String getThumbnail() {
+		return getStr("thumbnail");
+	}
+
+    /**
      * 该分类的内容数量
      */
 	public void setCount(java.lang.Long count) {

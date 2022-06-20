@@ -152,6 +152,34 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 	}
 
     /**
+     * 是否推荐
+     */
+	public void setWithRecommend(java.lang.Boolean withRecommend) {
+		set("with_recommend", withRecommend);
+	}
+
+    /**
+     * 是否推荐
+     */
+	public java.lang.Boolean getWithRecommend() {
+		return get("with_recommend");
+	}
+
+    /**
+     * 是否置顶
+     */
+	public void setWithTop(java.lang.Boolean withTop) {
+		set("with_top", withTop);
+	}
+
+    /**
+     * 是否置顶
+     */
+	public java.lang.Boolean getWithTop() {
+		return get("with_top");
+	}
+
+    /**
      * 装饰图
      */
 	public void setOrnament(java.lang.String ornament) {
@@ -166,17 +194,17 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 	}
 
     /**
-     * 顶部装饰图
+     * 缩略图
      */
-	public void setTopBg(java.lang.String topBg) {
-		set("top_bg", topBg);
+	public void setThumbnail(java.lang.String thumbnail) {
+		set("thumbnail", thumbnail);
 	}
 
     /**
-     * 顶部装饰图
+     * 缩略图
      */
-	public java.lang.String getTopBg() {
-		return getStr("top_bg");
+	public java.lang.String getThumbnail() {
+		return getStr("thumbnail");
 	}
 
     /**
@@ -275,6 +303,14 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
      */
 	public java.util.Date getModified() {
 		return getDate("modified");
+	}
+
+	public void setSite(java.lang.Long site) {
+		set("site", site);
+	}
+
+	public java.lang.Long getSite() {
+		return getLong("site");
 	}
 
 }

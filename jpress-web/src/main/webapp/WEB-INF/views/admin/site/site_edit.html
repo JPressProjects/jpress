@@ -1,0 +1,132 @@
+#@layout()
+
+#define content()
+
+    <section class="content-header">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                站点设置
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 系统 / 站点设置</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form class=" form-setting" autocomplete="off" id="optionForm" action="/admin/site/doSave">
+                        <div class="card-body">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">站点名称</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="给您的站点起个名字"
+                                           name="site_name" value="#option('site_name')">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">站点域名</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="设置站点的域名"
+                                           name="web_title" value="#option('web_title')">
+                                    <p class="text-muted"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://jpress.io </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">绑定二级目录</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="二级目录..."
+                                           name="web_subtitle" value="#option('web_subtitle')">
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">绑定语言</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="填写站点对应的语言"
+                                           name="web_domain" value="#option('web_domain')">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">是否是多语言默认站点</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="connection_email_enable"
+                                           #checkedIf(option("connection_email_enable"))>
+                                    <input type="hidden" id="connection_email_enable" name="connection_email_enable">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">是否根据浏览器更换语言</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="connection_email_enable"
+                                           #checkedIf(option("connection_email_enable"))>
+                                    <input type="hidden" id="" name="connection_email_enable">
+                                </div>
+                            </div>
+
+                            <h4 class="form-header">绑定角色</h4>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">备案号</label>
+
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="网站在中国区接入需要备案号"
+                                           name="web_ipc_no" value="#option('web_ipc_no')">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">版权信息</label>
+
+                                <div class="col-sm-6">
+                                    <textarea rows="5" class="form-control" name="web_copyright"
+                                              placeholder="版权信息一般显示在网站的底部...">#option("web_copyright")</textarea>
+                                    <p class="text-muted"> 注意：此处的信息是否正确显示，决定于您使用的模板是否支持版权设置功能。 </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-footer -->
+                    </form>
+                </div>
+            </div>
+
+    </section>
+#end

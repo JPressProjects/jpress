@@ -68,6 +68,20 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 	}
 
     /**
+     * 作者
+     */
+	public void setAuthor(java.lang.String author) {
+		set("author", author);
+	}
+
+    /**
+     * 作者
+     */
+	public java.lang.String getAuthor() {
+		return getStr("author");
+	}
+
+    /**
      * 内容
      */
 	public void setContent(java.lang.String content) {
@@ -320,6 +334,76 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 	}
 
     /**
+     * 是否推荐
+     */
+	public void setWithRecommend(java.lang.Boolean withRecommend) {
+		set("with_recommend", withRecommend);
+	}
+
+    /**
+     * 是否推荐
+     */
+	public java.lang.Boolean getWithRecommend() {
+		return get("with_recommend");
+	}
+
+    /**
+     * 是否置顶
+     */
+	public void setWithTop(java.lang.Boolean withTop) {
+		set("with_top", withTop);
+	}
+
+    /**
+     * 是否置顶
+     */
+	public java.lang.Boolean getWithTop() {
+		return get("with_top");
+	}
+
+    /**
+     * 是否热门
+     */
+	public void setWithHot(java.lang.Boolean withHot) {
+		set("with_hot", withHot);
+	}
+
+    /**
+     * 是否热门
+     */
+	public java.lang.Boolean getWithHot() {
+		return get("with_hot");
+	}
+
+    /**
+     * 是否是头条
+     */
+	public void setWithLeadNews(java.lang.Boolean withLeadNews) {
+		set("with_lead_news", withLeadNews);
+	}
+
+    /**
+     * 是否是头条
+     */
+	public java.lang.Boolean getWithLeadNews() {
+		return get("with_lead_news");
+	}
+
+    /**
+     * 是否允许被搜索
+     */
+	public void setWithAllowSelect(java.lang.Boolean withAllowSelect) {
+		set("with_allow_select", withAllowSelect);
+	}
+
+    /**
+     * 是否允许被搜索
+     */
+	public java.lang.Boolean getWithAllowSelect() {
+		return get("with_allow_select");
+	}
+
+    /**
      * 备注信息
      */
 	public void setRemarks(java.lang.String remarks) {
@@ -331,20 +415,6 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
      */
 	public java.lang.String getRemarks() {
 		return getStr("remarks");
-	}
-
-    /**
-     * 站点ID
-     */
-	public void setSite(java.lang.Long site) {
-		set("site", site);
-	}
-
-    /**
-     * 站点ID
-     */
-	public java.lang.Long getSite() {
-		return getLong("site");
 	}
 
 }

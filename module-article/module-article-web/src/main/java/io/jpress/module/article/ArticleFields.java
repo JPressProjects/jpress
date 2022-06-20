@@ -110,6 +110,56 @@ public class ArticleFields {
                 null,
                 70));
 
+        fields.add(new SmartField("with_recommend",
+                "是否推荐",
+                "article.with_recommend",
+                "请输入",
+                SmartField.TYPE_SWITCH,
+                "true",
+                null,
+                null,
+                73));
+
+        fields.add(new SmartField("with_top",
+                "是否置顶",
+                "article.with_top",
+                "请输入",
+                SmartField.TYPE_SWITCH,
+                "true",
+                null,
+                null,
+                76));
+
+        fields.add(new SmartField("with_hot",
+                "是否热门",
+                "article.with_hot",
+                "请输入",
+                SmartField.TYPE_SWITCH,
+                "true",
+                null,
+                null,
+                79));
+
+        fields.add(new SmartField("with_lead_news",
+                "是否是头条",
+                "article.with_lead_news",
+                "请输入",
+                SmartField.TYPE_SWITCH,
+                "true",
+                null,
+                null,
+                81));
+
+        fields.add(new SmartField("with_allow_select",
+                "是否允许被搜索",
+                "article.with_allow_select",
+                "请输入",
+                SmartField.TYPE_SWITCH,
+                "true",
+                null,
+                null,
+                83));
+
 
         fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
 

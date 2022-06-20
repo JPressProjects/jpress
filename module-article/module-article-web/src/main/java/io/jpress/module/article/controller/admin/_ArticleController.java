@@ -202,6 +202,10 @@ public class _ArticleController extends AdminControllerBase {
         if (article.getOrderNumber() == null) {
             article.setOrderNumber(0);
         }
+        if(getLoginedUser() != null){
+            //文章作者
+            article.setAuthor(getLoginedUser().getNickname());
+        }
 
         long id = (long) articleService.saveOrUpdate(article);
         articleService.doUpdateCommentCount(id);

@@ -65,10 +65,8 @@ public class _AttachmentController extends AdminControllerBase {
     private AttachmentCategoryService categoryService;
 
 
-    @AdminMenu(text = "所有附件", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 0)
+    @AdminMenu(text = "附件列表", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 0)
     public void list() {
-//        Page<Attachment> page = service._paginate(getPagePara(), 15, getPara("title"));
-
         Columns columns = Columns.create();
         columns.likeAppendPercent("title",getPara("title"));
         columns.eq("category_id",getPara("categoryId"));

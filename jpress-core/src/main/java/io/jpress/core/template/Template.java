@@ -39,7 +39,13 @@ public class Template {
 
     private String relativePath;
 
+    //模板文件列表
     private Set<String> htmls = new HashSet<>();
+
+    //板块文件列表
+    private Set<String> sections = new HashSet<>();
+
+    //模板支持的 flag 配置
     private List<String> flags = new ArrayList<>();
 
     public Template() {
@@ -77,11 +83,18 @@ public class Template {
         File path = getAbsolutePathFile();
         Prop prop = new Prop(new File(path, "template.properties"), "utf-8");
 
-        String[] files = path
-                .list((dir, name) -> name.endsWith(".html"));
+        String[] templateFiles = path
+                .list((dir, name) -> name.endsWith(".html") && !name.startsWith("section"));
 
-        if (files != null && files.length > 0) {
-            this.htmls.addAll(Arrays.asList(files));
+        if (templateFiles != null && templateFiles.length > 0) {
+            this.htmls.addAll(Arrays.asList(templateFiles));
+        }
+
+        String[] sectionFiles = path
+                .list((dir, name) -> name.endsWith(".html") && name.startsWith("section"));
+
+        if (sectionFiles != null && sectionFiles.length > 0) {
+            this.sections.addAll(Arrays.asList(sectionFiles));
         }
 
         String flagStrings = prop.get("flags");
@@ -100,9 +113,9 @@ public class Template {
      * @param template
      * @return
      */
-    public String matchView(String template, boolean isMoblieBrowser) {
+    public String matchView(String template, boolean isMobileBrowser) {
 
-        if (isMoblieBrowser) {
+        if (isMobileBrowser) {
             int indexOf = template.indexOf(".");
             template = template.substring(0, indexOf) + TEMPLATE_H5_SUFFIX;
         }
@@ -117,7 +130,7 @@ public class Template {
         }
 
         //手机浏览器，优先去找_h5的模板进行渲染
-        if (isMoblieBrowser) {
+        if (isMobileBrowser) {
             String h5Template = matchH5Template(template);
             if (h5Template != null) {
                 return h5Template;
@@ -226,7 +239,6 @@ public class Template {
         this.updateUrl = updateUrl;
     }
 
-
     public String getScreenshot() {
         return screenshot;
     }
@@ -253,7 +265,7 @@ public class Template {
 
 
     public String buildRelativePath(String html) {
-        return new StringBuilder(relativePath).append("/").append(html).toString();
+        return relativePath + "/" + html;
     }
 
     /**

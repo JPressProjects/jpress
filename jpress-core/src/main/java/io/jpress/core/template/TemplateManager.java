@@ -59,7 +59,7 @@ public class TemplateManager {
     public List<Template> getInstalledTemplates() {
         String basePath = PathKit.getWebRootPath() + "/templates";
 
-        List<File> templateFolderList = new ArrayList<File>();
+        List<File> templateFolderList = new ArrayList<>();
         scanTemplateFloders(new File(basePath), templateFolderList);
 
         List<Template> templatelist = null;

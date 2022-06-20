@@ -16,6 +16,7 @@
 package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
@@ -31,6 +32,7 @@ import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.core.template.TemplateUtil;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
@@ -91,7 +93,7 @@ public class _TemplateController extends AdminControllerBase {
         render("template/list.html");
     }
 
-    public void doTriggerTemplateEnable(){
+    public void doTriggerTemplateEnable() {
         Boolean trigger = !JPressOptions.isTemplatePreviewEnable();
         optionService.saveOrUpdate(JPressConsts.OPTION_WEB_TEMPLATE_PREVIEW_ENABLE, trigger.toString());
         JPressOptions.set(JPressConsts.OPTION_WEB_TEMPLATE_PREVIEW_ENABLE, trigger.toString());
@@ -111,17 +113,28 @@ public class _TemplateController extends AdminControllerBase {
 
         render404If(!isMultipartRequest());
 
-        UploadFile ufile = getFile();
-        if (ufile == null) {
+        UploadFile uploadFile = getFile();
+        if (uploadFile == null) {
             renderJson(Ret.fail().set("success", false));
             return;
         }
 
-        if (!".zip".equalsIgnoreCase(FileUtil.getSuffix(ufile.getFileName()))) {
+        if (!".zip".equalsIgnoreCase(FileUtil.getSuffix(uploadFile.getFileName()))) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "只支持 .zip 的压缩模板文件"));
-            deleteFileQuietly(ufile.getFile());
+            deleteFileQuietly(uploadFile.getFile());
+            return;
+        }
+
+
+        //模板的短ID：md5(id).substring(0, 6)
+        String templateShortId = TemplateUtil.readTemplateShortId(uploadFile.getFile());
+        if (StrUtil.isBlank(templateShortId)) {
+            renderJson(Ret.fail()
+                    .set("success", false)
+                    .set("message", "安装失败，您上传的可能不是 JPress 模板文件"));
+            deleteFileQuietly(uploadFile.getFile());
             return;
         }
 
@@ -133,36 +146,33 @@ public class _TemplateController extends AdminControllerBase {
         newFileName.append(File.separator);
         newFileName.append("dockers"); // 优先安装在docker的映射目录下
 
-        File templateRootPath = new File(newFileName.toString());
-        if (!templateRootPath.exists() || !templateRootPath.isDirectory()) {
-            templateRootPath = templateRootPath.getParentFile();
+        File templateInstallPath = new File(newFileName.toString());
+        if (!templateInstallPath.exists() || !templateInstallPath.isDirectory()) {
+            templateInstallPath = templateInstallPath.getParentFile();
         }
 
-        File templateZipFile = new File(templateRootPath, ufile.getOriginalFileName());
-        String templatePath = templateZipFile.getAbsolutePath()
-                .substring(0, templateZipFile.getAbsolutePath().length() - 4);
+        templateInstallPath = new File(templateInstallPath, templateShortId);
 
-        if (new File(templatePath).exists()) {
+
+        if (templateInstallPath.exists()) {
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "该模板可能已经存在，无法进行安装。"));
-            deleteFileQuietly(ufile.getFile());
+            deleteFileQuietly(uploadFile.getFile());
             return;
         }
 
-
         try {
-            FileUtils.moveFile(ufile.getFile(), templateZipFile);
-            FileUtil.unzip(templateZipFile.getAbsolutePath(), templatePath);
+            FileUtil.unzip(uploadFile.getFile().getAbsolutePath(), templateInstallPath.getPath());
         } catch (Exception e) {
+            LogKit.error(e.toString(), e);
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "模板文件解压缩失败"));
             return;
         } finally {
-            //安装成功后，删除zip包
-            deleteFileQuietly(templateZipFile);
-            deleteFileQuietly(ufile.getFile());
+            //安装成功，无论是否成功，删除模板zip包
+            deleteFileQuietly(uploadFile.getFile());
         }
 
         renderJson(Ret.ok().set("success", true));
@@ -257,7 +267,7 @@ public class _TemplateController extends AdminControllerBase {
                 || JPressCoreFunctions.isImage(file.getName())
                 || file.isDirectory());
 
-        List<String > srcFiles = new ArrayList<>();
+        List<String> srcFiles = new ArrayList<>();
         for (File file : files) {
             if (!file.isDirectory()) {
                 srcFiles.add(file.getName());
@@ -281,7 +291,7 @@ public class _TemplateController extends AdminControllerBase {
 
         setAttr("f", editFile.getName());
 
-        if (editFile.isFile()){
+        if (editFile.isFile()) {
             setAttr("editFileContent", StrUtil.escapeHtml(FileUtil.readString(editFile)));
         }
 
@@ -383,7 +393,7 @@ public class _TemplateController extends AdminControllerBase {
         }
 
 
-        if (file.exists() && file.isDirectory()){
+        if (file.exists() && file.isDirectory()) {
             renderJson(Ret.fail().set("message", "存储失败，未指定任何文件"));
             return;
         }
@@ -416,7 +426,7 @@ public class _TemplateController extends AdminControllerBase {
 
 
     @AdminMenu(text = "板块", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 7)
-    public void section(){
+    public void section() {
         render("template/section.html");
     }
 
@@ -430,7 +440,6 @@ public class _TemplateController extends AdminControllerBase {
         ms.saveOrUpdate(menu);
         renderOkJson();
     }
-
 
 
     public void doMenuDel() {
@@ -469,7 +478,7 @@ public class _TemplateController extends AdminControllerBase {
 
         UploadFile uploadFile = getFile();
         String fileName = uploadFile.getFileName();
-        String dirName = getPara("d","").trim();
+        String dirName = getPara("d", "").trim();
 
         //防止浏览非模板目录之外的其他目录
         render404If(dirName.contains(".."));

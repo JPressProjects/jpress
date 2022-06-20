@@ -414,6 +414,13 @@ public class _TemplateController extends AdminControllerBase {
         render("template/menu.html");
     }
 
+
+    @AdminMenu(text = "板块", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 7)
+    public void section(){
+
+    }
+
+
     @EmptyValidate({
             @Form(name = "menu.text", message = "菜单名称不能为空"),
             @Form(name = "menu.url", message = "Url地址不能为空"),
@@ -423,6 +430,8 @@ public class _TemplateController extends AdminControllerBase {
         ms.saveOrUpdate(menu);
         renderOkJson();
     }
+
+
 
     public void doMenuDel() {
         int id = getParaToInt(0, 0);

@@ -647,7 +647,7 @@ function initImageBrowserButton() {
         var $this = $(this);
         layer.open({
             type: 2,
-            title: '閫夋嫨鍥剧墖',
+            title: '选择图片',
             anim: 2,
             shadeClose: true,
             shade: 0.3,
@@ -678,7 +678,7 @@ function initImageBrowserButton() {
         var $this = $(this);
         layer.open({
             type: 2,
-            title: '閫夋嫨鍥剧墖',
+            title: '选择图片',
             anim: 2,
             shadeClose: true,
             shade: 0.3,

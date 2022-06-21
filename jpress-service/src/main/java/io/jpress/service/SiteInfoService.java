@@ -175,4 +175,14 @@ public interface SiteInfoService  {
     public Page<SiteInfo> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+    /**
+    * 储存 中间表信息
+    *
+    * @param siteId
+    * @param roleIds
+    * @return boolean
+    */
+    public boolean saveOrUpdateSiteRoleMapping(Long siteId,Long[] roleIds);
+
+
 }

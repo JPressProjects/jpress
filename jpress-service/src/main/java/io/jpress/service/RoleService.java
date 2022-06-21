@@ -116,4 +116,11 @@ public interface RoleService {
 
     List<Record> findAllUserRoleMapping();
 
+    /**
+    * 查询全部 并且确定是否与站点有关联
+    *
+    * @param siteId
+    * @return java.util.List<io.jpress.model.Role>
+    */
+    List<Role> findAllWithRole(Long siteId);
 }

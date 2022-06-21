@@ -32,15 +32,28 @@
 
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class=" form-setting" autocomplete="off" id="optionForm" action="/admin/site/doSave">
+                    <form autocomplete="off" action="/admin/site/doSave" class="autoAjaxSubmit"
+                                                                         data-ok-href="/admin/site/list"
+                                                                         data-ok-message="站点信息保存成功">
                         <div class="card-body">
+
+                            <input type="hidden" name="siteInfo.id" value="#(siteInfo.id ??)">
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">站点名称</label>
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="给您的站点起个名字"
-                                           name="site_name" value="#option('site_name')">
+                                           name="siteInfo.name" value="#(siteInfo.name ??)">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">自定义站点ID</label>
+
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" placeholder="输入ID"
+                                           name="siteInfo.siteId" value="#(siteInfo.siteId ??)">
                                 </div>
                             </div>
 
@@ -49,7 +62,7 @@
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="设置站点的域名"
-                                           name="web_title" value="#option('web_title')">
+                                           name="siteInfo.bindDomain" value="#(siteInfo.bindDomain ??)">
                                     <p class="text-muted"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://jpress.io </p>
                                 </div>
                             </div>
@@ -60,7 +73,7 @@
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="二级目录..."
-                                           name="web_subtitle" value="#option('web_subtitle')">
+                                           name="siteInfo.bindPath" value="#(siteInfo.bindPath ??)">
                                 </div>
                             </div>
 
@@ -71,7 +84,7 @@
 
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="填写站点对应的语言"
-                                           name="web_domain" value="#option('web_domain')">
+                                           name="siteInfo.bindLang" value="#(siteInfo.bindLang ??)">
                                 </div>
 
                             </div>
@@ -79,41 +92,26 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">是否是多语言默认站点</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="connection_email_enable"
-                                           #checkedIf(option("connection_email_enable"))>
-                                    <input type="hidden" id="connection_email_enable" name="connection_email_enable">
+                                    <input type="checkbox" class="switchery" data-for="withLangDefault" #checkedIf(siteInfo.withLangDefault ??)>
+                                    <input type="hidden" id="withLangDefault" name="siteInfo.withLangDefault">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">是否根据浏览器更换语言</label>
+                                <label class="col-sm-2 col-form-label">是否是多语言默认站点</label>
                                 <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="connection_email_enable"
-                                           #checkedIf(option("connection_email_enable"))>
-                                    <input type="hidden" id="" name="connection_email_enable">
+                                    <input type="checkbox" class="switchery" data-for="withLangRansform" #checkedIf(siteInfo.withLangRansform ??)>
+                                    <input type="hidden" id="withLangRansform" name="siteInfo.withLangRansform">
                                 </div>
                             </div>
 
                             <h4 class="form-header">绑定角色</h4>
 
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">备案号</label>
+                            #for(item : roleList)
+                            <input type="checkbox" class="switchery" data-for="connection_email_enable" #checkedIf(item.isSelected ??) value="#(item.id ??)" name="roleId">
+                             #(item.name ??)<br/>
+                            #end
 
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="网站在中国区接入需要备案号"
-                                           name="web_ipc_no" value="#option('web_ipc_no')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">版权信息</label>
-
-                                <div class="col-sm-6">
-                                    <textarea rows="5" class="form-control" name="web_copyright"
-                                              placeholder="版权信息一般显示在网站的底部...">#option("web_copyright")</textarea>
-                                    <p class="text-muted"> 注意：此处的信息是否正确显示，决定于您使用的模板是否支持版权设置功能。 </p>
-                                </div>
-                            </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">

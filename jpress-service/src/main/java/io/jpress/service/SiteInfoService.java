@@ -183,6 +183,13 @@ public interface SiteInfoService  {
     * @return boolean
     */
     public boolean saveOrUpdateSiteRoleMapping(Long siteId,Long[] roleIds);
+    
+    /**
+    * 查询是否已经有多语言默认站点
+    *
+    * @return boolean
+    */
+    public SiteInfo isHasLangDefault();
 
 
 }

@@ -47,4 +47,17 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
 
         return true;
     }
+
+    /**
+     * 查询是否已经有多语言默认站点
+     *
+     * @return boolean
+     */
+    @Override
+    public SiteInfo isHasLangDefault() {
+
+        String sql = "select * from site_info where with_lang_default = ?";
+
+        return DAO.findFirst(sql, true);
+    }
 }

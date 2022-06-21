@@ -4,7 +4,7 @@
 <script>
 
         $('.del-action').on('click', function () {
-        if (confirm('确定要删除该分类吗？删除后不可恢复')) {
+        if (confirm('确定要删除该站点吗？删除后不可恢复')) {
         var id = $(this).attr("data-id");
         ajaxGet("/admin/site/delById/" + id);
     }

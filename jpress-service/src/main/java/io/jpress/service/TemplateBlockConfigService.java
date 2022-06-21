@@ -1,12 +1,12 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
-import io.jpress.model.TemplateSectionInfo;
+import io.jpress.model.TemplateBlockConfig;
 import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface TemplateSectionInfoService  {
+public interface TemplateBlockConfigService  {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface TemplateSectionInfoService  {
      * @param id
      * @return
      */
-    public TemplateSectionInfo findById(Object id);
+    public TemplateBlockConfig findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface TemplateSectionInfoService  {
      * @param columns
      * @return
      */
-    public TemplateSectionInfo findFirstByColumns(Columns columns);
+    public TemplateBlockConfig findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface TemplateSectionInfoService  {
      * @param orderBy
      * @return
      */
-    public TemplateSectionInfo findFirstByColumns(Columns columns, String orderBy);
+    public TemplateBlockConfig findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface TemplateSectionInfoService  {
      *
      * @return
      */
-    public List<TemplateSectionInfo> findAll();
+    public List<TemplateBlockConfig> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface TemplateSectionInfoService  {
      * @param columns
      * @return
      */
-    public List<TemplateSectionInfo> findListByColumns(Columns columns);
+    public List<TemplateBlockConfig> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface TemplateSectionInfoService  {
      * @param orderBy
      * @return
      */
-    public List<TemplateSectionInfo> findListByColumns(Columns columns, String orderBy);
+    public List<TemplateBlockConfig> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface TemplateSectionInfoService  {
      * @param count
      * @return
      */
-    public List<TemplateSectionInfo> findListByColumns(Columns columns, Integer count);
+    public List<TemplateBlockConfig> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface TemplateSectionInfoService  {
      * @param count
      * @return
      */
-    public List<TemplateSectionInfo> findListByColumns(Columns columns, String orderBy, Integer count);
+    public List<TemplateBlockConfig> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -105,7 +105,7 @@ public interface TemplateSectionInfoService  {
      * @param model
      * @return
      */
-    public boolean delete(TemplateSectionInfo model);
+    public boolean delete(TemplateBlockConfig model);
 
 
     /**
@@ -123,7 +123,7 @@ public interface TemplateSectionInfoService  {
      * @param model
      * @return id if success
      */
-    public Object save(TemplateSectionInfo model);
+    public Object save(TemplateBlockConfig model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface TemplateSectionInfoService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(TemplateSectionInfo model);
+    public Object saveOrUpdate(TemplateBlockConfig model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface TemplateSectionInfoService  {
      * @param model
      * @return
      */
-    public boolean update(TemplateSectionInfo model);
+    public boolean update(TemplateBlockConfig model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface TemplateSectionInfoService  {
      * @param pageSize
      * @return
      */
-    public Page<TemplateSectionInfo> paginate(int page, int pageSize);
+    public Page<TemplateBlockConfig> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface TemplateSectionInfoService  {
      * @param pageSize
      * @return
      */
-    public Page<TemplateSectionInfo> paginateByColumns(int page, int pageSize, Columns columns);
+    public Page<TemplateBlockConfig> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,7 +172,7 @@ public interface TemplateSectionInfoService  {
      * @param orderBy
      * @return
      */
-    public Page<TemplateSectionInfo> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    public Page<TemplateBlockConfig> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
 }

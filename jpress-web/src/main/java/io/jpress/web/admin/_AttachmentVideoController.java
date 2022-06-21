@@ -1,11 +1,14 @@
 package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.commons.aliyun.AliyunVideoUtil;
+import io.jpress.commons.aliyun.CloudVideoInfo;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.AttachmentVideo;
 import io.jpress.model.AttachmentVideoCategory;
@@ -14,6 +17,7 @@ import io.jpress.service.AttachmentVideoService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping(value = "/admin/attachment/video", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _AttachmentVideoController extends AdminControllerBase {
@@ -32,6 +36,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
         Columns columns = Columns.create();
         //条件查询
         columns.likeAppendPercent("vod_name",getPara("title"));
+        columns.eq("video_type",getPara("type"));
         columns.eq("category_id",getPara("categoryId"));
         Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(), columns, "id desc");
         if(page != null){
@@ -55,6 +60,12 @@ public class _AttachmentVideoController extends AdminControllerBase {
     public void edit(){
         String id = getPara();
         AttachmentVideo video = attachmentVideoService.findById(id);
+        if(video.getVodVid() != null){
+            String playauth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
+            setAttr("cloudPlayAuth", playauth);
+            setAttr("cloudVid", video.getVodVid());
+        }
+
         setAttr("video",video);
 
         List<AttachmentVideoCategory> categories = videoCategoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
@@ -78,6 +89,16 @@ public class _AttachmentVideoController extends AdminControllerBase {
         videoCategoryService.doUpdateVideoCategoryCount(video.getCategoryId());
         renderOkJson();
     }
+
+    public void doGetVideoInfo(String videoId){
+
+        //视频点播
+        CloudVideoInfo videoInfo = AliyunVideoUtil.getVideoInfo(videoId);
+        renderJson(Ret.ok()
+                .set("videoId", videoInfo.getVideoId())
+                .set("size", videoInfo.getSize()));
+    }
+
 
     @AdminMenu(text = "视频分类", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 39)
     public void category(){
@@ -116,6 +137,42 @@ public class _AttachmentVideoController extends AdminControllerBase {
         attachmentVideoService.deleteById(getIdPara());
         renderOkJson();
     }
+
+
+    /**
+     * 获取视频上传凭证
+     *
+     * @param fileName
+     * @param title
+     * @return
+     */
+    public Ret doGetUploadVideoAuth(String fileName, String title) {
+        Map<String, Object> authMap = AliyunVideoUtil.getUploadVideoAuth(fileName, title);
+        return authMap != null ? Ret.ok().set(authMap) : Ret.fail();
+    }
+
+
+    /**
+     * 刷新视频上传凭证
+     *
+     * @param videoId
+     * @return
+     */
+    public Ret doRefreshVideoAuth(String videoId) {
+        Map<String, Object> authMap = AliyunVideoUtil.refreshUploadVideoAuth(videoId);
+        return authMap != null ? Ret.ok().set(authMap) : Ret.fail();
+    }
+
+    /**
+     * 获取播放凭证
+     *
+     * @param videoId
+     * @return
+     */
+    public Ret doGetPlayAuth(String videoId) {
+        return Ret.ok().set("playAuth", AliyunVideoUtil.getPlayAuth(videoId));
+    }
+
 
 
 }

@@ -5,17 +5,20 @@
 #end
 
 #define script()
-<!--<script src="/static/components/aliyun-upload-sdk/lib/es6-promise.min.js"></script>-->
-<!--<script src="/static/components/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.13.0.min.js"></script>-->
-<!--<script src="/static/components/aliyun-upload-sdk/aliyun-upload-sdk-1.5.2.min.js"></script>-->
+<script src="/static/components/aliyun-upload-sdk/lib/es6-promise.min.js"></script>
+<script src="/static/components/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.13.0.min.js"></script>
+<script src="/static/components/aliyun-upload-sdk/aliyun-upload-sdk-1.5.2.min.js"></script>
+<script src="/static/components/aliyun-upload-sdk/jbootutils.js"></script>
 
 <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
 
+<!--类型切换-->
 <script>
-
     /**
      *  设置 视频类型 选择的显示和隐藏
      */
+    videoContentTypeChange(document.getElementById("videoType"));
+
     function videoContentTypeChange(select) {
         var selectedValue = select.options[select.options.selectedIndex].value;
         if (selectedValue == 'vod') {
@@ -33,10 +36,194 @@
         }
     }
 
-    videoContentTypeChange(document.getElementById("videoType"))
+</script>
+
+<!-- 视频/直播 -->
+<script>
+
+    var uploader = null
+
+    $('#videoInputFile').on('change', function (e) {
+        var file = e.target.files[0]
+        if (!file) {
+            alert("请先选择需要上传的文件!")
+            return
+        }
+        fileName = file.name
+        var userData = '{"Vod":{}}'
+        if (uploader) {
+            uploader.stopUpload()
+            // $('#auth-progress').text('0')
+            // $('#status').text("")
+        }
+        var title = $('#videoTitle').val();
+        if (title == "") {
+            alert("请先输入标题，才能进行文件上传。");
+            return;
+        }
+
+        uploader = createVideoUploader(fileName, title);
+        // 首先调用 uploader.addFile(event.target.files[i], null, null, null, userData)
+        // console.log(uploader)
+
+        uploader.addFile(file, null, null, null, userData);
+        uploader.startUpload();
+    })
+
+
+    /**
+     * 创建点播上传组件
+     * @param fileName
+     * @param title
+     * @returns {AliyunUpload.Vod}
+     */
+    function createVideoUploader(fileName, title) {
+        var uploader = new AliyunUpload.Vod({
+            //userID，必填，只需有值即可。
+            userId: "1",
+            //上传到视频点播的地域，默认值为'cn-shanghai'，
+            //eu-central-1，ap-southeast-1
+            region: "cn-beijing",
+            //分片大小默认1 MB，不能小于100 KB，此参数单位默认为 B
+            partSize: 1048576,
+            //并行上传分片个数，默认5
+            parallel: 5,
+            //网络原因失败时，重新上传次数，默认为3
+            retryCount: 3,
+            //网络原因失败时，重新上传间隔时间，默认为2秒
+            retryDuration: 2,
+
+            //开始上传，需要设置（或者刷新）凭证
+            'onUploadstarted': function (uploadInfo) {
+                console.log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+
+                if (uploadInfo.videoId) {
+                    //需要刷新上传凭证
+                    $.get('/admin/attachment/video/doRefreshVideoAuth?videoId=' + uploadInfo.videoId, function (data) {
+                        var uploadAuth = data.UploadAuth
+                        var uploadAddress = data.UploadAddress
+                        var videoId = data.VideoId
+                        uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
+                    }, 'json')
+                } else {
+                    //获取上传凭证
+                    $.get('/admin/attachment/video/doGetUploadVideoAuth?fileName=' + fileName + '&title=' + title, function (data) {
+                        var uploadAuth = data.UploadAuth
+                        var uploadAddress = data.UploadAddress
+                        var videoId = data.VideoId
+                        uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
+                    }, 'json')
+                }
+            },
+
+            //文件上传成功，调用 doGetVideoInfo 获取上传视频信息
+            'onUploadSucceed': function (uploadInfo) {
+                console.log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+
+                Utils.ajaxGet("/admin/attachment/video/doGetVideoInfo?&videoId=" + uploadInfo.videoId, function (data) {
+                    //设置视频属性
+                    $('#vodVid').val(data.videoId);
+                    $('#vodSize').val(data.size);
+                    //清除文件选择
+                    $('#videoInputFile').val('')
+
+                });
+            },
+
+            //文件上传失败
+            'onUploadFailed': function (uploadInfo, code, message) {
+                console.log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
+            },
+
+            //文件上传进度，单位：字节
+            'onUploadProgress': function (uploadInfo, totalSize, loadedPercent) {
+                console.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(loadedPercent * 100) + "%");
+                if (loadedPercent >= 1) {
+                    $("#videoInputFileLable").text("文件上传成功！ （总大小：" + (totalSize / 1024 / 1024).toFixed(2) + "MB）");
+                } else {
+                    $("#videoInputFileLable").text("视频上传中...." + Math.ceil(loadedPercent * 100) + "% （总大小：" + (totalSize / 1024 / 1024).toFixed(2) + "MB）");
+                }
+            },
+
+            //上传凭证超时，需要刷新上传凭证
+            'onUploadTokenExpired': function (uploadInfo) {
+                console.log("onUploadTokenExpired");
+                $.get('/admin/attachment/video/doRefreshVideoAuth?videoId=' + uploadInfo.videoId, function (data) {
+                    var uploadAuth = data.UploadAuth;
+                    uploader.resumeUploadWithAuth(uploadAuth)
+                }, 'json')
+            },
+            //全部文件上传结束，失败或者成功都会触发
+            'onUploadEnd': function (uploadInfo) {
+                console.log("onUploadEnd: uploaded all the files");
+            }
+        });
+        return uploader;
+    }
+
+
+
+    /**
+     * 创建点播的播放器
+     * @param vid
+     * @param playauth
+     * @returns {Aliplayer}
+     */
+    function createVideoPlayer(vid, playauth, id) {
+        if (vid != "" && playauth != "") {
+            id = id || "player"
+            var player = new Aliplayer({
+                    "id": id,
+                    "vid": vid,
+                    "playauth": playauth,
+                    // "qualitySort": "asc",
+                    // "format": "mp4",
+                    // "mediaType": "video",
+                    "width": "100%",
+                    "height": "100%",
+                    "videoWidth": "100%",
+                    "videoHeight": "100%",
+                    "autoplay": false,
+                    "isLive": false,
+                    // "cover": "缩略图",
+                    "rePlay": false,
+                    "playsinline": true,
+                    "preload": false,
+                    "controlBarVisibility": "hover",
+                    "useH5Prism": true
+                }, function (player) {
+                    console.log("The player is created");
+                }
+            );
+            return player;
+        }
+    }
+
+    createVideoPlayer("#(cloudVid ??)", "#(cloudPlayAuth ??)");
+
+
 
 </script>
 
+
+<script>
+
+    function save(){
+        var title = $('#videoTitle').val();
+        if (title == "") {
+            return;
+        }
+        ajaxSubmit("#form", function () {
+            toastr.success('视频保存成功。');
+            setTimeout(function (){
+                //返回list页面
+                location.href='#(CPATH)/admin/attachment/video/list';
+            },1500);
+        });
+    }
+
+
+</script>
 
 #end
 
@@ -71,15 +258,16 @@
 
 
             <div class=" col-lg-12" >
-                    <form class=" form-setting autoAjaxSubmit" autocomplete="off"
-                          action="#(CPATH)/admin/attachment/video/doSave"
+                    <form class="form-horizontal ajaxSubmit" autocomplete="off" id="form"
+                          action="/admin/attachment/video/doSave"
                           data-ok-href="#(CPATH)/admin/attachment/video/list"
                           data-ok-message="视频保存成功"
                           method="post">
 
                     <input type="hidden" name="video.id" value="#(video.id ??)" id="videoId">
 
-                    <input type="hidden" name="video.vod_vid" id="contentVideoId" value="#(video.vodVid ??)">
+                    <input type="hidden" name="video.vod_vid" id="vodVid" value="#(video.vodVid ??)">
+                    <input type="hidden" name="video.vod_size" id="vodSize" value="#(video.vodSize ??)">
 
                     <div class="card card-primary card-outline">
                         <div class="card-body">
@@ -100,9 +288,9 @@
                                 <div class="col-sm-6">
                                     <select class="form-control" placeholder="请选状态"
                                             name="video.vod_status">
-                                        <option value="1" #selectedIf(video && video.vodStatus== '1')>正常
+                                        <option value="1" #selectedIf(video && video.vodStatus == '1')>正常
                                         </option>
-                                        <option value="9" #selectedIf(video && video.vodStatus== '9')>下线
+                                        <option value="9" #selectedIf(video && video.vodStatus == '9')>下线
                                         </option>
                                     </select>
 
@@ -264,7 +452,7 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="offset-sm-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary submitBtm">
+                                    <button type="submit" class="btn btn-primary " onclick="save()">
                                         <i class="fa fa-fw fa-check"></i> 保存
                                     </button>
                                     <button type="button" class="btn btn-outline-secondary back">

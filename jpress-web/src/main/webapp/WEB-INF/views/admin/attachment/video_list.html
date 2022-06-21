@@ -33,7 +33,6 @@
         }
     });
 
-
 </script>
 
 #end
@@ -84,10 +83,22 @@
                                  <select class="form-control" name="categoryId">
                                      <option value="">全部分类</option>
                                      #for(category : categories)
-                                     <option value="#(category.id ??)" #selectedIf(category.id == numberPara('categoryId'))>#(category.layerString) #(category.title ??)</option>
+                                     <option value="#(category.id ??)" #selectedIf(category.id == numberPara('categoryId'))>#(category.title ??)</option>
                                      #end
                                  </select>
                             </div>
+
+                            <div class="form-group col-lg-2">
+                                <select class="form-control" name="type">
+                                    <option value="">类型</option>
+
+                                    <option value="vod" #selectedIf(para('type') == 'vod') > 视频</option>
+                                    <option value="live" #selectedIf(para('type') == 'live') > 直播</option>
+                                    <option value="code" #selectedIf(para('type') == 'code') > 代码</option>
+
+                                </select>
+                            </div>
+
                             <div class="form-group col-lg-2">
                                 <button type="submit" class="btn btn-primary ">查询</button>
                                 <button type="reset" class="btn btn-default">重置</button>
@@ -115,6 +126,7 @@
                                 </th>
                                 <th style="width: 30%">标题</th>
                                 <th>分类</th>
+                                <th>类型</th>
 
                                 <th>创建时间</th>
 
@@ -141,6 +153,7 @@
                                 </div>
                             </td>
                             <td>#(item.category.title ??)</td>
+                            <td>#(item.videoTypeStr ??)</td>
                             <td>#date(item.created ??)</td>
                         </tr>
                         #end

@@ -78,15 +78,27 @@ select {
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
 }
 
-.jp-header {
-    height: 42px;
-    line-height: 42px;
+.tool-header{
+    height: 50px;
     padding: 0 15px;
     font-size: 14px;
     border-radius: 2px 2px 0 0;
     border-bottom: 1px solid #f6f6f6;
 }
-
+.tool-header strong{
+    font-size:18px;
+}
+.tool-btn{
+    cursor: pointer;
+    padding-right:12px;
+}
+.tool-header i{
+    font-size:20px;
+    vertical-align: middle;
+}
+.disabled i{
+    color:#999;
+}
 .nav-tabs {
     overflow: hidden;
 }
@@ -229,8 +241,9 @@ select {
 .rightContent {
     min-height: 100%;
 }
-.middleContent .card{
-    min-height:90%;
+.middleContent{
+    min-height:100%;
+    background-color: #f4f6f9;
 }
 .drag-box {
     margin: 25% auto;
@@ -316,4 +329,27 @@ select {
     text-align: center;
     font-size: 18px;
     color: #c9e0f3;
+}
+.widget-right-item {
+    padding:12px 0;
+    border-bottom:1px solid #f6f6f6;
+    margin-bottom:10px;
+}
+.widget-right-textarea{
+    padding:0;
+    margin:0;
+    border:none;
+    outline:none;
+}
+.widget-right-textarea:focus{
+    box-shadow: none;
+    outline:none;
+}
+.widget-right-group{
+    border:1px solid #f6f6f6;
+    padding:10px;
+    margin-bottom:0 !important;
+}
+#superContent{
+    display: none;
 }

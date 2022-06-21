@@ -30,9 +30,11 @@ import io.jpress.core.addon.controller.AddonControllerProcesser;
 import io.jpress.core.addon.handler.AddonHandlerProcesser;
 import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.MenuManager;
+import io.jpress.core.site.SiteManager;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.functions.JPressCoreFunctions;
 import io.jpress.web.handler.JPressHandler;
+import io.jpress.web.handler.SiteHandler;
 import io.jpress.web.interceptor.JPressInterceptor;
 import io.jpress.web.interceptor.UTMInterceptor;
 import io.jpress.web.render.JPressRenderFactory;
@@ -67,6 +69,7 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
         handlers.add(new InstallHandler());
         handlers.add(new SitemapHandler());
         handlers.add(new JPressHandler());
+        handlers.add(new SiteHandler());
         handlers.add(new FlatUrlHandler());
         handlers.add(new AddonHandlerProcesser());
         handlers.add(new XSSHandler());
@@ -92,6 +95,7 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
         MenuManager.me().init();
         WechatAddonManager.me().init();
         AddonManager.me().init();
+        SiteManager.me().init();
 
     }
 

@@ -9,13 +9,10 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Role;
 import io.jpress.model.SiteInfo;
-import io.jpress.model.User;
 import io.jpress.service.RoleService;
 import io.jpress.service.SiteInfoService;
 import io.jpress.web.base.AdminControllerBase;
-import org.nustaq.kson.KsonStringOutput;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
 
@@ -58,7 +55,7 @@ public class _SiteController extends AdminControllerBase {
             setAttr("siteInfo",siteInfo);
         }
 
-        List<Role> roleList = roleService.findAllWithRole(siteId);
+        List<Role> roleList = roleService.findListBySiteId(siteId);
         if(!roleList.isEmpty()){
             setAttr("roleList",roleList);
         }

@@ -76,7 +76,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     public boolean isSupperAdmin(long userId) {
-        List<Role> roles = findRoleListByUserId(userId);
+        List<Role> roles = findListByUserId(userId);
         if (roles == null || roles.isEmpty()) {
             return false;
         }
@@ -96,7 +96,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
             return false;
         }
 
-        List<Role> roleList = findRoleListByUserId(userId);
+        List<Role> roleList = findListByUserId(userId);
         if (roleList == null || roleList.isEmpty()) {
             return false;
         }
@@ -123,7 +123,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
             return false;
         }
 
-        List<Role> roleList = findRoleListByUserId(userId);
+        List<Role> roleList = findListByUserId(userId);
         if (roleList == null || roleList.isEmpty()) {
             return false;
         }
@@ -152,7 +152,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
             return false;
         }
 
-        List<Role> roleList = findRoleListByUserId(userId);
+        List<Role> roleList = findListByUserId(userId);
         if (roleList == null || roleList.isEmpty()) {
             return false;
         }
@@ -248,7 +248,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
 
     @Override
     @Cacheable(name = "user_role", key = "user_roles:#(userId)", nullCacheEnable = true)
-    public List<Role> findRoleListByUserId(long userId) {
+    public List<Role> findListByUserId(long userId) {
         List<Record> records = findAllUserRoleMapping();
         if (records == null || records.isEmpty()) {
             return null;
@@ -271,7 +271,7 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
         return roles;
     }
 
-    @Override
+
     @Cacheable(name = "user_role", key = "all", nullCacheEnable = true)
     public List<Record> findAllUserRoleMapping() {
         return Db.findAll("user_role_mapping");
@@ -317,12 +317,12 @@ public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleS
      */
 
     @Override
-    public List<Role> findAllWithRole(@NotNull Long siteId) {
+    public List<Role> findListBySiteId(@NotNull Long siteId) {
 
         //所有Role
         List<Role> roleList = DAO.findAll();
         //中间表信息
-        String sql = "select * from site_role_mapping where site_Id = ?";
+        String sql = "select * from site_role_mapping where site_id = ?";
         List<Record> recordList = Db.find(sql, siteId);
 
         //做出对比

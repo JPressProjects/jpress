@@ -106,7 +106,7 @@ public class _AttachmentController extends AdminControllerBase {
         render("attachment/root.html");
     }
 
-    @AdminMenu(text = "分类",groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 9)
+//    @AdminMenu(text = "分类",groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 9)
     public void category(){
         List<AttachmentCategory> categories = categoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
         setAttr("categories", categories);
@@ -120,6 +120,7 @@ public class _AttachmentController extends AdminControllerBase {
         }
         render("attachment/category_list.html");
     }
+
 
     public void doCategorySave() {
         AttachmentCategory category = getModel(AttachmentCategory.class, "category");

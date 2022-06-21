@@ -15,7 +15,6 @@
  */
 package io.jpress.service;
 
-import com.jfinal.plugin.activerecord.Record;
 import io.jpress.model.Role;
 
 import java.util.List;
@@ -112,9 +111,7 @@ public interface RoleService {
 
     boolean doChangeRoleByIds(Long roleId, Object... ids);
 
-    List<Role> findRoleListByUserId(long userId);
-
-    List<Record> findAllUserRoleMapping();
+    List<Role> findListByUserId(long userId);
 
     /**
     * 查询全部 并且确定是否与站点有关联
@@ -122,5 +119,5 @@ public interface RoleService {
     * @param siteId
     * @return java.util.List<io.jpress.model.Role>
     */
-    List<Role> findAllWithRole(Long siteId);
+    List<Role> findListBySiteId(Long siteId);
 }

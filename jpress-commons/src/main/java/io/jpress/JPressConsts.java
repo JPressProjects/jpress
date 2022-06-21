@@ -109,6 +109,7 @@ public class JPressConsts {
     public static final String COOKIE_UID = "_jpuid";
     public static final String COOKIE_ANONYM = "_jpanonym";
     public static final String COOKIE_EDIT_MODE = "_jpeditmode";
+    public static final String COOKIE_SITE_ID = "_jpsiteid";
 
     /**
      * 用到的request attribute常量
@@ -127,6 +128,8 @@ public class JPressConsts {
     public static final String ATTR_SEO_DESCRIPTION = "SEO_DESCRIPTION"; // SEO 描述
 
     public static final String ATTR_MENUS = "MENUS"; // 页面菜单
+
+    public static final String ATTR_SITE_ID = "SITE_ID"; // 当前站点ID
 
     public static final String EDIT_MODE_HTML = "html"; //html 的编辑模式
     public static final String EDIT_MODE_MARKDOWN = "markdown"; //markdown 的编辑模式

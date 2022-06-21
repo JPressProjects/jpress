@@ -47,6 +47,11 @@ public abstract class ControllerBase extends JbootController {
     }
 
 
+    public Long getSiteId(){
+        return getAttr(JPressConsts.ATTR_SITE_ID,0L);
+    }
+
+
     @NotAction
     @Override
     public <T> T getModel(Class<T> modelClass) {

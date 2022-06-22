@@ -189,7 +189,15 @@ public interface SiteInfoService  {
     *
     * @return boolean
     */
-    public SiteInfo isHasLangDefault();
+    public SiteInfo findLangDefaultSite();
+
+
+    /**
+     * 根据用户的 ID 查询可切换的站点列表
+     * @param userId
+     * @return
+     */
+    List<SiteInfo> findListByUserId(Long userId);
 
 
 }

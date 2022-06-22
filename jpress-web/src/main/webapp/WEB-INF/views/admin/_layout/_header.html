@@ -17,12 +17,12 @@
         <!-- 站点信息 -->
         <li class="nav-item dropdown">
             <button class="btn btn-sm btn-secondary dropdown-toggle" style="background: #464c52" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                当前站点：XXXX
+                当前站点：#(CURRENT_SITE.name ?? '主站点')
             </button>
             <div class="dropdown-menu" style="margin-top: 8px" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                #for(site : SITES)
+                <a class="dropdown-item" href="#">#(site.name ??)</a>
+                #end
             </div>
         </li>
         <!-- 站点信息 -->

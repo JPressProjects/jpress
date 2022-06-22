@@ -24,10 +24,14 @@ import io.jpress.JPressConfig;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.SessionUtils;
 import io.jpress.core.menu.MenuManager;
+import io.jpress.model.SiteInfo;
 import io.jpress.model.User;
 import io.jpress.service.RoleService;
+import io.jpress.service.SiteInfoService;
 import io.jpress.service.UserService;
 import io.jpress.web.handler.JPressHandler;
+
+import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -43,6 +47,9 @@ public class AdminInterceptor implements Interceptor {
 
     @Inject
     private RoleService roleService;
+
+    @Inject
+    private SiteInfoService siteInfoService;
 
 
     @Override
@@ -85,8 +92,11 @@ public class AdminInterceptor implements Interceptor {
 
         inv.getController().setAttr("systemMenuGroups",  MenuManager.me().getSystemMenus());
         inv.getController().setAttr("moduleMenuGroups", MenuManager.me().getModuleMenus());
-
         inv.getController().setAttr(JPressConsts.ATTR_LOGINED_USER, user);
+
+
+        List<SiteInfo> userSites = siteInfoService.findListByUserId(user.getId());
+        inv.getController().setAttr("SITES",userSites);
 
         inv.invoke();
     }

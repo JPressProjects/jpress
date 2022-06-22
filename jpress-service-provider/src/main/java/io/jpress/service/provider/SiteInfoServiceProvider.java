@@ -1,21 +1,28 @@
 package io.jpress.service.provider;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.JbootDb;
 import io.jboot.db.model.Columns;
-import io.jpress.service.SiteInfoService;
-import io.jpress.model.SiteInfo;
 import io.jboot.service.JbootServiceBase;
+import io.jpress.model.Role;
+import io.jpress.model.SiteInfo;
+import io.jpress.model.base.BaseRole;
+import io.jpress.service.RoleService;
+import io.jpress.service.SiteInfoService;
 
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Bean
 public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implements SiteInfoService {
 
 
+    @Inject
+    private RoleService roleService;
 
     /**
      * 储存 中间表信息
@@ -54,10 +61,38 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
      * @return boolean
      */
     @Override
-    public SiteInfo isHasLangDefault() {
+    public SiteInfo findLangDefaultSite() {
 
         String sql = "select * from site_info where with_lang_default = ?";
 
         return DAO.findFirst(sql, true);
+    }
+
+
+    /**
+     * 根据用户的 id 查询该用户可操作的站点列表
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<SiteInfo> findListByUserId(Long userId) {
+
+        //是否是超级管理员
+        boolean isSupperAdmin = roleService.isSupperAdmin(userId);
+        if (isSupperAdmin){
+            return findAll();
+        }
+
+        //用户的角色
+        List<Role> userRoles = roleService.findListByUserId(userId);
+        if (userRoles == null || userRoles.isEmpty()){
+            return null;
+        }
+
+        long[] userRuleIds = userRoles.stream().mapToLong(BaseRole::getId).toArray();
+        List<Record> records = JbootDb.find("site_role_mapping", Columns.create().in("role_id", userRuleIds));
+
+        return records.stream().map(record -> findById(record.getLong("site_id")))
+                .collect(Collectors.toList());
     }
 }

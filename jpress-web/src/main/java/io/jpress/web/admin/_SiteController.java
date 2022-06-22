@@ -79,7 +79,7 @@ public class _SiteController extends AdminControllerBase {
         //如果设置了为默认站点
         if(siteInfo.getWithLangDefault()){
             //查询是否有默认站点
-            SiteInfo siteInfoByDefault = siteInfoService.isHasLangDefault();
+            SiteInfo siteInfoByDefault = siteInfoService.findLangDefaultSite();
 
             //如果siteInfoByDefault 不为 null 就是已经有啦more站点
             // 如果是修改 那么修改的不是 默认站点的话 不行

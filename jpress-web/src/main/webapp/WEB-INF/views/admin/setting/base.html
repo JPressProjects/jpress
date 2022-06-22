@@ -114,13 +114,22 @@
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">版权信息</label>
-
                                 <div class="col-sm-6">
                                     <textarea rows="5" class="form-control" name="web_copyright"
                                               placeholder="版权信息一般显示在网站的底部...">#option("web_copyright")</textarea>
                                     <p class="text-muted"> 注意：此处的信息是否正确显示，决定于您使用的模板是否支持版权设置功能。 </p>
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">全局代码</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="5" class="form-control" name="web_config_code"
+                                              placeholder="一般是用来放 统计代码 或者 在线客服代码...">#option("web_config_code")</textarea>
+                                    <p class="text-muted"> 此处一般用来配置 网站统计 或者 在线客服 代码，但前台是否正确显示，决定于您使用的模板是否支持。 </p>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">

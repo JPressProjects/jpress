@@ -68,18 +68,13 @@ select {
     outline: none;
     box-shadow: none;
 }
-
-.container-fluid {
-    padding-top: 20px;
-}
-
 .jp-form {
     border-radius: 2px;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
 }
 
 .tool-header{
-    height: 50px;
+    height: 60px;
     padding: 0 15px;
     font-size: 14px;
     border-radius: 2px 2px 0 0;
@@ -105,7 +100,6 @@ select {
 
 .nav-tabs .nav-item {
     display: block;
-    /* width: 50%; */
     text-align: center;
     box-sizing: border-box;
 }
@@ -202,14 +196,6 @@ select {
     font-weight: bold;
 }
 
-.item-body {
-    border: 1px solid #f6f6f6;
-    padding: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
 .item-body:hover {
     border: 1px solid #007bff;
 }
@@ -217,39 +203,25 @@ select {
 .btn {
     outline: none;
 }
-
-
-/* 评分 */
-
-.jp-rate li {
-    display: inline-block;
-}
-
-.jp-rate li i {
-    color: #FFB800;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-.jp-range {
-    width: 60px;
-    display: inline-block;
-}
-
 .leftContent,
-.middleContent,
 .rightContent {
-    min-height: 100%;
+    position: sticky;
+    height: 100%;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
+
+
 .middleContent{
-    min-height:100%;
+    height:100%;
     background-color: #f4f6f9;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
-.drag-box {
-    margin: 25% auto;
-    text-align: center;
-    font-size: 18px;
-    color: #c9e0f3;
+.leftContent::-webkit-scrollbar,.rightContent::-webkit-scrollbar,.middleContent::-webkit-scrollbar{
+    width: 0;
 }
 .jp-component-tools i {
     font-size: 12px;
@@ -323,6 +295,7 @@ select {
     width: 100%;
     min-height: 800px;
     padding-top: 25px;
+    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);;
 }
 .placeholder-box {
     margin: 25% auto;
@@ -352,4 +325,32 @@ select {
 }
 #superContent{
     display: none;
+}
+.jpress-row-container{
+    height:calc(100% - 60px);
+}
+.tool-container{
+    height: 100%;
+}
+.right-switch{
+    display: inline-block;
+    padding:3px  6px 2px;
+    border-radius:4px;
+    background-color: #000;
+    border:1px solid #000;
+}
+.right-switch i{
+    font-size:16px;
+    color:#fff;
+    vertical-align: middle;
+}
+.right-switch:hover{
+    background-color:#fff;
+    border:1px solid #007bff;
+}
+.right-switch:hover i{
+    color:#007bff;
+}
+.jpress-morelist{
+    min-height:150px;
 }

@@ -22,29 +22,29 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
     /**
      * 父id
      */
-	public void setPid(java.lang.Integer pid) {
+	public void setPid(java.lang.Long pid) {
 		set("pid", pid);
 	}
 
     /**
      * 父id
      */
-	public java.lang.Integer getPid() {
-		return getInt("pid");
+	public java.lang.Long getPid() {
+		return getLong("pid");
 	}
 
     /**
      * 创建分类的用户id
      */
-	public void setUserId(java.lang.Integer userId) {
+	public void setUserId(java.lang.Long userId) {
 		set("user_id", userId);
 	}
 
     /**
      * 创建分类的用户id
      */
-	public java.lang.Integer getUserId() {
-		return getInt("user_id");
+	public java.lang.Long getUserId() {
+		return getLong("user_id");
 	}
 
     /**

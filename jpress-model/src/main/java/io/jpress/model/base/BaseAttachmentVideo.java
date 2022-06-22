@@ -188,6 +188,20 @@ public abstract class BaseAttachmentVideo<M extends BaseAttachmentVideo<M>> exte
 	}
 
     /**
+     * 直播推流地址
+     */
+	public void setLivePushUrl(java.lang.String livePushUrl) {
+		set("live_push_url", livePushUrl);
+	}
+
+    /**
+     * 直播推流地址
+     */
+	public java.lang.String getLivePushUrl() {
+		return getStr("live_push_url");
+	}
+
+    /**
      * 开始直播时间
      */
 	public void setLiveStartTime(java.util.Date liveStartTime) {

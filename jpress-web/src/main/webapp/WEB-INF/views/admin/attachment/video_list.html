@@ -1,28 +1,6 @@
 #@layout()
 
 #define script()
-<script>
-
-    function trash(id) {
-        ajaxGet("#(CPATH)/admin/article/doTrash/" + id);
-    }
-
-
-    function draft(id) {
-        ajaxGet("#(CPATH)/admin/article/doDraft/" + id);
-    }
-
-    function normal(id) {
-        ajaxGet("#(CPATH)/admin/article/doNormal/" + id);
-    }
-
-    function del(id) {
-        if (confirm("确定要删除该页面吗？删除后不可恢复")) {
-            ajaxGet("#(CPATH)/admin/article/doDel/" + id);
-        }
-    }
-
-</script>
 
 <script>
 

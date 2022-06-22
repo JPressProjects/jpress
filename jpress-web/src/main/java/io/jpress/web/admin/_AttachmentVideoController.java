@@ -8,6 +8,7 @@ import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.commons.aliyun.AliyunLiveUtil;
 import io.jpress.commons.aliyun.AliyunVideoUtil;
 import io.jpress.commons.aliyun.CloudVideoInfo;
@@ -60,6 +61,11 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
 
     public void edit(){
+        String accessKeyId = JPressOptions.get("attachment_aliyunvideo_accesskeyid");
+        String accessKeySecret = JPressOptions.get("attachment_aliyunvideo_accesskeysecret");
+        setAttr("accessKeyId",accessKeyId);
+        setAttr("accessKeySecret",accessKeySecret);
+
         String id = getPara();
         AttachmentVideo video = attachmentVideoService.findById(id);
         String playauth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
@@ -82,6 +88,11 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
     public void add(){
+        String accessKeyId = JPressOptions.get("attachment_aliyunvideo_accesskeyid");
+        String accessKeySecret = JPressOptions.get("attachment_aliyunvideo_accesskeysecret");
+        setAttr("accessKeyId",accessKeyId);
+        setAttr("accessKeySecret",accessKeySecret);
+
         List<AttachmentVideoCategory> categories = videoCategoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
         setAttr("categories",categories);
 
@@ -144,7 +155,6 @@ public class _AttachmentVideoController extends AdminControllerBase {
         attachmentVideoService.deleteById(getIdPara());
         renderOkJson();
     }
-
 
     /**
      * 获取视频上传凭证

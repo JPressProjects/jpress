@@ -44,6 +44,17 @@
     var uploader = null
 
     $('#videoInputFile').on('change', function (e) {
+
+        var accessKeyId = $("#accessKeyId").val();
+        var accessKeySecret = $("#accessKeySecret").val();
+        if(accessKeyId == null || accessKeyId == ""){
+            alert("请先配置点播视频的accessKeyId")
+            return
+        }else if(accessKeySecret == null || accessKeySecret == ""){
+            alert("请先配置点播视频的accessKeySecret")
+            return
+        }
+
         var file = e.target.files[0]
         if (!file) {
             alert("请先选择需要上传的文件!")
@@ -202,12 +213,12 @@
     createVideoPlayer("#(cloudVid ??)", "#(cloudPlayAuth ??)");
 
 
-
 </script>
 
 <!-- 直播 -->
 <script>
     $('#createLive').on('click', function () {
+
         //创建直播流地址
         ajaxGet("/admin/attachment/video/doGetLiveInfo", function (data) {
 
@@ -262,24 +273,7 @@
 
 </script>
 
-<script>
 
-    function save(){
-        var title = $('#videoTitle').val();
-        if (title == "") {
-            return;
-        }
-        ajaxSubmit("#form", function () {
-            toastr.success('视频保存成功。');
-            setTimeout(function (){
-                //返回list页面
-                location.href='#(CPATH)/admin/attachment/video/list';
-            },1500);
-        });
-    }
-
-
-</script>
 
 #end
 
@@ -314,7 +308,7 @@
 
 
             <div class=" col-lg-12" >
-                    <form class="form-horizontal ajaxSubmit" autocomplete="off" id="form"
+                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off" id="form"
                           action="#(CPATH)/admin/attachment/video/doSave"
                           data-ok-href="#(CPATH)/admin/attachment/video/list"
                           data-ok-message="视频保存成功"
@@ -412,6 +406,9 @@
 
 
                             <div id="videos">
+                                <input type="hidden" name="accessKeyId" value="#(accessKeyId)" id="accessKeyId">
+                                <input type="hidden" name="accessKeySecret" value="#(accessKeySecret)" id="accessKeySecret">
+
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">选择视频文件</label>
                                     <div class="col-sm-6">
@@ -422,6 +419,9 @@
                                                        id="videoInputFileLable">点击选择上传视频</label>
                                             </div>
                                         </div>
+                                        <p class="text-muted">
+                                            要上传视频，请先在 <a href="#(CPATH)/admin/attachment/setting">[设置]</a> 中进行阿里云点播视频配置。
+                                        </p>
                                     </div>
                                 </div>
 
@@ -455,14 +455,19 @@
                                                 <button type="button" class="btn btn-primary btn-flat" id="createLive">创建</button>
                                           </span>
                                         </div>
+                                        <p class="text-muted">
+                                            直播需先在 <a href="#(CPATH)/admin/attachment/setting">[设置]</a> 中进行阿里云直播配置。
+                                        </p>
                                         <span class="text-muted"> 推流地址有效时间为 2 个小时，创建后请及时使用。</span>
+
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>开播时间</label>
+<!--                                    <span class="text-danger mr-2">*</span>-->
+                                    <label class="col-sm-2 col-form-label"> 开播时间</label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control datetime" required placeholder="请选择开播时间"
+                                        <input type="text" class="form-control datetime"  placeholder="请选择开播时间"
                                                name="video.live_start_time"
                                                value="#date(video.liveStartTime ??)">
                                     </div>
@@ -470,9 +475,9 @@
 
 
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label"> <span class="text-danger mr-2">*</span>直播结束时间</label>
+                                    <label class="col-sm-2 col-form-label"> 直播结束时间</label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control datetime" required placeholder="请选择直播结束时间"
+                                        <input type="text" class="form-control datetime"  placeholder="请选择直播结束时间"
                                                name="video.live_end_time"
                                                value="#date(video.liveEndTime ??)">
                                     </div>

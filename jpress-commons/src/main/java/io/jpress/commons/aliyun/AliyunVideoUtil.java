@@ -3,6 +3,7 @@ package io.jpress.commons.aliyun;
 import com.aliyun.tearpc.models.Config;
 import com.aliyun.vod20170321.models.*;
 import io.jboot.Jboot;
+import io.jpress.JPressOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +11,7 @@ import java.util.Map;
 
 public class AliyunVideoUtil {
 
-//    private static final String accessKeyId = Jboot.configValue("jboot.aliyun.vod.accessKeyId");
-//    private static final String accessKeySecret = Jboot.configValue("jboot.aliyun.vod.accessKeySecret");
-    private static final String accessKeyId = "zrwn8lmjrvd4da4fnpcnm5jl";
-    private static final String accessKeySecret ="UHtGynssbrfD/Jz9Fhqg/EeJGVU=";
-    private static final String endpoint = Jboot.configValue("jboot.aliyun.vod.endpoint", "vod.cn-beijing.aliyuncs.com");
+
 
 
     /**
@@ -147,6 +144,10 @@ public class AliyunVideoUtil {
 
 
     private static com.aliyun.vod20170321.Client createClient() throws Exception {
+        String accessKeyId = JPressOptions.get("attachment_aliyunvideo_accesskeyid");
+        String accessKeySecret = JPressOptions.get("attachment_aliyunvideo_accesskeysecret");
+        String endpoint = Jboot.configValue("jboot.aliyun.vod.endpoint", "vod.cn-beijing.aliyuncs.com");
+
         Config config = new Config();
         config.accessKeyId = accessKeyId;
         config.accessKeySecret = accessKeySecret;

@@ -4,7 +4,7 @@ import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import io.jboot.Jboot;
+import io.jpress.JPressOptions;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -15,24 +15,17 @@ import java.util.regex.Pattern;
 
 public class AliyunLiveUtil {
 
-    private static final String accessKeyId = Jboot.configValue("jboot.aliyun.live.accessKeyId");
-    private static final String accessKeySecret = Jboot.configValue("jboot.aliyun.live.accessKeySecret");
-    private static final String regionId = Jboot.configValue("jboot.aliyun.live.regionId", "cn-beijing");
-    private static final String appName = Jboot.configValue("jboot.aliyun.live.appName");
-
-    private static final String playDomain = Jboot.configValue("jboot.aliyun.live.playDomain");
-    private static final String playAuthString = Jboot.configValue("jboot.aliyun.live.playAuthString");
-
-    private static final String pushDomain = Jboot.configValue("jboot.aliyun.live.pushDomain");
-    private static final String pushAuthString = Jboot.configValue("jboot.aliyun.live.pushAuthString");
-
     public static String getAppName() {
-        return appName;
+        return JPressOptions.get("attachment_aliyunlive_appname") == null
+                || ("").equals(JPressOptions.get("attachment_aliyunlive_appname")) ?
+                "": JPressOptions.get("attachment_aliyunlive_appname");
     }
 
 
     public static String getPlayDomain() {
-        return playDomain;
+        return JPressOptions.get("attachment_aliyunlive_playdomain") == null
+                || ("").equals(JPressOptions.get("attachment_aliyunlive_playdomain")) ?
+                "": JPressOptions.get("attachment_aliyunlive_playdomain");
     }
 
 
@@ -43,6 +36,14 @@ public class AliyunLiveUtil {
      * @return
      */
     public static String createPlayUrlForM3U8(String streamName) {
+        String appName = JPressOptions.get("attachment_aliyunlive_appname");
+        String playDomain = JPressOptions.get("attachment_aliyunlive_playdomain");
+        String playAuthString = JPressOptions.get("attachment_aliyunlive_playauthstring");
+
+        if(appName == null){return "";}
+        if(playDomain == null){return "";}
+        if(playAuthString == null){return "";}
+
         StringBuilder sb = new StringBuilder(playDomain);
         sb.append("/").append(appName).append("/").append(streamName).append(".m3u8");
 
@@ -58,6 +59,14 @@ public class AliyunLiveUtil {
      * @return
      */
     public static String createPlayUrlForFLV(String streamName) {
+        String appName = JPressOptions.get("attachment_aliyunlive_appname");
+        String playDomain = JPressOptions.get("attachment_aliyunlive_playdomain");
+        String playAuthString = JPressOptions.get("attachment_aliyunlive_playauthstring");
+
+        if(appName == null){return "";}
+        if(playDomain == null){return "";}
+        if(playAuthString == null){return "";}
+
         StringBuilder sb = new StringBuilder(playDomain);
         sb.append("/").append(appName).append("/").append(streamName).append(".flv");
 
@@ -74,6 +83,14 @@ public class AliyunLiveUtil {
      * @return
      */
     public static String createPlayUrlForRTMP(String streamName) {
+        String appName = JPressOptions.get("attachment_aliyunlive_appname");
+        String playDomain = JPressOptions.get("attachment_aliyunlive_playdomain");
+        String playAuthString = JPressOptions.get("attachment_aliyunlive_playauthstring");
+
+        if(appName == null){return "";}
+        if(playDomain == null){return "";}
+        if(playAuthString == null){return "";}
+
         StringBuilder sb = new StringBuilder("rtmp://");
         sb.append(playDomain).append("/").append(appName).append("/").append(streamName);
 
@@ -90,6 +107,14 @@ public class AliyunLiveUtil {
      * @return
      */
     public static String createPushUrl(String streamName) {
+        String appName = JPressOptions.get("attachment_aliyunlive_appname");
+        String pushDomain = JPressOptions.get("attachment_aliyunlive_pushdomain");
+        String pushAuthString = JPressOptions.get("attachment_aliyunlive_pushauthstring");
+
+        if(appName == null){return "";}
+        if(pushDomain == null){return "";}
+        if(pushAuthString == null){return "";}
+
         StringBuilder sb = new StringBuilder("rtmp://");
         sb.append(pushDomain).append("/").append(appName).append("/").append(streamName);
 
@@ -147,6 +172,10 @@ public class AliyunLiveUtil {
 
 
     private static IAcsClient createClient() throws Exception {
+        String accessKeyId = JPressOptions.get("attachment_aliyunlive_accesskeyid");
+        String accessKeySecret = JPressOptions.get("attachment_aliyunlive_accesskeysecret");
+        String regionId = JPressOptions.get("attachment_aliyunlive_regionid");
+
         IClientProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
         //DefaultProfile.addEndpoint("cn-shanghai", "cn-shanghai", "live", "live.aliyuncs.com"); //添加自定义endpoint
 //        IAcsClient client = new DefaultAcsClient(profile);

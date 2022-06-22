@@ -35,7 +35,7 @@ public class _JobDepartmentController extends AdminControllerBase {
     @Inject
     private JobDepartmentService service;
 
-    @AdminMenu(text = "管理", groupId = "job")
+    @AdminMenu(text = "部门管理", groupId = "job")
     public void index() {
         Page<JobDepartment> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);

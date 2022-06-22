@@ -151,6 +151,20 @@
 
         <dependency>
             <groupId>io.jpress</groupId>
+            <artifactId>module-job-service-provider</artifactId>
+            <version>5.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-job-web</artifactId>
+            <version>5.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.jpress</groupId>
             <artifactId>codegen</artifactId>
             <version>5.0</version>
         </dependency>
@@ -241,6 +255,9 @@
                                 </resource>
                                 <resource>
                                     <directory>${basedir}/../module-product/module-product-web/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-job/module-job-web/src/main/webapp</directory>
                                 </resource>
                                 <resource>
                                     <directory>${basedir}/../jpress-addons/jpress-addon-wtask/src/main/webapp</directory>

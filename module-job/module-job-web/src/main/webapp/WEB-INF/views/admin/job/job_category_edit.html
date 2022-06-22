@@ -54,113 +54,120 @@
             <div class="col-12">
                 <div class="card card-outline card-primary">
                     <form class=" form-setting" autocomplete="off"
-                          action="/admin/job/job_category/doSave"
+                          action="/admin/job/jobCategory/doSave"
                           method="POST" id="form">
 
                         <div class="card-body ">
 	                                <input type="hidden" id="entryId" name="jobCategory.id" value="#(jobCategory.id ??)">
 		                            <div class="form-group row">
-		                                <label class="col-sm-2 col-form-label">父id</label>
+		                                <label class="col-sm-2 col-form-label">父分类</label>
 		                                <div class="col-sm-6">
 
-										   <input type="input" name="jobCategory.pid" class="form-control" value="#(jobCategory.pid ??)"
-		                                           placeholder="">
+											<select class="form-control" name="connection_sms_type">
+												#for(item : categoryList)
+												<option value="#(item.id ??)" #if(item.id ?? == jobCategory.pid ??) selected #end>#(item.name ??)</option>
+												#end
+											</select>
+
 		                                </div>
 		                            </div>
 		                            <div class="form-group row">
-		                                <label class="col-sm-2 col-form-label">创建分类的用户id</label>
+		                                <label class="col-sm-2 col-form-label">创建分类的用户</label>
 		                                <div class="col-sm-6">
 
-										   <input type="input" name="jobCategory.user_id" class="form-control" value="#(jobCategory.user_id ??)"
-		                                           placeholder="">
+										   <input type="input" name="jobCategory.user_id" class="form-control" value="#(jobCategory.user_id ??)" readonly
+		                                           placeholder="如果是新建可不用填写">
 		                                </div>
 		                            </div>
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">分类名称</label>
 		                                <div class="col-sm-6">
 
 										   <input type="input" name="jobCategory.name" class="form-control" value="#(jobCategory.name ??)"
-		                                           placeholder="">
+		                                           placeholder="请填写分类名称">
 		                                </div>
 		                            </div>
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">内容描述</label>
 		                                <div class="col-sm-6">
 
 										   <input type="input" name="jobCategory.content" class="form-control" value="#(jobCategory.content ??)"
-		                                           placeholder="">
+		                                           placeholder="请填写描述">
 		                                </div>
 		                            </div>
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">摘要</label>
 		                                <div class="col-sm-6">
 
 										   <input type="input" name="jobCategory.summary" class="form-control" value="#(jobCategory.summary ??)"
-		                                           placeholder="">
+		                                           placeholder="请填写摘要">
 		                                </div>
 		                            </div>
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">该分类下的岗位数量</label>
 		                                <div class="col-sm-6">
 
 										   <input type="input" name="jobCategory.count" class="form-control" value="#(jobCategory.count ??)"
-		                                           placeholder="">
+		                                           placeholder="请填写岗位数量">
 		                                </div>
 		                            </div>
+
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">图标</label>
 		                                <div class="col-sm-6">
+											<div class="jpress-image-browser">
+												<input type="hidden" name="jobCategory.icon" value="#(jobCategory.icon ??)"/>
+												<img src="#(jobCategory.icon ?? '/static/commons/img/nothumbnail.jpg')">
+												<div class="image-action">
+													<a class="image-delete"> <i class="fa fa-trash"></i></a>
+													<a class="image-edit"> <i class="fa fa-edit"></i></a>
+												</div>
+											</div>
+											<p class="text-muted"> </p>
 
-										   <input type="input" name="jobCategory.icon" class="form-control" value="#(jobCategory.icon ??)"
-		                                           placeholder="">
 		                                </div>
 		                            </div>
+
+
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">排序编码</label>
 		                                <div class="col-sm-6">
 
 										   <input type="input" name="jobCategory.order_number" class="form-control" value="#(jobCategory.order_number ??)"
-		                                           placeholder="">
+		                                           placeholder="请填写排序编码">
 		                                </div>
 		                            </div>
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">标识</label>
 		                                <div class="col-sm-6">
 
 										   <input type="input" name="jobCategory.flag" class="form-control" value="#(jobCategory.flag ??)"
-		                                           placeholder="">
+		                                           placeholder="请填写标识">
 		                                </div>
 		                            </div>
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">SEO关键字</label>
 		                                <div class="col-sm-6">
 
 										   <input type="input" name="jobCategory.meta_keywords" class="form-control" value="#(jobCategory.meta_keywords ??)"
-		                                           placeholder="">
+		                                           placeholder="请填写SEO关键字">
 		                                </div>
 		                            </div>
+
 		                            <div class="form-group row">
 		                                <label class="col-sm-2 col-form-label">SEO描述内容</label>
 		                                <div class="col-sm-6">
 
 										   <input type="input" name="jobCategory.meta_description" class="form-control" value="#(jobCategory.meta_description ??)"
-		                                           placeholder="">
-		                                </div>
-		                            </div>
-		                            <div class="form-group row">
-		                                <label class="col-sm-2 col-form-label">创建日期</label>
-		                                <div class="col-sm-6">
-
-										    <input type="input" class="form-control datetime" placeholder="点击选择"
-		                       						name="jobCategory.created" value="#date(jobCategory.created ?? now,'yyyy-MM-dd')" >
-		                                </div>
-		                            </div>
-		                            <div class="form-group row">
-		                                <label class="col-sm-2 col-form-label">修改日期</label>
-		                                <div class="col-sm-6">
-
-										    <input type="input" class="form-control datetime" placeholder="点击选择"
-		                       						name="jobCategory.modified" value="#date(jobCategory.modified ?? now,'yyyy-MM-dd')" >
+		                                           placeholder="请填写SEO描述内内容">
 		                                </div>
 		                            </div>
 

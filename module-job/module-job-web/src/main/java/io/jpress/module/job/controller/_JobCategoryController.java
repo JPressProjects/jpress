@@ -27,19 +27,29 @@ import io.jpress.module.job.model.JobCategory;
 import io.jpress.module.job.service.JobCategoryService;
 import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
+import java.util.List;
 
 
-@RequestMapping(value = "/admin/job/job_category", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/job/jobCategory", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _JobCategoryController extends AdminControllerBase {
 
     @Inject
     private JobCategoryService service;
 
-    @AdminMenu(text = "管理", groupId = "job")
+    @AdminMenu(text = "分类管理", groupId = "job")
     public void index() {
         Page<JobCategory> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);
         render("job/job_category_list.html");
+    }
+
+
+    public void add(){
+
+        List<JobCategory> categoryList = service.findAll();
+        setAttr("categoryList",categoryList);
+
+        render("job/job_category_edit.html");
     }
 
 
@@ -54,6 +64,10 @@ public class _JobCategoryController extends AdminControllerBase {
 
     public void doSave() {
         JobCategory entry = getModel(JobCategory.class,"jobCategory");
+
+        if(entry.getId() == null){
+
+        }
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

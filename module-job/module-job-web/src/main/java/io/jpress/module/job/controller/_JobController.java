@@ -25,23 +25,31 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.service.JobService;
+import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
 
 
-@RequestMapping(value = "/admin/job/job", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/job", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _JobController extends AdminControllerBase {
 
     @Inject
     private JobService service;
 
-    @AdminMenu(text = "管理", groupId = "job")
+    @Inject
+    private MenuService menuService;
+
+    @AdminMenu(text = "岗位管理", groupId = "job" , order = 0)
     public void index() {
         Page<Job> entries=service.paginate(getPagePara(), 10);
         setAttr("page", entries);
         render("job/job_list.html");
     }
 
+
+    public void add(){
+        render("job/job_edit.html");
+    }
 
     public void edit() {
         int entryId = getParaToInt(0, 0);
@@ -54,8 +62,8 @@ public class _JobController extends AdminControllerBase {
 
     public void doSave() {
         Job entry = getModel(Job.class,"job");
-        service.saveOrUpdate(entry);
-        renderJson(Ret.ok().set("id", entry.getId()));
+        Long id = (long)service.saveOrUpdate(entry);
+        renderJson(Ret.ok().set("id", id));
     }
 
 

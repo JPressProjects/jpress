@@ -15,12 +15,8 @@
  */
 package io.jpress.module.job;
 
-import com.jfinal.core.Controller;
-import io.jboot.Jboot;
-import io.jboot.core.listener.JbootAppListenerBase;
-import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
-import io.jpress.core.module.ModuleListener;
+import io.jpress.core.module.ModuleBase;
 import java.util.List;
 
 /**
@@ -29,29 +25,18 @@ import java.util.List;
  * @Description: 每个 module 都应该有这样的一个监听器，用来配置自身Module的信息，比如后台菜单等
  * @Package io.jpress.module.job
  */
-public class JobModuleInitializer extends JbootAppListenerBase implements ModuleListener {
-
-
-    @Override
-    public String onRenderDashboardBox(Controller controller) {
-        return null;
-    }
-
-    @Override
-    public String onRenderToolsBox(Controller controller) {
-        return null;
-    }
+public class JobModuleInitializer extends ModuleBase {
 
     @Override
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
 		MenuGroup menuGroup = new MenuGroup();
         menuGroup.setId("job");
-        menuGroup.setText("job");
-        menuGroup.setIcon("<i class=\"fas fa-file\"></i>");
-        menuGroup.setOrder(1);
+        menuGroup.setText("招聘");
+        menuGroup.setIcon("<i class=\"fa fa-suitcase\"></i>");
+        menuGroup.setOrder(4);
         adminMenus.add(menuGroup);
     }
 
-
-
 }
+
+

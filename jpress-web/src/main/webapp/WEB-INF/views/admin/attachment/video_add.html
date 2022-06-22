@@ -8,7 +8,7 @@
 <script src="/static/components/aliyun-upload-sdk/lib/es6-promise.min.js"></script>
 <script src="/static/components/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.13.0.min.js"></script>
 <script src="/static/components/aliyun-upload-sdk/aliyun-upload-sdk-1.5.2.min.js"></script>
-<script src="/static/components/aliyun-upload-sdk/jbootutils.js"></script>
+<script src="/static/admin/js/jpressutils.js"></script>
 
 <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
 
@@ -38,7 +38,7 @@
 
 </script>
 
-<!-- 视频/直播 -->
+<!-- 视频点播 -->
 <script>
 
     var uploader = null
@@ -80,7 +80,7 @@
     function createVideoUploader(fileName, title) {
         var uploader = new AliyunUpload.Vod({
             //userID，必填，只需有值即可。
-            userId: "1",
+            userId: "ACCOUNT.id",
             //上传到视频点播的地域，默认值为'cn-shanghai'，
             //eu-central-1，ap-southeast-1
             region: "cn-beijing",
@@ -120,7 +120,7 @@
             'onUploadSucceed': function (uploadInfo) {
                 console.log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
 
-                Utils.ajaxGet("/admin/attachment/video/doGetVideoInfo?&videoId=" + uploadInfo.videoId, function (data) {
+                ajaxGet("/admin/attachment/video/doGetVideoInfo?&videoId=" + uploadInfo.videoId, function (data) {
                     //设置视频属性
                     $('#vodVid').val(data.videoId);
                     $('#vodSize').val(data.size);
@@ -205,6 +205,62 @@
 
 </script>
 
+<!-- 直播 -->
+<script>
+    $('#createLive').on('click', function () {
+        //创建直播流地址
+        ajaxGet("/admin/attachment/video/doGetLiveInfo", function (data) {
+
+                $('#livePushUrl').val(data.pushUrl);
+                $('#contentLivePushUrl').val(data.pushUrl);
+                $('#liveApp').val(data.liveApp);
+                $('#liveDomain').val(data.domainName);
+                $('#liveStream').val(data.streamName);
+
+            });
+    });
+
+
+    /**
+     * 创建直播播放器
+     * @param source
+     * @returns {Aliplayer}
+     */
+    function createLivePlayer(source, liveCloudVid, liveCloudPlayAuth) {
+        if (source != "") {
+            var player = new Aliplayer({
+                    "id": "livePlayer",
+                    "source": source,
+                    // "playauth": playauth,
+                    // "qualitySort": "asc",
+                    // "format": "mp4",
+                    // "mediaType": "video",
+                    "width": "100%",
+                    "height": "100%",
+                    "videoWidth": "100%",
+                    "videoHeight": "100%",
+                    "autoplay": false,
+                    "isLive": true,
+                    // "cover": "缩略图",
+                    "rePlay": false,
+                    "playsinline": true,
+                    "preload": false,
+                    "controlBarVisibility": "hover",
+                    "useH5Prism": true,
+                    "useFlashPrism": false
+                }, function (player) {
+                    console.log("The player is created");
+                }
+            );
+            return player;
+        } else {
+            return createVideoPlayer(liveCloudVid, liveCloudPlayAuth, "livePlayer");
+        }
+    }
+
+    createLivePlayer("#(livePlayUrl ??)", "#(liveCloudVid ??)", "#(liveCloudPlayAuth ??)")
+
+</script>
 
 <script>
 
@@ -259,7 +315,7 @@
 
             <div class=" col-lg-12" >
                     <form class="form-horizontal ajaxSubmit" autocomplete="off" id="form"
-                          action="/admin/attachment/video/doSave"
+                          action="#(CPATH)/admin/attachment/video/doSave"
                           data-ok-href="#(CPATH)/admin/attachment/video/list"
                           data-ok-message="视频保存成功"
                           method="post">
@@ -382,16 +438,18 @@
 
 
                             <div id="live">
-                                <input type="hidden" name="video.live_stream"
-                                       value="#(video.liveStream ??)" id="contentLivePushUrl">
+                                <input type="hidden" name="video.live_push_url" value="#(video.livePushUrl ??)" id="contentLivePushUrl">
+                                <input type="hidden" name="video.live_app" value="#(video.liveApp ??)" id="liveApp">
+                                <input type="hidden" name="video.live_domain" value="#(video.liveDomain ??)" id="liveDomain">
+                                <input type="hidden" name="video.live_stream" value="#(video.liveStream ??)" id="liveStream">
 
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label"> 直播推流地址 </label>
                                     <div class="col-sm-6">
                                         <div class="input-group ">
 <!--                                           disabled readonly-->
-                                            <input type="text" class="form-control" name="video.live_stream"
-                                                   value="#(video.liveStream ??)" id="livePushUrl">
+                                            <input type="text" class="form-control" name="video.live_stream" disabled readonly
+                                                   value="#(video.livePushUrl ??)" id="livePushUrl">
                                             <span class="input-group-append">
                                                 <button type="button" class="btn btn-primary btn-flat" id="createLive">创建</button>
                                           </span>

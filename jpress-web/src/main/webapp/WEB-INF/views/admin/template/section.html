@@ -7,14 +7,17 @@
 <style>
     .content-wrapper{
         position: relative;
+        min-height: calc(100vh - calc(3.5rem + 1px));
+        overflow: hidden;
     }
     .tool-content{
         position: absolute;
         width:100%;
         height:100%;
+
     }
-    .main-footer{
-        display: none;
+    .main-footer.text-sm{
+        display: none !important;
     }
 </style>
 #end
@@ -30,6 +33,7 @@
         })
         $(".right-switch").click(function(){
             $(".rightContent").toggle();
+            $(".middleContent").toggleClass("col-md-9  col-sm-8","col-md-6  col-sm-4");
         })
         $(".js-more").click(function(){
 

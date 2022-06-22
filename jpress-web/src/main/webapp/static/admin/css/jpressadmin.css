@@ -112,6 +112,11 @@ div.dataTables_wrapper {
     font-size: 10px;
 }
 
+.text-sm  .content-header{
+    padding: 15px 0.5rem 10px 0.5rem;
+}
+
+
 .btn-group > .active {
     background-color: #e9ecef;
     color: #2b2b2b;

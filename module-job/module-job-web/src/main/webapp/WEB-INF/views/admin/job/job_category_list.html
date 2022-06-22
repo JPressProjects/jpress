@@ -1,0 +1,124 @@
+#@layout()
+
+#define script()
+<script>
+
+    function doDel(id) {
+        ajaxGet("/admin/job/job_category/doDel/" + id);
+    }
+
+</script>
+#end
+
+#define content()
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / JobCategory / 管理</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
+
+                        <div class="row admin-search-panel">
+                            <div class="col-12">
+                                <a href="job_category/edit" class="btn btn-primary ">
+                                    <i class="fas fa-plus"></i> 新建
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+	                                    <input class="tableCheckAll" type="checkbox"/>
+	                                </th>
+	                                <th></th>
+	                                <th>父id</th>
+	                                <th>创建分类的用户id</th>
+	                                <th>分类名称</th>
+	                                <th>内容描述</th>
+	                                <th>摘要</th>
+	                                <th>该分类下的岗位数量</th>
+	                                <th>图标</th>
+	                                <th>排序编码</th>
+	                                <th>标识</th>
+	                                <th>SEO关键字</th>
+	                                <th>SEO描述内容</th>
+	                                <th>创建日期</th>
+	                                <th>修改日期</th>
+
+                            </tr>
+                            #for(entry : page.list)
+                            <tr>
+                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" />
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/job/job_category/edit/#(entry.id)"> #(entry.id ??) </a>
+                                    </strong>
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
+                                            <a href="/admin/job/job_category/edit/#(entry.id)">编辑</a> |
+                                            <a href="javascript:;" class="red-action"
+                                               onclick="doDel('#(entry.id)')">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+
+	                                <td>#(entry.pid)</td>
+	                                <td>#(entry.user_id)</td>
+	                                <td>#(entry.name)</td>
+	                                <td>#(entry.content)</td>
+	                                <td>#(entry.summary)</td>
+	                                <td>#(entry.count)</td>
+	                                <td>#(entry.icon)</td>
+	                                <td>#(entry.order_number)</td>
+	                                <td>#(entry.flag)</td>
+	                                <td>#(entry.meta_keywords)</td>
+	                                <td>#(entry.meta_description)</td>
+	                                <td>#(entry.created)</td>
+	                                <td>#(entry.modified)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+#end

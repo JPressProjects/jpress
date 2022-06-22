@@ -107,7 +107,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "视频分类", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 39)
+//    @AdminMenu(text = "视频分类", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 39)
     public void category(){
         List<AttachmentVideoCategory> categories = videoCategoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
         setAttr("categories",categories);

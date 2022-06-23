@@ -7,8 +7,9 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
-import io.jpress.JPressOptions;
 import io.jpress.commons.aliyun.AliyunLiveUtil;
 import io.jpress.commons.aliyun.AliyunVideoUtil;
 import io.jpress.commons.aliyun.CloudVideoInfo;
@@ -61,10 +62,6 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
 
     public void edit(){
-        String accessKeyId = JPressOptions.get("attachment_aliyunvideo_accesskeyid");
-        String accessKeySecret = JPressOptions.get("attachment_aliyunvideo_accesskeysecret");
-        setAttr("accessKeyId",accessKeyId);
-        setAttr("accessKeySecret",accessKeySecret);
 
         String id = getPara();
         AttachmentVideo video = attachmentVideoService.findById(id);
@@ -88,10 +85,6 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
     public void add(){
-        String accessKeyId = JPressOptions.get("attachment_aliyunvideo_accesskeyid");
-        String accessKeySecret = JPressOptions.get("attachment_aliyunvideo_accesskeysecret");
-        setAttr("accessKeyId",accessKeyId);
-        setAttr("accessKeySecret",accessKeySecret);
 
         List<AttachmentVideoCategory> categories = videoCategoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
         setAttr("categories",categories);
@@ -99,6 +92,9 @@ public class _AttachmentVideoController extends AdminControllerBase {
         render("attachment/video_add.html");
     }
 
+    @EmptyValidate({
+            @Form(name = "video.vod_name", message = "视频标题不能为空")
+    })
     public void doSave(){
         AttachmentVideo video = getModel(AttachmentVideo.class, "video");
 
@@ -165,6 +161,9 @@ public class _AttachmentVideoController extends AdminControllerBase {
      */
     public Ret doGetUploadVideoAuth(String fileName, String title) {
         Map<String, Object> authMap = AliyunVideoUtil.getUploadVideoAuth(fileName, title);
+        if(authMap == null){
+            renderFailJson("请先配置点播视频的密钥!");
+        }
         return authMap != null ? Ret.ok().set(authMap) : Ret.fail();
     }
 
@@ -177,6 +176,9 @@ public class _AttachmentVideoController extends AdminControllerBase {
      */
     public Ret doRefreshVideoAuth(String videoId) {
         Map<String, Object> authMap = AliyunVideoUtil.refreshUploadVideoAuth(videoId);
+        if(authMap == null){
+            renderFailJson("请先配置点播视频的密钥!");
+        }
         return authMap != null ? Ret.ok().set(authMap) : Ret.fail();
     }
 

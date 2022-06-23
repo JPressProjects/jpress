@@ -45,16 +45,6 @@
 
     $('#videoInputFile').on('change', function (e) {
 
-        var accessKeyId = $("#accessKeyId").val();
-        var accessKeySecret = $("#accessKeySecret").val();
-        if(accessKeyId == null || accessKeyId == ""){
-            alert("请先配置点播视频的accessKeyId")
-            return
-        }else if(accessKeySecret == null || accessKeySecret == ""){
-            alert("请先配置点播视频的accessKeySecret")
-            return
-        }
-
         var file = e.target.files[0]
         if (!file) {
             alert("请先选择需要上传的文件!")
@@ -123,6 +113,11 @@
                         var uploadAddress = data.UploadAddress
                         var videoId = data.VideoId
                         uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress, videoId)
+                        //获取凭证失败
+                        if(data.state == "fail"){
+                            //清除文件选择
+                            $('#videoInputFile').val('')
+                        }
                     }, 'json')
                 }
             },
@@ -406,8 +401,6 @@
 
 
                             <div id="videos">
-                                <input type="hidden" name="accessKeyId" value="#(accessKeyId)" id="accessKeyId">
-                                <input type="hidden" name="accessKeySecret" value="#(accessKeySecret)" id="accessKeySecret">
 
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">选择视频文件</label>

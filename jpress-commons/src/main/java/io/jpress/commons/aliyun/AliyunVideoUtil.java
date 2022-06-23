@@ -38,11 +38,15 @@ public class AliyunVideoUtil {
      */
     public static Map<String, Object> getUploadVideoAuth(String fileName, String title) {
         CreateUploadVideoRequest createUploadVideoRequest = new CreateUploadVideoRequest();
+
         createUploadVideoRequest.fileName = fileName;
         createUploadVideoRequest.title = title;
         try {
-            CreateUploadVideoResponse response = createClient().createUploadVideo(createUploadVideoRequest);
-            return response != null ? response.toMap() : null;
+            if(createClient() != null){
+                CreateUploadVideoResponse response = createClient().createUploadVideo(createUploadVideoRequest);
+                return response != null ? response.toMap() : null;
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,8 +70,10 @@ public class AliyunVideoUtil {
         RefreshUploadVideoRequest refreshUploadVideoRequest = new RefreshUploadVideoRequest();
         refreshUploadVideoRequest.videoId = videoId;
         try {
-            RefreshUploadVideoResponse response = createClient().refreshUploadVideo(refreshUploadVideoRequest);
-            return response != null ? response.toMap() : null;
+            if(createClient() != null){
+                RefreshUploadVideoResponse response = createClient().refreshUploadVideo(refreshUploadVideoRequest);
+                return response != null ? response.toMap() : null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,8 +92,10 @@ public class AliyunVideoUtil {
         GetVideoPlayAuthRequest getVideoPlayAuthRequest = new GetVideoPlayAuthRequest();
         getVideoPlayAuthRequest.videoId = videoId;
         try {
-            GetVideoPlayAuthResponse response = createClient().getVideoPlayAuth(getVideoPlayAuthRequest);
-            return response != null ? response.playAuth : null;
+            if(createClient() != null){
+                GetVideoPlayAuthResponse response = createClient().getVideoPlayAuth(getVideoPlayAuthRequest);
+                return response != null ? response.playAuth : null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,8 +113,10 @@ public class AliyunVideoUtil {
         GetVideoInfoRequest getVideoInfoRequest = new GetVideoInfoRequest();
         getVideoInfoRequest.videoId = videoId;
         try {
-            GetVideoInfoResponse response = createClient().getVideoInfo(getVideoInfoRequest);
-            return response != null ? new CloudVideoInfo(response.video) : null;
+            if(createClient() != null){
+                GetVideoInfoResponse response = createClient().getVideoInfo(getVideoInfoRequest);
+                return response != null ? new CloudVideoInfo(response.video) : null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,16 +136,19 @@ public class AliyunVideoUtil {
         listLiveRecordVideoRequest.appName = appName;
         listLiveRecordVideoRequest.streamName = streamName;
         try {
-            ListLiveRecordVideoResponse listLiveRecordVideoResponse = createClient().listLiveRecordVideo(listLiveRecordVideoRequest);
-            if (listLiveRecordVideoResponse != null && listLiveRecordVideoResponse.liveRecordVideoList != null) {
-                List<ListLiveRecordVideoResponse.ListLiveRecordVideoResponseLiveRecordVideoListLiveRecordVideo>
-                        liveRecordVideo = listLiveRecordVideoResponse.liveRecordVideoList.liveRecordVideo;
-                if (liveRecordVideo != null) {
-                    List<CloudVideoInfo> cloudVideoInfos = new ArrayList<>();
-                    liveRecordVideo.forEach(item -> cloudVideoInfos.add(new CloudVideoInfo(item.video)));
-                    return cloudVideoInfos;
+            if(createClient() != null){
+                ListLiveRecordVideoResponse listLiveRecordVideoResponse = createClient().listLiveRecordVideo(listLiveRecordVideoRequest);
+                if (listLiveRecordVideoResponse != null && listLiveRecordVideoResponse.liveRecordVideoList != null) {
+                    List<ListLiveRecordVideoResponse.ListLiveRecordVideoResponseLiveRecordVideoListLiveRecordVideo>
+                            liveRecordVideo = listLiveRecordVideoResponse.liveRecordVideoList.liveRecordVideo;
+                    if (liveRecordVideo != null) {
+                        List<CloudVideoInfo> cloudVideoInfos = new ArrayList<>();
+                        liveRecordVideo.forEach(item -> cloudVideoInfos.add(new CloudVideoInfo(item.video)));
+                        return cloudVideoInfos;
+                    }
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,7 +159,11 @@ public class AliyunVideoUtil {
     private static com.aliyun.vod20170321.Client createClient() throws Exception {
         String accessKeyId = JPressOptions.get("attachment_aliyunvideo_accesskeyid");
         String accessKeySecret = JPressOptions.get("attachment_aliyunvideo_accesskeysecret");
-        String endpoint = Jboot.configValue("jboot.aliyun.vod.endpoint", "vod.cn-beijing.aliyuncs.com");
+        String endpoint = Jboot.configValue("jboot.aliyun.vod.endpoint", "vod.cn-shanghai.aliyuncs.com");
+
+        if(accessKeyId == null || accessKeySecret == null){
+            return null;
+        }
 
         Config config = new Config();
         config.accessKeyId = accessKeyId;

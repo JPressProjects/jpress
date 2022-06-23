@@ -426,8 +426,8 @@ public class _TemplateController extends AdminControllerBase {
 
 
     @AdminMenu(text = "板块", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 7)
-    public void section() {
-        render("template/section.html");
+    public void block() {
+        render("template/block.html");
     }
 
 

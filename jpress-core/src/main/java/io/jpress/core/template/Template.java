@@ -43,7 +43,7 @@ public class Template {
     private Set<String> htmls = new HashSet<>();
 
     //板块文件列表
-    private Set<String> sections = new HashSet<>();
+    private Set<String> blocks = new HashSet<>();
 
     //模板支持的 flag 配置
     private List<String> flags = new ArrayList<>();
@@ -84,17 +84,17 @@ public class Template {
         Prop prop = new Prop(new File(path, "template.properties"), "utf-8");
 
         String[] templateFiles = path
-                .list((dir, name) -> name.endsWith(".html") && !name.startsWith("section"));
+                .list((dir, name) -> name.endsWith(".html") && !name.startsWith("block"));
 
         if (templateFiles != null && templateFiles.length > 0) {
             this.htmls.addAll(Arrays.asList(templateFiles));
         }
 
         String[] sectionFiles = path
-                .list((dir, name) -> name.endsWith(".html") && name.startsWith("section"));
+                .list((dir, name) -> name.endsWith(".html") && name.startsWith("block"));
 
         if (sectionFiles != null && sectionFiles.length > 0) {
-            this.sections.addAll(Arrays.asList(sectionFiles));
+            this.blocks.addAll(Arrays.asList(sectionFiles));
         }
 
         String flagStrings = prop.get("flags");
@@ -148,6 +148,34 @@ public class Template {
         return htmls.contains(template) ? template : null;
     }
 
+    /**
+     * 获取模板支持设计的板块容器
+     * @return
+     */
+    private List<BlockContainer> getBlockContainers(){
+        List<BlockContainer> allContainers = new ArrayList<>();
+        for (String htmlFile : htmls) {
+            allContainers.addAll(TemplateUtil.readBlockContainers(new File(getAbsolutePathFile(),htmlFile)));
+        }
+        return allContainers;
+    }
+
+
+    /**
+     * 获取版本自带的 板块 信息
+     * @return
+     */
+    private List<BlockInfo> getBlockInfos(){
+        List<BlockInfo> blockInfos = new ArrayList<>();
+        for (String block : blocks) {
+            BlockInfo blockInfo = new BlockInfo();
+            blockInfo.setFileName(block);
+            blockInfo.setId(block.substring(6,block.length() - 4));
+
+            TemplateUtil.readAndSetBlockInfo(new File(getAbsolutePathFile(),block),blockInfo);
+        }
+        return blockInfos;
+    }
 
     /**
      * 只匹配 h5 的模板 ，如果匹配不到 h5 ，返回 null

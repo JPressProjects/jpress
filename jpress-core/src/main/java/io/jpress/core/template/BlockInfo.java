@@ -1,6 +1,8 @@
 package io.jpress.core.template;
 
-public class SectionInfo {
+import java.util.List;
+
+public class BlockInfo {
 
     // id
     private String id;
@@ -12,7 +14,10 @@ public class SectionInfo {
     private String title;
 
     //背景图片
-    private String bgImage;
+    private String icon;
+
+    //支持的配置内容
+    private List<BlockOption> options;
 
 
     public String getId() {
@@ -39,11 +44,11 @@ public class SectionInfo {
         this.title = title;
     }
 
-    public String getBgImage() {
-        return bgImage;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setBgImage(String bgImage) {
-        this.bgImage = bgImage;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

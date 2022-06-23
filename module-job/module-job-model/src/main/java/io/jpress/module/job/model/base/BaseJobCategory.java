@@ -92,15 +92,15 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
     /**
      * 该分类下的岗位数量
      */
-	public void setCount(java.lang.Integer count) {
+	public void setCount(java.lang.Long count) {
 		set("count", count);
 	}
 
     /**
      * 该分类下的岗位数量
      */
-	public java.lang.Integer getCount() {
-		return getInt("count");
+	public java.lang.Long getCount() {
+		return getLong("count");
 	}
 
     /**

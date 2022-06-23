@@ -64,15 +64,15 @@ public abstract class BaseJobDepartment<M extends BaseJobDepartment<M>> extends 
     /**
      * 该部门下的岗位数量
      */
-	public void setCount(java.lang.Integer count) {
+	public void setCount(java.lang.Long count) {
 		set("count", count);
 	}
 
     /**
      * 该部门下的岗位数量
      */
-	public java.lang.Integer getCount() {
-		return getInt("count");
+	public java.lang.Long getCount() {
+		return getLong("count");
 	}
 
     /**

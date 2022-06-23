@@ -175,4 +175,12 @@ public interface JobService  {
     public Page<Job> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+    /**
+    * 分页查询并且添加信息
+    *
+    * @param pagePara
+    * @param pageSizePara
+    * @return com.jfinal.plugin.activerecord.Page<io.jpress.module.job.model.Job>
+    */
+    Page<Job> paginateByColumnsWithInfo(int pagePara, int pageSizePara,Columns columns, String orderBy);
 }

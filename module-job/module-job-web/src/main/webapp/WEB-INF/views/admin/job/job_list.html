@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("/admin/job/doDel/" + id);
+        ajaxGet("#(CPATH)/admin/job/doDel/" + id);
     }
 
 </script>
@@ -91,8 +91,6 @@
                         <th>招聘人数</th>
                         <th>有效时间</th>
                         <th>发布时间</th>
-                        <th>创建日期</th>
-                        <th>最后更新日期</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -102,7 +100,7 @@
                     <tr >
                         <td><input name="tableItem" type="checkbox" value="#(entry.id)" />
                         </td>
-                        <td>
+                        <td style="width: 100px">
                             #(entry.name)
 
                             <div class="jp-action-card">
@@ -113,26 +111,52 @@
                                 </div>
                             </div>
                         </td>
-                        <td>#(entry.category_id)</td>
-                        <td>#(entry.dept_id)</td>
-                        <td>#(entry.summary)</td>
-                        <td>#(entry.area1)</td>
-                        <td>#(entry.age_start)~#(entry.age_end ??)</td>
-                        <td>#(entry.record)</td>
-                        <td>#(entry.year)</td>
-                        <td>#(entry.flag)</td>
-                        <td>#(entry.email)</td>
+                        <td>#(entry.category.name ??)</td>
+                        <td>#(entry.dept.name ??)</td>
+                        <td>#maxLength(entry.summary ??,5)</td>
+                        <td>#(entry.address.name ??)</td>
+                        <td>#(entry.age_start ??)~#(entry.age_end ??)</td>
+
+                        <td>
+                            #if(entry.record ?? == 0) 不限制学历
+                            #else if(entry.record ?? == 1)专科及以上
+                            #else if(entry.record ?? == 2)本科及以上
+                            #else if(entry.record ?? == 3)硕士研究生及以上
+                            #else if(entry.record ?? == 4)仅限博士研究生
+                            #end
+                        </td>
+
+                        <td>
+                            #if(entry.year ?? == 0) 应届毕业生
+                            #else if(entry.year ?? == 1) 俩年以上
+                            #else if(entry.year ?? == 2) 三年以上
+                            #else if(entry.year ?? == 3) 五年以上
+                            #end
+                        </td>
+                        <td>#(entry.flag ??)</td>
+                        <td>#(entry.email ??)</td>
 
                         <td>#if(entry.isRemote??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                             #else <i class="fa fa-2x fa-toggle-off"></i> #end
                         </td>
-                        <td>#(entry.job_type)</td>
-                        <td>#(entry.recruitment_type)</td>
-                        <td>#(entry.people_count)</td>
-                        <td>#date(entry.effective_time)</td>
-                        <td>#date(entry.release_time)</td>
-                        <td>#date(entry.created)</td>
-                        <td>#date(entry.modified)</td>
+
+                        <td>
+                            #if(entry.job_type ?? == 0) 全职
+                            #else if(entry.job_type  ?? == 1) 兼职
+                            #else if(entry.job_type  ?? == 2) 钟点工
+                            #end
+                        </td>
+
+                        <td>
+                            #if(entry.recruitment_type ?? == 0) 社招
+                            #else if(entry.recruitment_type  ?? == 1) 校招
+                            #else if(entry.recruitment_type  ?? == 2) 实习
+                            #end
+                        </td>
+
+                        <td>#(entry.people_count ??)</td>
+                        <td>#date(entry.effective_time ??)</td>
+                        <td>#date(entry.release_time ??)</td>
                     </tr>
                     #end
 

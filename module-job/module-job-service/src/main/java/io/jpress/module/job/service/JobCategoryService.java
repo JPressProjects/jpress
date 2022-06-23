@@ -6,7 +6,7 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface JobCategoryService  {
+public interface JobCategoryService {
 
     /**
      * 根据主键查找Model
@@ -174,5 +174,13 @@ public interface JobCategoryService  {
      */
     public Page<JobCategory> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
+
+    /**
+    * 更新count数量
+    *
+    * @param categoryIds
+    * @return boolean
+    */
+    public boolean updateCount(List<Long> categoryIds);
 
 }

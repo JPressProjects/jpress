@@ -175,4 +175,11 @@ public interface JobDepartmentService  {
     public Page<JobDepartment> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+
+    /**
+     * 更新count数量
+     *
+     * @param deptIds
+     */
+    public boolean updateCount(List<Long> deptIds);
 }

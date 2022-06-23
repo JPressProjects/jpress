@@ -52,7 +52,7 @@
                             <div class="col-sm-6">
 
                                 <select class="form-control" name="jobCategory.pid">
-                                    <option>顶级分类</option>
+                                    <option value=0>顶级分类</option>
                                     #for(item : categoryList)
                                     <option value="#(item.id ??)" #if(item.id ?? == jobCategory.pid ??) selected #end>#(item.name ??)</option>
                                     #end
@@ -74,7 +74,7 @@
                             <div class="col-sm-6">
 
                                 <input type="input" name="jobCategory.name" class="form-control" value="#(jobCategory.name ??)"
-                                       placeholder="请填写分类名称">
+                                       placeholder="请填写分类名称" required>
                             </div>
                         </div>
 

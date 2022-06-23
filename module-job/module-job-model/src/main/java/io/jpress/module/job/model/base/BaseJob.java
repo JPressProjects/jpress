@@ -36,29 +36,29 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
     /**
      * 对应分类id
      */
-	public void setCategoryId(java.lang.Integer categoryId) {
+	public void setCategoryId(java.lang.Long categoryId) {
 		set("category_id", categoryId);
 	}
 
     /**
      * 对应分类id
      */
-	public java.lang.Integer getCategoryId() {
-		return getInt("category_id");
+	public java.lang.Long getCategoryId() {
+		return getLong("category_id");
 	}
 
     /**
      * 对应部门id
      */
-	public void setDeptId(java.lang.Integer deptId) {
+	public void setDeptId(java.lang.Long deptId) {
 		set("dept_id", deptId);
 	}
 
     /**
      * 对应部门id
      */
-	public java.lang.Integer getDeptId() {
-		return getInt("dept_id");
+	public java.lang.Long getDeptId() {
+		return getLong("dept_id");
 	}
 
     /**
@@ -78,15 +78,15 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
     /**
      * 工作地点
      */
-	public void setArea1(java.lang.Long area1) {
-		set("area1", area1);
+	public void setAddressId(java.lang.Long addressId) {
+		set("address_id", addressId);
 	}
 
     /**
      * 工作地点
      */
-	public java.lang.Long getArea1() {
-		return getLong("area1");
+	public java.lang.Long getAddressId() {
+		return getLong("address_id");
 	}
 
     /**

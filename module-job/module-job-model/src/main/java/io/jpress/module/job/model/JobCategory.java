@@ -11,6 +11,12 @@ public class JobCategory extends BaseJobCategory<JobCategory> {
 
     private static final long serialVersionUID = 1L;
 
+
+
+    //对应  对字段 count 的增加获取减少
+    public static final String ADD = "add";
+    public static final String reduce = "reduce";
+
 	
 }
 

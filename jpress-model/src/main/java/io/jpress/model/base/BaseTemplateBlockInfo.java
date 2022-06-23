@@ -34,6 +34,20 @@ public abstract class BaseTemplateBlockInfo<M extends BaseTemplateBlockInfo<M>> 
 	}
 
     /**
+     * 模板文件
+     */
+	public void setTemplateFile(java.lang.String templateFile) {
+		set("template_file", templateFile);
+	}
+
+    /**
+     * 模板文件
+     */
+	public java.lang.String getTemplateFile() {
+		return getStr("template_file");
+	}
+
+    /**
      * 容器ID
      */
 	public void setContainerId(java.lang.String containerId) {

@@ -40,7 +40,7 @@ public class SystemGenerator {
                 "menu,option,permission,role," +
                 "site_info," +
                 "user,user_openid,user_tag," +
-                "template_block_config,template_block_info," +
+                "template_block_option,template_block_info," +
                 "utm,";
 
         String optionsTables = "user_openid,user_tag,attachment_video";

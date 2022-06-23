@@ -1,12 +1,14 @@
 #@layout()
 
 #define css()
+<link rel="stylesheet" href="#(CPATH)/static/components/bootstrap-font/bootstrap-icons.css">
 <style>
 
     .attachment_item {
+        position: relative;
         height: 220px;
         width: 200px;
-        padding: 0px;
+        padding: 0;
         border: 1px solid #ddd;
         margin: 10px;
         float: left;
@@ -34,12 +36,38 @@
     .attachment_item_title p {
         overflow: hidden;
     }
-
+    .checkbox {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #0069d9;
+        background-color: #fff;
+        position: absolute;
+        top: 3px;
+        right: 4px;
+    }
+    .checkbox i{
+        position: relative;
+        font-size:18px;
+        top:-3px;
+        font-weight: bold;
+    }
+    .attachment_item input[type="checkbox"] {
+        visibility: hidden;
+    }
+    /*.attachment_item:hover .checkbox*/
+    .attachment_item.active .checkbox{
+        display: block;
+    }
+    .attachment_item.active .checkbox i,.attachment_item:hover .checkbox i{
+        color:#0069d9;
+    }
 </style>
 #end
 
 #define script()
 <script>
+
     function show(id) {
         layer.open({
             type: 2,
@@ -56,6 +84,39 @@
             }
         });
     }
+
+    $(function(){
+
+        var ifAllChecked = true;
+        // 全选按钮
+        $("#checkall").click(function() {
+            if (this.checked) {//如果自己被选中
+                $("input[name=checkbox]").prop("checked", "true");
+                $(".attachment_item").each(function(i, element){
+                  $(this).addClass("active")
+                })
+            } else {
+                $("input[name='checkbox']").each(function () {
+                    this.checked = false;
+                });
+                $(".attachment_item").each(function(i, element){
+                    $(this).removeClass("active");
+                })
+            }
+        })
+
+        // 单选按钮
+        $(".attachment_item").click(function() {
+            var currentActive = $(this).hasClass("active");
+            if(currentActive){
+                $(this).removeClass("active");
+            }else{
+                $(this).addClass("active");
+            }
+
+        })
+    })
+
 </script>
 #end
 
@@ -174,6 +235,7 @@
                                     <div class="attachment_item_title">
                                         <p>#(attachment.title ??)</p>
                                     </div>
+                                    <span class="checkbox"><i class="bi bi-check2"></i></span><input type="checkbox">
                                 </div>
                                 #end
                             </div>

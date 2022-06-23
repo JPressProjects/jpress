@@ -58,13 +58,13 @@
             </ul>
             <div class="preview-close">
                 <button class="btn btn-parimary rounded-0">立即购买</button>
-                <span class="pl-2 pr-2"><i class="bi bi-x"></i></span>
+                <span class="pl-2 pr-2 js-close"><i class="bi bi-x"></i></span>
             </div>
         </div>
     </div>
 
     <!-- Iframe Container -->
-    <div id="iframe-container" class="desktop ipad-landscape iphone-portrait">
+    <div id="iframe-container" class="desktop">
         <div class="inner">
             <iframe width="100%" height="100%" class="iframe-link"
                     src="http://www.jpress.cn" id="iframeId"></iframe>
@@ -99,6 +99,12 @@
             $this.removeClass('inactive').addClass('active').siblings().addClass('inactive');
             preview_device(device);
         });
+
+        // 关闭头部信息
+        $(".js-close").click(function(){
+            $(".preview-header").hide();
+            $("#iframe-container").css({top:0,height:"100%"})
+        })
     })
     function preview_device(device) {
         var iframeContainer = $('#iframe-container');

@@ -1,0 +1,89 @@
+/* 预览 */
+
+.preview-header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9001;
+    -webkit-transition: top .1s;
+    -moz-transition: top .1s;
+    -ms-transition: top .1s;
+    transition: top .1s;
+    background-color: #212d36;
+    -webkit-box-shadow: 0 1px 4px 0 rgb(0 0 0 / 30%);
+    -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 30%);
+    /* display: none; */
+}
+
+.preview-logo {
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+
+.preview-logo img {
+    float: left;
+    position: relative;
+    display: block;
+    max-width: 100%;
+    width: 100px;
+    margin: 0 auto;
+    top: 50%;
+    margin-top: -15.5px;
+    flex-shrink: 0;
+}
+
+.preview-logo .dropmenue {
+    float: left;
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+
+.preview-logo .btn {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    width: 150px;
+    text-align: center;
+    padding: 0 20px;
+    font-size: 14px;
+    border: none;
+    background-color: #303d47;
+}
+
+.preview-media li {
+    float: left;
+    padding: 0 15px;
+    height: 50px;
+    line-height: 50px;
+    border-left: 1px solid #444d54;
+    background-color: #09131a;
+    cursor: pointer;
+}
+
+.preview-media i,
+.preview-close i {
+    color: #fff;
+    font-size: 24px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.preview-media li:hover {
+    background-color: #09131a;
+}
+
+.preview-media li:hover i {
+    color: #007bff;
+}
+
+.preview-close .btn {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 20px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: #fff;
+}

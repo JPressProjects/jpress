@@ -13,15 +13,6 @@ import java.util.List;
 @Bean
 public class SinglePageCategoryServiceProvider extends JbootServiceBase<SinglePageCategory> implements SinglePageCategoryService {
 
-    @Override
-    public List<SinglePageCategory> findListByType(String type) {
-        return ModelUtil.copy(findListByTypeWithCache(type));
-    }
-
-    @Override
-    public SinglePageCategory findFirstByTypeAndSlug(String type, String slug) {
-        return DAO.findFirstByColumns(Columns.create("type", type).eq("slug", slug));
-    }
 
     @Override
     public void doUpdatePageCategoryCount(Long categoryId) {
@@ -33,8 +24,4 @@ public class SinglePageCategoryServiceProvider extends JbootServiceBase<SinglePa
         }
     }
 
-    //    @Cacheable(name = "singlePageCategory", key = "type:#(type)")
-    public List<SinglePageCategory> findListByTypeWithCache(String type) {
-        return DAO.findListByColumns(Columns.create("type", type), "order_number asc,id desc");
-    }
 }

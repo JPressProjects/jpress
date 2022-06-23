@@ -27,7 +27,6 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
-import io.jpress.model.Menu;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.model.SinglePageCategory;
 import io.jpress.module.page.service.SinglePageCategoryService;
@@ -37,7 +36,6 @@ import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -96,7 +94,7 @@ public class _PageController extends AdminControllerBase {
         setAttr("normalCount", normalCount);
         setAttr("totalCount", draftCount + trashCount + normalCount);
 
-        List<SinglePageCategory> categories = categoryService.findListByType(SinglePageCategory.TYPE_CATEGORY);
+        List<SinglePageCategory> categories = categoryService.findAll();
         setAttr("categories", categories);
 
         render("page/page_list.html");
@@ -105,7 +103,7 @@ public class _PageController extends AdminControllerBase {
     @AdminMenu(text = "新建", groupId = "page", order = 2)
     public void write() {
 
-        List<SinglePageCategory> categories = categoryService.findListByType(SinglePageCategory.TYPE_CATEGORY);
+        List<SinglePageCategory> categories = categoryService.findAll();
         setAttr("categories", categories);
 
         int pageId = getParaToInt(0, 0);
@@ -224,14 +222,13 @@ public class _PageController extends AdminControllerBase {
 
     @AdminMenu(text = "分类", groupId = "page", order = 2)
     public void category() {
-        List<SinglePageCategory> categories = categoryService.findListByType(SinglePageCategory.TYPE_CATEGORY);
+        List<SinglePageCategory> categories = categoryService.findAll();
         setAttr("categories", categories);
         long id = getParaToLong(0, 0L);
         if (id > 0 && categories != null) {
             for (SinglePageCategory category : categories) {
                 if (category.getId().equals(id)) {
                     setAttr("category", category);
-                    setAttr("isDisplayInMenu", menuService.findFirstByRelatives("single_page_category", id) != null);
                 }
             }
         }
@@ -252,56 +249,13 @@ public class _PageController extends AdminControllerBase {
 
 
     @EmptyValidate({
-            @Form(name = "category.title", message = "分类名称不能为空"),
-            @Form(name = "category.slug", message = "slug 不能为空")
+            @Form(name = "category.title", message = "分类名称不能为空")
     })
     public void doCategorySave() {
         SinglePageCategory category = getModel(SinglePageCategory.class, "category");
-        saveCategory(category);
-    }
 
-    private void saveCategory(SinglePageCategory category) {
-        if (!validateSlug(category)) {
-            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
-            return;
-        }
-
-        SinglePageCategory existModel = categoryService.findFirstByTypeAndSlug(category.getType(), category.getSlug());
-        if (existModel != null && !Objects.equals(existModel.getId(), category.getId())) {
-            renderJson(Ret.fail("message", "该分类的固定连接以及被占用"));
-            return;
-        }
-
-        Object id = categoryService.saveOrUpdate(category);
+        categoryService.saveOrUpdate(category);
         categoryService.doUpdatePageCategoryCount(category.getId());
-
-        Menu displayMenu = menuService.findFirstByRelatives("single_page_category", id);
-        Boolean isDisplayInMenu = getParaToBoolean("displayInMenu");
-        if (isDisplayInMenu != null && isDisplayInMenu) {
-            if (displayMenu == null) {
-                displayMenu = new Menu();
-            }
-
-            displayMenu.setUrl(category.getUrl());
-            displayMenu.setText(category.getTitle());
-            displayMenu.setType(Menu.TYPE_MAIN);
-            displayMenu.setOrderNumber(category.getOrderNumber());
-            displayMenu.setRelativeTable("single_page_category");
-            displayMenu.setRelativeId((Long) id);
-
-            if (displayMenu.getPid() == null) {
-                displayMenu.setPid(0L);
-            }
-
-            if (displayMenu.getOrderNumber() == null) {
-                displayMenu.setOrderNumber(99);
-            }
-
-            menuService.saveOrUpdate(displayMenu);
-        } else if (displayMenu != null) {
-            menuService.delete(displayMenu);
-        }
-
         renderOkJson();
     }
 

@@ -26,34 +26,6 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
 	}
 
     /**
-     * 分类创建的用户ID
-     */
-	public void setUserId(java.lang.Long userId) {
-		set("user_id", userId);
-	}
-
-    /**
-     * 分类创建的用户ID
-     */
-	public java.lang.Long getUserId() {
-		return getLong("user_id");
-	}
-
-    /**
-     * slug
-     */
-	public void setSlug(java.lang.String slug) {
-		set("slug", slug);
-	}
-
-    /**
-     * slug
-     */
-	public java.lang.String getSlug() {
-		return getStr("slug");
-	}
-
-    /**
      * 标题
      */
 	public void setTitle(java.lang.String title) {
@@ -68,31 +40,17 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
 	}
 
     /**
-     * 内容描述
+     * 描述
      */
 	public void setContent(java.lang.String content) {
 		set("content", content);
 	}
 
     /**
-     * 内容描述
+     * 描述
      */
 	public java.lang.String getContent() {
 		return getStr("content");
-	}
-
-    /**
-     * 摘要
-     */
-	public void setSummary(java.lang.String summary) {
-		set("summary", summary);
-	}
-
-    /**
-     * 摘要
-     */
-	public java.lang.String getSummary() {
-		return getStr("summary");
 	}
 
     /**
@@ -110,20 +68,6 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
 	}
 
     /**
-     * 类型，比如：分类、tag、专题
-     */
-	public void setType(java.lang.String type) {
-		set("type", type);
-	}
-
-    /**
-     * 类型，比如：分类、tag、专题
-     */
-	public java.lang.String getType() {
-		return getStr("type");
-	}
-
-    /**
      * 图标
      */
 	public void setIcon(java.lang.String icon) {
@@ -138,34 +82,6 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
 	}
 
     /**
-     * 是否推荐
-     */
-	public void setWithRecommend(java.lang.Boolean withRecommend) {
-		set("with_recommend", withRecommend);
-	}
-
-    /**
-     * 是否推荐
-     */
-	public java.lang.Boolean getWithRecommend() {
-		return get("with_recommend");
-	}
-
-    /**
-     * 是否置顶
-     */
-	public void setWithTop(java.lang.Boolean withTop) {
-		set("with_top", withTop);
-	}
-
-    /**
-     * 是否置顶
-     */
-	public java.lang.Boolean getWithTop() {
-		return get("with_top");
-	}
-
-    /**
      * 装饰图
      */
 	public void setOrnament(java.lang.String ornament) {
@@ -177,20 +93,6 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
      */
 	public java.lang.String getOrnament() {
 		return getStr("ornament");
-	}
-
-    /**
-     * 缩略图
-     */
-	public void setThumbnail(java.lang.String thumbnail) {
-		set("thumbnail", thumbnail);
-	}
-
-    /**
-     * 缩略图
-     */
-	public java.lang.String getThumbnail() {
-		return getStr("thumbnail");
 	}
 
     /**
@@ -233,34 +135,6 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
      */
 	public java.lang.String getFlag() {
 		return getStr("flag");
-	}
-
-    /**
-     * SEO关键字
-     */
-	public void setMetaKeywords(java.lang.String metaKeywords) {
-		set("meta_keywords", metaKeywords);
-	}
-
-    /**
-     * SEO关键字
-     */
-	public java.lang.String getMetaKeywords() {
-		return getStr("meta_keywords");
-	}
-
-    /**
-     * SEO描述内容
-     */
-	public void setMetaDescription(java.lang.String metaDescription) {
-		set("meta_description", metaDescription);
-	}
-
-    /**
-     * SEO描述内容
-     */
-	public java.lang.String getMetaDescription() {
-		return getStr("meta_description");
 	}
 
     /**

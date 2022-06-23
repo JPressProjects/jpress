@@ -52,7 +52,6 @@
                           data-ok-message="页面分类保存成功"
                           method="post">
                         <input type="hidden" name="category.id" value="#(category.id ??)">
-                        <input type="hidden" name="category.type" value="category">
                         <div class="card-body">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 名称 </label>
@@ -61,14 +60,7 @@
                                            value="#(category.title ??)" name="category.title">
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 固定连接 </label>
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="固定连接会显示在网址上..." required
-                                           value="#(category.slug ??)" name="category.slug">
-                                    <p class="text-muted"> 此页面分类的 URL 地址为：<br /><span class="domainSpan">#option('web_domain')</span>/page/category/<span style="color: red">固定连接</span>  </p>
-                                </div>
-                            </div>
+
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">排序</label>
@@ -82,7 +74,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">内容</label>
+                                <label class="col-sm-2 col-form-label">描述</label>
                                 <div class="col-sm-9">
                                     <textarea rows="3" class="form-control"
                                               placeholder="..."
@@ -90,14 +82,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">摘要</label>
-                                <div class="col-sm-9">
-                                    <textarea rows="3" class="form-control"
-                                              placeholder="..."
-                                              name="category.summary">#(category.summary ??)</textarea>
-                                </div>
-                            </div>
 
 
                             <div class="form-group row">
@@ -127,7 +111,7 @@
 
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">模板</label>
+                                <label class="col-sm-2 col-form-label">页面模板</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="category.style">
                                         <option value="">默认（pagelist.html）</option>
@@ -140,30 +124,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">是否推荐</label>
-                                <div class="col-sm-9">
-                                    <input type="checkbox" class="switchery" data-for="with_recommend" #checkedIf(category && category.with_recommend ??)>
-                                    <input type="hidden" id="with_recommend" name="category.with_recommend" value="false">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">是否置顶</label>
-                                <div class="col-sm-9">
-                                    <input type="checkbox" class="switchery" data-for="with_top" #checkedIf(category && category.with_top ??)>
-                                    <input type="hidden" id="with_top"  name="category.with_top" value="false">
-                                </div>
-
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">显示到菜单</label>
-                                <div class="col-sm-9">
-                                    <input type="checkbox" class="switchery" data-for="displayInMenu" #checkedIf(isDisplayInMenu)>
-                                    <input type="hidden" id="displayInMenu" name="displayInMenu" value="false">
-                                </div>
-                            </div>
 
                             <h4 class="form-header">装饰</h4>
 
@@ -183,43 +143,6 @@
                             </div>
 
 
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">缩略图</label>
-                                <div class="col-sm-9">
-                                    <div class="jpress-image-browser">
-                                        <input type="hidden" name="category.thumbnail" value="#(category.thumbnail ??)"/>
-                                        <img src="#(category.thumbnail ?? '/static/commons/img/nothumbnail.jpg')">
-                                        <div class="image-action">
-                                            <a class="image-delete"> <i class="fa fa-trash"></i></a>
-                                            <a class="image-edit"> <i class="fa fa-edit"></i></a>
-                                        </div>
-                                    </div>
-                                    <p class="text-muted"> </p>
-                                </div>
-                            </div>
-
-
-
-                            <h4 class="form-header">SEO</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">描述</label>
-
-                                <div class="col-sm-9">
-                                    <textarea rows="3" class="form-control"
-                                              placeholder="此内容会显示在搜索引擎的列表描述上..."
-                                              name="category.meta_description">#(category.meta_description ??)</textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">关键字</label>
-                                <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="多个关键字用逗号隔开"
-                                           name="category.meta_keywords"
-                                           value="#(category.meta_keywords ??)">
-                                </div>
-                            </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -244,9 +167,9 @@
                             <tbody>
                             <tr>
                                 <th style="width: 40%">标题</th>
-                                <th>固定链接</th>
                                 <th>描述</th>
                                 <th>排序</th>
+                                <th>创建时间</th>
                             </tr>
                             #for(category : categories)
                             <tr>
@@ -260,14 +183,14 @@
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
                                             <a href="#(CPATH)/admin/page/category/#(category.id)">编辑</a> |
-                                            <a href="javascript:;" class="del-action red-action" data-id="#(category.id)">删除</a> |
-                                            <a href="#(category.url ??)" target="_blank" class="red-action">访问</a>
+                                            <a href="javascript:;" class="del-action red-action" data-id="#(category.id)">删除</a>
                                         </div>
                                     </div>
                                 </td>
-                                <td>#(category.slug ??)</td>
-                                <td>#(category.content ??)</td>
+
+                                <td>#maxLength(category.content ??,10)</td>
                                 <td>#(category.order_number ??)</td>
+                                <td>#date(category.created ??,'yyyy-MM-dd HH:mm')</td>
                             </tr>
                             #else
                             <tr class="nodata"><td colspan="999">暂无数据</td> </tr>

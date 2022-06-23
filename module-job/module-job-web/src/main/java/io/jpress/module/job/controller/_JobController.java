@@ -24,13 +24,16 @@ import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
+import io.jpress.module.job.model.JobAddress;
 import io.jpress.module.job.model.JobCategory;
 import io.jpress.module.job.model.JobDepartment;
+import io.jpress.module.job.service.JobAddressService;
 import io.jpress.module.job.service.JobCategoryService;
 import io.jpress.module.job.service.JobDepartmentService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
+
 import java.util.Date;
 import java.util.List;
 
@@ -48,11 +51,14 @@ public class _JobController extends AdminControllerBase {
     private JobDepartmentService jobDepartmentService;
 
     @Inject
+    private JobAddressService jobAddressService;
+
+    @Inject
     private MenuService menuService;
 
-    @AdminMenu(text = "岗位管理", groupId = "job" , order = 0)
+    @AdminMenu(text = "岗位管理", groupId = "job", order = 0)
     public void index() {
-        Page<Job> entries=service.paginate(getPagePara(), getPageSizePara());
+        Page<Job> entries = service.paginate(getPagePara(), getPageSizePara());
         setAttr("page", entries);
         render("job/job_list.html");
     }
@@ -62,13 +68,13 @@ public class _JobController extends AdminControllerBase {
 
         Job entry = entryId > 0 ? service.findById(entryId) : null;
         setAttr("job", entry);
-        set("now",new Date());
+        set("now", new Date());
         render("job/job_edit.html");
     }
 
     public void doSave() {
-        Job entry = getModel(Job.class,"job");
-        Long id = (long)service.saveOrUpdate(entry);
+        Job entry = getModel(Job.class, "job");
+        Long id = (long) service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", id));
     }
 
@@ -84,21 +90,20 @@ public class _JobController extends AdminControllerBase {
     }
 
 
+    @AdminMenu(text = "分类管理", groupId = "job", order = 1)
+    public void JobCategory() {
 
-    @AdminMenu(text = "岗位分类管理",groupId = "job" , order = 1)
-    public void JobCategory(){
-
-        Page<JobCategory> entries=jobCategoryService.paginate(getPagePara(), getPageSizePara());
+        Page<JobCategory> entries = jobCategoryService.paginate(getPagePara(), getPageSizePara());
         setAttr("page", entries);
 
         List<JobCategory> categoryList = jobCategoryService.findAll();
-        setAttr("categoryList",categoryList);
+        setAttr("categoryList", categoryList);
 
         long entryId = getParaToLong(0, 0L);
 
-        if(entryId >0 && entries!=null){
+        if (entryId > 0 && entries != null) {
             setAttr("jobCategory", jobCategoryService.findById(entryId));
-            set("now",new Date());
+            set("now", new Date());
         }
 
 
@@ -106,19 +111,19 @@ public class _JobController extends AdminControllerBase {
 
     }
 
-    public void categoryDoSave(){
-        JobCategory entry = getModel(JobCategory.class,"jobCategory");
+    public void categoryDoSave() {
+        JobCategory entry = getModel(JobCategory.class, "jobCategory");
 
-        if(entry.getId() == null){
+        if (entry.getId() == null) {
             entry.setUserId(getLoginedUser().getId());
         }
 
-        long id = (long)jobCategoryService.saveOrUpdate(entry);
+        long id = (long) jobCategoryService.saveOrUpdate(entry);
 
         renderJson(Ret.ok().set("id", id));
     }
 
-    public void categoryDoDel(){
+    public void categoryDoDel() {
         Long id = getIdPara();
         render(jobCategoryService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
@@ -130,34 +135,31 @@ public class _JobController extends AdminControllerBase {
     }
 
 
+    @AdminMenu(text = "部门管理", groupId = "job", order = 2)
+    public void JobDept() {
 
-    @AdminMenu(text = "部门管理", groupId = "job" , order = 2)
-    public void JobDept(){
-
-        Page<JobDepartment> entries=jobDepartmentService.paginate(getPagePara(), getPageSizePara());
+        Page<JobDepartment> entries = jobDepartmentService.paginate(getPagePara(), getPageSizePara());
         setAttr("page", entries);
 
 
         long entryId = getParaToLong(0, 0L);
 
-        if(entryId >0 && entries!=null){
+        if (entryId > 0 && entries != null) {
             setAttr("jobDepartment", jobDepartmentService.findById(entryId));
-            set("now",new Date());
+            set("now", new Date());
         }
-
-
 
 
         render("job/job_department_list.html");
     }
 
-    public void deptDoSave(){
-        JobDepartment entry = getModel(JobDepartment.class,"jobDepartment");
-        long id = (long)jobDepartmentService.saveOrUpdate(entry);
+    public void deptDoSave() {
+        JobDepartment entry = getModel(JobDepartment.class, "jobDepartment");
+        long id = (long) jobDepartmentService.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", id));
     }
 
-    public void deptDoDel(){
+    public void deptDoDel() {
         Long id = getIdPara();
         render(jobDepartmentService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
@@ -169,17 +171,39 @@ public class _JobController extends AdminControllerBase {
     }
 
 
+    @AdminMenu(text = "地址管理", groupId = "job", order = 3)
+    public void JobAddress() {
+
+        Page<JobAddress> entries = jobAddressService.paginate(getPagePara(), getPageSizePara());
+        setAttr("page", entries);
+
+        long entryId = getParaToLong(0, 0L);
+
+        if (entryId > 0 && entries != null) {
+            setAttr("jobAddress", jobAddressService.findById(entryId));
+        }
 
 
+        render("job/job_address_list.html");
 
+    }
 
+    public void addressDoSave() {
+        JobAddress entry = getModel(JobAddress.class, "jobAddress");
+        long id = (long) jobAddressService.saveOrUpdate(entry);
+        renderJson(Ret.ok().set("id", id));
+    }
 
+    public void addressDoDel() {
+        Long id = getIdPara();
+        render(jobAddressService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
 
-
-
-
-
-
+    @EmptyValidate(@Form(name = "ids"))
+    public void addressDoDelByIds() {
+        jobAddressService.batchDeleteByIds(getParaSet("ids").toArray());
+        renderOkJson();
+    }
 
 
 }

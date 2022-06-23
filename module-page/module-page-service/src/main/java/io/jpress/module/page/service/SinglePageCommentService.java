@@ -188,4 +188,7 @@ public interface SinglePageCommentService {
     boolean doChangeStatus(Long id, String status);
 
     boolean batchChangeStatusByIds(String statusNormal, Object... toArray);
+
+    long findCountByPageId(long pageId);
+
 }

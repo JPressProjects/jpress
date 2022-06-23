@@ -37,6 +37,11 @@
         $("#pageThumbnail").val("");
     })
 
+    $("#removeOrnament").on("click", function () {
+        $("#ornament").attr("src", "#(CPATH)/static/commons/img/nothumbnail.jpg");
+        $("#pageOrnament").val("");
+    })
+
 
     function doChangeEditor(id) {
         if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
@@ -267,6 +272,19 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">允许评论</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="checkbox" class="switchery"
+                                                               #if(page == null) checked
+                                                               #elseif(page && page.comment_status ?? == true)checked
+                                                               #elseif(page && page.comment_status ?? == false)unchecked
+                                                               #end
+                                                               data-for="comment_status">
+                                                        <input type="hidden" id="comment_status" name="page.comment_status" value="true">
+                                                    </div>
+                                                </div>
+
                                             </div>
 
                                         </form>
@@ -365,6 +383,27 @@
                             <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
                         </div>
                     </div>
+
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">装饰图</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <img src="#(CPATH)#(page.ornament ?? '/static/commons/img/nothumbnail.jpg')"
+                                 style="width: 100%;max-height: 500px"
+                                 id="ornament">
+                            <input type="hidden" value="#(page.ornament ??)" name="page.ornament"
+                                   id="pageOrnament">
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
+                                    for-src="ornament"
+                                    for-input="pageOrnament">选择图片
+                            </button>
+                            <a href="javascript:;" style="padding-left: 15px" id="removeOrnament">移除</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </form>

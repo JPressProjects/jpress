@@ -17,6 +17,7 @@ package io.jpress.module.page.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.json.JsonIgnore;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.UrlUtils;
 import io.jpress.commons.utils.JsoupUtils;
@@ -65,6 +66,11 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         return UrlUtils.getUrl("/", StrUtil.isNotBlank(getSlug()) ? getSlug() : getId(), "-", pageNumber);
     }
 
+    @JsonIgnore
+    public boolean isCommentEnable() {
+        Boolean cs = getCommentStatus();
+        return cs != null && cs;
+    }
 
     public String getText() {
         return JsoupUtils.getText(getContent());

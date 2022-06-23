@@ -138,6 +138,20 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 	}
 
     /**
+     * 装饰图
+     */
+	public void setOrnament(java.lang.String ornament) {
+		set("ornament", ornament);
+	}
+
+    /**
+     * 装饰图
+     */
+	public java.lang.String getOrnament() {
+		return getStr("ornament");
+	}
+
+    /**
      * 样式
      */
 	public void setStyle(java.lang.String style) {
@@ -177,6 +191,48 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
      */
 	public java.lang.String getStatus() {
 		return getStr("status");
+	}
+
+    /**
+     * 评论状态，默认允许评论
+     */
+	public void setCommentStatus(java.lang.Boolean commentStatus) {
+		set("comment_status", commentStatus);
+	}
+
+    /**
+     * 评论状态，默认允许评论
+     */
+	public java.lang.Boolean getCommentStatus() {
+		return get("comment_status");
+	}
+
+    /**
+     * 评论总数
+     */
+	public void setCommentCount(java.lang.Long commentCount) {
+		set("comment_count", commentCount);
+	}
+
+    /**
+     * 评论总数
+     */
+	public java.lang.Long getCommentCount() {
+		return getLong("comment_count");
+	}
+
+    /**
+     * 最后评论时间
+     */
+	public void setCommentTime(java.util.Date commentTime) {
+		set("comment_time", commentTime);
+	}
+
+    /**
+     * 最后评论时间
+     */
+	public java.util.Date getCommentTime() {
+		return getDate("comment_time");
 	}
 
     /**

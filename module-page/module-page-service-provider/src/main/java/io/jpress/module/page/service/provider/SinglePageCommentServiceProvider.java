@@ -121,4 +121,9 @@ public class SinglePageCommentServiceProvider extends JbootServiceBase<SinglePag
 
         return Db.update("update single_page_comment SET `status` = ? " + SqlUtils.toWhereSql(c), paras) > 0;
     }
+
+    @Override
+    public long findCountByPageId(long pageId) {
+        return DAO.findCountByColumn(Column.create("page_id",pageId));
+    }
 }

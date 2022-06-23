@@ -176,7 +176,9 @@ public class _PageController extends AdminControllerBase {
             }
         }
 
-        sps.saveOrUpdate(page);
+        long id = (long) sps.saveOrUpdate(page);
+        //更新该页面的评论总数commentCount
+        sps.doUpdateCommentCount(id);
 
         if(page.getCategoryId() != null){
             //更新该分类的内容数量

@@ -25,7 +25,9 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.model.JobCategory;
+import io.jpress.module.job.model.JobDepartment;
 import io.jpress.module.job.service.JobCategoryService;
+import io.jpress.module.job.service.JobDepartmentService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
@@ -43,20 +45,50 @@ public class _JobController extends AdminControllerBase {
     private JobCategoryService jobCategoryService;
 
     @Inject
+    private JobDepartmentService jobDepartmentService;
+
+    @Inject
     private MenuService menuService;
 
     @AdminMenu(text = "岗位管理", groupId = "job" , order = 0)
     public void index() {
-        Page<Job> entries=service.paginate(getPagePara(), 10);
+        Page<Job> entries=service.paginate(getPagePara(), getPageSizePara());
         setAttr("page", entries);
         render("job/job_list.html");
     }
+
+    public void edit() {
+        int entryId = getParaToInt(0, 0);
+
+        Job entry = entryId > 0 ? service.findById(entryId) : null;
+        setAttr("job", entry);
+        set("now",new Date());
+        render("job/job_edit.html");
+    }
+
+    public void doSave() {
+        Job entry = getModel(Job.class,"job");
+        Long id = (long)service.saveOrUpdate(entry);
+        renderJson(Ret.ok().set("id", id));
+    }
+
+    public void doDel() {
+        Long id = getIdPara();
+        render(service.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doDelByIds() {
+        service.batchDeleteByIds(getParaSet("ids").toArray());
+        renderOkJson();
+    }
+
 
 
     @AdminMenu(text = "岗位分类管理",groupId = "job" , order = 1)
     public void JobCategory(){
 
-        Page<JobCategory> entries=jobCategoryService.paginate(getPagePara(), 10);
+        Page<JobCategory> entries=jobCategoryService.paginate(getPagePara(), getPageSizePara());
         setAttr("page", entries);
 
         List<JobCategory> categoryList = jobCategoryService.findAll();
@@ -74,24 +106,6 @@ public class _JobController extends AdminControllerBase {
 
     }
 
-
-    public void edit() {
-        int entryId = getParaToInt(0, 0);
-
-        Job entry = entryId > 0 ? service.findById(entryId) : null;
-        setAttr("job", entry);
-        set("now",new Date());
-        render("job/job_edit.html");
-    }
-
-
-    public void doSave() {
-        Job entry = getModel(Job.class,"job");
-        Long id = (long)service.saveOrUpdate(entry);
-        renderJson(Ret.ok().set("id", id));
-    }
-
-
     public void categoryDoSave(){
         JobCategory entry = getModel(JobCategory.class,"jobCategory");
 
@@ -102,12 +116,6 @@ public class _JobController extends AdminControllerBase {
         long id = (long)jobCategoryService.saveOrUpdate(entry);
 
         renderJson(Ret.ok().set("id", id));
-    }
-
-
-    public void doDel() {
-        Long id = getIdPara();
-        render(service.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
     public void categoryDoDel(){
@@ -121,10 +129,57 @@ public class _JobController extends AdminControllerBase {
         renderOkJson();
     }
 
+
+
+    @AdminMenu(text = "部门管理", groupId = "job" , order = 2)
+    public void JobDept(){
+
+        Page<JobDepartment> entries=jobDepartmentService.paginate(getPagePara(), getPageSizePara());
+        setAttr("page", entries);
+
+
+        long entryId = getParaToLong(0, 0L);
+
+        if(entryId >0 && entries!=null){
+            setAttr("jobDepartment", jobDepartmentService.findById(entryId));
+            set("now",new Date());
+        }
+
+
+
+
+        render("job/job_department_list.html");
+    }
+
+    public void deptDoSave(){
+        JobDepartment entry = getModel(JobDepartment.class,"jobDepartment");
+        long id = (long)jobDepartmentService.saveOrUpdate(entry);
+        renderJson(Ret.ok().set("id", id));
+    }
+
+    public void deptDoDel(){
+        Long id = getIdPara();
+        render(jobDepartmentService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
     @EmptyValidate(@Form(name = "ids"))
-    public void doDelByIds() {
-        service.batchDeleteByIds(getParaSet("ids").toArray());
+    public void deptDoDelByIds() {
+        jobDepartmentService.batchDeleteByIds(getParaSet("ids").toArray());
         renderOkJson();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

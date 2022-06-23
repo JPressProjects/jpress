@@ -19,9 +19,14 @@
     <script src="#(CPATH)/static/components/html5shiv/html5shiv.min.js"></script>
     <script src="#(CPATH)/static/components/respond/respond.min.js"></script>
     <![endif]-->
+    <style>
+        body,html,.height-100{
+            height:100% !important;
+        }
+    </style>
 </head>
 <body>
-<div>
+<div class="height-100">
     <div class="preview-header">
         <div class="d-flex justify-content-between align-items-center">
             <div class="preview-logo clearfix">
@@ -38,26 +43,33 @@
                     </div>
                 </div>
             </div>
-            <ul class="preview-media clearfix">
-                <li><i class="bi bi-laptop"></i></li>
-                <li><i class="bi bi-phone-landscape"></i></li>
-                <li><i class="bi bi-phone"></i></li>
+            <ul class="preview-media mb-0 clearfix">
+                <li>
+                    <a href="#" data-device="desktop" class="active" ><i class="bi bi-laptop"></i></a>
+                </li>
+                <li>
+                    <a href="#" data-device="ipad-landscape" ><i class="bi bi-phone-landscape"></i></a>
+                    <a href="#" data-device="ipad-portrait" class="inactive"><i class="bi bi-phone"></i></a>
+                </li>
+                <li>
+                    <a href="#" data-device="iphone-portrait" ><i class="bi bi-phone font-size20"></i></a>
+                    <a href="#" data-device="iphone-landscape" class="inactive"><i class="bi bi-phone-landscape font-size20"></i></a>
+                </li>
             </ul>
             <div class="preview-close">
-                <button class="btn btn-parimary">立即购买</button>
+                <button class="btn btn-parimary rounded-0">立即购买</button>
                 <span class="pl-2 pr-2"><i class="bi bi-x"></i></span>
             </div>
         </div>
     </div>
 
     <!-- Iframe Container -->
-    <div id="iframe-container" class="desktop">
+    <div id="iframe-container" class="desktop ipad-landscape iphone-portrait">
         <div class="inner">
             <iframe width="100%" height="100%" class="iframe-link"
-                    src="http://www.jpress.cn"></iframe>
+                    src="http://www.jpress.cn" id="iframeId"></iframe>
         </div><!--/ inner -->
     </div><!--/ Iframe Container -->
-
 </div>
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
@@ -76,5 +88,45 @@
 <script src="#(CPATH)/static/adminlte/js/adminlte.min.js"></script>
 <script src="#(CPATH)/static/admin/js/jpressutils.js"></script>
 <script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
+<script>
+    document.getElementById('iframeId').height = "100%";
+    $(function(){
+        $('.preview-media').on('click', 'a', function(e) {
+            e.preventDefault();
+            var $this = $(this),
+                device = $this.data('device');
+            $this.closest('.preview-media').find('a').removeClass('active');
+            $this.removeClass('inactive').addClass('active').siblings().addClass('inactive');
+            preview_device(device);
+        });
+    })
+    function preview_device(device) {
+        var iframeContainer = $('#iframe-container');
+        iframeContainer.removeClass().addClass(device);
+
+        var screenWidth = $(window).width(),
+            screenHeight = $(window).height(),
+            marginTop = 0,
+            marginLeft = 0;
+
+        if (device == 'ipad-portrait') {
+            marginTop = (screenHeight - 1385) < 0 ? -30 : (screenHeight - 1335) / 2 - 30;
+            marginLeft = (screenWidth - 964) < 0 ? 0 : (screenWidth - 964) / 2;
+        } else if (device == 'ipad-landscape') {
+            marginTop = (screenHeight - 1014) < 0 ? 0 : (screenHeight - 964) / 2 - 20;
+            marginLeft = (screenWidth - 1335) < 0 ? 0 : (screenWidth - 1335) / 2;
+        } else if (device == 'iphone-landscape') {
+            marginTop = (screenHeight - 444) < 0 ? 0 : (screenHeight - 394) / 2 - 30;
+            marginLeft = (screenWidth - 815) < 0 ? 0 : (screenWidth - 815) / 2;
+        } else if (device == 'iphone-portrait') {
+            marginTop = (screenHeight - 865) < 0 ? 0 : (screenHeight - 815) / 2 - 30;
+            marginLeft = (screenWidth - 394) < 0 ? 0 : (screenWidth - 394) / 2;
+        }
+        iframeContainer.css({
+            'margin-top': marginTop,
+            'margin-left': marginLeft
+        });
+    }
+</script>
 </body>
 </html>

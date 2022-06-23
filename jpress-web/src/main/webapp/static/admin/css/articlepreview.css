@@ -1,5 +1,7 @@
 /* 预览 */
-
+.font-size20{
+    font-size:20px !important;
+}
 .preview-header {
     position: fixed;
     left: 0;
@@ -55,14 +57,30 @@
 
 .preview-media li {
     float: left;
-    padding: 0 15px;
+    position:relative;
     height: 50px;
     line-height: 50px;
-    border-left: 1px solid #444d54;
     background-color: #09131a;
     cursor: pointer;
 }
-
+.preview-media li a{
+    display: block;
+    width: 60px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    color: #fff;
+    border-left: 1px solid #444d54;
+    background-color: #212d36;
+}
+.preview-media a.inactive {
+    position: absolute;
+    bottom: -48px;
+    left: -1px;
+    width: 60px;
+    display: none;
+}
+.preview-media li:hover a.inactive  {display: block;}
 .preview-media i,
 .preview-close i {
     color: #fff;
@@ -70,12 +88,11 @@
     vertical-align: middle;
     cursor: pointer;
 }
-
-.preview-media li:hover {
+.preview-media a:hover, .preview-media a.active {
+    color: #007bff;
     background-color: #09131a;
 }
-
-.preview-media li:hover i {
+.preview-media a:hover i ,.preview-media a.active i{
     color: #007bff;
 }
 
@@ -86,4 +103,55 @@
     font-size: 14px;
     background-color: #007bff;
     color: #fff;
+}
+
+/*iframe的样式*/
+#iframe-container{
+    position:relative;
+    top:50px;
+    webkit-transition: all .1s;
+    -moz-transition: all .1s;
+    -ms-transition: all .1s;
+    transition: all .1s;
+    height:calc(100% - 50px);
+}
+#iframe-container .inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+#iframe-container  iframe{
+     display: block;
+     overflow-x: hidden;
+ }
+#iframe-container.desktop{
+    width:100%;
+}
+#iframe-container.ipad-portrait {
+    width: 964px !important;
+    height: 1335px !important;
+    padding: 174px 92px 137px 104px;
+    margin-bottom: 60px;
+    background: url(../../../static/commons/img/ipad.png) no-repeat;
+}
+#iframe-container.ipad-landscape {
+    width: 1336px !important;
+    height: 964px !important;
+    padding: 92px 137px 104px 174px;
+    margin:0 auto 40px;
+    background: url(../../../static/commons/img/ipad-landscape.png) no-repeat;
+}
+#iframe-container.iphone-portrait {
+    width: 398px !important;
+    height: 815px !important;
+    padding: 127px 40px 120px 34px;
+    margin: 0 auto 60px;
+    background: url(../../../static/commons/img/iphone.png) no-repeat;
+}
+#iframe-container.iphone-landscape {
+    width: 815px !important;
+    height: 394px !important;
+    padding: 40px 120px 34px 127px;
+    margin-bottom: 60px;
+    background: url(../../../static/commons/img/iphone-landscape.png) no-repeat;
 }

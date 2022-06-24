@@ -108,7 +108,11 @@ public class _JobController extends AdminControllerBase {
             return;
         }
 
-        if (entry.getEffectiveTime() != null && entry.getEffectiveTime().before(new Date())) {
+        if(entry.getId() == null){
+            entry.setReleaseTime(new Date());
+        }
+
+        if (entry.getEffectiveTime() != null && entry.getEffectiveTime().before(entry.getReleaseTime())) {
             renderFailJson("请正确填写岗位有效时间");
             return;
         }

@@ -169,7 +169,7 @@
 
                                 <select class="form-control" name="job.year">
                                     <option value="">请选择基层工作最低年限</option>
-                                    <option #if(job.year ?? == 0) selected #end value="0">#(yearNow)年应届毕业生</option>
+                                    <option #if(job.year ?? == 0) selected #end value="0">应届毕业生</option>
                                     <option #if(job.year ?? == 1) selected #end value="1">俩年以上(含俩年)</option>
                                     <option #if(job.year ?? == 2) selected #end value="2">三年以上(含三年)</option>
                                     <option #if(job.year ?? == 3) selected #end value="3">五年以上(含五年)</option>
@@ -265,7 +265,7 @@
                                 <label class="col-sm-2 col-form-label">岗位发布时间</label>
                                 <div class="col-sm-6">
 
-                                    <input type="input" class="form-control datetime" placeholder="点击选择"
+                                    <input type="input" class="form-control datetime" placeholder="点击选择" readonly
                                            name="job.release_time" value="#date(job.release_time ?? now,'yyyy-MM-dd')">
                                 </div>
                             </div>

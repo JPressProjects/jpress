@@ -154,10 +154,13 @@
                                 <select class="form-control" name="job.record">
                                     <option value="">请选择学历</option>
                                     <option #if(job.record ??== 0) selected #end value="0">不限制学历</option>
-                                    <option #if(job.record ??== 1) selected #end value="1">专科</option>
-                                    <option #if(job.record ??== 2) selected #end value="2">本科</option>
-                                    <option #if(job.record ??== 3) selected #end value="3">硕士研究生</option>
-                                    <option #if(job.record ??== 4) selected #end value="4">博士研究生</option>
+                                    <option #if(job.record ??== 1) selected #end value="1">初中及以下</option>
+                                    <option #if(job.record ??== 2) selected #end value="2">中专/中技</option>
+                                    <option #if(job.record ??== 3) selected #end value="3">高中</option>
+                                    <option #if(job.record ??== 4) selected #end value="4">大专</option>
+                                    <option #if(job.record ??== 5) selected #end value="5">本科</option>
+                                    <option #if(job.record ??== 6) selected #end value="6">硕士</option>
+                                    <option #if(job.record ??== 7) selected #end value="7">博士</option>
                                 </select>
 
                             </div>
@@ -169,10 +172,14 @@
 
                                 <select class="form-control" name="job.year">
                                     <option value="">请选择基层工作最低年限</option>
-                                    <option #if(job.year ?? == 0) selected #end value="0">应届毕业生</option>
-                                    <option #if(job.year ?? == 1) selected #end value="1">俩年以上(含俩年)</option>
-                                    <option #if(job.year ?? == 2) selected #end value="2">三年以上(含三年)</option>
-                                    <option #if(job.year ?? == 3) selected #end value="3">五年以上(含五年)</option>
+                                    <option #if(job.year ?? == 0) selected #end value="0">不限</option>
+                                    <option #if(job.year ?? == 1) selected #end value="1">在校生</option>
+                                    <option #if(job.year ?? == 2) selected #end value="2">应届生</option>
+                                    <option #if(job.year ?? == 3) selected #end value="3">1年以内</option>
+                                    <option #if(job.year ?? == 4) selected #end value="4">1-3年</option>
+                                    <option #if(job.year ?? == 5) selected #end value="5">3-5年</option>
+                                    <option #if(job.year ?? == 6) selected #end value="6">3-5年</option>
+                                    <option #if(job.year ?? == 7) selected #end value="7">10年以上</option>
                                 </select>
 
                             </div>

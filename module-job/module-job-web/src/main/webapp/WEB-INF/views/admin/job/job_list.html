@@ -29,14 +29,17 @@
                     </div>
                 </div>
 
-<!--                <div class="row">-->
-<!--                    <div class="col-12" style="padding-top: 20px">-->
-<!--                        <a href="?">全部 (#(totalCount ??))</a> |-->
-<!--                        <a href="?status=normal">已发布 (#(normalCount ??))</a> |-->
-<!--                        <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |-->
-<!--                        <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="row">
+                    <div class="col-12" style="padding-top: 20px">
+                        #newJobs(1)
+
+                        #for(item : jobList)
+                        <span>#(item ??)</span>
+                        #end
+
+                        #end
+                    </div>
+                </div>
 
             </div>
             <div class="col-sm-6 ">
@@ -119,20 +122,28 @@
 
                         <td>
                             #if(entry.record ?? == 0) 不限制学历
-                            #else if(entry.record ?? == 1)专科及以上
-                            #else if(entry.record ?? == 2)本科及以上
-                            #else if(entry.record ?? == 3)硕士研究生及以上
-                            #else if(entry.record ?? == 4)仅限博士研究生
+                            #else if(entry.record ?? == 1)初中及以下
+                            #else if(entry.record ?? == 2)中专/中技
+                            #else if(entry.record ?? == 3)高中
+                            #else if(entry.record ?? == 4)大专
+                            #else if(entry.record ?? == 5)本科
+                            #else if(entry.record ?? == 6)硕士
+                            #else if(entry.record ?? == 7)博士
                             #end
                         </td>
 
                         <td>
-                            #if(entry.year ?? == 0) 应届毕业生
-                            #else if(entry.year ?? == 1) 俩年以上
-                            #else if(entry.year ?? == 2) 三年以上
-                            #else if(entry.year ?? == 3) 五年以上
+                            #if(entry.year ?? == 0) 不限
+                            #else if(entry.year ?? == 1) 在校生
+                            #else if(entry.year ?? == 2) 应届生
+                            #else if(entry.year ?? == 3) 1年以内
+                            #else if(entry.year ?? == 4) 1-3年
+                            #else if(entry.year ?? == 5) 3-5年
+                            #else if(entry.year ?? == 6) 3-5年
+                            #else if(entry.year ?? == 7) 10年以上
                             #end
                         </td>
+
                         <td>#(entry.flag ??)</td>
                         <td>#(entry.email ??)</td>
 

@@ -20,29 +20,44 @@
     <script src="#(CPATH)/static/components/respond/respond.min.js"></script>
     <![endif]-->
     <style>
+        html{
+            overflow-y: scroll; //这是为了兼容ie8，不支持:root, vw
+        }
+        html::-webkit-scrollbar {
+            width: 0;
+        }
+        :root {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
         body,html,.height-100{
             height:100% !important;
+            background-color:#666;
+
+        }
+        body::-webkit-scrollbar {
+            width: 0;
         }
     </style>
 </head>
 <body>
-<div class="height-100">
+<div class="height-100 bg-grayer">
     <div class="preview-header">
         <div class="d-flex justify-content-between align-items-center">
-            <div class="preview-logo clearfix">
-                <img src="images/gslogo.png" alt="" class="pl-2">
-                <div class="dropmenue">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        模板推荐
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">模板一</a>
-                        <a class="dropdown-item" href="#">模板二</a>
-                        <a class="dropdown-item" href="#">模板三</a>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="preview-logo clearfix">-->
+                <!--<img src="images/gslogo.png" alt="" class="pl-2">-->
+                <!--<div class="dropmenue">-->
+                    <!--<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"-->
+                            <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                        <!--模板推荐-->
+                    <!--</button>-->
+                    <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+                        <!--<a class="dropdown-item" href="#">模板一</a>-->
+                        <!--<a class="dropdown-item" href="#">模板二</a>-->
+                        <!--<a class="dropdown-item" href="#">模板三</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
             <ul class="preview-media mb-0 clearfix">
                 <li>
                     <a href="#" data-device="desktop" class="active" ><i class="bi bi-laptop"></i></a>
@@ -57,14 +72,14 @@
                 </li>
             </ul>
             <div class="preview-close">
-                <button class="btn btn-parimary rounded-0">立即购买</button>
+                <!--<button class="btn btn-parimary rounded-0">立即购买</button>-->
                 <span class="pl-2 pr-2 js-close"><i class="bi bi-x"></i></span>
             </div>
         </div>
     </div>
 
     <!-- Iframe Container -->
-    <div id="iframe-container" class="desktop">
+    <div id="iframe-container" class="bg-dark desktop">
         <div class="inner">
             <iframe width="100%" height="100%" class="iframe-link"
                     src="http://www.jpress.cn" id="iframeId"></iframe>

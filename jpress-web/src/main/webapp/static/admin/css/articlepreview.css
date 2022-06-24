@@ -2,6 +2,9 @@
 .font-size20{
     font-size:20px !important;
 }
+.bg-grayer{
+    background-color:#666;
+}
 .preview-header {
     position: fixed;
     left: 0;
@@ -125,7 +128,8 @@
      overflow-x: hidden;
  }
 #iframe-container.desktop{
-    width:100%;
+    width:calc(100% + 17px);
+    overflow-x:hidden;
 }
 #iframe-container.ipad-portrait {
     width: 964px !important;

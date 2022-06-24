@@ -5,12 +5,33 @@
 #end
 
 #define script()
+<!-- 阿里云-->
 <script src="/static/components/aliyun-upload-sdk/lib/es6-promise.min.js"></script>
 <script src="/static/components/aliyun-upload-sdk/lib/aliyun-oss-sdk-6.13.0.min.js"></script>
 <script src="/static/components/aliyun-upload-sdk/aliyun-upload-sdk-1.5.2.min.js"></script>
 <script src="/static/admin/js/jpressutils.js"></script>
-
 <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
+
+<!-- 腾讯云 上传-->
+<script src="/static/components/txunyun-upload-sdk/vod-js-sdk-v6.js"></script>
+<script src="//imgcache.qq.com/open/qcloud/js/vod/sdk/ugcUploader.js"></script>
+<script type="text/javascript" src="https://cdn-go.cn/cdn/vod-js-sdk-v6/latest/vod-js-sdk-v6.js"></script>
+
+<!-- 腾讯云 超级播放器-->
+<!-- 网上-->
+<!--<link href="https://web.sdk.qcloud.com/player/tcplayer/release/v4.2.1/tcplayer.min.css" rel="stylesheet">-->
+<!--如果需要在 Chrome 和 Firefox 等现代浏览器中通过 H5 播放 HLS 格式的视频，需要在 tcplayer.v4.2.min.js 之前引入 hls.min.0.13.2m.js。-->
+<!--<script src="https://web.sdk.qcloud.com/player/tcplayer/release/v4.2.1/libs/hls.min.0.13.2m.js"></script>-->
+<!--播放器脚本文件-->
+<!--<script src="https://web.sdk.qcloud.com/player/tcplayer/release/v4.2.1/tcplayer.v4.2.1.min.js"></script>-->
+<!-- 本地-->
+<link href="/static/components/txunyun-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
+<script src="/static/components/txunyun-upload-sdk/player/hls.min.0.13.2m.js"></script>
+<script src="/static/components/txunyun-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
+
+
+
+
 
 <!--类型切换-->
 <script>
@@ -38,13 +59,15 @@
 
 </script>
 
+<!--阿里云 start-->
 <!-- 视频点播 -->
 <script>
 
     var uploader = null
 
-    $('#videoInputFile').on('change', function (e) {
 
+
+    $('#videoInputFile').on('change', function (e) {
         var file = e.target.files[0]
         if (!file) {
             alert("请先选择需要上传的文件!")
@@ -69,6 +92,8 @@
 
         uploader.addFile(file, null, null, null, userData);
         uploader.startUpload();
+
+
     })
 
 
@@ -217,13 +242,13 @@
         //创建直播流地址
         ajaxGet("/admin/attachment/video/doGetLiveInfo", function (data) {
 
-                $('#livePushUrl').val(data.pushUrl);
-                $('#contentLivePushUrl').val(data.pushUrl);
-                $('#liveApp').val(data.liveApp);
-                $('#liveDomain').val(data.domainName);
-                $('#liveStream').val(data.streamName);
+            $('#livePushUrl').val(data.pushUrl);
+            $('#contentLivePushUrl').val(data.pushUrl);
+            $('#liveApp').val(data.liveApp);
+            $('#liveDomain').val(data.domainName);
+            $('#liveStream').val(data.streamName);
 
-            });
+        });
     });
 
 
@@ -267,7 +292,134 @@
     createLivePlayer("#(livePlayUrl ??)", "#(liveCloudVid ??)", "#(liveCloudPlayAuth ??)")
 
 </script>
+<!--阿里云 end-->
 
+<!-- 腾讯云 start-->
+
+
+<script>
+
+
+    window.onload = function() {
+        //初始化播放器
+        var player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
+
+        var cloudType = $("#cloudType").val();
+        if(cloudType == '1'){
+            $("#aliyun").show();
+            $("#txunyun").hide();
+
+        }else if(cloudType == '2'){
+            $("#aliyun").hide();
+            $("#txunyun").show();
+        }
+
+        var mysign="";
+
+        var getSignature = function(callback) {
+            $.ajax({
+                url : "/admin/attachment/video/getSign", //服务器获取客户端上传签名的URL
+                type : "POST",
+                success : function(result) {
+                    mysign=result;
+                    console.log(result);
+                    callback(result);//回调签名参数
+                    //callback(result.returnData.signature);
+                }
+            });
+        };
+
+        //#tcentVideoInputFile
+        $('#tcentVideoInputFile').on('change', function(e) {
+            var videoFile = this.files[0];
+            var fileId=null;
+            qcVideo.ugcUploader.start({
+
+                videoFile : videoFile,
+                getSignature : getSignature,
+                allowAudio : 1,
+                isTranscode: 1,
+                success : function(result) {
+                    // alert("上传成功");
+                    console.log(result)
+                },
+                error : function(result) {
+
+                    alert("上传失败"+result.msg);
+                    console.log(result)
+
+                },
+                progress : function(result) {
+                    // alert("上传进度：" + result.curr);
+                    console.log(result)
+                },
+                finish : function(result) {
+                    alert("上传完成");
+                    //视频id
+                    fileId= $("#tcVod").val(result.fileId);
+                    var vodVid= $("#vodVid").val(result.fileId);
+
+
+                    //通过url播放（直播、点播）
+                    player.src(result.videoUrl); // url 播放地址
+
+                    console.log("上传成功，返回的结果fileId："+result.fileId);
+                    console.log("上传成功，返回的结果videoUrl："+result.videoUrl);
+                    console.log("上传成功，返回的结果videoName："+result.videoName);
+                }
+
+            });
+
+        });
+
+
+    };
+
+
+</script>
+
+<script>
+
+    var id = $("#tcVod").val();
+
+    //通过url播放（直播、点播）
+    // var player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
+    // player.src(); // url 播放地址
+
+    //通过FileId播放（点播）
+    // var player = TCPlayer('player-container-id', { // player-container-id 为播放器容器ID，必须与html中一致
+    //     fileID: '', // 请传入需要播放的视频filID 必须
+    //     appID: '', // 请传入点播账号的appID 必须
+    //     //其他参数请在开发文档中查看
+    //     plugins: {
+    //         ContinuePlay: {
+    //             // auto: true // 是否在播放时自动续播
+    //             // text:'上次播放至 ', //[可选] 提示文案
+    //             // btnText: '恢复播放' //[可选] 按钮文案
+    //         },
+    //         ProgressMarker: true,
+    //         ContextMenu: {
+    //             statistic: true,
+    //             levelSwitch: {
+    //                 open: true, // 打开切换提示
+    //                 // switchingText: '开始', // 开始切换时文案
+    //                 // switchedText: '成功', // 切换成功时文案
+    //                 // switchErrorText: '失败', // 切换失败时文案
+    //             }
+    //         }
+    //     }
+    // });
+
+    //切换播放视频
+    // player.loadVideoByID({
+    //     fileID: '', // 请传入需要播放的视频 fileID（必须）
+    //     appID: '', // 请传入点播账号的 appID（必须）
+    //     psign:'' // 参考 Key 防盗链说明
+    // });
+</script>
+
+
+<!-- 腾讯云 end-->
 
 
 #end
@@ -401,8 +553,9 @@
 
 
                             <div id="videos">
-
-                                <div class="form-group row">
+                                <input type="hidden" name="cloudType" value="#(cloudType ??)" id="cloudType">
+                                <div id="aliyun">
+                                    <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">选择视频文件</label>
                                     <div class="col-sm-6">
                                         <div class="input-group">
@@ -418,15 +571,43 @@
                                     </div>
                                 </div>
 
-
-
-                                <div class="form-group row">
+                                    <div class="form-group row">
                                     <label class="col-sm-2 col-form-label"> 视频</label>
                                     <div class="col-sm-6">
                                         <div class=" pr-0 bg-gray" id="player" style="height: 350px;"></div>
+                                        </video>
+
                                     </div>
                                 </div>
+                                </div>
 
+                                <div id="txunyun">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">选择视频文件</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="tcentVideoInputFile">
+                                                    <label class="custom-file-label" for="tcentVideoInputFile"
+                                                           id="tcentVideoInputFileLable">点击选择上传视频</label>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted">
+                                                要上传视频，请先在 <a href="#(CPATH)/admin/attachment/setting">[设置]</a> 中进行腾讯云点播视频配置。
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label"> 视频</label>
+                                        <div class="col-sm-6">
+                                            <!--  腾讯云 视频播放容器  -->
+                                            <video id="player-container-id" width="800" height="350" preload="auto" playsinline webkit-playsinline>
+                                            </video>
+                                            <input type="hidden" name="" value=" " id="tcVod">
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
 

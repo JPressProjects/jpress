@@ -10,9 +10,11 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.commons.aliyun.AliyunLiveUtil;
 import io.jpress.commons.aliyun.AliyunVideoUtil;
 import io.jpress.commons.aliyun.CloudVideoInfo;
+import io.jpress.commons.txunyun.Signature;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.AttachmentVideo;
 import io.jpress.model.AttachmentVideoCategory;
@@ -22,6 +24,7 @@ import io.jpress.web.base.AdminControllerBase;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @RequestMapping(value = "/admin/attachment/video", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _AttachmentVideoController extends AdminControllerBase {
@@ -81,10 +84,17 @@ public class _AttachmentVideoController extends AdminControllerBase {
         List<AttachmentVideoCategory> categories = videoCategoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
         setAttr("categories",categories);
 
+        //视频云类型
+        String cloudType = JPressOptions.get("attachment_cloud_type");
+        setAttr("cloudType",cloudType);
+
         render("attachment/video_add.html");
     }
 
     public void add(){
+        //视频云类型
+        String cloudType = JPressOptions.get("attachment_cloud_type");
+        setAttr("cloudType",cloudType);
 
         List<AttachmentVideoCategory> categories = videoCategoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
         setAttr("categories",categories);
@@ -211,6 +221,33 @@ public class _AttachmentVideoController extends AdminControllerBase {
                         .set("domainName", playDomain).set("streamName", streamName);
     }
 
+
+    /**
+     * 获取签名
+     * @return
+     */
+    public String getSign() {
+        //得到Sign
+        Signature sign = new Signature();
+        //个人API密钥中的Secret Id
+        sign.setSecretId("AKIDxiFVWIqDJ8gyg7G8jx6zd17vTlmX1EAo");
+        //个人API密钥中的Secret Key
+        sign.setSecretKey("7UcUGvPedMwHYgZDcpnVzDBtNccNuBE3");
+        sign.setCurrentTime(System.currentTimeMillis() / 1000);
+        sign.setRandom(new Random().nextInt(java.lang.Integer.MAX_VALUE));
+        sign.setSignValidDuration(3600 * 24 * 2);
+
+        String signature = null;
+        try {
+            signature = sign.getUploadSignature();
+            System.out.println("signature : " + signature);
+        } catch (Exception e) {
+            System.out.print("获取签名失败");
+            e.printStackTrace();
+        }
+
+        return signature;
+    }
 
 
 }

@@ -3,20 +3,23 @@
 #define css()
 <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap-font/bootstrap-icons.css">
 <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap-slider/css/bootstrap-slider.min.css">
-<link rel="stylesheet" href="#(CPATH)/static/admin/css/tool.css">
+<link rel="stylesheet" href="#(CPATH)/static/components/bs-form-builder/bs-form-builder.min.css">
+<link rel="stylesheet" href="#(CPATH)/static/admin/css/block.css">
 <style>
-    .content-wrapper{
+    .content-wrapper {
         position: relative;
         min-height: calc(100vh - calc(3.5rem + 1px));
         overflow: hidden;
     }
-    .tool-content{
+
+    .tool-content {
         position: absolute;
-        width:100%;
-        height:100%;
+        width: 100%;
+        height: 100%;
 
     }
-    .main-footer.text-sm{
+
+    .main-footer.text-sm {
         display: none !important;
     }
 </style>
@@ -24,480 +27,195 @@
 
 #define script()
 <script src="#(CPATH)/static/components/bootstrap-slider/bootstrap-slider.js"></script>
+<script src="#(CPATH)/static/components/sortable/sortable.min.js"></script>
+<script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder.min.js"></script>
 <script>
-    $(function() {
+    $(function () {
         $('.slider').bootstrapSlider();
-        $("#toggleBtn").click(function(){
-           $(this).toggleClass(" bi-chevron-down bi-chevron-up")
+
+        $("#toggleBtn").click(function () {
+            $(this).toggleClass(" bi-chevron-down bi-chevron-up")
             $("#superContent").toggle();
         })
-        $(".right-switch").click(function(){
+
+        $(".right-switch").click(function () {
             $(".rightContent").toggle();
-            $(".middleContent").toggleClass("col-md-9  col-sm-8","col-md-6  col-sm-4");
+            $(".middleContent").toggleClass("col-md-9  col-sm-8", "col-md-6  col-sm-4");
         })
-        $(".js-more").click(function(){
+
+        $(".js-more").click(function () {
 
         })
+
+        $('.bsFormBuilder').bsFormBuilder({
+            customBuilderStructure: true
+        });
     });
 </script>
 #end
 
 #define content()
-    <section class="content tool-content " style="padding: 0">
-        <div class="card tool-container">
-            <div class="tool-header d-flex justify-content-between align-items-center">
-                <div>
-                    <strong class="pr-3">模板板块设置</strong>
-                    <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>
-                    <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>
-                    <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>
-                    <span class="tool-btn"><i class="bi bi-list-nested"></i></span>
-                </div>
-                <div>
-                    <button class="btn btn-primary btn-sm mr-3">更新</button>
-                     <span class="tool-btn right-switch"><i class="bi bi-gear"></i></span>
-                    <span class="tool-btn js-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-three-dots-vertical"></i></span>
-                    <div class="dropdown-menu mr-4 mt-4">
-                        <div class="jpress-morelist">
+<section class="content tool-content bsFormBuilder" style="padding: 0">
+    <div class="card tool-container">
+        <div class="tool-header d-flex justify-content-between align-items-center">
+            <div>
+                <strong class="pr-3">模板板块设置</strong>
+                <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>
+                <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>
+                <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>
+                <span class="tool-btn"><i class="bi bi-list-nested"></i></span>
+            </div>
+            <div>
+                <button class="btn btn-primary btn-sm mr-3">更新</button>
+                <span class="tool-btn right-switch"><i class="bi bi-gear"></i></span>
+                <span class="tool-btn js-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                        class="bi bi-three-dots-vertical"></i></span>
+                <div class="dropdown-menu mr-4 mt-4">
+                    <div class="jpress-morelist">
 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--***********************************-->
+        <div class="row jpress-row-container">
+            <!-- 左侧 -->
+            <div class="col-md-3 col-sm-4  leftContent border-right">
+                <div class=" pd10">
+                    <div class="input-group mb-3 mt-3">
+                        <input type="text" class="form-control" placeholder="搜索" aria-label="Recipient's username"
+                               aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="component-title">
+                            文字
+                        </div>
+                        <div class="component-group d-flex align-items-center bsFormDrags" data-type="base">
+
+                        </div>
+                        <div class="component-title">
+                            媒体
+                        </div>
+                        <div class="component-group d-flex align-items-center bsFormDrags" data-type="assist">
+                        </div>
+                        <div class="component-title">
+                            设计
+                        </div>
+                        <div class="component-group d-flex align-items-center bsFormDrags" data-type="container">
                         </div>
                     </div>
                 </div>
             </div>
-            <!--***********************************-->
-            <div class="row jpress-row-container">
-                <!-- 左侧 -->
-                <div class="col-md-3 col-sm-4  leftContent border-right">
-                    <div class=" pd10">
-                        <div class="input-group mb-3 mt-3">
-                            <input type="text" class="form-control" placeholder="搜索" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
+            <!-- 中间内容 -->
+            <div class="col-md-6  col-sm-4 middleContent">
+                <div class="m-3 pt-2 bsFormContainer">
+                    <div class="bsFormContainer-placeholder">从左侧拖入组件进行表单设计</div>
+                    <div class="card collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">主编栏</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                        class="fas fa-plus"></i>
+                                </button>
                             </div>
                         </div>
-                        <div>
-                            <div class="component-title">
-                                文字
+                        <div class="card-body">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="可选的占位文字" aria-label="可选的占位文字"
+                                       aria-describedby="addTitle">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="addTitle">添加按钮文字</span>
+                                </div>
                             </div>
-                            <div class="component-group d-flex align-items-center">
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-paragraph"></i></div>
-                                    <div class="form-name">段落</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-bookmark-fill"></i></div>
-                                    <div class="form-name">标题</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-blockquote-left"></i></div>
-                                    <div class="form-name">列表</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-quote"></i></div>
-                                    <div class="form-name">引用</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-code"></i></div>
-                                    <div class="form-name">代码</div>
-                                </ol>
+                            <div class="form-group">
+                                <label for="exampleInput"></label>
+                                <input type="email" class="form-control" id="exampleInput" placeholder="输入/或者来选择一个区块">
+                            </div>
+                            <div class="mt-3">
+                                <button class="btn btn-default btn-block"><i class="bi bi-plus"></i></button>
+                            </div>
+                        </div>
 
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-terminal-split"></i></div>
-                                    <div class="form-name">预格式</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-layout-sidebar"></i></div>
-                                    <div class="form-name">引文</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-table"></i></div>
-                                    <div class="form-name">表格</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-pen"></i></div>
-                                    <div class="form-name">诗篇</div>
-                                </ol>
-                            </div>
-                            <div class="component-title">
-                                媒体
-                            </div>
-                            <div class="component-group d-flex align-items-center">
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-card-image"></i></div>
-                                    <div class="form-name">图片</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-images"></i></div>
-                                    <div class="form-name">画廊</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-music-note"></i></div>
-                                    <div class="form-name">音频</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-journal-bookmark-fill"></i></div>
-                                    <div class="form-name">封面</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-folder"></i></div>
-                                    <div class="form-name">文件</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-person-video2"></i></div>
-                                    <div class="form-name">媒体和文本</div>
-                                </ol>
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-camera-video"></i></div>
-                                    <div class="form-name">视频</div>
-                                </ol>
-                            </div>
-                            <div class="component-title">
-                                设计
-                            </div>
-                            <div class="component-group d-flex align-items-center">
-                                <ol>
-                                    <div class="component-icon"><i class="bi bi-grid-1x2"></i></div>
-                                    <div class="form-name">栅格</div>
-                                </ol>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <!-- 中间内容 -->
-                <div class="col-md-6  col-sm-4 middleContent">
-                        <div class="m-3 pt-2">
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">主编栏</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
+            </div>
+            <!--右侧内容-->
+            <div class="col-md-3  col-sm-4 mb-3 rightContent border-left">
+                <div class=" pd10">
+                    <ul class="nav nav-tabs mb-2" id="formAttrTab" role="tablist">
+                        <li class="nav-item w-50">
+                            <a class="nav-link active" id="componentAttr-tab" data-toggle="tab" href="#componentAttr"
+                               role="tab" aria-controls="component" aria-selected="true">Footer</a>
+                        </li>
+                        <li class="nav-item w-50">
+                            <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab"
+                               aria-controls="module" aria-selected="false">区块</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-3" id="formAttrTabContent">
+                        <div class="tab-pane fade show active" id="componentAttr" role="tabpanel"
+                             aria-labelledby="componentAttr-tab">
+                            <div class="widget-right-item">
+                                <div class="component-title">
+                                    <i class="bi bi-paragraph pr-3"></i>段落
                                 </div>
-                                <div class="card-body">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="可选的占位文字" aria-label="可选的占位文字" aria-describedby="addTitle">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="addTitle">添加按钮文字</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInput"></label>
-                                        <input type="email" class="form-control" id="exampleInput" placeholder="输入/或者来选择一个区块">
-                                    </div>
-                                    <div class="mt-3">
-                                        <button class="btn btn-default btn-block"><i class="bi bi-plus"></i></button>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                            <div class="card collapsed-card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Expandable</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    中间内容中间内容中间内容中间内容中间内容中间内容
-                                </div>
-
-                            </div>
-                        </div>
-                </div>
-                <!--右侧内容-->
-                <div class="col-md-3  col-sm-4 mb-3 rightContent border-left">
-                    <div class=" pd10">
-                        <ul class="nav nav-tabs mb-2" id="formAttrTab" role="tablist">
-                            <li class="nav-item w-50">
-                                <a class="nav-link active" id="componentAttr-tab" data-toggle="tab" href="#componentAttr" role="tab" aria-controls="component" aria-selected="true">Footer</a>
-                            </li>
-                            <li class="nav-item w-50">
-                                <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab" aria-controls="module" aria-selected="false">区块</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content pt-3" id="formAttrTabContent">
-                            <div class="tab-pane fade show active" id="componentAttr" role="tabpanel" aria-labelledby="componentAttr-tab">
-                                <div class="widget-right-item">
-                                    <div class="component-title">
-                                        <i class="bi bi-paragraph pr-3"></i>段落
-                                    </div>
-                                    <div class="ml-4">
+                                <div class="ml-4">
                                         <textarea name="" id="" cols="30" rows="2" class="w-100 widget-right-textarea">
                                             段落内容段落内容段落内容段落内容
                                         </textarea>
-                                    </div>
                                 </div>
-                                <div class="widget-right-item">
-                                    <div class="component-title">
-                                        颜色 <i class="bi bi-three-dots-vertical float-right"></i>
+                            </div>
+                            <div class="widget-right-item">
+                                <div class="component-title">
+                                    颜色 <i class="bi bi-three-dots-vertical float-right"></i>
+                                </div>
+                                <div class="widget-right-content">
+                                    <p class="widget-right-group">
+                                        <i class="bi bi-palette pr-2"></i>文本
+                                    </p>
+                                    <p class="widget-right-group"><i class="bi bi-palette pr-2"></i>背景</p>
+                                </div>
+                            </div>
+                            <div class="widget-right-item">
+                                <div class="component-title">
+                                    排版 <i class="bi bi-three-dots-vertical float-right"></i>
+                                </div>
+                                <div class="widget-right-content">
+                                    <div>
+                                        <span>尺寸 <small class="text-secondary">默认</small></span>
+                                        <i class="bi bi-sliders2 float-right"></i>
                                     </div>
                                     <div class="widget-right-content">
-                                        <p class="widget-right-group">
-                                            <i class="bi bi-palette pr-2"></i>文本
-                                        </p>
-                                        <p class="widget-right-group"><i class="bi bi-palette pr-2"></i>背景</p>
-                                    </div>
-                                </div>
-                                <div class="widget-right-item">
-                                    <div class="component-title">
-                                        排版 <i class="bi bi-three-dots-vertical float-right"></i>
-                                    </div>
-                                    <div class="widget-right-content">
-                                       <div>
-                                           <span>尺寸 <small class="text-secondary">默认</small></span>
-                                           <i class="bi bi-sliders2 float-right"></i>
-                                       </div>
-                                        <div class="widget-right-content">
-                                            <div class="form-group">
-                                                <label for="exampleSelectBorder"></label>
-                                                <select class="custom-select form-control-border" id="exampleSelectBorder">
-                                                    <option>12</option>
-                                                    <option>14</option>
-                                                    <option>16</option>
-                                                </select>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="exampleSelectBorder"></label>
+                                            <select class="custom-select form-control-border" id="exampleSelectBorder">
+                                                <option>12</option>
+                                                <option>14</option>
+                                                <option>16</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="widget-right-item">
-                                    <div class="component-title">
-                                        高级设置 <i class="bi bi-chevron-down float-right" id="toggleBtn"></i>
-                                    </div>
-                                    <div class="widget-right-content" id="superContent">
-                                         高级设置的内容高级设置的内容高级设置的内容
-                                    </div>
+                            </div>
+                            <div class="widget-right-item">
+                                <div class="component-title">
+                                    高级设置 <i class="bi bi-chevron-down float-right" id="toggleBtn"></i>
+                                </div>
+                                <div class="widget-right-content" id="superContent">
+                                    高级设置的内容高级设置的内容高级设置的内容
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="formAttr" role="tabpanel" aria-labelledby="formAttr-tab">
+                        </div>
+                        <div class="tab-pane fade" id="formAttr" role="tabpanel" aria-labelledby="formAttr-tab">
 
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 #end

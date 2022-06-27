@@ -91,6 +91,9 @@ public class _AttachmentVideoController extends AdminControllerBase {
         setAttr("cloudType",cloudType);
 
         //腾讯云
+        //腾讯云点播视频：appId
+        String appId = JPressOptions.get("attachment_qcloudvideo_appid");
+        setAttr("appId",appId);
 
 
         render("attachment/video_add.html");
@@ -103,6 +106,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
         List<AttachmentVideoCategory> categories = videoCategoryService.findListByColumns(Columns.create(),"order_number asc,id desc");
         setAttr("categories",categories);
+
 
         render("attachment/video_add.html");
     }

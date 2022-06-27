@@ -302,7 +302,19 @@
 
     window.onload = function() {
         //初始化
-        var player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
+        var aid = $("#appId").val();
+        var vid = $("#vodVid").val();
+        var player =null;
+        if((aid != null && aid != "") && (vid != null && vid != "") ){
+             player = TCPlayer('player-container-id', {
+                fileID: vid,
+                appID: aid,
+                autoplay: true //是否自动播放
+            });
+        }else{
+             player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
+        }
+
 
         var cloudType = $("#cloudType").val();
         if(cloudType == '1'){
@@ -355,6 +367,8 @@
                 isTranscode: 1,
                 success : function(result) {
                     // alert("上传成功");
+                    //清除文件选择
+                    $('#tcentVideoInputFile').val('')
                     console.log("上传成功，返回的结果==")
                     console.log(result)
                 },
@@ -382,10 +396,16 @@
                     //视频id
                     fileId= $("#tcVod").val(result.fileId);
                     var vodVid= $("#vodVid").val(result.fileId);
+                    var aID=appId;
 
 
                     //通过url播放（直播、点播）
                     player.src(result.videoUrl); // url 播放地址
+
+                    //   player = TCPlayer('player-container-id', {
+                    //     fileID: fileId,
+                    //     appID: aID //是否自动播放
+                    // });
 
                     console.log("上传完成，返回的结果fileId："+result.fileId);
                     console.log("上传完成，返回的结果videoUrl："+result.videoUrl);
@@ -452,6 +472,7 @@
                     <input type="hidden" name="video.id" value="#(video.id ??)" id="videoId">
 
                     <input type="hidden" name="video.vod_vid" id="vodVid" value="#(video.vodVid ??)">
+                    <input type="hidden" name="appId" id="appId" value="#(appId ??)">
                     <input type="hidden" name="video.vod_size" id="vodSize" value="#(video.vodSize ??)">
 
                     <div class="card card-primary card-outline">

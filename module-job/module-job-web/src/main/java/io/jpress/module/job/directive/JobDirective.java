@@ -1,38 +1,40 @@
 package io.jpress.module.job.directive;
 
-
 import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.module.job.model.JobAddress;
-import io.jpress.module.job.service.JobAddressService;
-
-import java.util.List;
+import io.jpress.module.job.model.Job;
+import io.jpress.module.job.service.JobService;
 
 /**
- * @description: 所有地址
- * @version V5.0
- */
-@JFinalDirective("jobAddress")
-public class JobAddressDirective extends JbootDirectiveBase {
-
+ * @description: select job by id
+ * @version: v5.0
+ **/
+@JFinalDirective("job")
+public class JobDirective extends JbootDirectiveBase {
 
     @Inject
-    private JobAddressService jobAddressService;
+    private JobService jobService;
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        List<JobAddress> addressList = jobAddressService.findAll();
+        Integer id = getParaToInt(0, scope);
 
-        if(addressList == null){
+        if (id == null || id <= 0) {
             return;
         }
 
-        scope.setLocal("addressList",addressList);
+        Job job = jobService.findById(id);
+
+        if (job == null) {
+            return;
+        }
+
+        scope.setLocal("job", job);
         renderBody(env, scope, writer);
     }
 

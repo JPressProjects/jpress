@@ -12,8 +12,8 @@ import io.jpress.module.job.service.JobService;
 import java.util.List;
 
 /**
+ * @description: 最新岗位
  * @version V5.0
- * @Title: 最新岗位
  */
 @JFinalDirective("newJobs")
 public class newJobs extends JbootDirectiveBase {
@@ -28,10 +28,10 @@ public class newJobs extends JbootDirectiveBase {
 
         List<Job> jobList;
 
-        if(count == null || count <= 0){
-            jobList = jobService.findListByColumns(Columns.create(), "created desc");
-        }else {
+        if(count != null && count > 0){
             jobList = jobService.findListByColumns(Columns.create(),"created desc",count);
+        }else {
+            jobList = jobService.findListByColumns(Columns.create(), "created desc");
         }
 
         scope.setLocal("newJobList",jobList);

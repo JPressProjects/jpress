@@ -13,8 +13,8 @@ import io.jpress.module.job.service.JobCategoryService;
 import java.util.List;
 
 /**
+ * @description: 所有岗位分类
  * @version V5.0
- * @Title: 所有岗位分类
  */
 @JFinalDirective("jobCategories")
 public class JobCategoryDirective extends JbootDirectiveBase {

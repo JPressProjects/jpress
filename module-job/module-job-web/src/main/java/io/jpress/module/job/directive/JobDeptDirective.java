@@ -13,8 +13,8 @@ import io.jpress.module.job.service.JobDepartmentService;
 import java.util.List;
 
 /**
+ * @description: 所有岗位部门
  * @version V5.0
- * @Title: 所有岗位部门
  */
 @JFinalDirective("jobDepartments")
 public class JobDeptDirective extends JbootDirectiveBase {
@@ -32,7 +32,7 @@ public class JobDeptDirective extends JbootDirectiveBase {
             return;
         }
 
-        scope.setLocal("categoryList",departmentList);
+        scope.setLocal("departmentList",departmentList);
         renderBody(env, scope, writer);
     }
 

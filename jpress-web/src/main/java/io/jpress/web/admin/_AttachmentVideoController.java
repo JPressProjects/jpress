@@ -14,7 +14,8 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.aliyun.AliyunLiveUtil;
 import io.jpress.commons.aliyun.AliyunVideoUtil;
 import io.jpress.commons.aliyun.CloudVideoInfo;
-import io.jpress.commons.txunyun.Signature;
+import io.jpress.commons.qcloud.QCloudLiveUtil;
+import io.jpress.commons.qcloud.Signature;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.AttachmentVideo;
 import io.jpress.model.AttachmentVideoCategory;
@@ -69,6 +70,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
         String id = getPara();
         AttachmentVideo video = attachmentVideoService.findById(id);
         String playauth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
+        //阿里云
         //点播视频
         setAttr("cloudPlayAuth", playauth);
         setAttr("cloudVid", video.getVodVid());
@@ -87,6 +89,9 @@ public class _AttachmentVideoController extends AdminControllerBase {
         //视频云类型
         String cloudType = JPressOptions.get("attachment_cloud_type");
         setAttr("cloudType",cloudType);
+
+        //腾讯云
+
 
         render("attachment/video_add.html");
     }
@@ -230,9 +235,9 @@ public class _AttachmentVideoController extends AdminControllerBase {
         //得到Sign
         Signature sign = new Signature();
         //个人API密钥中的Secret Id
-        sign.setSecretId("AKIDxiFVWIqDJ8gyg7G8jx6zd17vTlmX1EAo");
+        sign.setSecretId("AKIDvgDVYMvFJ8h15tSlpdBZicqrc8OO8crt");
         //个人API密钥中的Secret Key
-        sign.setSecretKey("7UcUGvPedMwHYgZDcpnVzDBtNccNuBE3");
+        sign.setSecretKey("pOhla9SWMwHMBl59xXrvjIgrnW0ECvPd");
         sign.setCurrentTime(System.currentTimeMillis() / 1000);
         sign.setRandom(new Random().nextInt(java.lang.Integer.MAX_VALUE));
         sign.setSignValidDuration(3600 * 24 * 2);
@@ -247,6 +252,21 @@ public class _AttachmentVideoController extends AdminControllerBase {
         }
 
         return signature;
+    }
+
+
+    public Ret doQCloudCreateLive() {
+
+        String streamName = StrUtil.uuid();
+
+        String appName = QCloudLiveUtil.getAppName();
+        String playDomain = QCloudLiveUtil.getPlayDomain();
+
+        String pushUrl = QCloudLiveUtil.createPushUrl(streamName);
+        String playUrl = QCloudLiveUtil.createPlayUrlForM3U8(streamName);
+
+        return Ret.ok().set("pushUrl", pushUrl).set("playUrl", playUrl).set("liveApp", appName)
+                .set("domainName", playDomain).set("streamName", streamName);
     }
 
 

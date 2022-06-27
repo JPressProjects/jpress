@@ -1,4 +1,4 @@
-package io.jpress.commons.txunyun;
+package io.jpress.commons.qcloud;
 
 import sun.misc.BASE64Encoder;
 

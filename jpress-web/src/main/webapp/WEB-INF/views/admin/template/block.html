@@ -28,7 +28,7 @@
 #define script()
 <script src="#(CPATH)/static/components/bootstrap-slider/bootstrap-slider.js"></script>
 <script src="#(CPATH)/static/components/sortable/sortable.min.js"></script>
-<script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder.min.js"></script>
+<script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder.all.min.js"></script>
 <script>
     $(function () {
         $('.slider').bootstrapSlider();
@@ -47,15 +47,47 @@
 
         })
 
-        $('.bsFormBuilder').bsFormBuilder({
-            customBuilderStructure: true
+        var datas = [{"id":"657634a8df","tag":"block","label":"多行输入框","name":"textarea_2","rows":5,"index":0}];
+
+        $('#uilder').bsFormBuilder({
+            customBuilderStructure: true,
+            bsFormContainerSortableGroup:'main',
+            components:[
+                //自定义组件 card
+                {
+                    "name": "板块",
+                    "tag": "block",
+                    "drag": {
+                        "title": "板块",
+                        "type": "container",
+                        "index": 100,
+                        "iconClass": "bi bi-grid-1x2"
+                    },
+                    propsfilter: ["tag", "id"],
+
+                    "template": '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +
+                                '  <div class="card collapsed-card">' +
+                                '    <div class="card-header">' +
+                                '      <h3 class="card-title">主编栏2</h3>' +
+                                '      <div class="card-tools">' +
+                                '        <button type="button" class="btn btn-tool" data-card-widget="collapse">' +
+                                '          <i class="fas fa-plus"></i>' +
+                                '        </button>' +
+                                '      </div>' +
+                                '    </div>' +
+                                '    <div class="card-body bsItemContainer">{{$children[0]}}</div>' +
+                                '  </div>' +
+                                '</div>',
+                },
+            ],
+            datas:datas
         });
     });
 </script>
 #end
 
 #define content()
-<section class="content tool-content bsFormBuilder" style="padding: 0">
+<section class="content tool-content" id="builder" style="padding: 0">
     <div class="card tool-container">
         <div class="tool-header d-flex justify-content-between align-items-center">
             <div>
@@ -83,8 +115,7 @@
             <div class="col-md-3 col-sm-4  leftContent border-right">
                 <div class=" pd10">
                     <div class="input-group mb-3 mt-3">
-                        <input type="text" class="form-control" placeholder="搜索" aria-label="Recipient's username"
-                               aria-describedby="basic-addon2">
+                        <input type="text" class="form-control" placeholder="搜索">
                         <div class="input-group-append">
                             <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
                         </div>
@@ -94,7 +125,6 @@
                             文字
                         </div>
                         <div class="component-group d-flex align-items-center bsFormDrags" data-type="base">
-
                         </div>
                         <div class="component-title">
                             媒体
@@ -111,36 +141,45 @@
             </div>
             <!-- 中间内容 -->
             <div class="col-md-6  col-sm-4 middleContent">
-                <div class="m-3 pt-2 bsFormContainer">
-                    <div class="bsFormContainer-placeholder">从左侧拖入组件进行表单设计</div>
-                    <div class="card collapsed-card">
-                        <div class="card-header">
-                            <h3 class="card-title">主编栏</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                        class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="可选的占位文字" aria-label="可选的占位文字"
-                                       aria-describedby="addTitle">
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="addTitle">添加按钮文字</span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInput"></label>
-                                <input type="email" class="form-control" id="exampleInput" placeholder="输入/或者来选择一个区块">
-                            </div>
-                            <div class="mt-3">
-                                <button class="btn btn-default btn-block"><i class="bi bi-plus"></i></button>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
+
+<!--                <div class="m-3 pt-2 bsFormItem bsFormFilter">-->
+<!--                    <div class="card collapsed-card">-->
+
+<!--                        <div class="card-header">-->
+<!--                            <h3 class="card-title">主编栏1</h3>-->
+<!--                            <div class="card-tools">-->
+<!--                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i-->
+<!--                                        class="fas fa-plus"></i>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="card-body bsFormContainer">-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="m-3 pt-2 bsFormItem bsFormFilter">-->
+<!--                    <div class="card collapsed-card">-->
+
+<!--                        <div class="card-header">-->
+<!--                            <h3 class="card-title">主编栏2</h3>-->
+<!--                            <div class="card-tools">-->
+<!--                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i-->
+<!--                                        class="fas fa-plus"></i>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="card-body bsFormContainer">-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+
             </div>
             <!--右侧内容-->
             <div class="col-md-3  col-sm-4 mb-3 rightContent border-left">

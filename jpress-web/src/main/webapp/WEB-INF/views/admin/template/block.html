@@ -47,40 +47,57 @@
 
         })
 
-        var datas = [{"id":"657634a8df","tag":"block","label":"多行输入框","name":"textarea_2","rows":5,"index":0}];
+        var datas = [
+            {
+            "id": "657634a8df",
+            "tag": "block",
+            "label": "多行输入框",
+            "name": "textarea_2",
+            "rows": 5,
+            "index": 0
+        },{
+            "id": "657634a8aa",
+            "tag": "block",
+            "label": "多行输入框",
+            "name": "textarea_2",
+            "rows": 5,
+            "index": 0
+        }
+        ];
 
-        $('#uilder').bsFormBuilder({
+        $('#builder').bsFormBuilder({
             customBuilderStructure: true,
-            bsFormContainerSortableGroup:'main',
-            components:[
+            bsFormContainerSortableGroup: 'main',
+            bsFormContainerSelector: '.bsFormContainer',
+            components: [
                 //自定义组件 card
                 {
-                    "name": "板块",
-                    "tag": "block",
-                    "drag": {
+                    name: "板块",
+                    tag: "block",
+                    drag: {
                         "title": "板块",
                         "type": "container",
                         "index": 100,
                         "iconClass": "bi bi-grid-1x2"
                     },
                     propsfilter: ["tag", "id"],
-
-                    "template": '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +
-                                '  <div class="card collapsed-card">' +
-                                '    <div class="card-header">' +
-                                '      <h3 class="card-title">主编栏2</h3>' +
-                                '      <div class="card-tools">' +
-                                '        <button type="button" class="btn btn-tool" data-card-widget="collapse">' +
-                                '          <i class="fas fa-plus"></i>' +
-                                '        </button>' +
-                                '      </div>' +
-                                '    </div>' +
-                                '    <div class="card-body bsItemContainer">{{$children[0]}}</div>' +
-                                '  </div>' +
-                                '</div>',
+                    disableTools: true,
+                    template: '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +
+                            '  <div class="card ">' +
+                            '    <div class="card-header">' +
+                            '      <h3 class="card-title">主编栏2</h3>' +
+                            '      <div class="card-tools">' +
+                            '        <button type="button" class="btn btn-tool" data-card-widget="collapse">' +
+                            '          <i class="fas fa-plus"></i>' +
+                            '        </button>' +
+                            '      </div>' +
+                            '    </div>' +
+                            '    <div class="card-body bsItemContainer">{{$children[0]}}</div>' +
+                            '  </div>' +
+                            '</div>',
                 },
             ],
-            datas:datas
+            datas: datas
         });
     });
 </script>
@@ -112,146 +129,30 @@
         <!--***********************************-->
         <div class="row jpress-row-container">
             <!-- 左侧 -->
-            <div class="col-md-3 col-sm-4  leftContent border-right">
-                <div class=" pd10">
-                    <div class="input-group mb-3 mt-3">
-                        <input type="text" class="form-control" placeholder="搜索">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="component-title">
-                            文字
-                        </div>
-                        <div class="component-group d-flex align-items-center bsFormDrags" data-type="base">
-                        </div>
-                        <div class="component-title">
-                            媒体
-                        </div>
-                        <div class="component-group d-flex align-items-center bsFormDrags" data-type="assist">
-                        </div>
-                        <div class="component-title">
-                            设计
-                        </div>
-                        <div class="component-group d-flex align-items-center bsFormDrags" data-type="container">
-                        </div>
-                    </div>
+            <div class="col-md-3 col-sm-4 leftContent border-right pd10">
+                <div class="component-title">
+                    文字
+                </div>
+                <div class="component-group d-flex align-items-center bsFormDrags" data-type="base">
+                </div>
+                <div class="component-title">
+                    媒体
+                </div>
+                <div class="component-group d-flex align-items-center bsFormDrags" data-type="assist">
+                </div>
+                <div class="component-title">
+                    设计
+                </div>
+                <div class="component-group d-flex align-items-center bsFormDrags" data-type="container">
                 </div>
             </div>
             <!-- 中间内容 -->
-            <div class="col-md-6  col-sm-4 middleContent">
-
-
-<!--                <div class="m-3 pt-2 bsFormItem bsFormFilter">-->
-<!--                    <div class="card collapsed-card">-->
-
-<!--                        <div class="card-header">-->
-<!--                            <h3 class="card-title">主编栏1</h3>-->
-<!--                            <div class="card-tools">-->
-<!--                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i-->
-<!--                                        class="fas fa-plus"></i>-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="card-body bsFormContainer">-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="m-3 pt-2 bsFormItem bsFormFilter">-->
-<!--                    <div class="card collapsed-card">-->
-
-<!--                        <div class="card-header">-->
-<!--                            <h3 class="card-title">主编栏2</h3>-->
-<!--                            <div class="card-tools">-->
-<!--                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i-->
-<!--                                        class="fas fa-plus"></i>-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="card-body bsFormContainer">-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-
+            <div class="col-md-6  col-sm-4 middleContent bsFormContainer">
+                    <div class="bsFormContainer-placeholder">您当前的模板，不支持板块设计功能~~~</div>
             </div>
             <!--右侧内容-->
             <div class="col-md-3  col-sm-4 mb-3 rightContent border-left">
-                <div class=" pd10">
-                    <ul class="nav nav-tabs mb-2" id="formAttrTab" role="tablist">
-                        <li class="nav-item w-50">
-                            <a class="nav-link active" id="componentAttr-tab" data-toggle="tab" href="#componentAttr"
-                               role="tab" aria-controls="component" aria-selected="true">Footer</a>
-                        </li>
-                        <li class="nav-item w-50">
-                            <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab"
-                               aria-controls="module" aria-selected="false">区块</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content pt-3" id="formAttrTabContent">
-                        <div class="tab-pane fade show active" id="componentAttr" role="tabpanel"
-                             aria-labelledby="componentAttr-tab">
-                            <div class="widget-right-item">
-                                <div class="component-title">
-                                    <i class="bi bi-paragraph pr-3"></i>段落
-                                </div>
-                                <div class="ml-4">
-                                        <textarea name="" id="" cols="30" rows="2" class="w-100 widget-right-textarea">
-                                            段落内容段落内容段落内容段落内容
-                                        </textarea>
-                                </div>
-                            </div>
-                            <div class="widget-right-item">
-                                <div class="component-title">
-                                    颜色 <i class="bi bi-three-dots-vertical float-right"></i>
-                                </div>
-                                <div class="widget-right-content">
-                                    <p class="widget-right-group">
-                                        <i class="bi bi-palette pr-2"></i>文本
-                                    </p>
-                                    <p class="widget-right-group"><i class="bi bi-palette pr-2"></i>背景</p>
-                                </div>
-                            </div>
-                            <div class="widget-right-item">
-                                <div class="component-title">
-                                    排版 <i class="bi bi-three-dots-vertical float-right"></i>
-                                </div>
-                                <div class="widget-right-content">
-                                    <div>
-                                        <span>尺寸 <small class="text-secondary">默认</small></span>
-                                        <i class="bi bi-sliders2 float-right"></i>
-                                    </div>
-                                    <div class="widget-right-content">
-                                        <div class="form-group">
-                                            <label for="exampleSelectBorder"></label>
-                                            <select class="custom-select form-control-border" id="exampleSelectBorder">
-                                                <option>12</option>
-                                                <option>14</option>
-                                                <option>16</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="widget-right-item">
-                                <div class="component-title">
-                                    高级设置 <i class="bi bi-chevron-down float-right" id="toggleBtn"></i>
-                                </div>
-                                <div class="widget-right-content" id="superContent">
-                                    高级设置的内容高级设置的内容高级设置的内容
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="formAttr" role="tabpanel" aria-labelledby="formAttr-tab">
-
-                        </div>
-                    </div>
+                <div class="pd10 tab-content pt-3 bsFormProps">
                 </div>
             </div>
         </div>

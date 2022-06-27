@@ -13,7 +13,7 @@
 <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
 
 <!-- 腾讯云 上传-->
-<script src="/static/components/txunyun-upload-sdk/vod-js-sdk-v6.js"></script>
+<script src="/static/components/qcloud-upload-sdk/vod-js-sdk-v6.js"></script>
 <script src="//imgcache.qq.com/open/qcloud/js/vod/sdk/ugcUploader.js"></script>
 <script type="text/javascript" src="https://cdn-go.cn/cdn/vod-js-sdk-v6/latest/vod-js-sdk-v6.js"></script>
 
@@ -25,9 +25,9 @@
 <!--播放器脚本文件-->
 <!--<script src="https://web.sdk.qcloud.com/player/tcplayer/release/v4.2.1/tcplayer.v4.2.1.min.js"></script>-->
 <!-- 本地-->
-<link href="/static/components/txunyun-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
-<script src="/static/components/txunyun-upload-sdk/player/hls.min.0.13.2m.js"></script>
-<script src="/static/components/txunyun-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
+<link href="/static/components/qcloud-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
+<script src="/static/components/qcloud-upload-sdk/player/hls.min.0.13.2m.js"></script>
+<script src="/static/components/qcloud-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
 
 
 
@@ -301,17 +301,17 @@
 
 
     window.onload = function() {
-        //初始化播放器
+        //初始化
         var player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
 
         var cloudType = $("#cloudType").val();
         if(cloudType == '1'){
             $("#aliyun").show();
-            $("#txunyun").hide();
+            $("#qcloud").hide();
 
         }else if(cloudType == '2'){
             $("#aliyun").hide();
-            $("#txunyun").show();
+            $("#qcloud").show();
         }
 
         var mysign="";
@@ -322,7 +322,7 @@
                 type : "POST",
                 success : function(result) {
                     mysign=result;
-                    console.log(result);
+                    console.log("签名=="+result);
                     callback(result);//回调签名参数
                     //callback(result.returnData.signature);
                 }
@@ -331,8 +331,22 @@
 
         //#tcentVideoInputFile
         $('#tcentVideoInputFile').on('change', function(e) {
+            var title = $('#videoTitle').val();
+            if (title == "") {
+                alert("请先输入标题，才能进行文件上传。");
+                return;
+            }
+
+            var file = e.target.files[0]
+            if (!file) {
+                alert("请先选择需要上传的文件!")
+                return
+            }
+
+
             var videoFile = this.files[0];
             var fileId=null;
+            var appId=null;
             qcVideo.ugcUploader.start({
 
                 videoFile : videoFile,
@@ -341,20 +355,30 @@
                 isTranscode: 1,
                 success : function(result) {
                     // alert("上传成功");
+                    console.log("上传成功，返回的结果==")
                     console.log(result)
                 },
                 error : function(result) {
 
                     alert("上传失败"+result.msg);
+                    console.log("上传失败，返回的结果==")
                     console.log(result)
 
                 },
                 progress : function(result) {
-                    // alert("上传进度：" + result.curr);
-                    console.log(result)
+                    if(result.curr < 1){
+                        $("#tcentVideoInputFileLable").text("视频上传中...." + Math.ceil(result.curr * 100)
+                            + "% （总大小：" + (videoFile.size / 1024 / 1024).toFixed(2) + "MB）");
+
+                    }else if(result.curr == 1){
+                        $("#tcentVideoInputFileLable").text("视频上传成功！（总大小：" + (videoFile.size / 1024 / 1024).toFixed(2) + "MB）");
+                    }
+                    appId = result.cos.appid;
+                    console.log("上传进度：" + result.curr);
+
                 },
                 finish : function(result) {
-                    alert("上传完成");
+                    // alert("上传完成");
                     //视频id
                     fileId= $("#tcVod").val(result.fileId);
                     var vodVid= $("#vodVid").val(result.fileId);
@@ -363,13 +387,15 @@
                     //通过url播放（直播、点播）
                     player.src(result.videoUrl); // url 播放地址
 
-                    console.log("上传成功，返回的结果fileId："+result.fileId);
-                    console.log("上传成功，返回的结果videoUrl："+result.videoUrl);
-                    console.log("上传成功，返回的结果videoName："+result.videoName);
+                    console.log("上传完成，返回的结果fileId："+result.fileId);
+                    console.log("上传完成，返回的结果videoUrl："+result.videoUrl);
+                    console.log("上传完成，返回的结果videoName："+result.videoName);
+                    console.log("上传完成，appId："+appId);
+                    console.log("上传完成，videoFile.size："+videoFile.size);
+
                 }
 
             });
-
         });
 
 
@@ -378,45 +404,7 @@
 
 </script>
 
-<script>
 
-    var id = $("#tcVod").val();
-
-    //通过url播放（直播、点播）
-    // var player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
-    // player.src(); // url 播放地址
-
-    //通过FileId播放（点播）
-    // var player = TCPlayer('player-container-id', { // player-container-id 为播放器容器ID，必须与html中一致
-    //     fileID: '', // 请传入需要播放的视频filID 必须
-    //     appID: '', // 请传入点播账号的appID 必须
-    //     //其他参数请在开发文档中查看
-    //     plugins: {
-    //         ContinuePlay: {
-    //             // auto: true // 是否在播放时自动续播
-    //             // text:'上次播放至 ', //[可选] 提示文案
-    //             // btnText: '恢复播放' //[可选] 按钮文案
-    //         },
-    //         ProgressMarker: true,
-    //         ContextMenu: {
-    //             statistic: true,
-    //             levelSwitch: {
-    //                 open: true, // 打开切换提示
-    //                 // switchingText: '开始', // 开始切换时文案
-    //                 // switchedText: '成功', // 切换成功时文案
-    //                 // switchErrorText: '失败', // 切换失败时文案
-    //             }
-    //         }
-    //     }
-    // });
-
-    //切换播放视频
-    // player.loadVideoByID({
-    //     fileID: '', // 请传入需要播放的视频 fileID（必须）
-    //     appID: '', // 请传入点播账号的 appID（必须）
-    //     psign:'' // 参考 Key 防盗链说明
-    // });
-</script>
 
 
 <!-- 腾讯云 end-->
@@ -581,7 +569,7 @@
                                 </div>
                                 </div>
 
-                                <div id="txunyun">
+                                <div id="qcloud">
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">选择视频文件</label>
                                         <div class="col-sm-6">

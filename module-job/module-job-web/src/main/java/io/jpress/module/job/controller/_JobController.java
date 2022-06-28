@@ -61,7 +61,7 @@ public class _JobController extends AdminControllerBase {
     @AdminMenu(text = "岗位管理", groupId = "job", order = 0)
     public void list() {
         Columns columns = new Columns();
-        Page<Job> entries = service.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(),columns,"created desc");
+        Page<Job> entries = service.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(), columns, "created desc");
         setAttr("page", entries);
 
 
@@ -108,7 +108,7 @@ public class _JobController extends AdminControllerBase {
             return;
         }
 
-        if(entry.getId() == null){
+        if (entry.getId() == null) {
             entry.setReleaseTime(new Date());
         }
 
@@ -117,8 +117,8 @@ public class _JobController extends AdminControllerBase {
             return;
         }
 
-        //开始年龄 和 介绍年龄
-        // 如果介绍年龄  < 开始年龄 不行
+        //开始年龄 和 结束年龄
+        // 如果结束年龄  < 开始年龄 不行
         // 如果俩个你年龄等于 0 不行
         if ((entry.getAgeStart() != null && entry.getAgeEnd() != null) &&
                 (entry.getAgeEnd() < entry.getAgeStart() ||
@@ -127,8 +127,8 @@ public class _JobController extends AdminControllerBase {
             return;
         }
 
-       //存放 需要更新count的 category 的id
-       List<Long> categoryIds = new ArrayList<>();
+        //存放 需要更新count的 category 的id
+        List<Long> categoryIds = new ArrayList<>();
         //存放 需要更新count的 dept 的id
         List<Long> deptIds = new ArrayList<>();
 
@@ -136,7 +136,7 @@ public class _JobController extends AdminControllerBase {
         //更新 分类下的岗位数量
         //如果是新建 那么只更新一个
         if (entry.getId() == null && entry.getCategoryId() != null) {
-           categoryIds.add(entry.getCategoryId());
+            categoryIds.add(entry.getCategoryId());
         }
         //如果不是新建 那么更新俩个
         else if (entry.getId() != null) {
@@ -151,15 +151,15 @@ public class _JobController extends AdminControllerBase {
         //更新 部门下的岗位数量
         //如果是新建 那么只更新一个
         if (entry.getId() == null && entry.getDeptId() != null) {
-           deptIds.add(entry.getDeptId());
+            deptIds.add(entry.getDeptId());
 
         }
         //如果不是新建 那么更新俩个
         else if (entry.getId() != null) {
             Job job = service.findById(entry.getId());
             if (job != null && !job.getDeptId().equals(entry.getDeptId())) {
-              deptIds.add(job.getDeptId());
-              deptIds.add(entry.getDeptId());
+                deptIds.add(job.getDeptId());
+                deptIds.add(entry.getDeptId());
             }
         }
 
@@ -182,7 +182,6 @@ public class _JobController extends AdminControllerBase {
         service.batchDeleteByIds(getParaSet("ids").toArray());
         renderOkJson();
     }
-
 
 
     @AdminMenu(text = "分类管理", groupId = "job", order = 1)
@@ -228,7 +227,6 @@ public class _JobController extends AdminControllerBase {
         jobCategoryService.batchDeleteByIds(getParaSet("ids").toArray());
         renderOkJson();
     }
-
 
 
     @AdminMenu(text = "部门管理", groupId = "job", order = 2)

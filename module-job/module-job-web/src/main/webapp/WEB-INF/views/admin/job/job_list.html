@@ -105,26 +105,26 @@
                         <td>#(entry.age_start ??)~#(entry.age_end ??)</td>
 
                         <td>
-                            #if(entry.record ?? == 0) 不限制学历
-                            #else if(entry.record ?? == 1)初中及以下
-                            #else if(entry.record ?? == 2)中专/中技
-                            #else if(entry.record ?? == 3)高中
-                            #else if(entry.record ?? == 4)大专
-                            #else if(entry.record ?? == 5)本科
-                            #else if(entry.record ?? == 6)硕士
-                            #else if(entry.record ?? == 7)博士
+                            #if(entry.education ?? == 0) 不限制学历
+                            #else if(entry.education ?? == 1)初中及以下
+                            #else if(entry.education ?? == 2)中专/中技
+                            #else if(entry.education ?? == 3)高中
+                            #else if(entry.education ?? == 4)大专
+                            #else if(entry.education ?? == 5)本科
+                            #else if(entry.education ?? == 6)硕士
+                            #else if(entry.education ?? == 7)博士
                             #end
                         </td>
 
                         <td>
-                            #if(entry.year ?? == 0) 不限
-                            #else if(entry.year ?? == 1) 在校生
-                            #else if(entry.year ?? == 2) 应届生
-                            #else if(entry.year ?? == 3) 1年以内
-                            #else if(entry.year ?? == 4) 1-3年
-                            #else if(entry.year ?? == 5) 3-5年
-                            #else if(entry.year ?? == 6) 3-5年
-                            #else if(entry.year ?? == 7) 10年以上
+                            #if(entry.work_year ?? == 0) 不限
+                            #else if(entry.work_year ?? == 1) 在校生
+                            #else if(entry.work_year ?? == 2) 应届生
+                            #else if(entry.work_year ?? == 3) 1年以内
+                            #else if(entry.work_year ?? == 4) 1-3年
+                            #else if(entry.work_year ?? == 5) 3-5年
+                            #else if(entry.work_year ?? == 6) 3-5年
+                            #else if(entry.work_year ?? == 7) 10年以上
                             #end
                         </td>
 
@@ -136,9 +136,9 @@
                         </td>
 
                         <td>
-                            #if(entry.job_type ?? == 0) 全职
-                            #else if(entry.job_type ?? == 1) 兼职
-                            #else if(entry.job_type ?? == 2) 钟点工
+                            #if(entry.work_type ?? == 0) 全职
+                            #else if(entry.work_type ?? == 1) 兼职
+                            #else if(entry.work_type ?? == 2) 钟点工
                             #end
                         </td>
 

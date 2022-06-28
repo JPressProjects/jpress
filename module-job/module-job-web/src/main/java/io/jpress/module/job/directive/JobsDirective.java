@@ -35,13 +35,13 @@ public class JobsDirective extends JbootDirectiveBase {
         //可以指定查询数量
         Integer count = getParaToInt("count", scope);
         //可以指定学历
-        Integer record = getParaToInt("record", scope);
+        Integer education = getParaToInt("education", scope);
         //可以指定年限
-        Integer year = getParaToInt("year", scope);
+        Integer workYear = getParaToInt("workYear", scope);
         //可以指定工作类型
-        Integer jobType = getParaToInt("jobType", scope);
-        //可以指定工作类型
-        Integer recruitType = getParaToInt("recruitType", scope);
+        Integer workType = getParaToInt("workType", scope);
+        //可以指定招聘类型
+        Integer recruitmentType = getParaToInt("recruitmentType", scope);
         //指定排序属性
         String orderBy = getPara("orderBy", scope, "created desc");
 
@@ -49,10 +49,10 @@ public class JobsDirective extends JbootDirectiveBase {
         columns.eq("category_id", categoryId);
         columns.eq("dept_id", deptId);
         columns.eq("address_id", addressId);
-        columns.eq("record", record);
-        columns.eq("year", year);
-        columns.eq("job_type", jobType);
-        columns.eq("recruitment_type", recruitType);
+        columns.eq("education", education);
+        columns.eq("work_year", workYear);
+        columns.eq("work_type", workType);
+        columns.eq("recruitment_type", recruitmentType);
 
         List<Job> jobList = jobService.findListByColumnsWithInfo(columns, orderBy, count);
 

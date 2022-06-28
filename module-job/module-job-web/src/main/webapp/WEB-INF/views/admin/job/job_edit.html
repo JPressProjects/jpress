@@ -151,16 +151,16 @@
                             <label class="col-sm-2 col-form-label">学历</label>
                             <div class="col-sm-6">
 
-                                <select class="form-control" name="job.record">
+                                <select class="form-control" name="job.education">
                                     <option value="">请选择学历</option>
-                                    <option #if(job.record ??== 0) selected #end value="0">不限制学历</option>
-                                    <option #if(job.record ??== 1) selected #end value="1">初中及以下</option>
-                                    <option #if(job.record ??== 2) selected #end value="2">中专/中技</option>
-                                    <option #if(job.record ??== 3) selected #end value="3">高中</option>
-                                    <option #if(job.record ??== 4) selected #end value="4">大专</option>
-                                    <option #if(job.record ??== 5) selected #end value="5">本科</option>
-                                    <option #if(job.record ??== 6) selected #end value="6">硕士</option>
-                                    <option #if(job.record ??== 7) selected #end value="7">博士</option>
+                                    <option #if(job.education ??== 0) selected #end value="0">不限制学历</option>
+                                    <option #if(job.education ??== 1) selected #end value="1">初中及以下</option>
+                                    <option #if(job.education ??== 2) selected #end value="2">中专/中技</option>
+                                    <option #if(job.education ??== 3) selected #end value="3">高中</option>
+                                    <option #if(job.education ??== 4) selected #end value="4">大专</option>
+                                    <option #if(job.education ??== 5) selected #end value="5">本科</option>
+                                    <option #if(job.education ??== 6) selected #end value="6">硕士</option>
+                                    <option #if(job.education ??== 7) selected #end value="7">博士</option>
                                 </select>
 
                             </div>
@@ -170,16 +170,16 @@
                             <label class="col-sm-2 col-form-label">工作年限</label>
                             <div class="col-sm-6">
 
-                                <select class="form-control" name="job.year">
+                                <select class="form-control" name="job.work_year">
                                     <option value="">请选择基层工作最低年限</option>
-                                    <option #if(job.year ?? == 0) selected #end value="0">不限</option>
-                                    <option #if(job.year ?? == 1) selected #end value="1">在校生</option>
-                                    <option #if(job.year ?? == 2) selected #end value="2">应届生</option>
-                                    <option #if(job.year ?? == 3) selected #end value="3">1年以内</option>
-                                    <option #if(job.year ?? == 4) selected #end value="4">1-3年</option>
-                                    <option #if(job.year ?? == 5) selected #end value="5">3-5年</option>
-                                    <option #if(job.year ?? == 6) selected #end value="6">3-5年</option>
-                                    <option #if(job.year ?? == 7) selected #end value="7">10年以上</option>
+                                    <option #if(job.work_year ?? == 0) selected #end value="0">不限</option>
+                                    <option #if(job.work_year ?? == 1) selected #end value="1">在校生</option>
+                                    <option #if(job.work_year ?? == 2) selected #end value="2">应届生</option>
+                                    <option #if(job.work_year ?? == 3) selected #end value="3">1年以内</option>
+                                    <option #if(job.work_year ?? == 4) selected #end value="4">1-3年</option>
+                                    <option #if(job.work_year ?? == 5) selected #end value="5">3-5年</option>
+                                    <option #if(job.work_year ?? == 6) selected #end value="6">3-5年</option>
+                                    <option #if(job.work_year ?? == 7) selected #end value="7">10年以上</option>
                                 </select>
 
                             </div>
@@ -209,11 +209,11 @@
                             <label class="col-sm-2 col-form-label">工作类型</label>
                             <div class="col-sm-6">
 
-                              <select class="form-control" name="job.job_type">
-                                 <option #if(job.jobType ?? == 0) selected #end value="0">全职</option>
-                                 <option #if(job.jobType ?? == 1) selected #end value="1">兼职</option>
-                                 <option #if(job.jobType ?? == 2) selected #end value="2">钟点工</option>
-                              </select>
+                                <select class="form-control" name="job.work_type">
+                                    <option #if(job.work_type ?? == 0) selected #end value="0">全职</option>
+                                    <option #if(job.work_type ?? == 1) selected #end value="1">兼职</option>
+                                    <option #if(job.work_type ?? == 2) selected #end value="2">钟点工</option>
+                                </select>
                             </div>
                         </div>
 

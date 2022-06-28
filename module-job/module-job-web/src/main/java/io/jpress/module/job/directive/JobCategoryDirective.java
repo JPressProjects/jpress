@@ -13,8 +13,8 @@ import io.jpress.module.job.service.JobCategoryService;
 import java.util.List;
 
 /**
- * @description: 所有岗位分类
  * @version V5.0
+ * @description: 所有岗位分类
  */
 @JFinalDirective("jobCategories")
 public class JobCategoryDirective extends JbootDirectiveBase {
@@ -28,11 +28,11 @@ public class JobCategoryDirective extends JbootDirectiveBase {
 
         List<JobCategory> categoryList = jobCategoryService.findAll();
 
-        if(categoryList == null){
+        if (categoryList == null) {
             return;
         }
 
-        scope.setLocal("categoryList",categoryList);
+        scope.setLocal("categoryList", categoryList);
         renderBody(env, scope, writer);
     }
 

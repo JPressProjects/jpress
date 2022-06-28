@@ -16,6 +16,7 @@ import io.jpress.module.job.model.Job;
 import io.jboot.service.JbootServiceBase;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Bean
 public class JobServiceProvider extends JbootServiceBase<Job> implements JobService {
@@ -50,6 +51,46 @@ public class JobServiceProvider extends JbootServiceBase<Job> implements JobServ
         return page;
     }
 
+    /**
+     * 根据id 查询 job 对象 并添加信息
+     *
+     * @param id
+     * @return io.jpress.module.job.model.Job
+     */
+    @Override
+    public Job findByIdWithInfo(@NotNull Long id) {
+
+        Job job = DAO.findById(id);
+
+        if(job == null){ return null; }
+
+        return addInfo(job);
+    }
+
+    /**
+     * 根据各种条件查询 job
+     *
+     * @param columns
+     * @param orderBy
+     * @return java.util.List<io.jpress.module.job.model.Job>
+     */
+    @Override
+    public List<Job> findListByColumnsWithInfo(Columns columns, String orderBy, Integer count) {
+
+        List<Job> jobList;
+
+        if(count == null || count <= 0){
+            jobList = DAO.findListByColumns(columns, orderBy);
+        }else {
+            jobList = DAO.findListByColumns(columns, orderBy , count);
+        }
+
+        for (Job job : jobList) {
+            addInfo(job);
+        }
+
+        return jobList.isEmpty() ? null : jobList;
+    }
 
 
     /**

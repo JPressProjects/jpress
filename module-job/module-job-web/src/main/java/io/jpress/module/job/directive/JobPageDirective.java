@@ -37,6 +37,15 @@ public class JobPageDirective extends JbootDirectiveBase {
 
         String orderBy = getPara("orderBy", scope, "created desc");
 
+        //可以指定学历
+        Integer record = getParaToInt("record", scope);
+        //可以指定年限
+        Integer year = getParaToInt("year", scope);
+        //可以指定工作类型
+        Integer jobType = getParaToInt("jobType", scope);
+        //可以指定工作类型
+        Integer recruitType = getParaToInt("recruitType", scope);
+
         //可以指定分类ID
         Long categoryId = getParaToLong("categoryId", scope);
         //获取当前页面 key 为 category 的数据
@@ -64,6 +73,10 @@ public class JobPageDirective extends JbootDirectiveBase {
         columns.eq("category_id", categoryId);
         columns.eq("dept_id", deptId);
         columns.eq("address_id", addressId);
+        columns.eq("record", record);
+        columns.eq("year", year);
+        columns.eq("recruitment_type", recruitType);
+        columns.eq("job_type", jobType);
 
         //分页查询并添加信息
         Page<Job> jobPage = jobService.paginateByColumnsWithInfo(page, pageSize, columns, orderBy);

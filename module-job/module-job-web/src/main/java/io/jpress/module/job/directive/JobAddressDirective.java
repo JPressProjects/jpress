@@ -13,8 +13,8 @@ import io.jpress.module.job.service.JobAddressService;
 import java.util.List;
 
 /**
- * @description: 所有地址
  * @version V5.0
+ * @description: 所有地址
  */
 @JFinalDirective("jobAddress")
 public class JobAddressDirective extends JbootDirectiveBase {
@@ -28,11 +28,11 @@ public class JobAddressDirective extends JbootDirectiveBase {
 
         List<JobAddress> addressList = jobAddressService.findAll();
 
-        if(addressList == null){
+        if (addressList == null) {
             return;
         }
 
-        scope.setLocal("addressList",addressList);
+        scope.setLocal("addressList", addressList);
         renderBody(env, scope, writer);
     }
 

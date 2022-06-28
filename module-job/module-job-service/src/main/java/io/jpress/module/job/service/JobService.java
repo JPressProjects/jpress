@@ -183,4 +183,21 @@ public interface JobService  {
     * @return com.jfinal.plugin.activerecord.Page<io.jpress.module.job.model.Job>
     */
     Page<Job> paginateByColumnsWithInfo(int pagePara, int pageSizePara,Columns columns, String orderBy);
+
+    /**
+    * 根据id 查询 job 对象 并添加信息
+    *
+    * @param id
+    * @return io.jpress.module.job.model.Job
+    */
+    public Job findByIdWithInfo(Long id);
+
+    /**
+    * 根据各种条件查询 job
+    *
+    * @param columns
+    * @param orderBy
+    * @return java.util.List<io.jpress.module.job.model.Job>
+    */
+    List<Job> findListByColumnsWithInfo(Columns columns, String orderBy,Integer count);
 }

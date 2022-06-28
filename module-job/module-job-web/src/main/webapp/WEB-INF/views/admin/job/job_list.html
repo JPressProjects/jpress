@@ -37,12 +37,10 @@
             </div>
         </div>
 
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
 
 
-
-<!-- Main content -->
 <section class="content">
     <div class="container-fluid">
         <div class="card card-outline card-primary">
@@ -54,17 +52,15 @@
                             <button type="reset" class="btn btn-default">重置</button>
                         </div>
                     </div>
-
-                    <!-- /.card-body -->
                 </form>
-            </div> <!-- /.card-body -->
+            </div>
             <div class="card-body p-0">
 
                 <table class="table table-striped table-action">
                     <thead>
                     <tr>
                         <th style="width: 10px">
-                            <input class="tableCheckAll"  type="checkbox">
+                            <input class="tableCheckAll" type="checkbox">
                         </th>
                         <th>工作名称</th>
                         <th>分类</th>
@@ -88,8 +84,8 @@
 
 
                     #for(entry : page.list ??)
-                    <tr >
-                        <td><input name="tableItem" type="checkbox" value="#(entry.id)" />
+                    <tr>
+                        <td><input name="tableItem" type="checkbox" value="#(entry.id)"/>
                         </td>
                         <td style="width: 100px">
                             #(entry.name)
@@ -141,15 +137,15 @@
 
                         <td>
                             #if(entry.job_type ?? == 0) 全职
-                            #else if(entry.job_type  ?? == 1) 兼职
-                            #else if(entry.job_type  ?? == 2) 钟点工
+                            #else if(entry.job_type ?? == 1) 兼职
+                            #else if(entry.job_type ?? == 2) 钟点工
                             #end
                         </td>
 
                         <td>
                             #if(entry.recruitment_type ?? == 0) 社招
-                            #else if(entry.recruitment_type  ?? == 1) 校招
-                            #else if(entry.recruitment_type  ?? == 2) 实习
+                            #else if(entry.recruitment_type ?? == 1) 校招
+                            #else if(entry.recruitment_type ?? == 2) 实习
                             #end
                         </td>
 
@@ -170,7 +166,7 @@
 
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+                                        <input class="form-check-input tableCheckAll" id="checkall" type="checkbox">
                                         <label class="form-check-label" for="checkall">全选</label>
                                     </div>
                                 </div>
@@ -194,16 +190,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.card-footer -->
 
-
-            </div><!-- /.card-body -->
-
+            </div>
 
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
 </section>
-<!-- /.content -->
-
-
 #end

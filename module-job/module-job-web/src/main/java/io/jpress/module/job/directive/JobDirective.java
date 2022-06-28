@@ -22,13 +22,13 @@ public class JobDirective extends JbootDirectiveBase {
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
 
-        Integer id = getParaToInt(0, scope);
+        Long id = getParaToLong(0, scope);
 
         if (id == null || id <= 0) {
             return;
         }
 
-        Job job = jobService.findById(id);
+        Job job = jobService.findByIdWithInfo(id);
 
         if (job == null) {
             return;

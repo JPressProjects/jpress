@@ -43,7 +43,7 @@ public class JobPageDirective extends JbootDirectiveBase {
         Integer workYear = getParaToInt("workYear", scope);
         //可以指定工作类型
         Integer workType = getParaToInt("workType", scope);
-        //可以指定工作类型
+        //可以指定招聘类型
         Integer recruitmentType = getParaToInt("recruitmentType", scope);
 
         //可以指定分类ID

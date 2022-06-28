@@ -18,17 +18,15 @@
 <script type="text/javascript" src="https://cdn-go.cn/cdn/vod-js-sdk-v6/latest/vod-js-sdk-v6.js"></script>
 
 <!-- 腾讯云 超级播放器-->
-<!-- 网上-->
-<!--<link href="https://web.sdk.qcloud.com/player/tcplayer/release/v4.2.1/tcplayer.min.css" rel="stylesheet">-->
-<!--如果需要在 Chrome 和 Firefox 等现代浏览器中通过 H5 播放 HLS 格式的视频，需要在 tcplayer.v4.2.min.js 之前引入 hls.min.0.13.2m.js。-->
-<!--<script src="https://web.sdk.qcloud.com/player/tcplayer/release/v4.2.1/libs/hls.min.0.13.2m.js"></script>-->
-<!--播放器脚本文件-->
-<!--<script src="https://web.sdk.qcloud.com/player/tcplayer/release/v4.2.1/tcplayer.v4.2.1.min.js"></script>-->
-<!-- 本地-->
 <link href="/static/components/qcloud-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
 <script src="/static/components/qcloud-upload-sdk/player/hls.min.0.13.2m.js"></script>
 <script src="/static/components/qcloud-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
 
+<!-- 腾讯云 直播-->
+<!-- 网上资源-->
+<!--<script src="https://web.sdk.qcloud.com/player/tcplayerlite/release/v2.4.1/TcPlayer-2.4.1.js" charset="utf-8"></script>;-->
+<!-- 本地资源-->
+<script src="/static/components/qcloud-upload-sdk/player/TcPlayer-2.4.1.js"></script>;
 
 
 
@@ -244,6 +242,7 @@
 
             $('#livePushUrl').val(data.pushUrl);
             $('#contentLivePushUrl').val(data.pushUrl);
+            $('#contentLivePlayUrl').val(data.playUrl);
             $('#liveApp').val(data.liveApp);
             $('#liveDomain').val(data.domainName);
             $('#liveStream').val(data.streamName);
@@ -296,7 +295,7 @@
 
 <!-- 腾讯云 start-->
 
-
+<!-- 视频点播-->
 <script>
 
 
@@ -306,24 +305,39 @@
         var vid = $("#vodVid").val();
         var player =null;
         if((aid != null && aid != "") && (vid != null && vid != "") ){
+            //编辑
              player = TCPlayer('player-container-id', {
-                fileID: vid,
+                fileID:  vid,
                 appID: aid,
-                autoplay: true //是否自动播放
+                autoplay: false //是否自动播放
             });
         }else{
+            //新增
              player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
         }
-
 
         var cloudType = $("#cloudType").val();
         if(cloudType == '1'){
             $("#aliyun").show();
             $("#qcloud").hide();
 
+            $("#livePlayer").show();
+            $("#id_test_video").hide();
+
+            // $("#createLive").show();
+            // $("#createLiveQCloud").hide();
+
+
+
         }else if(cloudType == '2'){
             $("#aliyun").hide();
             $("#qcloud").show();
+
+            $("#livePlayer").hide();
+            $("#id_test_video").show();
+
+            // $("#createLive").hide();
+            // $("#createLiveQCloud").show();
         }
 
         var mysign="";
@@ -341,7 +355,6 @@
             });
         };
 
-        //#tcentVideoInputFile
         $('#tcentVideoInputFile').on('change', function(e) {
             var title = $('#videoTitle').val();
             if (title == "") {
@@ -369,8 +382,9 @@
                     // alert("上传成功");
                     //清除文件选择
                     $('#tcentVideoInputFile').val('')
-                    console.log("上传成功，返回的结果==")
-                    console.log(result)
+                    console.log("上传成功，返回的结果=="+result)
+
+
                 },
                 error : function(result) {
 
@@ -388,30 +402,28 @@
                         $("#tcentVideoInputFileLable").text("视频上传成功！（总大小：" + (videoFile.size / 1024 / 1024).toFixed(2) + "MB）");
                     }
                     appId = result.cos.appid;
-                    console.log("上传进度：" + result.curr);
+                    // console.log("上传进度：" + result.curr);
 
                 },
                 finish : function(result) {
-                    // alert("上传完成");
                     //视频id
                     fileId= $("#tcVod").val(result.fileId);
-                    var vodVid= $("#vodVid").val(result.fileId);
-                    var aID=appId;
+                    $("#vodVid").val(result.fileId);
 
 
                     //通过url播放（直播、点播）
-                    player.src(result.videoUrl); // url 播放地址
+                    player.src(result.videoUrl);
 
-                    //   player = TCPlayer('player-container-id', {
-                    //     fileID: fileId,
-                    //     appID: aID //是否自动播放
-                    // });
+                    $.ajax({
+                        //通过任务流设置自适应码流
+                        url : "/admin/attachment/video/setTaskStream?"+"fileId="+result.fileId,
+                        type : "POST",
+                        success : function(result) {
+                            console.log("设置自适应码流："+result);
+                        }
+                    });
 
-                    console.log("上传完成，返回的结果fileId："+result.fileId);
-                    console.log("上传完成，返回的结果videoUrl："+result.videoUrl);
-                    console.log("上传完成，返回的结果videoName："+result.videoName);
-                    console.log("上传完成，appId："+appId);
-                    console.log("上传完成，videoFile.size："+videoFile.size);
+                    console.log("上传完成，返回的结果："+result);
 
                 }
 
@@ -424,8 +436,21 @@
 
 </script>
 
+<!-- 直播-->
+<script>
 
+    // 实现更低延迟
+    // PC 浏览器支持 Flash，其 Javascript 代码如下：
+    var player =  new TcPlayer('id_test_video', {
+        "m3u8": "http://ypf-play.jpress.cn/live/liveteststream.m3u8",
+        "flv": "http://ypf-play.jpress.cn/live/liveteststream.flv", //增加了一个 flv 的播放地址，用于PC平台的播放 请替换成实际可用的播放地址
+        "autoplay" : true,      //iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
+        "poster" : "http://www.test.com/myimage.jpg",
+        "width" :  '480',//视频的显示宽度，请尽量使用视频分辨率宽度
+        "height" : '320'//视频的显示高度，请尽量使用视频分辨率高度
+    });
 
+</script>
 
 <!-- 腾讯云 end-->
 
@@ -623,6 +648,7 @@
 
                             <div id="live">
                                 <input type="hidden" name="video.live_push_url" value="#(video.livePushUrl ??)" id="contentLivePushUrl">
+                                <input type="hidden" name="" value="" id="contentLivePlayUrl">
                                 <input type="hidden" name="video.live_app" value="#(video.liveApp ??)" id="liveApp">
                                 <input type="hidden" name="video.live_domain" value="#(video.liveDomain ??)" id="liveDomain">
                                 <input type="hidden" name="video.live_stream" value="#(video.liveStream ??)" id="liveStream">
@@ -636,6 +662,7 @@
                                                    value="#(video.livePushUrl ??)" id="livePushUrl">
                                             <span class="input-group-append">
                                                 <button type="button" class="btn btn-primary btn-flat" id="createLive">创建</button>
+<!--                                                <button type="button" class="btn btn-primary btn-flat" id="createLiveQCloud">创建 -腾讯云</button>-->
                                           </span>
                                         </div>
                                         <p class="text-muted">
@@ -645,6 +672,7 @@
 
                                     </div>
                                 </div>
+
 
                                 <div class="form-group row">
 <!--                                    <span class="text-danger mr-2">*</span>-->
@@ -672,11 +700,14 @@
                                     <label class="col-sm-2 col-form-label"> 直播 / 回放</label>
                                     <div class="col-sm-6">
                                         <div class=" pr-0 bg-gray" id="livePlayer" style="height: 350px;"></div>
+                                        <div id="id_test_video" style="width:100%; height:auto;"> -腾讯云</div>
                                     </div>
                                 </div>
 
 
                             </div>
+
+
 
 
                             <div id="code">

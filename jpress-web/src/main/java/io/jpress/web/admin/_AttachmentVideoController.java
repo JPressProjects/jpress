@@ -15,6 +15,7 @@ import io.jpress.commons.aliyun.AliyunLiveUtil;
 import io.jpress.commons.aliyun.AliyunVideoUtil;
 import io.jpress.commons.aliyun.CloudVideoInfo;
 import io.jpress.commons.qcloud.QCloudLiveUtil;
+import io.jpress.commons.qcloud.QCloudVideoUtil;
 import io.jpress.commons.qcloud.Signature;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.AttachmentVideo;
@@ -23,6 +24,7 @@ import io.jpress.service.AttachmentVideoCategoryService;
 import io.jpress.service.AttachmentVideoService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -236,12 +238,15 @@ public class _AttachmentVideoController extends AdminControllerBase {
      * @return
      */
     public String getSign() {
+        String secretId = JPressOptions.get("attachment_qcloudvideo_secretid");
+        String secretKey = JPressOptions.get("attachment_qcloudvideo_secretkey");
+
         //得到Sign
         Signature sign = new Signature();
         //个人API密钥中的Secret Id
-        sign.setSecretId("AKIDvgDVYMvFJ8h15tSlpdBZicqrc8OO8crt");
+        sign.setSecretId(secretId);
         //个人API密钥中的Secret Key
-        sign.setSecretKey("pOhla9SWMwHMBl59xXrvjIgrnW0ECvPd");
+        sign.setSecretKey(secretKey);
         sign.setCurrentTime(System.currentTimeMillis() / 1000);
         sign.setRandom(new Random().nextInt(java.lang.Integer.MAX_VALUE));
         sign.setSignValidDuration(3600 * 24 * 2);
@@ -258,10 +263,24 @@ public class _AttachmentVideoController extends AdminControllerBase {
         return signature;
     }
 
+    /**
+     * 使用任务流模板进行视频处理
+     * @param fileId
+     */
+    public void setTaskStream(String fileId) throws Exception {
+        String procedureResponse = QCloudVideoUtil.setAdaptiveBitstream(fileId);
 
-    public Ret doQCloudCreateLive() {
+        render(Ret.ok().set("procedureResponse",procedureResponse));
+    }
 
-        String streamName = StrUtil.uuid();
+
+    /**
+     * 腾讯云 创建直播流
+     * @return
+     */
+    public Ret doQCloudCreateLive() throws ParseException {
+//        String streamName = StrUtil.uuid();
+        String streamName = JPressOptions.get("attachment_qcloudlive_streamname");
 
         String appName = QCloudLiveUtil.getAppName();
         String playDomain = QCloudLiveUtil.getPlayDomain();

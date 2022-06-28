@@ -4,8 +4,9 @@ import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import io.jboot.Jboot;
+import io.jpress.JPressOptions;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -15,24 +16,20 @@ import java.util.regex.Pattern;
 
 public class QCloudLiveUtil {
 
-    private static final String accessKeyId = Jboot.configValue("jboot.aliyun.live.accessKeyId");
-    private static final String accessKeySecret = Jboot.configValue("jboot.aliyun.live.accessKeySecret");
-    private static final String regionId = Jboot.configValue("jboot.aliyun.live.regionId", "cn-beijing");
-    private static final String appName = Jboot.configValue("jboot.aliyun.live.appName");
-
-    private static final String playDomain = Jboot.configValue("jboot.aliyun.live.playDomain");
-    private static final String playAuthString = Jboot.configValue("jboot.aliyun.live.playAuthString");
-
-    private static final String pushDomain = Jboot.configValue("jboot.aliyun.live.pushDomain");
-    private static final String pushAuthString = Jboot.configValue("jboot.aliyun.live.pushAuthString");
+    private static final char[] DIGITS_LOWER =
+            {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     public static String getAppName() {
-        return appName;
+        return JPressOptions.get("attachment_qcloudlive_appname") == null
+                || ("").equals(JPressOptions.get("attachment_qcloudlive_appname")) ?
+                "": JPressOptions.get("attachment_qcloudlive_appname");
     }
 
 
     public static String getPlayDomain() {
-        return playDomain;
+        return JPressOptions.get("attachment_qcloudlive_playdomain") == null
+                || ("").equals(JPressOptions.get("attachment_qcloudlive_playdomain")) ?
+                "": JPressOptions.get("attachment_qcloudlive_playdomain");
     }
 
 
@@ -43,6 +40,14 @@ public class QCloudLiveUtil {
      * @return
      */
     public static String createPlayUrlForM3U8(String streamName) {
+        String appName = JPressOptions.get("attachment_qcloudlive_appname");
+        String playDomain = JPressOptions.get("attachment_qcloudlive_playdomain");
+        String playAuthString = JPressOptions.get("attachment_qcloudlive_playauthstring");
+
+        if(appName == null){return "";}
+        if(playDomain == null){return "";}
+        if(playAuthString == null){return "";}
+
         StringBuilder sb = new StringBuilder(playDomain);
         sb.append("/").append(appName).append("/").append(streamName).append(".m3u8");
 
@@ -58,6 +63,14 @@ public class QCloudLiveUtil {
      * @return
      */
     public static String createPlayUrlForFLV(String streamName) {
+        String appName = JPressOptions.get("attachment_qcloudlive_appname");
+        String playDomain = JPressOptions.get("attachment_qcloudlive_playdomain");
+        String playAuthString = JPressOptions.get("attachment_qcloudlive_playauthstring");
+
+        if(appName == null){return "";}
+        if(playDomain == null){return "";}
+        if(playAuthString == null){return "";}
+
         StringBuilder sb = new StringBuilder(playDomain);
         sb.append("/").append(appName).append("/").append(streamName).append(".flv");
 
@@ -74,6 +87,14 @@ public class QCloudLiveUtil {
      * @return
      */
     public static String createPlayUrlForRTMP(String streamName) {
+        String appName = JPressOptions.get("attachment_qcloudlive_appname");
+        String playDomain = JPressOptions.get("attachment_qcloudlive_playdomain");
+        String playAuthString = JPressOptions.get("attachment_qcloudlive_playauthstring");
+
+        if(appName == null){return "";}
+        if(playDomain == null){return "";}
+        if(playAuthString == null){return "";}
+
         StringBuilder sb = new StringBuilder("rtmp://");
         sb.append(playDomain).append("/").append(appName).append("/").append(streamName);
 
@@ -90,9 +111,17 @@ public class QCloudLiveUtil {
      * @return
      */
     public static String createPushUrl(String streamName) {
+        String appName = JPressOptions.get("attachment_qcloudlive_appname");
+        String pushDomain = JPressOptions.get("attachment_qcloudlive_pushdomain");
+        String pushAuthString = JPressOptions.get("attachment_qcloudlive_pushauthstring");
+
+        if(appName == null){return "";}
+        if(pushDomain == null){return "";}
+        if(pushAuthString == null){return "";}
+
         StringBuilder sb = new StringBuilder("rtmp://");
         sb.append(pushDomain).append("/").append(appName).append("/").append(streamName);
-
+//        txSecret=Md5(key+StreamName+hex(time))&txTime=hex(time)
         String key = pushAuthString;                       // private key of authorization
         long exp = System.currentTimeMillis() / 1000 + 2 * 3600;  // expiration time: 2 hour after current time
         return appendAuthSign(sb.toString(), key, exp);                    // auth type:
@@ -147,6 +176,10 @@ public class QCloudLiveUtil {
 
 
     private static IAcsClient createClient() throws Exception {
+        String accessKeyId = JPressOptions.get("attachment_qcloudlive_accesskeyid");
+        String accessKeySecret = JPressOptions.get("attachment_qcloudlive_accesskeysecret");
+        String regionId = JPressOptions.get("attachment_qcloudlive_regionid");
+
         IClientProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
         //DefaultProfile.addEndpoint("cn-shanghai", "cn-shanghai", "live", "live.aliyuncs.com"); //添加自定义endpoint
 //        IAcsClient client = new DefaultAcsClient(profile);
@@ -154,4 +187,51 @@ public class QCloudLiveUtil {
         //System.setProperty("http.proxyPort", "8888");
         return new DefaultAcsClient(profile);
     }
+
+
+
+
+    /**
+     * 鉴权Key
+     * KEY+ streamName + txTime
+     */
+    private static String getSafeUrl(String key, String streamName, long txTime) {
+        String input = new StringBuilder().
+                append(key).
+                append(streamName).
+                append(Long.toHexString(txTime).toUpperCase()).toString();
+
+        String txSecret = null;
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            txSecret  = byteArrayToHexString(
+                    messageDigest.digest(input.getBytes("UTF-8")));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return txSecret == null ? "" :
+                new StringBuilder().
+                        append("txSecret=").
+                        append(txSecret).
+                        append("&").
+                        append("txTime=").
+                        append(Long.toHexString(txTime).toUpperCase()).
+                        toString();
+    }
+
+    private static String byteArrayToHexString(byte[] data) {
+        char[] out = new char[data.length << 1];
+
+        for (int i = 0, j = 0; i < data.length; i++) {
+            out[j++] = DIGITS_LOWER[(0xF0 & data[i]) >>> 4];
+            out[j++] = DIGITS_LOWER[0x0F & data[i]];
+        }
+        return new String(out);
+    }
+
+
+
 }

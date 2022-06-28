@@ -31,7 +31,8 @@ public class Signature {
         contextStr = contextStr + "&currentTimeStamp=" + this.currentTime;
         contextStr = contextStr + "&expireTime=" + endTime;
         contextStr = contextStr + "&random=" + this.random;
-        contextStr = contextStr + "&procedure=QCVB_SimpleProcessFile(1,1)";
+        contextStr = contextStr + "&procedure=QCVB_SimpleProcessFile(10,1,10,10)";
+        // 100220: 默认模板转码 1: 默认模板水印 10: 采用id=10的采样截图方案 10: 采用id=10的雪碧图方案procedure=QCVB_ConvertAndReplace
         try
         {
             Mac mac = Mac.getInstance("HmacSHA1");

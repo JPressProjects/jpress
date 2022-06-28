@@ -8,28 +8,20 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class TemplateUtil {
-//
-//    public static void main(String[] args) {
-//        List<BlockContainer> containers = readBlockContainers(new File("/Users/michael/Desktop/test.html"));
-//        System.out.println(containers);
-//    }
-
 
     /**
      * 读取模板定义的 #blockContainer 容器配置
+     *
      * @param templateFile
      * @return
      */
-    public static List<BlockContainer> readBlockContainers(File templateFile) {
-        List<BlockContainer> containers = new ArrayList<>();
+    public static Set<BlockContainer> readBlockContainers(File templateFile) {
+        Set<BlockContainer> containers = new HashSet<>();
         try (BufferedReader in = new BufferedReader(new FileReader(templateFile))) {
             String str;
             while ((str = in.readLine()) != null) {
@@ -68,26 +60,52 @@ public class TemplateUtil {
 
 
     /**
-     * 读取 block 文件的 title 和 icon 配置
+     * 读取 block_***.html 文件的 title 和 icon 配置
+     * 以及
+     *
      * @param file
-     * @param blockInfo
+     * @param blockHtml
      */
-    public static void readAndSetBlockInfo(File file, BlockInfo blockInfo) {
+    public static void readAndFillBlockHtml(File file, BlockHtml blockHtml) {
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-            String str;
-            while ((str = in.readLine()) != null) {
-                str = str.trim();
-                if (str.startsWith("<!--") && str.endsWith("-->")) {
-                    str = str.substring(4, str.length() - 3).trim();
+            String lineStr;
+            while ((lineStr = in.readLine()) != null) {
+                lineStr = lineStr.trim();
+                if (lineStr.startsWith("<!--") && lineStr.endsWith("-->")) {
+                    lineStr = lineStr.substring(4, lineStr.length() - 3).trim();
 
-                    if (str.startsWith("title:")) {
-                        blockInfo.setTitle(str.substring(6));
-                    } else if (str.startsWith("icon:")) {
-                        blockInfo.setIcon(str.substring(5));
+                    if (lineStr.startsWith("title:")) {
+                        blockHtml.setTitle(lineStr.substring(6));
+                    } else if (lineStr.startsWith("icon:")) {
+                        blockHtml.setIcon(lineStr.substring(5));
                     }
+                } else {
+                    int indexOf = lineStr.indexOf("blockOption");
+                    blockHtml.addTemplateLine(lineStr);
 
-                    if (StrUtil.areNotEmpty(blockInfo.getIcon(), blockInfo.getTitle())) {
-                        break;
+                    if (indexOf >= 0) {
+                        int firstIndexOf = lineStr.indexOf("(", indexOf) + 1;
+                        int lastIndexOf = lineStr.indexOf(")", indexOf);
+
+                        String parasString = lineStr.substring(firstIndexOf, lastIndexOf);
+                        String[] paras = parasString.split(",");
+
+
+                        int index = 0 ;
+                        BlockHtmlOptionDef optionDef = new BlockHtmlOptionDef();
+                        for (String para : paras) {
+                            if (para.startsWith("\"") || para.startsWith("'")) {
+                                para = para.substring(1,para.length() - 2);
+                            }
+                            if (index == 0){
+                                optionDef.setName(para);
+                            }else if (index == 1){
+                                optionDef.setDefaultValue(para);
+                            }
+                            index ++;
+                        }
+
+                        blockHtml.addOptionDef(optionDef);
                     }
                 }
             }

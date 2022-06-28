@@ -1,0 +1,29 @@
+#if(option('calmlog_slides'))
+<div class="recommend-top">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            #for(slide : linesOption('calmlog_slides'))
+            <li data-target="#carouselExampleIndicators" data-slide-to="0"
+                class="#(for.index == 0 ? 'active' : '')"></li>
+            #end
+        </ol>
+        <div class="carousel-inner">
+            #for(slide : linesOption('calmlog_slides','\|'))
+            <div class="carousel-item #(for.index == 0 ? 'active' : '')">
+                <a href="#(slide[1])"><img class="d-block w-100" src="#(slide[0])"></a>
+                <p class="cl-inner-footer">#(slide[2])</p>
+            </div>
+            #end
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">上一个</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">下一个</span>
+        </a>
+    </div>
+</div>
+#end
+

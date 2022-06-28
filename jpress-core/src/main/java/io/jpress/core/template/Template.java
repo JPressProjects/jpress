@@ -48,6 +48,7 @@ public class Template {
     //模板支持的 flag 配置
     private List<String> flags = new ArrayList<>();
 
+
     public Template() {
 
     }
@@ -150,29 +151,36 @@ public class Template {
 
     /**
      * 获取模板支持设计的板块容器
+     *
      * @return
      */
-    public List<BlockContainer> getBlockContainers(){
-        List<BlockContainer> allContainers = new ArrayList<>();
+    public List<BlockContainer> getBlockContainers() {
+        Set<BlockContainer> allContainers = new HashSet<>();
         for (String htmlFile : htmls) {
-            allContainers.addAll(TemplateUtil.readBlockContainers(new File(getAbsolutePathFile(),htmlFile)));
+            allContainers.addAll(TemplateUtil.readBlockContainers(new File(getAbsolutePathFile(), htmlFile)));
         }
-        return allContainers;
+        return new ArrayList<>(allContainers);
     }
 
 
     /**
      * 获取版本自带的 板块 信息
+     *
      * @return
      */
-    public List<BlockInfo> getBlockInfos(){
-        List<BlockInfo> blockInfos = new ArrayList<>();
-        for (String block : blocks) {
-            BlockInfo blockInfo = new BlockInfo();
-            blockInfo.setFileName(block);
-            blockInfo.setId(block.substring(6,block.length() - 4));
+    public List<BlockHtml> getBlockHtmls() {
+        List<BlockHtml> blockInfos = new ArrayList<>();
+        for (String blockFileName : blocks) {
+            BlockHtml blockHtml = new BlockHtml();
+            blockHtml.setFileName(blockFileName);
 
-            TemplateUtil.readAndSetBlockInfo(new File(getAbsolutePathFile(),block),blockInfo);
+            //remove "block_"  and ".html"
+            blockHtml.setId(blockFileName.substring(6, blockFileName.length() - 5));
+
+            //fill blockHtml attrs
+            TemplateUtil.readAndFillBlockHtml(new File(getAbsolutePathFile(), blockFileName), blockHtml);
+
+            blockInfos.add(blockHtml);
         }
         return blockInfos;
     }
@@ -188,7 +196,6 @@ public class Template {
      * @return
      */
     private String matchH5Template(String template) {
-
         while (StringUtils.countMatches(template, '_') > 1) {
 
             int sLastIndex = StringUtils.lastOrdinalIndexOf(template, "_", 2);
@@ -331,20 +338,19 @@ public class Template {
         newFileName.append("dockers");
         File templateRootPath = new File(newFileName.toString());
 
-        File delPath = findInstallPath(templateRootPath,getAbsolutePathFile());
+        File delPath = findInstallPath(templateRootPath, getAbsolutePathFile());
         FileUtils.deleteQuietly(delPath);
     }
 
 
-
-    private File findInstallPath(File templateRootPath,File file) {
+    private File findInstallPath(File templateRootPath, File file) {
         File parent = file.getParentFile();
         if (parent.getAbsolutePath().equals(templateRootPath.getAbsolutePath())
                 || parent.getAbsolutePath().equals(templateRootPath.getParentFile().getAbsolutePath())) {
             return file;
         }
 
-        return findInstallPath(templateRootPath,file.getParentFile());
+        return findInstallPath(templateRootPath, file.getParentFile());
     }
 
     public File getAbsolutePathFile() {

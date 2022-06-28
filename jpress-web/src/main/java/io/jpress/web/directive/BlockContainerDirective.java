@@ -17,7 +17,6 @@ package io.jpress.web.directive;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.LogKit;
-import com.jfinal.render.Render;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import com.jfinal.template.Env;
@@ -56,8 +55,7 @@ public class BlockContainerDirective extends JbootDirectiveBase {
     public void onRender(Env env, Scope scope, Writer writer) {
 
         String templateId = TemplateManager.me().getCurrentTemplate().getId();
-        String templateView = getTemplateView();
-        String containerId = getPara(0, scope);
+        String containerId = getParaToString(0, scope);
 
         if (StrUtil.isBlank(containerId)) {
             throw new IllegalArgumentException("#blockContainer(...) argument must not be empty " + getLocation());
@@ -65,7 +63,6 @@ public class BlockContainerDirective extends JbootDirectiveBase {
 
         Columns columns = Columns.create();
         columns.eq("template_id", templateId);
-        columns.eq("template_file", templateView);
         columns.eq("container_id", containerId);
 
         List<TemplateBlockInfo> blocks = blockInfoService.findListByColumns(columns);
@@ -84,11 +81,6 @@ public class BlockContainerDirective extends JbootDirectiveBase {
         renderText(writer, html.toString());
     }
 
-
-    private String getTemplateView() {
-        Render render = JbootControllerContext.get().getRender();
-        return render.getView();
-    }
 
 
     private String renderBlock(TemplateBlockInfo blockInfo) {

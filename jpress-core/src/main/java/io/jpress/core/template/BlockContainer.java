@@ -1,7 +1,6 @@
 package io.jpress.core.template;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 板块容器
@@ -34,19 +33,50 @@ public class BlockContainer {
         this.templateFile = templateFile;
     }
 
+
     public Set<String> getSupportBlocks() {
         return supportBlocks;
     }
+
 
     public void setSupportBlocks(Set<String> supportBlocks) {
         this.supportBlocks = supportBlocks;
     }
 
-    public void addSupportBlockId(String blockId){
-        if (this.supportBlocks == null){
+
+    public void addSupportBlockId(String blockId) {
+        if (this.supportBlocks == null) {
             this.supportBlocks = new HashSet<>();
         }
         this.supportBlocks.add(blockId);
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BlockContainer container = (BlockContainer) o;
+        return Objects.equals(id, container.id);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+
+    public Map<String, Object> toBsFormData() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", getId());
+        data.put("tag", "block");
+        data.put("templateFile", getTemplateFile());
+        data.put("supportBlocks", getSupportBlocks());
+        return data;
+    }
 }

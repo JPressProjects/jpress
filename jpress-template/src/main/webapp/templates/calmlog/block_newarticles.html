@@ -1,0 +1,17 @@
+<div class="right-card">
+    <div class="right-card-main">
+        <div class="right-card-title">最新文章</div>
+        <ul class="right-recommended-list">
+            #articles()
+            #for(article : articles)
+            <li>
+                <a href="#(article.url ??)">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    #(article.title ??)
+                </a>
+            </li>
+            #end
+            #end
+        </ul>
+    </div>
+</div>

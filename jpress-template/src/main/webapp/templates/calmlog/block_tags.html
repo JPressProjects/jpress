@@ -1,0 +1,13 @@
+<div class="right-card">
+
+    <div class="right-card-main">
+        <div class="right-card-title">热门标签</div>
+        <ul class="label">
+            #tags()
+            #for(tag : tags)
+            <li><a href="#(tag.url ??)">#(tag.title ??)</a></li>
+            #end
+            #end
+        </ul>
+    </div>
+</div>

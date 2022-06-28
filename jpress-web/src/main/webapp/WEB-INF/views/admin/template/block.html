@@ -49,53 +49,70 @@
 
         var datas = [
             {
-            "id": "657634a8df",
-            "tag": "block",
-        },{
-            "id": "657634a8aa",
-            "tag": "block",
-        }
+                "id": "657634a8df",
+                "tag": "block",
+            }, {
+                "id": "657634a8aa",
+                "tag": "block",
+            }
         ];
 
         $('#builder').bsFormBuilder({
             customBuilderStructure: true,
             bsFormContainerSortableGroup: 'main',
             // bsFormContainerSelector: '.bsFormContainer',
-            components: [
-                //自定义组件 card
-                {
-                    name: "板块",
-                    tag: "block",
-                    drag: {
-                        "title": "板块",
-                        "type": "container",
-                        "index": 100,
-                        "iconClass": "bi bi-grid-1x2"
-                    },
-                    props:[
-                        {
-                            name: "id",
-                            type: "none",
-                        }
-                    ],
-                    propsfilter: ["tag", "id"],
-                    disableTools: true,
-                    template: '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +
-                            '  <div class="card ">' +
-                            '    <div class="card-header">' +
-                            '      <h3 class="card-title">主编栏2</h3>' +
-                            '      <div class="card-tools">' +
-                            '        <button type="button" class="btn btn-tool" data-card-widget="collapse">' +
-                            '          <i class="fas fa-plus"></i>' +
-                            '        </button>' +
-                            '      </div>' +
-                            '    </div>' +
-                            '    <div class="card-body bsItemContainer">{{$children[0]}}</div>' +
-                            '  </div>' +
-                            '</div>',
-                },
-            ],
-            datas: datas
+            components: function () {
+                var components = [];
+                $.ajax({
+                    url: '#(CPATH)/admin/template/block/components',
+                    type: 'get',
+                    async: false,
+                    success: function (data) {
+                        components = components.concat(data.components);
+                    }
+                })
+                components.push(
+                    //自定义组件 card
+                    {
+                        name: "板块",
+                        tag: "block",
+                        props: [
+                            {
+                                name: "id",
+                                type: "none",
+                            }
+                        ],
+                        propsfilter: ["tag", "id"],
+                        disableTools: true,
+                        template: '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +
+                                '  <div class="card ">' +
+                                '    <div class="card-header">' +
+                                '      <h3 class="card-title">{{id}}</h3>' +
+                                '      <div class="card-tools">' +
+                                '        <button type="button" class="btn btn-tool" data-card-widget="collapse">' +
+                                '          <i class="fas fa-plus"></i>' +
+                                '        </button>' +
+                                '      </div>' +
+                                '    </div>' +
+                                '    <div class="card-body bsItemContainer">{{$children[0]}}</div>' +
+                                '  </div>' +
+                                '</div>',
+                    })
+
+                return components;
+            },
+            datas: function () {
+                var datas = [];
+                $.ajax({
+                    url: '#(CPATH)/admin/template/block/datas',
+                    type: 'get',
+                    async: false,
+                    success: function (data) {
+                        datas = datas.concat(data.datas);
+                    }
+                })
+                return datas;
+            }
         });
     });
 </script>
@@ -129,6 +146,10 @@
             <!-- 左侧 -->
             <div class="col-md-3 col-sm-4 leftContent border-right pd10">
                 <div class="component-title">
+                    模板自带
+                </div>
+                <div class="component-group d-flex align-items-center bsFormDrags" data-type="template"></div>
+                <div class="component-title">
                     文字
                 </div>
                 <div class="component-group d-flex align-items-center bsFormDrags" data-type="base">
@@ -146,7 +167,7 @@
             </div>
             <!-- 中间内容 -->
             <div class="col-md-6  col-sm-4 middleContent bsFormContainer">
-                    <div class="bsFormContainer-placeholder">您当前的模板，不支持板块设计功能~~~</div>
+                <div class="bsFormContainer-placeholder">您当前的模板，不支持板块设计功能~~~</div>
             </div>
             <!--右侧内容-->
             <div class="col-md-3  col-sm-4 mb-3 rightContent border-left">

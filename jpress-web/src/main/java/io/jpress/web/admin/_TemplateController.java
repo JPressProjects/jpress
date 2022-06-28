@@ -30,10 +30,7 @@ import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.template.BlockContainer;
-import io.jpress.core.template.Template;
-import io.jpress.core.template.TemplateManager;
-import io.jpress.core.template.TemplateUtil;
+import io.jpress.core.template.*;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
@@ -51,7 +48,6 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 首页
  * @Package io.jpress.web.admin
  */
 @RequestMapping(value = "/admin/template", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -425,17 +421,6 @@ public class _TemplateController extends AdminControllerBase {
         render("template/menu.html");
     }
 
-
-    @AdminMenu(text = "板块", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 7)
-    public void block() {
-        Template currentTemplate = TemplateManager.me().getCurrentTemplate();
-        setAttr("template", currentTemplate);
-
-        List<BlockContainer> blockContainers = currentTemplate.getBlockContainers();
-        setAttr("blockContainers", blockContainers);
-
-        render("template/block.html");
-    }
 
 
     @EmptyValidate({

@@ -15,45 +15,58 @@
  */
 package io.jpress.web.directive;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
-import com.jfinal.template.TemplateException;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.JPressOptions;
-
-import java.io.IOException;
+import io.jpress.model.TemplateBlockInfo;
+import io.jpress.model.TemplateBlockOption;
+import io.jpress.service.TemplateBlockOptionService;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  * @Package io.jpress.core.directives
+ * <p>
+ * #blockOption("aaaa","component","defautValue")
  */
-@JFinalDirective("option")
-public class OptionDirective extends JbootDirectiveBase {
+@JFinalDirective("blockOption")
+public class BlockOptionDirective extends JbootDirectiveBase {
+
+    @Inject
+    private TemplateBlockOptionService blockOptionService;
 
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
+        TemplateBlockInfo blockInfo = (TemplateBlockInfo) scope.get("blockInfo");
+
+        if (blockInfo == null) {
+            throw new IllegalStateException("#blockOption(...) only used in block_***.html template.");
+        }
 
         String key = getPara(0, scope);
         if (StrUtil.isBlank(key)) {
-            throw new IllegalArgumentException("#option(...) argument must not be empty " + getLocation());
+            throw new IllegalArgumentException("#blockOption(...) argument must not be empty " + getLocation());
         }
 
-        String defaultValue = getPara(1, scope, "");
+        String defaultValue = getParaToString(2, scope, "");
 
-        String value = JPressOptions.get(key);
-        if (value == null || "".equals(value)) {
-            value = defaultValue;
-        }
 
-        try {
-            writer.write(value);
-        } catch (IOException e) {
-            throw new TemplateException(e.getMessage(), location, e);
+        Columns columns = Columns.create();
+        columns.eq("bid", blockInfo.getId());
+        columns.eq("key", key);
+
+        TemplateBlockOption blockOption = blockOptionService.findFirstByColumns(columns);
+
+        if (blockOption.getValue() == null || StrUtil.isBlank(blockOption.getValue())) {
+            renderText(writer, defaultValue);
+        } else {
+            renderText(writer, blockOption.getValue());
         }
     }
 }

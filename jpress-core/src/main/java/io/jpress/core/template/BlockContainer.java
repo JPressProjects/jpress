@@ -8,7 +8,6 @@ import java.util.Set;
  */
 public class BlockContainer {
 
-
     // 容器 ID
     private String id;
 

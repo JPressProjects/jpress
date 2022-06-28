@@ -19,26 +19,44 @@ public abstract class BaseTemplateBlockOption<M extends BaseTemplateBlockOption<
 		return getLong("id");
 	}
 
-	public void setBlockInfoId(java.lang.Integer blockInfoId) {
-		set("block_info_id", blockInfoId);
+    /**
+     * block_info 的主键ID
+     */
+	public void setBid(java.lang.Integer bid) {
+		set("bid", bid);
 	}
 
-	public java.lang.Integer getBlockInfoId() {
-		return getInt("block_info_id");
+    /**
+     * block_info 的主键ID
+     */
+	public java.lang.Integer getBid() {
+		return getInt("bid");
 	}
 
+    /**
+     * 配置的 key
+     */
 	public void setKey(java.lang.String key) {
 		set("key", key);
 	}
 
+    /**
+     * 配置的 key
+     */
 	public java.lang.String getKey() {
 		return getStr("key");
 	}
 
+    /**
+     * 配置的内容
+     */
 	public void setValue(java.lang.String value) {
 		set("value", value);
 	}
 
+    /**
+     * 配置的内容
+     */
 	public java.lang.String getValue() {
 		return getStr("value");
 	}

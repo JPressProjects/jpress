@@ -152,7 +152,7 @@ public class Template {
      * 获取模板支持设计的板块容器
      * @return
      */
-    private List<BlockContainer> getBlockContainers(){
+    public List<BlockContainer> getBlockContainers(){
         List<BlockContainer> allContainers = new ArrayList<>();
         for (String htmlFile : htmls) {
             allContainers.addAll(TemplateUtil.readBlockContainers(new File(getAbsolutePathFile(),htmlFile)));
@@ -165,7 +165,7 @@ public class Template {
      * 获取版本自带的 板块 信息
      * @return
      */
-    private List<BlockInfo> getBlockInfos(){
+    public List<BlockInfo> getBlockInfos(){
         List<BlockInfo> blockInfos = new ArrayList<>();
         for (String block : blocks) {
             BlockInfo blockInfo = new BlockInfo();

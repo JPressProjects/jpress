@@ -51,24 +51,16 @@
             {
             "id": "657634a8df",
             "tag": "block",
-            "label": "多行输入框",
-            "name": "textarea_2",
-            "rows": 5,
-            "index": 0
         },{
             "id": "657634a8aa",
             "tag": "block",
-            "label": "多行输入框",
-            "name": "textarea_2",
-            "rows": 5,
-            "index": 0
         }
         ];
 
         $('#builder').bsFormBuilder({
             customBuilderStructure: true,
             bsFormContainerSortableGroup: 'main',
-            bsFormContainerSelector: '.bsFormContainer',
+            // bsFormContainerSelector: '.bsFormContainer',
             components: [
                 //自定义组件 card
                 {
@@ -80,6 +72,12 @@
                         "index": 100,
                         "iconClass": "bi bi-grid-1x2"
                     },
+                    props:[
+                        {
+                            name: "id",
+                            type: "none",
+                        }
+                    ],
                     propsfilter: ["tag", "id"],
                     disableTools: true,
                     template: '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +

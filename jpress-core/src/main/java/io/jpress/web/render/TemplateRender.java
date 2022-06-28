@@ -198,10 +198,11 @@ public class TemplateRender extends Render {
     }
 
     private void replace(Elements elements, String attrName) {
-        Iterator<Element> iterator = elements.iterator();
         if (currentTemplate == null) {
             return;
         }
+
+        Iterator<Element> iterator = elements.iterator();
         while (iterator.hasNext()) {
 
             Element element = iterator.next();

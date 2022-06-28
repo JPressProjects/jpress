@@ -11,6 +11,10 @@ public class TemplateBlockInfo extends BaseTemplateBlockInfo<TemplateBlockInfo> 
 
     private static final long serialVersionUID = 1L;
 
+    public String  getView(){
+        return "block_" + getBlockId()+".html";
+    }
+
 	
 }
 

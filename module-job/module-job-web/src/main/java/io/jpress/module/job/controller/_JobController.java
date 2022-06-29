@@ -196,8 +196,7 @@ public class _JobController extends AdminControllerBase {
         long entryId = getParaToLong(0, 0L);
 
         if (entryId > 0 && entries != null) {
-            setAttr("jobCategory", jobCategoryService.findById(entryId));
-            set("now", new Date());
+            setAttr("jobCategory", jobCategoryService.findByIdWithInfo(entryId));
         }
 
 

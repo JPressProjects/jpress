@@ -183,4 +183,11 @@ public interface JobCategoryService {
     */
     public boolean updateCount(List<Long> categoryIds);
 
+    /**
+    * 根据id查找信息 并添加对应信息
+    *
+    * @param entryId
+    * @return io.jpress.module.job.model.JobCategory
+    */
+    public JobCategory findByIdWithInfo(long entryId);
 }

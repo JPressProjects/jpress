@@ -64,7 +64,7 @@
                             <label class="col-sm-2 col-form-label">创建分类的用户</label>
                             <div class="col-sm-6">
 
-                                <input type="input" name="jobCategory.user_id" class="form-control" value="#(jobCategory.user_id ??)" readonly
+                                <input type="input"  class="form-control" value="#(jobCategory.user.username ??)" readonly
                                        placeholder="如果是新建可不用填写">
                             </div>
                         </div>
@@ -217,8 +217,8 @@
                             <td>#(entry.count)</td>
                             <td>#(entry.order_number)</td>
                             <td>#(entry.flag)</td>
-                            <td>#(entry.created)</td>
-                            <td>#(entry.modified)</td>
+                            <td>#date(entry.created)</td>
+                            <td>#date(entry.modified)</td>
                         </tr>
                         #end
 

@@ -1,20 +1,28 @@
 package io.jpress.module.job.directive;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
+import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jboot.web.directive.base.PaginateDirectiveBase;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.model.JobAddress;
 import io.jpress.module.job.model.JobCategory;
 import io.jpress.module.job.model.JobDepartment;
 import io.jpress.module.job.service.JobService;
 import io.jpress.web.base.TemplateControllerBase;
+
+import java.util.List;
 
 /**
  * @description: 分页查询 job
@@ -94,6 +102,41 @@ public class JobPageDirective extends JbootDirectiveBase {
     @Override
     public boolean hasEnd() {
         return true;
+    }
+
+
+    @JFinalDirective("jobPaginate")
+    public static class TemplatePaginateDirective extends PaginateDirectiveBase {
+
+        @Override
+        protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
+
+            List<Column> jobColumnsList = JbootControllerContext.get().getAttr("jobColumnsList");
+
+            if (pageNumber >= 1 && jobColumnsList != null) {
+
+                StringBuilder myUrl = new StringBuilder();
+
+                for (int i = 0; i < jobColumnsList.size(); i++) {
+                    if (i == 0) {
+                        myUrl.append("?").append(jobColumnsList.get(i).getName()).append("=").append(jobColumnsList.get(i).getValue());
+                    } else {
+                        myUrl.append("&").append(jobColumnsList.get(i).getName()).append("=").append(jobColumnsList.get(i).getValue());
+                    }
+                }
+
+                return  UrlUtils.getUrl("/job/list", "" , myUrl.toString() + "&page=" + pageNumber);
+            }else {
+                return UrlUtils.getUrl("/job/list", "?", "page=" + (pageNumber > 0 ? pageNumber : 1));
+            }
+          //TODO
+        }
+
+        @Override
+        protected Page<?> getPage(Env env, Scope scope, Writer writer) {
+            return (Page<?>) scope.get("jobPage");
+        }
+
     }
 
 }

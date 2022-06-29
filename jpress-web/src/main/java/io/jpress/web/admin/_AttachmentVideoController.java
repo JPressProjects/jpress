@@ -24,7 +24,6 @@ import io.jpress.service.AttachmentVideoCategoryService;
 import io.jpress.service.AttachmentVideoService;
 import io.jpress.web.base.AdminControllerBase;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -67,7 +66,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
 
-    public void edit(){
+    public void edit() {
 
         String id = getPara();
         AttachmentVideo video = attachmentVideoService.findById(id);
@@ -98,6 +97,14 @@ public class _AttachmentVideoController extends AdminControllerBase {
         setAttr("appId",appId);
 
 
+        String streamName = JPressOptions.get("attachment_qcloudlive_streamname");
+        //播放地址
+        String playUrl = QCloudLiveUtil.createPlayUrlForM3U8(streamName);
+        setAttr("playUrl",playUrl);
+        String playUrlFlv = QCloudLiveUtil.createPlayUrlForFlv(streamName);
+        setAttr("playUrlFlv",playUrlFlv);
+
+
         render("attachment/video_add.html");
     }
 
@@ -118,6 +125,9 @@ public class _AttachmentVideoController extends AdminControllerBase {
     })
     public void doSave(){
         AttachmentVideo video = getModel(AttachmentVideo.class, "video");
+
+        String cloudType = JPressOptions.get("attachment_cloud_type");
+        video.setCloudType(cloudType);
 
         attachmentVideoService.saveOrUpdate(video);
         //更新视频分类下的内容数量
@@ -183,7 +193,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
     public Ret doGetUploadVideoAuth(String fileName, String title) {
         Map<String, Object> authMap = AliyunVideoUtil.getUploadVideoAuth(fileName, title);
         if(authMap == null){
-            renderFailJson("请先配置点播视频的密钥!");
+            renderFailJson("请先配置阿里云点播视频的密钥!");
         }
         return authMap != null ? Ret.ok().set(authMap) : Ret.fail();
     }
@@ -198,7 +208,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
     public Ret doRefreshVideoAuth(String videoId) {
         Map<String, Object> authMap = AliyunVideoUtil.refreshUploadVideoAuth(videoId);
         if(authMap == null){
-            renderFailJson("请先配置点播视频的密钥!");
+            renderFailJson("请先配置阿里云点播视频的密钥!");
         }
         return authMap != null ? Ret.ok().set(authMap) : Ret.fail();
     }
@@ -254,9 +264,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
         String signature = null;
         try {
             signature = sign.getUploadSignature();
-            System.out.println("signature : " + signature);
         } catch (Exception e) {
-            System.out.print("获取签名失败");
             e.printStackTrace();
         }
 
@@ -278,7 +286,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
      * 腾讯云 创建直播流
      * @return
      */
-    public Ret doQCloudCreateLive() throws ParseException {
+    public Ret doQCloudCreateLive() throws Exception {
 //        String streamName = StrUtil.uuid();
         String streamName = JPressOptions.get("attachment_qcloudlive_streamname");
 
@@ -287,9 +295,10 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
         String pushUrl = QCloudLiveUtil.createPushUrl(streamName);
         String playUrl = QCloudLiveUtil.createPlayUrlForM3U8(streamName);
+        String playUrlFlv = QCloudLiveUtil.createPlayUrlForFlv(streamName);
 
         return Ret.ok().set("pushUrl", pushUrl).set("playUrl", playUrl).set("liveApp", appName)
-                .set("domainName", playDomain).set("streamName", streamName);
+                .set("domainName", playDomain).set("streamName", streamName).set("playUrlFlv", playUrlFlv);
     }
 
 

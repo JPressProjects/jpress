@@ -13,6 +13,12 @@ public class AttachmentVideo extends BaseAttachmentVideo<AttachmentVideo> {
 
     private static final long serialVersionUID = 1L;
 
+    //阿里云
+    public static final String CLOUD_TYPE_ALIYUN = "1";
+    //腾讯云
+    public static final String CLOUD_TYPE_QCLOUD = "2";
+
+
     // 视频点播
     public static final String VIDEO_TYPE_VIDEO = "vod";
     //直播

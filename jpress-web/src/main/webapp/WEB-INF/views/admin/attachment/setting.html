@@ -4,24 +4,24 @@
 
 <script>
     //页面加载时
-    window.onload = function (){
-        var  cloudType=$("#cloudType").val();
-        if(cloudType == '1'){
+    window.onload = function () {
+        var cloudType = $("#cloudType").val();
+        if (cloudType == '1') {
             $("#aliyun").show();
             $("#tencentyun").hide();
-        }else if(cloudType == '2'){
+        } else if (cloudType == '2') {
             $("#aliyun").hide();
             $("#tencentyun").show();
         }
     }
 
     //切换视频云
-    function selectCloudType(){
-        var  cloudType=$("#cloudType").val();
-        if(cloudType == '1'){
+    function selectCloudType() {
+        var cloudType = $("#cloudType").val();
+        if (cloudType == '1') {
             $("#aliyun").show();
             $("#tencentyun").hide();
-        }else if(cloudType == '2'){
+        } else if (cloudType == '2') {
             $("#aliyun").hide();
             $("#tencentyun").show();
         }
@@ -33,397 +33,416 @@
 
 #define content()
 
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
 
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <h1>
-                                附件功能设置
-                                <small data-toggle="tooltip" title="" data-placement="right"
-                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / 附件 / 附件功能设置</small>
-                            </h1>
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            附件功能设置
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 附件 / 附件功能设置</small>
+                        </h1>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form class=" form-setting" autocomplete="off" id="optionForm">
+                <div class="card-body">
+
+
+                    <h4 class="form-header">附件大小限制</h4>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">图片限制</label>
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="图片最大值"
+                                   name="attachment_img_maxsize" value="#option('attachment_img_maxsize')">
+                            <p class="text-muted"> 单位兆（M），默认为 10M，填写0允许任何大小。</p>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">其他文件</label>
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="视频、文档等最大值"
+                                   name="attachment_other_maxsize" value="#option('attachment_other_maxsize')">
+                            <p class="text-muted"> 单位兆（M），默认为 100M，填写0允许任何大小。</p>
                         </div>
                     </div>
 
-                </div>
 
-            </div>
+                    <h4 class="form-header">阿里云OSS同步</h4>
 
-        </div><!-- /.container-fluid -->
-    </section>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">是否启用附件同步</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_enable"
+                                   #checkedIf(option("attachment_aliyunoss_enable"))>
+                            <input type="hidden" id="attachment_aliyunoss_enable"
+                                   name="attachment_aliyunoss_enable">
+                        </div>
+                    </div>
 
-    <section class="content">
-        <div class="container-fluid">
-                <div class="card card-outline card-primary">
-
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form class=" form-setting" autocomplete="off" id="optionForm">
-                        <div class="card-body">
-
-
-                            <h4 class="form-header">附件大小限制</h4>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">图片限制</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="图片最大值"
-                                           name="attachment_img_maxsize" value="#option('attachment_img_maxsize')">
-                                    <p class="text-muted"> 单位兆（M），默认为 10M，填写0允许任何大小。</p>
-
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">其他文件</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="视频、文档等最大值"
-                                           name="attachment_other_maxsize" value="#option('attachment_other_maxsize')">
-                                    <p class="text-muted"> 单位兆（M），默认为 100M，填写0允许任何大小。</p>
-                                </div>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">OSS删除同步</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_del"
+                                   #checkedIf(option("attachment_aliyunoss_del"))>
+                            <input type="hidden" id="attachment_aliyunoss_del"
+                                   name="attachment_aliyunoss_del">
+                            <p class="text-muted"> 开启后会在删除附件时同时也删除OSS中的文件</p>
+                        </div>
+                    </div>
 
 
-                            <h4 class="form-header">阿里云OSS同步</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">是否启用附件同步</label>
-                                <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_enable"
-                                           #checkedIf(option("attachment_aliyunoss_enable"))>
-                                    <input type="hidden" id="attachment_aliyunoss_enable"
-                                           name="attachment_aliyunoss_enable">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">OSS删除同步</label>
-                                <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="attachment_aliyunoss_del"
-                                           #checkedIf(option("attachment_aliyunoss_del"))>
-                                    <input type="hidden" id="attachment_aliyunoss_del"
-                                           name="attachment_aliyunoss_del">
-                                    <p class="text-muted"> 开启后会在删除附件时同时也删除OSS中的文件</p>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">API访问域名</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="阿里云oss的 endPoint"
-                                           name="attachment_aliyunoss_endpoint" value="#option('attachment_aliyunoss_endpoint')">
-                                    <p class="text-muted"> 阿里云API域名详情：<a target="_blank" href="https://help.aliyun.com/document_detail/31837.html">https://help.aliyun.com/document_detail/31837.html</a>。 </p>
-
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AccessKeyId</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
-                                           name="attachment_aliyunoss_accesskeyid" value="#option('attachment_aliyunoss_accesskeyid')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AccessKeySecret</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
-                                           name="attachment_aliyunoss_accesskeysecret" value="#option('attachment_aliyunoss_accesskeysecret')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">存储空间</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="阿里云oss的 bucketName"
-                                           name="attachment_aliyunoss_bucketname" value="#option('attachment_aliyunoss_bucketname')">
-                                </div>
-                            </div>
-
-                            <h4 class="form-header">图片水印</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">是否启用水印</label>
-                                <div class="col-sm-6">
-                                    <input type="checkbox" class="switchery" data-for="attachment_watermark_enable"
-                                           #checkedIf(option("attachment_watermark_enable"))>
-                                    <input type="hidden" id="attachment_watermark_enable"
-                                           name="attachment_watermark_enable">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">水印位置</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" name="attachment_watermark_position">
-                                        <option value="1" #selectedIf(option(
-                                        'attachment_watermark_position') == '1')>左上角</option>
-                                        <option value="2" #selectedIf(option(
-                                        'attachment_watermark_position') == '2')>右上角</option>
-                                        <option value="3" #selectedIf(option(
-                                        'attachment_watermark_position') == '3')>正中间</option>
-                                        <option value="4" #selectedIf(option(
-                                        'attachment_watermark_position') == '4')>左下角</option>
-                                        <option value="5" #selectedIf(option(
-                                        'attachment_watermark_position') == '5')>右下角</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">透明度</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="..."
-                                           name="attachment_watermark_transparency"
-                                           value="#option('attachment_watermark_transparency')">
-                                    <p class="text-muted"> 请填写0~1的数字，默认为1不透明 </p>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">水印图片</label>
-                                <div class="col-sm-6">
-                                    <div class="jpress-image-browser">
-                                        <input type="hidden" name="attachment_watermark_img" value="#option('attachment_watermark_img')"/>
-                                        <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/nothumbnail.jpg')">
-                                        <a class="image-reset"> <i class="fa fa-edit"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h4 class="form-header">视频云</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">视频云类型</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" name="attachment_cloud_type" id="cloudType" onclick="selectCloudType()">
-                                        <option value="1" #selectedIf(option('attachment_cloud_type') == '1')>阿里云</option>
-                                        <option value="2" #selectedIf(option('attachment_cloud_type') == '2')>腾讯云</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div id="aliyun">
-                            <h4 class="form-header">阿里云视频点播配置</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AccessKeyId</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunvideo_accesskeyid" value="#option('attachment_aliyunvideo_accesskeyid')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AccessKeySecret</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunvideo_accesskeysecret" value="#option('attachment_aliyunvideo_accesskeysecret')">
-                                </div>
-                            </div>
-
-                            <h4 class="form-header">阿里云直播配置</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AccessKeyId</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunlive_accesskeyid" value="#option('attachment_aliyunlive_accesskeyid')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AccessKeySecret</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunlive_accesskeysecret" value="#option('attachment_aliyunlive_accesskeysecret')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">RegionId</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunlive_regionid" value="#option('attachment_aliyunlive_regionid')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AppName</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunlive_appname" value="#option('attachment_aliyunlive_appname')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">PlayDomain</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunlive_playdomain" value="#option('attachment_aliyunlive_playdomain')">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">PlayAuthString</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunlive_playauthstring" value="#option('attachment_aliyunlive_playauthstring')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">PushDomain</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunlive_pushdomain" value="#option('attachment_aliyunlive_pushdomain')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">PushAuthString</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_aliyunlive_pushauthstring" value="#option('attachment_aliyunlive_pushauthstring')">
-                                </div>
-                            </div>
-                            </div>
-
-                            <div id="tencentyun">
-                            <h4 class="form-header">腾讯云视频点播配置</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">SecretId</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudvideo_secretid" value="#option('attachment_qcloudvideo_secretid')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">SecretKey</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudvideo_secretkey" value="#option('attachment_qcloudvideo_secretkey')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">AppId</label>
-                                    <div class="col-sm-6">
-                                        <input type="input" class="form-control" placeholder="请输入..."
-                                               name="attachment_qcloudvideo_appid" value="#option('attachment_qcloudvideo_appid')">
-                                    </div>
-                                </div>
-
-                            <h4 class="form-header">腾讯云直播配置</h4>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AccessKeyId</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_accesskeyid" value="#option('attachment_qcloudlive_accesskeyid')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AccessKeySecret</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_accesskeysecret" value="#option('attachment_qcloudlive_accesskeysecret')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">RegionId</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_regionid" value="#option('attachment_qcloudlive_regionid')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">StreamName</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_streamname" value="#option('attachment_qcloudlive_streamname')">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">AppName</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_appname" value="#option('attachment_qcloudlive_appname')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">PlayDomain</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_playdomain" value="#option('attachment_qcloudlive_playdomain')">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">PlayAuthString</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_playauthstring" value="#option('attachment_qcloudlive_playauthstring')">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">鉴权Key</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_key" value="#option('attachment_qcloudlive_key')">
-                                </div>
-                            </div>
-                                <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">txtime</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_txtime" value="#option('attachment_qcloudlive_txtime')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">PushDomain</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_pushdomain" value="#option('attachment_qcloudlive_pushdomain')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">PushAuthString</label>
-                                <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="请输入..."
-                                           name="attachment_qcloudlive_pushauthstring" value="#option('attachment_qcloudlive_pushauthstring')">
-                                </div>
-                            </div>
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">API访问域名</label>
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="阿里云oss的 endPoint"
+                                   name="attachment_aliyunoss_endpoint"
+                                   value="#option('attachment_aliyunoss_endpoint')">
+                            <p class="text-muted"> 阿里云API域名详情：<a target="_blank"
+                                                                 href="https://help.aliyun.com/document_detail/31837.html">https://help.aliyun.com/document_detail/31837.html</a>。
+                            </p>
 
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <div class="offset-sm-2 col-sm-10 submit-block">
-                                <div class="card-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
-                                </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">AccessKeyId</label>
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
+                                   name="attachment_aliyunoss_accesskeyid"
+                                   value="#option('attachment_aliyunoss_accesskeyid')">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">AccessKeySecret</label>
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
+                                   name="attachment_aliyunoss_accesskeysecret"
+                                   value="#option('attachment_aliyunoss_accesskeysecret')">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">存储空间</label>
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="阿里云oss的 bucketName"
+                                   name="attachment_aliyunoss_bucketname"
+                                   value="#option('attachment_aliyunoss_bucketname')">
+                        </div>
+                    </div>
+
+                    <h4 class="form-header">图片水印</h4>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">是否启用水印</label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" class="switchery" data-for="attachment_watermark_enable"
+                                   #checkedIf(option("attachment_watermark_enable"))>
+                            <input type="hidden" id="attachment_watermark_enable"
+                                   name="attachment_watermark_enable">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">水印位置</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" name="attachment_watermark_position">
+                                <option value="1" #selectedIf(option(
+                                'attachment_watermark_position') == '1')>左上角</option>
+                                <option value="2" #selectedIf(option(
+                                'attachment_watermark_position') == '2')>右上角</option>
+                                <option value="3" #selectedIf(option(
+                                'attachment_watermark_position') == '3')>正中间</option>
+                                <option value="4" #selectedIf(option(
+                                'attachment_watermark_position') == '4')>左下角</option>
+                                <option value="5" #selectedIf(option(
+                                'attachment_watermark_position') == '5')>右下角</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">透明度</label>
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="..."
+                                   name="attachment_watermark_transparency"
+                                   value="#option('attachment_watermark_transparency')">
+                            <p class="text-muted"> 请填写0~1的数字，默认为1不透明 </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">水印图片</label>
+                        <div class="col-sm-6">
+                            <div class="jpress-image-browser">
+                                <input type="hidden" name="attachment_watermark_img"
+                                       value="#option('attachment_watermark_img')"/>
+                                <img src="#(CPATH)#option('attachment_watermark_img','/static/commons/img/nothumbnail.jpg')">
+                                <a class="image-reset"> <i class="fa fa-edit"></i></a>
                             </div>
                         </div>
-                        <!-- /.card-footer -->
-                    </form>
-                </div>
-            </div>
+                    </div>
 
-    </section>
+                    <h4 class="form-header">视频云</h4>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">视频云类型</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" name="attachment_cloud_type" id="cloudType"
+                                    onclick="selectCloudType()">
+                                <option value="1" #selectedIf(option(
+                                'attachment_cloud_type') == '1')>阿里云</option>
+                                <option value="2" #selectedIf(option(
+                                'attachment_cloud_type') == '2')>腾讯云</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="aliyun">
+                        <h4 class="form-header">阿里云视频点播配置</h4>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">AccessKeyId</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunvideo_accesskeyid"
+                                       value="#option('attachment_aliyunvideo_accesskeyid')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">AccessKeySecret</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunvideo_accesskeysecret"
+                                       value="#option('attachment_aliyunvideo_accesskeysecret')">
+                            </div>
+                        </div>
+
+                        <h4 class="form-header">阿里云直播配置</h4>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">AccessKeyId</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunlive_accesskeyid"
+                                       value="#option('attachment_aliyunlive_accesskeyid')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">AccessKeySecret</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunlive_accesskeysecret"
+                                       value="#option('attachment_aliyunlive_accesskeysecret')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">RegionId</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunlive_regionid"
+                                       value="#option('attachment_aliyunlive_regionid')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">AppName</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunlive_appname"
+                                       value="#option('attachment_aliyunlive_appname')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">PlayDomain</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunlive_playdomain"
+                                       value="#option('attachment_aliyunlive_playdomain')">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">PlayAuthString</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunlive_playauthstring"
+                                       value="#option('attachment_aliyunlive_playauthstring')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">PushDomain</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunlive_pushdomain"
+                                       value="#option('attachment_aliyunlive_pushdomain')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">PushAuthString</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_aliyunlive_pushauthstring"
+                                       value="#option('attachment_aliyunlive_pushauthstring')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tencentyun">
+                        <h4 class="form-header">腾讯云视频点播配置</h4>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">SecretId</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudvideo_secretid"
+                                       value="#option('attachment_qcloudvideo_secretid')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">SecretKey</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudvideo_secretkey"
+                                       value="#option('attachment_qcloudvideo_secretkey')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">AppId</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudvideo_appid"
+                                       value="#option('attachment_qcloudvideo_appid')">
+                            </div>
+                        </div>
+
+                        <h4 class="form-header">腾讯云直播配置</h4>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">StreamName</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudlive_streamname"
+                                       value="#option('attachment_qcloudlive_streamname')">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">AppName</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudlive_appname"
+                                       value="#option('attachment_qcloudlive_appname')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">PlayDomain</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudlive_playdomain"
+                                       value="#option('attachment_qcloudlive_playdomain')">
+                                <p class="text-muted"> 播放域名</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">playKey</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudlive_play_key"
+                                       value="#option('attachment_qcloudlive_play_key')">
+                                <p class="text-muted"> 播放的鉴权key</p>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">playTxTime</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudlive_play_txtime"
+                                       value="#option('attachment_qcloudlive_play_txtime')">
+                                <p class="text-muted"> 播放地址的有效时间</p>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">pushKey</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudlive_push_key"
+                                       value="#option('attachment_qcloudlive_push_key')">
+                                <p class="text-muted"> 推流的鉴权key</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">pushTxTime</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudlive_txtime"
+                                       value="#option('attachment_qcloudlive_txtime')">
+                                <p class="text-muted"> 推流地址的有效时间</p>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">PushDomain</label>
+                            <div class="col-sm-6">
+                                <input type="input" class="form-control" placeholder="请输入..."
+                                       name="attachment_qcloudlive_pushdomain"
+                                       value="#option('attachment_qcloudlive_pushdomain')">
+                                <p class="text-muted"> 推流域名</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <div class="offset-sm-2 col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-footer -->
+            </form>
+        </div>
+    </div>
+
+</section>
 
 #end

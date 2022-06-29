@@ -301,6 +301,7 @@
 
     window.onload = function() {
         //初始化
+        //视频
         var aid = $("#appId").val();
         var vid = $("#vodVid").val();
         var player =null;
@@ -324,8 +325,8 @@
             $("#livePlayer").show();
             $("#id_test_video").hide();
 
-            // $("#createLive").show();
-            // $("#createLiveQCloud").hide();
+            $("#createLive").show();
+            $("#createLiveQCloud").hide();
 
 
 
@@ -336,8 +337,9 @@
             $("#livePlayer").hide();
             $("#id_test_video").show();
 
-            // $("#createLive").hide();
-            // $("#createLiveQCloud").show();
+            $("#createLive").hide();
+            $("#createLiveQCloud").show();
+
         }
 
         var mysign="";
@@ -439,16 +441,53 @@
 <!-- 直播-->
 <script>
 
-    // 实现更低延迟
-    // PC 浏览器支持 Flash，其 Javascript 代码如下：
-    var player =  new TcPlayer('id_test_video', {
-        "m3u8": "http://ypf-play.jpress.cn/live/liveteststream.m3u8",
-        "flv": "http://ypf-play.jpress.cn/live/liveteststream.flv", //增加了一个 flv 的播放地址，用于PC平台的播放 请替换成实际可用的播放地址
-        "autoplay" : true,      //iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
-        "poster" : "http://www.test.com/myimage.jpg",
-        "width" :  '480',//视频的显示宽度，请尽量使用视频分辨率宽度
-        "height" : '320'//视频的显示高度，请尽量使用视频分辨率高度
+    //播放地址
+    var playUrl = $('#contentLivePlayUrl').val()
+    var playUrlFlv = $('#contentLivePlayFlvUrl').val()
+
+    $('#createLiveQCloud').on('click', function () {
+
+        //创建直播流地址
+        ajaxGet("/admin/attachment/video/doQCloudCreateLive", function (data) {
+
+            $('#livePushUrl').val(data.pushUrl);
+            $('#contentLivePushUrl').val(data.pushUrl);
+            $('#contentLivePlayUrl').val(data.playUrl);
+            $('#contentLivePlayFlvUrl').val(data.playUrlFlv);
+            $('#liveApp').val(data.liveApp);
+            $('#liveDomain').val(data.domainName);
+            $('#liveStream').val(data.streamName);
+
+            //播放地址
+             playUrl = $('#contentLivePlayUrl').val()
+             playUrlFlv = $('#contentLivePlayFlvUrl').val()
+
+            //清除初始化的播放器
+            $('#id_test_video').html("");
+             playerLive = new TcPlayer('id_test_video', {
+                "m3u8": playUrl,
+                "flv": playUrlFlv, //增加了一个 flv 的播放地址，用于PC平台的播放 请替换成实际可用的播放地址
+                "autoplay": false,      //iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
+                "poster": "http://www.test.com/myimage.jpg",
+                "width": '800',//视频的显示宽度，请尽量使用视频分辨率宽度
+                "height": '350'//视频的显示高度，请尽量使用视频分辨率高度
+            });
+
+        });
+
+
     });
+
+    //初始化播放器
+    var playerLive = new TcPlayer('id_test_video', {
+        "m3u8": playUrl,
+        "flv": playUrlFlv, //增加了一个 flv 的播放地址，用于PC平台的播放
+        "autoplay": false,      //iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
+        "poster": "http://www.test.com/myimage.jpg",
+        "width": '800',//视频的显示宽度，请尽量使用视频分辨率宽度
+        "height": '350'//视频的显示高度，请尽量使用视频分辨率高度
+    });
+
 
 </script>
 
@@ -648,7 +687,8 @@
 
                             <div id="live">
                                 <input type="hidden" name="video.live_push_url" value="#(video.livePushUrl ??)" id="contentLivePushUrl">
-                                <input type="hidden" name="" value="" id="contentLivePlayUrl">
+                                <input type="hidden" name="playUrl" value="#(playUrl ??)" id="contentLivePlayUrl">
+                                <input type="hidden" name="playUrlFlv" value="#(playUrlFlv ??)" id="contentLivePlayFlvUrl">
                                 <input type="hidden" name="video.live_app" value="#(video.liveApp ??)" id="liveApp">
                                 <input type="hidden" name="video.live_domain" value="#(video.liveDomain ??)" id="liveDomain">
                                 <input type="hidden" name="video.live_stream" value="#(video.liveStream ??)" id="liveStream">
@@ -661,8 +701,8 @@
                                             <input type="text" class="form-control" name="video.live_stream" disabled readonly
                                                    value="#(video.livePushUrl ??)" id="livePushUrl">
                                             <span class="input-group-append">
-                                                <button type="button" class="btn btn-primary btn-flat" id="createLive">创建</button>
-<!--                                                <button type="button" class="btn btn-primary btn-flat" id="createLiveQCloud">创建 -腾讯云</button>-->
+                                                <button type="button" class="btn btn-primary btn-flat" id="createLive">阿里云-创建</button>
+                                                <button type="button" class="btn btn-primary btn-flat" id="createLiveQCloud">腾讯云-创建</button>
                                           </span>
                                         </div>
                                         <p class="text-muted">
@@ -699,8 +739,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label"> 直播 / 回放</label>
                                     <div class="col-sm-6">
-                                        <div class=" pr-0 bg-gray" id="livePlayer" style="height: 350px;"></div>
-                                        <div id="id_test_video" style="width:100%; height:auto;"> -腾讯云</div>
+                                        <div class=" pr-0 bg-gray" id="livePlayer" style="height: 350px;"> 阿里云</div>
+                                        <div id="id_test_video"  style="width:100%; height:350px;"> 腾讯云</div>
                                     </div>
                                 </div>
 

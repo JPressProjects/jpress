@@ -28,7 +28,9 @@
 #define script()
 <script src="#(CPATH)/static/components/bootstrap-slider/bootstrap-slider.js"></script>
 <script src="#(CPATH)/static/components/sortable/sortable.min.js"></script>
-<script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder.all.min.js"></script>
+<!--<script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder.all.min.js"></script>-->
+<script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder-components.js"></script>
+<script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder.js"></script>
 <script>
     $(function () {
         $('.slider').bootstrapSlider();
@@ -61,58 +63,51 @@
             customBuilderStructure: true,
             bsFormContainerSortableGroup: 'main',
             // bsFormContainerSelector: '.bsFormContainer',
-            components: function () {
-                var components = [];
-                $.ajax({
-                    url: '#(CPATH)/admin/template/block/components',
-                    type: 'get',
-                    async: false,
-                    success: function (data) {
-                        components = components.concat(data.components);
-                    }
-                })
-                components.push(
-                    //自定义组件 card
-                    {
-                        name: "板块",
-                        tag: "block",
-                        props: [
-                            {
-                                name: "id",
-                                type: "none",
-                            }
-                        ],
-                        propsfilter: ["tag", "id"],
-                        disableTools: true,
-                        template: '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +
-                                '  <div class="card ">' +
-                                '    <div class="card-header">' +
-                                '      <h3 class="card-title">{{id}}</h3>' +
-                                '      <div class="card-tools">' +
-                                '        <button type="button" class="btn btn-tool" data-card-widget="collapse">' +
-                                '          <i class="fas fa-plus"></i>' +
-                                '        </button>' +
-                                '      </div>' +
-                                '    </div>' +
-                                '    <div class="card-body bsItemContainer">{{$children[0]}}</div>' +
-                                '  </div>' +
-                                '</div>',
-                    })
-
-                return components;
-            },
-            datas: function () {
-                var datas = [];
-                $.ajax({
-                    url: '#(CPATH)/admin/template/block/datas',
-                    type: 'get',
-                    async: false,
-                    success: function (data) {
-                        datas = datas.concat(data.datas);
-                    }
-                })
-                return datas;
-            }
+            components: '#(CPATH)/admin/template/block/components',
+            customRender:'#(CPATH)/admin/template/block/render',
+            // components: function () {
+            //     var components = [];
+            //     $.ajax({
+            //         url: '#(CPATH)/admin/template/block/components',
+            //         type: 'get',
+            //         async: false,
+            //         success: function (data) {
+            //             if (data.components){
+            //                 components = components.concat(data.components);
+            //             }
+            //         }
+            //     })
+            //     components.push(
+            //         //自定义组件 card
+            //         {
+            //             name: "板块",
+            //             tag: "block",
+            //             props: [
+            //                 {
+            //                     name: "id",
+            //                     type: "none",
+            //                 }
+            //             ],
+            //             propsfilter: ["tag", "id"],
+            //             disableTools: true,
+            //             template: '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +
+            //                     '  <div class="card ">' +
+            //                     '    <div class="card-header">' +
+            //                     '      <h3 class="card-title">{{id}}</h3>' +
+            //                     '      <div class="card-tools">' +
+            //                     '        <button type="button" class="btn btn-tool" data-card-widget="collapse">' +
+            //                     '          <i class="fas fa-plus"></i>' +
+            //                     '        </button>' +
+            //                     '      </div>' +
+            //                     '    </div>' +
+            //                     '    <div class="card-body bsItemContainer">{{$children[0]}}</div>' +
+            //                     '  </div>' +
+            //                     '</div>',
+            //         })
+            //
+            //     return components;
+            // },
+            datas: '#(CPATH)/admin/template/block/datas',
         });
     });
 </script>

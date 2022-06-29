@@ -16,8 +16,11 @@
 package io.jpress.web.admin;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.kit.Ret;
+import io.jboot.utils.JsonUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.BlockContainer;
@@ -66,7 +69,14 @@ public class _TemplateBlockController extends AdminControllerBase {
             return;
         }
 
+        BsFormComponent block = new BsFormComponent();
+        block.setName("板块");
+        block.setTag("block");
+        block.setDisableTools(true);
+
         List<BsFormComponent> components = new ArrayList<>();
+        components.add(block);
+
         for (BlockHtml blockHtml : blockHtmls) {
             components.add(blockHtml.toBsFormComponent());
         }
@@ -96,4 +106,36 @@ public class _TemplateBlockController extends AdminControllerBase {
 
         renderJson(Ret.ok("datas", baseDatas));
     }
+
+
+    public void render(@JsonBody JSONObject jsonObject){
+        String rawData = getRawData();
+        String tag = JsonUtil.getString(jsonObject,"component.tag","");
+        renderHtml(getTagHtml(tag));
+    }
+
+
+    private String getTagHtml(String tag){
+        switch (tag){
+            case "block":
+                return "<div class=\"m-3 pt-2 bsFormItem bsFormFilter\">\n" +
+                        "  <div class=\"card\">\n" +
+                        "    <div class=\"card-header\">\n" +
+                        "      <h3 class=\"card-title\">{{id}}</h3>\n" +
+                        "      <div class=\"card-tools\">\n" +
+                        "        <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\">\n" +
+                        "          <i class=\"fas fa-plus\"></i>\n" +
+                        "        </button>\n" +
+                        "      </div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"card-body bsItemContainer\">{{$children[0]}}</div>\n" +
+                        "  </div>\n" +
+                        "</div>\n";
+
+            default:
+                return "<div>暂无内容</div>";
+        }
+    }
+
+
 }

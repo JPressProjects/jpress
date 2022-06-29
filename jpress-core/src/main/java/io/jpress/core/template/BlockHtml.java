@@ -82,13 +82,13 @@ public class BlockHtml {
         component.setName(getTitle());
         component.setTag(id);
 
-        String template = this.template.trim();
+//        String template = this.template.trim();
 
         //必须是 html 开头
-        if (!template.startsWith("<")){
-            template = "<div>" + template +"</div>";
-        }
-        component.setTemplate(template);
+//        if (!template.startsWith("<")){
+//            template = "<div>" + template +"</div>";
+//        }
+//        component.setTemplate(template);
 
         component.setDragIcon(icon);
         component.setDragTitle(getTitle());

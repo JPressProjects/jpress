@@ -87,6 +87,7 @@ module.exports = {
                     children: [
                         {title: '文章', path: '/manual/article'},
                         {title: '产品', path: '/manual/product'},
+                        {title: '招聘', path: '/manual/job'},
                         {title: '页面', path: '/manual/page'},
                         {title: '附件', path: '/manual/attachment'},
                         {title: '模板', path: '/manual/template'},

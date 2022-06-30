@@ -1,14 +1,12 @@
 package io.jpress.module.job.controller.front;
 
 import com.jfinal.aop.Inject;
-import io.jboot.db.model.Column;
-import io.jboot.db.model.Columns;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.utils.CommonsUtils;
+import io.jpress.module.job.model.Job;
 import io.jpress.module.job.service.JobService;
 import io.jpress.web.base.TemplateControllerBase;
-
-import java.util.List;
-
 
 /**
  * @version V5.0
@@ -21,34 +19,19 @@ public class JobListController extends TemplateControllerBase {
     private JobService jobService;
 
     public void index() {
-        Long categoryId = getParaToLong("categoryId");
-        Long deptId = getParaToLong("deptId");
-        Long addressId = getParaToLong("addressId");
-        Integer education = getParaToInt("education");
-        Integer workYear = getParaToInt("workYear");
-        Integer workType = getParaToInt("workType");
-        Integer recruitmentType = getParaToInt("recruitmentType");
 
-        int page = getParaToInt("page", 1);
-
-        if(page > 0){
-            setAttr("__pageNumber",page);
-        }
-
-        Columns columns = new Columns();
-        columns.eq("categoryId",categoryId);
-        columns.eq("deptId",deptId);
-        columns.eq("addressId",addressId);
-        columns.eq("education",education);
-        columns.eq("workYear",workYear);
-        columns.eq("workType",workType);
-        columns.eq("recruitmentType",recruitmentType);
-
-        List<Column> jobColumnsList = columns.getList();
-        setAttr("jobColumnsList",jobColumnsList);
 
         render("joblist.html");
     }
+
+
+    private void setSeoInfos(Job job) {
+        setSeoTitle(job.getName());
+        setSeoKeywords(job.getMetaKeywords());
+        setSeoDescription(StrUtil.isBlank(job.getMetaDescription()) ? CommonsUtils.maxLength(job.getSummary(), 100) : job.getSummary());
+    }
+
+
 
 
 

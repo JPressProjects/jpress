@@ -11,6 +11,7 @@ import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.JbootControllerContext;
+import io.jboot.web.directive.JbootPaginateDirective;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jboot.web.directive.base.PaginateDirectiveBase;
@@ -106,37 +107,7 @@ public class JobPageDirective extends JbootDirectiveBase {
 
 
     @JFinalDirective("jobPaginate")
-    public static class TemplatePaginateDirective extends PaginateDirectiveBase {
-
-        @Override
-        protected String getUrl(int pageNumber, Env env, Scope scope, Writer writer) {
-
-            List<Column> jobColumnsList = JbootControllerContext.get().getAttr("jobColumnsList");
-
-            if (pageNumber >= 1 && jobColumnsList != null) {
-
-                StringBuilder myUrl = new StringBuilder();
-
-                for (int i = 0; i < jobColumnsList.size(); i++) {
-                    if (i == 0) {
-                        myUrl.append("?").append(jobColumnsList.get(i).getName()).append("=").append(jobColumnsList.get(i).getValue());
-                    } else {
-                        myUrl.append("&").append(jobColumnsList.get(i).getName()).append("=").append(jobColumnsList.get(i).getValue());
-                    }
-                }
-
-                return  UrlUtils.getUrl("/job/list", "" , myUrl.toString() + "&page=" + pageNumber);
-            }else {
-                return UrlUtils.getUrl("/job/list", "?", "page=" + (pageNumber > 0 ? pageNumber : 1));
-            }
-          //TODO
-        }
-
-        @Override
-        protected Page<?> getPage(Env env, Scope scope, Writer writer) {
-            return (Page<?>) scope.get("jobPage");
-        }
-
+    public static class TemplatePaginateDirective extends JbootPaginateDirective {
     }
 
 }

@@ -1,7 +1,9 @@
 package io.jpress.module.job.controller.front;
 
 import com.jfinal.aop.Inject;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.service.JobService;
 import io.jpress.web.base.TemplateControllerBase;
@@ -28,9 +30,19 @@ public class JobDetailController extends TemplateControllerBase {
         Job job = jobService.findByIdWithInfo(id);
 
         if(job != null){
+            setSeoInfos(job);
             setAttr("job",job);
         }
 
+
         render("jobdetail.html");
     }
+
+
+    private void setSeoInfos(Job job) {
+        setSeoTitle(job.getName());
+        setSeoKeywords(job.getMetaKeywords());
+        setSeoDescription(StrUtil.isBlank(job.getMetaDescription()) ? CommonsUtils.maxLength(job.getSummary(), 100) : job.getSummary());
+    }
+
 }

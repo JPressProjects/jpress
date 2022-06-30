@@ -49,65 +49,20 @@
 
         })
 
-        var datas = [
-            {
-                "id": "657634a8df",
-                "tag": "block",
-            }, {
-                "id": "657634a8aa",
-                "tag": "block",
-            }
-        ];
 
         $('#builder').bsFormBuilder({
             customBuilderStructure: true,
             bsFormContainerSortableGroup: 'main',
-            // bsFormContainerSelector: '.bsFormContainer',
             components: '#(CPATH)/admin/template/block/components',
             customRender:'#(CPATH)/admin/template/block/render',
-            // components: function () {
-            //     var components = [];
-            //     $.ajax({
-            //         url: '#(CPATH)/admin/template/block/components',
-            //         type: 'get',
-            //         async: false,
-            //         success: function (data) {
-            //             if (data.components){
-            //                 components = components.concat(data.components);
-            //             }
-            //         }
-            //     })
-            //     components.push(
-            //         //自定义组件 card
-            //         {
-            //             name: "板块",
-            //             tag: "block",
-            //             props: [
-            //                 {
-            //                     name: "id",
-            //                     type: "none",
-            //                 }
-            //             ],
-            //             propsfilter: ["tag", "id"],
-            //             disableTools: true,
-            //             template: '<div class="m-3 pt-2 bsFormItem bsFormFilter">' +
-            //                     '  <div class="card ">' +
-            //                     '    <div class="card-header">' +
-            //                     '      <h3 class="card-title">{{id}}</h3>' +
-            //                     '      <div class="card-tools">' +
-            //                     '        <button type="button" class="btn btn-tool" data-card-widget="collapse">' +
-            //                     '          <i class="fas fa-plus"></i>' +
-            //                     '        </button>' +
-            //                     '      </div>' +
-            //                     '    </div>' +
-            //                     '    <div class="card-body bsItemContainer">{{$children[0]}}</div>' +
-            //                     '  </div>' +
-            //                     '</div>',
-            //         })
-            //
-            //     return components;
-            // },
             datas: '#(CPATH)/admin/template/block/datas',
+        });
+
+        $('.update').on('click',function (){
+            var datas = $('#builder').bsFormBuilder().data("bsFormBuilder").datas;
+            ajaxPost('#(CPATH)/admin/template/block/save',datas,function (){
+                showMessage("保存成功！")
+            })
         });
     });
 </script>
@@ -125,7 +80,7 @@
                 <span class="tool-btn"><i class="bi bi-list-nested"></i></span>
             </div>
             <div>
-                <button class="btn btn-primary btn-sm mr-3">更新</button>
+                <button class="btn btn-primary btn-sm mr-3 update">更新</button>
                 <span class="tool-btn right-switch"><i class="bi bi-gear"></i></span>
                 <span class="tool-btn js-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
                         class="bi bi-three-dots-vertical"></i></span>

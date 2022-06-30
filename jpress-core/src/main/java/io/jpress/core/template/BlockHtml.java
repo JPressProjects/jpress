@@ -69,12 +69,30 @@ public class BlockHtml {
         optionDefs.add(optionDef);
     }
 
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
     public void addTemplateLine(String line) {
         if (template == null) {
             template = "";
         }
         template += line;
     }
+
+
 
     public BsFormComponent toBsFormComponent() {
 

@@ -47,6 +47,11 @@ public class BsFormComponent {
             this.drag.index = Integer.valueOf(dragIndex);
         }
     }
+    public void setDragType(String dragType) {
+        if(StrUtil.isNotBlank(dragType)) {
+            this.drag.type = dragType;
+        }
+    }
 
     public List<Prop> getProps() {
         return props;

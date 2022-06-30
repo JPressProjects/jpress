@@ -11,54 +11,40 @@ public abstract class BaseTemplateBlockOption<M extends BaseTemplateBlockOption<
 
     private static final long serialVersionUID = 1L;
 
-	public void setId(java.lang.Long id) {
-		set("id", id);
+	public void setTemplateId(java.lang.String templateId) {
+		set("template_id", templateId);
 	}
 
-	public java.lang.Long getId() {
-		return getLong("id");
-	}
-
-    /**
-     * block_info 的主键ID
-     */
-	public void setBid(java.lang.Integer bid) {
-		set("bid", bid);
+	public java.lang.String getTemplateId() {
+		return getStr("template_id");
 	}
 
     /**
-     * block_info 的主键ID
+     * 站点
      */
-	public java.lang.Integer getBid() {
-		return getInt("bid");
+	public void setSite(java.lang.Integer site) {
+		set("site", site);
 	}
 
     /**
-     * 配置的 key
+     * 站点
      */
-	public void setKey(java.lang.String key) {
-		set("key", key);
+	public java.lang.Integer getSite() {
+		return getInt("site");
 	}
 
     /**
-     * 配置的 key
+     * 配置内容
      */
-	public java.lang.String getKey() {
-		return getStr("key");
+	public void setOptions(java.lang.String options) {
+		set("options", options);
 	}
 
     /**
-     * 配置的内容
+     * 配置内容
      */
-	public void setValue(java.lang.String value) {
-		set("value", value);
-	}
-
-    /**
-     * 配置的内容
-     */
-	public java.lang.String getValue() {
-		return getStr("value");
+	public java.lang.String getOptions() {
+		return getStr("options");
 	}
 
 }

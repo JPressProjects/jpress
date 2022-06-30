@@ -15,10 +15,16 @@
  */
 package io.jpress.web.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import com.jfinal.render.RenderManager;
+import com.jfinal.template.Engine;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.JsonUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.JPressConsts;
@@ -28,10 +34,17 @@ import io.jpress.core.template.BlockHtml;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.core.template.editor.BsFormComponent;
+import io.jpress.model.TemplateBlockOption;
+import io.jpress.service.TemplateBlockOptionService;
 import io.jpress.web.base.AdminControllerBase;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -40,6 +53,9 @@ import java.util.List;
  */
 @RequestMapping(value = "/admin/template/block", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _TemplateBlockController extends AdminControllerBase {
+
+    @Inject
+    private TemplateBlockOptionService blockOptionService;
 
 
     @AdminMenu(text = "板块", groupId = JPressConsts.SYSTEM_MENU_TEMPLATE, order = 7)
@@ -73,6 +89,7 @@ public class _TemplateBlockController extends AdminControllerBase {
         block.setName("板块");
         block.setTag("block");
         block.setDisableTools(true);
+        block.setDragType("block");
 
         List<BsFormComponent> components = new ArrayList<>();
         components.add(block);
@@ -104,37 +121,60 @@ public class _TemplateBlockController extends AdminControllerBase {
             baseDatas.add(container.toBsFormData());
         }
 
+
+        TemplateBlockOption templateBlockOption = blockOptionService.findFirstByColumns(Columns.create("template_id", currentTemplate.getId()));
+        if (templateBlockOption != null) {
+            JSONArray savedOptions = JSON.parseArray(templateBlockOption.getOptions());
+            if (savedOptions != null && !savedOptions.isEmpty()) {
+                for (int i = 0; i < savedOptions.size(); i++) {
+                    JSONObject savedData = savedOptions.getJSONObject(i);
+                    for (int j = 0; j < baseDatas.size(); j++) {
+                        if (savedData.getString("id").equals(baseDatas.getJSONObject(j).getString("id"))) {
+                            baseDatas.set(j, savedData);
+                        }
+                    }
+                }
+            }
+        }
+
+
         renderJson(Ret.ok("datas", baseDatas));
     }
 
 
-    public void render(@JsonBody JSONObject jsonObject){
+    /**
+     * 保存数据
+     */
+    public void save() {
+        Template currentTemplate = TemplateManager.me().getCurrentTemplate();
         String rawData = getRawData();
-        String tag = JsonUtil.getString(jsonObject,"component.tag","");
-        renderHtml(getTagHtml(tag));
+        TemplateBlockOption templateBlockOption = blockOptionService.findFirstByColumns(Columns.create("template_id", currentTemplate.getId()));
+        boolean needSave = false;
+        if (templateBlockOption == null) {
+            templateBlockOption = new TemplateBlockOption();
+            templateBlockOption.setTemplateId(currentTemplate.getId());
+            needSave = true;
+        }
+
+        templateBlockOption.setOptions(rawData);
+
+        if (needSave) {
+            blockOptionService.save(templateBlockOption);
+        } else {
+            blockOptionService.update(templateBlockOption);
+        }
+        renderOkJson();
     }
 
 
-    private String getTagHtml(String tag){
-        switch (tag){
-            case "block":
-                return "<div class=\"m-3 pt-2 bsFormItem bsFormFilter\">\n" +
-                        "  <div class=\"card\">\n" +
-                        "    <div class=\"card-header\">\n" +
-                        "      <h3 class=\"card-title\">{{id}}</h3>\n" +
-                        "      <div class=\"card-tools\">\n" +
-                        "        <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\">\n" +
-                        "          <i class=\"fas fa-plus\"></i>\n" +
-                        "        </button>\n" +
-                        "      </div>\n" +
-                        "    </div>\n" +
-                        "    <div class=\"card-body bsItemContainer\">{{$children[0]}}</div>\n" +
-                        "  </div>\n" +
-                        "</div>\n";
-
-            default:
-                return "<div>暂无内容</div>";
-        }
+    /**
+     * 模板渲染
+     *
+     * @param jsonObject
+     */
+    public void render(@JsonBody JSONObject jsonObject) {
+        String html = doRenderData(jsonObject);
+        renderHtml(html);
     }
 
 

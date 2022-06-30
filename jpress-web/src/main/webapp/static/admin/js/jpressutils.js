@@ -154,8 +154,8 @@ function ajaxPost(url, data, okFunction, failFunction) {
     $.ajax({
         url: url,
         type: 'POST',
-        data: data,
-        dataType: 'json',
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
         success: function (result) {
             if (result.state == 'ok') {
                 okFunction(result);

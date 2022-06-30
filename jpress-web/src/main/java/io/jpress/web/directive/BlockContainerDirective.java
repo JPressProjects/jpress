@@ -15,29 +15,18 @@
  */
 package io.jpress.web.directive;
 
+import com.alibaba.fastjson.JSONArray;
 import com.jfinal.aop.Inject;
-import com.jfinal.kit.LogKit;
-import com.jfinal.render.RenderManager;
-import com.jfinal.template.Engine;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.db.model.Columns;
-import io.jboot.ext.MixedByteArrayOutputStream;
 import io.jboot.utils.StrUtil;
-import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.core.template.BlockManager;
 import io.jpress.core.template.TemplateManager;
-import io.jpress.model.TemplateBlockInfo;
-import io.jpress.service.TemplateBlockInfoService;
-import io.jpress.web.render.TemplateRender;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import io.jpress.model.TemplateBlockOption;
+import io.jpress.service.TemplateBlockOptionService;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -48,7 +37,7 @@ import java.util.Map;
 public class BlockContainerDirective extends JbootDirectiveBase {
 
     @Inject
-    private TemplateBlockInfoService blockInfoService;
+    private TemplateBlockOptionService blockOptionService;
 
 
     @Override
@@ -61,67 +50,19 @@ public class BlockContainerDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#blockContainer(...) argument must not be empty " + getLocation());
         }
 
-        Columns columns = Columns.create();
-        columns.eq("template_id", templateId);
-        columns.eq("container_id", containerId);
 
-        List<TemplateBlockInfo> blocks = blockInfoService.findListByColumns(columns);
-
-        StringBuilder html = new StringBuilder();
-        if (blocks != null && !blocks.isEmpty()) {
-            for (TemplateBlockInfo blockInfo : blocks) {
-
-                //设置给指令 blockOption 去使用
-                scope.set("blockInfo", blockInfo);
-
-                html.append(renderBlock(blockInfo));
-            }
+        TemplateBlockOption blockOption = blockOptionService.findById(templateId);
+        if (blockOption == null){
+            renderText(writer,"");
         }
 
-        renderText(writer, html.toString());
+        JSONArray containerDatas = blockOption.getJsonArrayByContainerId(containerId);
+        String html = BlockManager.me().renderBlockContainer(containerDatas, false);
+
+        renderText(writer, html);
     }
 
 
 
-    private String renderBlock(TemplateBlockInfo blockInfo) {
-
-        HttpServletRequest request = JbootControllerContext.get().getRequest();
-
-        Map<Object, Object> data = new HashMap<>();
-        for (Enumeration<String> attrs = request.getAttributeNames(); attrs.hasMoreElements(); ) {
-            String attrName = attrs.nextElement();
-            data.put(attrName, request.getAttribute(attrName));
-        }
-
-        String realView = TemplateManager.me().getCurrentTemplate().buildRelativePath(blockInfo.getView());
-
-        com.jfinal.template.Template template = null;
-        try {
-            template = getEngine().getTemplate(realView);
-
-            MixedByteArrayOutputStream baos = new MixedByteArrayOutputStream();
-            template.render(data, baos);
-
-            TemplateRender render = (TemplateRender) JbootControllerContext.get().getRender();
-            return render.buildNormalHtml(baos.getInputStream());
-        } catch (Exception ex) {
-            if (ex.getMessage().contains("File not found")) {
-                LogKit.error(ex.toString(), ex);
-                return "";
-            } else {
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-
-
-    private static Engine engine;
-
-    private Engine getEngine() {
-        if (engine == null) {
-            engine = RenderManager.me().getEngine();
-        }
-        return engine;
-    }
 }
 

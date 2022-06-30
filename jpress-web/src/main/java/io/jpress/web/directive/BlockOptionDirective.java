@@ -19,12 +19,8 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
-import io.jboot.db.model.Columns;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.model.TemplateBlockInfo;
-import io.jpress.model.TemplateBlockOption;
 import io.jpress.service.TemplateBlockOptionService;
 
 /**
@@ -43,31 +39,31 @@ public class BlockOptionDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        TemplateBlockInfo blockInfo = (TemplateBlockInfo) scope.get("blockInfo");
+//        TemplateBlockInfo blockInfo = (TemplateBlockInfo) scope.get("blockInfo");
 
-        if (blockInfo == null) {
-            throw new IllegalStateException("#blockOption(...) only used in block_***.html template.");
-        }
-
-        String key = getPara(0, scope);
-        if (StrUtil.isBlank(key)) {
-            throw new IllegalArgumentException("#blockOption(...) argument must not be empty " + getLocation());
-        }
-
-        String defaultValue = getParaToString(2, scope, "");
-
-
-        Columns columns = Columns.create();
-        columns.eq("bid", blockInfo.getId());
-        columns.eq("key", key);
-
-        TemplateBlockOption blockOption = blockOptionService.findFirstByColumns(columns);
-
-        if (blockOption.getValue() == null || StrUtil.isBlank(blockOption.getValue())) {
-            renderText(writer, defaultValue);
-        } else {
-            renderText(writer, blockOption.getValue());
-        }
+//        if (blockInfo == null) {
+//            throw new IllegalStateException("#blockOption(...) only used in block_***.html template.");
+//        }
+//
+//        String key = getPara(0, scope);
+//        if (StrUtil.isBlank(key)) {
+//            throw new IllegalArgumentException("#blockOption(...) argument must not be empty " + getLocation());
+//        }
+//
+//        String defaultValue = getParaToString(2, scope, "");
+//
+//
+//        Columns columns = Columns.create();
+//        columns.eq("bid", blockInfo.getId());
+//        columns.eq("key", key);
+//
+//        TemplateBlockOption blockOption = blockOptionService.findFirstByColumns(columns);
+//
+//        if (blockOption.getValue() == null || StrUtil.isBlank(blockOption.getValue())) {
+//            renderText(writer, defaultValue);
+//        } else {
+//            renderText(writer, blockOption.getValue());
+//        }
     }
 }
 

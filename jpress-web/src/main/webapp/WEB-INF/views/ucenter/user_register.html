@@ -51,6 +51,25 @@
         }
 
     </script>
+
+    <script>
+
+        function doGetEmailCode() {
+            var email = $('#email').val();
+
+            if (email == '') {
+                alert('邮箱不能为空....');
+                return;
+            }
+
+            ajaxGet("#(CPATH)/commons/getemailcode?email=" + email, function () {
+                alert("邮件发送成功，请查收");
+            }, function (data) {
+                alert(data.message);
+            })
+        }
+
+    </script>
 </head>
 <body class="hold-transition login-page">
 
@@ -87,8 +106,16 @@
                     #end
                     <div class="form-group">
                         <label>邮箱</label>
-                        <input type="text" class="form-control" placeholder="请输入邮箱" name="email" required>
+                        <input type="text" class="form-control" placeholder="请输入邮箱" name="email" id="email" required>
                     </div>
+
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="输入邮箱验证码">
+                        <div class="input-group-append">
+                            <button type="button" class="input-group-text" style="float: right;background: #DDDDDD;" onclick="doGetEmailCode()">获取验证码</button>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>密码</label>
                         <input type="password" class="form-control" placeholder="密码..." name="pwd" required>

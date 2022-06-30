@@ -31,6 +31,7 @@ import io.jpress.core.addon.handler.AddonHandlerProcesser;
 import io.jpress.core.install.InstallHandler;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.site.SiteManager;
+import io.jpress.core.template.BlockFunctions;
 import io.jpress.core.wechat.WechatAddonManager;
 import io.jpress.web.functions.JPressCoreFunctions;
 import io.jpress.web.handler.JPressHandler;
@@ -80,6 +81,7 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
     @Override
     public void onEngineConfig(Engine engine) {
         engine.addSharedStaticMethod(JPressCoreFunctions.class);
+        engine.addSharedStaticMethod(BlockFunctions.class);
     }
 
     @Override

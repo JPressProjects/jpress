@@ -24,7 +24,6 @@ var mySwal = typeof (Swal) != "undefined" ? Swal.mixin({
 }) : {};
 
 
-
 function getContextPath() {
     if (typeof jpress == 'undefined') {
         return ""
@@ -154,7 +153,7 @@ function ajaxPost(url, data, okFunction, failFunction) {
     $.ajax({
         url: url,
         type: 'POST',
-        data: JSON.stringify(data),
+        data: typeof data === "string" ? data : JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
         success: function (result) {
             if (result.state == 'ok') {
@@ -460,7 +459,7 @@ function doActivateEmail(userId) {
 }
 
 function closeLayerAndRefresh() {
-    if ( typeof parent != "undefined" && parent.layer){
+    if (typeof parent != "undefined" && parent.layer) {
         parent.layer.data.needRefresh = true;
         parent.layer.closeAll();
     }
@@ -468,7 +467,7 @@ function closeLayerAndRefresh() {
 
 
 function closeLayer() {
-    if ( typeof parent != "undefined" && parent.layer) {
+    if (typeof parent != "undefined" && parent.layer) {
         parent.layer.closeAll();
     }
 }

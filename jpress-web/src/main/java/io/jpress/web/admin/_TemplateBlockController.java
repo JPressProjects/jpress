@@ -20,31 +20,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import com.jfinal.render.RenderManager;
-import com.jfinal.template.Engine;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.JsonUtil;
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.template.BlockContainer;
-import io.jpress.core.template.BlockHtml;
-import io.jpress.core.template.Template;
-import io.jpress.core.template.TemplateManager;
+import io.jpress.core.template.*;
 import io.jpress.core.template.editor.BsFormComponent;
 import io.jpress.model.TemplateBlockOption;
 import io.jpress.service.TemplateBlockOptionService;
 import io.jpress.web.base.AdminControllerBase;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -173,7 +161,7 @@ public class _TemplateBlockController extends AdminControllerBase {
      * @param jsonObject
      */
     public void render(@JsonBody JSONObject jsonObject) {
-        String html = doRenderData(jsonObject);
+        String html = BlockManager.me().renderComponentDataToHtml(jsonObject,true);
         renderHtml(html);
     }
 

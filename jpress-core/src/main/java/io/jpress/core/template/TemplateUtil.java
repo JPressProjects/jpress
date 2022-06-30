@@ -18,8 +18,6 @@ import java.util.zip.ZipFile;
 public class TemplateUtil {
 
 
-
-
     /**
      * 读取模板定义的 #blockContainer 容器配置
      *
@@ -86,10 +84,11 @@ public class TemplateUtil {
                         blockHtml.setIcon(lineStr.substring(5));
                     }
                 } else {
-                    int indexOf = lineStr.indexOf("blockOption");
                     blockHtml.addTemplateLine(lineStr);
 
-                    if (indexOf >= 0) {
+                    int indexOf = lineStr.indexOf("blockOption");
+
+                    while (indexOf >= 0) {
                         int firstIndexOf = lineStr.indexOf("(", indexOf) + 1;
                         int lastIndexOf = lineStr.indexOf(")", indexOf);
 
@@ -97,21 +96,24 @@ public class TemplateUtil {
                         String[] paras = parasString.split(",");
 
 
-                        int index = 0 ;
+                        int index = 0;
                         BlockHtmlOptionDef optionDef = new BlockHtmlOptionDef();
                         for (String para : paras) {
+                            para = para.trim();
                             if (para.startsWith("\"") || para.startsWith("'")) {
-                                para = para.substring(1,para.length() - 2);
+                                para = para.substring(1, para.length() - 1);
                             }
-                            if (index == 0){
+                            if (index == 0) {
                                 optionDef.setName(para);
-                            }else if (index == 1){
+                            } else if (index == 1) {
                                 optionDef.setDefaultValue(para);
                             }
-                            index ++;
+                            index++;
                         }
 
                         blockHtml.addOptionDef(optionDef);
+
+                        indexOf = lineStr.indexOf("blockOption", lastIndexOf);
                     }
                 }
             }
@@ -137,7 +139,6 @@ public class TemplateUtil {
         String md5 = HashKit.md5(orignalId.trim());
         return md5.substring(0, 6);
     }
-
 
 
     /**

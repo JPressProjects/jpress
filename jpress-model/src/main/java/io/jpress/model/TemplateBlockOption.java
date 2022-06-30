@@ -29,7 +29,8 @@ public class TemplateBlockOption extends BaseTemplateBlockOption<TemplateBlockOp
         for (int i = 0; i < containers.size(); i++) {
             JSONObject container = containers.getJSONObject(i);
             if (containerId.equals(container.getString("id"))){
-               return container.getJSONArray("0");
+                JSONObject children = container.getJSONObject("children");
+               return children != null ? children.getJSONArray("0") : null;
             }
         }
 

@@ -19,16 +19,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
-import io.jboot.utils.JsonUtil;
 import io.jboot.utils.StrUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BlockManager {
 
@@ -46,38 +42,47 @@ public class BlockManager {
         return me;
     }
 
+    private ThreadLocal<Map<String, Object>> TL = new ThreadLocal<>();
+
 
     public String renderBlockContainer(JSONArray containerDatas, boolean withEdit) {
-        if (containerDatas == null || containerDatas.isEmpty()){
+        if (containerDatas == null || containerDatas.isEmpty()) {
             return null;
         }
+
+        containerDatas.sort(Comparator.comparingInt(o -> ((JSONObject) o).getInteger("index")));
 
         StringBuilder html = new StringBuilder();
         for (int i = 0; i < containerDatas.size(); i++) {
             JSONObject componentData = containerDatas.getJSONObject(i);
-            html.append(renderComponentDataToHtml(componentData,withEdit));
+            html.append(renderComponentDataToHtml(componentData, withEdit));
         }
 
-        return null;
+        return html.toString();
     }
 
 
+    public Object getCurrentDataByKey(String key) {
+        Map<String, Object> stringObjectMap = TL.get();
+        return stringObjectMap == null ? null : stringObjectMap.get(key);
+    }
+
 
     public String renderComponentDataToHtml(JSONObject componentData, boolean withEdit) {
-        String tag = JsonUtil.getString(componentData, "component.tag", "");
+        String tag = componentData.getString("tag");
         if (StrUtil.isBlank(tag)) {
             return "";
         }
 
         String htmlText = getTagHtml(tag);
 
-        Map<Object, Object> datas = new HashMap<>();
-        datas.putAll(componentData);
+        Map<String, Object> datas = new HashMap<>(componentData);
 
         JSONObject children = componentData.getJSONObject("children");
         if (children != null && !children.isEmpty()) {
             for (String key : children.keySet()) {
                 JSONArray dataArray = children.getJSONArray(key);
+                dataArray.sort(Comparator.comparingInt(o -> ((JSONObject) o).getInteger("index")));
                 StringBuilder childrenHtml = new StringBuilder();
                 for (Object childComponentData : dataArray) {
                     childrenHtml.append(renderComponentDataToHtml((JSONObject) childComponentData, withEdit));
@@ -86,12 +91,18 @@ public class BlockManager {
             }
         }
 
+        try {
+            TL.set(datas);
 
-        String htmlResult = getEngine().getTemplateByString(htmlText).renderToString(datas);
-        if (withEdit) {
-            htmlResult = appendIdAndBsFormItemClass(htmlResult, componentData.getString("elementId"));
+            String htmlResult = getEngine().getTemplateByString(htmlText).renderToString(datas);
+            if (withEdit) {
+                htmlResult = appendIdAndBsFormItemClass(htmlResult, componentData.getString("elementId"));
+            }
+            return htmlResult;
+
+        } finally {
+            TL.remove();
         }
-        return htmlResult;
     }
 
 

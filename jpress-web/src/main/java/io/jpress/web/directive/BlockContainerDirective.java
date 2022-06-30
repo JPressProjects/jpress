@@ -50,10 +50,9 @@ public class BlockContainerDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#blockContainer(...) argument must not be empty " + getLocation());
         }
 
-
         TemplateBlockOption blockOption = blockOptionService.findById(templateId);
-        if (blockOption == null){
-            renderText(writer,"");
+        if (blockOption == null) {
+            renderText(writer, "");
         }
 
         JSONArray containerDatas = blockOption.getJsonArrayByContainerId(containerId);
@@ -61,7 +60,6 @@ public class BlockContainerDirective extends JbootDirectiveBase {
 
         renderText(writer, html);
     }
-
 
 
 }

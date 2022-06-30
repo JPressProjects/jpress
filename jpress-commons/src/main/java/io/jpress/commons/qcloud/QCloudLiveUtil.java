@@ -62,7 +62,7 @@ public class QCloudLiveUtil {
     }
 
     /**
-     * 创建 M3U8 的播放地址
+     * 创建 M3U8格式 的播放地址
      *
      * @param streamName
      * @return
@@ -78,7 +78,8 @@ public class QCloudLiveUtil {
         if(appName == null){return "";}
         if(playDomain == null){return "";}
 
-        StringBuilder sb = new StringBuilder("rtmp://");
+        StringBuilder sb = new StringBuilder("http://");
+
         sb.append(playDomain).append("/").append(appName).append("/").append(streamName).append(".m3u8");
         if(key != null && !("").equals(key)){
             if(txtime != null && !("").equals(txtime)) {
@@ -96,7 +97,7 @@ public class QCloudLiveUtil {
 
 
     /**
-     * 创建 Flv 的播放地址
+     * 创建 Flv格式 的播放地址
      *
      * @param streamName
      * @return
@@ -130,7 +131,7 @@ public class QCloudLiveUtil {
     }
 
     /**
-     * 创建 RTMP 的播放地址
+     * 创建 RTMP格式 的播放地址
      *
      * @param streamName
      * @return
@@ -147,6 +148,40 @@ public class QCloudLiveUtil {
         if(playDomain == null){return "";}
 
         StringBuilder sb = new StringBuilder("rtmp://");
+        sb.append(playDomain).append("/").append(appName).append("/").append(streamName);
+
+        if(key != null && !("").equals(key)){
+            if(txtime != null && !("").equals(txtime)) {
+                try {
+                    long txTime = df.parse(txtime).getTime()/1000;
+                    //播放域名的 Key鉴权 开启的情况
+                    return sb.append(getSafeUrl(key,streamName,txTime)).toString();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 创建 UDP格式 的播放地址
+     *
+     * @param streamName
+     * @return
+     */
+    public static String createPlayUrlForUDP(String streamName) {
+        String appName = JPressOptions.get("attachment_qcloudlive_appname");
+        String playDomain = JPressOptions.get("attachment_qcloudlive_playdomain");
+
+        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String key = JPressOptions.get("attachment_qcloudlive_play_key");
+        String txtime = JPressOptions.get("attachment_qcloudlive_play_txtime");
+
+        if(appName == null){return "";}
+        if(playDomain == null){return "";}
+
+        StringBuilder sb = new StringBuilder("webrtc://");
         sb.append(playDomain).append("/").append(appName).append("/").append(streamName);
 
         if(key != null && !("").equals(key)){

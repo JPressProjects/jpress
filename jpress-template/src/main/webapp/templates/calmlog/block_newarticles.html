@@ -2,7 +2,7 @@
     <div class="right-card-main">
         <div class="right-card-title">#blockOption("标题","最新文章")</div>
         <ul class="right-recommended-list">
-            #articles()
+            #articles(count=blockOption("文章数量",10))
             #for(article : articles)
             <li>
                 <a href="#(article.url ??)">

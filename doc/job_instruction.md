@@ -103,10 +103,10 @@
 * categoryId:岗位分类ID
 * deptId：岗位部门ID
 * addressId：岗位地区ID
-* education：学历 tinyint类型 支持 0~7
-* workYear：工作年限 tinyint类型 支持 0~7
-* workType：工作类型 tinyint类型 支持 0~3
-* recruitmentType：招聘类型 tinyint类型 支持0~3
+* education：学历 tinyint类型 支持 0~7 分别代表 0-不限制学历，1-初中及以下，2-中专/中技术，3-高中，4-大专，5-本科，6-硕士，7-博士
+* workYear：工作年限 tinyint类型 支持 0~7 分别代表 0-不限制，1-在校生，2-应届生，3-一年以内，4-1~3年，5-3~5年，6-5~10年，7-10年以上
+* workType：工作类型 tinyint类型 支持 0~2 分别代表 0-全职，1-兼职，2-钟点工 
+* recruitmentType：招聘类型 tinyint类型 支持0~2 分别代表 0-社招，1-校招，2-实习
 * orderBy：根据属性进行排序 例如 "id desc"
 * count：需要查询的数量
 * 此指令查出的对象中，内置了category，dept，address对象
@@ -116,7 +116,6 @@
 此指令 #jobPage() 只能用在岗位列表页
 
 ```html
-
 <div>
     #jobPage(pageSize = 1)
 
@@ -151,10 +150,10 @@
 * deptId：岗位部门ID
 * addressId：岗位地区ID
 * orderBy 根据属性进行排序 例如 "id desc"
-* education：学历 tinyint类型 支持 0~7
-* workYear：工作年限 tinyint类型 支持 0~7
-* workType：工作类型 tinyint类型 支持 0~3
-* recruitmentType：招聘类型 tinyint类型 支持0~3
+* education：学历 tinyint类型 支持 0~7 与#jobs()一样
+* workYear：工作年限 tinyint类型 支持 0~7 与#jobs()一样
+* workType：工作类型 tinyint类型 支持 0~2 与#jobs()一样
+* recruitmentType：招聘类型 tinyint类型 支持0~2 与#jobs()一样
 * 此指令查出的对象中，内置了category，dept，address对象
 
 #### 分页指令#jobPaginate()的参数有

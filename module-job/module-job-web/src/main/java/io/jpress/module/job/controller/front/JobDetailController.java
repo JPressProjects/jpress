@@ -30,7 +30,9 @@ public class JobDetailController extends TemplateControllerBase {
         Job job = jobService.findByIdWithInfo(id);
 
         if(job != null){
+            //设置seo信息
             setSeoInfos(job);
+
             setAttr("job",job);
         }
 

@@ -98,7 +98,7 @@
                         </td>
                         <td>#(entry.category.name ??)</td>
                         <td>#(entry.dept.name ??)</td>
-                        <td>#maxLength(entry.summary ??,5)</td>
+                        <td>#maxLength(entry.getHtml() ??,5)</td>
                         <td>#(entry.address.name ??)</td>
                         <td>#(entry.age_limit_start ??)~#(entry.age_limit_end ??)</td>
 

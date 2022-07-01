@@ -93,11 +93,12 @@ public class ProductController extends TemplateControllerBase {
         //记录当前浏览量
         productService.doIncProductViewCount(product.getId());
 
-        User productAuthor = product.getUserId() != null
-                ? userService.findById(product.getUserId())
-                : null;
+//        User productAuthor = product.getUserId() != null
+//                ? userService.findById(product.getUserId())
+//                : null;
 
-        product.put("user", productAuthor);
+//        product.put("user", productAuthor);
+
         setAttr("product", product);
 
         List<ProductImage> productImages = imageService.findListByProductId(product.getId());

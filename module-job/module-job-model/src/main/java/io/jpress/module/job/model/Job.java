@@ -1,6 +1,7 @@
 package io.jpress.module.job.model;
 
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.StrUtil;
 import io.jpress.module.job.model.base.BaseJob;
 
 /**
@@ -10,6 +11,12 @@ import io.jpress.module.job.model.base.BaseJob;
 public class Job extends BaseJob<Job> {
 
     private static final long serialVersionUID = 1L;
+
+
+
+    public String getHtml(){
+        return StrUtil.unEscapeHtml(getSummary());
+    }
 
 	
 }

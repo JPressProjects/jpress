@@ -292,7 +292,7 @@
         <form action="#(CPATH)/admin/product/doSave" method="post" id="form">
             <input type="hidden" id="productStatus" name="product.status" value='#(product.status ?? "1")'>
             <input type="hidden" id="productId" name="product.id" value="#(product.id ??)">
-            <input type="hidden" name="product.user_id" value="#(product.user_id ?? USER.id)">
+<!--            <input type="hidden" name="product.user_id" value="#(product.user_id ?? USER.id)">-->
             <div class="row">
                 <div class="col-lg-9">
 
@@ -492,6 +492,15 @@
                         </div>
                     </div>
 
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">购买链接</h3>
+                        </div>
+                        <div class="card-body">
+                           <input type="text" class="form-control" placeholder="请输入购买链接" name="product.buy_link" value="#(product.buy_link ??)">
+                        </div>
+                    </div>
+
 
                     <div class="card card-outlinecard-solid">
                         <div class="card-header with-border ">
@@ -512,6 +521,22 @@
                             <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
                         </div>
                     </div>
+
+
+                    <div class="card card-outlinecard-solid">
+                        <div class="card-header with-border ">
+                            <h3 class="card-title">选择视频</h3>
+                        </div>
+                        <div class="card-body p-0 video">
+                            <img src="/static/commons/img/nothumbnail.jpg" style="width: 100%;max-height: 500px" id="video">
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class=" btn btn-default btn-sm " onclick="chooseVideo()">选择视频
+                            </button>
+                            <a href="javascript:;" style="padding-left: 15px" id="removeVideo">移除</a>
+                        </div>
+                    </div>
+
 
 
                     <div class="card card-outlinecard-solid">

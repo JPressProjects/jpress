@@ -1,36 +1,153 @@
 #@layout()
-#define css()
-#@layout_css?()
-<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
-#end
 #define script()
-#@layout_script?()
-<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script src="#(CPATH)/static/components/vditor/dist/index.min.js"></script>
+<script src="#(CPATH)/static/components/ckeditor5/ckeditor.js"></script>
+<script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
+<script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
+
+
 <script>
-    $("input[hint='date']").datepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-CN'
+
+    $(".submitBtn").on("click", function () {
+        doSubmit();
     });
 
-    function doSubmit() {
-        ajaxSubmit("#form", function (data) {
+
+    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留page的status
+    window.doSubmit = function () {
+        if (window.currentCKEditor){
+            $("#summary").val(window.currentCKEditor.getData());
+        }else if (window.currentVditor){
+            $("#summary").val(window.currentVditor.getHTML());
+        }
+        ajaxSubmit("#form1", function (data) {
             $("#entryId").attr("value", data.id);
-            toastr.success('内容保存成功。');
-        })
+            toastr.success('页面保存成功。');
+        });
+    };
+
+
+    setSaveHotKeyFunction(doSubmit);
+
+
+    function doChangeEditor(id) {
+        if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
+            var changeMode = editMode == "html" ? "markdown" : "html";
+            if (id != '0') {
+                ajaxGet('#(CPATH)/admin/page/doChangeEditMode?id=' + id + "&mode=" + changeMode);
+            } else {
+                ajaxGet('#(CPATH)/commons/changeEditor/' + changeMode);
+            }
+        }
     }
 
-    $("#submit").on("click", function () {
-        doSubmit();
+    var editMode = "#(editMode ?? 'html')";
+    if (editMode === 'html') {
+        initCkEdtior('#editor');
+    } else {
+        initVdtior('editor');
+    }
+
+
+    $(".chooseAttachment").on("click", function () {
+        var $this = $(this);
+        layer.open({
+            type: 2,
+            title: '选择附件',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.3,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/attachment/browse?uititle=附件',
+            end: function () {
+                if (layer.data.src != null) {
+
+                    var src = layer.data.src;
+                    //video ".mp4", ".avi", ".wmv", ".mpeg", ".mov", ".mkv", ".flv", ".rmvb", ".rm", ".3gp", ".ts", ".vob", ".m3u8"
+                    if (src.endsWith(".mp4") || src.endsWith(".avi") || src.endsWith(".wmv") || src.endsWith(".mpeg") || src.endsWith(".mov")
+                        || src.endsWith(".mkv") || src.endsWith(".flv") || src.endsWith(".rmvb") || src.endsWith(".rm") || src.endsWith(".3gp") ||
+                        src.endsWith(".ts") || src.endsWith(".vob") || src.endsWith(".m3u8")) {
+
+                        if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
+                            var video = document.createElement('video') // 添加的内容可以自定义， 这里以添加图片为例
+                            video.setAttribute('src', src)
+                            video.setAttribute('style', 'max-width:100%;')
+                            video.setAttribute('controls', 'controls')
+
+                            insertHtmlToEditor(video.outerHTML);
+                        } else if (currentVditor) {
+                            currentVditor.insertValue('附件：[' + layer.data.title + '](' + src + ')')
+                        }
+
+
+                    }
+
+                    //image ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"
+                    else if (src.endsWith(".jpg") || src.endsWith(".jpeg") || src.endsWith(".png")
+                        || src.endsWith(".bmp") || src.endsWith(".gif") || src.endsWith(".webp")) {
+
+                        if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
+                            var img = document.createElement('img') // 添加的内容可以自定义， 这里以添加图片为例
+                            img.setAttribute('src', src)
+                            insertHtmlToEditor(img.outerHTML);
+                        } else if (currentVditor) {
+                            //![图片alt](图片地址 ''图片title'')
+                            currentVditor.insertValue('![' + layer.data.title + '](' + src + ')')
+                        }
+                    }
+                    // other file
+                    else {
+                        if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
+                            var a = document.createElement('a') // 添加的内容可以自定义， 这里以添加图片为例
+                            a.setAttribute('href', src)
+                            a.setAttribute("target", "_blank")
+                            a.innerHTML = layer.data.title;
+                            insertHtmlToEditor('附件：' + a.outerHTML);
+                        } else if (currentVditor) {
+                            currentVditor.insertValue('附件：[' + layer.data.title + '](' + src + ')')
+                        }
+                    }
+                }
+            }
+        });
     })
 
-    $(".js-collapse").click(function () {
-        $(this).toggleClass(" fa-chevron-down fa-chevron-up");
-        $(this).parents('h4').next().toggle();
-    })
+    function insertHtmlToEditor(html) {
+        const viewFragment = currentCKEditor.data.processor.toView(html);
+        const modelFragment = currentCKEditor.data.toModel(viewFragment);
+        currentCKEditor.model.insertContent(modelFragment, currentCKEditor.model.document.selection);
+    }
+
+
 </script>
 #end
+#define css()
+<link href="#(CPATH)/static/components/editable/css/bootstrap-editable.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/selectize/css/selectize.bootstrap4.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/vditor/dist/index.css" rel="stylesheet">
+<style>
+    .popover-content {
+        padding: 9px 14px;
+        margin: 0 10px;
+    }
 
+    #slug {
+        cursor: pointer;
+    }
+
+    .vditor-wysiwyg pre.vditor-reset:focus {
+        outline: none;
+        background-color: #fff;
+    }
+
+    .ck-editor__editable_inline, .ck-source-editing-area {
+        min-height: 500px;
+    }
+
+</style>
+#end
 #define content()
 
 <section class="content-header">
@@ -55,257 +172,304 @@
 </section>
 
 <section class="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-outline card-primary">
-                <form class=" form-setting" autocomplete="off"
-                      action="/admin/job/doSave"
-                      method="POST" id="form">
+    <form action="/admin/job/doSave" method="post" id="form1">
+        <input type="hidden" id="entryId" name="job.id" value="#(job.id ??)">
+        <div class="row">
+            <div class="col-lg-9">
 
-                    <div class="card-body ">
-                        <h4 class="form-header">基本信息</h4>
-                        <input type="hidden" id="entryId" name="job.id" value="#(job.id ??)">
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">工作名称</label>
-                            <div class="col-sm-6">
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input type="input" class="form-control form-control-lg" name="job.name" autocomplete="off"
+                                   placeholder="请输入岗位名称"
+                                   id="job-name"
+                                   value="#(job.name ??)">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12"style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">
+                            <div>
+<!--                                网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/job/<span id="slug"-->
+<!--                                                                                                            class="slugSpan"-->
+<!--                                                                                                            for-input="page-slug">#(page.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end-->
+                            </div>
 
-                                <input type="input" name="job.name" class="form-control" value="#(job.name ??)"
-                                       placeholder="请为您的工作起个名字" required>
+
+                            <div>
+                                <button type="button" class="btn btn-default btn-sm "
+                                        onclick="doChangeEditor('#(job.id ?? 0)')">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+
+                                <button type="button" class="chooseAttachment btn btn-default btn-sm ">
+                                    <i class="fas fa-paperclip"></i> 插入附件
+                                </button>
                             </div>
                         </div>
+                        <div class="col-sm-12" style="z-index: 9999;">
+                            <div id="editor" >#(job.getHtml() ??)</div>
+                            <input type="hidden" name="job.summary" id="summary"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="card card-outlinecard-solid">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">属性设置</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-card-tool" data-widget="collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <!-- Custom Tabs -->
+
+                                    <form class="" autocomplete="off">
+                                        <div class="card-body">
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">最小年龄</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="number" name="job.age_limit_start" class="form-control"
+                                                           value="#(job.age_limit_start ??)"
+                                                           placeholder="请输入最小年龄">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">最大年龄</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="number" name="job.age_limit_end" class="form-control" value="#(job.age_limit_end ??)"
+                                                           placeholder="请输入最大年龄" required>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">是否属于远程工作</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="checkbox" class="switchery" data-for="with_remote" #checkedIf(job.with_remote
+                                                           ??)>
+                                                    <input type="hidden" id="with_remote" name="job.with_remote">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">岗位招聘人数</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="input" name="job.people_count" class="form-control"
+                                                           value="#(job.people_count ??)"
+                                                           placeholder="请输入岗位招聘人数">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">接收简历的邮箱</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="email" name="job.receive_email" class="form-control" value="#(job.receive_email ??)"
+                                                           placeholder="请输入邮箱">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">岗位有效时间</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="input" class="form-control datetime" placeholder="点击选择"
+                                                           name="job.expired_to"
+                                                           value="#date(job.expired_to ?? now,'yyyy-MM-dd')">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">岗位创建时间</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="input" class="form-control datetime" placeholder="点击选择"
+                                                           name="job.created"
+                                                           value="#date(job.created ??,'yyyy-MM-dd')" readonly="readonly">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">SEO关键字</label>
+                                                <div class="col-sm-6">
+
+                                                    <textarea rows="3" name="job.meta_keywords" class="form-control"
+                                                              placeholder="请输入SEO关键字">#(job.meta_keywords ??)</textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">SEO描述信息</label>
+                                                <div class="col-sm-6">
+
+                                                    <textarea rows="3" name="job.meta_description" class="form-control"
+                                                              placeholder="请输入SEO描述信息">#(job.meta_description ??)</textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                    <!-- nav-tabs-custom -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card card-outlinecard-solid">
+                    <div class="card-body">
+                        <button type="button" data-status="normal" class="btn btn-primary btn-sm submitBtn ">发布
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">分类</h3>
+<!--                        <input type="hidden" name="job.category_id" value="#(job.category_id  ??)"/>-->
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            #for(item : categoryList)
+                            <div>
+                                <label>
+                                    <input type="radio" name="job.category_id" value="#(item.id)" #if(item.id ??== job.category_id ??) checked #end/>
+                                    #(item.name ??)
+                                </label>
+                            </div>
+                            #else
+                            暂无分类
+                            #end
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">部门</h3>
+<!--                        <input type="hidden" name="job.deptId" value="#(job.deptId ??)"/>-->
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            #for(item : deptList)
+                            <div>
+                                <label>
+                                    <input type="radio" name="job.dept_id" value="#(item.id)" #if(item.id ??== job.dept_id ??) checked #end/>
+                                    #(item.name ??)
+                                </label>
+                            </div>
+                            #else
+                            暂无部门
+                            #end
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">地区</h3>
+<!--                        <input type="hidden" name="job.address_id" value="#(job.address_id ??)"/>-->
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            #for(item : addressList)
+                            <div>
+                                <label>
+                                    <input type="radio" name="job.address_id" value="#(item.id)" #if(item.id ??== job.address_id ??) checked #end/>
+                                    #(item.name ??)
+                                </label>
+                            </div>
+                            #else
+                            暂无地区
+                            #end
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">选择</h3>
+                    </div>
+                    <div class="card-body">
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">选择分类</label>
-                            <div class="col-sm-6">
-
-                                <select class="form-control" name="job.category_id">
-                                    #for(item : categoryList)
-                                    <option value="#(item.id ??)" #if(item.id ??== job.category_id ??) selected #end>
-                                        #(item.name ??)
-                                    </option>
-                                    #end
-                                </select>
-
-                            </div>
+                            <select class="form-control" name="job.education">
+                                <option value="">请选择学历</option>
+                                <option #if(job.education ??== 0) selected #end value="0">不限制学历</option>
+                                <option #if(job.education ??== 1) selected #end value="1">初中及以下</option>
+                                <option #if(job.education ??== 2) selected #end value="2">中专/中技</option>
+                                <option #if(job.education ??== 3) selected #end value="3">高中</option>
+                                <option #if(job.education ??== 4) selected #end value="4">大专</option>
+                                <option #if(job.education ??== 5) selected #end value="5">本科</option>
+                                <option #if(job.education ??== 6) selected #end value="6">硕士</option>
+                                <option #if(job.education ??== 7) selected #end value="7">博士</option>
+                            </select>
                         </div>
 
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">选择部门</label>
-                            <div class="col-sm-6">
-
-                                <select class="form-control" name="job.dept_id">
-                                    #for(item : deptList)
-                                    <option value="#(item.id ??)" #if(item.id ??== job.deptId ??) selected #end>
-                                        #(item.name ??)
-                                    </option>
-                                    #end
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">工作地点</label>
-                            <div class="col-sm-6">
-
-                                <select class="form-control" name="job.address_id">
-                                    #for(item : addressList)
-                                    <option value="#(item.id ??)" #if(item.id ??== job.addressId ??) selected #end>
-                                        #(item.name ??)
-                                    </option>
-                                    #end
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">描述</label>
-                            <div class="col-sm-6">
-
-                                <input type="input" name="job.summary" class="form-control" value="#(job.summary ??)"
-                                       placeholder="请输入描述">
-                            </div>
+                            <select class="form-control" name="job.years_limit_type">
+                                <option value="">请选择基层工作最低年限</option>
+                                <option #if(job.years_limit_type ?? == 0) selected #end value="0">不限</option>
+                                <option #if(job.years_limit_type ?? == 1) selected #end value="1">在校生</option>
+                                <option #if(job.years_limit_type ?? == 2) selected #end value="2">应届生</option>
+                                <option #if(job.years_limit_type ?? == 3) selected #end value="3">1年以内</option>
+                                <option #if(job.years_limit_type ?? == 4) selected #end value="4">1-3年</option>
+                                <option #if(job.years_limit_type ?? == 5) selected #end value="5">3-5年</option>
+                                <option #if(job.years_limit_type ?? == 6) selected #end value="6">5-10年</option>
+                                <option #if(job.years_limit_type ?? == 7) selected #end value="7">10年以上</option>
+                            </select>
                         </div>
 
 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">最小年龄</label>
-                            <div class="col-sm-6">
-
-                                <input type="number" name="job.age_limit_start" class="form-control"
-                                       value="#(job.age_limit_start ??)"
-                                       placeholder="请输入最小年龄" required>
-                            </div>
-                        </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">最大年龄</label>
-                            <div class="col-sm-6">
-
-                                <input type="number" name="job.age_limit_end" class="form-control" value="#(job.age_limit_end ??)"
-                                       placeholder="请输入最大年龄" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">学历</label>
-                            <div class="col-sm-6">
-
-                                <select class="form-control" name="job.education">
-                                    <option value="">请选择学历</option>
-                                    <option #if(job.education ??== 0) selected #end value="0">不限制学历</option>
-                                    <option #if(job.education ??== 1) selected #end value="1">初中及以下</option>
-                                    <option #if(job.education ??== 2) selected #end value="2">中专/中技</option>
-                                    <option #if(job.education ??== 3) selected #end value="3">高中</option>
-                                    <option #if(job.education ??== 4) selected #end value="4">大专</option>
-                                    <option #if(job.education ??== 5) selected #end value="5">本科</option>
-                                    <option #if(job.education ??== 6) selected #end value="6">硕士</option>
-                                    <option #if(job.education ??== 7) selected #end value="7">博士</option>
-                                </select>
-
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">工作年限</label>
-                            <div class="col-sm-6">
-
-                                <select class="form-control" name="job.years_limit_type">
-                                    <option value="">请选择基层工作最低年限</option>
-                                    <option #if(job.years_limit_type ?? == 0) selected #end value="0">不限</option>
-                                    <option #if(job.years_limit_type ?? == 1) selected #end value="1">在校生</option>
-                                    <option #if(job.years_limit_type ?? == 2) selected #end value="2">应届生</option>
-                                    <option #if(job.years_limit_type ?? == 3) selected #end value="3">1年以内</option>
-                                    <option #if(job.years_limit_type ?? == 4) selected #end value="4">1-3年</option>
-                                    <option #if(job.years_limit_type ?? == 5) selected #end value="5">3-5年</option>
-                                    <option #if(job.years_limit_type ?? == 6) selected #end value="6">5-10年</option>
-                                    <option #if(job.years_limit_type ?? == 7) selected #end value="7">10年以上</option>
-                                </select>
-
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">是否属于远程工作</label>
-                            <div class="col-sm-6">
-
-                                <input type="checkbox" class="switchery" data-for="with_remote" #checkedIf(job.with_remote
-                                       ??)>
-                                <input type="hidden" id="with_remote" name="job.with_remote">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">工作类型</label>
-                            <div class="col-sm-6">
-
                                 <select class="form-control" name="job.work_type">
+                                    <option value="">工作类型</option>
                                     <option #if(job.work_type ?? == 0) selected #end value="0">全职</option>
                                     <option #if(job.work_type ?? == 1) selected #end value="1">兼职</option>
                                     <option #if(job.work_type ?? == 2) selected #end value="2">钟点工</option>
                                 </select>
-                            </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">招聘类型</label>
-                            <div class="col-sm-6">
-
-                                <select class="form-control" name="job.recruitment_type">
-                                    <option #if(job.recruitment_type ?? == 0) selected #end value="0">社招</option>
-                                    <option #if(job.recruitment_type ?? == 1) selected #end value="1">校招</option>
-                                    <option #if(job.recruitment_type ?? == 2) selected #end value="2">实习</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">岗位招聘人数</label>
-                            <div class="col-sm-6">
-
-                                <input type="input" name="job.people_count" class="form-control"
-                                       value="#(job.people_count ??)"
-                                       placeholder="请输入岗位招聘人数">
-                            </div>
-                        </div>
-
-
-                        <h4 class="form-header">
-                            其他信息
-                            <a href="javascript:void(0)" class="float-right text-dark"><i
-                                    class="fa fa-chevron-down js-collapse" aria-hidden="true"></i></a>
-                        </h4>
-
-                        <div class="display-none collapse-content" style="display: none">
-
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">接收简历的邮箱</label>
-                                <div class="col-sm-6">
-
-                                    <input type="email" name="job.receive_email" class="form-control" value="#(job.receive_email ??)"
-                                           placeholder="请输入邮箱">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">岗位有效时间</label>
-                                <div class="col-sm-6">
-
-                                    <input type="input" class="form-control datetime" placeholder="点击选择"
-                                           name="job.expired_to"
-                                           value="#date(job.expired_to ?? now,'yyyy-MM-dd')">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">岗位创建时间</label>
-                                <div class="col-sm-6">
-
-                                    <input type="input" class="form-control datetime" placeholder="点击选择"
-                                           name="job.created"
-                                           value="#date(job.created ??,'yyyy-MM-dd')" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">SEO关键字</label>
-                                <div class="col-sm-6">
-
-                                    <input type="input" name="job.meta_keywords" class="form-control"
-                                           value="#(job.meta_keywords ??)"
-                                           placeholder="请输入SEO关键字">
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">SEO描述信息</label>
-                                <div class="col-sm-6">
-
-                                    <input type="input" name="job.meta_description" class="form-control"
-                                           value="#(job.meta_description ??)"
-                                           placeholder="请输入SEO描述信息">
-                                </div>
-                            </div>
-
+                            <select class="form-control" name="job.recruitment_type">
+                                <option value="">招聘类型</option>
+                                <option #if(job.recruitment_type ?? == 0) selected #end value="0">社招</option>
+                                <option #if(job.recruitment_type ?? == 1) selected #end value="1">校招</option>
+                                <option #if(job.recruitment_type ?? == 2) selected #end value="2">实习</option>
+                            </select>
                         </div>
 
                     </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <div class="offset-sm-2 col-sm-10 submit-block">
-                            <div class="card-submit">
-                                <button id="submit" type="button" class="btn btn-primary">提交</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.card-footer -->
-                </form>
+                </div>
+
             </div>
         </div>
-    </div>
-
+    </form>
 </section>
 
 #end

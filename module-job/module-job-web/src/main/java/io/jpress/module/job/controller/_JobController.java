@@ -139,7 +139,7 @@ public class _JobController extends AdminControllerBase {
             categoryIds.add(entry.getCategoryId());
         }
         //如果不是新建 那么更新俩个
-        else if (entry.getId() != null) {
+        else if (entry.getId() != null && entry.getCategoryId() != null) {
             Job job = service.findById(entry.getId());
             if (job != null && !job.getCategoryId().equals(entry.getCategoryId())) {
                 categoryIds.add(entry.getCategoryId());

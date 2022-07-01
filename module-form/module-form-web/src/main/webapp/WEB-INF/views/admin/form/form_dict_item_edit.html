@@ -1,0 +1,120 @@
+#@layout()
+#define css()
+#@layout_css?()
+<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
+#end
+#define script()
+#@layout_script?()
+<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script>
+    $("input[hint='date']").datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
+
+  function doSubmit() {
+    ajaxSubmit("#form", function (data) {
+        $("#entryId").attr("value", data.id);
+        toastr.success('内容保存成功。');
+    })
+  }
+
+    $("#submit").on("click", function () {
+        doSubmit();
+    })
+    </script>
+#end
+
+#define content()
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                编辑/新增
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / FormDictItem / 编辑</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-primary">
+                    <form class=" form-setting" autocomplete="off"
+                          action="/admin/form/form_dict_item/doSave"
+                          method="POST" id="form">
+
+                        <div class="card-body ">
+	                                <input type="hidden" id="entryId" name="formDictItem.id" value="#(formDictItem.id ??)">
+		                            <div class="form-group row">
+		                                <label class="col-sm-2 col-form-label">上级ID，级联数据源的时候用到</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="formDictItem.pid" class="form-control" value="#(formDictItem.pid ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group row">
+		                                <label class="col-sm-2 col-form-label">归属的字典ID</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="formDictItem.dict_id" class="form-control" value="#(formDictItem.dict_id ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group row">
+		                                <label class="col-sm-2 col-form-label">key</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="formDictItem.key" class="form-control" value="#(formDictItem.key ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group row">
+		                                <label class="col-sm-2 col-form-label">文本内容</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="formDictItem.text" class="form-control" value="#(formDictItem.text ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+		                            <div class="form-group row">
+		                                <label class="col-sm-2 col-form-label">图片 URL 地址</label>
+		                                <div class="col-sm-6">
+
+										   <input type="input" name="formDictItem.image" class="form-control" value="#(formDictItem.image ??)"
+		                                           placeholder="">
+		                                </div>
+		                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
+                                    <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+#end

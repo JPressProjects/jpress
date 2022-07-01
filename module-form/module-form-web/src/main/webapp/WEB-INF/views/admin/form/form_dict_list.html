@@ -1,0 +1,112 @@
+#@layout()
+
+#define script()
+<script>
+
+    function doDel(id) {
+        ajaxGet("/admin/form/form_dict/doDel/" + id);
+    }
+
+</script>
+#end
+
+#define content()
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                管理
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / FormDict / 管理</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-primary">
+                    <div class="card-header with-border">
+
+                        <div class="row admin-search-panel">
+                            <div class="col-12">
+                                <a href="form_dict/edit" class="btn btn-primary ">
+                                    <i class="fas fa-plus"></i> 新建
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body ">
+
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th style="width: 10px">
+	                                    <input class="tableCheckAll" type="checkbox"/>
+	                                </th>
+	                                <th></th>
+	                                <th>字典名称</th>
+	                                <th>导入类型 1 一行一个内容  2 json 内容 3 动态 json URL</th>
+	                                <th>导入内容</th>
+	                                <th>是否级联</th>
+	                                <th>是否是静态内容</th>
+	                                <th>创建时间</th>
+	                                <th>修改时间</th>
+
+                            </tr>
+                            #for(entry : page.list)
+                            <tr>
+                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" />
+                                </td>
+                                <td>
+                                    <strong>
+                                        <a href="#(CPATH)/admin/form/form_dict/edit/#(entry.id)"> #(entry.id ??) </a>
+                                    </strong>
+                                    <div class="jp-action-card">
+                                        <div class="jp-action-body">
+                                            <a href="/admin/form/form_dict/edit/#(entry.id)">编辑</a> |
+                                            <a href="javascript:;" class="red-action"
+                                               onclick="doDel('#(entry.id)')">删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+
+	                                <td>#(entry.name)</td>
+	                                <td>#(entry.import_type)</td>
+	                                <td>#(entry.import_text)</td>
+	                                <td>#(entry.with_cascade)</td>
+	                                <td>#(entry.with_static)</td>
+	                                <td>#(entry.created)</td>
+	                                <td>#(entry.modified)</td>
+                            </tr>
+                            #end
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                            	 #@_paginate()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </section>
+#end

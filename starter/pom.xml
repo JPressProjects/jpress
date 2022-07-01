@@ -162,6 +162,12 @@
             <version>5.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-form-web</artifactId>
+            <version>5.0</version>
+        </dependency>
+
 
         <dependency>
             <groupId>io.jpress</groupId>
@@ -258,6 +264,9 @@
                                 </resource>
                                 <resource>
                                     <directory>${basedir}/../module-job/module-job-web/src/main/webapp</directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-from/module-form-web/src/main/webapp</directory>
                                 </resource>
                                 <resource>
                                     <directory>${basedir}/../jpress-addons/jpress-addon-wtask/src/main/webapp</directory>

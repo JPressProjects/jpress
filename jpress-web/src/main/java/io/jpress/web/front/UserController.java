@@ -29,6 +29,7 @@ import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.authcode.AuthCode;
 import io.jpress.commons.authcode.AuthCodeKit;
+import io.jpress.commons.email.EmailKit;
 import io.jpress.commons.sms.SmsKit;
 import io.jpress.commons.utils.SessionUtils;
 import io.jpress.model.User;
@@ -257,7 +258,7 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
-        if (!validateCaptcha("captcha")) {
+        if (!EmailKit.validateCode(email,getPara("captcha"))) {
             renderJson(Ret.fail().set("message", "验证码不正确").set("errorCode", 7));
             return;
         }
@@ -273,6 +274,7 @@ public class UserController extends TemplateControllerBase {
                 return;
             }
         }
+
 
         User user = userService.findFirstByUsername(username);
         if (user != null) {

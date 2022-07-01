@@ -132,8 +132,8 @@
                             <label class="col-sm-2 col-form-label">最小年龄</label>
                             <div class="col-sm-6">
 
-                                <input type="number" name="job.age_start" class="form-control"
-                                       value="#(job.age_start ??)"
+                                <input type="number" name="job.age_limit_start" class="form-control"
+                                       value="#(job.age_limit_start ??)"
                                        placeholder="请输入最小年龄" required>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                             <label class="col-sm-2 col-form-label">最大年龄</label>
                             <div class="col-sm-6">
 
-                                <input type="number" name="job.age_end" class="form-control" value="#(job.age_end ??)"
+                                <input type="number" name="job.age_limit_end" class="form-control" value="#(job.age_limit_end ??)"
                                        placeholder="请输入最大年龄" required>
                             </div>
                         </div>
@@ -170,27 +170,18 @@
                             <label class="col-sm-2 col-form-label">工作年限</label>
                             <div class="col-sm-6">
 
-                                <select class="form-control" name="job.work_year">
+                                <select class="form-control" name="job.years_limit_type">
                                     <option value="">请选择基层工作最低年限</option>
-                                    <option #if(job.work_year ?? == 0) selected #end value="0">不限</option>
-                                    <option #if(job.work_year ?? == 1) selected #end value="1">在校生</option>
-                                    <option #if(job.work_year ?? == 2) selected #end value="2">应届生</option>
-                                    <option #if(job.work_year ?? == 3) selected #end value="3">1年以内</option>
-                                    <option #if(job.work_year ?? == 4) selected #end value="4">1-3年</option>
-                                    <option #if(job.work_year ?? == 5) selected #end value="5">3-5年</option>
-                                    <option #if(job.work_year ?? == 6) selected #end value="6">5-10年</option>
-                                    <option #if(job.work_year ?? == 7) selected #end value="7">10年以上</option>
+                                    <option #if(job.years_limit_type ?? == 0) selected #end value="0">不限</option>
+                                    <option #if(job.years_limit_type ?? == 1) selected #end value="1">在校生</option>
+                                    <option #if(job.years_limit_type ?? == 2) selected #end value="2">应届生</option>
+                                    <option #if(job.years_limit_type ?? == 3) selected #end value="3">1年以内</option>
+                                    <option #if(job.years_limit_type ?? == 4) selected #end value="4">1-3年</option>
+                                    <option #if(job.years_limit_type ?? == 5) selected #end value="5">3-5年</option>
+                                    <option #if(job.years_limit_type ?? == 6) selected #end value="6">5-10年</option>
+                                    <option #if(job.years_limit_type ?? == 7) selected #end value="7">10年以上</option>
                                 </select>
 
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">标签</label>
-                            <div class="col-sm-6">
-
-                                <input type="input" name="job.flag" class="form-control" value="#(job.flag ??)"
-                                       placeholder="支持多个中间用逗号隔开">
                             </div>
                         </div>
 
@@ -199,9 +190,9 @@
                             <label class="col-sm-2 col-form-label">是否属于远程工作</label>
                             <div class="col-sm-6">
 
-                                <input type="checkbox" class="switchery" data-for="job_isRemote" #checkedIf(job.isRemote
+                                <input type="checkbox" class="switchery" data-for="with_remote" #checkedIf(job.with_remote
                                        ??)>
-                                <input type="hidden" id="job_isRemote" name="job.isRemote">
+                                <input type="hidden" id="with_remote" name="job.with_remote">
                             </div>
                         </div>
 
@@ -253,7 +244,7 @@
                                 <label class="col-sm-2 col-form-label">接收简历的邮箱</label>
                                 <div class="col-sm-6">
 
-                                    <input type="email" name="job.email" class="form-control" value="#(job.email ??)"
+                                    <input type="email" name="job.receive_email" class="form-control" value="#(job.receive_email ??)"
                                            placeholder="请输入邮箱">
                                 </div>
                             </div>
@@ -263,20 +254,20 @@
                                 <div class="col-sm-6">
 
                                     <input type="input" class="form-control datetime" placeholder="点击选择"
-                                           name="job.effective_time"
-                                           value="#date(job.effective_time ?? now,'yyyy-MM-dd')">
+                                           name="job.expired_to"
+                                           value="#date(job.expired_to ?? now,'yyyy-MM-dd')">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">岗位发布时间</label>
+                                <label class="col-sm-2 col-form-label">岗位创建时间</label>
                                 <div class="col-sm-6">
 
-                                    <input type="input" class="form-control datetime" placeholder="点击选择" readonly
-                                           name="job.release_time" value="#date(job.release_time ?? now,'yyyy-MM-dd')">
+                                    <input type="input" class="form-control datetime" placeholder="点击选择"
+                                           name="job.created"
+                                           value="#date(job.created ??,'yyyy-MM-dd')" readonly="readonly">
                                 </div>
                             </div>
-
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">SEO关键字</label>

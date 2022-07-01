@@ -109,10 +109,10 @@ public class _JobController extends AdminControllerBase {
         }
 
         if (entry.getId() == null) {
-            entry.setReleaseTime(new Date());
+            entry.setCreated(new Date());
         }
 
-        if (entry.getEffectiveTime() != null && entry.getEffectiveTime().before(entry.getReleaseTime())) {
+        if (entry.getExpiredTo() != null && entry.getExpiredTo().before(entry.getCreated())) {
             renderFailJson("请正确填写岗位有效时间");
             return;
         }
@@ -120,9 +120,9 @@ public class _JobController extends AdminControllerBase {
         //开始年龄 和 结束年龄
         // 如果结束年龄  < 开始年龄 不行
         // 如果俩个你年龄等于 0 不行
-        if ((entry.getAgeStart() != null && entry.getAgeEnd() != null) &&
-                (entry.getAgeEnd() < entry.getAgeStart() ||
-                        (entry.getAgeStart() <= 0 || entry.getAgeEnd() <= 0))) {
+        if ((entry.getAgeLimitStart() != null && entry.getAgeLimitEnd() != null) &&
+                (entry.getAgeLimitEnd() < entry.getAgeLimitStart() ||
+                        (entry.getAgeLimitStart() <= 0 || entry.getAgeLimitEnd() <= 0))) {
             renderFailJson("请正确填写年龄要求");
             return;
         }

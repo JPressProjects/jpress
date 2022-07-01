@@ -70,14 +70,12 @@
                         <th>年龄</th>
                         <th>学历</th>
                         <th>工作年限</th>
-                        <th>标签</th>
                         <th>接收简历邮箱</th>
                         <th>是否属于远程工作</th>
                         <th>工作类型</th>
                         <th>招聘类型</th>
                         <th>招聘人数</th>
                         <th>有效时间</th>
-                        <th>发布时间</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -102,7 +100,7 @@
                         <td>#(entry.dept.name ??)</td>
                         <td>#maxLength(entry.summary ??,5)</td>
                         <td>#(entry.address.name ??)</td>
-                        <td>#(entry.age_start ??)~#(entry.age_end ??)</td>
+                        <td>#(entry.age_limit_start ??)~#(entry.age_limit_end ??)</td>
 
                         <td>
                             #if(entry.education ?? == 0) 不限制学历
@@ -117,21 +115,20 @@
                         </td>
 
                         <td>
-                            #if(entry.work_year ?? == 0) 不限
-                            #else if(entry.work_year ?? == 1) 在校生
-                            #else if(entry.work_year ?? == 2) 应届生
-                            #else if(entry.work_year ?? == 3) 1年以内
-                            #else if(entry.work_year ?? == 4) 1-3年
-                            #else if(entry.work_year ?? == 5) 3-5年
-                            #else if(entry.work_year ?? == 6) 5-10年
-                            #else if(entry.work_year ?? == 7) 10年以上
+                            #if(entry.years_limit_type ?? == 0) 不限
+                            #else if(entry.years_limit_type ?? == 1) 在校生
+                            #else if(entry.years_limit_type ?? == 2) 应届生
+                            #else if(entry.years_limit_type ?? == 3) 1年以内
+                            #else if(entry.years_limit_type ?? == 4) 1-3年
+                            #else if(entry.years_limit_type ?? == 5) 3-5年
+                            #else if(entry.years_limit_type ?? == 6) 5-10年
+                            #else if(entry.years_limit_type ?? == 7) 10年以上
                             #end
                         </td>
 
-                        <td>#(entry.flag ??)</td>
-                        <td>#(entry.email ??)</td>
+                        <td>#(entry.receive_email ??)</td>
 
-                        <td>#if(entry.isRemote??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                        <td>#if(entry.with_remote ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                             #else <i class="fa fa-2x fa-toggle-off"></i> #end
                         </td>
 
@@ -150,8 +147,7 @@
                         </td>
 
                         <td>#(entry.people_count ??)</td>
-                        <td>#date(entry.effective_time ??)</td>
-                        <td>#date(entry.release_time ??)</td>
+                        <td>#date(entry.expired_to ??,"yyyy-MM-dd")</td>
                     </tr>
                     #end
 

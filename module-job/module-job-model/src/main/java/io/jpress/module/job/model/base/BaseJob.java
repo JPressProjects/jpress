@@ -92,113 +92,99 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
     /**
      * 年龄开始
      */
-	public void setAgeStart(java.lang.Integer ageStart) {
-		set("age_start", ageStart);
+	public void setAgeLimitStart(java.lang.Integer ageLimitStart) {
+		set("age_limit_start", ageLimitStart);
 	}
 
     /**
      * 年龄开始
      */
-	public java.lang.Integer getAgeStart() {
-		return getInt("age_start");
+	public java.lang.Integer getAgeLimitStart() {
+		return getInt("age_limit_start");
 	}
 
     /**
      * 年龄结束
      */
-	public void setAgeEnd(java.lang.Integer ageEnd) {
-		set("age_end", ageEnd);
+	public void setAgeLimitEnd(java.lang.Integer ageLimitEnd) {
+		set("age_limit_end", ageLimitEnd);
 	}
 
     /**
      * 年龄结束
      */
-	public java.lang.Integer getAgeEnd() {
-		return getInt("age_end");
+	public java.lang.Integer getAgeLimitEnd() {
+		return getInt("age_limit_end");
 	}
 
     /**
      * 学历
      */
-	public void setRecord(java.lang.Integer record) {
-		set("record", record);
+	public void setEducation(java.lang.Integer education) {
+		set("education", education);
 	}
 
     /**
      * 学历
      */
-	public java.lang.Integer getRecord() {
-		return getInt("record");
+	public java.lang.Integer getEducation() {
+		return getInt("education");
 	}
 
     /**
      * 工作年限
      */
-	public void setYear(java.lang.Integer year) {
-		set("year", year);
+	public void setYearsLimitType(java.lang.Integer yearsLimitType) {
+		set("years_limit_type", yearsLimitType);
 	}
 
     /**
      * 工作年限
      */
-	public java.lang.Integer getYear() {
-		return getInt("year");
-	}
-
-    /**
-     * 标签（支持多个 中间用逗号隔开）
-     */
-	public void setFlag(java.lang.String flag) {
-		set("flag", flag);
-	}
-
-    /**
-     * 标签（支持多个 中间用逗号隔开）
-     */
-	public java.lang.String getFlag() {
-		return getStr("flag");
+	public java.lang.Integer getYearsLimitType() {
+		return getInt("years_limit_type");
 	}
 
     /**
      * 接收简历的邮箱
      */
-	public void setEmail(java.lang.String email) {
-		set("email", email);
+	public void setReceiveEmail(java.lang.String receiveEmail) {
+		set("receive_email", receiveEmail);
 	}
 
     /**
      * 接收简历的邮箱
      */
-	public java.lang.String getEmail() {
-		return getStr("email");
+	public java.lang.String getReceiveEmail() {
+		return getStr("receive_email");
 	}
 
     /**
      * 是否属于远程工作
      */
-	public void setIsRemote(java.lang.Boolean isRemote) {
-		set("isRemote", isRemote);
+	public void setWithRemote(java.lang.Boolean withRemote) {
+		set("with_remote", withRemote);
 	}
 
     /**
      * 是否属于远程工作
      */
-	public java.lang.Boolean getIsRemote() {
-		return get("isRemote");
+	public java.lang.Boolean getWithRemote() {
+		return get("with_remote");
 	}
 
     /**
      * 工作类型
      */
-	public void setJobType(java.lang.Integer jobType) {
-		set("job_type", jobType);
+	public void setWorkType(java.lang.Integer workType) {
+		set("work_type", workType);
 	}
 
     /**
      * 工作类型
      */
-	public java.lang.Integer getJobType() {
-		return getInt("job_type");
+	public java.lang.Integer getWorkType() {
+		return getInt("work_type");
 	}
 
     /**
@@ -232,29 +218,15 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
     /**
      * 岗位有效时间
      */
-	public void setEffectiveTime(java.util.Date effectiveTime) {
-		set("effective_time", effectiveTime);
+	public void setExpiredTo(java.util.Date expiredTo) {
+		set("expired_to", expiredTo);
 	}
 
     /**
      * 岗位有效时间
      */
-	public java.util.Date getEffectiveTime() {
-		return getDate("effective_time");
-	}
-
-    /**
-     * 岗位发布时间
-     */
-	public void setReleaseTime(java.util.Date releaseTime) {
-		set("release_time", releaseTime);
-	}
-
-    /**
-     * 岗位发布时间
-     */
-	public java.util.Date getReleaseTime() {
-		return getDate("release_time");
+	public java.util.Date getExpiredTo() {
+		return getDate("expired_to");
 	}
 
     /**

@@ -110,42 +110,6 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 	}
 
     /**
-     * 产品规格
-     */
-	public void setSpecs(java.lang.String specs) {
-		set("specs", specs);
-	}
-
-    /**
-     * 产品规格
-     */
-	public java.lang.String getSpecs() {
-		return getStr("specs");
-	}
-
-    /**
-     * 视频
-     */
-	public void setVideo(java.lang.String video) {
-		set("video", video);
-	}
-
-    /**
-     * 视频
-     */
-	public java.lang.String getVideo() {
-		return getStr("video");
-	}
-
-	public void setVideoCover(java.lang.String videoCover) {
-		set("video_cover", videoCover);
-	}
-
-	public java.lang.String getVideoCover() {
-		return getStr("video_cover");
-	}
-
-    /**
      * 样式
      */
 	public void setStyle(java.lang.String style) {
@@ -171,48 +135,6 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      */
 	public java.lang.Integer getOrderNumber() {
 		return getInt("order_number");
-	}
-
-    /**
-     * 商品的用户ID
-     */
-	public void setUserId(java.lang.Long userId) {
-		set("user_id", userId);
-	}
-
-    /**
-     * 商品的用户ID
-     */
-	public java.lang.Long getUserId() {
-		return getLong("user_id");
-	}
-
-    /**
-     * 商品的销售分成类型：0平台所有，1用户所有，2按比例分成
-     */
-	public void setUserDivideType(java.lang.Integer userDivideType) {
-		set("user_divide_type", userDivideType);
-	}
-
-    /**
-     * 商品的销售分成类型：0平台所有，1用户所有，2按比例分成
-     */
-	public java.lang.Integer getUserDivideType() {
-		return getInt("user_divide_type");
-	}
-
-    /**
-     * 用户分成比例
-     */
-	public void setUserDivideRatio(java.lang.Integer userDivideRatio) {
-		set("user_divide_ratio", userDivideRatio);
-	}
-
-    /**
-     * 用户分成比例
-     */
-	public java.lang.Integer getUserDivideRatio() {
-		return getInt("user_divide_ratio");
 	}
 
     /**
@@ -255,48 +177,6 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      */
 	public java.math.BigDecimal getLimitedPrice() {
 		return get("limited_price");
-	}
-
-    /**
-     * 限时优惠截止时间
-     */
-	public void setLimitedTime(java.util.Date limitedTime) {
-		set("limited_time", limitedTime);
-	}
-
-    /**
-     * 限时优惠截止时间
-     */
-	public java.util.Date getLimitedTime() {
-		return getDate("limited_time");
-	}
-
-    /**
-     * 是否启用分销
-     */
-	public void setDistEnable(java.lang.Boolean distEnable) {
-		set("dist_enable", distEnable);
-	}
-
-    /**
-     * 是否启用分销
-     */
-	public java.lang.Boolean getDistEnable() {
-		return get("dist_enable");
-	}
-
-    /**
-     * 分销收益的金额
-     */
-	public void setDistAmount(java.math.BigDecimal distAmount) {
-		set("dist_amount", distAmount);
-	}
-
-    /**
-     * 分销收益的金额
-     */
-	public java.math.BigDecimal getDistAmount() {
-		return get("dist_amount");
 	}
 
     /**
@@ -370,20 +250,6 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 	}
 
     /**
-     * 真实访问量
-     */
-	public void setRealViewCount(java.lang.Long realViewCount) {
-		set("real_view_count", realViewCount);
-	}
-
-    /**
-     * 真实访问量
-     */
-	public java.lang.Long getRealViewCount() {
-		return getLong("real_view_count");
-	}
-
-    /**
      * 销售量，用于放在前台显示
      */
 	public void setSalesCount(java.lang.Long salesCount) {
@@ -398,31 +264,31 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 	}
 
     /**
-     * 真实的访问量
+     * 购买链接
      */
-	public void setRealSalesCount(java.lang.Long realSalesCount) {
-		set("real_sales_count", realSalesCount);
+	public void setBuyLink(java.lang.String buyLink) {
+		set("buy_link", buyLink);
 	}
 
     /**
-     * 真实的访问量
+     * 购买链接
      */
-	public java.lang.Long getRealSalesCount() {
-		return getLong("real_sales_count");
+	public java.lang.String getBuyLink() {
+		return getStr("buy_link");
 	}
 
     /**
-     * 剩余库存
+     * 视频云端ID
      */
-	public void setStock(java.lang.Integer stock) {
-		set("stock", stock);
+	public void setVodVid(java.lang.String vodVid) {
+		set("vod_vid", vodVid);
 	}
 
     /**
-     * 剩余库存
+     * 视频云端ID
      */
-	public java.lang.Integer getStock() {
-		return getInt("stock");
+	public java.lang.String getVodVid() {
+		return getStr("vod_vid");
 	}
 
     /**

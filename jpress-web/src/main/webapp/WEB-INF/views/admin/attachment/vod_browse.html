@@ -1,0 +1,169 @@
+#@layer()
+
+#define css()
+<style>
+
+    .nav-tabs .nav-link {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .attachment_item {
+        height: 220px;
+        width: 200px;
+        padding: 0px;
+        border: 1px solid #ddd;
+        margin: 10px;
+        float: left;
+        cursor: pointer;
+    }
+
+    .attachment_item:hover {
+        border: 1px solid #3c8dbc;
+    }
+
+    .attachment_item img {
+        height: 90%;
+        min-height: 90%;
+        width: 100%;
+    }
+
+    .attachment_item_title {
+        height: 10%;
+        background-color: #ecf0f5;
+        text-align: center;
+        padding: 0 5px;
+        overflow: hidden;
+    }
+
+    .attachment_item_title p {
+        overflow: hidden;
+    }
+
+    .my-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #uploader {
+        height: 230px;
+    }
+
+    .myPanel {
+        font-size: 25px;
+        color: #ccc;
+        text-align: center;
+        padding-top: 60px;
+    }
+
+    .tab-content > .tab-pane {
+        padding: 1rem;
+    }
+
+    .card.card-outline-tabs .card-header a {
+        border-top-color: #dee2e6;
+    }
+
+
+</style>
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<link href="/static/components/qcloud-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
+<script src="/static/components/qcloud-upload-sdk/player/hls.min.0.13.2m.js"></script>
+<script src="/static/components/qcloud-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
+<script>
+
+    //clear layer.data
+    parent.layer.data = {};
+
+    $(".attachment_item").click(function () {
+        var src = $(this).children().attr("data-path");
+        //视频id
+        var vid = $(this).children().attr("data-id");
+        //视频云类型(阿里云/腾讯云)
+        var cloudType = $(this).children().attr("data-type");
+        parent.layer.data.src = src;
+        parent.layer.data.vid = vid;
+        parent.layer.data.type = cloudType;
+        parent.layer.data.title = $(this).children().attr("title");
+        parent.layer.closeAll();
+    })
+
+</script>
+
+<script>
+    $(function () {
+        var id = $("#activeCategory").val();
+        if (id != null && id != "") {
+            $("#category" + id).addClass('active');
+            $("#uititle").removeClass('active');
+        }
+    })
+
+    function addCategoryActive(id) {
+        //给当前a标签添加class="active",同时移除同级别a标签上的class="active"
+        $("#category" + id).addClass('active').parent().siblings('li').find('a').removeClass('active');
+    }
+
+
+</script>
+
+#end
+
+#define content()
+
+<div class="card card-outline card-tabs" style="box-shadow: none;">
+    <div class="card-header p-0 border-bottom-0">
+        <input type="hidden" id="activeCategory" value="#(categoryId ??)">
+        <ul class="nav nav-tabs">
+
+            <li class="nav-item"><a class="nav-link active" id="uititle" href="/admin/attachment/video/browse?uititle=视频">#para("uititle")库</a>
+            </li>
+            #for(item : categories ??)
+            <li class="nav-item">
+                <a class="nav-link" id="category#(item.id ??)" onclick="addCategoryActive('#(item.id ??)')"
+                    href="/admin/attachment/video/browse?categoryId=#(item.id ??)&uititle=视频"> #(item.title ??)
+                </a>
+            </li>
+            #end
+        </ul>
+
+    </div>
+
+    <div class="card-body">
+        <div class="tab-content" style="padding-top:20px;">
+
+
+            <div class="active tab-pane" id="activity">
+                <div class="my-row">
+                    #for(video : page.list)
+                    <div class="attachment_item" data-aid="#(video.id ??)">
+                        <img src="#(CPATH)#(video.cover ?? '/static/commons/img/suffix/video.png')"
+                             data-path="#(video.path ??)"
+                             data-id="#(video.vod_vid ??)"
+                             data-type="#(video.cloud_type ??)"
+                             title="#(video.vod_name ??)"
+                             alt="#(video.vod_name ??)">
+                        <div class="attachment_item_title">
+                            <p>#(video.vod_name ??)</p>
+                        </div>
+                    </div>
+
+                    #end
+                </div>
+
+                <div class="row" style="padding-right: 20px;padding-top: 30px">
+                    <div class="col-12">
+                        #@_paginate()
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+#end

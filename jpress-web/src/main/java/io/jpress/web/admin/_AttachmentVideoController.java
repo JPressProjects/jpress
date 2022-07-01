@@ -244,7 +244,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
 
     /**
-     * 获取签名
+     * 腾讯云 获取签名
      * @return
      */
     public String getSign() {
@@ -272,7 +272,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
     /**
-     * 使用任务流模板进行视频处理
+     * 腾讯云 使用任务流模板进行视频处理
      * @param fileId
      */
     public void setTaskStream(String fileId) throws Exception {
@@ -301,5 +301,23 @@ public class _AttachmentVideoController extends AdminControllerBase {
                 .set("domainName", playDomain).set("streamName", streamName).set("playUrlFlv", playUrlFlv);
     }
 
+
+    /**
+     * 选择视频
+     */
+    public void browse() {
+
+        String categoryId = getPara("categoryId");
+        setAttr("categoryId",categoryId);
+
+        Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(),
+                Columns.create("category_id", categoryId).eq("video_type",AttachmentVideo.VIDEO_TYPE_VIDEO),"id desc");
+        setAttr("page", page);
+
+        List<AttachmentVideoCategory> categories = videoCategoryService.findAll();
+        setAttr("categories",categories);
+
+        render("attachment/vod_browse.html");
+    }
 
 }

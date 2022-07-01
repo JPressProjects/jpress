@@ -151,6 +151,56 @@
         });
     })
 
+    //插入视频
+    $(".chooseVideo").on("click", function () {
+        var $this = $(this);
+        layer.open({
+            type: 2,
+            title: '选择视频',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.3,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/attachment/video/browse?uititle=附件视频',
+            end: function () {
+                console.log("data==")
+                console.log(layer.data)
+                if (layer.data.vid != null) {
+                // if (layer.data.src != null) {
+
+                    var vid = layer.data.vid;
+                    var aid = $("#appId").val();
+                    var cloudType = layer.data.type;
+                    // var src = layer.data.src;
+
+                    if(cloudType != null && cloudType != '' && cloudType == '1'){//阿里云
+
+                        if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
+
+
+                        } else if (currentVditor) {
+                            currentVditor.insertValue('视频：[' + layer.data.title + '](' + src + ')')
+                        }
+
+                    }else if(cloudType != null && cloudType != '' && cloudType == '2'){//腾讯云
+
+                        if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
+
+
+                        } else if (currentVditor) {
+                            currentVditor.insertValue('视频：[' + layer.data.title + '](' + src + ')')
+                        }
+
+                    }
+
+
+
+
+                }
+            }
+        });
+    })
+
     function insertHtmlToEditor(html) {
         const viewFragment = currentCKEditor.data.processor.toView(html);
         const modelFragment = currentCKEditor.data.toModel(viewFragment);
@@ -159,6 +209,7 @@
 
 
 </script>
+
 #end
 #define css()
 <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap-font/bootstrap-icons.css">
@@ -235,6 +286,7 @@
     <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form">
         <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
         <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
+        <input type="hidden" id="appId" name="appId" value="#(appId ??)">
         <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
         <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
         <div class="row">
@@ -253,6 +305,9 @@
 
                                 <button type="button" class="chooseAttachment btn btn-default btn-sm ">
                                     <i class="fas fa-paperclip"></i> 插入附件
+                                </button>
+                                <button type="button" class="chooseVideo btn btn-default btn-sm ">
+                                    <i class="fas fa-paperclip"></i> 插入视频
                                 </button>
                             </div>
                         </div>

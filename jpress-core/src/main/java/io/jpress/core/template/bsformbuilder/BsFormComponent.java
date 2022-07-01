@@ -1,4 +1,4 @@
-package io.jpress.core.template.editor;
+package io.jpress.core.template.bsformbuilder;
 
 import io.jboot.utils.StrUtil;
 

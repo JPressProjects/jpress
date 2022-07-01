@@ -1,7 +1,7 @@
 package io.jpress.core.template;
 
 import io.jboot.utils.StrUtil;
-import io.jpress.core.template.editor.BsFormComponent;
+import io.jpress.core.template.bsformbuilder.BsFormComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,6 @@ public class BlockHtml {
 
     // id
     private String id;
-
-    //文件名称
-    private String fileName;
 
     //标题
     private String title;
@@ -36,14 +33,6 @@ public class BlockHtml {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
     }
 
     public String getTitle() {
@@ -99,15 +88,6 @@ public class BlockHtml {
         BsFormComponent component = new BsFormComponent();
         component.setName(getTitle());
         component.setTag(id);
-
-//        String template = this.template.trim();
-
-        //必须是 html 开头
-//        if (!template.startsWith("<")){
-//            template = "<div>" + template +"</div>";
-//        }
-//        component.setTemplate(template);
-
         component.setDragIcon(icon);
         component.setDragTitle(getTitle());
         component.setDragIndex(index);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.directive;
+package io.jpress.core.template.directive;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
@@ -22,6 +22,7 @@ import com.jfinal.template.stat.Scope;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.core.template.BlockFunctions;
 import io.jpress.service.TemplateBlockOptionService;
 
 /**
@@ -29,7 +30,7 @@ import io.jpress.service.TemplateBlockOptionService;
  * @version V1.0
  * @Package io.jpress.core.directives
  * <p>
- * #blockOption("aaaa","component","defautValue")
+ * #blockOption("aaaa ： component","defautValue")
  */
 @JFinalDirective("blockOption")
 public class BlockOptionDirective extends JbootDirectiveBase {
@@ -40,13 +41,19 @@ public class BlockOptionDirective extends JbootDirectiveBase {
 
     @Override
     public void onRender(Env env, Scope scope, Writer writer) {
-        String key = getPara(0, scope);
-        if (StrUtil.isBlank(key)) {
+        String keyPara = getPara(0, scope);
+        if (StrUtil.isBlank(keyPara)) {
             throw new IllegalArgumentException("#blockOption(...) argument must not be empty " + getLocation());
         }
 
-        String text = String.valueOf(scope.get(key));
-        renderText(writer, text);
+        String key = BlockFunctions.getRealKey(keyPara);
+        Object obj = scope.get(key);
+        if (obj == null || (obj instanceof String && StrUtil.isBlank((String) obj))) {
+            renderText(writer, "");
+            return;
+        }
+
+        renderText(writer, obj.toString());
     }
 }
 

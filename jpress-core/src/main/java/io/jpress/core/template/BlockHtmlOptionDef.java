@@ -1,6 +1,6 @@
 package io.jpress.core.template;
 
-import io.jpress.core.template.editor.BsFormComponent;
+import io.jpress.core.template.bsformbuilder.BsFormComponent;
 
 import java.util.Objects;
 

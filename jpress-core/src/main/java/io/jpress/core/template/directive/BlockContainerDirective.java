@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.web.directive;
+package io.jpress.core.template.directive;
 
 import com.alibaba.fastjson.JSONArray;
 import com.jfinal.aop.Inject;
@@ -31,7 +31,6 @@ import io.jpress.service.TemplateBlockOptionService;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Package io.jpress.core.directives
  */
 @JFinalDirective("blockContainer")
 public class BlockContainerDirective extends JbootDirectiveBase {
@@ -52,15 +51,24 @@ public class BlockContainerDirective extends JbootDirectiveBase {
 
         TemplateBlockOption blockOption = blockOptionService.findById(templateId);
         if (blockOption == null) {
-            renderText(writer, "");
+            renderBody(env, scope, writer);
+            return;
         }
 
+        //每个 container 容器的数据
         JSONArray containerDatas = blockOption.getJsonArrayByContainerId(containerId);
-        String html = BlockManager.me().renderBlockContainer(containerDatas, false);
+        if (containerDatas == null || containerDatas.isEmpty()) {
+            renderBody(env, scope, writer);
+            return;
+        }
 
+        String html = BlockManager.me().renderBlockContainer(containerDatas, false);
         renderText(writer, html);
     }
 
-
+    @Override
+    public boolean hasEnd() {
+        return true;
+    }
 }
 

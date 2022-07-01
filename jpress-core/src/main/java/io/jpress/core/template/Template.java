@@ -17,6 +17,7 @@ package io.jpress.core.template;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.Prop;
+import io.jboot.Jboot;
 import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import org.apache.commons.io.FileUtils;
@@ -149,12 +150,28 @@ public class Template {
         return htmls.contains(template) ? template : null;
     }
 
+
+    private List<BlockContainer> blockContainers;
+
     /**
      * 获取模板支持设计的板块容器
      *
      * @return
      */
-    public List<BlockContainer> getBlockContainers() {
+    public synchronized List<BlockContainer> getBlockContainers() {
+        if (Jboot.isDevMode()) {
+            return readBlockContainers();
+        }
+
+        if (blockContainers == null) {
+            blockContainers = readBlockContainers();
+        }
+
+        return blockContainers;
+    }
+
+
+    private List<BlockContainer> readBlockContainers() {
         Set<BlockContainer> allContainers = new HashSet<>();
         for (String htmlFile : htmls) {
             allContainers.addAll(TemplateUtil.readBlockContainers(new File(getAbsolutePathFile(), htmlFile)));
@@ -162,6 +179,7 @@ public class Template {
         return new ArrayList<>(allContainers);
     }
 
+    private List<BlockHtml> blockHtmls;
 
     /**
      * 获取版本自带的 板块 信息
@@ -169,10 +187,22 @@ public class Template {
      * @return
      */
     public List<BlockHtml> getBlockHtmls() {
+        if (Jboot.isDevMode()) {
+            return readBlockHtmls();
+        }
+
+        if (blockHtmls == null) {
+            blockHtmls = readBlockHtmls();
+        }
+
+        return blockHtmls;
+    }
+
+
+    private List<BlockHtml> readBlockHtmls() {
         List<BlockHtml> blockInfos = new ArrayList<>();
         for (String blockFileName : blocks) {
             BlockHtml blockHtml = new BlockHtml();
-            blockHtml.setFileName(blockFileName);
 
             //remove "block_"  and ".html"
             blockHtml.setId(blockFileName.substring(6, blockFileName.length() - 5));
@@ -184,6 +214,7 @@ public class Template {
         }
         return blockInfos;
     }
+
 
     /**
      * 只匹配 h5 的模板 ，如果匹配不到 h5 ，返回 null

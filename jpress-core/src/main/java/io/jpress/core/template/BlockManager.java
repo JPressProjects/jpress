@@ -21,6 +21,8 @@ import com.jfinal.core.JFinal;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
+import io.jpress.core.template.blocks.ContainerBlockHtml;
+import io.jpress.core.template.bsformbuilder.BsFormComponent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,6 +40,11 @@ public class BlockManager {
     private static final BlockManager me = new BlockManager();
 
     private BlockManager() {
+        initSystemBlockHtmls();
+    }
+
+    private void initSystemBlockHtmls() {
+        systemBlockHtmls.add(new ContainerBlockHtml());
     }
 
 
@@ -48,6 +55,37 @@ public class BlockManager {
     private ThreadLocal<Map<String, Object>> TL = new ThreadLocal<>();
 
 
+    public List<BsFormComponent> getBsFromComponents() {
+
+        List<BlockHtml> allBlocks = new ArrayList<>();
+
+        Template currentTemplate = TemplateManager.me().getCurrentTemplate();
+        List<BlockHtml> templateBlockHtmls = currentTemplate.getBlockHtmls();
+
+        if (templateBlockHtmls != null && !templateBlockHtmls.isEmpty()) {
+            allBlocks.addAll(templateBlockHtmls);
+        }
+
+        allBlocks.addAll(systemBlockHtmls);
+
+
+        List<BsFormComponent> components = new ArrayList<>();
+        for (BlockHtml blockHtml : allBlocks) {
+            components.add(blockHtml.toBsFormComponent());
+        }
+
+        return components;
+    }
+
+
+
+    /**
+     * 渲染一个 block 容器（container）
+     *
+     * @param containerDatas 容器里的数据
+     * @param withEdit
+     * @return
+     */
     public String renderBlockContainer(JSONArray containerDatas, boolean withEdit) {
         if (containerDatas == null || containerDatas.isEmpty()) {
             return null;
@@ -77,8 +115,8 @@ public class BlockManager {
             return "";
         }
 
-        String htmlText = getTagHtml(tag);
-
+        //把每个 component 的数据放大 datas 里，这样，在 jfinal 里的指令里
+        //可以通过 scope 去获取数据
         Map<String, Object> datas = new HashMap<>(componentData);
 
         JSONObject children = componentData.getJSONObject("children");
@@ -97,7 +135,8 @@ public class BlockManager {
         try {
             TL.set(datas);
 
-            String htmlResult = getEngine().getTemplateByString(htmlText).renderToString(datas);
+            String htmlString = getBlockHtmlString(tag);
+            String htmlResult = getEngine().getTemplateByString(htmlString).renderToString(datas);
             if (withEdit) {
                 htmlResult = appendIdAndBsFormItemClass(htmlResult, componentData.getString("elementId"));
             }
@@ -124,10 +163,7 @@ public class BlockManager {
     }
 
 
-
-
-
-    public void buildNormalHtml(Document doc)  {
+    public void buildNormalHtml(Document doc) {
 
         Elements jsElements = doc.select("script");
         replace(jsElements, "src");
@@ -143,7 +179,7 @@ public class BlockManager {
     }
 
     private void replace(Elements elements, String attrName) {
-         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
+        Template currentTemplate = TemplateManager.me().getCurrentTemplate();
 
         Iterator<Element> iterator = elements.iterator();
         while (iterator.hasNext()) {
@@ -181,33 +217,22 @@ public class BlockManager {
     }
 
 
-    private String getTagHtml(String tag) {
-        switch (tag) {
-            case "block":
-                return "<div class=\"m-3 pt-2 bsFormFilter\">\n" +
-                        "  <div class=\"card\">\n" +
-                        "    <div class=\"card-header\">\n" +
-                        "      <h3 class=\"card-title\">#(id ??)</h3>\n" +
-                        "      <div class=\"card-tools\">\n" +
-                        "        <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\">\n" +
-                        "          <i class=\"fas fa-plus\"></i>\n" +
-                        "        </button>\n" +
-                        "      </div>\n" +
-                        "    </div>\n" +
-                        "    <div class=\"card-body bsItemContainer\">#(children0 ??)</div>\n" +
-                        "  </div>\n" +
-                        "</div>\n";
-
-            default:
-                Template currentTemplate = TemplateManager.me().getCurrentTemplate();
-                List<BlockHtml> blockHtmls = currentTemplate.getBlockHtmls();
-                for (BlockHtml blockHtml : blockHtmls) {
-                    if (blockHtml.getId().equals(tag)) {
-                        return blockHtml.getTemplate();
-                    }
-                }
-                return "<div>暂无内容</div>";
+    private String getBlockHtmlString(String tag) {
+        for (BlockHtml block : systemBlockHtmls) {
+            if (tag.equals(block.getId())) {
+                return block.getTemplate();
+            }
         }
+
+        Template currentTemplate = TemplateManager.me().getCurrentTemplate();
+        List<BlockHtml> templateBlockHtmls = currentTemplate.getBlockHtmls();
+        for (BlockHtml block : templateBlockHtmls) {
+            if (tag.equals(block.getId())) {
+                return block.getTemplate();
+            }
+        }
+
+        return "<div>暂无内容</div>";
     }
 
 

@@ -37,7 +37,7 @@ public class BlockFunctions {
     }
 
 
-    private static String getRealKey(String keyDef) {
+    public static String getRealKey(String keyDef) {
         return keyDef.contains(":") ? keyDef.split(":")[0].trim() : keyDef.trim();
     }
 

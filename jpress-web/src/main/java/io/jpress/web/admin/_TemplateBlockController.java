@@ -25,13 +25,14 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.template.*;
-import io.jpress.core.template.editor.BsFormComponent;
+import io.jpress.core.template.BlockContainer;
+import io.jpress.core.template.BlockManager;
+import io.jpress.core.template.Template;
+import io.jpress.core.template.TemplateManager;
 import io.jpress.model.TemplateBlockOption;
 import io.jpress.service.TemplateBlockOptionService;
 import io.jpress.web.base.AdminControllerBase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,12 +52,6 @@ public class _TemplateBlockController extends AdminControllerBase {
         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
         setAttr("template", currentTemplate);
 
-        List<BlockContainer> blockContainers = currentTemplate.getBlockContainers();
-        setAttr("blockContainers", blockContainers);
-
-        List<BlockHtml> blockHtmls = currentTemplate.getBlockHtmls();
-        setAttr("blockHtmls", blockHtmls);
-
         render("template/block.html");
     }
 
@@ -65,28 +60,7 @@ public class _TemplateBlockController extends AdminControllerBase {
      * 获取编辑定义的组件
      */
     public void components() {
-        Template currentTemplate = TemplateManager.me().getCurrentTemplate();
-        List<BlockHtml> blockHtmls = currentTemplate.getBlockHtmls();
-
-        if (blockHtmls == null || blockHtmls.isEmpty()) {
-            renderJson(Ret.ok());
-            return;
-        }
-
-        BsFormComponent block = new BsFormComponent();
-        block.setName("板块");
-        block.setTag("block");
-        block.setDisableTools(true);
-        block.setDragType("block");
-
-        List<BsFormComponent> components = new ArrayList<>();
-        components.add(block);
-
-        for (BlockHtml blockHtml : blockHtmls) {
-            components.add(blockHtml.toBsFormComponent());
-        }
-
-        renderJson(Ret.ok("components", components));
+        renderJson(Ret.ok("components", BlockManager.me().getBsFromComponents()));
     }
 
 
@@ -110,6 +84,7 @@ public class _TemplateBlockController extends AdminControllerBase {
         }
 
 
+        //把系统配置的内容，设置到 baseDatas 里去
         TemplateBlockOption templateBlockOption = blockOptionService.findFirstByColumns(Columns.create("template_id", currentTemplate.getId()));
         if (templateBlockOption != null) {
             JSONArray savedOptions = JSON.parseArray(templateBlockOption.getOptions());
@@ -124,7 +99,6 @@ public class _TemplateBlockController extends AdminControllerBase {
                 }
             }
         }
-
 
         renderJson(Ret.ok("datas", baseDatas));
     }
@@ -158,10 +132,10 @@ public class _TemplateBlockController extends AdminControllerBase {
     /**
      * 模板渲染
      *
-     * @param jsonObject
+     * @param componentData
      */
-    public void render(@JsonBody JSONObject jsonObject) {
-        String html = BlockManager.me().renderComponentDataToHtml(jsonObject,true);
+    public void render(@JsonBody JSONObject componentData) {
+        String html = BlockManager.me().renderComponentDataToHtml(componentData,true);
         renderHtml(html);
     }
 

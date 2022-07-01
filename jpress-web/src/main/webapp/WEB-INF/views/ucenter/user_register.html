@@ -24,7 +24,11 @@
         .form-group {
             text-align: left;
         }
-
+        #email-error,#captcha-error{
+            position: absolute !important;
+            top:100% !important;
+            left:0 !important;
+        }
     </style>
 
     <script>
@@ -106,16 +110,14 @@
                     #end
                     <div class="form-group">
                         <label>邮箱</label>
-                        <input type="text" class="form-control" placeholder="请输入邮箱" name="email" id="email" required>
+                        <input type="text" class="form-control" placeholder="请输入邮箱" name="email" id="email" >
                     </div>
-
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" autocomplete="off" placeholder="输入邮箱验证码">
+                    <div class="input-group jpress-tip mb-3">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="输入邮箱验证码" name="email" id="email" required>
                         <div class="input-group-append">
                             <button type="button" class="input-group-text" style="float: right;background: #DDDDDD;" onclick="doGetEmailCode()">获取验证码</button>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label>密码</label>
                         <input type="password" class="form-control" placeholder="密码..." name="pwd" required>
@@ -126,7 +128,7 @@
                     </div>
                     <div class="form-group">
                         <label style="display: block;">验证码</label>
-                        <div >
+                        <div class="clearfix position-relative" >
                             <input type="text" id="captcha" autocomplete="off" class="form-control " style="float: left;width: 70%;"
                                    placeholder="请输入验证码" name="captcha" required>
                             <img src="#(CPATH)/commons/captcha" id="captcha-img"

@@ -56,6 +56,22 @@
             components: '#(CPATH)/admin/template/block/components',
             customRender:'#(CPATH)/admin/template/block/render',
             datas: '#(CPATH)/admin/template/block/datas',
+            // defaultProps:[      {
+            //     name: "tag",
+            //     type: "none",
+            //     label: "组件类型",
+            //     placeholder: "",
+            //     disabled: true,
+            // },
+            //
+            //     {
+            //         name: "name",
+            //         type: "input",
+            //         label: "name",
+            //         placeholder: "",
+            //         disabled: true,
+            //     },
+            // ]
         });
 
         $('.update').on('click',function (){
@@ -121,6 +137,10 @@
             </div>
             <!--右侧内容-->
             <div class="col-md-3  col-sm-4 mb-3 rightContent border-left">
+                <div class="pd10 tab-content pt-3 bsFormPropsTitle">
+                    <span class="icon"></span>
+                    <span class="text"></span>
+                </div>
                 <div class="pd10 tab-content pt-3 bsFormProps">
                 </div>
             </div>

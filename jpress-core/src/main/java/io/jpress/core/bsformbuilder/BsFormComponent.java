@@ -127,12 +127,24 @@ public class BsFormComponent {
      */
     public static class Prop {
 
+        public Prop() {
+        }
+
+        public Prop(String name) {
+            this.name = name;
+        }
+
+        public Prop(String name, String type) {
+            this.name = name;
+            this.type = type;
+        }
+
         //属性名称
         private String name;
 
         // 属性类型，支持有 input/select/textarea/radio/checkbox 和 none，
         // none：不会在右边的面板里显示
-        private String type;
+        private String type = "input";
 
         //属性在右侧的属性面板里显示的名称
         private String label;

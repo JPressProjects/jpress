@@ -42,8 +42,9 @@
         bsFormContainerSortableGroup: "shared", // 配置主容器里的 group 名称
         bsFormContainerPlaceHolderSelector: ".bsFormContainer-placeholder", // 设计容器里的提示内容
         bsFormPropsSelector: ".bsFormProps", // 面板内容
+        bsFormPropsTitleSelector: ".bsFormPropsTitle", // 面板标题
         customBuilderStructure: false, // 自定义容器面板
-        onDataUpdated: null, //数据更新的监听器
+        onDataChanged: null, //数据更新的监听器
         components: [], //初始化时自定义的组件
         useComponents: [], //使用的组件 use components
         customRender: null, //自定义渲染方法，支持后端 url，同步方法 和 异步方法
@@ -535,7 +536,7 @@
         this.options = $.extend(defaultOptions, options);
 
         //每个组件的默认属性
-        this.defaultProps = options.defaultOptions || [];
+        this.defaultProps = options.defaultProps || [];
         for (let defaultProp of defaultProps) {
             if (this.defaultProps.map(item => item.name).indexOf(defaultProp.name) === -1) {
                 this.defaultProps.push(defaultProp);
@@ -638,6 +639,9 @@
             }
 
             this.$containerPlaceHolder = this.$rootEl.find(this.options.bsFormContainerPlaceHolderSelector);
+
+            this.$propsPanelTitle = this.$rootEl.find(this.options.bsFormPropsTitleSelector);
+
             this.$propsPanel = this.$rootEl.find(this.options.bsFormPropsSelector);
 
             var bsFormBuilder = this;
@@ -977,7 +981,7 @@
             $.ajax({
                 url: url,
                 async: false,
-                type : "POST",
+                type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (resp) {
@@ -1919,6 +1923,23 @@
 
             let component = this.currentData.component;
 
+            //配置 title 和 icon
+            if (this.$propsPanelTitle.length > 0) {
+                this.$propsPanelTitle.find(".text").text(component.name);
+                if (component.drag.icon) {
+                    var icon = "";
+                    if (component.drag.icon && component.drag.icon.trim().charAt(0) === '<') {
+                        icon = component.drag.icon;
+                    } else {
+                        icon = '<i class="' + component.drag.icon + '">';
+                    }
+                    this.$propsPanelTitle.find(".icon").html(icon);
+                } else {
+                    this.$propsPanelTitle.find(".icon").html('');
+                }
+            }
+
+
             //组件自定义了自己的属性渲染方法
             if (typeof component.onRenderPropsPanel === "function") {
                 var html = component.onRenderPropsPanel(this);
@@ -2038,11 +2059,12 @@
                 disabled: false, required: false, id: "", label: "", name: "", placeholder: "", type: "", value: "",
             }, prop);
 
-            var paras = ["$prop", "$data"].concat(Object.keys(propData));
+            var paras = ["$builder", "$prop", "$data"].concat(Object.keys(propData));
 
             var values = paras.map(k => prop[k] || "");
-            values[0] = prop;
-            values[1] = data;
+            values[0] = this;
+            values[1] = prop;
+            values[2] = data;
 
             return this._renderTemplate(template, paras, values);
         },
@@ -2214,13 +2236,18 @@
             if (data.component && typeof data.component.onPropChange === "function"
                 && data.component.onPropChange(this, data, attr, value)) {
                 data[attr] = value;
+            }
+            //配置 onDataChange 方法
+            else if (this.options.onDataChange && typeof this.options.onDataChange === "function"
+                && this.options.onDataChange(this, data, attr, value)) {
+                data[attr] = value;
             } else {
                 data[attr] = value;
                 this.refreshDataElement(data);
             }
 
-            if (typeof this.options.onDataUpdated === "function") {
-                this.options.onDataUpdated(data, attr, value, oldValue);
+            if (typeof this.options.onDataChanged === "function") {
+                this.options.onDataChanged(data, attr, value, oldValue);
             }
         },
 

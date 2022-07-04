@@ -34,6 +34,18 @@ public class ContainerBlockHtml extends BlockHtml {
         component.setTag("block");
         component.setDisableTools(true);
         component.setDragType("block");
+
+        BsFormComponent.Prop idProp = new BsFormComponent.Prop("id");
+        idProp.setDisabled("ture");
+        idProp.setLabel("板块容器");
+
+        component.addProp(idProp);
+
+
+        component.addProp(new BsFormComponent.Prop("tag", "none"));
+        component.addProp(new BsFormComponent.Prop("name", "none"));
+        component.addProp(new BsFormComponent.Prop("label", "none"));
+
         return component;
     }
 }

@@ -92,7 +92,7 @@ public class HtmlBlock {
     }
 
     public void setTemplate(String template) {
-        this.template = template;
+        TemplateUtil.readAndFillHtmlBlock(template,this);
     }
 
     public void addTemplateLine(String line) {

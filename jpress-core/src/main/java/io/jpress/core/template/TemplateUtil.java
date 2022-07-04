@@ -67,6 +67,21 @@ public class TemplateUtil {
      * 读取 block_***.html 文件的 title 和 icon 配置
      * 以及
      *
+     * @param html
+     * @param block
+     */
+    public static void readAndFillHtmlBlock(String html, HtmlBlock block) {
+        String[] lineStrings = html.split("\n");
+        for (String lineStr : lineStrings) {
+            parseLineString(block, lineStr);
+        }
+    }
+
+
+    /**
+     * 读取 block_***.html 文件的 title 和 icon 配置
+     * 以及
+     *
      * @param file
      * @param block
      */
@@ -74,53 +89,58 @@ public class TemplateUtil {
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             String lineStr;
             while ((lineStr = in.readLine()) != null) {
-                lineStr = lineStr.trim();
-                if (lineStr.startsWith("<!--") && lineStr.endsWith("-->")) {
-                    lineStr = lineStr.substring(4, lineStr.length() - 3).trim();
-
-                    if (lineStr.startsWith("title:")) {
-                        block.setTitle(lineStr.substring(6));
-                    } else if (lineStr.startsWith("icon:")) {
-                        block.setIcon(lineStr.substring(5));
-                    }
-                } else {
-                    block.addTemplateLine(lineStr);
-
-                    int indexOf = lineStr.indexOf("blockOption");
-
-                    while (indexOf >= 0) {
-                        int firstIndexOf = lineStr.indexOf("(", indexOf) + 1;
-                        int lastIndexOf = lineStr.indexOf(")", indexOf);
-
-                        String parasString = lineStr.substring(firstIndexOf, lastIndexOf);
-                        String[] paras = parasString.split(",");
-
-
-                        int index = 0;
-                        HtmlBlockOptionDef optionDef = new HtmlBlockOptionDef();
-                        for (String para : paras) {
-                            para = para.trim();
-                            if (para.startsWith("\"") || para.startsWith("'")) {
-                                para = para.substring(1, para.length() - 1);
-                            }
-                            if (index == 0) {
-                                optionDef.setName(para);
-                            } else if (index == 1) {
-                                optionDef.setDefaultValue(para);
-                            }
-                            index++;
-                        }
-
-                        block.addOptionDef(optionDef);
-
-                        indexOf = lineStr.indexOf("blockOption", lastIndexOf);
-                    }
-                }
+                parseLineString(block, lineStr);
             }
         } catch (IOException e) {
             LogKit.error(e.toString(), e);
         }
 
+    }
+
+
+    private static void parseLineString(HtmlBlock block, String lineStr) {
+        lineStr = lineStr.trim();
+        if (lineStr.startsWith("<!--") && lineStr.endsWith("-->")) {
+            lineStr = lineStr.substring(4, lineStr.length() - 3).trim();
+
+            if (lineStr.startsWith("title:")) {
+                block.setTitle(lineStr.substring(6));
+            } else if (lineStr.startsWith("icon:")) {
+                block.setIcon(lineStr.substring(5));
+            }
+        } else {
+            block.addTemplateLine(lineStr);
+
+            int indexOf = lineStr.indexOf("blockOption");
+
+            while (indexOf >= 0) {
+                int firstIndexOf = lineStr.indexOf("(", indexOf) + 1;
+                int lastIndexOf = lineStr.indexOf(")", indexOf);
+
+                String parasString = lineStr.substring(firstIndexOf, lastIndexOf);
+                String[] paras = parasString.split(",");
+
+
+                int index = 0;
+                HtmlBlockOptionDef optionDef = new HtmlBlockOptionDef();
+                for (String para : paras) {
+                    para = para.trim();
+                    if (para.startsWith("\"") || para.startsWith("'")) {
+                        para = para.substring(1, para.length() - 1);
+                    }
+                    if (index == 0) {
+                        optionDef.setName(para);
+                    } else if (index == 1) {
+                        optionDef.setDefaultValue(para);
+                    }
+                    index++;
+                }
+
+                block.addOptionDef(optionDef);
+
+                indexOf = lineStr.indexOf("blockOption", lastIndexOf);
+            }
+        }
     }
 
 

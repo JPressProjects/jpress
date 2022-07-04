@@ -158,20 +158,20 @@ public class Template {
      *
      * @return
      */
-    public synchronized List<BlockContainer> getBlockContainers() {
+    public synchronized List<BlockContainer> getContainers() {
         if (Jboot.isDevMode()) {
-            return readBlockContainers();
+            return readContainers();
         }
 
         if (blockContainers == null) {
-            blockContainers = readBlockContainers();
+            blockContainers = readContainers();
         }
 
         return blockContainers;
     }
 
 
-    private List<BlockContainer> readBlockContainers() {
+    private List<BlockContainer> readContainers() {
         Set<BlockContainer> allContainers = new HashSet<>();
         for (String htmlFile : htmls) {
             allContainers.addAll(TemplateUtil.readBlockContainers(new File(getAbsolutePathFile(), htmlFile)));
@@ -179,36 +179,36 @@ public class Template {
         return new ArrayList<>(allContainers);
     }
 
-    private List<BlockHtml> blockHtmls;
+    private List<HtmlBlock> blockHtmls;
 
     /**
      * 获取版本自带的 板块 信息
      *
      * @return
      */
-    public List<BlockHtml> getBlockHtmls() {
+    public List<HtmlBlock> getHtmlBlocks() {
         if (Jboot.isDevMode()) {
-            return readBlockHtmls();
+            return readHtmlBlockHtml();
         }
 
         if (blockHtmls == null) {
-            blockHtmls = readBlockHtmls();
+            blockHtmls = readHtmlBlockHtml();
         }
 
         return blockHtmls;
     }
 
 
-    private List<BlockHtml> readBlockHtmls() {
-        List<BlockHtml> blockInfos = new ArrayList<>();
+    private List<HtmlBlock> readHtmlBlockHtml() {
+        List<HtmlBlock> blockInfos = new ArrayList<>();
         for (String blockFileName : blocks) {
-            BlockHtml blockHtml = new BlockHtml();
+            HtmlBlock blockHtml = new HtmlBlock();
 
             //remove "block_"  and ".html"
             blockHtml.setId(blockFileName.substring(6, blockFileName.length() - 5));
 
             //fill blockHtml attrs
-            TemplateUtil.readAndFillBlockHtml(new File(getAbsolutePathFile(), blockFileName), blockHtml);
+            TemplateUtil.readAndFillHtmlBlock(new File(getAbsolutePathFile(), blockFileName), blockHtml);
 
             blockInfos.add(blockHtml);
         }

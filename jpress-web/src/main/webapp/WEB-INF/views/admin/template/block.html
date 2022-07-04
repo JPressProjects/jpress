@@ -54,29 +54,25 @@
             customBuilderStructure: true,
             bsFormContainerSortableGroup: 'main',
             components: '#(CPATH)/admin/template/block/components',
-            customRender:'#(CPATH)/admin/template/block/render',
+            customRender: '#(CPATH)/admin/template/block/render',
             datas: '#(CPATH)/admin/template/block/datas',
-            // defaultProps:[      {
-            //     name: "tag",
-            //     type: "none",
-            //     label: "组件类型",
-            //     placeholder: "",
-            //     disabled: true,
-            // },
-            //
-            //     {
-            //         name: "name",
-            //         type: "input",
-            //         label: "name",
-            //         placeholder: "",
-            //         disabled: true,
-            //     },
-            // ]
+
+            //禁用 name 和 label 属性
+            defaultProps: [
+                {
+                    name: "name",
+                    type: "none",
+                },
+                {
+                    name: "label",
+                    type: "none",
+                },
+            ]
         });
 
-        $('.update').on('click',function (){
+        $('.update').on('click', function () {
             var datas = $('#builder').bsFormBuilder().data("bsFormBuilder").exportToJson();
-            ajaxPost('#(CPATH)/admin/template/block/save',datas,function (){
+            ajaxPost('#(CPATH)/admin/template/block/save', datas, function () {
                 showMessage("保存成功！")
             })
         });
@@ -118,7 +114,7 @@
                 <div class="component-title">
                     系统内置
                 </div>
-                <div class="component-group d-flex align-items-center bsFormDrags" data-type="base">
+                <div class="component-group d-flex align-items-center bsFormDrags" data-type="system">
                 </div>
                 <div class="component-title">
                     媒体

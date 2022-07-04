@@ -68,9 +68,9 @@ public class TemplateUtil {
      * 以及
      *
      * @param file
-     * @param blockHtml
+     * @param block
      */
-    public static void readAndFillBlockHtml(File file, BlockHtml blockHtml) {
+    public static void readAndFillHtmlBlock(File file, HtmlBlock block) {
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             String lineStr;
             while ((lineStr = in.readLine()) != null) {
@@ -79,12 +79,12 @@ public class TemplateUtil {
                     lineStr = lineStr.substring(4, lineStr.length() - 3).trim();
 
                     if (lineStr.startsWith("title:")) {
-                        blockHtml.setTitle(lineStr.substring(6));
+                        block.setTitle(lineStr.substring(6));
                     } else if (lineStr.startsWith("icon:")) {
-                        blockHtml.setIcon(lineStr.substring(5));
+                        block.setIcon(lineStr.substring(5));
                     }
                 } else {
-                    blockHtml.addTemplateLine(lineStr);
+                    block.addTemplateLine(lineStr);
 
                     int indexOf = lineStr.indexOf("blockOption");
 
@@ -97,7 +97,7 @@ public class TemplateUtil {
 
 
                         int index = 0;
-                        BlockHtmlOptionDef optionDef = new BlockHtmlOptionDef();
+                        HtmlBlockOptionDef optionDef = new HtmlBlockOptionDef();
                         for (String para : paras) {
                             para = para.trim();
                             if (para.startsWith("\"") || para.startsWith("'")) {
@@ -111,7 +111,7 @@ public class TemplateUtil {
                             index++;
                         }
 
-                        blockHtml.addOptionDef(optionDef);
+                        block.addOptionDef(optionDef);
 
                         indexOf = lineStr.indexOf("blockOption", lastIndexOf);
                     }

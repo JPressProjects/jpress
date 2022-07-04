@@ -1,11 +1,11 @@
 package io.jpress.core.template.blocks;
 
 import io.jpress.core.bsformbuilder.BsFormComponent;
-import io.jpress.core.template.BlockHtml;
+import io.jpress.core.template.HtmlBlock;
 
-public class DivBlockHtml extends BlockHtml {
+public class DivBlock extends HtmlBlock {
 
-    public DivBlockHtml() {
+    public DivBlock() {
         setId("div");
     }
 

@@ -18,13 +18,14 @@ package io.jpress.core.template;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.JFinal;
+import com.jfinal.kit.LogKit;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
-import io.jpress.core.template.blocks.ContainerBlockHtml;
+import io.jpress.core.template.blocks.ContainerBlock;
 import io.jpress.core.bsformbuilder.BsFormComponent;
-import io.jpress.core.template.blocks.DivBlockHtml;
-import io.jpress.core.template.blocks.GridBlockHtml;
+import io.jpress.core.template.blocks.DivBlock;
+import io.jpress.core.template.blocks.GridBlock;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,7 +38,7 @@ public class BlockManager {
     private static String contextPath = JFinal.me().getContextPath();
 
     //系统自带的 html 模块
-    private List<BlockHtml> systemBlockHtmls = new ArrayList<>();
+    private List<HtmlBlock> systemBlockHtmls = new ArrayList<>();
 
     private static final BlockManager me = new BlockManager();
 
@@ -46,9 +47,9 @@ public class BlockManager {
     }
 
     private void initSystemBlockHtmls() {
-        systemBlockHtmls.add(new ContainerBlockHtml());
-        systemBlockHtmls.add(new DivBlockHtml());
-        systemBlockHtmls.add(new GridBlockHtml());
+        systemBlockHtmls.add(new ContainerBlock());
+        systemBlockHtmls.add(new DivBlock());
+        systemBlockHtmls.add(new GridBlock());
     }
 
 
@@ -58,13 +59,17 @@ public class BlockManager {
 
     private ThreadLocal<Map<String, Object>> TL = new ThreadLocal<>();
 
+    public void addBlock(HtmlBlock block) {
+        systemBlockHtmls.add(block);
+    }
+
 
     public List<BsFormComponent> getBsFromComponents() {
 
-        List<BlockHtml> allBlocks = new ArrayList<>();
+        List<HtmlBlock> allBlocks = new ArrayList<>();
 
         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
-        List<BlockHtml> templateBlockHtmls = currentTemplate.getBlockHtmls();
+        List<HtmlBlock> templateBlockHtmls = currentTemplate.getHtmlBlocks();
 
         if (templateBlockHtmls != null && !templateBlockHtmls.isEmpty()) {
             allBlocks.addAll(templateBlockHtmls);
@@ -74,13 +79,12 @@ public class BlockManager {
 
 
         List<BsFormComponent> components = new ArrayList<>();
-        for (BlockHtml blockHtml : allBlocks) {
+        for (HtmlBlock blockHtml : allBlocks) {
             components.add(blockHtml.toBsFormComponent());
         }
 
         return components;
     }
-
 
 
     /**
@@ -121,11 +125,19 @@ public class BlockManager {
 
         //把每个 component 的数据放大 datas 里，这样，在 jfinal 里的指令里
         //可以通过 scope 去获取数据
-        Map<String, Object> datas = new HashMap<>(componentData);
+        Map<String, Object> datas = new HashMap<>();
+        for (String key : componentData.keySet()) {
+            Object value = componentData.get(key);
+            if (value instanceof String && StrUtil.isNumeric((String) value) && ((String) value).length() < 5) {
+                value = Integer.parseInt((String) value);
+            }
+            datas.put(key, value);
+        }
+
 
         JSONObject children = componentData.getJSONObject("children");
         if (children != null && !children.isEmpty()) {
-            Map<Integer,String> htmls = new HashMap<>();
+            Map<Integer, String> htmls = new HashMap<>();
             for (String key : children.keySet()) {
                 JSONArray dataArray = children.getJSONArray(key);
                 dataArray.sort(Comparator.comparingInt(o -> ((JSONObject) o).getInteger("index")));
@@ -133,24 +145,42 @@ public class BlockManager {
                 for (Object childComponentData : dataArray) {
                     childrenHtml.append(renderComponentDataToHtml((JSONObject) childComponentData, withEdit));
                 }
-
-                htmls.put(Integer.parseInt(key),childrenHtml.toString());
+                htmls.put(Integer.parseInt(key), childrenHtml.toString());
             }
-            datas.put("children",htmls);
+            datas.put("children", htmls);
         }
+
 
         try {
             TL.set(datas);
+            HtmlBlock htmlBlock = getBlockById(tag);
+            String template = null;
 
-            String htmlString = getBlockHtmlString(tag);
-            String htmlResult = getEngine().getTemplateByString(htmlString).renderToString(datas);
+            if (htmlBlock != null){
+                htmlBlock.onPrepareRenderData(datas);
+                template = htmlBlock.getTemplate();
+            }else {
+                template = "<div>暂无内容</div>";
+            }
+
+
+            String htmlResult = render(datas, htmlBlock.getTemplate());
             if (withEdit) {
                 htmlResult = appendIdAndBsFormItemClass(htmlResult, componentData.getString("elementId"));
             }
             return htmlResult;
-
         } finally {
             TL.remove();
+        }
+    }
+
+    private String render(Map<String, Object> datas, String htmlString) {
+        try {
+            return getEngine().getTemplateByString(htmlString).renderToString(datas);
+        }catch (Exception ex){
+            LogKit.error(htmlString);
+            LogKit.error(ex.toString(),ex);
+            return "<div> 渲染错误 </div>";
         }
     }
 
@@ -224,22 +254,22 @@ public class BlockManager {
     }
 
 
-    private String getBlockHtmlString(String tag) {
-        for (BlockHtml block : systemBlockHtmls) {
-            if (tag.equals(block.getId())) {
-                return block.getTemplate();
+    private HtmlBlock getBlockById(String id) {
+        for (HtmlBlock block : systemBlockHtmls) {
+            if (id.equals(block.getId())) {
+                return block;
             }
         }
 
         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
-        List<BlockHtml> templateBlockHtmls = currentTemplate.getBlockHtmls();
-        for (BlockHtml block : templateBlockHtmls) {
-            if (tag.equals(block.getId())) {
-                return block.getTemplate();
+        List<HtmlBlock> templateBlockHtmls = currentTemplate.getHtmlBlocks();
+        for (HtmlBlock block : templateBlockHtmls) {
+            if (id.equals(block.getId())) {
+                return block;
             }
         }
 
-        return "<div>暂无内容</div>";
+        return null;
     }
 
 

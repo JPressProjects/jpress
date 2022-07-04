@@ -1,12 +1,19 @@
 package io.jpress.core.template.blocks;
 
 import io.jpress.core.bsformbuilder.BsFormComponent;
-import io.jpress.core.template.BlockHtml;
+import io.jpress.core.template.HtmlBlock;
 
-public class GridBlockHtml extends BlockHtml {
+import java.util.Map;
 
-    public GridBlockHtml() {
+public class GridBlock extends HtmlBlock {
+
+    public GridBlock() {
         setId("grid");
+    }
+
+    @Override
+    public void onPrepareRenderData(Map<String, Object> datas) {
+        super.onPrepareRenderData(datas);
     }
 
     @Override
@@ -14,7 +21,7 @@ public class GridBlockHtml extends BlockHtml {
         return "<div class=\"\">\n" +
                 "  <div class=\"form-group clearfix\">\n" +
                 "    <div class=\"row pdlr-15\">\n" +
-                "       #for(i = 0; i < grid; i++)" +
+                "       #for(i = 0; i < (grid  == null ? 2 : grid); i++)" +
                 "      <div class=\"col-#(12/grid) bsItemContainer\">#(children?.get(i))</div>\n" +
                 "       #end" +
                 "    </div>\n" +

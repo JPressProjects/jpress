@@ -1,12 +1,12 @@
 package io.jpress.core.template.blocks;
 
-import io.jpress.core.template.BlockHtml;
+import io.jpress.core.template.HtmlBlock;
 import io.jpress.core.bsformbuilder.BsFormComponent;
 
-public class ContainerBlockHtml extends BlockHtml {
+public class ContainerBlock extends HtmlBlock {
 
-    public ContainerBlockHtml() {
-        setId("block");
+    public ContainerBlock() {
+        setId("container");
     }
 
     @Override
@@ -31,9 +31,9 @@ public class ContainerBlockHtml extends BlockHtml {
     public BsFormComponent toBsFormComponent() {
         BsFormComponent component = new BsFormComponent();
         component.setName("板块");
-        component.setTag("block");
+        component.setTag("container");
         component.setDisableTools(true);
-        component.setDragType("block");
+        component.setDragType("container");
 
         BsFormComponent.Prop idProp = new BsFormComponent.Prop("id");
         idProp.setDisabled("ture");

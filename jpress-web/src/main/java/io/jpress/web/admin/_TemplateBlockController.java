@@ -70,9 +70,7 @@ public class _TemplateBlockController extends AdminControllerBase {
     public void datas() {
         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
 
-        List<BlockContainer> blockContainers = currentTemplate.getBlockContainers();
-        setAttr("blockContainers", blockContainers);
-
+        List<BlockContainer> blockContainers = currentTemplate.getContainers();
         if (blockContainers == null || blockContainers.isEmpty()) {
             renderJson(Ret.ok());
             return;

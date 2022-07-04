@@ -5,8 +5,9 @@ import io.jpress.core.bsformbuilder.BsFormComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class BlockHtml {
+public class HtmlBlock {
 
     //模板组件
     public static final String DRAG_TYPE_TEMPLATE = "template";
@@ -18,9 +19,11 @@ public class BlockHtml {
     public static final String DRAG_TYPE_LAYOUT = "layout";
 
 
-
     // id
     protected String id;
+
+    //类型
+    protected String type = DRAG_TYPE_TEMPLATE;
 
     //标题
     protected String title;
@@ -35,7 +38,7 @@ public class BlockHtml {
     protected String template;
 
     //支持的配置内容
-    protected List<BlockHtmlOptionDef> optionDefs;
+    protected List<HtmlBlockOptionDef> optionDefs;
 
     public String getId() {
         return id;
@@ -43,6 +46,14 @@ public class BlockHtml {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getTitle() {
@@ -61,7 +72,7 @@ public class BlockHtml {
         this.icon = icon;
     }
 
-    public void addOptionDef(BlockHtmlOptionDef optionDef) {
+    public void addOptionDef(HtmlBlockOptionDef optionDef) {
         if (optionDefs == null) {
             optionDefs = new ArrayList<>();
         }
@@ -101,13 +112,18 @@ public class BlockHtml {
         component.setDragIcon(icon);
         component.setDragTitle(getTitle());
         component.setDragIndex(index);
+        component.setDragType(type);
 
         if (optionDefs != null) {
-            for (BlockHtmlOptionDef optionDef : optionDefs) {
+            for (HtmlBlockOptionDef optionDef : optionDefs) {
                 component.addProp(optionDef.toBsFormComponentPorp());
             }
         }
 
         return component;
+    }
+
+    public void onPrepareRenderData(Map<String, Object> datas) {
+
     }
 }

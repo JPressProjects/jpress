@@ -33,10 +33,6 @@ public class TemplateManager {
 
     private Template currentTemplate;
     private CacheObject currentTemplateId = new CacheObject("template", "id");
-
-    //系统自带的 html 模块
-    private List<BlockHtml> systemBlockHtmls = new ArrayList<>();
-
     private static final TemplateManager me = new TemplateManager();
 
     private TemplateManager() {

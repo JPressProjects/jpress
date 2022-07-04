@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * block_***.html 里定义的 #blockOption 指令或者方法
  */
-public class BlockHtmlOptionDef {
+public class HtmlBlockOptionDef {
 
     private String name;
     private String type = "input";
@@ -56,7 +56,7 @@ public class BlockHtmlOptionDef {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        BlockHtmlOptionDef that = (BlockHtmlOptionDef) o;
+        HtmlBlockOptionDef that = (HtmlBlockOptionDef) o;
         return Objects.equals(name, that.name);
     }
 

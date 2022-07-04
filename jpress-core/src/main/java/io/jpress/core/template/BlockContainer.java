@@ -74,7 +74,7 @@ public class BlockContainer {
     public Map<String, Object> toBsFormData() {
         Map<String, Object> data = new HashMap<>();
         data.put("id", getId());
-        data.put("tag", "block");
+        data.put("tag", "container");
         data.put("templateFile", getTemplateFile());
         data.put("supportBlocks", getSupportBlocks());
         return data;

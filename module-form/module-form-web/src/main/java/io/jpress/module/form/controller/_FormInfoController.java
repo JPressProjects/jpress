@@ -18,6 +18,7 @@ package io.jpress.module.form.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -29,15 +30,19 @@ import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
 
 
-@RequestMapping(value = "/admin/form/form_info", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/form/formInfo", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _FormInfoController extends AdminControllerBase {
 
     @Inject
     private FormInfoService service;
 
-    @AdminMenu(text = "管理", groupId = "form")
-    public void index() {
-        Page<FormInfo> entries=service.paginate(getPagePara(), 10);
+    @AdminMenu(text = "自定义表单管理", groupId = "form",order = 1)
+    public void list() {
+
+        String name = getPara("name");
+        Columns columns = new Columns();
+        columns.likeAppendPercent("name",name);
+        Page<FormInfo> entries=service.paginateByColumns(getPagePara(), 10,columns);
         setAttr("page", entries);
         render("form/form_info_list.html");
     }
@@ -54,6 +59,12 @@ public class _FormInfoController extends AdminControllerBase {
 
     public void doSave() {
         FormInfo entry = getModel(FormInfo.class,"formInfo");
+
+        if(entry.getName() == null){
+            renderFailJson("请输入名称");
+            return;
+        }
+
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

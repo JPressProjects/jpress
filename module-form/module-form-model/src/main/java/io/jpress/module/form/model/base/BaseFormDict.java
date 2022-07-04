@@ -106,15 +106,15 @@ public abstract class BaseFormDict<M extends BaseFormDict<M>> extends JbootModel
     /**
      * 修改时间
      */
-	public void setModified(java.lang.Integer modified) {
+	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
 
     /**
      * 修改时间
      */
-	public java.lang.Integer getModified() {
-		return getInt("modified");
+	public java.util.Date getModified() {
+		return getDate("modified");
 	}
 
 }

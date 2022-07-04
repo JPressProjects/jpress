@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("/admin/form/form_dict/doDel/" + id);
+        ajaxGet("/admin/form/formDict/doDel/" + id);
     }
 
 </script>
@@ -12,101 +12,117 @@
 
 #define content()
 
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <h1>
-                                管理
-                                <small data-toggle="tooltip" title="" data-placement="right"
-                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / FormDict / 管理</small>
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-
+<section class="content-header">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
-                <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
+            <div class="col-sm-6">
 
-                        <div class="row admin-search-panel">
-                            <div class="col-12">
-                                <a href="form_dict/edit" class="btn btn-primary ">
-                                    <i class="fas fa-plus"></i> 新建
-                                </a>
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            表单管理
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / FormDict / 数据字典管理</small>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 ">
+                <div class=" float-sm-right" style="padding-top: 45px">
+                    <a href="edit" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline card-primary">
+                <div class="card-header with-border">
+                    <form class=" admin-search-panel" action="/admin/form/formDict/list" method="get">
+                        <div class="row">
+
+                            <div class="form-group col-lg-2">
+                                <input type="text" class="form-control" placeholder="请输入名称" name="name" value="#para('name')">
+                            </div>
+
+                            <div class="form-group col-lg-2">
+                                <button type="submit" class="btn btn-primary ">查询</button>
+                                <button type="reset" class="btn btn-default">重置</button>
                             </div>
                         </div>
+                    </form>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body ">
 
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body ">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th style="width: 10px">
+                                <input class="tableCheckAll" type="checkbox"/>
+                            </th>
+                            <th style="width: 150px">字典名称</th>
+                            <th>导入类型</th>
+                            <th>导入内容</th>
+                            <th>是否级联</th>
+                            <th>是否是静态内容</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
 
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 10px">
-	                                    <input class="tableCheckAll" type="checkbox"/>
-	                                </th>
-	                                <th></th>
-	                                <th>字典名称</th>
-	                                <th>导入类型 1 一行一个内容  2 json 内容 3 动态 json URL</th>
-	                                <th>导入内容</th>
-	                                <th>是否级联</th>
-	                                <th>是否是静态内容</th>
-	                                <th>创建时间</th>
-	                                <th>修改时间</th>
+                        </tr>
+                        #for(entry : page.list)
+                        <tr>
+                            <td><input name="tableItem" type="checkbox" value="#(entry.id)" /></td>
 
-                            </tr>
-                            #for(entry : page.list)
-                            <tr>
-                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" />
-                                </td>
-                                <td>
-                                    <strong>
-                                        <a href="#(CPATH)/admin/form/form_dict/edit/#(entry.id)"> #(entry.id ??) </a>
-                                    </strong>
-                                    <div class="jp-action-card">
-                                        <div class="jp-action-body">
-                                            <a href="/admin/form/form_dict/edit/#(entry.id)">编辑</a> |
-                                            <a href="javascript:;" class="red-action"
-                                               onclick="doDel('#(entry.id)')">删除</a>
-                                        </div>
+                            <td style="width: 200px">
+                            #(entry.name)
+                                <div class="jp-action-card">
+                                    <div class="jp-action-body">
+                                        <a href="/admin/form/formDict/item/#(entry.id ??)">数据管理</a> |
+                                        <a href="/admin/form/formDict/edit/#(entry.id ??)">编辑</a> |
+                                        <a href="javascript:;" class="red-action"
+                                           onclick="doDel('#(entry.id)')">删除</a>
                                     </div>
-                                </td>
+                                </div>
+                            </td>
 
-	                                <td>#(entry.name)</td>
-	                                <td>#(entry.import_type)</td>
-	                                <td>#(entry.import_text)</td>
-	                                <td>#(entry.with_cascade)</td>
-	                                <td>#(entry.with_static)</td>
-	                                <td>#(entry.created)</td>
-	                                <td>#(entry.modified)</td>
-                            </tr>
-                            #end
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-sm-12">
-                            	 #@_paginate()
-                            </div>
+                            <td>#(entry.import_type)</td>
+                            <td>#(entry.import_text)</td>
+
+                            <td>#if(entry.with_cascade ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                                #else <i class="fa fa-2x fa-toggle-off"></i> #end
+                            </td>
+
+                            <td>#if(entry.with_static ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                                #else <i class="fa fa-2x fa-toggle-off"></i> #end
+                            </td>
+
+                            <td>#date(entry.created)</td>
+                            <td>#date(entry.modified)</td>
+                        </tr>
+                        #end
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            #@_paginate()
                         </div>
                     </div>
                 </div>
-                <!-- /.box -->
             </div>
+            <!-- /.box -->
         </div>
+    </div>
 
-    </section>
+</section>
 #end

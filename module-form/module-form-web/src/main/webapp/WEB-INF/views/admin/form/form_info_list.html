@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("/admin/form/form_info/doDel/" + id);
+        ajaxGet("/admin/form/formInfo/doDel/" + id);
     }
 
 </script>
@@ -19,14 +19,22 @@
                     <div class="row mb-2">
                         <div class="col-sm-12">
                             <h1>
-                                管理
+                                表单管理
                                 <small data-toggle="tooltip" title="" data-placement="right"
                                        data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / FormInfo / 管理</small>
+                                <small> 首页 / FormInfo / 自定义表单管理</small>
                             </h1>
+
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-6 ">
+                    <div class=" float-sm-right" style="padding-top: 45px">
+                        <a href="edit" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -38,13 +46,19 @@
                 <div class="card card-outline card-primary">
                     <div class="card-header with-border">
 
-                        <div class="row admin-search-panel">
-                            <div class="col-12">
-                                <a href="form_info/edit" class="btn btn-primary ">
-                                    <i class="fas fa-plus"></i> 新建
-                                </a>
+                        <form class=" admin-search-panel" action="/admin/form/formInfo/list" method="get">
+                            <div class="row">
+
+                                <div class="form-group col-lg-2">
+                                    <input type="text" class="form-control" placeholder="请输入名称" name="name" value="#para('name')">
+                                </div>
+
+                                <div class="form-group col-lg-2">
+                                    <button type="submit" class="btn btn-primary ">查询</button>
+                                    <button type="reset" class="btn btn-default">重置</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
 
                     </div>
                     <!-- /.card-header -->
@@ -56,48 +70,68 @@
                                 <th style="width: 10px">
 	                                    <input class="tableCheckAll" type="checkbox"/>
 	                                </th>
-	                                <th></th>
-	                                <th>表单名称</th>
-	                                <th>缩略图</th>
-	                                <th>表单背景图</th>
-	                                <th>表单头图</th>
-	                                <th>是否有钩子</th>
-	                                <th>钩子链接</th>
-	                                <th>是否需要审核</th>
-	                                <th>是否需要回复</th>
-	                                <th>是否需要输入验证码</th>
-	                                <th>是否需要对手机号进行验证</th>
-	                                <th>表单构建 JSON</th>
+	                                <th style="width: 150px">表单名称</th>
+	                                <th style="width: 100px">缩略图</th>
+<!--	                                <th style="width: 100px">表单背景图</th>-->
+<!--	                                <th style="width: 100px">表单头图</th>-->
+<!--	                                <th style="width: 100px">是否有钩子</th>-->
+<!--	                                <th style="width: 100px">钩子链接</th>-->
+	                                <th style="width: 100px">是否需要审核</th>
+	                                <th style="width: 100px">是否需要回复</th>
+	                                <th style="width: 100px">是否需要输入验证码</th>
+	                                <th style="width: 100px">是否需要对手机号进行验证</th>
+<!--	                                <th style="width: 100px">表单构建 JSON</th>-->
 
                             </tr>
                             #for(entry : page.list)
                             <tr>
-                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" />
-                                </td>
+                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" /></td>
                                 <td>
-                                    <strong>
-                                        <a href="#(CPATH)/admin/form/form_info/edit/#(entry.id)"> #(entry.id ??) </a>
-                                    </strong>
+                                #(entry.name ??)
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
-                                            <a href="/admin/form/form_info/edit/#(entry.id)">编辑</a> |
+                                            <a href="/admin/form/formInfo/edit/#(entry.id)">编辑</a> |
                                             <a href="javascript:;" class="red-action"
                                                onclick="doDel('#(entry.id)')">删除</a>
                                         </div>
                                     </div>
                                 </td>
+	                                <td>
+                                        <img #if(entry.thumbnail ??) src="#(entry.thumbnail ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 40%;width: 40%">
+                                    </td>
 
-	                                <td>#(entry.name)</td>
-	                                <td>#(entry.thumbnail)</td>
-	                                <td>#(entry.bg_image)</td>
-	                                <td>#(entry.header_image)</td>
-	                                <td>#(entry.with_hook)</td>
-	                                <td>#(entry.hook_url)</td>
-	                                <td>#(entry.with_audit)</td>
-	                                <td>#(entry.with_reply)</td>
-	                                <td>#(entry.with_valid)</td>
-	                                <td>#(entry.with_valid_mobile)</td>
-	                                <td>#(entry.builder_json)</td>
+<!--	                                <td>-->
+<!--                                        <img #if(entry.bg_image  ??) src="#(entry.thumbnail ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 40%;width: 40%">-->
+<!--                                    </td>-->
+
+<!--	                                <td>-->
+<!--                                        <img #if(entry.header_image  ??) src="#(entry.thumbnail ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 40%;width: 40%">-->
+<!--                                    </td>-->
+
+
+<!--	                                <td>#if(entry.with_hook ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>-->
+<!--                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end-->
+<!--                                    </td>-->
+
+<!--	                                <td>#(entry.hook_url)</td>-->
+
+                                   <td>#if(entry.with_audit ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                                       #else <i class="fa fa-2x fa-toggle-off"></i> #end
+                                   </td>
+
+	                                <td>#if(entry.with_reply ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end
+                                    </td>
+
+	                                <td>#if(entry.with_valid ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end
+                                    </td>
+
+	                                <td>#if(entry.with_valid_mobile ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end
+                                    </td>
+
+<!--	                                <td>#(entry.builder_json)</td>-->
                             </tr>
                             #end
                             </tbody>

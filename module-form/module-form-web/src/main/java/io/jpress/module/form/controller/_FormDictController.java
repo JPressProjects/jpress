@@ -18,6 +18,7 @@ package io.jpress.module.form.controller;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -29,19 +30,23 @@ import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
 
 
-@RequestMapping(value = "/admin/form/form_dict", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/form/formDict", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _FormDictController extends AdminControllerBase {
 
     @Inject
     private FormDictService service;
 
-    @AdminMenu(text = "管理", groupId = "form")
-    public void index() {
-        Page<FormDict> entries=service.paginate(getPagePara(), 10);
+    @AdminMenu(text = "数据字典管理", groupId = "form" , order = 0)
+    public void list() {
+
+        String name = getPara("name");
+        Columns columns = new Columns();
+        columns.likeAppendPercent("name",name);
+        Page<FormDict> entries=service.paginateByColumns(getPagePara(), 10,columns);
         setAttr("page", entries);
+
         render("form/form_dict_list.html");
     }
-
 
     public void edit() {
         int entryId = getParaToInt(0, 0);
@@ -54,6 +59,12 @@ public class _FormDictController extends AdminControllerBase {
 
     public void doSave() {
         FormDict entry = getModel(FormDict.class,"formDict");
+
+        if(entry.getName() == null){
+            renderFailJson("字典名称不能为空");
+            return;
+        }
+
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

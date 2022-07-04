@@ -1,4 +1,4 @@
-package io.jpress.core.template.bsformbuilder;
+package io.jpress.core.bsformbuilder;
 
 import io.jboot.utils.StrUtil;
 
@@ -20,6 +20,7 @@ public class BsFormComponent {
 
     public void setName(String name) {
         this.name = name;
+        this.setDragTitle(name);
     }
 
     public String getTag() {

@@ -1,31 +1,41 @@
 package io.jpress.core.template;
 
 import io.jboot.utils.StrUtil;
-import io.jpress.core.template.bsformbuilder.BsFormComponent;
+import io.jpress.core.bsformbuilder.BsFormComponent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BlockHtml {
 
+    //模板组件
+    public static final String DRAG_TYPE_TEMPLATE = "template";
+
+    //系统内置组件
+    public static final String DRAG_TYPE_SYSTEM = "system";
+
+    //布局组件
+    public static final String DRAG_TYPE_LAYOUT = "layout";
+
+
+
     // id
-    private String id;
+    protected String id;
 
     //标题
-    private String title;
+    protected String title;
 
     //背景图片
-    private String icon;
+    protected String icon;
 
     //排序
-    private String index;
+    protected String index;
 
     //模板内容
-    private String template;
+    protected String template;
 
     //支持的配置内容
-    private List<BlockHtmlOptionDef> optionDefs;
-
+    protected List<BlockHtmlOptionDef> optionDefs;
 
     public String getId() {
         return id;

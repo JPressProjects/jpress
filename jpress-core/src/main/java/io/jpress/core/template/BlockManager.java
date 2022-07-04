@@ -22,7 +22,9 @@ import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
 import io.jpress.core.template.blocks.ContainerBlockHtml;
-import io.jpress.core.template.bsformbuilder.BsFormComponent;
+import io.jpress.core.bsformbuilder.BsFormComponent;
+import io.jpress.core.template.blocks.DivBlockHtml;
+import io.jpress.core.template.blocks.GridBlockHtml;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -45,6 +47,8 @@ public class BlockManager {
 
     private void initSystemBlockHtmls() {
         systemBlockHtmls.add(new ContainerBlockHtml());
+        systemBlockHtmls.add(new DivBlockHtml());
+        systemBlockHtmls.add(new GridBlockHtml());
     }
 
 
@@ -121,6 +125,7 @@ public class BlockManager {
 
         JSONObject children = componentData.getJSONObject("children");
         if (children != null && !children.isEmpty()) {
+            Map<Integer,String> htmls = new HashMap<>();
             for (String key : children.keySet()) {
                 JSONArray dataArray = children.getJSONArray(key);
                 dataArray.sort(Comparator.comparingInt(o -> ((JSONObject) o).getInteger("index")));
@@ -128,8 +133,10 @@ public class BlockManager {
                 for (Object childComponentData : dataArray) {
                     childrenHtml.append(renderComponentDataToHtml((JSONObject) childComponentData, withEdit));
                 }
-                datas.put("children" + key, childrenHtml.toString());
+
+                htmls.put(Integer.parseInt(key),childrenHtml.toString());
             }
+            datas.put("children",htmls);
         }
 
         try {

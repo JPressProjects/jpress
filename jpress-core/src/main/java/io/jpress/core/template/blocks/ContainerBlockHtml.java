@@ -1,7 +1,7 @@
 package io.jpress.core.template.blocks;
 
 import io.jpress.core.template.BlockHtml;
-import io.jpress.core.template.bsformbuilder.BsFormComponent;
+import io.jpress.core.bsformbuilder.BsFormComponent;
 
 public class ContainerBlockHtml extends BlockHtml {
 
@@ -21,7 +21,7 @@ public class ContainerBlockHtml extends BlockHtml {
                 "        </button>\n" +
                 "      </div>\n" +
                 "    </div>\n" +
-                "    <div class=\"card-body bsItemContainer\">#(children0 ??)</div>\n" +
+                "    <div class=\"card-body bsItemContainer\">#(children?.get(0) ??)</div>\n" +
                 "  </div>\n" +
                 "</div>\n";
     }

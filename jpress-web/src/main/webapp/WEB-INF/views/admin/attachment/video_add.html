@@ -2,6 +2,7 @@
 
 #define css()
 <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
+<link href="/static/components/qcloud-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
 #end
 
 #define script()
@@ -18,7 +19,6 @@
 <script type="text/javascript" src="https://cdn-go.cn/cdn/vod-js-sdk-v6/latest/vod-js-sdk-v6.js"></script>
 
 <!-- 腾讯云 超级播放器-->
-<link href="/static/components/qcloud-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
 <script src="/static/components/qcloud-upload-sdk/player/hls.min.0.13.2m.js"></script>
 <script src="/static/components/qcloud-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
 
@@ -162,6 +162,8 @@
             //文件上传失败
             'onUploadFailed': function (uploadInfo, code, message) {
                 console.log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
+                //清除文件选择
+                $('#videoInputFile').val('')
             },
 
             //文件上传进度，单位：字节
@@ -648,8 +650,6 @@
                                     <label class="col-sm-2 col-form-label"> 视频</label>
                                     <div class="col-sm-6">
                                         <div class=" pr-0 bg-gray" id="player" style="height: 350px;"></div>
-                                        </video>
-
                                     </div>
                                 </div>
                                 </div>

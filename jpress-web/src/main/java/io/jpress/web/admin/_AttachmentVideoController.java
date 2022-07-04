@@ -312,6 +312,12 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
         Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(),
                 Columns.create("category_id", categoryId).eq("video_type",AttachmentVideo.VIDEO_TYPE_VIDEO),"id desc");
+        for (AttachmentVideo video : page.getList()) {
+            if(video.getCloudType().equals(AttachmentVideo.CLOUD_TYPE_ALIYUN)){
+                String playAuth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
+                video.put("playAuth",playAuth);
+            }
+        }
         setAttr("page", page);
 
         List<AttachmentVideoCategory> categories = videoCategoryService.findAll();

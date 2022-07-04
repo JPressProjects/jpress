@@ -23,6 +23,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
@@ -98,6 +99,9 @@ public class _ArticleController extends AdminControllerBase {
 
         setAttr("fields", ArticleFields.me());
 
+        //腾讯云点播视频：appId
+        String appId = JPressOptions.get("attachment_qcloudvideo_appid");
+        setAttr("appId",appId);
 
         Article editArticle = articleService.findById(getParaToInt());
         if (editArticle != null) {

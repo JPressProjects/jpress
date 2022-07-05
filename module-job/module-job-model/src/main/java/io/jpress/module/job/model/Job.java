@@ -15,7 +15,7 @@ public class Job extends BaseJob<Job> {
 
 
     public String getHtml(){
-        return StrUtil.unEscapeHtml(getSummary());
+        return StrUtil.unEscapeHtml(getContent());
     }
 
 	

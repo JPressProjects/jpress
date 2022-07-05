@@ -22,15 +22,15 @@ public abstract class BaseJobDepartment<M extends BaseJobDepartment<M>> extends 
     /**
      * 部门名称
      */
-	public void setName(java.lang.String name) {
-		set("name", name);
+	public void setTitle(java.lang.String title) {
+		set("title", title);
 	}
 
     /**
      * 部门名称
      */
-	public java.lang.String getName() {
-		return getStr("name");
+	public java.lang.String getTitle() {
+		return getStr("title");
 	}
 
     /**

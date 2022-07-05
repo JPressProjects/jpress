@@ -42,9 +42,9 @@ public class JobDetailController extends TemplateControllerBase {
 
 
     private void setSeoInfos(Job job) {
-        setSeoTitle(job.getName());
+        setSeoTitle(job.getTitle());
         setSeoKeywords(job.getMetaKeywords());
-        setSeoDescription(StrUtil.isBlank(job.getMetaDescription()) ? CommonsUtils.maxLength(job.getSummary(), 100) : job.getSummary());
+        setSeoDescription(StrUtil.isBlank(job.getMetaDescription()) ? CommonsUtils.maxLength(job.getContent(), 100) : job.getContent());
     }
 
 }

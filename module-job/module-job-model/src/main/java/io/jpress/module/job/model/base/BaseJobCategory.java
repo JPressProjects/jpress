@@ -50,15 +50,15 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
     /**
      * 分类名称
      */
-	public void setName(java.lang.String name) {
-		set("name", name);
+	public void setTitle(java.lang.String title) {
+		set("title", title);
 	}
 
     /**
      * 分类名称
      */
-	public java.lang.String getName() {
-		return getStr("name");
+	public java.lang.String getTitle() {
+		return getStr("title");
 	}
 
     /**

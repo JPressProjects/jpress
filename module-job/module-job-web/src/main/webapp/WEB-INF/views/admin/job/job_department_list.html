@@ -50,8 +50,8 @@
                             <label class="col-sm-2 col-form-label">部门名称</label>
                             <div class="col-sm-9">
 
-                                <input type="input" name="jobDepartment.name" class="form-control"
-                                       value="#(jobDepartment.name ??)"
+                                <input type="input" name="jobDepartment.title" class="form-control"
+                                       value="#(jobDepartment.title ??)"
                                        placeholder="请为您的部门起个名字" required/>
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                         <tr>
                             <td><input name="tableItem" type="checkbox" value="#(entry.id)"></td>
                             <td>
-                                #(entry.name)
+                                #(entry.title)
                                 <div class="jp-action-card">
                                     <div class="jp-action-body">
                                         <a href="/admin/job/JobDept/#(entry.id)">编辑</a> |

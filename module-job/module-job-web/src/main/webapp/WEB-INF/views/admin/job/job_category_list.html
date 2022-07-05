@@ -73,7 +73,7 @@
                             <label class="col-sm-2 col-form-label">分类名称</label>
                             <div class="col-sm-9">
 
-                                <input type="input" name="jobCategory.name" class="form-control" value="#(jobCategory.name ??)"
+                                <input type="input" name="jobCategory.title" class="form-control" value="#(jobCategory.title ??)"
                                        placeholder="请填写分类名称" required>
                             </div>
                         </div>
@@ -201,7 +201,7 @@
                         <tr >
                             <td><input name="tableItem" type="checkbox" value="#(entry.id)"></td>
                             <td>
-                                #(entry.name)
+                                #(entry.title)
                                 <div class="jp-action-card">
                                     <div class="jp-action-body">
                                         <a href="/admin/job/JobCategory/#(entry.id)">编辑</a> |

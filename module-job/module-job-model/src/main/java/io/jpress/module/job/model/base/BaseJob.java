@@ -20,17 +20,31 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
 	}
 
     /**
-     * 工作名称
+     * 职位名称或者标题
      */
-	public void setName(java.lang.String name) {
-		set("name", name);
+	public void setTitle(java.lang.String title) {
+		set("title", title);
 	}
 
     /**
-     * 工作名称
+     * 职位名称或者标题
      */
-	public java.lang.String getName() {
-		return getStr("name");
+	public java.lang.String getTitle() {
+		return getStr("title");
+	}
+
+    /**
+     * 描述
+     */
+	public void setContent(java.lang.String content) {
+		set("content", content);
+	}
+
+    /**
+     * 描述
+     */
+	public java.lang.String getContent() {
+		return getStr("content");
 	}
 
     /**
@@ -59,20 +73,6 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
      */
 	public java.lang.Long getDeptId() {
 		return getLong("dept_id");
-	}
-
-    /**
-     * 描述
-     */
-	public void setSummary(java.lang.String summary) {
-		set("summary", summary);
-	}
-
-    /**
-     * 描述
-     */
-	public java.lang.String getSummary() {
-		return getStr("summary");
 	}
 
     /**

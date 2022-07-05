@@ -14,6 +14,7 @@ import io.jpress.module.job.service.JobService;
 /**
  * @description: select job by id
  * @version: v5.0
+ * #job(1)
  **/
 @JFinalDirective("job")
 public class JobDirective extends JbootDirectiveBase {

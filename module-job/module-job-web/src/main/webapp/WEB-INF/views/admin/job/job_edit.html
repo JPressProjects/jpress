@@ -182,10 +182,10 @@
                 <div class="">
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <input type="input" class="form-control form-control-lg" name="job.name" autocomplete="off"
+                            <input type="input" class="form-control form-control-lg" name="job.title" autocomplete="off"
                                    placeholder="请输入岗位名称"
-                                   id="job-name"
-                                   value="#(job.name ??)">
+                                   id="job-title"
+                                   value="#(job.title ??)">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -353,7 +353,7 @@
                             <div>
                                 <label>
                                     <input type="radio" name="job.category_id" value="#(item.id)" #if(item.id ??== job.category_id ??) checked #end/>
-                                    #(item.name ??)
+                                    #(item.title ??)
                                 </label>
                             </div>
                             #else
@@ -374,7 +374,7 @@
                             <div>
                                 <label>
                                     <input type="radio" name="job.dept_id" value="#(item.id)" #if(item.id ??== job.dept_id ??) checked #end/>
-                                    #(item.name ??)
+                                    #(item.title ??)
                                 </label>
                             </div>
                             #else
@@ -396,7 +396,7 @@
                             <div>
                                 <label>
                                     <input type="radio" name="job.address_id" value="#(item.id)" #if(item.id ??== job.address_id ??) checked #end/>
-                                    #(item.name ??)
+                                    #(item.title ??)
                                 </label>
                             </div>
                             #else

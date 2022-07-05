@@ -103,7 +103,7 @@ public class _JobController extends AdminControllerBase {
     public void doSave() {
         Job entry = getModel(Job.class, "job");
 
-        if (entry.getName() == null) {
+        if (entry.getTitle() == null) {
             renderFailJson("名称不能为空");
             return;
         }

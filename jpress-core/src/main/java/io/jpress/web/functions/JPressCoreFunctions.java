@@ -125,12 +125,29 @@ public class JPressCoreFunctions {
     }
 
 
-    public static String para(String key) {
+    public static Object para(String key) {
         return para(key, null);
     }
 
-    public static String para(String key, String defaultValue) {
-        return JbootControllerContext.get().get(key, defaultValue);
+    public static Object para(String key, Object defaultValue) {
+        String val = JbootControllerContext.get().get(key);
+        if (val == null || val.trim().length() == 0){
+            return defaultValue;
+        }
+
+        if (StrUtil.isNumeric(val)){
+            return Long.parseLong(val);
+        }
+
+        if ("ture".equalsIgnoreCase(val)){
+            return true;
+        }
+
+        if ("false".equalsIgnoreCase(val)){
+            return false;
+        }
+
+        return val;
     }
 
     public static Number numberPara(String key) {

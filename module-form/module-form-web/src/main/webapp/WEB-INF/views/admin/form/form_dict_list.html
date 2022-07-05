@@ -94,7 +94,7 @@
                             </td>
 
                             <td>#(entry.import_type)</td>
-                            <td>#(entry.import_text)</td>
+                            <td>#maxLength(entry.import_text,10)</td>
 
                             <td>#if(entry.with_cascade ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                                 #else <i class="fa fa-2x fa-toggle-off"></i> #end

@@ -87,7 +87,7 @@
 
                             <td>#(entry.pid)</td>
                             <td>#(entry.dict_id)</td>
-                            <td>#(entry.text)</td>
+                            <td>#maxLength(entry.text,10)</td>
                             <td>
                                 <img #if(entry.image ??) src="#(entry.image ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 20%;width: 20%">
                             </td>

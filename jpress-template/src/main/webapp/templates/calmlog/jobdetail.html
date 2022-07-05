@@ -1,0 +1,21 @@
+#include("./layout.html")
+#@layout()
+
+
+#define content()
+<div class="col-md-9 cl-left">
+
+    <div>
+        <h5>发布时间:#date(job.created ??)</h5>
+        <p>#(job.address.title ??)</p>
+    </div>
+
+    <div>
+        <h5>职位描述</h5>
+        <div>
+            #(job.html ??)
+        </div>
+    </div>
+
+</div>
+#end

@@ -86,10 +86,14 @@
         var playAuth = $(this).children().attr("data-aid");
         //视频云类型(阿里云/腾讯云)
         var cloudType = $(this).children().attr("data-type");
+        var cover = $(this).children().attr("data-path");
+        var aid = $("#appId").val();
         parent.layer.data.src = src;
         parent.layer.data.vid = vid;
+        parent.layer.data.aid = aid;
         parent.layer.data.playAuth = playAuth;
         parent.layer.data.type = cloudType;
+        parent.layer.data.cover = cover;
         parent.layer.data.title = $(this).children().attr("title");
         parent.layer.closeAll();
     })
@@ -120,6 +124,7 @@
 <div class="card card-outline card-tabs" style="box-shadow: none;">
     <div class="card-header p-0 border-bottom-0">
         <input type="hidden" id="activeCategory" value="#(categoryId ??)">
+        <input type="hidden" id="appId" value="#(appId ??)">
         <ul class="nav nav-tabs">
 
             <li class="nav-item"><a class="nav-link active" id="uititle" href="/admin/attachment/video/browse?uititle=视频">#para("uititle")库</a>
@@ -144,14 +149,14 @@
                     #for(video : page.list)
                     <div class="attachment_item" data-aid="#(video.id ??)">
                         <img src="#(CPATH)#(video.cover ?? '/static/commons/img/suffix/video.png')"
-                             data-path=""
+                             data-path="#(video.cover ??)"
                              data-aid="#(video.playAuth ??)"
                              data-id="#(video.vod_vid ??)"
                              data-type="#(video.cloud_type ??)"
                              title="#(video.vod_name ??)"
                              alt="#(video.vod_name ??)">
                         <div class="attachment_item_title">
-                            <p>#(video.vod_name ??)==#(video.playAuth ??)</p>
+                            <p>#(video.vod_name ??)</p>
                         </div>
                     </div>
 

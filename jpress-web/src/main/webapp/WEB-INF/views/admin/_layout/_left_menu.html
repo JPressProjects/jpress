@@ -24,7 +24,7 @@
 
                 #for(group : moduleMenuGroups)
                 #hasPermission(group.permission)
-                <li class="nav-item" id="#(group.id ??)">
+                <li class="nav-item" id="group-#(group.id ??)">
                 <a href="#" class="nav-link">
                     #(group.icon ??'<i class="fas fa-tachometer-alt"></i>')<p>#(group.text ??)<i class="right fas fa-angle-left"></i></p>
                 </a>
@@ -53,7 +53,7 @@
 
                 #for(group : systemMenuGroups)
                 #hasPermission(group.permission)
-                <li class="nav-item" id="#(group.id ??)">
+                <li class="nav-item" id="group-#(group.id ??)">
                 <a href="#" class="nav-link">
                     #(group.icon ??'<i class="fas fa-tachometer-alt"></i>')<p>#(group.text ??)<i class="right fas fa-angle-left"></i></p>
                 </a>

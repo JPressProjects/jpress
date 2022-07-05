@@ -310,12 +310,18 @@ public class _AttachmentVideoController extends AdminControllerBase {
         String categoryId = getPara("categoryId");
         setAttr("categoryId",categoryId);
 
+        //腾讯云点播视频：appId
+        String appId = JPressOptions.get("attachment_qcloudvideo_appid");
+        setAttr("appId",appId);
+
         Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(),
                 Columns.create("category_id", categoryId).eq("video_type",AttachmentVideo.VIDEO_TYPE_VIDEO),"id desc");
         for (AttachmentVideo video : page.getList()) {
             if(video.getCloudType().equals(AttachmentVideo.CLOUD_TYPE_ALIYUN)){
-                String playAuth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
-                video.put("playAuth",playAuth);
+                if(video.getVodVid() != null){
+                    String playAuth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
+                    video.put("playAuth",playAuth);
+                }
             }
         }
         setAttr("page", page);

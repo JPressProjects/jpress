@@ -61,7 +61,6 @@
                         </form>
 
                     </div>
-                    <!-- /.card-header -->
                     <div class="card-body ">
 
                         <table class="table table-striped">
@@ -72,15 +71,10 @@
 	                                </th>
 	                                <th style="width: 150px">表单名称</th>
 	                                <th style="width: 100px">缩略图</th>
-<!--	                                <th style="width: 100px">表单背景图</th>-->
-<!--	                                <th style="width: 100px">表单头图</th>-->
-<!--	                                <th style="width: 100px">是否有钩子</th>-->
-<!--	                                <th style="width: 100px">钩子链接</th>-->
 	                                <th style="width: 100px">是否需要审核</th>
 	                                <th style="width: 100px">是否需要回复</th>
 	                                <th style="width: 100px">是否需要输入验证码</th>
 	                                <th style="width: 100px">是否需要对手机号进行验证</th>
-<!--	                                <th style="width: 100px">表单构建 JSON</th>-->
 
                             </tr>
                             #for(entry : page.list)
@@ -90,6 +84,7 @@
                                 #(entry.name ??)
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
+                                            <a href="#">表单构建</a> |
                                             <a href="/admin/form/formInfo/edit/#(entry.id)">编辑</a> |
                                             <a href="javascript:;" class="red-action"
                                                onclick="doDel('#(entry.id)')">删除</a>
@@ -99,21 +94,6 @@
 	                                <td>
                                         <img #if(entry.thumbnail ??) src="#(entry.thumbnail ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 40%;width: 40%">
                                     </td>
-
-<!--	                                <td>-->
-<!--                                        <img #if(entry.bg_image  ??) src="#(entry.thumbnail ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 40%;width: 40%">-->
-<!--                                    </td>-->
-
-<!--	                                <td>-->
-<!--                                        <img #if(entry.header_image  ??) src="#(entry.thumbnail ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 40%;width: 40%">-->
-<!--                                    </td>-->
-
-
-<!--	                                <td>#if(entry.with_hook ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>-->
-<!--                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end-->
-<!--                                    </td>-->
-
-<!--	                                <td>#(entry.hook_url)</td>-->
 
                                    <td>#if(entry.with_audit ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end
@@ -130,14 +110,11 @@
 	                                <td>#if(entry.with_valid_mobile ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                                         #else <i class="fa fa-2x fa-toggle-off"></i> #end
                                     </td>
-
-<!--	                                <td>#(entry.builder_json)</td>-->
                             </tr>
                             #end
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.card-body -->
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-12">
@@ -146,7 +123,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.box -->
             </div>
         </div>
 

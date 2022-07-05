@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.form.controller;
+package io.jpress.module.form.controller.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
@@ -54,7 +54,7 @@ public class _FormDictItemController extends AdminControllerBase {
 
         Columns columns = new Columns();
         columns.eq("dict_id",id);
-        Page<FormDictItem> entries=service.paginateByColumns(getPagePara(), 10,columns);
+        Page<FormDictItem> entries=service.paginateByColumns(getPagePara(), getPageSizePara() ,columns);
         setAttr("page", entries);
 
         render("form/form_dict_item_list.html");

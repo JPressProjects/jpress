@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.form.controller;
+package io.jpress.module.form.controller.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
@@ -24,44 +24,44 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.module.form.model.FormDict;
-import io.jpress.module.form.service.FormDictService;
+import io.jpress.module.form.model.FormInfo;
+import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
 
 
-@RequestMapping(value = "/admin/form/formDict", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _FormDictController extends AdminControllerBase {
+@RequestMapping(value = "/admin/form/formInfo", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+public class _FormInfoController extends AdminControllerBase {
 
     @Inject
-    private FormDictService service;
+    private FormInfoService service;
 
-    @AdminMenu(text = "数据字典管理", groupId = "form" , order = 0)
+    @AdminMenu(text = "自定义表单管理", groupId = "form",order = 1)
     public void list() {
 
         String name = getPara("name");
         Columns columns = new Columns();
         columns.likeAppendPercent("name",name);
-        Page<FormDict> entries=service.paginateByColumns(getPagePara(), 10,columns);
+        Page<FormInfo> entries=service.paginateByColumns(getPagePara(), getPageSizePara(),columns);
         setAttr("page", entries);
-
-        render("form/form_dict_list.html");
+        render("form/form_info_list.html");
     }
+
 
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
-        FormDict entry = entryId > 0 ? service.findById(entryId) : null;
-        setAttr("formDict", entry);
+        FormInfo entry = entryId > 0 ? service.findById(entryId) : null;
+        setAttr("formInfo", entry);
         set("now",new Date());
-        render("form/form_dict_edit.html");
+        render("form/form_info_edit.html");
     }
 
     public void doSave() {
-        FormDict entry = getModel(FormDict.class,"formDict");
+        FormInfo entry = getModel(FormInfo.class,"formInfo");
 
         if(entry.getName() == null){
-            renderFailJson("字典名称不能为空");
+            renderFailJson("请输入名称");
             return;
         }
 

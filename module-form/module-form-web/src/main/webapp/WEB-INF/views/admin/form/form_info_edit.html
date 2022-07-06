@@ -14,7 +14,7 @@
     });
 
     function doSubmit() {
-        ajaxSubmit("#form1", function (data) {
+        ajaxSubmit("#form", function (data) {
             $("#entryId").attr("value", data.id);
             toastr.success('内容保存成功。');
         })
@@ -74,7 +74,7 @@
             <div class="card card-outline card-primary">
                 <form class=" form-setting" autocomplete="off"
                       action="/admin/form/formInfo/doSave"
-                      method="POST" id="form1">
+                      method="POST" id="form">
 
                     <div class="card-body ">
                         <input type="hidden" id="entryId" name="formInfo.id" value="#(formInfo.id ??)">

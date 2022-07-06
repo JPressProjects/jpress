@@ -27,6 +27,7 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
+
 import java.util.Date;
 
 
@@ -36,13 +37,13 @@ public class _FormInfoController extends AdminControllerBase {
     @Inject
     private FormInfoService service;
 
-    @AdminMenu(text = "自定义表单管理", groupId = "form",order = 1)
+    @AdminMenu(text = "表单", groupId = "form", order = 1)
     public void list() {
 
         String name = getPara("name");
         Columns columns = new Columns();
-        columns.likeAppendPercent("name",name);
-        Page<FormInfo> entries=service.paginateByColumns(getPagePara(), getPageSizePara(),columns);
+        columns.likeAppendPercent("name", name);
+        Page<FormInfo> entries = service.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
         render("form/form_info_list.html");
     }
@@ -53,14 +54,14 @@ public class _FormInfoController extends AdminControllerBase {
 
         FormInfo entry = entryId > 0 ? service.findById(entryId) : null;
         setAttr("formInfo", entry);
-        set("now",new Date());
+        set("now", new Date());
         render("form/form_info_edit.html");
     }
 
     public void doSave() {
-        FormInfo entry = getModel(FormInfo.class,"formInfo");
+        FormInfo entry = getModel(FormInfo.class, "formInfo");
 
-        if(entry.getName() == null){
+        if (entry.getName() == null) {
             renderFailJson("请输入名称");
             return;
         }

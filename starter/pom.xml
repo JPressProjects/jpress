@@ -273,7 +273,7 @@
                                     <directory>${basedir}/../module-job/module-job-web/src/main/webapp</directory>
                                 </resource>
                                 <resource>
-                                    <directory>${basedir}/../module-from/module-form-web/src/main/webapp</directory>
+                                    <directory>${basedir}/../module-form/module-form-web/src/main/webapp</directory>
                                 </resource>
                                 <resource>
                                     <directory>${basedir}/../jpress-addons/jpress-addon-wtask/src/main/webapp</directory>

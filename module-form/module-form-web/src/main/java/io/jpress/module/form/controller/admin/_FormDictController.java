@@ -36,7 +36,7 @@ public class _FormDictController extends AdminControllerBase {
     @Inject
     private FormDictService service;
 
-    @AdminMenu(text = "数据字典管理", groupId = "form" , order = 0)
+    @AdminMenu(text = "数据字典", groupId = "form" , order = 2)
     public void list() {
 
         String name = getPara("name");

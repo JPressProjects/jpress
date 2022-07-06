@@ -37,7 +37,7 @@ public class JobDetailController extends TemplateControllerBase {
         }
 
 
-        render("jobdetail.html");
+        render("job.html");
     }
 
 

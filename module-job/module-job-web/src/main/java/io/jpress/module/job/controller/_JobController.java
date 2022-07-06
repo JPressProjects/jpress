@@ -27,10 +27,8 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.model.JobAddress;
 import io.jpress.module.job.model.JobCategory;
-import io.jpress.module.job.model.JobDepartment;
 import io.jpress.module.job.service.JobAddressService;
 import io.jpress.module.job.service.JobCategoryService;
-import io.jpress.module.job.service.JobDepartmentService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
@@ -49,8 +47,6 @@ public class _JobController extends AdminControllerBase {
     @Inject
     private JobCategoryService jobCategoryService;
 
-    @Inject
-    private JobDepartmentService jobDepartmentService;
 
     @Inject
     private JobAddressService jobAddressService;
@@ -73,9 +69,6 @@ public class _JobController extends AdminControllerBase {
         List<JobCategory> categoryList = jobCategoryService.findAll();
         setAttr("categoryList", categoryList);
 
-        List<JobDepartment> deptList = jobDepartmentService.findAll();
-        setAttr("deptList", deptList);
-
         List<JobAddress> addressList = jobAddressService.findAll();
         setAttr("addressList", addressList);
 
@@ -87,9 +80,6 @@ public class _JobController extends AdminControllerBase {
 
         List<JobCategory> categoryList = jobCategoryService.findAll();
         setAttr("categoryList", categoryList);
-
-        List<JobDepartment> deptList = jobDepartmentService.findAll();
-        setAttr("deptList", deptList);
 
         List<JobAddress> addressList = jobAddressService.findAll();
         setAttr("addressList", addressList);
@@ -147,27 +137,9 @@ public class _JobController extends AdminControllerBase {
             }
         }
 
-
-        //更新 部门下的岗位数量
-        //如果是新建 那么只更新一个
-        if (entry.getId() == null && entry.getDeptId() != null) {
-            deptIds.add(entry.getDeptId());
-
-        }
-        //如果不是新建 那么更新俩个
-        else if (entry.getId() != null) {
-            Job job = service.findById(entry.getId());
-            if (job != null && !job.getDeptId().equals(entry.getDeptId())) {
-                deptIds.add(job.getDeptId());
-                deptIds.add(entry.getDeptId());
-            }
-        }
-
-
         Long id = (long) service.saveOrUpdate(entry);
 
         jobCategoryService.updateCount(categoryIds);
-        jobDepartmentService.updateCount(deptIds);
 
         renderJson(Ret.ok().set("id", id));
     }
@@ -228,43 +200,7 @@ public class _JobController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "部门管理", groupId = "job", order = 2)
-    public void JobDept() {
-
-        Page<JobDepartment> entries = jobDepartmentService.paginate(getPagePara(), getPageSizePara());
-        setAttr("page", entries);
-
-
-        long entryId = getParaToLong(0, 0L);
-
-        if (entryId > 0 && entries != null) {
-            setAttr("jobDepartment", jobDepartmentService.findById(entryId));
-            set("now", new Date());
-        }
-
-
-        render("job/job_department_list.html");
-    }
-
-    public void deptDoSave() {
-        JobDepartment entry = getModel(JobDepartment.class, "jobDepartment");
-        long id = (long) jobDepartmentService.saveOrUpdate(entry);
-        renderJson(Ret.ok().set("id", id));
-    }
-
-    public void deptDoDel() {
-        Long id = getIdPara();
-        render(jobDepartmentService.deleteById(id) ? Ret.ok() : Ret.fail());
-    }
-
-    @EmptyValidate(@Form(name = "ids"))
-    public void deptDoDelByIds() {
-        jobDepartmentService.batchDeleteByIds(getParaSet("ids").toArray());
-        renderOkJson();
-    }
-
-
-    @AdminMenu(text = "地址管理", groupId = "job", order = 3)
+    @AdminMenu(text = "地址管理", groupId = "job", order = 2)
     public void JobAddress() {
 
         Page<JobAddress> entries = jobAddressService.paginate(getPagePara(), getPageSizePara());

@@ -1,16 +1,10 @@
 package io.jpress.module.job.controller.front;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.plugin.activerecord.Page;
-import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
-import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.job.model.Job;
-import io.jpress.module.job.model.JobAddress;
-import io.jpress.module.job.model.JobCategory;
-import io.jpress.module.job.model.JobDepartment;
 import io.jpress.module.job.service.JobService;
 import io.jpress.web.base.TemplateControllerBase;
 

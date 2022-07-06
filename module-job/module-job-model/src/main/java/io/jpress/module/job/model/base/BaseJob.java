@@ -48,6 +48,20 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
 	}
 
     /**
+     * 对应部门
+     */
+	public void setDepartment(java.lang.String department) {
+		set("department", department);
+	}
+
+    /**
+     * 对应部门
+     */
+	public java.lang.String getDepartment() {
+		return getStr("department");
+	}
+
+    /**
      * 对应分类id
      */
 	public void setCategoryId(java.lang.Long categoryId) {
@@ -59,20 +73,6 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
      */
 	public java.lang.Long getCategoryId() {
 		return getLong("category_id");
-	}
-
-    /**
-     * 对应部门id
-     */
-	public void setDeptId(java.lang.Long deptId) {
-		set("dept_id", deptId);
-	}
-
-    /**
-     * 对应部门id
-     */
-	public java.lang.Long getDeptId() {
-		return getLong("dept_id");
 	}
 
     /**
@@ -190,29 +190,29 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
     /**
      * 招聘类型
      */
-	public void setRecruitmentType(java.lang.Integer recruitmentType) {
-		set("recruitment_type", recruitmentType);
+	public void setRecruitType(java.lang.Integer recruitType) {
+		set("recruit_type", recruitType);
 	}
 
     /**
      * 招聘类型
      */
-	public java.lang.Integer getRecruitmentType() {
-		return getInt("recruitment_type");
+	public java.lang.Integer getRecruitType() {
+		return getInt("recruit_type");
 	}
 
     /**
      * 岗位招聘人数
      */
-	public void setPeopleCount(java.lang.Integer peopleCount) {
-		set("people_count", peopleCount);
+	public void setRecruitNumbers(java.lang.Integer recruitNumbers) {
+		set("recruit_numbers", recruitNumbers);
 	}
 
     /**
      * 岗位招聘人数
      */
-	public java.lang.Integer getPeopleCount() {
-		return getInt("people_count");
+	public java.lang.Integer getRecruitNumbers() {
+		return getInt("recruit_numbers");
 	}
 
     /**

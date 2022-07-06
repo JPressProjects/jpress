@@ -77,7 +77,6 @@
 * id：岗位的id，直接输入id即可
 * 查询出来的对象中内置了该岗位对应的：
 * category 分类对象信息，使用job.category 即可获得
-* dept 部门对象信息，使用job.dept 即可获得
 * address 地址对象信息，使用job.address 即可获得
 
 #### #jobs()指令的用法
@@ -109,7 +108,7 @@
 * recruitmentType：招聘类型 tinyint类型 支持0~2 分别代表 0-社招，1-校招，2-实习
 * orderBy：根据属性进行排序 例如 "id desc"
 * count：需要查询的数量
-* 此指令查出的对象中，内置了category，dept，address对象
+* 此指令查出的对象中，内置了category，address对象
 
 #### #jobPage()指令的用法
 
@@ -146,15 +145,8 @@
 #### #jobPage()支持的参数有
 
 * pageSize 用来指定当前页面有多少条数据，默认值为10，也就是不填写这个参数的话，默认为10条数据
-* categoryId:岗位分类ID
-* deptId：岗位部门ID
-* addressId：岗位地区ID
 * orderBy 根据属性进行排序 例如 "id desc"
-* education：学历 tinyint类型 支持 0~7 与#jobs()一样
-* workYear：工作年限 tinyint类型 支持 0~7 与#jobs()一样
-* workType：工作类型 tinyint类型 支持 0~2 与#jobs()一样
-* recruitmentType：招聘类型 tinyint类型 支持0~2 与#jobs()一样
-* 此指令查出的对象中，内置了category，dept，address对象
+* 此指令查出的对象中，内置了category，address对象
 
 #### 分页指令#jobPaginate()的参数有
 

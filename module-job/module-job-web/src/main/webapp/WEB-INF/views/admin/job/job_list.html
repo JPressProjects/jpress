@@ -96,10 +96,10 @@
                                 </div>
                             </div>
                         </td>
-                        <td>#(entry.category.name ??)</td>
-                        <td>#(entry.dept.name ??)</td>
+                        <td>#(entry.category.title ??)</td>
+                        <td>#(entry.department ??)</td>
                         <td>#maxLength(entry.getHtml() ??,5)</td>
-                        <td>#(entry.address.name ??)</td>
+                        <td>#(entry.address.title ??)</td>
                         <td>#(entry.age_limit_start ??)~#(entry.age_limit_end ??)</td>
 
                         <td>
@@ -126,7 +126,7 @@
                             #end
                         </td>
 
-                        <td>#(entry.receive_email ??)</td>
+                        <td>#(entry.notify_emails ??)</td>
 
                         <td>#if(entry.with_remote ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                             #else <i class="fa fa-2x fa-toggle-off"></i> #end
@@ -140,13 +140,13 @@
                         </td>
 
                         <td>
-                            #if(entry.recruitment_type ?? == 0) 社招
-                            #else if(entry.recruitment_type ?? == 1) 校招
-                            #else if(entry.recruitment_type ?? == 2) 实习
+                            #if(entry.recruit_type ?? == 0) 社招
+                            #else if(entry.recruit_type ?? == 1) 校招
+                            #else if(entry.recruit_type ?? == 2) 实习
                             #end
                         </td>
 
-                        <td>#(entry.people_count ??)</td>
+                        <td>#(entry.recruit_numbers ??)</td>
                         <td>#date(entry.expired_to ??,"yyyy-MM-dd")</td>
                     </tr>
                     #end

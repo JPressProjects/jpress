@@ -1,7 +1,6 @@
 package io.jpress.module.job.directive;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
@@ -12,9 +11,6 @@ import io.jboot.web.directive.JbootPaginateDirective;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.job.model.Job;
-import io.jpress.module.job.model.JobAddress;
-import io.jpress.module.job.model.JobCategory;
-import io.jpress.module.job.model.JobDepartment;
 import io.jpress.module.job.service.JobService;
 import io.jpress.web.base.TemplateControllerBase;
 

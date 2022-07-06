@@ -3,14 +3,11 @@ package io.jpress.module.job.service.provider;
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.components.rpc.annotation.RPCInject;
 import io.jboot.db.model.Columns;
 import io.jpress.module.job.model.JobAddress;
 import io.jpress.module.job.model.JobCategory;
-import io.jpress.module.job.model.JobDepartment;
 import io.jpress.module.job.service.JobAddressService;
 import io.jpress.module.job.service.JobCategoryService;
-import io.jpress.module.job.service.JobDepartmentService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.module.job.model.Job;
 import io.jboot.service.JbootServiceBase;
@@ -24,9 +21,6 @@ public class JobServiceProvider extends JbootServiceBase<Job> implements JobServ
 
     @Inject
     private JobCategoryService jobCategoryService;
-
-    @Inject
-    private JobDepartmentService jobDepartmentService;
 
     @Inject
     private JobAddressService jobAddressService;
@@ -94,7 +88,7 @@ public class JobServiceProvider extends JbootServiceBase<Job> implements JobServ
 
 
     /**
-    * 添加各种信息 分类 地址 部门等....
+    * 添加各种信息 分类 地址 等....
     *
     * @param job
     * @return io.jpress.module.job.model.Job
@@ -104,11 +98,6 @@ public class JobServiceProvider extends JbootServiceBase<Job> implements JobServ
         JobCategory jobCategory = jobCategoryService.findById(job.getCategoryId());
         if(jobCategory!=null){
             job.put("category",jobCategory);
-        }
-
-        JobDepartment jobDepartment = jobDepartmentService.findById(job.getDeptId());
-        if(jobDepartment!=null){
-            job.put("dept",jobDepartment);
         }
 
         JobAddress jobAddress = jobAddressService.findById(job.getAddressId());

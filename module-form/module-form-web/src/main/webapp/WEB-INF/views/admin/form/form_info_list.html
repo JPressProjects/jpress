@@ -75,7 +75,6 @@
 	                                <th style="width: 100px">是否需要回复</th>
 	                                <th style="width: 100px">是否需要输入验证码</th>
 	                                <th style="width: 100px">是否需要对手机号进行验证</th>
-
                             </tr>
                             #for(entry : page.list)
                             <tr>
@@ -84,7 +83,7 @@
                                 #(entry.name ??)
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
-                                            <a href="#">表单构建</a> |
+                                            <a href="/admin/form/forminfo/design/#(entry.id)">表单设计</a> |
                                             <a href="/admin/form/formInfo/edit/#(entry.id)">编辑</a> |
                                             <a href="javascript:;" class="red-action"
                                                onclick="doDel('#(entry.id)')">删除</a>

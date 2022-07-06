@@ -52,22 +52,22 @@
 
         $('#builder').bsFormBuilder({
             customBuilderStructure: true,
-            bsFormContainerSortableGroup: 'main',
-            components: '#(CPATH)/admin/template/block/components',
-            customRender: '#(CPATH)/admin/template/block/render',
-            datas: '#(CPATH)/admin/template/block/datas',
-
-            //禁用 name 和 label 属性
-            defaultProps: [
-                {
-                    name: "name",
-                    type: "none",
-                },
-                {
-                    name: "label",
-                    type: "none",
-                },
-            ]
+            // bsFormContainerSortableGroup: 'main',
+            // components: '#(CPATH)/admin/template/block/components',
+            // customRender: '#(CPATH)/admin/template/block/render',
+            // datas: '#(CPATH)/admin/template/block/datas',
+            //
+            // //禁用 name 和 label 属性
+            // defaultProps: [
+            //     {
+            //         name: "name",
+            //         type: "none",
+            //     },
+            //     {
+            //         name: "label",
+            //         type: "none",
+            //     },
+            // ]
         });
 
         $('.update').on('click', function () {
@@ -108,23 +108,24 @@
             <!-- 左侧 -->
             <div class="col-md-3 col-sm-4 leftContent border-right pd10">
                 <div class="component-title">
-                    模板自带
+                    表单组件
                 </div>
-                <div class="component-group d-flex align-items-center bsFormDrags" data-type="template"></div>
+                <div class="component-group d-flex align-items-center bsFormDrags" data-type="base"></div>
+
                 <div class="component-title">
-                    系统内置
+                    辅助
                 </div>
-                <div class="component-group d-flex align-items-center bsFormDrags" data-type="system">
+                <div class="component-group d-flex align-items-center bsFormDrags" data-type="assist">
                 </div>
                 <div class="component-title">
-                    布局辅助
+                    布局
                 </div>
-                <div class="component-group d-flex align-items-center bsFormDrags" data-type="layout">
+                <div class="component-group d-flex align-items-center bsFormDrags" data-type="container">
                 </div>
             </div>
             <!-- 中间内容 -->
             <div class="col-md-6  col-sm-4 middleContent bsFormContainer">
-                <div class="bsFormContainer-placeholder">您当前的模板，不支持板块设计功能~~~</div>
+                <div class="bsFormContainer-placeholder">从左侧拖动到此处开始设计~~~</div>
             </div>
             <!--右侧内容-->
             <div class="col-md-3  col-sm-4 mb-3 rightContent border-left">

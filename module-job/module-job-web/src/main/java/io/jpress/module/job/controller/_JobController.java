@@ -26,8 +26,10 @@ import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.model.JobAddress;
+import io.jpress.module.job.model.JobApply;
 import io.jpress.module.job.model.JobCategory;
 import io.jpress.module.job.service.JobAddressService;
+import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobCategoryService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.MenuService;
@@ -47,9 +49,11 @@ public class _JobController extends AdminControllerBase {
     @Inject
     private JobCategoryService jobCategoryService;
 
-
     @Inject
     private JobAddressService jobAddressService;
+
+    @Inject
+    private JobApplyService jobApplyService;
 
     @Inject
     private MenuService menuService;
@@ -234,5 +238,47 @@ public class _JobController extends AdminControllerBase {
         renderOkJson();
     }
 
+
+    @AdminMenu(text = "申请管理", groupId = "job", order = 3)
+    public void JobApply(){
+
+        Columns columns = new Columns();
+        Page<JobApply> page = jobApplyService.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(), columns, "created desc");
+        setAttr("page",page);
+
+        render("job/job_apply_list.html");
+    }
+
+    public void applyDetail(){
+
+        Long id = getLong();
+
+        JobApply jobApply = jobApplyService.findById(id);
+
+        if(id == null || jobApply == null){
+          renderError(404);
+          return;
+        }
+
+        //更新查看状态
+        jobApply.setWithViewed(true);
+        jobApply.update();
+
+        setAttr("jobApply",jobApply);
+
+        //TODO
+        render("job/job_apply_detail.html");
+    }
+
+    public void applyDoDel() {
+        Long id = getIdPara();
+        render(jobApplyService.deleteById(id) ? Ret.ok() : Ret.fail());
+    }
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void applyDoDelByIds() {
+        jobApplyService.batchDeleteByIds(getParaSet("ids").toArray());
+        renderOkJson();
+    }
 
 }

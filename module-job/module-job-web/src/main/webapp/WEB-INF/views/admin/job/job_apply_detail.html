@@ -1,0 +1,239 @@
+#@layout()
+
+#define script()
+<script src="/static/components/sortable/Sortable.min.js"></script>
+#end
+
+#define content()
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>
+              组卷明细
+              <small data-toggle="tooltip" title="" data-placement="right"
+                     data-trigger="hover"><i
+                      class="nav-icon far fa-question-circle"></i></small>
+              <small> 首页 / 试卷详情 </small>
+            </h1>
+          </div>
+          <div class="col-sm-6 ">
+            <div class="float-sm-right admin-actions">
+              <button type="button" class="btn btn-outline-secondary back">
+                <i class="fa fa-fw fa-arrow-left"></i> 返回
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+  <div class="container-fluid">
+  </div>
+  <div class="card card-primary card-outline">
+
+    <!-- /.card-body -->
+    <div class="card-body">
+      <div class="row invoice-info">
+        <div class="col-sm-3 invoice-col">
+          <p>试卷名称:#(examPaper.title ??)</p>
+          <p>试卷难度：
+            #if(examPaper && examPaper.level == 0 ) 简单
+            #else if(examPaper && examPaper.level == 1 ) 一般
+            #else if(examPaper && examPaper.level == 2 ) 偏难
+            #else if(examPaper && examPaper.level == 3 ) 较难
+            #else --
+            #end
+          </p>
+          <p>考试时间：#(examPaper.exam_time ??) #if(examPaper.exam_time ??)分钟#end</p>
+        </div>
+        <!-- /.col -->
+
+
+        <div class="col-sm-3 invoice-col">
+          <p>年份：#(examPaper.year ??)</p>
+          <p>城市:
+            #(sysArea.name ??)
+          </p>
+          <p>类型：
+            #if(examPaper && examPaper.type == 1) 系统创建
+            #else --
+            #end
+          </p>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-3 invoice-col">
+          <p>总分：#(examPaper.total_point ??)</p>
+          <p>及格分数：#(examPaper.pass_point ??)</p>
+        </div>
+        <!-- /.col -->
+        <!-- /.col -->
+        <div class="col-sm-3 invoice-col">
+          <p>状态：
+            #if(examPaper && examPaper.status == 0) 未完成</p>
+          #else if(examPaper && examPaper.status == 1) 已完成</p>
+          #else if(examPaper && examPaper.status == 2) 已发布</p>
+          #else if(examPaper && examPaper.status == 3) 通过审核</p>
+          #else
+          #end
+          <p>创建时间：#date(examPaper.created ??)</p>
+
+        </div>
+        <div class="col-sm-3 invoice-col">
+
+          <p>试卷介绍：#(examPaper.summary ??)</p>
+        </div>
+        <!-- /.col -->
+      </div>
+
+    </div><!-- /.card-body -->
+
+
+    <div class="card card-outline">
+
+
+      <h4 class="form-table-header">
+        请选择试卷考题类型
+      </h4>
+
+      <!-- /.card-body -->
+      <div class="card-body p-0">
+        <form action="/admin/examQuestion/doUpDateExamPaper" method="post"
+              class="ajaxSubmit">
+
+
+          <table class="table table-hover table-striped projects "
+                 data-render="datatable">
+            <thead>
+
+            <tr>
+              <th>序号</th>
+              <th>题型</th>
+              <th>题目</th>
+              <th>难度</th>
+              <th>分数</th>
+              <th>选对部分得分<br/>
+                /每空得分</th>
+              <th>操作</th>
+              <th style="width: 80px">拖动排序</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            #set(sortNumber = 1)
+            #for(item : examQuestions ??)
+
+            <tr data-index="#(sortNumber)">
+              <td>
+                #(sortNumber)
+              </td>
+
+              <td>
+                #(item.typeString ??)
+
+                <input name="examQuestion.id" type="hidden" value="#(item.id ??)">
+                <input name="examQuestion.paperId" type="hidden" value="#(examPaper.id ??)">
+                <input name="examQuestion.questionId" type="hidden" value="#(item.questionId ??)">
+                <input name="examQuestion.questionType" type="hidden" value="#(item.questionType ??)">
+                <input name="examQuestion.sortNo" class="sortNumber" type="hidden"
+                       value="#(sortNumber)">
+
+              </td>
+              <td>
+                #maxLength(item.question.text ??,20)
+              </td>
+              <td>
+
+                #(QuestionLevel.text(item.question.level ??))
+
+              </td>
+              <td>
+                <input type="text" name="examQuestion.score"
+                       value="#(item.score ??)" class="form-control"
+                       style="width: 70px;">
+              </td>
+              <td>
+                <input type="text" name="examQuestion.incompleteScore"
+                       value="#(item.incompleteScore ??)" class="form-control"
+                       style="width: 70px;">
+              </td>
+
+              <th>
+                <a href="/admin/examQuestion/doDel?id=#(item.id ??)"
+                   open-type="del-confirm"
+                   data-success-goto="reload" data-success-message="删除成功！">删除</a>
+              </th>
+
+              <th>
+
+
+                <i class="fas fa-smog"
+                   style="margin-left: 10px;cursor:pointer; color: #007bff"></i>
+              </th>
+            </tr>
+            #set(sortNumber ++)
+            #end
+            </tbody>
+          </table>
+
+
+          <div class="card-footer row">
+            <div class="col-sm-6 ">
+              <div class="btn-group">
+
+                <a href="/admin/questionChoice/select_choice_question"
+                   open-type="layer" data-layer-end="refreshTable"
+                   data-layer-title="选择题库"
+                   class="btn btn-outline-primary btn-sm">
+                  <i class="fa fa-fw fa-plus"></i>选择题库
+                </a>
+                <a href="/admin/questionChoice/select_judge_question"
+                   style="margin-left: 10px" open-type="layer"
+                   data-layer-end="refreshTable" data-layer-title="判断题库"
+                   class="btn btn-outline-primary btn-sm">
+                  <i class="fa fa-fw fa-plus"></i>判断题库
+                </a>
+                <a href="/admin/questionChoice/select_cloze_question"
+                   style="margin-left: 10px" open-type="layer"
+                   data-layer-end="refreshTable" data-layer-title="填空题库"
+                   class="btn btn-outline-primary btn-sm">
+                  <i class="fa fa-fw fa-plus"></i>填空题库
+                </a>
+
+                <a href="/admin/questionChoice/select_essay_question"
+                   style="margin-left: 10px" open-type="layer"
+                   data-layer-end="refreshTable" data-layer-title="简答题库"
+                   class="btn btn-outline-primary btn-sm">
+                  <i class="fa fa-fw fa-plus"></i>简答题库
+                </a>
+
+                <input type="submit" id="submitBtn" value="保存试卷"
+                       open-type="save-confirm" style="margin-left: 10px"
+                       class="btn btn-primary btn-sm">
+
+              </div>
+
+            </div>
+            <!--                        <div class="col-6">-->
+            <!--                            #@adminPaginate()-->
+            <!--                        </div>-->
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+#end
+

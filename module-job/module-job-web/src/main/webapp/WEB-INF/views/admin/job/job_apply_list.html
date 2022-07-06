@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("#(CPATH)/admin/job/doDel/" + id);
+        ajaxGet("#(CPATH)/admin/job/applyDoDel/" + id);
     }
 
 </script>
@@ -12,7 +12,6 @@
 
 #define content()
 
-<!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
@@ -30,11 +29,11 @@
                 </div>
 
             </div>
-            <div class="col-sm-6 ">
-                <div class=" float-sm-right" style="padding-top: 45px">
-                    <a href="/admin/job/add" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
-                </div>
-            </div>
+<!--            <div class="col-sm-6 ">-->
+<!--                <div class=" float-sm-right" style="padding-top: 45px">-->
+<!--                    <a href="/admin/job/add" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
 
     </div>
@@ -62,49 +61,46 @@
                         <th style="width: 10px">
                             <input class="tableCheckAll" type="checkbox">
                         </th>
-                        <th>工作名称</th>
-                        <th>分类</th>
-                        <th>部门</th>
-                        <th>描述</th>
-                        <th>工作地点</th>
-                        <th>年龄</th>
-                        <th>学历</th>
+                        <th>用户名称</th>
+                        <th>申请职位ID</th>
+                        <th>手机号</th>
+                        <th>性别</th>
                         <th>工作年限</th>
-                        <th>接收简历邮箱</th>
-                        <th>是否属于远程工作</th>
-                        <th>是否允许在线投递</th>
-                        <th>工作类型</th>
-                        <th>招聘类型</th>
-                        <th>招聘人数</th>
-                        <th>有效时间</th>
+                        <th>最高学历</th>
+                        <th>推荐码</th>
+                        <th>是否已经查看</th>
+                        <th>是否已经处理</th>
+                        <th>处理时间</th>
+                        <th>创建时间</th>
                     </tr>
                     </thead>
-                    <tbody>
 
+                    <tbody>
 
                     #for(entry : page.list ??)
                     <tr>
                         <td><input name="tableItem" type="checkbox" value="#(entry.id)"/>
                         </td>
                         <td style="width: 100px">
-                            #(entry.title ??)
+                            #(entry.user_name ??)
 
                             <div class="jp-action-card">
                                 <div class="jp-action-body">
-                                    <a href="/admin/job/edit/#(entry.id)">编辑</a> |
+                                    <a href="/admin/job/applyDetail/#(entry.id ??)">查看</a> |
                                     <a href="javascript:;" class="red-action"
                                        onclick="doDel('#(entry.id)')">删除</a>
                                 </div>
                             </div>
                         </td>
-                        <td>#(entry.category.title ??)</td>
-                        <td>#(entry.department ??)</td>
-                        <td>#maxLength(entry.getHtml() ??,5)</td>
-                        <td>#(entry.address.title ??)</td>
-                        <td>#(entry.age_limit_start ??)~#(entry.age_limit_end ??)</td>
+                        <td>#(entry.job.title ??)</td>
+                        <td>#(entry.mobile ??)</td>
+                        <td>
+                            #if(entry.gender ?? == 0) 男 #else if(entry.gender ?? == 1) 女 #end
+                        </td>
+                        <td>#(entry.work_years ??)</td>
 
                         <td>
-                            #if(entry.education ?? == 0) 不限制学历
+                            #if(entry.education ?? == 0) 其它
                             #else if(entry.education ?? == 1)初中及以下
                             #else if(entry.education ?? == 2)中专/中技
                             #else if(entry.education ?? == 3)高中
@@ -115,44 +111,19 @@
                             #end
                         </td>
 
-                        <td>
-                            #if(entry.years_limit_type ?? == 0) 不限
-                            #else if(entry.years_limit_type ?? == 1) 在校生
-                            #else if(entry.years_limit_type ?? == 2) 应届生
-                            #else if(entry.years_limit_type ?? == 3) 1年以内
-                            #else if(entry.years_limit_type ?? == 4) 1-3年
-                            #else if(entry.years_limit_type ?? == 5) 3-5年
-                            #else if(entry.years_limit_type ?? == 6) 5-10年
-                            #else if(entry.years_limit_type ?? == 7) 10年以上
-                            #end
-                        </td>
+                        <td>#(entry.referral_code ??)</td>
 
-                        <td>#(entry.notify_emails ??)</td>
-
-                        <td>#if(entry.with_remote ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                        <td>#if(entry.with_viewed ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                             #else <i class="fa fa-2x fa-toggle-off"></i> #end
                         </td>
 
-                        <td>#if(entry.with_apply ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
+                        <td>#if(entry.with_disposed ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                             #else <i class="fa fa-2x fa-toggle-off"></i> #end
                         </td>
 
-                        <td>
-                            #if(entry.work_type ?? == 0) 全职
-                            #else if(entry.work_type ?? == 1) 兼职
-                            #else if(entry.work_type ?? == 2) 钟点工
-                            #end
-                        </td>
+                        <td>#date(entry.disposed_time ??,"yyyy-MM-dd")</td>
 
-                        <td>
-                            #if(entry.recruit_type ?? == 0) 社招
-                            #else if(entry.recruit_type ?? == 1) 校招
-                            #else if(entry.recruit_type ?? == 2) 实习
-                            #end
-                        </td>
-
-                        <td>#(entry.recruit_numbers ??)</td>
-                        <td>#date(entry.expired_to ??,"yyyy-MM-dd")</td>
+                        <td>#date(entry.created ??,"yyyy-MM-dd")</td>
                     </tr>
                     #end
 
@@ -174,7 +145,7 @@
                                 <div class="form-group col-lg-3">
                                     <select class="form-control" name="action">
                                         <option value="">请选择...</option>
-                                        <option value="doDelByIds" open-type="del-confirm">
+                                        <option value="applyDoDelByIds" open-type="del-confirm">
                                             批量删除
                                         </option>
                                     </select>

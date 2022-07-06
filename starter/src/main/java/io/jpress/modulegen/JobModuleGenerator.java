@@ -14,7 +14,7 @@ public class JobModuleGenerator {
     private static String dbPassword = "123456";
 
     private static String moduleName = "job";
-    private static String dbTables = "job,job_category,job_address";
+    private static String dbTables = "job,job_category,job_address,job_apply";
     private static String optionsTables = "job";
     private static String sortTables = "";
     private static String sortOptionsTables = "job_category";

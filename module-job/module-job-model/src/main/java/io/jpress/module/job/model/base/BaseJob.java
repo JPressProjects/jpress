@@ -146,17 +146,59 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
 	}
 
     /**
-     * 接收简历的邮箱
+     * 有建立申请时，是否通知
      */
-	public void setReceiveEmail(java.lang.String receiveEmail) {
-		set("receive_email", receiveEmail);
+	public void setWithNotify(java.lang.Boolean withNotify) {
+		set("with_notify", withNotify);
 	}
 
     /**
-     * 接收简历的邮箱
+     * 有建立申请时，是否通知
      */
-	public java.lang.String getReceiveEmail() {
-		return getStr("receive_email");
+	public java.lang.Boolean getWithNotify() {
+		return get("with_notify");
+	}
+
+    /**
+     * 通知的邮箱
+     */
+	public void setNotifyEmails(java.lang.String notifyEmails) {
+		set("notify_emails", notifyEmails);
+	}
+
+    /**
+     * 通知的邮箱
+     */
+	public java.lang.String getNotifyEmails() {
+		return getStr("notify_emails");
+	}
+
+    /**
+     * 通知的邮件标题
+     */
+	public void setNotifyTitle(java.lang.String notifyTitle) {
+		set("notify_title", notifyTitle);
+	}
+
+    /**
+     * 通知的邮件标题
+     */
+	public java.lang.String getNotifyTitle() {
+		return getStr("notify_title");
+	}
+
+    /**
+     * 通知的邮件内容
+     */
+	public void setNotifyContent(java.lang.String notifyContent) {
+		set("notify_content", notifyContent);
+	}
+
+    /**
+     * 通知的邮件内容
+     */
+	public java.lang.String getNotifyContent() {
+		return getStr("notify_content");
 	}
 
     /**
@@ -171,6 +213,20 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
      */
 	public java.lang.Boolean getWithRemote() {
 		return get("with_remote");
+	}
+
+    /**
+     * 是否允许在线投递
+     */
+	public void setWithApply(java.lang.Boolean withApply) {
+		set("with_apply", withApply);
+	}
+
+    /**
+     * 是否允许在线投递
+     */
+	public java.lang.Boolean getWithApply() {
+		return get("with_apply");
 	}
 
     /**

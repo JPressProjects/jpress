@@ -34,15 +34,6 @@
                     </select>
                     #end
 
-                    #jobDepartments()
-                    <select class="form-control" style="width: 30%;float: left;margin-left: 5%" name="deptId">
-                        <option value="">选择部门</option>
-                        #for(item : departmentList)
-                        <option value="#(item.id ??)" #if(para('deptId') == item.id ??) selected #end>#(item.title ??) </option>
-                        #end
-                    </select>
-                    #end
-
                     <div class="clearfix"></div>
                 </div>
 

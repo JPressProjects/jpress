@@ -1,0 +1,227 @@
+#include("./layout.html")
+#@layout()
+
+#define script()
+
+<script>
+
+    //上传文件名  回显
+    $('#inputGroupFile04').on('change', function () {
+
+        let fileName = $("#inputGroupFile04")[0].files[0].name;
+
+        // 这个 也可以获取文件名 同样的效果 let fileName =  document.getElementById("inputGroupFile04").files[0].name;
+
+        $(this).next('.custom-file-label').html(fileName);
+    })
+
+
+    //上传文件名  回显
+    $('#inputGroupFile03').on('change', function () {
+
+        let fileName = $("#inputGroupFile03")[0].files[0].name;
+
+        // 这个 也可以获取文件名 同样的效果 let fileName =  document.getElementById("inputGroupFile04").files[0].name;
+
+        $(this).next('.file_fj').html(fileName);
+    })
+
+
+    //简历文件上传
+    function uploadFileJL() {
+
+        let formData = new FormData();
+
+        formData.append("file", $("#inputGroupFile04")[0].files[0]);
+
+        $.ajax({
+            url: '/job/apply/uploadFile',
+            type: 'post',
+            cache: false,//关闭上传文件缓存
+            data: formData,
+            processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理
+            contentType: false,
+            success: function (result) {
+
+                if(result.state == "fail"){
+                    alert(result.message);
+                }
+
+                if (result.state == true) {
+
+                    $("#filePath").val(result.filePath);
+
+                    //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
+                    $('#inputGroupFile04').val('');
+
+                   alert("上传成功");
+
+                }
+            }
+        })
+
+    }
+
+    //简历文件上传
+    function uploadFileFJ() {
+
+        let formData = new FormData();
+
+        formData.append("file", $("#inputGroupFile03")[0].files[0]);
+
+        $.ajax({
+            url: '/job/apply/uploadFile',
+            type: 'post',
+            cache: false,//关闭上传文件缓存
+            data: formData,
+            processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理
+            contentType: false,
+            success: function (result) {
+
+                if(result.state == "fail"){
+                   alert(result.message);
+                }
+
+                if (result.state == true) {
+
+                    $("#attachment").val(result.filePath);
+
+                    //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
+                    $('#inputGroupFile03').val('');
+
+                    alert("上传成功");
+
+                }
+            }
+        })
+
+    }
+
+
+
+</script>
+
+#end
+
+
+#define content()
+<div class="col-md-9 cl-left">
+
+    <div>
+        <p>#(job.title ??)</p>
+        <p>#(job.address.title ??)
+        <p>#date(job.created ??)</p>
+    </div>
+
+
+    <form action="/job/apply/doSave" class="ajaxSubmit" data-ok-message="申请成功" data-ok-href="/job/list" method="post">
+
+        <input type="hidden" id="filePath" name="jobApply.cv_path">
+        <input type="hidden" id="attachment" name="jobApply.attachment">
+        <input type="hidden" name="jobApply.job_id" value="#(job.id ??)">
+
+        <div class="form-group">
+            <label for="referral_code">推荐码</label>
+            <input type="text" class="form-control" id="referral_code" placeholder="推荐码" name="jobApply.referral_code">
+        </div>
+
+        <div class="form-group">
+            <label for="username">姓名</label>
+            <input type="text" class="form-control" id="username" placeholder="输入姓名" name="jobApply.user_name">
+        </div>
+
+        <div class="form-group">
+            <label for="mobile_area">手机区号</label>
+            <select class="form-control" id="mobile_area" name="jobApply.mobile_area">
+                <option value="+86">+86</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="mobile">手机号</label>
+            <input type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile">
+        </div>
+
+        <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="email" class="form-control" id="email" placeholder="邮箱" name="jobApply.email">
+        </div>
+
+        <div class="form-group">
+            <label for="gender">手机区号</label>
+            <select class="form-control" id="gender" name="jobApply.gender">
+                <option value="0">男</option>
+                <option value="1">女</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>出生日期</label>
+            <input type="datetime-local" class="form-control datetime" placeholder="点击选择" name="jobApply.birthday">
+        </div>
+
+        <div class="form-group">
+            <label for="work_years">工作经验</label>
+            <input type="number" class="form-control" id="work_years" placeholder="工作经验" name="jobApply.work_years">
+        </div>
+
+        <div class="form-group">
+            <label for="education">最高学历</label>
+            <select class="form-control" id="education" name="jobApply.education">
+                <option value="">请选择学历</option>
+                <option value="0">其它</option>
+                <option value="1">初中及以下</option>
+                <option value="2">中专/中技</option>
+                <option value="3">高中</option>
+                <option value="4">大专</option>
+                <option value="5">本科</option>
+                <option value="6">硕士</option>
+                <option value="7">博士</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="last_company">最近工作的公司</label>
+            <input type="text" class="form-control" id="last_company" placeholder="输入公司名称" name="jobApply.last_company">
+        </div>
+
+
+        <div class="form-group">
+            <label>简历上传</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile04">
+                        <label class="custom-file-label" for="inputGroupFile04">请选择文件</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="uploadFileJL()" type="button">
+                            开始上传
+                        </button>
+                    </div>
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label>附件上传</label>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile03">
+                    <label class="custom-file-label file_fj" for="inputGroupFile03">请选择文件</label>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" onclick="uploadFileFJ()" type="button">
+                        开始上传
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+                <input style="width:15%;" type="submit" id="btn_yzm" class="btn btn-primary" value="提交申请"/>
+        </div>
+
+    </form>
+
+
+</div>
+#end

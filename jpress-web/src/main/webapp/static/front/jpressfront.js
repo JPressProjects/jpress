@@ -515,50 +515,64 @@ function initClipboardJSComponent(){
 
 function initJPressVideo(){
     $('.jpress-video').each(function (){
+
         var cloudType = $(this).attr("data-cloud");
         var vid = $(this).attr("data-vid");
         var id = $(this).attr("id");
         var aid = $(this).attr("data-app-id");
         var playAuth = $(this).attr("data-play-auth");
 
-        if(cloudType != null && cloudType != '' && cloudType == '1') {
-            //阿里云
-            if (vid != "" && playAuth != ""  && id != "") {
-                var player = new Aliplayer({
-                        "id": id,
-                        "vid": vid,
-                        "playauth": playAuth,
-                        // "qualitySort": "asc",
-                        // "format": "mp4",
-                        // "mediaType": "video",
-                        "width": "100%",
-                        "height": "100%",
-                        "videoWidth": "100%",
-                        "videoHeight": "100%",
-                        "autoplay": false,
-                        "isLive": false,
-                        // "cover": "缩略图",
-                        "rePlay": false,
-                        "playsinline": true,
-                        "preload": false,
-                        "controlBarVisibility": "hover",
-                        "useH5Prism": true
-                    }, function (player) {
-                        console.log("The aliyun player is created");
+        if(cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
+            //阿里云视频播放凭证有时效性
+            $.ajax({
+                url:"/admin/attachment/video/getVideoPlayAuth",
+                type:"post",
+                data:{vid:vid},
+
+                success: function (result){
+                    if(result.state == "ok"){
+                        playAuth = result.playAuth;
+                        //阿里云
+                        if (vid != "" && playAuth != ""  && id != "") {
+                            var player = new Aliplayer({
+                                    "id": id,
+                                    "vid": vid,
+                                    "playauth": playAuth,
+                                    // "qualitySort": "asc",
+                                    // "format": "mp4",
+                                    // "mediaType": "video",
+                                    // "width": "100%",
+                                    // "height": "100%",
+                                    "videoWidth": "100%",
+                                    "videoHeight": "100%",
+                                    "autoplay": false,
+                                    "isLive": false,
+                                    // "cover": "缩略图",
+                                    "rePlay": false,
+                                    "playsinline": true,
+                                    "preload": false,
+                                    "controlBarVisibility": "hover",
+                                    "useH5Prism": true
+                                }, function (player) {
+                                    console.log("The aliyun player is created");
+                                }
+                            );
+                            return player;
+                        }
                     }
-                );
-                return player;
-            }
+                }
+            })
 
         }
-        else if(cloudType != null && cloudType != '' && cloudType == '2'){
-            //腾讯云
+        else if(cloudType != null && cloudType != '' && cloudType == '2'){//腾讯云
+
             if (vid != "" && aid != "" && id != "") {
                 var player = new TCPlayer(id, {
                     fileID:  vid,
                     appID: aid,
                     autoplay: false, //是否自动播放
                 });
+                console.log("The qcloud player is created");
                 return player;
             }
 

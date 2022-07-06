@@ -169,6 +169,7 @@
 
 </script>
 
+<!-- 选择视频-->
 <script>
 
     //插入视频
@@ -194,102 +195,45 @@
 
                     if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
 
-                        var videoEL = document.createElement('video');
-                        videoEL.setAttribute("data-vid",vid);
-                        videoEL.setAttribute("data-cloud",cloudType);
-                        videoEL.setAttribute("poster",cover);
-                        videoEL.setAttribute("style","with:100%");
-                        videoEL.setAttribute("class","jpress-video");
-
                         if(cloudType != null && cloudType != '' && cloudType == '1'){//阿里云
-                            videoEL.setAttribute("data-play-auth",playAuth);
-                            videoEL.setAttribute('id', 'video_player');
-                            videoEL.setAttribute('controls', 'controls');
-                            videoEL.setAttribute('preload', 'true');
-                            insertHtmlToEditor(videoEL.outerHTML);
 
-                            //创建阿里云播放器
-                            initVideoPlayer(vid,playAuth);
+                            var aliyunVideo = document.createElement('video');
+                            aliyunVideo.setAttribute("data-vid",vid);
+                            aliyunVideo.setAttribute("data-play-auth",playAuth);
+                            aliyunVideo.setAttribute("data-cloud",cloudType);
+                            aliyunVideo.setAttribute("poster",cover);
+                            aliyunVideo.setAttribute("style","height:240px;width:425px;");
+                            aliyunVideo.setAttribute("class","jpress-video");
+                            //阿里云播放容器的id
+                            var idStra = "video_player"+(Math.random()).toString().slice(5,10)
+                            aliyunVideo.setAttribute('id', idStra);
 
-                        }else if(cloudType != null && cloudType != '' && cloudType == '2'){//腾讯云
-                            videoEL.setAttribute("data-app-id",appId);
-                            videoEL.setAttribute('id', 'qcloud_video_player');
-                            videoEL.setAttribute('controls', 'true');
-                            videoEL.setAttribute('preload', 'auto');
-                            insertHtmlToEditor(videoEL.outerHTML);
+                            insertHtmlToEditor(aliyunVideo.outerHTML);
 
-                            //创建腾讯云播放器
-                            initQCloudVideoPlayer(vid,appId);
+                        }
+                        else if(cloudType != null && cloudType != '' && cloudType == '2'){//腾讯云
+
+                            var qcloudVideo = document.createElement('video');
+                            qcloudVideo.setAttribute("data-vid",vid);
+                            qcloudVideo.setAttribute("data-app-id",appId);
+                            qcloudVideo.setAttribute("data-cloud",cloudType);
+                            qcloudVideo.setAttribute("poster",cover);
+                            qcloudVideo.setAttribute("style","height:240px;width:425px;");
+                            qcloudVideo.setAttribute("class","jpress-video");
+                            //腾讯云播放容器的id
+                            var idStr = "qcloud_video_player"+(Math.random()).toString().slice(5,10)
+                            qcloudVideo.setAttribute('id', idStr);
+
+                            insertHtmlToEditor(qcloudVideo.outerHTML);
                         }
 
                     } else if (currentVditor) {
-                        currentVditor.insertValue('视频：[' + layer.data.title + '](' + cloudType != null && cloudType == '1' ? '阿里云':'腾讯云' + ')')
+                        alert("此编辑器暂不支持插入视频！")
                     }
                 }
             }
         });
     })
-
-
-    /**
-     * 阿里云 创建视频播放器
-     * @param vid
-     * @param playAuth
-     * @returns {Aliplayer}
-     */
-    function initVideoPlayer(vid,playAuth){
-        console.log("aliyun_vid==="+vid)
-        //阿里云视频-播放器
-        if (vid != "" && playAuth != "") {
-            var player = new Aliplayer({
-                    "id": "video_player",
-                    "vid": vid,
-                    "playauth": playAuth,
-                    // "qualitySort": "asc",
-                    // "format": "mp4",
-                    // "mediaType": "video",
-                    "width": "100%",
-                    "height": "100%",
-                    "videoWidth": "100%",
-                    "videoHeight": "100%",
-                    "autoplay": false,
-                    "isLive": false,
-                    // "cover": "缩略图",
-                    "rePlay": false,
-                    "playsinline": true,
-                    "preload": false,
-                    "controlBarVisibility": "hover",
-                    "useH5Prism": true
-                }, function (player) {
-                    console.log("The aliyun player is created");
-                }
-            );
-            return player;
-        }
-    }
-
-
-    /**
-     * 腾讯云 创建视频播放器
-     * @param vid
-     * @param aid
-     */
-    function initQCloudVideoPlayer(vid,aid){
-
-        console.log("qcloud_vid==="+vid)
-        //腾讯云视频-播放器
-        if (vid != "" && aid != "") {
-            var player = new TCPlayer('qcloud_video_player', {
-                fileID:  vid,
-                appID: aid,
-                autoplay: false, //是否自动播放
-            });
-            return player;
-        }
-    }
-
-
-
 
 </script>
 

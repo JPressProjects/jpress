@@ -132,7 +132,7 @@ public class JsoupUtils {
             addAttributes("table", "summary");
             addAttributes("td", "abbr", "axis", "colspan", "rowspan", "width");
             addAttributes("th", "abbr", "axis", "colspan", "rowspan", "scope", "width");
-            addAttributes("video", "src", "autoplay", "controls", "loop", "muted", "poster", "preload");
+            addAttributes("video", "src", "autoplay", "controls", "loop", "muted", "poster", "preload","data-vid","data-cloud","data-play-auth","data-app-id");
             addAttributes("object", "width", "height", "classid", "codebase");
             addAttributes("param", "name", "value");
             addAttributes("embed", "src", "quality", "width", "height", "allowFullScreen", "allowScriptAccess", "flashvars", "name", "type", "pluginspage");

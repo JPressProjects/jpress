@@ -332,4 +332,17 @@ public class _AttachmentVideoController extends AdminControllerBase {
         render("attachment/vod_browse.html");
     }
 
+    /**
+     * 前台页面刷新时
+     * 通过阿里云视频id
+     * 重新获取播放凭证
+     * @return
+     */
+    public Ret getVideoPlayAuth(){
+        String videoId = getPara("vid");
+        String playAuth = AliyunVideoUtil.getPlayAuth(videoId);
+
+        return Ret.ok("playAuth",playAuth);
+    }
+
 }

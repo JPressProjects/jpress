@@ -55,7 +55,7 @@
             // bsFormContainerSortableGroup: 'main',
             // components: '#(CPATH)/admin/template/block/components',
             // customRender: '#(CPATH)/admin/template/block/render',
-            // datas: '#(CPATH)/admin/template/block/datas',
+            datas: JSON.parse('#(form.builderJson ??)'),
             //
             // //禁用 name 和 label 属性
             // defaultProps: [
@@ -72,7 +72,7 @@
 
         $('.update').on('click', function () {
             var datas = $('#builder').bsFormBuilder().data("bsFormBuilder").exportToJson();
-            ajaxPost('#(CPATH)/admin/template/block/save', datas, function () {
+            ajaxPost('#(CPATH)/admin/form/forminfo/design/save?id=#(form.id ??)', datas, function () {
                 showMessage("保存成功！")
             })
         });
@@ -85,11 +85,11 @@
     <div class="card tool-container">
         <div class="tool-header d-flex justify-content-between align-items-center">
             <div>
-                <strong class="pr-3">模板板块设置</strong>
-                <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>
-                <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>
-                <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>
-                <span class="tool-btn"><i class="bi bi-list-nested"></i></span>
+                <strong class="pr-3">#(form.name ??)表单设计</strong>
+<!--                <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>-->
+<!--                <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>-->
+<!--                <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>-->
+<!--                <span class="tool-btn"><i class="bi bi-list-nested"></i></span>-->
             </div>
             <div>
                 <button class="btn btn-primary btn-sm mr-3 update">更新</button>

@@ -18,6 +18,7 @@ package io.jpress.module.form.controller.admin;
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -29,7 +30,18 @@ public class _FormDesignController extends AdminControllerBase {
     private FormInfoService service;
 
     public void index() {
+        FormInfo formInfo = service.findById(getParaToLong());
+        setAttr("form",formInfo);
         render("form/form_design.html");
+    }
+
+
+    public void save(){
+        FormInfo formInfo = service.findById(getParaToLong("id"));
+        formInfo.setBuilderJson(getRawData());
+        service.update(formInfo);
+
+        renderOkJson();
     }
 
 

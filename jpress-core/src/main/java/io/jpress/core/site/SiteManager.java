@@ -37,6 +37,7 @@ public class SiteManager implements JbootEventListener {
     private static final Log LOG = Log.getLog(SiteManager.class);
 
     private static Set<String> ignoreDomains = new HashSet<>();
+
     static {
         ignoreDomains.add("127.0.0.1");
         ignoreDomains.add("localhost");
@@ -53,7 +54,7 @@ public class SiteManager implements JbootEventListener {
     public void init() {
         if (Installer.notInstall()) {
             Installer.addListener(this);
-        }else {
+        } else {
             doRealInit();
         }
     }
@@ -68,12 +69,16 @@ public class SiteManager implements JbootEventListener {
     /**
      * 真正的初始化
      */
-    private void doRealInit(){
+    private void doRealInit() {
         siteInfoService = Aop.get(SiteInfoService.class);
     }
 
 
-    public SiteInfo matchedSiteId(String target, HttpServletRequest request){
+    public SiteInfo matchedSite(String target, HttpServletRequest request) {
+        if (siteInfoService == null) {
+            return null;
+        }
+
         List<SiteInfo> allSites = siteInfoService.findAll();
 
         String reqDomain = request.getServerName();
@@ -81,17 +86,17 @@ public class SiteManager implements JbootEventListener {
 
         String siteId = CookieUtil.get(request, JPressConsts.COOKIE_SITE_ID);
 
-        if (allSites != null  && !allSites.isEmpty()){
+        if (allSites != null && !allSites.isEmpty()) {
             for (SiteInfo site : allSites) {
-                if (StrUtil.isNotBlank(site.getBindPath()) && target.startsWith(site.getBindPath())){
+                if (StrUtil.isNotBlank(site.getBindPath()) && target.startsWith(site.getBindPath())) {
                     return site;
                 }
 
-                if (!isIgnoreDomain && reqDomain.equals(site.getBindDomain())){
+                if (!isIgnoreDomain && reqDomain.equals(site.getBindDomain())) {
                     return site;
                 }
 
-                if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))){
+                if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))) {
                     return site;
                 }
             }

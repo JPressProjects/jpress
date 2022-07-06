@@ -1,8 +1,11 @@
 package io.jpress.web.handler;
 
 import com.jfinal.handler.Handler;
+import io.jboot.components.cache.JbootCache;
+import io.jboot.components.cache.JbootCacheManager;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
+import io.jpress.SiteContext;
 import io.jpress.core.site.SiteManager;
 import io.jpress.model.SiteInfo;
 
@@ -18,16 +21,25 @@ public class SiteHandler extends Handler {
         // 1、根据域名匹配
         // 2、根据绑定二级目录匹配
         // 3、更加 cookie 信息匹配
-        SiteInfo siteInfo = SiteManager.me().matchedSiteId(target, request);
+        SiteInfo siteInfo = SiteManager.me().matchedSite(target, request);
         if (siteInfo != null) {
             request.setAttribute(JPressConsts.ATTR_SITE_ID, siteInfo.getSiteId());
             if (StrUtil.isNotBlank(siteInfo.getBindPath())
                     && target.startsWith(siteInfo.getBindPath())) {
                 target = target.substring(siteInfo.getBindPath().length());
             }
+            SiteContext.setSiteId(siteInfo.getSiteId());
         }
 
-        next.handle(target, request, response, isHandled);
+
+        //设置缓存前缀
+        JbootCache cache = JbootCacheManager.me().getCache();
+        try {
+            cache.setCurrentCacheNamePrefix("site" + SiteContext.getSiteId()+":");
+            next.handle(target, request, response, isHandled);
+        } finally {
+            cache.removeCurrentCacheNamePrefix();
+        }
     }
 
 

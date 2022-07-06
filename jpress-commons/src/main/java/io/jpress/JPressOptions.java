@@ -15,8 +15,13 @@
  */
 package io.jpress;
 
+import com.github.benmanes.caffeine.cache.CacheLoader;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.jfinal.log.Log;
 import io.jboot.utils.StrUtil;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +37,16 @@ public class JPressOptions {
 
     private static final Log LOG = Log.getLog(JPressOptions.class);
 
-    private static OptionStore store = OptionStore.defaultOptionStore;
+    private static OptionStoreLoader storeLoader = siteId -> new DefaultOptionStore();
+
+    private static final LoadingCache<Long, OptionStore> stores = Caffeine.newBuilder()
+            .build(new CacheLoader<Long, OptionStore>() {
+                @Override
+                public @Nullable OptionStore load(@NonNull Long key) throws Exception {
+                    return storeLoader.load(key);
+                }
+            });
+
     private static List<OptionChangeListener> listeners = new ArrayList<>();
     private static OptionNotifier notifier = null;
 
@@ -43,6 +57,8 @@ public class JPressOptions {
         }
 
         key = key.toLowerCase();
+
+        OptionStore store = stores.get(SiteContext.getSiteId());
 
         String oldValue = store.get(key);
         if (Objects.equals(value, oldValue)) {
@@ -69,6 +85,7 @@ public class JPressOptions {
 
 
     public static String get(String key) {
+        OptionStore store = stores.get(SiteContext.getSiteId());
         return store.get(key.toLowerCase());
     }
 
@@ -236,12 +253,17 @@ public class JPressOptions {
         JPressOptions.flatUrlEnable = flatUrlEnable;
     }
 
-    public static OptionStore getStore() {
-        return store;
+
+    public static OptionStoreLoader getStoreLoader() {
+        return storeLoader;
     }
 
-    public static void setStore(OptionStore store) {
-        JPressOptions.store = store;
+    public static void setStoreLoader(OptionStoreLoader storeLoader) {
+        JPressOptions.storeLoader = storeLoader;
+    }
+
+    public interface OptionStoreLoader {
+        OptionStore load(Long siteId);
     }
 
     public interface OptionStore {
@@ -252,31 +274,32 @@ public class JPressOptions {
 
         void remove(String key);
 
-        OptionStore defaultOptionStore = new OptionStore() {
-
-            private final Map<String, String> cache = new ConcurrentHashMap<>();
-
-            @Override
-            public String get(String key) {
-                return cache.get(key);
-            }
-
-            @Override
-            public void put(String key, String value) {
-                if (StrUtil.isBlank(value)) {
-                    remove(key);
-                } else {
-                    cache.put(key, value);
-                }
-            }
-
-            @Override
-            public void remove(String key) {
-                cache.remove(key);
-            }
-        };
-
     }
+
+    public static class DefaultOptionStore implements OptionStore {
+
+        private final Map<String, String> cache = new ConcurrentHashMap<>();
+
+        @Override
+        public String get(String key) {
+            return cache.get(key);
+        }
+
+        @Override
+        public void put(String key, String value) {
+            if (StrUtil.isBlank(value)) {
+                remove(key);
+            } else {
+                cache.put(key, value);
+            }
+        }
+
+        @Override
+        public void remove(String key) {
+            cache.remove(key);
+        }
+    }
+
 
     public interface OptionNotifier {
         void notifyOptionSet(String key, String value);

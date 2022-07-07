@@ -19,7 +19,6 @@ import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
@@ -35,36 +34,7 @@ import java.util.List;
  * @version V1.0
  * @Title: Api的拦截器
  */
-public class TemplateInterceptor implements Interceptor, JPressOptions.OptionChangeListener {
-
-
-    private static String webTitle = null;
-    private static String webSubTitle = null;
-    private static String webName = null;
-    private static String webDomain = null;
-    private static String webCopyright = null;
-    private static String webIpcNo = null;
-    private static String seoTitle = null;
-    private static String seoKeyword = null;
-    private static String seoDescription = null;
-
-    public TemplateInterceptor() {
-        JPressOptions.addListener(this);
-    }
-
-    public static void init() {
-
-        webTitle = JPressOptions.get(JPressConsts.OPTION_WEB_TITLE,"JPress");
-        webSubTitle = JPressOptions.get(JPressConsts.OPTION_WEB_SUBTITLE,"欢迎使用JPress");
-        webName = JPressOptions.get(JPressConsts.OPTION_WEB_NAME);
-        webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
-        webCopyright = JPressOptions.get(JPressConsts.OPTION_WEB_COPYRIGHT);
-        webIpcNo = JPressOptions.get(JPressConsts.OPTION_WEB_IPC_NO);
-        seoTitle = JPressOptions.get(JPressConsts.OPTION_SEO_TITLE);
-        seoKeyword = JPressOptions.get(JPressConsts.OPTION_SEO_KEYWORDS);
-        seoDescription = JPressOptions.get(JPressConsts.OPTION_SEO_DESCRIPTION);
-
-    }
+public class TemplateInterceptor implements Interceptor {
 
 
     @Override
@@ -72,16 +42,16 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
 
         Controller controller = inv.getController();
 
-        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, StrUtil.escapeHtml(webTitle));
-        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, StrUtil.escapeHtml(webSubTitle));
-        controller.setAttr(JPressConsts.ATTR_WEB_NAME, StrUtil.escapeHtml(webName));
-        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, StrUtil.escapeHtml(webIpcNo));
-        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, StrUtil.escapeHtml(seoTitle));
-        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, StrUtil.escapeHtml(seoKeyword));
-        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, StrUtil.escapeHtml(seoDescription));
+        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, JPressOptions.get(JPressConsts.OPTION_WEB_TITLE, "JPress"));
+        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, JPressOptions.get(JPressConsts.OPTION_WEB_SUBTITLE, "欢迎使用JPress"));
+        controller.setAttr(JPressConsts.ATTR_WEB_NAME, JPressOptions.get(JPressConsts.OPTION_WEB_NAME));
+        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, JPressOptions.get(JPressConsts.OPTION_WEB_IPC_NO));
+        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, JPressOptions.get(JPressConsts.OPTION_SEO_TITLE));
+        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, JPressOptions.get(JPressConsts.OPTION_SEO_KEYWORDS));
+        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, JPressOptions.get(JPressConsts.OPTION_SEO_DESCRIPTION));
 
-        controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, webDomain);
-        controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, webCopyright);
+        controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN));
+        controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, JPressOptions.get(JPressConsts.OPTION_WEB_COPYRIGHT));
 
         //添加CSRF的配置，方便在前台进行退出等操作
         String csrfToken = CSRFInterceptor.createSCRFToken(inv);
@@ -103,38 +73,4 @@ public class TemplateInterceptor implements Interceptor, JPressOptions.OptionCha
     }
 
 
-    @Override
-    public void onChanged(String key, String newValue, String oldValue) {
-
-        switch (key) {
-            case JPressConsts.OPTION_WEB_TITLE:
-                webTitle = newValue;
-                break;
-            case JPressConsts.OPTION_WEB_SUBTITLE:
-                webSubTitle = newValue;
-                break;
-            case JPressConsts.OPTION_WEB_NAME:
-                webName = newValue;
-                break;
-            case JPressConsts.OPTION_WEB_COPYRIGHT:
-                webCopyright = newValue;
-                break;
-            case JPressConsts.OPTION_WEB_IPC_NO:
-                webIpcNo = newValue;
-                break;
-            case JPressConsts.OPTION_WEB_DOMAIN:
-                webDomain = newValue;
-                break;
-            case JPressConsts.OPTION_SEO_TITLE:
-                seoTitle = newValue;
-                break;
-            case JPressConsts.OPTION_SEO_KEYWORDS:
-                seoKeyword = newValue;
-                break;
-            case JPressConsts.OPTION_SEO_DESCRIPTION:
-                seoDescription = newValue;
-                break;
-        }
-
-    }
 }

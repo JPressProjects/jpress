@@ -90,7 +90,8 @@ public class JPressOptions {
 
 
     public static String get(String key) {
-        return stores.get(SiteContext.getSiteId()).get(key.toLowerCase());
+        Long siteId = SiteContext.getSiteId();
+        return stores.get(siteId).get(key.toLowerCase());
     }
 
 

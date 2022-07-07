@@ -27,7 +27,11 @@ public class SiteHandler extends Handler {
             request.setAttribute("CSITE", siteInfo);
             if (StrUtil.isNotBlank(siteInfo.getBindPath())
                     && target.startsWith(siteInfo.getBindPath())) {
-                target = target.substring(siteInfo.getBindPath().length());
+                if (target.length() == siteInfo.getBindPath().length()) {
+                    target = "/";
+                } else {
+                    target = target.substring(siteInfo.getBindPath().length());
+                }
             }
             SiteContext.setSiteId(siteInfo.getSiteId());
         }
@@ -36,7 +40,7 @@ public class SiteHandler extends Handler {
         //设置缓存前缀
         JbootCache cache = JbootCacheManager.me().getCache();
         try {
-            cache.setCurrentCacheNamePrefix("site" + SiteContext.getSiteId()+":");
+            cache.setCurrentCacheNamePrefix("site" + SiteContext.getSiteId() + ":");
             next.handle(target, request, response, isHandled);
         } finally {
             cache.removeCurrentCacheNamePrefix();

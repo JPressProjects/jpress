@@ -30,7 +30,6 @@ import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 import io.jpress.web.interceptor.ApiInterceptor;
-import io.jpress.web.interceptor.TemplateInterceptor;
 import io.jpress.web.interceptor.WechatInterceptor;
 
 import java.util.List;
@@ -67,9 +66,6 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
             //整个网站的后台配置不超过100个，再未来最多也100多个，所以全部放在内存毫无压力
             JPressOptions.set(option.getKey(), option.getValue(), option.getSite());
         }
-
-        //初始化模板拦截器配置
-        TemplateInterceptor.init();
 
         //初始化模板配置
         TemplateManager.me().init();

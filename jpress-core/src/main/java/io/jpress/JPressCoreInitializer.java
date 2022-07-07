@@ -69,8 +69,8 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
 
         handlers.add(new InstallHandler());
         handlers.add(new SitemapHandler());
-        handlers.add(new JPressHandler());
         handlers.add(new SiteHandler());
+        handlers.add(new JPressHandler());
         handlers.add(new FlatUrlHandler());
         handlers.add(new AddonHandlerProcesser());
         handlers.add(new XSSHandler());

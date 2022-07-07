@@ -15,7 +15,9 @@
  */
 package io.jpress.module.job.controller;
 
+import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.ActionKey;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
@@ -23,6 +25,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.model.JobAddress;
@@ -33,11 +36,9 @@ import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobCategoryService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.MenuService;
+import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @RequestMapping(value = "/admin/job", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -57,6 +58,9 @@ public class _JobController extends AdminControllerBase {
 
     @Inject
     private MenuService menuService;
+
+    @Inject
+    private OptionService optionService;
 
     @AdminMenu(text = "岗位管理", groupId = "job", order = 0)
     public void list() {
@@ -105,6 +109,19 @@ public class _JobController extends AdminControllerBase {
         if (entry.getId() == null) {
             entry.setCreated(new Date());
         }
+
+        if (entry.getWithNotify() == null) {
+            entry.setWithNotify(false);
+        }
+
+        if (entry.getWithRemote() == null) {
+            entry.setWithRemote(false);
+        }
+
+        if (entry.getWithApply() == null) {
+            entry.setWithApply(false);
+        }
+
 
         if (entry.getExpiredTo() != null && entry.getExpiredTo().before(entry.getCreated())) {
             renderFailJson("请正确填写岗位有效时间");
@@ -239,35 +256,68 @@ public class _JobController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "申请管理", groupId = "job", order = 3)
-    public void JobApply(){
+    @AdminMenu(text = "简历管理", groupId = "job", order = 3)
+    public void JobApply() {
 
         Columns columns = new Columns();
         Page<JobApply> page = jobApplyService.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(), columns, "created desc");
-        setAttr("page",page);
+        setAttr("page", page);
 
         render("job/job_apply_list.html");
     }
 
-    public void applyDetail(){
+    @ActionKey("./JobApply/detail")
+    public void applyDetail() {
 
         Long id = getLong();
 
         JobApply jobApply = jobApplyService.findById(id);
 
-        if(id == null || jobApply == null){
-          renderError(404);
-          return;
+        if (id == null || jobApply == null) {
+            renderError(404);
+            return;
         }
 
         //更新查看状态
         jobApply.setWithViewed(true);
         jobApply.update();
 
-        setAttr("jobApply",jobApply);
+        setAttr("jobApply", jobApply);
 
-        //TODO
+        Job job = service.findById(jobApply.getJobId());
+
+        if (job != null) {
+            setAttr("job", job);
+        }
+
         render("job/job_apply_detail.html");
+    }
+
+    public void applyResult() {
+
+        Long id = getLong();
+
+
+        JobApply jobApply = jobApplyService.findById(id);
+
+        if (id == null || jobApply == null) {
+            renderError(404);
+            return;
+        }
+
+        String content = getPara("disposedContent");
+        if (content == null) {
+            renderFailJson("请填写处理意见");
+            return;
+        }
+
+        jobApply.setDisposedContent(content);
+        jobApply.setDisposedTime(new Date());
+        jobApply.setWithDisposed(true);
+
+        jobApply.update();
+
+        renderOkJson();
     }
 
     public void applyDoDel() {
@@ -279,6 +329,44 @@ public class _JobController extends AdminControllerBase {
     public void applyDoDelByIds() {
         jobApplyService.batchDeleteByIds(getParaSet("ids").toArray());
         renderOkJson();
+    }
+
+
+    @AdminMenu(text = "招聘设置", groupId = "job", order = 4)
+    public void setting() {
+        render("job/job_setting.html");
+    }
+
+    @ActionKey("./setting/save")
+    public void setSave() {
+
+        final Set<String> allowHtmlTagKeys = Sets.newHashSet("job_email_enable", "job_mobile_enable");
+
+        Enumeration<String> paraNames = getParaNames();
+
+        if (paraNames == null || !paraNames.hasMoreElements()) {
+            renderJson(Ret.fail("msg", "para is empty"));
+            return;
+        }
+
+        HashMap<String, String> datasMap = new HashMap<>();
+        while (paraNames.hasMoreElements()) {
+            String key = paraNames.nextElement();
+            String value = allowHtmlTagKeys.contains(key) ? getCleanedOriginalPara(key) : getPara(key);
+            datasMap.put(key, value);
+        }
+
+        for (Map.Entry<String, String> entry : datasMap.entrySet()) {
+            //Mysql 对于字符串不区分大小写，所以保持统一
+            String key = entry.getKey().trim();
+            optionService.saveOrUpdate(key, entry.getValue());
+            JPressOptions.set(key, entry.getValue());
+        }
+
+        renderOkJson();
+
+        //TODO
+
     }
 
 }

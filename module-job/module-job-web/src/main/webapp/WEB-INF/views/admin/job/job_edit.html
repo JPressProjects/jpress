@@ -15,9 +15,9 @@
 
     // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留page的status
     window.doSubmit = function () {
-        if (window.currentCKEditor){
+        if (window.currentCKEditor) {
             $("#content").val(window.currentCKEditor.getData());
-        }else if (window.currentVditor){
+        } else if (window.currentVditor) {
             $("#content").val(window.currentVditor.getHTML());
         }
         ajaxSubmit("#form1", function (data) {
@@ -190,7 +190,8 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-sm-12"style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">
+                        <div class="col-sm-12"
+                             style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">
                             <div>
 
                             </div>
@@ -206,7 +207,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12" style="z-index: 9999;">
-                            <div id="editor" >#(job.getHtml() ??)</div>
+                            <div id="editor">#(job.getHtml() ??)</div>
                             <input type="hidden" name="job.content" id="content"/>
                         </div>
                     </div>
@@ -245,7 +246,8 @@
                                                 <label class="col-sm-2 col-form-label">最大年龄</label>
                                                 <div class="col-sm-6">
 
-                                                    <input type="number" name="job.age_limit_end" class="form-control" value="#(job.age_limit_end ??)"
+                                                    <input type="number" name="job.age_limit_end" class="form-control"
+                                                           value="#(job.age_limit_end ??)"
                                                            placeholder="请输入最大年龄">
                                                 </div>
                                             </div>
@@ -254,7 +256,8 @@
                                                 <label class="col-sm-2 col-form-label">部门</label>
                                                 <div class="col-sm-6">
 
-                                                    <input type="text" name="job.department" class="form-control" value="#(job.department ??)"
+                                                    <input type="text" name="job.department" class="form-control"
+                                                           value="#(job.department ??)"
                                                            placeholder="请输入部门">
                                                 </div>
                                             </div>
@@ -264,7 +267,8 @@
                                                 <label class="col-sm-2 col-form-label">是否属于远程工作</label>
                                                 <div class="col-sm-6">
 
-                                                    <input type="checkbox" class="switchery" data-for="with_remote" #checkedIf(job.with_remote
+                                                    <input type="checkbox" class="switchery" data-for="with_remote"
+                                                           #checkedIf(job.with_remote
                                                            ??)>
                                                     <input type="hidden" id="with_remote" name="job.with_remote">
                                                 </div>
@@ -274,8 +278,19 @@
                                                 <label class="col-sm-2 col-form-label">是否允许在线投递</label>
                                                 <div class="col-sm-6">
 
-                                                    <input type="checkbox" class="switchery" data-for="with_apply" #checkedIf(job.with_apply ??)>
+                                                    <input type="checkbox" class="switchery" data-for="with_apply"
+                                                           #checkedIf(job.with_apply ??)>
                                                     <input type="hidden" id="with_apply" name="job.with_apply">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">有新申请是否通知</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="checkbox" class="switchery" data-for="with_apply"
+                                                           #checkedIf(job.with_notify ??)>
+                                                    <input type="hidden" id="with_notify" name="job.with_notify">
                                                 </div>
                                             </div>
 
@@ -287,15 +302,6 @@
                                                     <input type="input" name="job.recruit_numbers" class="form-control"
                                                            value="#(job.recruit_numbers ??)"
                                                            placeholder="请输入岗位招聘人数">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">接收简历的邮箱</label>
-                                                <div class="col-sm-6">
-
-                                                    <input type="email" name="job.notify_emails" class="form-control" value="#(job.notify_emails ??)"
-                                                           placeholder="请输入邮箱">
                                                 </div>
                                             </div>
 
@@ -315,7 +321,8 @@
 
                                                     <input type="input" class="form-control datetime" placeholder="点击选择"
                                                            name="job.created"
-                                                           value="#date(job.created ??,'yyyy-MM-dd')" readonly="readonly">
+                                                           value="#date(job.created ??,'yyyy-MM-dd')"
+                                                           readonly="readonly">
                                                 </div>
                                             </div>
 
@@ -366,7 +373,8 @@
                             #for(item : categoryList)
                             <div>
                                 <label>
-                                    <input type="radio" name="job.category_id" value="#(item.id)" #if(item.id ??== job.category_id ??) checked #end/>
+                                    <input type="radio" name="job.category_id" value="#(item.id)" #if(item.id ??==
+                                           job.category_id ??) checked #end/>
                                     #(item.title ??)
                                 </label>
                             </div>
@@ -377,39 +385,19 @@
                     </div>
                 </div>
 
-<!--                <div class="card card-outlinecard-solid">-->
-<!--                    <div class="card-header with-border ">-->
-<!--                        <h3 class="card-title">部门</h3>-->
-<!--&lt;!&ndash;                        <input type="hidden" name="job.deptId" value="#(job.deptId ??)"/>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                    <div class="card-body">-->
-<!--                        <div class="form-group">-->
-<!--                            #for(item : deptList)-->
-<!--                            <div>-->
-<!--                                <label>-->
-<!--                                    <input type="radio" name="job.dept_id" value="#(item.id)" #if(item.id ??== job.dept_id ??) checked #end/>-->
-<!--                                    #(item.title ??)-->
-<!--                                </label>-->
-<!--                            </div>-->
-<!--                            #else-->
-<!--                            暂无部门-->
-<!--                            #end-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
 
                 <div class="card card-outlinecard-solid">
                     <div class="card-header with-border ">
                         <h3 class="card-title">地区</h3>
-<!--                        <input type="hidden" name="job.address_id" value="#(job.address_id ??)"/>-->
+                        <!--                        <input type="hidden" name="job.address_id" value="#(job.address_id ??)"/>-->
                     </div>
                     <div class="card-body">
                         <div class="form-group">
                             #for(item : addressList)
                             <div>
                                 <label>
-                                    <input type="radio" name="job.address_id" value="#(item.id)" #if(item.id ??== job.address_id ??) checked #end/>
+                                    <input type="radio" name="job.address_id" value="#(item.id)" #if(item.id ??==
+                                           job.address_id ??) checked #end/>
                                     #(item.title ??)
                                 </label>
                             </div>
@@ -447,36 +435,62 @@
                         <div class="form-group row">
                             <select class="form-control" name="job.years_limit_type">
                                 <option value="">请选择基层工作最低年限</option>
-                                <option #if(job.years_limit_type ?? == 0) selected #end value="0">不限</option>
-                                <option #if(job.years_limit_type ?? == 1) selected #end value="1">在校生</option>
-                                <option #if(job.years_limit_type ?? == 2) selected #end value="2">应届生</option>
-                                <option #if(job.years_limit_type ?? == 3) selected #end value="3">1年以内</option>
-                                <option #if(job.years_limit_type ?? == 4) selected #end value="4">1-3年</option>
-                                <option #if(job.years_limit_type ?? == 5) selected #end value="5">3-5年</option>
-                                <option #if(job.years_limit_type ?? == 6) selected #end value="6">5-10年</option>
-                                <option #if(job.years_limit_type ?? == 7) selected #end value="7">10年以上</option>
+                                <option #if(job.years_limit_type ??== 0) selected #end value="0">不限</option>
+                                <option #if(job.years_limit_type ??== 1) selected #end value="1">在校生</option>
+                                <option #if(job.years_limit_type ??== 2) selected #end value="2">应届生</option>
+                                <option #if(job.years_limit_type ??== 3) selected #end value="3">1年以内</option>
+                                <option #if(job.years_limit_type ??== 4) selected #end value="4">1-3年</option>
+                                <option #if(job.years_limit_type ??== 5) selected #end value="5">3-5年</option>
+                                <option #if(job.years_limit_type ??== 6) selected #end value="6">5-10年</option>
+                                <option #if(job.years_limit_type ??== 7) selected #end value="7">10年以上</option>
                             </select>
                         </div>
 
 
-
                         <div class="form-group row">
-                                <select class="form-control" name="job.work_type">
-                                    <option value="">工作类型</option>
-                                    <option #if(job.work_type ?? == 0) selected #end value="0">全职</option>
-                                    <option #if(job.work_type ?? == 1) selected #end value="1">兼职</option>
-                                    <option #if(job.work_type ?? == 2) selected #end value="2">钟点工</option>
-                                </select>
+                            <select class="form-control" name="job.work_type">
+                                <option value="">工作类型</option>
+                                <option #if(job.work_type ??== 0) selected #end value="0">全职</option>
+                                <option #if(job.work_type ??== 1) selected #end value="1">兼职</option>
+                                <option #if(job.work_type ??== 2) selected #end value="2">钟点工</option>
+                            </select>
                         </div>
 
                         <div class="form-group row">
                             <select class="form-control" name="job.recruit_type">
                                 <option value="">招聘类型</option>
-                                <option #if(job.recruit_type ?? == 0) selected #end value="0">社招</option>
-                                <option #if(job.recruit_type ?? == 1) selected #end value="1">校招</option>
-                                <option #if(job.recruit_type ?? == 2) selected #end value="2">实习</option>
+                                <option #if(job.recruit_type ??== 0) selected #end value="0">社招</option>
+                                <option #if(job.recruit_type ??== 1) selected #end value="1">校招</option>
+                                <option #if(job.recruit_type ??== 2) selected #end value="2">实习</option>
                             </select>
                         </div>
+
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">邮件</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            <input type="email" id="job.notify_emails" name="job.notify_emails" class="form-control"
+                                   value="#(job.notify_emails ??)"
+                                   placeholder="请输入接收简历邮箱">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="input" id="job.notify_title" name="job.notify_title" class="form-control"
+                                   value="#(job.notify_title ??)"
+                                   placeholder="请输入邮件标题">
+                        </div>
+
+                        <div class="form-group">
+                           <textarea name="job.notify_content" class="form-control" placeholder="请输入邮件内容">#(job.notify_content ??)</textarea>
+                        </div>
+
 
                     </div>
                 </div>

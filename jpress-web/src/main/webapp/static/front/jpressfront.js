@@ -514,7 +514,23 @@ function initClipboardJSComponent(){
 
 
 function initJPressVideo(){
-    $('.jpress-video').each(function (){
+
+    //样式css
+    var linkE = document.createElement("link");
+    linkE.href = "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.min.css";
+    linkE.rel = "stylesheet";
+    $('head').append(linkE);
+    linkE.addEventListener('load', ev => { console.log("tcplayer.min.css is defined") });
+
+    //样式css
+    var linkEl = document.createElement("link");
+    linkEl.rel = "stylesheet";
+    linkEl.href = "https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css";
+    $('head').append(linkEl);
+    linkEl.addEventListener('load', ev => { console.log("aliplayer-min.css is defined") });
+
+
+    $('.jpress-video').each(function () {
 
         var cloudType = $(this).attr("data-cloud");
         var vid = $(this).attr("data-vid");
@@ -522,58 +538,101 @@ function initJPressVideo(){
         var aid = $(this).attr("data-app-id");
         var playAuth = $(this).attr("data-play-auth");
 
-        if(cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
-            //阿里云视频播放凭证有时效性
-            $.ajax({
-                url:"/admin/attachment/video/getVideoPlayAuth",
-                type:"post",
-                data:{vid:vid},
 
-                success: function (result){
-                    if(result.state == "ok"){
-                        playAuth = result.playAuth;
-                        //阿里云
-                        if (vid != "" && playAuth != ""  && id != "") {
-                            var player = new Aliplayer({
-                                    "id": id,
-                                    "vid": vid,
-                                    "playauth": playAuth,
-                                    // "qualitySort": "asc",
-                                    // "format": "mp4",
-                                    // "mediaType": "video",
-                                    // "width": "100%",
-                                    // "height": "100%",
-                                    "videoWidth": "100%",
-                                    "videoHeight": "100%",
-                                    "autoplay": false,
-                                    "isLive": false,
-                                    // "cover": "缩略图",
-                                    "rePlay": false,
-                                    "playsinline": true,
-                                    "preload": false,
-                                    "controlBarVisibility": "hover",
-                                    "useH5Prism": true
-                                }, function (player) {
-                                    console.log("The aliyun player is created");
+        if (cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
+
+            //阿里云 播放器相关的js
+            var scriptEl = document.createElement("script");
+            scriptEl.type = "text/javascript";
+            scriptEl.src = "https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js";
+            scriptEl.onload = () => {
+                try {
+                    //js加载完成
+                    console.log('onload - aliplayer-min.js  is  defined');
+
+                    //阿里云视频播放凭证有时效性
+                    $.ajax({
+                        url: "/admin/attachment/video/getVideoPlayAuth",
+                        type: "post",
+                        data: {vid: vid},
+
+                        success: function (result) {
+                            if (result.state == "ok") {
+                                playAuth = result.playAuth;
+                                //阿里云
+                                if (vid != "" && playAuth != "" && id != "") {
+                                    var player = new Aliplayer({
+                                            "id": id,
+                                            "vid": vid,
+                                            "playauth": playAuth,
+                                            "videoWidth": "100%",
+                                            "videoHeight": "100%",
+                                            "autoplay": false,
+                                            "isLive": false,
+                                            // "cover": "缩略图",
+                                            "rePlay": false,
+                                            "playsinline": true,
+                                            "preload": false,
+                                            "controlBarVisibility": "hover",
+                                            "useH5Prism": true
+                                        }, function (player) {
+                                            console.log("The aliyun player is created");
+                                        }
+                                    );
+                                    return player;
                                 }
-                            );
-                            return player;
+                            }
                         }
-                    }
-                }
-            })
+                    })
 
-        }
-        else if(cloudType != null && cloudType != '' && cloudType == '2'){//腾讯云
+                } catch (e) {
+                    console.log('onload - aliplayer-min.js  is not defined yet');
+                }
+            }
+            document.body.appendChild(scriptEl);
+
+        } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
 
             if (vid != "" && aid != "" && id != "") {
-                var player = new TCPlayer(id, {
-                    fileID:  vid,
-                    appID: aid,
-                    autoplay: false, //是否自动播放
-                });
-                console.log("The qcloud player is created");
-                return player;
+
+                //腾讯云 播放器相关的js， 先加载hls,hls加载完毕再加载tcplayer
+                var scriptHls = document.createElement("script");
+                scriptHls.src = "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/libs/hls.min.0.13.2m.js";
+                scriptHls.onload = () => {
+                    try {
+                        //hls加载完成
+                        console.log('onload - hls.min.0.13.2m.js is  defined ');
+
+                        //tcplayer
+                        var scriptE = document.createElement("script");
+                        scriptE.src = "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js";
+                        scriptE.onload = () => {
+                            try {
+                                //tcplayer加载完成
+                                console.log('onload - tcplayer.v4.5.2.min.js is  defined ');
+
+                                //创建腾讯云播放器
+                                var player = new TCPlayer(id, {
+                                    fileID: vid,
+                                    appID: aid,
+                                    autoplay: false, //是否自动播放
+                                });
+                                console.log("The qcloud player is created");
+                                return player;
+
+                            } catch (e) {
+                                console.log('onload - tcplayer.v4.5.2.min.js is not defined yet');
+                            }
+                        }
+                        document.body.appendChild(scriptE);
+
+                    } catch (e) {
+                        console.log('onload - hls.min.0.13.2m.js is not defined yet');
+                    }
+                }
+
+                document.body.appendChild(scriptHls);
+
             }
 
         }

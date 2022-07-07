@@ -74,6 +74,10 @@ table td {
     padding-right: 0.75rem;
 }
 
+.toast-top-center{
+    top:50px;right:0;width:100%
+}
+
 .table {
     width: 100%;
     margin-bottom: 0;

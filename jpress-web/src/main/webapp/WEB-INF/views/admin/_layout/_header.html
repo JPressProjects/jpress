@@ -17,11 +17,16 @@
         <!-- 站点信息 -->
         <li class="nav-item dropdown">
             <button class="btn btn-sm btn-secondary dropdown-toggle" style="background: #464c52" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                当前站点：#(CURRENT_SITE.name ?? '主站点')
+                当前站点：#(CSITE.name ?? '主站点')
             </button>
             <div class="dropdown-menu" style="margin-top: 8px" aria-labelledby="dropdownMenuButton">
+                #if(CSITE ??)
+                <a class="dropdown-item" href="#(CPATH)/admin/site/change?siteId=0">主站点</a>
+                #end
                 #for(site : SITES)
-                <a class="dropdown-item" href="#">#(site.name ??)</a>
+                    #if(site != CSITE)
+                    <a class="dropdown-item" href="#(CPATH)/admin/site/change?siteId=#(site.siteId ??)">#(site.name ??)</a>
+                    #end
                 #end
             </div>
         </li>

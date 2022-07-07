@@ -30,13 +30,12 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
 
     @Override
     protected Option initDao() {
-        Option option = new Option() {
+        return new Option() {
             @Override
             protected void processColumns(Columns columns, String action) {
-                columns.eq("site_id", SiteContext.getSiteId());
+                columns.eq("site", SiteContext.getSiteId());
             }
         };
-        return option;
     }
 
     @Override
@@ -72,6 +71,7 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
         if (option == null) {
             option = new Option();
             option.setKey(key);
+            option.setSite(SiteContext.getSiteId());
         }
 
         option.setValue(value);

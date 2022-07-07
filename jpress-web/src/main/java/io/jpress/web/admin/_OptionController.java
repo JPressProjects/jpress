@@ -38,11 +38,13 @@ import java.util.Set;
 @RequestMapping(value = "/admin/option", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _OptionController extends AdminControllerBase {
 
-    private static final Set<String> allowHtmlTagKeys = Sets.newHashSet("wechat_reply_user_subscribe"
-            , "wechat_reply_user_scan"
-            , "wechat_reply_unknow"
-            , "web_copyright"
-    );
+//    private static final Set<String> allowHtmlTagKeys = Sets.newHashSet("wechat_reply_user_subscribe"
+//            , "wechat_reply_user_scan"
+//            , "wechat_reply_unknow"
+//            , "web_copyright"
+//    );
+
+    private static final Set<String> ignoreKeys = Sets.newHashSet("csrf_token");
 
     @Inject
     private OptionService service;
@@ -59,7 +61,10 @@ public class _OptionController extends AdminControllerBase {
         HashMap<String, String> datasMap = new HashMap<>();
         while (paraNames.hasMoreElements()) {
             String key = paraNames.nextElement();
-            String value = allowHtmlTagKeys.contains(key) ? getCleanedOriginalPara(key) : getPara(key);
+            if (ignoreKeys.contains(key)){
+                continue;
+            }
+            String value = getPara(key);
             datasMap.put(key, value);
         }
 

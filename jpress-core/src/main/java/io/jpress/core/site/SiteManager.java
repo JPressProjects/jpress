@@ -81,26 +81,42 @@ public class SiteManager implements JbootEventListener {
 
         List<SiteInfo> allSites = siteInfoService.findAll();
 
-        String reqDomain = request.getServerName();
-        boolean isIgnoreDomain = ignoreDomains.contains(reqDomain);
-
-        String siteId = CookieUtil.get(request, JPressConsts.COOKIE_SITE_ID);
-
-        if (allSites != null && !allSites.isEmpty()) {
-            for (SiteInfo site : allSites) {
-                if (StrUtil.isNotBlank(site.getBindPath()) && target.startsWith(site.getBindPath())) {
-                    return site;
+        //后台
+        if(target.startsWith("/admin")){
+            String siteId = CookieUtil.get(request, JPressConsts.COOKIE_ADMIN_SITE_ID);
+            if (allSites != null && !allSites.isEmpty()) {
+                for (SiteInfo site : allSites) {
+                    if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))) {
+                        return site;
+                    }
                 }
+            }
+        }else {
+            String reqDomain = request.getServerName();
+            boolean isIgnoreDomain = ignoreDomains.contains(reqDomain);
 
-                if (!isIgnoreDomain && reqDomain.equals(site.getBindDomain())) {
-                    return site;
-                }
+            String siteId = CookieUtil.get(request, JPressConsts.COOKIE_SITE_ID);
 
-                if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))) {
-                    return site;
+            if (allSites != null && !allSites.isEmpty()) {
+                for (SiteInfo site : allSites) {
+                    if (StrUtil.isNotBlank(site.getBindPath()) && target.startsWith(site.getBindPath())) {
+                        return site;
+                    }
+
+                    if (!isIgnoreDomain && reqDomain.equals(site.getBindDomain())) {
+                        return site;
+                    }
+
+                    if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))) {
+                        return site;
+                    }
                 }
             }
         }
+
+
+
+
 
         return null;
     }

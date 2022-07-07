@@ -24,6 +24,7 @@ public class SiteHandler extends Handler {
         SiteInfo siteInfo = SiteManager.me().matchedSite(target, request);
         if (siteInfo != null) {
             request.setAttribute(JPressConsts.ATTR_SITE_ID, siteInfo.getSiteId());
+            request.setAttribute("CSITE", siteInfo);
             if (StrUtil.isNotBlank(siteInfo.getBindPath())
                     && target.startsWith(siteInfo.getBindPath())) {
                 target = target.substring(siteInfo.getBindPath().length());
@@ -39,6 +40,7 @@ public class SiteHandler extends Handler {
             next.handle(target, request, response, isHandled);
         } finally {
             cache.removeCurrentCacheNamePrefix();
+            SiteContext.removeSiteId();
         }
     }
 

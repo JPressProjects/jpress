@@ -110,6 +110,7 @@ public class JPressConsts {
     public static final String COOKIE_ANONYM = "_jpanonym";
     public static final String COOKIE_EDIT_MODE = "_jpeditmode";
     public static final String COOKIE_SITE_ID = "_jpsiteid";
+    public static final String COOKIE_ADMIN_SITE_ID = "_jpasiteid";
 
     /**
      * 用到的request attribute常量

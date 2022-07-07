@@ -52,13 +52,18 @@ public class JPressOptions {
 
 
     public static void set(String key, String value) {
+        set(key, value, SiteContext.getSiteId());
+    }
+
+
+    public static void set(String key, String value, Long siteId) {
         if (StrUtil.isBlank(key)) {
             return;
         }
 
         key = key.toLowerCase();
 
-        OptionStore store = stores.get(SiteContext.getSiteId());
+        OptionStore store = stores.get(siteId);
 
         String oldValue = store.get(key);
         if (Objects.equals(value, oldValue)) {
@@ -85,8 +90,7 @@ public class JPressOptions {
 
 
     public static String get(String key) {
-        OptionStore store = stores.get(SiteContext.getSiteId());
-        return store.get(key.toLowerCase());
+        return stores.get(SiteContext.getSiteId()).get(key.toLowerCase());
     }
 
 

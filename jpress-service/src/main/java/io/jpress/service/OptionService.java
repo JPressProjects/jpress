@@ -21,13 +21,6 @@ import java.util.List;
 
 public interface OptionService {
 
-    /**
-     * 根据 主键 查找 Model
-     *
-     * @param id
-     * @return
-     */
-    Option findById(Object id);
 
 
     /**
@@ -37,14 +30,6 @@ public interface OptionService {
      */
     List<Option> findAll();
 
-
-    /**
-     * 根据主键删除 Model
-     *
-     * @param id
-     * @return success
-     */
-    boolean deleteById(Object id);
 
 
     /**
@@ -56,40 +41,6 @@ public interface OptionService {
     boolean deleteByKey(String key);
 
 
-    /**
-     * 删除 Model
-     *
-     * @param model
-     * @return
-     */
-    boolean delete(Option model);
-
-
-    /**
-     * 新增 Model 数据
-     *
-     * @param model
-     * @return
-     */
-    Object save(Option model);
-
-
-    /**
-     * 新增或者更新 Model 数据（主键值为 null 就新增，不为 null 则更新）
-     *
-     * @param model
-     * @return 新增或更新成功后，返回该 Model 的主键值
-     */
-    Object saveOrUpdate(Option model);
-
-
-    /**
-     * 更新此 Model 的数据，务必要保证此 Model 的主键不能为 null
-     *
-     * @param model
-     * @return
-     */
-    boolean update(Option model);
 
 
     String findByKey(String key);

@@ -33,7 +33,7 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
         return new Option() {
             @Override
             protected void processColumns(Columns columns, String action) {
-                columns.eq("site", SiteContext.getSiteId());
+                columns.eq("site_id", SiteContext.getSiteId());
             }
         };
     }
@@ -71,7 +71,7 @@ public class OptionServiceProvider extends JbootServiceBase<Option> implements O
         if (option == null) {
             option = new Option();
             option.setKey(key);
-            option.setSite(SiteContext.getSiteId());
+            option.setSiteId(SiteContext.getSiteId());
         }
 
         option.setValue(value);

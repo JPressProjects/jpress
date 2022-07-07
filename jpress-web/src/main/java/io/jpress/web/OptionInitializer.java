@@ -64,7 +64,9 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         List<Option> options = service.findAll();
         for (Option option : options) {
             //整个网站的后台配置不超过100个，再未来最多也100多个，所以全部放在内存毫无压力
-            JPressOptions.set(option.getKey(), option.getValue(), option.getSite());
+            if (StrUtil.isNotBlank(option.getValue()) && option.getSiteId() != null) {
+                JPressOptions.set(option.getKey(), option.getValue(), option.getSiteId());
+            }
         }
 
         //初始化模板配置

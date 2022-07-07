@@ -193,12 +193,18 @@ public abstract class BaseMenu<M extends BaseMenu<M>> extends BaseSortModel<M> i
 		return getDate("modified");
 	}
 
-	public void setSite(java.lang.Long site) {
-		set("site", site);
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
 	}
 
-	public java.lang.Long getSite() {
-		return getLong("site");
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

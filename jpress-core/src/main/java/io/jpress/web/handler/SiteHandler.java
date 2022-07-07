@@ -21,10 +21,10 @@ public class SiteHandler extends Handler {
         // 1、根据域名匹配
         // 2、根据绑定二级目录匹配
         // 3、更加 cookie 信息匹配
-        SiteInfo siteInfo = SiteManager.me().matchedSite(target, request);
+        SiteInfo siteInfo = SiteManager.me().matchedSite(target, request, response);
         if (siteInfo != null) {
             request.setAttribute(JPressConsts.ATTR_SITE_ID, siteInfo.getSiteId());
-            request.setAttribute("CSITE", siteInfo);
+            request.setAttribute("SITE", siteInfo);
             if (StrUtil.isNotBlank(siteInfo.getBindPath())
                     && target.startsWith(siteInfo.getBindPath())) {
                 if (target.length() == siteInfo.getBindPath().length()) {

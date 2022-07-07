@@ -22,14 +22,14 @@ import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.core.install.Installer;
 import io.jpress.model.SiteInfo;
 import io.jpress.service.SiteInfoService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 
 public class SiteManager implements JbootEventListener {
@@ -74,48 +74,100 @@ public class SiteManager implements JbootEventListener {
     }
 
 
-    public SiteInfo matchedSite(String target, HttpServletRequest request) {
+    public SiteInfo matchedSite(String target, HttpServletRequest request, HttpServletResponse response) {
         if (siteInfoService == null) {
             return null;
         }
 
         List<SiteInfo> allSites = siteInfoService.findAll();
+        if (allSites == null || allSites.isEmpty()) {
+            return null;
+        }
 
         //后台
-        if(target.startsWith("/admin")){
+        if (target.startsWith("/admin")) {
             String siteId = CookieUtil.get(request, JPressConsts.COOKIE_ADMIN_SITE_ID);
-            if (allSites != null && !allSites.isEmpty()) {
+            for (SiteInfo site : allSites) {
+                if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))) {
+                    return site;
+                }
+            }
+        }
+        //前台
+        else {
+            // 首先做域名匹配
+            // 在做绑定二级目录匹配
+            // 最后做语言匹配
+            String requestDomain = request.getServerName();
+            boolean isIgnoreDomain = ignoreDomains.contains(requestDomain);
+
+            List<SiteInfo> matchedSites = new ArrayList<>();
+
+            //开始 域名匹配
+            if (!isIgnoreDomain) {
                 for (SiteInfo site : allSites) {
-                    if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))) {
-                        return site;
+                    if (requestDomain.equals(site.getBindDomain())) {
+                        matchedSites.add(site);
                     }
                 }
             }
-        }else {
-            String reqDomain = request.getServerName();
-            boolean isIgnoreDomain = ignoreDomains.contains(reqDomain);
 
-            String siteId = CookieUtil.get(request, JPressConsts.COOKIE_SITE_ID);
-
-            if (allSites != null && !allSites.isEmpty()) {
+            //若域名匹配不到，则开始 二级目录匹配
+            if (matchedSites.isEmpty()) {
                 for (SiteInfo site : allSites) {
-                    if (StrUtil.isNotBlank(site.getBindPath()) && target.startsWith(site.getBindPath())) {
-                        return site;
+                    if (requestDomain.equals(site.getBindDomain())) {
+                        matchedSites.add(site);
+                        break;
                     }
-
-                    if (!isIgnoreDomain && reqDomain.equals(site.getBindDomain())) {
-                        return site;
+                }
+            }
+            //若域名匹配到了，则再次对已经匹配到的进行目录匹配
+            else {
+                for (SiteInfo matchedSite : matchedSites) {
+                    if (target.startsWith(matchedSite.getBindPath())) {
+                        return matchedSite;
                     }
+                }
 
-                    if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))) {
+                //若在匹配的域名下，无法对二级目录匹配，空目录配置的站点
+                for (SiteInfo matchedSite : matchedSites) {
+                    if (StrUtil.isBlank(matchedSite.getBindPath())) {
+                        return matchedSite;
+                    }
+                }
+            }
+
+            String langRansformEnable = JPressOptions.getBySiteId("lang_ransform_enable", 0L);
+            if (!"true".equalsIgnoreCase(langRansformEnable)) {
+                return null;
+            }
+
+
+            String closeLangMatch = CookieUtil.get(request, JPressConsts.COOKIE_SITE_LANG_CLOSE);
+            if ("1".equalsIgnoreCase(closeLangMatch)) {
+                return null;
+            }
+
+            String lang = request.getParameter("lang");
+
+            //关闭语言匹配
+            if ("0".equalsIgnoreCase(lang)) {
+                CookieUtil.put(response, JPressConsts.COOKIE_SITE_LANG_CLOSE, "1");
+                return null;
+            }
+
+
+            Enumeration<Locale> locales = request.getLocales();
+            while (locales.hasMoreElements()) {
+                Locale locale = locales.nextElement();
+                for (SiteInfo site : allSites) {
+                    Set<String> bindLangs = StrUtil.splitToSetByComma(site.getBindLang());
+                    if (bindLangs != null && bindLangs.contains(locale.toString())) {
                         return site;
                     }
                 }
             }
         }
-
-
-
 
 
         return null;

@@ -32,7 +32,6 @@ import java.util.List;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Api的拦截器
  */
 public class TemplateInterceptor implements Interceptor {
 

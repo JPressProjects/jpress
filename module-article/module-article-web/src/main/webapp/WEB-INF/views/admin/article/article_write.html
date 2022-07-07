@@ -174,12 +174,12 @@ $(function () {
         $(".leftPanel").toggleClass("col-lg-12", "col-lg-3");
     })
     // 设置高度
-    let $screenHeight = $(window).height();
-    let headerHeight =parseFloat( $(".main-header").height()) + parseFloat($(".article-header").height());
-    let $height = parseFloat($screenHeight - headerHeight -40);
-    $(".leftPanel").height($height);
-    $(".rightPanel").height($height);
-     $(".ck-content").height($(".rightPanel").height()-50);
+    // let $screenHeight = $(window).height();
+    // let headerHeight =parseFloat( $(".main-header").height()) + parseFloat($(".article-header").height());
+    // let $height = parseFloat($screenHeight - headerHeight-40);
+    // $(".leftPanel").height($height);
+    // $(".rightPanel").height($height);
+    //  $(".ck-content").height($(".rightPanel").height()-50);
 })
 
 </script>
@@ -267,8 +267,14 @@ $(function () {
 <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
 
 <style>
-    html,body{
-        height:100%;
+    .content-wrapper {
+        position: relative;
+        min-height: calc(100vh - calc(3.5rem + 1px));
+        overflow: hidden;
+    }
+    .panelContainer{
+        position:relative;
+        height: calc(100% - 70px);
     }
     .popover-content {
         padding: 9px 14px;
@@ -303,11 +309,18 @@ $(function () {
     .tab-content{
         height: 100%;
     }
-    .leftPanel,.rightPanel{
+    .leftPanel{
+        width:100%;
+        height:100%;
         overflow-y: scroll;
     }
-    .main-footer{
-        display: none;
+    .rightPanel{
+        position: sticky;
+        height: 100%;
+        overflow-y: scroll;
+    }
+    .main-footer.text-sm ,.main-footer{
+        display: none !important;
     }
     .pannel-inner{
         width:100%;
@@ -318,7 +331,8 @@ $(function () {
 #end
 
 #define content()
-<section class="article-header d-flex justify-content-between align-items-center p-3 boder-bottom bg-white">
+<section class="content" style="position: absolute;height:100%;width:100%">
+    <section class="article-header d-flex justify-content-between align-items-center p-3 boder-bottom bg-white">
     <div class="d-flex align-items-center justify-content-between">
         <div class="input-group mr-2 ml-2">
             <div class="input-group-prepend">
@@ -347,18 +361,13 @@ $(function () {
         <span><i class="bi bi-three-dots-vertical"></i></span>
     </div>
 </section>
-
-
-
-
-<section class="content bg-white pt-2">
-    <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form">
+    <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form" class="h-100 pt-2 bg-white">
         <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
         <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
         <input type="hidden" id="appId" name="appId" value="#(appId ??)">
         <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
         <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
-        <div class="row h-100">
+        <div class="row panelContainer">
             <div class="col-lg-9 pr-0 leftPanel">
                 <div class="pannel-inner">
                     <div class="form-group row">
@@ -397,7 +406,7 @@ $(function () {
                     </ul>
                     <div class="tab-content pt-3" id="formAttrTabContent">
                         <div class="tab-pane fade show active" id="componentAttr" role="tabpanel" aria-labelledby="componentAttr-tab">
-                            <div class="accordion" id="accordionExample">
+                            <div class="accordion p-2" id="accordionExample">
                                 <div class="card">
                                     <div class="card-header" id="heading1">
                                         <h2 class="mb-0">

@@ -49,6 +49,7 @@ public class UserController extends TemplateControllerBase {
 
     private static final String default_user_login_template = "/WEB-INF/views/ucenter/user_login.html";
     private static final String default_user_register_template = "/WEB-INF/views/ucenter/user_register.html";
+    private static final String default_user_phone_register_template = "/WEB-INF/views/ucenter/user_phone_register.html";
     private static final String default_user_register_activate = "/WEB-INF/views/ucenter/user_activate.html";
     private static final String default_user_register_emailactivate = "/WEB-INF/views/ucenter/user_emailactivate.html";
 
@@ -140,6 +141,13 @@ public class UserController extends TemplateControllerBase {
      */
     public void register() {
         render("user_register.html", default_user_register_template);
+    }
+
+    /**
+     * 手机号注册页面
+     */
+    public void phoneRegister() {
+        render("user_phone_register.html", default_user_phone_register_template);
     }
 
 

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>手机号注册</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
+
+    <!--[if lt IE 9]>
+    <script src="#(CPATH)/static/html5shiv/html5shiv.min.js"></script>
+    <script src="#(CPATH)/static/respond/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .login-page {
+            background-image: url("#(CDN)#(CPATH)/static/commons/img/bg.png");
+            background-size: cover;
+        }
+
+        .login-box {
+            margin-top: 100px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+        #phone-error,#captcha-error{
+            position: absolute !important;
+            top:100% !important;
+            left:0 !important;
+        }
+    </style>
+
+    <script>
+
+        // function doGetSmsCode() {
+        //     var phone = $('#phone').val();
+        //     // var captcha = $('#captcha').val();
+        //
+        //     if (phone == '') {
+        //         alert('手机号不能为空....');
+        //         return;
+        //     }
+        //
+        //
+        //     $.get("#(CPATH)/commons/getsmscode?phone=" + phone , function (result) {
+        //         $('#captcha').val('');
+        //         $('#captchaimg').attr("src", '#(CPATH)/commons/captcha?d=' + Math.random())
+        //         alert(result.message);
+        //     });
+        // }
+
+        function doGetSmsCode() {
+            var phone = $('#phone').val();
+
+            if (phone == '') {
+                alert('手机号不能为空....');
+                return;
+            }
+
+            ajaxGet("#(CPATH)/commons/getsmscode?phone=" + phone , function () {
+                alert("短信发送成功，请查收");
+            }, function (data) {
+                alert(data.message);
+            })
+        }
+
+    </script>
+
+
+</head>
+<body class="hold-transition login-page">
+
+<div class="wrapper">
+
+    <div class="login-box">
+        <div class="login-logo" style="color: #FFF">
+            #option('web_name','JPress')
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <form action="#(CPATH)/user/doRegister" method="post" class="autoAjaxSubmit" data-ok-function="ok">
+
+                    <div class="form-group">
+                        <label>手机号</label>
+
+
+                        <div class="input-group jpress-tip mb-3">
+                            <input type="text" class="form-control" placeholder="请输入手机号" name="phone" id="phone" required>
+                            <div class="input-group-append">
+                                <button type="button" class="input-group-text" autocomplete="off" style="float: right;background: #DDDDDD;" onclick="doGetSmsCode()" >获取验证码</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label style="display: block;">验证码</label>
+                        <div class="clearfix position-relative" >
+                            <input type="text" id="captcha" autocomplete="off" class="form-control " style="float: left;"
+                                   placeholder="请输入验证码" name="captcha" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>登录密码</label>
+                        <input type="password" class="form-control" autocomplete="off" placeholder="密码..." name="pwd" required>
+                    </div>
+                    <div class="form-group">
+                        <label>确认密码</label>
+                        <input type="password" class="form-control" autocomplete="off" placeholder="确认密码" name="confirmPwd" required>
+                    </div>
+
+
+                    <div class="form-group" style="padding-top: 30px;">
+                        <div class="col-sm-12" style="padding-top: 15px">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">注 册</button>
+                            <p class="text-muted" style="float: left;">
+                                已有账号？点击 <a href="#(CPATH)/user/login">这里</a> 登录。
+                            </p>
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/jquery.validate.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/additional-methods.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/localization/messages_zh.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="#(CPATH)/static/admin/js/jpressutils.js"></script>
+<script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
+
+<script>
+    function ok() {
+        alert("注册成功，点击确定进行登录。")
+        location.href = "#(CPATH)/user/login";
+    }
+</script>
+
+</body>
+</html>

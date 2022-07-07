@@ -168,12 +168,18 @@
 $(function () {
     $(".article-sttr .form-group").children(".col-form-label").removeClass("col-sm-2").addClass("col-sm-4");
     $(".article-sttr .form-group").children("div").removeClass("col-sm-6").addClass("col-sm-8");
-    $(".ck-content").height($(".rightPanel").height()-39.5);
+
     $("#js-setting").click(function () {
         $(".rightPanel").toggle();
         $(".leftPanel").toggleClass("col-lg-12", "col-lg-3");
     })
-
+    // 设置高度
+    let $screenHeight = $(window).height();
+    let headerHeight =parseFloat( $(".main-header").height()) + parseFloat($(".article-header").height());
+    let $height = parseFloat($screenHeight - headerHeight -40);
+    $(".leftPanel").height($height);
+    $(".rightPanel").height($height);
+     $(".ck-content").height($(".rightPanel").height()-50);
 })
 
 </script>
@@ -294,25 +300,26 @@ $(function () {
         left:initial !important;
         right:0;
     }
-    .content{
-        height:calc(100% - 71px);
-        overflow: hidden;
-    }
     .tab-content{
         height: 100%;
-        overflow-y:scroll;
     }
-    .overflow-hidden{
-        overflow:hidden;
+    .leftPanel,.rightPanel{
+        overflow-y: scroll;
     }
-
+    .main-footer{
+        display: none;
+    }
+    .pannel-inner{
+        width:100%;
+        height:auto;
+        overflow-x: hidden;
+    }
 </style>
 #end
 
 #define content()
 <section class="article-header d-flex justify-content-between align-items-center p-3 boder-bottom bg-white">
     <div class="d-flex align-items-center justify-content-between">
-        <span><i class="bi bi-list"></i></span>
         <div class="input-group mr-2 ml-2">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="article-title">标题</span>
@@ -353,30 +360,33 @@ $(function () {
         <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
         <div class="row h-100">
             <div class="col-lg-9 pr-0 leftPanel">
-                <div class="form-group row">
+                <div class="pannel-inner">
+                    <div class="form-group row">
                         <!--<div class="col-sm-12" style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">-->
-                            <!--<div>-->
-                                <!--<button type="button" class="btn btn-default btn-sm "-->
-                                        <!--onclick="doChangeEditor('#(article.id ?? 0)')">-->
-                                    <!--<i class="fas fa-exchange-alt"></i>-->
-                                <!--</button>-->
+                        <!--<div>-->
+                        <!--<button type="button" class="btn btn-default btn-sm "-->
+                        <!--onclick="doChangeEditor('#(article.id ?? 0)')">-->
+                        <!--<i class="fas fa-exchange-alt"></i>-->
+                        <!--</button>-->
 
-                                <!--<button type="button" class="chooseAttachment btn btn-default btn-sm ">-->
-                                    <!--<i class="fas fa-paperclip"></i> 插入附件-->
-                                <!--</button>-->
-                                <!--<button type="button" class="chooseVideo btn btn-default btn-sm ">-->
-                                    <!--<i class="fas fa-paperclip"></i> 插入视频-->
-                                <!--</button>-->
-                            <!--</div>-->
+                        <!--<button type="button" class="chooseAttachment btn btn-default btn-sm ">-->
+                        <!--<i class="fas fa-paperclip"></i> 插入附件-->
+                        <!--</button>-->
+                        <!--<button type="button" class="chooseVideo btn btn-default btn-sm ">-->
+                        <!--<i class="fas fa-paperclip"></i> 插入视频-->
+                        <!--</button>-->
+                        <!--</div>-->
                         <!--</div>-->
                         <div class="col-sm-12">
                             <div id="editor">#(article.orignalContent ??)</div>
                             <input type="hidden" name="article.content" id="content"/>
                         </div>
                     </div>
+                </div>
+
             </div>
             <div class="col-lg-3 pl-0 rightPanel">
-                <div>
+                <div class="pannel-inner">
                     <ul class="nav nav-tabs mb-2" id="formAttrTab" role="tablist">
                         <li class="nav-item w-50">
                             <a class="nav-link active" id="componentAttr-tab" data-toggle="tab" href="#componentAttr" role="tab" aria-controls="component" aria-selected="true">Footer</a>

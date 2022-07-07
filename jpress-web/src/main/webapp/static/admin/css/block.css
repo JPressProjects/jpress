@@ -192,7 +192,7 @@ select {
 
 .component-title {
     font-size: 14px;
-    padding: 10px 0;
+    padding: 10px 10px;
     font-weight: bold;
 }
 
@@ -207,9 +207,9 @@ select {
 .rightContent {
     position: sticky;
     height: 100%;
-    overflow-x: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    overflow-y: scroll;
+    /*scrollbar-width: none;*/
+    /*-ms-overflow-style: none;*/
 }
 
 
@@ -217,12 +217,12 @@ select {
     height:100%;
     background-color: #f4f6f9;
     overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    /*scrollbar-width: none;*/
+    /*-ms-overflow-style: none;*/
 }
-.leftContent::-webkit-scrollbar,.rightContent::-webkit-scrollbar,.middleContent::-webkit-scrollbar{
-    width: 0;
-}
+/*.leftContent::-webkit-scrollbar,.rightContent::-webkit-scrollbar,.middleContent::-webkit-scrollbar{*/
+    /*width: 0;*/
+/*}*/
 .jp-component-tools i {
     font-size: 12px;
 }

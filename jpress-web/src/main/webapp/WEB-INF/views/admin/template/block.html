@@ -18,10 +18,33 @@
         height: 100%;
 
     }
-
+    .middleContent{
+        overflow-y:scroll;
+    }
     .main-footer.text-sm {
         display: none !important;
     }
+    .item-title{
+        font-size:14px;
+    }
+    .bsFormItem{
+        border: none;
+        margin-bottom: inherit;
+        border-radius: 0;
+        cursor: pointer;
+        padding: 0;
+    }
+    .bsFormItem:hover, .bsFormItem.active {
+        border: 1px solid transparent;
+        background-color: transparent !important;
+    }
+    .bsItemContainer {
+        min-height: 50px;
+        border: none;
+        background: transparent;
+        padding:1.25rem;
+    }
+
 </style>
 #end
 
@@ -104,9 +127,9 @@
             </div>
         </div>
         <!--***********************************-->
-        <div class="row jpress-row-container">
+        <div class="row jpress-row-container ml-0 mr-0">
             <!-- 左侧 -->
-            <div class="col-md-3 col-sm-4 leftContent border-right pd10">
+            <div class="col-md-3 col-sm-4 pd-0 leftContent">
                 <div class="component-title">
                     模板自带
                 </div>
@@ -125,9 +148,11 @@
             <!-- 中间内容 -->
             <div class="col-md-6  col-sm-4 middleContent bsFormContainer">
                 <div class="bsFormContainer-placeholder">您当前的模板，不支持板块设计功能~~~</div>
+                <!--项目列表-->
+                <!--<div class="middleItemlist"></div>-->
             </div>
             <!--右侧内容-->
-            <div class="col-md-3  col-sm-4 mb-3 rightContent border-left">
+            <div class="col-md-3  col-sm-4 mb-3 rightContent">
                 <div class="pd10 tab-content pt-3 bsFormPropsTitle">
                     <span class="icon"></span>
                     <span class="text"></span>

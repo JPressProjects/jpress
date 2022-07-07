@@ -11,7 +11,9 @@
         min-height: calc(100vh - calc(3.5rem + 1px));
         overflow: hidden;
     }
-
+    .bsFormContainer{
+        min-height:auto !important;
+    }
     .tool-content {
         position: absolute;
         width: 100%;
@@ -27,15 +29,18 @@
     .item-title{
         font-size:14px;
     }
-    .bsFormItem{
-        border: none;
-        margin-bottom: inherit;
-        border-radius: 0;
+    .bsFormFilter{
+        border:none !important;
+        padding:0 !important;
+    }
+    .bsFormItem > .bsFormItem{
+        border:1px dashed #d1d1d1;
         cursor: pointer;
-        padding: 0;
+        padding: 10px;
+        margin-bottom:15px;
     }
     .bsFormItem:hover, .bsFormItem.active {
-        border: 1px solid transparent;
+        border: 1px dashed #d1d1d1;
         background-color: transparent !important;
     }
     .bsItemContainer {
@@ -44,7 +49,17 @@
         background: transparent;
         padding:1.25rem;
     }
-
+    .right-card-title{
+        margin-bottom:10px !important;
+    }
+    .cl-code .row{
+        margin-left:0 !important;
+        margin-right:0 !important;
+    }
+    .cl-code img{
+        max-width:50%;
+        margin: 0 auto;
+    }
 </style>
 #end
 

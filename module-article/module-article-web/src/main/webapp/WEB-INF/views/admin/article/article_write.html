@@ -165,7 +165,16 @@
         const modelFragment = currentCKEditor.data.toModel(viewFragment);
         currentCKEditor.model.insertContent(modelFragment, currentCKEditor.model.document.selection);
     }
+$(function () {
+    $(".article-sttr .form-group").children(".col-form-label").removeClass("col-sm-2").addClass("col-sm-4");
+    $(".article-sttr .form-group").children("div").removeClass("col-sm-6").addClass("col-sm-8");
+    $(".ck-content").height($(".rightPanel").height()-39.5);
+    $("#js-setting").click(function () {
+        $(".rightPanel").toggle();
+        $(".leftPanel").toggleClass("col-lg-12", "col-lg-3");
+    })
 
+})
 
 </script>
 
@@ -233,6 +242,7 @@
                 }
             }
         });
+
     })
 
 </script>
@@ -251,6 +261,9 @@
 <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
 
 <style>
+    html,body{
+        height:100%;
+    }
     .popover-content {
         padding: 9px 14px;
         margin: 0 10px;
@@ -275,6 +288,24 @@
     .boder-bottom{
         border-bottom:1px solid #d9d9d9;
     }
+    .setting-dropmenu{
+        width:300px;
+        top:100%;
+        left:initial !important;
+        right:0;
+    }
+    .content{
+        height:calc(100% - 71px);
+        overflow: hidden;
+    }
+    .tab-content{
+        height: 100%;
+        overflow-y:scroll;
+    }
+    .overflow-hidden{
+        overflow:hidden;
+    }
+
 </style>
 #end
 
@@ -305,7 +336,7 @@
         <button type="button" class="btn btn-secondary mr-2">保存草稿</button>
         <button type="button" class="btn btn-secondary mr-2">预览</button>
         <button type="button" class="btn btn-primary mr-2">发布</button>
-        <button type="button" class="btn btn-link mr-2">设置</button>
+        <button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>
         <span><i class="bi bi-three-dots-vertical"></i></span>
     </div>
 </section>
@@ -320,52 +351,31 @@
         <input type="hidden" id="appId" name="appId" value="#(appId ??)">
         <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
         <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
-        <div class="row">
-            <div class="col-lg-9">
+        <div class="row h-100">
+            <div class="col-lg-9 pr-0 leftPanel">
+                <div class="form-group row">
+                        <!--<div class="col-sm-12" style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">-->
+                            <!--<div>-->
+                                <!--<button type="button" class="btn btn-default btn-sm "-->
+                                        <!--onclick="doChangeEditor('#(article.id ?? 0)')">-->
+                                    <!--<i class="fas fa-exchange-alt"></i>-->
+                                <!--</button>-->
 
-                <!-- /.card-header -->
-                <!-- form start -->
-                <div class="">
-                    <div class="form-group row">
-                        <div class="col-sm-12" style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">
-                            <div>
-                                <button type="button" class="btn btn-default btn-sm "
-                                        onclick="doChangeEditor('#(article.id ?? 0)')">
-                                    <i class="fas fa-exchange-alt"></i>
-                                </button>
-
-                                <button type="button" class="chooseAttachment btn btn-default btn-sm ">
-                                    <i class="fas fa-paperclip"></i> 插入附件
-                                </button>
-                                <button type="button" class="chooseVideo btn btn-default btn-sm ">
-                                    <i class="fas fa-paperclip"></i> 插入视频
-                                </button>
-                            </div>
-                        </div>
+                                <!--<button type="button" class="chooseAttachment btn btn-default btn-sm ">-->
+                                    <!--<i class="fas fa-paperclip"></i> 插入附件-->
+                                <!--</button>-->
+                                <!--<button type="button" class="chooseVideo btn btn-default btn-sm ">-->
+                                    <!--<i class="fas fa-paperclip"></i> 插入视频-->
+                                <!--</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="col-sm-12">
                             <div id="editor">#(article.orignalContent ??)</div>
                             <input type="hidden" name="article.content" id="content"/>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                            <div class="card card-outlinecard-solid">
-                                <div class="card-header with-border">
-                                    <h3 class="card-title">文章属性</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <div class="card-body">
-                                        #(fields.render())
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 pl-0 rightPanel">
                 <div>
                     <ul class="nav nav-tabs mb-2" id="formAttrTab" role="tablist">
                         <li class="nav-item w-50">
@@ -382,15 +392,15 @@
                                     <div class="card-header" id="heading1">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                                状态与可见性
+                                                文章属性
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
 
                                         </h2>
                                     </div>
                                     <div id="collapse1" class="collapse show" aria-labelledby="heading1" data-parent="#accordionExample">
-                                        <div class="card-body">
-
+                                        <div class="card-body article-sttr">
+                                            #(fields.render())
                                         </div>
                                     </div>
                                 </div>
@@ -432,48 +442,6 @@
                                         </h2>
                                     </div>
                                     <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="heading5">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapseThree">
-                                                特色图片
-                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="heading6">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapseThree">
-                                                摘要
-                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="heading7">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapseThree">
-                                                讨论
-                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#accordionExample">
                                         <div class="card-body">
                                         </div>
                                     </div>

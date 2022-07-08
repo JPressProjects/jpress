@@ -5,7 +5,6 @@ import io.jpress.core.bsformbuilder.BsFormComponent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -127,7 +126,4 @@ public class HtmlBlock {
         return component;
     }
 
-    public void onPrepareRenderData(Map<String, Object> datas) {
-
-    }
 }

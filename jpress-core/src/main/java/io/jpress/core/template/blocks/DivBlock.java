@@ -9,7 +9,7 @@ public class DivBlock extends HtmlBlock {
 
         setTemplate("<div class=\"#blockOption('Class样式')\" style=\"#blockOption('Style样式:textarea')\">\n" +
                 "    <div class=\"bsItemContainer\">#(children?.get(0) ??)</div>\n" +
-                "</div>\n");
+                "</div>");
 
         setName("DIV");
 

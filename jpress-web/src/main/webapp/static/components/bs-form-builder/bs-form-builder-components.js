@@ -211,6 +211,7 @@ componentsDef.push(...[
             "icon": "bi bi-record2"
         },
         withOptions: true,
+        // optionsDatasourceGroupName: "group1",
         defaultOptions: [
             {
                 text: "选项1",

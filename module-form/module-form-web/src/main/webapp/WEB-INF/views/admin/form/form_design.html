@@ -56,6 +56,53 @@
             // components: '#(CPATH)/admin/template/block/components',
             // customRender: '#(CPATH)/admin/template/block/render',
             datas: JSON.parse('#(form.builderJson ??)'),
+            defaultProps: [
+                {
+                    name: 'field',
+                    type: 'input',
+                    label: '字段名',
+                    index: 100,
+                },
+                {
+                    name: 'field_type',
+                    type: 'select',
+                    label: '字段类型',
+                    defaultValue: 'varchar',
+                    index: 101,
+                    options: [
+                        {
+                            value: 'int',
+                            text: '数字',
+                        },
+                        {
+                            value: "varchar",
+                            text: '字符'
+                        },
+                        {
+                            value: 'text',
+                            text: '文本'
+                        },
+                        {
+                            value: 'bool',
+                            text: '布尔型'
+                        }
+                    ],
+                },
+                {
+                    name: 'field_lenth',
+                    type: 'number',
+                    label: '字段长度',
+                    defaultValue: 11,
+                    index: 102,
+                },
+                {
+                    name: 'show_list',
+                    type: 'switch',
+                    label: '列表显示',
+                    defaultValue: true,
+                    index: 103,
+                },
+            ]
             //
             // //禁用 name 和 label 属性
             // defaultProps: [
@@ -86,10 +133,10 @@
         <div class="tool-header d-flex justify-content-between align-items-center">
             <div>
                 <strong class="pr-3">#(form.name ??)表单设计</strong>
-<!--                <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>-->
-<!--                <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>-->
-<!--                <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>-->
-<!--                <span class="tool-btn"><i class="bi bi-list-nested"></i></span>-->
+                <!--                <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>-->
+                <!--                <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>-->
+                <!--                <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>-->
+                <!--                <span class="tool-btn"><i class="bi bi-list-nested"></i></span>-->
             </div>
             <div>
                 <button class="btn btn-primary btn-sm mr-3 update">更新</button>

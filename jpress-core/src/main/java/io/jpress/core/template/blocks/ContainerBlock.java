@@ -17,7 +17,7 @@ public class ContainerBlock extends HtmlBlock {
                 "      <h3 class=\"card-title\">#(id ??)</h3>\n" +
                 "      <div class=\"card-tools\">\n" +
                 "        <button type=\"button\" class=\"btn btn-tool\" data-card-widget=\"collapse\">\n" +
-                "          <i class=\"fas fa-plus\"></i>\n" +
+                "          <i class=\"fas fa-minus\"></i>\n" +
                 "        </button>\n" +
                 "      </div>\n" +
                 "    </div>\n" +

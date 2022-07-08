@@ -44,10 +44,12 @@
         bsFormPropsSelector: ".bsFormProps", // 面板内容
         bsFormPropsTitleSelector: ".bsFormPropsTitle", // 面板标题
         customBuilderStructure: false, // 自定义容器面板
+        onDataChange: null, //数据更新的监听器
         onDataChanged: null, //数据更新的监听器
         components: [], //初始化时自定义的组件
         useComponents: [], //使用的组件 use components
         customRender: null, //自定义渲染方法，支持后端 url，同步方法 和 异步方法
+        optionsDatasourceGroups: null, // {group:array}
         actionButtons: [
             {
                 text: '导出 JSON',
@@ -124,6 +126,7 @@
             placeholder: "",
             disabled: true,
             required: true,
+            index: 10,
         },
         {
             name: "id",
@@ -132,6 +135,7 @@
             placeholder: "",
             disabled: false,
             required: true,
+            index: 20,
         },
         {
             name: "name",
@@ -140,6 +144,7 @@
             placeholder: "",
             disabled: false,
             required: true,
+            index: 30,
         },
         {
             name: "label",
@@ -148,6 +153,7 @@
             placeholder: "",
             disabled: false,
             required: false,
+            index: 40,
         },
     ]
 
@@ -1028,7 +1034,7 @@
 
             //根据 index 进行排序
             for (let dragArray of Object.values(allDrags)) {
-                dragArray.sort((a, b) => a.index = b.index);
+                dragArray.sort((a, b) => a.index - b.index);
             }
 
             $('.bsFormDrags').each(function (index, element) {
@@ -1124,7 +1130,7 @@
                     var index = oldValue.indexOf(value);
                     if (event.currentTarget.type === "checkbox") {
                         //添加
-                        if (event.currentTarget.checked && index == -1) {
+                        if (event.currentTarget.checked && index === -1) {
                             oldValue.push(value)
                         }
                         //移除
@@ -1139,7 +1145,6 @@
                         value = event.currentTarget.checked;
                     }
                 }
-
 
                 //没有选中的组件，理论上不存在这种情况
                 if (!bsFormBuilder.currentData) {
@@ -1473,6 +1478,27 @@
                 if (typeof defaultOptions === "function") {
                     defaultOptions = data.component.defaultOptions(this, data);
                 }
+
+                if (!defaultOptions && data.component.optionsDatasourceGroupName) {
+
+                    var datasources = this.options.optionsDatasourceGroups[data.component.optionsDatasourceGroupName];
+                    if (typeof datasources === "function") {
+                        datasources = datasources(this, data);
+                    }
+
+                    if (datasources && datasources.length > 0) {
+                        defaultOptions = datasources[0].options;
+                        if (typeof defaultOptions === "function") {
+                            defaultOptions = defaultOptions(this, data);
+                        }
+
+                        data["optionsDatasource"] = datasources[0].value;
+                    }
+
+
+                }
+
+
                 data.options = defaultOptions || [];
 
                 //为每个 options 配置一个 id
@@ -1959,7 +1985,7 @@
 
             // 全部属性
             var allProps = this._mergeProps(componentProps, this.defaultProps);
-
+            allProps.sort((a, b) => a.index - b.index);
 
             for (let prop of allProps) {
                 // 若组件定义了 propsfilter 过滤
@@ -1978,7 +2004,12 @@
                 if (template) {
                     var newProp = this.deepCopy(prop, false);
                     newProp["id"] = this.genRandomId();
-                    newProp["value"] = this.currentData[prop.name];
+
+                    var value = this.currentData[prop.name];
+                    if (typeof value === "undefined"){
+                        value = prop.defaultValue;
+                    }
+                    newProp["value"] = value;
 
                     var html = this.renderPropTemplate(newProp, this.currentData, template);
                     this.$propsPanel.append(html);
@@ -1987,17 +2018,41 @@
 
             // 渲染 options 功能
             if (this.currentData.options || this.currentData.component.withOptions) {
-                let prop = {
-                    id: this.genRandomId(),
-                    options: this.currentData.options || [],
-                    title: this.currentData.optionsTitle || "选项",
+
+                //通过数据源的方式来渲染 options
+                if (this.currentData.component.optionsDatasourceGroupName) {
+
+                    var datasources = this.options.optionsDatasourceGroups[this.currentData.component.optionsDatasourceGroupName];
+                    if (typeof datasources === "function") {
+                        datasources = datasources(this, this.currentData);
+                    }
+
+                    let prop = {
+                        id: this.genRandomId(),
+                        options: datasources, // this.currentData.options || [],
+                        label: "数据源",
+                        name: "optionsDatasource",
+                        value: this.currentData["optionsDatasource"] || datasources[0].value,
+                    }
+
+                    let template = this._getPropTemplateByType("select");
+                    let html = this.renderPropTemplate(prop, this.currentData, template);
+                    this.$propsPanel.append(html);
                 }
+                //通过 sortable 的方式来渲染 options
+                else {
+                    let prop = {
+                        id: this.genRandomId(),
+                        options: this.currentData.options || [],
+                        title: this.currentData.optionsTitle || "选项",
+                    }
 
-                let template = this._getPropTemplateByType("options");
-                let html = this.renderPropTemplate(prop, this.currentData, template);
-                this.$propsPanel.append(html);
+                    let template = this._getPropTemplateByType("options");
+                    let html = this.renderPropTemplate(prop, this.currentData, template);
+                    this.$propsPanel.append(html);
 
-                this._initOptionsSortable();
+                    this._initOptionsSortable();
+                }
             }
         },
 
@@ -2229,7 +2284,32 @@
             else if (value === "false") value = false;
 
 
-            var oldValue = data[attr];
+            var oldValue = data[attr]
+
+
+            //更新数据源
+            if (attr === "optionsDatasource") {
+
+                //保存数据源
+                data[attr] = value;
+
+                attr = "options";
+                var datasources = this.options.optionsDatasourceGroups[data.component.optionsDatasourceGroupName];
+                if (typeof datasources === "function") {
+                    datasources = datasources(this, data);
+                }
+
+                var options = null;
+                for (let datasource of datasources) {
+                    if (datasource.value.toString() === value) {
+                        options = datasource.options;
+                        if (typeof options === "function") {
+                            options = options(this, data);
+                        }
+                    }
+                }
+                value = options;
+            }
 
             //当前组件定义了 onPropChange 监听方法，并且该方法执行成功了
             //那么，可以理解为该方法会去更新 html 内容，而不通过系统继续渲染了

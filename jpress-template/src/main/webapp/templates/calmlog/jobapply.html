@@ -97,6 +97,60 @@
 
     }
 
+    //获取手机验证码
+    function getMobileCode(){
+
+        let mobile = $("#mobile").val();
+
+        if(mobile == null || mobile == "" || mobile == undefined){
+            alert("请输入手机号");
+        }else {
+            $.ajax({
+                url:'/job/apply/getMobileCode',
+                type:'post',
+                data:{mobile:mobile},
+                success:function (result){
+
+                    if(result.state == false){
+                        alert(result.message);
+                    }
+
+                    if(result.state == true){
+                        alert(result.message)
+                    }
+                }
+            })
+        }
+
+
+    }
+
+    //获取邮箱验证码
+    function getEmailCode(){
+
+        let email = $("#email").val();
+
+        if(email == null || email == "" || email == undefined){
+            alert("请输入邮箱")
+        }else {
+            $.ajax({
+                url:'/job/apply/getEmailCode/#(job.id ??)',
+                type:'post',
+                data:{email:email},
+                success:function (result){
+
+                    if(result.state == false){
+                        alert(result.message);
+                    }
+
+                    if(result.state == true){
+                        alert(result.message)
+                    }
+                }
+            })
+        }
+
+    }
 
 
 </script>
@@ -127,7 +181,7 @@
 
         <div class="form-group">
             <label for="username">姓名</label>
-            <input type="text" class="form-control" id="username" placeholder="输入姓名" name="jobApply.user_name">
+            <input type="text" class="form-control" id="username" placeholder="输入姓名" name="jobApply.user_name" required>
         </div>
 
         <div class="form-group">
@@ -138,17 +192,30 @@
         </div>
 
         <div class="form-group">
-            <label for="mobile">手机号</label>
-            <input type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile">
+
+            <input type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile" required>
+
+            #if(option("job_mobile_enable"))
+            <input style="width:60%;float:left;" type="code" class="form-control" placeholder="验证码" id="mobile_code" name="mobileCode" autocomplete="off">
+            <input style="width:40%;float:right;" type="button" class="btn btn-primary" value="获取验证码" onclick="getMobileCode()"/>
+            <div class="clearfix"></div>
+            #end
+
         </div>
 
         <div class="form-group">
             <label for="email">邮箱</label>
-            <input type="email" class="form-control" id="email" placeholder="邮箱" name="jobApply.email">
+            <input type="email" class="form-control" id="email" placeholder="邮箱" name="jobApply.email" required>
+
+            #if(option("job_email_enable"))
+            <input style="width:60%;float:left;" type="code" class="form-control" placeholder="验证码" id="email_code" name="emailCode" autocomplete="off">
+            <input style="width:40%;float:right;" type="button" class="btn btn-primary" value="获取验证码" onclick="getEmailCode()" />
+            <div class="clearfix"></div>
+            #end
         </div>
 
         <div class="form-group">
-            <label for="gender">手机区号</label>
+            <label for="gender">性别</label>
             <select class="form-control" id="gender" name="jobApply.gender">
                 <option value="0">男</option>
                 <option value="1">女</option>
@@ -162,12 +229,12 @@
 
         <div class="form-group">
             <label for="work_years">工作经验</label>
-            <input type="number" class="form-control" id="work_years" placeholder="工作经验" name="jobApply.work_years">
+            <input type="number" class="form-control" id="work_years" placeholder="工作经验" name="jobApply.work_years" required>
         </div>
 
         <div class="form-group">
             <label for="education">最高学历</label>
-            <select class="form-control" id="education" name="jobApply.education">
+            <select class="form-control" id="education" name="jobApply.education" required>
                 <option value="">请选择学历</option>
                 <option value="0">其它</option>
                 <option value="1">初中及以下</option>

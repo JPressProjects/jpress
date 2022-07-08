@@ -12,6 +12,15 @@
 </style>
 #end
 
+#define script()
+<script src="/static/components/sortable/Sortable.min.js"></script>
+
+<script>
+
+</script>
+#end
+
+
 #define content()
     <section class="content-header">
         <div class="container-fluid">
@@ -41,7 +50,7 @@
                 <div class="card card-outline card-primary">
 
                     <!-- form start -->
-                    <form class="ajaxSumbit" autocomplete="off" id="jobForm" action="/admin/job/setting/save" method="post">
+                    <form class=" form-setting" autocomplete="off" id="optionForm" method="post">
                         <div class="card-body">
                             <h4 class="form-header">验证功能</h4>
                             <div class="form-group row">
@@ -67,7 +76,7 @@
                         <div class="card-footer">
                             <div class="offset-sm-2 col-sm-10 submit-block">
                                 <div class="card-submit">
-                                    <button type="submit" class="btn btn-primary">提交</button>
+                                    <button type="submit" class="btn btn-primary ">提交</button>
                                 </div>
                             </div>
                         </div>

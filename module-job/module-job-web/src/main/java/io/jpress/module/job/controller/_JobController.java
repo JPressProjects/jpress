@@ -15,7 +15,6 @@
  */
 package io.jpress.module.job.controller;
 
-import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import com.jfinal.kit.Ret;
@@ -25,7 +24,6 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
-import io.jpress.JPressOptions;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.model.JobAddress;
@@ -335,38 +333,6 @@ public class _JobController extends AdminControllerBase {
     @AdminMenu(text = "招聘设置", groupId = "job", order = 4)
     public void setting() {
         render("job/job_setting.html");
-    }
-
-    @ActionKey("./setting/save")
-    public void setSave() {
-
-        final Set<String> allowHtmlTagKeys = Sets.newHashSet("job_email_enable", "job_mobile_enable");
-
-        Enumeration<String> paraNames = getParaNames();
-
-        if (paraNames == null || !paraNames.hasMoreElements()) {
-            renderJson(Ret.fail("msg", "para is empty"));
-            return;
-        }
-
-        HashMap<String, String> datasMap = new HashMap<>();
-        while (paraNames.hasMoreElements()) {
-            String key = paraNames.nextElement();
-            String value = allowHtmlTagKeys.contains(key) ? getCleanedOriginalPara(key) : getPara(key);
-            datasMap.put(key, value);
-        }
-
-        for (Map.Entry<String, String> entry : datasMap.entrySet()) {
-            //Mysql 对于字符串不区分大小写，所以保持统一
-            String key = entry.getKey().trim();
-            optionService.saveOrUpdate(key, entry.getValue());
-            JPressOptions.set(key, entry.getValue());
-        }
-
-        renderOkJson();
-
-        //TODO
-
     }
 
 }

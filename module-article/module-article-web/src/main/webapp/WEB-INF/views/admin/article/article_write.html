@@ -291,7 +291,8 @@ $(function () {
     }
 
     .ck-editor__editable_inline, .ck-source-editing-area {
-        min-height: 500px;
+        /*min-height: 500px;*/
+        height: calc(100vh - 180px);
     }
     .article-header i{
         font-size:22px;
@@ -331,14 +332,14 @@ $(function () {
 #end
 
 #define content()
-<section class="content" style="position: absolute;height:100%;width:100%">
+<section class="content" style="position: absolute;height:100%;width:100%;padding: 0">
     <section class="article-header d-flex justify-content-between align-items-center p-3 boder-bottom bg-white">
-    <div class="d-flex align-items-center justify-content-between">
-        <div class="input-group mr-2 ml-2">
+    <div class="d-flex align-items-center justify-content-between" style="width: 40%">
+        <div class="input-group mr-2" >
             <div class="input-group-prepend">
                 <span class="input-group-text" id="article-title">标题</span>
             </div>
-            <input type="text" class="form-control" placeholder="..." aria-label="..." aria-describedby="article-title">
+            <input type="text" class="form-control" placeholder="请输入文章标题..." aria-label="..." aria-describedby="article-title">
         </div>
 
         <div class="dropdown">
@@ -346,10 +347,8 @@ $(function () {
                 插入附件
             </button>
             <div class="dropdown-menu" aria-labelledby="insertFile">
-                <a class="dropdown-item" href="#">word文档</a>
-                <a class="dropdown-item" href="#">excel表格</a>
-                <a class="dropdown-item" href="#">pdf文件</a>
-                <a class="dropdown-item" href="#">思维导图</a>
+                <a class="dropdown-item" href="#">插入附件</a>
+                <a class="dropdown-item" href="#">插入视频</a>
             </div>
         </div>
     </div>
@@ -398,10 +397,11 @@ $(function () {
                 <div class="pannel-inner">
                     <ul class="nav nav-tabs mb-2" id="formAttrTab" role="tablist">
                         <li class="nav-item w-50">
-                            <a class="nav-link active" id="componentAttr-tab" data-toggle="tab" href="#componentAttr" role="tab" aria-controls="component" aria-selected="true">Footer</a>
+                            <a class="nav-link active" id="componentAttr-tab" data-toggle="tab"
+                               href="#componentAttr" role="tab" aria-controls="component" aria-selected="true">文章</a>
                         </li>
                         <li class="nav-item w-50">
-                            <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab" aria-controls="module" aria-selected="false">区块</a>
+                            <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab" aria-controls="module" aria-selected="false">模板</a>
                         </li>
                     </ul>
                     <div class="tab-content pt-3" id="formAttrTabContent">

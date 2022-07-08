@@ -119,6 +119,20 @@
                 showMessage("保存成功！")
             })
         });
+
+        // 折叠内容
+        $(".middleContent").on("click",".btn-tool",function(event){
+            // 阻止事件冒泡
+            event.stopPropagation();
+            let className = $(this).find("i").attr("class");
+            if (className == "fas fa-plus") {
+                $(this).find("i").attr('class','fas fa-minus');
+            } else {
+                $(this).find("i").attr('class','fas fa-plus');
+            }
+            $(this).parents(".card-header").next(".card-body").toggle();
+        })
+
     });
 </script>
 #end

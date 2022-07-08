@@ -1,29 +1,20 @@
 package io.jpress.core.template.blocks;
 
-import io.jpress.core.bsformbuilder.BsFormComponent;
 import io.jpress.core.template.HtmlBlock;
 
 public class DivBlock extends HtmlBlock {
 
     public DivBlock() {
         setId("div");
-    }
 
-    @Override
-    public String getTemplate() {
-        return "<div class=\"#(className ??)\">\n" +
+        setTemplate("<div class=\"#blockOption('Class样式')\" style=\"#blockOption('Style样式:textarea')\">\n" +
                 "    <div class=\"bsItemContainer\">#(children?.get(0) ??)</div>\n" +
-                "</div>\n";
+                "</div>\n");
+
+        setName("DIV");
+
+        setType(DRAG_TYPE_LAYOUT);
+        setIcon("bi bi-fullscreen");
     }
 
-
-    @Override
-    public BsFormComponent toBsFormComponent() {
-        BsFormComponent component = new BsFormComponent();
-        component.setName("DIV");
-        component.setTag("div");
-        component.setDragType(DRAG_TYPE_LAYOUT);
-        component.setDragIcon("bi bi-fullscreen");
-        return component;
-    }
 }

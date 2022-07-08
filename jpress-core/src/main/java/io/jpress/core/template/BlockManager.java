@@ -50,6 +50,10 @@ public class BlockManager {
         systemBlockHtmls.add(new ContainerBlock());
         systemBlockHtmls.add(new DivBlock());
         systemBlockHtmls.add(new GridBlock());
+
+//        for (HtmlBlock block : systemBlockHtmls) {
+//            TemplateUtil.readAndFillHtmlBlock(block.getTemplate(),block);
+//        }
     }
 
 
@@ -157,14 +161,12 @@ public class BlockManager {
             String template = null;
 
             if (htmlBlock != null){
-                htmlBlock.onPrepareRenderData(datas);
                 template = htmlBlock.getTemplate();
             }else {
                 template = "<div>暂无内容</div>";
             }
 
-
-            String htmlResult = render(datas, htmlBlock.getTemplate());
+            String htmlResult = render(datas, template);
             if (withEdit) {
                 htmlResult = appendIdAndBsFormItemClass(htmlResult, componentData.getString("elementId"));
             }

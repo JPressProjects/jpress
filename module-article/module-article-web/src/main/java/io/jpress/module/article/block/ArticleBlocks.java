@@ -10,7 +10,7 @@ public class ArticleBlocks  {
         //文章列表
         HtmlBlock articlesBlock = new HtmlBlock();
         articlesBlock.setId("system_articles");
-        articlesBlock.setTitle("文章列表");
+        articlesBlock.setName("文章列表");
         articlesBlock.setType(HtmlBlock.DRAG_TYPE_SYSTEM);
 
         String template = "<div class=\"article-card #blockOption('Class样式')\"\n" +

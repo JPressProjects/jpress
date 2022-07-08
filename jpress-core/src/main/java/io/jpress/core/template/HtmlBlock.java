@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * html 块
+ */
 public class HtmlBlock {
 
     //模板组件
@@ -25,10 +29,10 @@ public class HtmlBlock {
     //类型
     protected String type = DRAG_TYPE_TEMPLATE;
 
-    //标题
-    protected String title;
+    //组件名称
+    protected String name;
 
-    //背景图片
+    //icon
     protected String icon;
 
     //排序
@@ -56,12 +60,12 @@ public class HtmlBlock {
         this.type = type;
     }
 
-    public String getTitle() {
-        return StrUtil.isNotBlank(title) ? title : id;
+    public String getName() {
+        return StrUtil.isNotBlank(name) ? name : id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getIcon() {
@@ -107,10 +111,10 @@ public class HtmlBlock {
     public BsFormComponent toBsFormComponent() {
 
         BsFormComponent component = new BsFormComponent();
-        component.setName(getTitle());
+        component.setName(getName());
         component.setTag(id);
         component.setDragIcon(icon);
-        component.setDragTitle(getTitle());
+        component.setDragTitle(getName());
         component.setDragIndex(index);
         component.setDragType(type);
 

@@ -103,8 +103,8 @@ public class TemplateUtil {
         if (lineStr.startsWith("<!--") && lineStr.endsWith("-->")) {
             lineStr = lineStr.substring(4, lineStr.length() - 3).trim();
 
-            if (lineStr.startsWith("title:")) {
-                block.setTitle(lineStr.substring(6));
+            if (lineStr.startsWith("name:")) {
+                block.setName(lineStr.substring(5));
             } else if (lineStr.startsWith("icon:")) {
                 block.setIcon(lineStr.substring(5));
             }

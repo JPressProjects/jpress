@@ -18,6 +18,8 @@ package io.jpress.web.base;
 import com.jfinal.core.NotAction;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Table;
+import com.jfinal.plugin.activerecord.TableMapping;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
@@ -64,16 +66,17 @@ public abstract class ControllerBase extends JbootController {
     @Override
     public <T> T getModel(Class<T> modelClass, String modelName) {
         Model model = (Model) removeOptionsAttr(super.getModel(modelClass, modelName));
-        model.setOrPut("site_id", SiteContext.getSiteId());
+        putSiteIdIfNecessary((Class<? extends Model>) modelClass, model);
         return (T) model;
     }
+
 
 
     @NotAction
     @Override
     public <T> T getModel(Class<T> modelClass, boolean skipConvertError) {
         Model model = (Model) removeOptionsAttr(super.getModel(modelClass, skipConvertError));
-        model.setOrPut("site_id", SiteContext.getSiteId());
+        putSiteIdIfNecessary((Class<? extends Model>) modelClass, model);
         return (T) model;
     }
 
@@ -82,9 +85,18 @@ public abstract class ControllerBase extends JbootController {
     @Override
     public <T> T getModel(Class<T> modelClass, String modelName, boolean skipConvertError) {
         Model model = (Model) removeOptionsAttr(super.getModel(modelClass, modelName, skipConvertError));
-        model.setOrPut("site_id", SiteContext.getSiteId());
+        putSiteIdIfNecessary((Class<? extends Model>) modelClass, model);
         return (T) model;
     }
+
+
+    private <T> void putSiteIdIfNecessary(Class<? extends Model> modelClass, Model model) {
+        Table table = TableMapping.me().getTable(modelClass);
+        if (table != null && table.hasColumnLabel("site_id")){
+            model.setOrPut("site_id", SiteContext.getSiteId());
+        }
+    }
+
 
     //options 应该是通过代码去覆盖的，而非通过 options 来设置
     //此处是为了保证安全

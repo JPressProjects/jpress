@@ -23,7 +23,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.components.cache.annotation.CachesEvict;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.Permission;
 import io.jpress.model.Role;
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Bean
-public class RoleServiceProvider extends JbootServiceBase<Role> implements RoleService {
+public class RoleServiceProvider extends JPressServiceBase<Role> implements RoleService {
 
     @Inject
     private PermissionService permissionService;

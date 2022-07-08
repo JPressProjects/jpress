@@ -2,16 +2,12 @@ package io.jpress.module.page.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
-import io.jboot.utils.ModelUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.page.model.SinglePageCategory;
 import io.jpress.module.page.service.SinglePageCategoryService;
 
-import java.util.List;
-
 @Bean
-public class SinglePageCategoryServiceProvider extends JbootServiceBase<SinglePageCategory> implements SinglePageCategoryService {
+public class SinglePageCategoryServiceProvider extends JPressServiceBase<SinglePageCategory> implements SinglePageCategoryService {
 
 
     @Override

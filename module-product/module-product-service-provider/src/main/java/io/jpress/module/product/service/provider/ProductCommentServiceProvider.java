@@ -5,7 +5,7 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.product.model.ProductComment;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
@@ -13,7 +13,7 @@ import io.jpress.module.product.service.task.ProductCommentReplyCountUpdateTask;
 import io.jpress.service.UserService;
 
 @Bean
-public class ProductCommentServiceProvider extends JbootServiceBase<ProductComment> implements ProductCommentService {
+public class ProductCommentServiceProvider extends JPressServiceBase<ProductComment> implements ProductCommentService {
 
     @Inject
     private UserService userService;

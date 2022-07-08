@@ -1,11 +1,11 @@
 package io.jpress.service.provider;
 
 import io.jboot.aop.annotation.Bean;
-import io.jpress.service.AttachmentVideoService;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.AttachmentVideo;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.service.AttachmentVideoService;
 
 @Bean
-public class AttachmentVideoServiceProvider extends JbootServiceBase<AttachmentVideo> implements AttachmentVideoService {
+public class AttachmentVideoServiceProvider extends JPressServiceBase<AttachmentVideo> implements AttachmentVideoService {
 
 }

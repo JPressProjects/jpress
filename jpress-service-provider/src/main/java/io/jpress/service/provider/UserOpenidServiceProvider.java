@@ -8,8 +8,8 @@ import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
 import io.jpress.service.UserOpenidService;
@@ -18,7 +18,7 @@ import io.jpress.service.UserService;
 import java.util.List;
 
 @Bean
-public class UserOpenidServiceProvider extends JbootServiceBase<UserOpenid> implements UserOpenidService {
+public class UserOpenidServiceProvider extends JPressServiceBase<UserOpenid> implements UserOpenidService {
 
     @Inject
     private UserService userService;

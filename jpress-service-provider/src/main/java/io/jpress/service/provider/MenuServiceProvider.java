@@ -21,15 +21,15 @@ import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.ModelUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
 import java.util.List;
 
 @Bean
-public class MenuServiceProvider extends JbootServiceBase<Menu> implements MenuService {
+public class MenuServiceProvider extends JPressServiceBase<Menu> implements MenuService {
 
     @Override
     public int sync(List<Menu> menus) {

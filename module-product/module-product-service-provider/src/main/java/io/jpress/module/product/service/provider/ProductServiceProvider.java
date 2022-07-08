@@ -12,17 +12,17 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductCommentService;
 import io.jpress.module.product.service.ProductService;
+import io.jpress.module.product.service.search.ProductSearcher;
 import io.jpress.module.product.service.search.ProductSearcherFactory;
 import io.jpress.module.product.service.task.ProductCommentsCountUpdateTask;
 import io.jpress.module.product.service.task.ProductViewsCountUpdateTask;
-import io.jpress.module.product.service.search.ProductSearcher;
 import io.jpress.service.UserService;
 import io.jpress.web.seoping.SeoManager;
 
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Bean
-public class ProductServiceProvider extends JbootServiceBase<Product> implements ProductService {
+public class ProductServiceProvider extends JPressServiceBase<Product> implements ProductService {
 
     private static final String DEFAULT_ORDER_BY = "order_number desc,id desc";
 

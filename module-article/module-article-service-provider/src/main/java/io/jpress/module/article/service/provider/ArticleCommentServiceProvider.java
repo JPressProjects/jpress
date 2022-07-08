@@ -21,8 +21,8 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.ArrayUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -33,7 +33,7 @@ import io.jpress.service.UserService;
 import java.util.List;
 
 @Bean
-public class ArticleCommentServiceProvider extends JbootServiceBase<ArticleComment> implements ArticleCommentService {
+public class ArticleCommentServiceProvider extends JPressServiceBase<ArticleComment> implements ArticleCommentService {
 
     @Inject
     private ArticleService articleService;

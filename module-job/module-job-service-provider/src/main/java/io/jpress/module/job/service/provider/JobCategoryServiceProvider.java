@@ -2,20 +2,18 @@ package io.jpress.module.job.service.provider;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
-import com.sun.org.apache.bcel.internal.generic.Select;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.components.rpc.annotation.RPCInject;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.User;
-import io.jpress.module.job.service.JobCategoryService;
 import io.jpress.module.job.model.JobCategory;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.module.job.service.JobCategoryService;
 import io.jpress.service.UserService;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Bean
-public class JobCategoryServiceProvider extends JbootServiceBase<JobCategory> implements JobCategoryService {
+public class JobCategoryServiceProvider extends JPressServiceBase<JobCategory> implements JobCategoryService {
 
     @Inject
     private UserService userService;

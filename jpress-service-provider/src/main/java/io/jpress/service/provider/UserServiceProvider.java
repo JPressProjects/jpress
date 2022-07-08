@@ -26,9 +26,9 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.JbootDb;
 import io.jboot.db.model.Columns;
 import io.jboot.db.model.JbootModel;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
@@ -42,7 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 @Bean
-public class UserServiceProvider extends JbootServiceBase<User> implements UserService {
+public class UserServiceProvider extends JPressServiceBase<User> implements UserService {
 
     @Inject
     private UserOpenidService openidService;

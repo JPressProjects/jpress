@@ -27,8 +27,8 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Bean
-public class ArticleServiceProvider extends JbootServiceBase<Article> implements ArticleService {
+public class ArticleServiceProvider extends JPressServiceBase<Article> implements ArticleService {
 
     @Inject
     private ArticleCategoryService categoryService;

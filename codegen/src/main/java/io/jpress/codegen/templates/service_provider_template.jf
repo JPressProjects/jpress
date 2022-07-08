@@ -3,9 +3,9 @@ package #(serviceImplPackageName);
 import io.jboot.aop.annotation.Bean;
 import #(basePackage).#(tableMeta.modelName)Service;
 import #(modelPackage).#(tableMeta.modelName);
-import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.service.JPressServiceBase;
 
 @Bean
-public class #(tableMeta.modelName)ServiceProvider extends JbootServiceBase<#(tableMeta.modelName)> implements #(tableMeta.modelName)Service {
+public class #(tableMeta.modelName)ServiceProvider extends JPressServiceBase<#(tableMeta.modelName)> implements #(tableMeta.modelName)Service {
 
 }

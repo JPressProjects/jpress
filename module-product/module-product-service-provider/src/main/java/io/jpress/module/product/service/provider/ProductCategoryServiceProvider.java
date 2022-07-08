@@ -12,8 +12,8 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Bean
-public class ProductCategoryServiceProvider extends JbootServiceBase<ProductCategory> implements ProductCategoryService {
+public class ProductCategoryServiceProvider extends JPressServiceBase<ProductCategory> implements ProductCategoryService {
 
 
     @Override

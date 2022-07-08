@@ -27,9 +27,9 @@ import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.components.cache.annotation.CachesEvict;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.ModelUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -40,7 +40,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Bean
-public class ArticleCategoryServiceProvider extends JbootServiceBase<ArticleCategory> implements ArticleCategoryService {
+public class ArticleCategoryServiceProvider extends JPressServiceBase<ArticleCategory> implements ArticleCategoryService {
 
 
     @Override

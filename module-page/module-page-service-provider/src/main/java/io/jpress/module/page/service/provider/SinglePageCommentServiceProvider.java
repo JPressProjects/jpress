@@ -6,8 +6,8 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.ArrayUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.page.model.SinglePageComment;
 import io.jpress.module.page.service.SinglePageCommentService;
@@ -15,7 +15,7 @@ import io.jpress.module.page.service.SinglePageService;
 import io.jpress.service.UserService;
 
 @Bean
-public class SinglePageCommentServiceProvider extends JbootServiceBase<SinglePageComment> implements SinglePageCommentService {
+public class SinglePageCommentServiceProvider extends JPressServiceBase<SinglePageComment> implements SinglePageCommentService {
 
     @Inject
     private SinglePageService pageService;

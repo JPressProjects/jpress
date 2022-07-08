@@ -11,6 +11,11 @@ public class FormDict extends BaseFormDict<FormDict> {
 
     private static final long serialVersionUID = 1L;
 
+    public boolean isStaticData(){
+        Boolean withStatic = getWithStatic();
+        return withStatic != null && withStatic;
+    }
+
 	
 }
 

@@ -16,11 +16,11 @@
 package io.jpress.service.provider;
 
 import io.jboot.aop.annotation.Bean;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.WechatMenu;
 import io.jpress.service.WechatMenuService;
 
 @Bean
-public class WechatMenuServiceProvider extends JbootServiceBase<WechatMenu> implements WechatMenuService {
+public class WechatMenuServiceProvider extends JPressServiceBase<WechatMenu> implements WechatMenuService {
 
 }

@@ -2,12 +2,12 @@ package io.jpress.service.provider;
 
 import com.jfinal.plugin.activerecord.Db;
 import io.jboot.aop.annotation.Bean;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.AttachmentCategory;
 import io.jpress.service.AttachmentCategoryService;
 
 @Bean
-public class AttachmentCategoryServiceProvider extends JbootServiceBase<AttachmentCategory> implements AttachmentCategoryService {
+public class AttachmentCategoryServiceProvider extends JPressServiceBase<AttachmentCategory> implements AttachmentCategoryService {
 
     /**
      * 更新 model

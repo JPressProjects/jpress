@@ -21,6 +21,7 @@ import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
+import io.jpress.SiteContext;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.model.User;
 
@@ -47,8 +48,8 @@ public abstract class ControllerBase extends JbootController {
     }
 
 
-    public Long getSiteId(){
-        return getAttr(JPressConsts.ATTR_SITE_ID,0L);
+    public Long getSiteId() {
+        return getAttr(JPressConsts.ATTR_SITE_ID, 0L);
     }
 
 
@@ -58,22 +59,31 @@ public abstract class ControllerBase extends JbootController {
         return removeOptionsAttr(super.getModel(modelClass));
     }
 
+
     @NotAction
     @Override
     public <T> T getModel(Class<T> modelClass, String modelName) {
-        return removeOptionsAttr(super.getModel(modelClass, modelName));
+        Model model = (Model) removeOptionsAttr(super.getModel(modelClass, modelName));
+        model.setOrPut("site_id", SiteContext.getSiteId());
+        return (T) model;
     }
+
 
     @NotAction
     @Override
     public <T> T getModel(Class<T> modelClass, boolean skipConvertError) {
-        return removeOptionsAttr(super.getModel(modelClass, skipConvertError));
+        Model model = (Model) removeOptionsAttr(super.getModel(modelClass, skipConvertError));
+        model.setOrPut("site_id", SiteContext.getSiteId());
+        return (T) model;
     }
+
 
     @NotAction
     @Override
     public <T> T getModel(Class<T> modelClass, String modelName, boolean skipConvertError) {
-        return removeOptionsAttr(super.getModel(modelClass, modelName, skipConvertError));
+        Model model = (Model) removeOptionsAttr(super.getModel(modelClass, modelName, skipConvertError));
+        model.setOrPut("site_id", SiteContext.getSiteId());
+        return (T) model;
     }
 
     //options 应该是通过代码去覆盖的，而非通过 options 来设置

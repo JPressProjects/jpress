@@ -4,7 +4,7 @@ import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.product.model.ProductImage;
 import io.jpress.module.product.model.base.BaseProductImage;
 import io.jpress.module.product.service.ProductImageService;
@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Bean
-public class ProductImageServiceProvider extends JbootServiceBase<ProductImage> implements ProductImageService {
+public class ProductImageServiceProvider extends JPressServiceBase<ProductImage> implements ProductImageService {
 
     private static final String cacheName = "productimage";
 

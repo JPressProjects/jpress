@@ -18,13 +18,13 @@ package io.jpress.service.provider;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.Utm;
 import io.jpress.service.UtmService;
 import io.jpress.service.task.UtmBatchSaveTask;
 
 @Bean
-public class UtmServiceProvider extends JbootServiceBase<Utm> implements UtmService {
+public class UtmServiceProvider extends JPressServiceBase<Utm> implements UtmService {
 
     @Override
     public void doRecord(Utm utm) {

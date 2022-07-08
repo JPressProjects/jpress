@@ -18,25 +18,24 @@ package io.jpress.service.provider;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
-import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jpress.SiteContext;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
 
 
 @Bean
-public class OptionServiceProvider extends JbootServiceBase<Option> implements OptionService {
+public class OptionServiceProvider extends JPressServiceBase<Option> implements OptionService {
 
-    @Override
-    protected Option initDao() {
-        return new Option() {
-            @Override
-            protected void processColumns(Columns columns, String action) {
-                columns.eq("site_id", SiteContext.getSiteId());
-            }
-        };
-    }
+//    @Override
+//    protected Option initDao() {
+//        return new Option() {
+//            @Override
+//            protected void processColumns(Columns columns, String action) {
+//                columns.eq("site_id", SiteContext.getSiteId());
+//            }
+//        };
+//    }
 
     @Override
     @Cacheable(name = "option", key = "#(key)", nullCacheEnable = true)

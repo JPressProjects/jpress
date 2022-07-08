@@ -17,6 +17,9 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 注意：此类不能继承 JPressServiceBase，否则其 site_id 字段将会被自动设置
+ */
 @Bean
 public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implements SiteInfoService {
 

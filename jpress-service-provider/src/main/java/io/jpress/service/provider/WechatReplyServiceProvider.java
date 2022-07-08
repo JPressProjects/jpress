@@ -20,13 +20,13 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.WechatReply;
 import io.jpress.service.WechatReplyService;
 
 @Bean
-public class WechatReplyServiceProvider extends JbootServiceBase<WechatReply> implements WechatReplyService {
+public class WechatReplyServiceProvider extends JPressServiceBase<WechatReply> implements WechatReplyService {
 
     @Override
     public boolean deleteByIds(Object... ids) {

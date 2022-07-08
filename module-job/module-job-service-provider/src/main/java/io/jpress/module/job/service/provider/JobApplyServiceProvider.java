@@ -4,16 +4,16 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.job.model.Job;
-import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.model.JobApply;
-import io.jboot.service.JbootServiceBase;
+import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 
 import javax.validation.constraints.NotNull;
 
 @Bean
-public class JobApplyServiceProvider extends JbootServiceBase<JobApply> implements JobApplyService {
+public class JobApplyServiceProvider extends JPressServiceBase<JobApply> implements JobApplyService {
 
 
     @Inject

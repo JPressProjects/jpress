@@ -5,8 +5,8 @@ import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.UserTag;
 import io.jpress.service.UserTagService;
 
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Bean
-public class UserTagServiceProvider extends JbootServiceBase<UserTag> implements UserTagService {
+public class UserTagServiceProvider extends JPressServiceBase<UserTag> implements UserTagService {
 
     @Override
     public UserTag findFirstByTag(String tag) {

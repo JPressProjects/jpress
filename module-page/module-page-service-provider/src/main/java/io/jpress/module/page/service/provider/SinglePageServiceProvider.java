@@ -21,8 +21,8 @@ import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageCommentService;
@@ -32,7 +32,7 @@ import io.jpress.web.seoping.SeoManager;
 import java.util.List;
 
 @Bean
-public class SinglePageServiceProvider extends JbootServiceBase<SinglePage> implements SinglePageService {
+public class SinglePageServiceProvider extends JPressServiceBase<SinglePage> implements SinglePageService {
 
     @Inject
     private SinglePageCommentService commentService;

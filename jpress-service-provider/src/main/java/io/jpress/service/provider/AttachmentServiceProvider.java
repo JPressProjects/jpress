@@ -20,9 +20,9 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
-import io.jboot.service.JbootServiceBase;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
+import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.ImageUtils;
 import io.jpress.model.Attachment;
 import io.jpress.service.AttachmentService;
@@ -30,7 +30,7 @@ import io.jpress.service.AttachmentService;
 import java.io.File;
 
 @Bean
-public class AttachmentServiceProvider extends JbootServiceBase<Attachment> implements AttachmentService {
+public class AttachmentServiceProvider extends JPressServiceBase<Attachment> implements AttachmentService {
 
     private static final Log LOG = Log.getLog(AttachmentServiceProvider.class);
 

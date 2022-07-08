@@ -22,5 +22,7 @@ git clone https://github.com/JpressProjects/jpress.git
 
 ### 代码导入到 Idea 或者 eclipse
 
-略
+- 使用 mvn eclipse:eclipse 命令把项目转换成支持Eclipse IDE的项目。
+
+- 使用 mvn idea:idea 命令把项目转换成支持IntelliJ IDEA的项目。
 

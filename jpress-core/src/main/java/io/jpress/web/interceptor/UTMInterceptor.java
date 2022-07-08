@@ -15,7 +15,7 @@
  */
 package io.jpress.web.interceptor;
 
-import com.jfinal.aop.Inject;
+import com.jfinal.aop.Aop;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
@@ -36,8 +36,14 @@ import io.jpress.web.base.ApiControllerBase;
  */
 public class UTMInterceptor implements Interceptor {
 
-    @Inject
-    private UtmService utmService;
+    private UtmService service;
+
+    private UtmService getUtmService(){
+        if (service == null){
+            service = Aop.get(UtmService.class);
+        }
+        return service;
+    }
 
 
     @Override
@@ -94,7 +100,7 @@ public class UTMInterceptor implements Interceptor {
         utm.setContent(controller.getPara("content"));
         utm.setTerm(controller.getPara("term"));
 
-        utmService.doRecord(utm);
+        getUtmService().doRecord(utm);
     }
 
 

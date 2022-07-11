@@ -56,10 +56,10 @@
         visibility: hidden;
     }
     /*.attachment_item:hover .checkbox*/
-    .attachment_item.active .checkbox{
+    .attachment_item.checked .checkbox{
         display: block;
     }
-    .attachment_item.active .checkbox i,.attachment_item:hover .checkbox i{
+    .attachment_item.checked .checkbox i,.attachment_item:hover .checkbox i{
         color:#0069d9;
     }
 </style>
@@ -90,28 +90,29 @@
         var ifAllChecked = true;
         // 全选按钮
         $("#checkall").click(function() {
+            console.log(this.checked,'全选')
             if (this.checked) {//如果自己被选中
                 $("input[name=checkbox]").prop("checked", "true");
                 $(".attachment_item").each(function(i, element){
-                  $(this).addClass("active")
+                  $(this).addClass("checked")
                 })
             } else {
                 $("input[name='checkbox']").each(function () {
                     this.checked = false;
                 });
                 $(".attachment_item").each(function(i, element){
-                    $(this).removeClass("active");
+                    $(this).removeClass("checked");
                 })
             }
         })
 
         // 单选按钮
         $(".attachment_item").click(function() {
-            var currentActive = $(this).hasClass("active");
+            var currentActive = $(this).hasClass("checked");
             if(currentActive){
-                $(this).removeClass("active");
+                $(this).removeClass("checked");
             }else{
-                $(this).addClass("active");
+                $(this).addClass("checked");
             }
 
         })
@@ -191,7 +192,7 @@
                         <div class="col-12 ">
                             <div class="row">
                                 #for(attachment : page.list ??)
-                                <div class="attachment_item">
+                                <div class="attachment_item"  name="tableItem">
                                     #if(attachment.isImage())
                                     <img src="#(CPATH)#(attachment.path ??)" title="#(attachment.title ??)"
                                          alt="#(attachment.title ??)" onclick='show("#(attachment.id ??)")'>

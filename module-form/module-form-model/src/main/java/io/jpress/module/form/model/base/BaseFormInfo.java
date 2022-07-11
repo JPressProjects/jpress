@@ -173,5 +173,19 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 		return getStr("builder_json");
 	}
 
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
+	}
+
 }
 

@@ -62,6 +62,20 @@ public abstract class BaseFormDict<M extends BaseFormDict<M>> extends JbootModel
 	}
 
     /**
+     * 动态导入时，配置的 headers
+     */
+	public void setHeaders(java.lang.String headers) {
+		set("headers", headers);
+	}
+
+    /**
+     * 动态导入时，配置的 headers
+     */
+	public java.lang.String getHeaders() {
+		return getStr("headers");
+	}
+
+    /**
      * 是否级联
      */
 	public void setWithCascade(java.lang.Boolean withCascade) {
@@ -115,6 +129,20 @@ public abstract class BaseFormDict<M extends BaseFormDict<M>> extends JbootModel
      */
 	public java.util.Date getModified() {
 		return getDate("modified");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

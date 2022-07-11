@@ -4,6 +4,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.JbootDb;
 import io.jboot.db.model.Columns;
 import io.jboot.service.JbootServiceBase;
@@ -26,6 +27,13 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
 
     @Inject
     private RoleService roleService;
+
+
+    @Override
+    @Cacheable(name = "site_info")
+    public List<SiteInfo> findAll() {
+        return super.findAll();
+    }
 
     /**
      * 储存 中间表信息

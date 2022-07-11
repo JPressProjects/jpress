@@ -23,14 +23,18 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.commons.utils.HttpProxy;
+import io.jpress.core.bsformbuilder.BsFormOption;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.form.model.FormDict;
+import io.jpress.module.form.model.FormDictItem;
 import io.jpress.module.form.service.FormDictItemService;
 import io.jpress.module.form.service.FormDictService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequestMapping(value = "/admin/form/formDict", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -108,11 +112,16 @@ public class _FormDictController extends AdminControllerBase {
 
         //静态数据
         if (formDict.isStaticData()) {
-//            itemService.findListByColumns(Columns.create(""))
+            List<FormDictItem> dictItemList = itemService.findListByColumns(Columns.create("dict_id", formDict.getId()));
+            List<BsFormOption> bsFormOptions = dictItemList.stream().map(item -> new BsFormOption(item.getText(), item.getValue())).collect(Collectors.toList());
+            renderJson(Ret.ok().set("options", bsFormOptions));
         }
         //动态数据
         else {
-
+            String url = formDict.getImportText();
+            HttpProxy proxy = new HttpProxy();
+            proxy.start(url, getResponse());
+            renderNull();
         }
     }
 }

@@ -48,20 +48,6 @@ public abstract class BaseFormDictItem<M extends BaseFormDictItem<M>> extends Jb
 	}
 
     /**
-     * key
-     */
-	public void setKey(java.lang.String key) {
-		set("key", key);
-	}
-
-    /**
-     * key
-     */
-	public java.lang.String getKey() {
-		return getStr("key");
-	}
-
-    /**
      * 文本内容
      */
 	public void setText(java.lang.String text) {
@@ -76,6 +62,20 @@ public abstract class BaseFormDictItem<M extends BaseFormDictItem<M>> extends Jb
 	}
 
     /**
+     * key
+     */
+	public void setValue(java.lang.String value) {
+		set("value", value);
+	}
+
+    /**
+     * key
+     */
+	public java.lang.String getValue() {
+		return getStr("value");
+	}
+
+    /**
      * 图片 URL 地址
      */
 	public void setImage(java.lang.String image) {
@@ -87,6 +87,20 @@ public abstract class BaseFormDictItem<M extends BaseFormDictItem<M>> extends Jb
      */
 	public java.lang.String getImage() {
 		return getStr("image");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

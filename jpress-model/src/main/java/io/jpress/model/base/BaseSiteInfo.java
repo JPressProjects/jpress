@@ -89,34 +89,6 @@ public abstract class BaseSiteInfo<M extends BaseSiteInfo<M>> extends JbootModel
 		return getStr("bind_lang");
 	}
 
-    /**
-     * 是否是多语言默认站点
-     */
-	public void setWithLangDefault(java.lang.Boolean withLangDefault) {
-		set("with_lang_default", withLangDefault);
-	}
-
-    /**
-     * 是否是多语言默认站点
-     */
-	public java.lang.Boolean getWithLangDefault() {
-		return get("with_lang_default");
-	}
-
-    /**
-     * 是否可以自动根据浏览器改变语言站点
-     */
-	public void setWithLangRansform(java.lang.Boolean withLangRansform) {
-		set("with_lang_ransform", withLangRansform);
-	}
-
-    /**
-     * 是否可以自动根据浏览器改变语言站点
-     */
-	public java.lang.Boolean getWithLangRansform() {
-		return get("with_lang_ransform");
-	}
-
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}

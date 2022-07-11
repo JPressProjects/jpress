@@ -97,6 +97,9 @@ public class _FormDictController extends AdminControllerBase {
      */
     public void queryList() {
         List<FormDict> dicts = dictService.findAll();
+        if (dicts != null) {
+            dicts.forEach(dict -> dict.keep("id", "name"));
+        }
         renderJson(Ret.ok().set("dicts", dicts));
     }
 

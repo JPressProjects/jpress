@@ -1,6 +1,7 @@
 package io.jpress.module.form.model;
 
 import io.jboot.db.annotation.Table;
+import io.jboot.web.json.JsonIgnore;
 import io.jpress.module.form.model.base.BaseFormDict;
 
 /**
@@ -11,6 +12,7 @@ public class FormDict extends BaseFormDict<FormDict> {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     public boolean isStaticData(){
         Boolean withStatic = getWithStatic();
         return withStatic != null && withStatic;

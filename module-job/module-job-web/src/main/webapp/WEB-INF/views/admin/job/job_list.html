@@ -62,21 +62,14 @@
                         <th style="width: 10px">
                             <input class="tableCheckAll" type="checkbox">
                         </th>
-                        <th>工作名称</th>
-                        <th>分类</th>
-                        <th>部门</th>
-                        <th>描述</th>
-                        <th>工作地点</th>
-                        <th>年龄</th>
-                        <th>学历</th>
-                        <th>工作年限</th>
-                        <th>接收简历邮箱</th>
-                        <th>是否属于远程工作</th>
-                        <th>是否允许在线投递</th>
-                        <th>工作类型</th>
-                        <th>招聘类型</th>
-                        <th>招聘人数</th>
-                        <th>有效时间</th>
+                        <th style="width: 100px">工作名称</th>
+                        <th style="width: 100px">分类</th>
+                        <th style="width: 100px">部门</th>
+                        <th style="width: 100px">工作地点</th>
+                        <th style="width: 100px">学历</th>
+                        <th style="width: 100px">工作类型</th>
+                        <th style="width: 100px">招聘类型</th>
+                        <th style="width: 100px">招聘人数</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -98,10 +91,9 @@
                             </div>
                         </td>
                         <td>#(entry.category.title ??)</td>
-                        <td>#(entry.department ??)</td>
                         <td>#maxLength(entry.getHtml() ??,5)</td>
                         <td>#(entry.address.title ??)</td>
-                        <td>#(entry.age_limit_start ??)~#(entry.age_limit_end ??)</td>
+<!--                        <td>#(entry.age_limit_start ??)~#(entry.age_limit_end ??)</td>-->
 
                         <td>
                             #if(entry.education ?? == 0) 不限制学历
@@ -115,27 +107,26 @@
                             #end
                         </td>
 
-                        <td>
-                            #if(entry.years_limit_type ?? == 0) 不限
-                            #else if(entry.years_limit_type ?? == 1) 在校生
-                            #else if(entry.years_limit_type ?? == 2) 应届生
-                            #else if(entry.years_limit_type ?? == 3) 1年以内
-                            #else if(entry.years_limit_type ?? == 4) 1-3年
-                            #else if(entry.years_limit_type ?? == 5) 3-5年
-                            #else if(entry.years_limit_type ?? == 6) 5-10年
-                            #else if(entry.years_limit_type ?? == 7) 10年以上
-                            #end
-                        </td>
+<!--                        <td>-->
+<!--                            #if(entry.years_limit_type ?? == 0) 不限-->
+<!--                            #else if(entry.years_limit_type ?? == 1) 在校生-->
+<!--                            #else if(entry.years_limit_type ?? == 2) 应届生-->
+<!--                            #else if(entry.years_limit_type ?? == 3) 1年以内-->
+<!--                            #else if(entry.years_limit_type ?? == 4) 1-3年-->
+<!--                            #else if(entry.years_limit_type ?? == 5) 3-5年-->
+<!--                            #else if(entry.years_limit_type ?? == 6) 5-10年-->
+<!--                            #else if(entry.years_limit_type ?? == 7) 10年以上-->
+<!--                            #end-->
+<!--                        </td>-->
 
-                        <td>#(entry.notify_emails ??)</td>
 
-                        <td>#if(entry.with_remote ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                            #else <i class="fa fa-2x fa-toggle-off"></i> #end
-                        </td>
+<!--                        <td>#if(entry.with_remote ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>-->
+<!--                            #else <i class="fa fa-2x fa-toggle-off"></i> #end-->
+<!--                        </td>-->
 
-                        <td>#if(entry.with_apply ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                            #else <i class="fa fa-2x fa-toggle-off"></i> #end
-                        </td>
+<!--                        <td>#if(entry.with_apply ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>-->
+<!--                            #else <i class="fa fa-2x fa-toggle-off"></i> #end-->
+<!--                        </td>-->
 
                         <td>
                             #if(entry.work_type ?? == 0) 全职
@@ -152,7 +143,7 @@
                         </td>
 
                         <td>#(entry.recruit_numbers ??)</td>
-                        <td>#date(entry.expired_to ??,"yyyy-MM-dd")</td>
+<!--                        <td>#date(entry.expired_to ??,"yyyy-MM-dd")</td>-->
                     </tr>
                     #end
 

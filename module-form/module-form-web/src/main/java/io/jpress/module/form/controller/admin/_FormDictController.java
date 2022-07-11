@@ -31,7 +31,7 @@ import io.jpress.module.form.model.FormDictItem;
 import io.jpress.module.form.service.FormDictItemService;
 import io.jpress.module.form.service.FormDictService;
 import io.jpress.web.base.AdminControllerBase;
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,6 +73,40 @@ public class _FormDictController extends AdminControllerBase {
         if (entry.getName() == null) {
             renderFailJson("字典名称不能为空");
             return;
+        }
+
+        List<FormDictItem> items = new ArrayList<>();
+
+        //内容 放入字典中 item
+        if(entry.getImportType() != null && entry.getImportText() !=null){
+
+            switch (entry.getImportType()){
+
+                case 0 :
+
+                    String importText = entry.getImportText();
+
+                    String[] split = importText.split("\n");
+
+                    for (String text : split) {
+
+                        //TODO
+                    }
+
+
+                case 1 :
+
+
+
+
+
+                case 2 :
+
+                    break;
+
+            }
+
+
         }
 
         dictService.saveOrUpdate(entry);

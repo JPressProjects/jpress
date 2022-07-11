@@ -1,5 +1,9 @@
 package io.jpress.module.job.controller.front;
 
+import com.alibaba.fastjson.JSON;
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.render.RenderManager;
@@ -8,6 +12,7 @@ import com.jfinal.template.source.FileSource;
 import com.jfinal.upload.UploadFile;
 import io.jboot.web.attachment.AttachmentManager;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
 import io.jboot.web.validate.Regex;
 import io.jpress.commons.email.Email;
 import io.jpress.commons.email.EmailKit;
@@ -20,7 +25,6 @@ import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
-
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.HashMap;
@@ -37,6 +41,9 @@ public class JobApplyController extends TemplateControllerBase {
 
     @Inject
     private OptionService optionService;
+
+    @Inject
+    private CaptchaService captchaService;
 
 
     public void index() {
@@ -227,15 +234,23 @@ public class JobApplyController extends TemplateControllerBase {
     }
 
     //获取邮箱验证码
-    public void getEmailCode() {
-
-        String email = getPara("email");
+    public void getEmailCode(@JsonBody("email") String email,@JsonBody CaptchaVO captchaVO) {
 
         Long id = getLong();
 
         Job job = jobService.findById(id);
 
+        //进行前端滑块 参数验证
+        ResponseModel validResult = captchaService.verification(captchaVO);
+
         Map<String, Object> map = new HashMap<>();
+
+        if (validResult == null || !validResult.isSuccess()) {
+            map.put("state", false);
+            map.put("message", "邮件发送失败,请核对邮箱");
+            renderJson(map);
+            return;
+        }
 
         if (email == null || job == null) {
             map.put("state", false);
@@ -284,7 +299,7 @@ public class JobApplyController extends TemplateControllerBase {
     }
 
     //邮箱验证
-    public boolean validationEmail(String email, String code) {
+    public boolean validationEmail(String email, String code)  {
 
         if (code == null || email == null) {
             return false;

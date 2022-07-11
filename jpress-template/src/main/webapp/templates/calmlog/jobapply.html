@@ -1,7 +1,14 @@
 #include("./layout.html")
 #@layout()
 
+#define css()
+<link href="/static/components/aj-captcha/css/verify.css" rel="stylesheet">
+#end
+
 #define script()
+<script src="/static/components/aj-captcha/js/crypto-js.js"></script>
+<script src="/static/components/aj-captcha/js/ase.js"></script>
+<script src="/static/components/aj-captcha/js/verify.js"></script>
 
 <script>
 
@@ -43,7 +50,7 @@
             contentType: false,
             success: function (result) {
 
-                if(result.state == "fail"){
+                if (result.state == "fail") {
                     alert(result.message);
                 }
 
@@ -54,7 +61,7 @@
                     //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
                     $('#inputGroupFile04').val('');
 
-                   alert("上传成功");
+                    alert("上传成功");
 
                 }
             }
@@ -78,8 +85,8 @@
             contentType: false,
             success: function (result) {
 
-                if(result.state == "fail"){
-                   alert(result.message);
+                if (result.state == "fail") {
+                    alert(result.message);
                 }
 
                 if (result.state == true) {
@@ -98,52 +105,24 @@
     }
 
     //获取手机验证码
-    function getMobileCode(){
+    function getMobileCode() {
 
         let mobile = $("#mobile").val();
 
-        if(mobile == null || mobile == "" || mobile == undefined){
+        if (mobile == null || mobile == "" || mobile == undefined) {
             alert("请输入手机号");
-        }else {
+        } else {
             $.ajax({
-                url:'/job/apply/getMobileCode',
-                type:'post',
-                data:{mobile:mobile},
-                success:function (result){
+                url: '/job/apply/getMobileCode',
+                type: 'post',
+                data: {mobile: mobile},
+                success: function (result) {
 
-                    if(result.state == false){
+                    if (result.state == false) {
                         alert(result.message);
                     }
 
-                    if(result.state == true){
-                        alert(result.message)
-                    }
-                }
-            })
-        }
-
-
-    }
-
-    //获取邮箱验证码
-    function getEmailCode(){
-
-        let email = $("#email").val();
-
-        if(email == null || email == "" || email == undefined){
-            alert("请输入邮箱")
-        }else {
-            $.ajax({
-                url:'/job/apply/getEmailCode/#(job.id ??)',
-                type:'post',
-                data:{email:email},
-                success:function (result){
-
-                    if(result.state == false){
-                        alert(result.message);
-                    }
-
-                    if(result.state == true){
+                    if (result.state == true) {
                         alert(result.message)
                     }
                 }
@@ -151,6 +130,64 @@
         }
 
     }
+
+
+    var isRead = false;
+
+
+    //滑块验证 并获取邮箱验证码
+    $('body').slideVerify({
+        // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
+        baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
+        containerId: 'getEmailCode',//pop模式 必填 被点击之后出现行为验证码的元素id
+        mode: 'pop',     //展示模式
+        imgSize: {       //图片的大小对象,有默认值{ width: '310px',height: '155px'},可省略
+            width: '400px',
+            height: '200px',
+        },
+        barSize: {          //下方滑块的大小对象,有默认值{ width: '310px',height: '50px'},可省略
+            width: '400px',
+            height: '40px',
+        },
+        beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
+            let email = $("#email").val();
+            if (isRead && !email) {
+                alert("邮箱不能为空");
+                return false
+            }
+            return true;
+        },
+        //加载完毕的回调
+        ready: function () {
+            isRead = true;
+        },
+        //验证成功
+        success: function (params) {
+            let email = $("#email").val();
+
+            var data = $.extend({email: email}, params);
+
+            $.ajax({
+                url: '/job/apply/getEmailCode/#(job.id ??)',
+                type: 'post',
+                data: JSON.stringify(data),
+                contentType: "json",
+                success: function (result) {
+                    if (result.state == false) {
+                        alert(result.message);
+                    }
+
+                    if (result.state == true) {
+                        alert(result.message)
+                    }
+                }
+            })
+        },
+        error: function () {
+            //失败的回调
+            console.log("slideVerify error...");
+        }
+    });
 
 
 </script>
@@ -192,12 +229,16 @@
         </div>
 
         <div class="form-group">
-
+            <label for="mobile">手机号</label>
             <input type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile" required>
 
             #if(option("job_mobile_enable"))
-            <input style="width:60%;float:left;" type="code" class="form-control" placeholder="验证码" id="mobile_code" name="mobileCode" autocomplete="off">
-            <input style="width:40%;float:right;" type="button" class="btn btn-primary" value="获取验证码" onclick="getMobileCode()"/>
+            <input style="width:60%;float:left;" type="code" class="form-control" placeholder="验证码" id="mobile_code"
+                   name="mobileCode" autocomplete="off">
+
+            <input style="width:40%;float:right;" type="button" class="btn btn-primary" id="getMobileCode" onclick="getMobileCode()"
+                   value="获取验证码"/>
+
             <div class="clearfix"></div>
             #end
 
@@ -208,8 +249,14 @@
             <input type="email" class="form-control" id="email" placeholder="邮箱" name="jobApply.email" required>
 
             #if(option("job_email_enable"))
-            <input style="width:60%;float:left;" type="code" class="form-control" placeholder="验证码" id="email_code" name="emailCode" autocomplete="off">
-            <input style="width:40%;float:right;" type="button" class="btn btn-primary" value="获取验证码" onclick="getEmailCode()" />
+            <input style="width:60%;float:left;" type="code" class="form-control" placeholder="验证码" id="email_code"
+                   name="emailCode" autocomplete="off">
+
+
+            <input style="width:40%;float:right;" id="getEmailCode" type="button"
+                   class="btn btn-primary"
+                   value="获取验证码"/>
+
             <div class="clearfix"></div>
             #end
         </div>
@@ -229,7 +276,8 @@
 
         <div class="form-group">
             <label for="work_years">工作经验</label>
-            <input type="number" class="form-control" id="work_years" placeholder="工作经验" name="jobApply.work_years" required>
+            <input type="number" class="form-control" id="work_years" placeholder="工作经验" name="jobApply.work_years"
+                   required>
         </div>
 
         <div class="form-group">
@@ -255,17 +303,17 @@
 
         <div class="form-group">
             <label>简历上传</label>
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile04">
-                        <label class="custom-file-label" for="inputGroupFile04">请选择文件</label>
-                    </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" onclick="uploadFileJL()" type="button">
-                            开始上传
-                        </button>
-                    </div>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile04">
+                    <label class="custom-file-label" for="inputGroupFile04">请选择文件</label>
                 </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" onclick="uploadFileJL()" type="button">
+                        开始上传
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="form-group">
@@ -284,7 +332,7 @@
         </div>
 
         <div class="form-group">
-                <input style="width:15%;" type="submit" id="btn_yzm" class="btn btn-primary" value="提交申请"/>
+            <input style="width:15%;" type="submit" id="btn_yzm" class="btn btn-primary" value="提交申请"/>
         </div>
 
     </form>

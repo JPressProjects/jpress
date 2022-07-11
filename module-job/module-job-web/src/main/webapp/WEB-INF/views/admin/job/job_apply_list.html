@@ -61,17 +61,14 @@
                         <th style="width: 10px">
                             <input class="tableCheckAll" type="checkbox">
                         </th>
-                        <th>用户名称</th>
-                        <th>申请职位ID</th>
-                        <th>手机号</th>
-                        <th>性别</th>
-                        <th>工作年限</th>
-                        <th>最高学历</th>
-                        <th>推荐码</th>
-                        <th>是否已经查看</th>
-                        <th>是否已经处理</th>
-                        <th>处理时间</th>
-                        <th>创建时间</th>
+                        <th style="width: 100px">用户名称</th>
+                        <th style="width: 100px">申请职位</th>
+                        <th style="width: 100px">手机号</th>
+                        <th style="width: 100px">工作年限</th>
+                        <th style="width: 100px">最高学历</th>
+                        <th style="width: 100px">是否已经查看</th>
+                        <th style="width: 100px">是否已经处理</th>
+                        <th style="width: 100px">处理时间</th>
                     </tr>
                     </thead>
 
@@ -81,7 +78,7 @@
                     <tr>
                         <td><input name="tableItem" type="checkbox" value="#(entry.id)"/>
                         </td>
-                        <td style="width: 100px">
+                        <td>
                             #(entry.user_name ??)
 
                             <div class="jp-action-card">
@@ -94,9 +91,9 @@
                         </td>
                         <td>#(entry.job.title ??)</td>
                         <td>#(entry.mobile ??)</td>
-                        <td>
-                            #if(entry.gender ?? == 0) 男 #else if(entry.gender ?? == 1) 女 #end
-                        </td>
+<!--                        <td>-->
+<!--                            #if(entry.gender ?? == 0) 男 #else if(entry.gender ?? == 1) 女 #end-->
+<!--                        </td>-->
                         <td>#(entry.work_years ??)</td>
 
                         <td>
@@ -111,7 +108,6 @@
                             #end
                         </td>
 
-                        <td>#(entry.referral_code ??)</td>
 
                         <td>#if(entry.with_viewed ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
                             #else <i class="fa fa-2x fa-toggle-off"></i> #end
@@ -123,7 +119,6 @@
 
                         <td>#date(entry.disposed_time ??,"yyyy-MM-dd")</td>
 
-                        <td>#date(entry.created ??,"yyyy-MM-dd")</td>
                     </tr>
                     #end
 

@@ -15,6 +15,9 @@
  */
 package io.jpress.web.front;
 
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
 import com.jfinal.aop.Clear;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
@@ -23,8 +26,10 @@ import com.jfinal.kit.Ret;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
+import io.jboot.web.validate.Regex;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.authcode.AuthCode;
@@ -37,6 +42,7 @@ import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.commons.email.EmailSender;
 
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
@@ -55,6 +61,11 @@ public class UserController extends TemplateControllerBase {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private CaptchaService captchaService;
+
+
 
 
     /**
@@ -337,5 +348,29 @@ public class UserController extends TemplateControllerBase {
         renderJson(user != null ? OK : FAIL);
     }
 
+
+    /**
+     * 发送短信验证码
+     * @param mobile
+     * @param captchaVO
+     */
+    public void doSendLoginCode(@Pattern(regexp = Regex.MOBILE) @JsonBody("mobile") String mobile, @JsonBody CaptchaVO captchaVO) {
+        ResponseModel validResult = captchaService.verification(captchaVO);
+        if (validResult != null && validResult.isSuccess()) {
+            String code = SmsKit.generateCode();
+            String template = JPressOptions.get("reg_sms_validate_template");
+            String sign = JPressOptions.get("reg_sms_validate_sign");
+
+            boolean sendOk = SmsKit.sendCode(mobile, code, template, sign);
+
+            if (sendOk) {
+                renderJson(Ret.ok().set("message", "短信发送成功，请手机查看"));
+            } else {
+                renderJson(Ret.fail().set("message", "短信实发失败，请联系管理员"));
+            }
+        } else {
+            renderFailJson("验证错误");
+        }
+    }
 
 }

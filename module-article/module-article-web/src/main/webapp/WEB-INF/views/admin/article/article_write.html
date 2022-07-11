@@ -377,10 +377,17 @@ $(function () {
         <button type="button" class="btn btn-secondary mr-2">预览</button>
         <button type="button" class="btn btn-primary mr-2">发布</button>
         <button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>
-        <span><i class="bi bi-three-dots-vertical"></i></span>
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                class="bi bi-three-dots-vertical"></i></span>
+        <div class="dropdown-menu mr-2">
+            <a class="dropdown-item" href="#">项目一</a>
+            <a class="dropdown-item" href="#">项目二</a>
+            <a class="dropdown-item" href="#">项目三</a>
+            <a class="dropdown-item" href="#">项目二四</a>
+        </div>
     </div>
 </section>
-    <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form" class="h-100 pt-2 bg-white">
+    <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form" class="h-100 bg-white">
         <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
         <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
         <input type="hidden" id="appId" name="appId" value="#(appId ??)">
@@ -405,7 +412,7 @@ $(function () {
                         <!--</button>-->
                         <!--</div>-->
                         <!--</div>-->
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 pr-0">
                             <div id="editor">#(article.orignalContent ??)</div>
                             <input type="hidden" name="article.content" id="content"/>
                         </div>

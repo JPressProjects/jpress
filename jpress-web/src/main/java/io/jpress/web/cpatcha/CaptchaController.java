@@ -7,7 +7,7 @@ import com.jfinal.core.Controller;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 
-@RequestMapping(value = "/captcha-api/captcha")
+@RequestMapping(value = "/commons/captcha")
 public class CaptchaController extends Controller {
 
     @Inject

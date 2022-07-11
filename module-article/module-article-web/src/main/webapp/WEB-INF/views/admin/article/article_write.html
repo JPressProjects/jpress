@@ -326,7 +326,22 @@ $(function () {
     .pannel-inner{
         width:100%;
         height:auto;
+        padding-left:0 !important;
         overflow-x: hidden;
+    }
+    #formAttrTab .nav-link{
+        padding-left:1rem;
+        padding-right:1rem;
+        border:none;
+        border-bottom:4px solid #fff;
+        position:relative;
+        top:-1px;
+    }
+    #formAttrTab  .nav-link.active{
+        border-bottom:4px solid #0056b3
+    }
+    .dropdown-item{
+        padding:.75rem 1rem;
     }
 </style>
 #end
@@ -395,12 +410,12 @@ $(function () {
             </div>
             <div class="col-lg-3 pl-0 rightPanel">
                 <div class="pannel-inner">
-                    <ul class="nav nav-tabs mb-2" id="formAttrTab" role="tablist">
-                        <li class="nav-item w-50">
+                    <ul class="nav nav-tabs" id="formAttrTab" role="tablist">
+                        <li class="nav-item">
                             <a class="nav-link active" id="componentAttr-tab" data-toggle="tab"
                                href="#componentAttr" role="tab" aria-controls="component" aria-selected="true">文章</a>
                         </li>
-                        <li class="nav-item w-50">
+                        <li class="nav-item">
                             <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab" aria-controls="module" aria-selected="false">模板</a>
                         </li>
                     </ul>

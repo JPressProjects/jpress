@@ -6,14 +6,6 @@
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
 
-<!-- 腾讯云 超级播放器-->
-<script src="https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/libs/hls.min.0.13.2m.js"></script>
-<!--播放器脚本文件-->
-<script src="https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js"></script>
-
-<!-- 阿里云播放器-->
-<script src="/static/components/aliyun-upload-sdk/lib/es6-promise.min.js"></script>
-<script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
 
 <script>
 
@@ -348,6 +340,10 @@ $(function () {
     .dropdown-item{
         padding:.75rem 1rem;
     }
+    .card{
+        margin-bottom: 0rem;
+        border-radius: 0;
+    }
 </style>
 #end
 
@@ -431,9 +427,9 @@ $(function () {
                             <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab" aria-controls="module" aria-selected="false">模板</a>
                         </li>
                     </ul>
-                    <div class="tab-content pt-3" id="formAttrTabContent">
+                    <div class="tab-content" id="formAttrTabContent">
                         <div class="tab-pane fade show active" id="componentAttr" role="tabpanel" aria-labelledby="componentAttr-tab">
-                            <div class="accordion p-2" id="accordionExample">
+                            <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-header" id="heading1">
                                         <h2 class="mb-0">

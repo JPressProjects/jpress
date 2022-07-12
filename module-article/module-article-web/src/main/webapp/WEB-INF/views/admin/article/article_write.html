@@ -161,24 +161,18 @@ $(function () {
     $(".article-sttr .form-group").children(".col-form-label").removeClass("col-sm-2").addClass("col-sm-4");
     $(".article-sttr .form-group").children("div").removeClass("col-sm-6").addClass("col-sm-8");
 
-    $("#js-setting").click(function () {
+    // 设置按钮
+    $("#rightSwitch").click(function () {
+        $(this).toggleClass('switch-btn');
         $(".rightPanel").toggle();
         $(".leftPanel").toggleClass("col-lg-12", "col-lg-3");
-    })
-    // 设置高度
-    // let $screenHeight = $(window).height();
-    // let headerHeight =parseFloat( $(".main-header").height()) + parseFloat($(".article-header").height());
-    // let $height = parseFloat($screenHeight - headerHeight-40);
-    // $(".leftPanel").height($height);
-    // $(".rightPanel").height($height);
-    //  $(".ck-content").height($(".rightPanel").height()-50);
+    });
 })
 
 </script>
 
 <!-- 选择视频-->
 <script>
-
     //插入视频
     $(".chooseVideo").on("click", function () {
         var $this = $(this);
@@ -259,6 +253,9 @@ $(function () {
 <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
 
 <style>
+    .main-footer.text-sm ,.main-footer{
+        display: none !important;
+    }
     .content-wrapper {
         position: relative;
         min-height: calc(100vh - calc(3.5rem + 1px));
@@ -306,14 +303,17 @@ $(function () {
         width:100%;
         height:100%;
         overflow-y: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .leftPanel::-webkit-scrollbar {
+        width: 0;
     }
     .rightPanel{
         position: sticky;
         height: 100%;
         overflow-y: scroll;
-    }
-    .main-footer.text-sm ,.main-footer{
-        display: none !important;
     }
     .pannel-inner{
         width:100%;
@@ -344,6 +344,30 @@ $(function () {
         margin-bottom: 0rem;
         border-radius: 0;
     }
+    .ck-editor__editable_inline, .ck-source-editing-area {
+        height: calc(100vh - 158px);
+    }
+    .switch-btn{
+        display: inline-block;
+        padding:3px  6px 2px;
+        border-radius:4px;
+        cursor: pointer;
+        background-color: #000;
+        border:1px solid #000;
+    }
+    .switch-btn i,.switch-btn-active i{
+        color:#fff;
+        font-size:18px !important;
+        vertical-align: middle;
+    }
+    .switch-btn-active{
+        border:1px solid #fff;
+        background-color:#fff;
+    }
+    .switch-btn-active i{
+        font-size:18px !important;
+        color:#0069d9;
+    }
 </style>
 #end
 
@@ -372,7 +396,8 @@ $(function () {
         <button type="button" class="btn btn-secondary mr-2">保存草稿</button>
         <button type="button" class="btn btn-secondary mr-2">预览</button>
         <button type="button" class="btn btn-primary mr-2">发布</button>
-        <button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>
+        <!--<button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>-->
+        <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear"></i></span>
         <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
                 class="bi bi-three-dots-vertical"></i></span>
         <div class="dropdown-menu mr-2">
@@ -390,9 +415,9 @@ $(function () {
         <input type="hidden" name="article.user_id" value="#(article.user_id ?? USER.id)">
         <input type="hidden" id="editModeId" name="article.edit_mode" value="#(editMode ??)">
         <div class="row panelContainer">
-            <div class="col-lg-9 pr-0 leftPanel">
+            <div class="col-lg-9  leftPanel pr-0">
                 <div class="pannel-inner">
-                    <div class="form-group row">
+                    <div class="form-group mb-0">
                         <!--<div class="col-sm-12" style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">-->
                         <!--<div>-->
                         <!--<button type="button" class="btn btn-default btn-sm "-->
@@ -408,7 +433,7 @@ $(function () {
                         <!--</button>-->
                         <!--</div>-->
                         <!--</div>-->
-                        <div class="col-sm-12 pr-0">
+                        <div class="">
                             <div id="editor">#(article.orignalContent ??)</div>
                             <input type="hidden" name="article.content" id="content"/>
                         </div>

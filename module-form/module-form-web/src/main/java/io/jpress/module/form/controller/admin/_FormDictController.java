@@ -15,14 +15,18 @@
  */
 package io.jpress.module.form.controller.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.SiteContext;
 import io.jpress.commons.utils.HttpProxy;
 import io.jpress.core.bsformbuilder.BsFormDatasource;
 import io.jpress.core.bsformbuilder.BsFormOption;
@@ -33,6 +37,7 @@ import io.jpress.module.form.service.FormDictItemService;
 import io.jpress.module.form.service.FormDictService;
 import io.jpress.web.base.AdminControllerBase;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,14 +82,40 @@ public class _FormDictController extends AdminControllerBase {
             return;
         }
 
-        List<FormDictItem> items = new ArrayList<>();
+        if (entry.getId() == null) {
+            entry.setCreated(new Date());
+        }
+
+        dictService.saveOrUpdate(entry);
+
+        //查询是否该 字典 对应的 item
+        FormDictItem formDictItem = itemService.findFirstByColumns(Columns.create().eq("dict_id", entry.getId()));
+
+        //如果查询不为空 那么 删除然后新建
+        if (formDictItem != null) {
+            itemService.deleteByDictId(entry.getId());
+        }
+
+        boolean saveOk = saveItem(entry);
+
+        if (!saveOk) {
+            renderFailJson("数据字典 数据导入失败 请检查数据");
+            return;
+        }
+
+        renderJson(Ret.ok().set("id", entry.getId()));
+    }
+
+    //保存字典对应的 item 信息 对于json 格式 有很严格的要求
+    public boolean saveItem(@NotNull FormDict entry) {
 
         //内容 放入字典中 item
-        if(entry.getImportType() != null && entry.getImportText() !=null){
+        if (entry.getImportType() != null && entry.getImportText() != null) {
 
-            switch (entry.getImportType()){
+            switch (entry.getImportType()) {
 
-                case 0 :
+                //等于 0 时 为一行一个内容
+                case 0:
 
                     String importText = entry.getImportText();
 
@@ -92,27 +123,69 @@ public class _FormDictController extends AdminControllerBase {
 
                     for (String text : split) {
 
-                        //TODO
+                        FormDictItem formDictItem = new FormDictItem();
+
+                        //如果是中文的分号 替换为英文的分号
+                        if (text.contains("：")) {
+                            text = text.replace("：", ":");
+                        }
+
+                        String[] keyAndValue = text.split(":");
+
+                        formDictItem.setDictId(entry.getId());
+                        formDictItem.setPid(0L);
+                        formDictItem.setSiteId(SiteContext.getSiteId());
+
+                        //防止 数组下标越界
+                        try {
+                            formDictItem.setValue(keyAndValue[0]);
+                            formDictItem.setText(keyAndValue[1]);
+                        } catch (Exception e) {
+                            LogKit.error("Dict Item error....." + e);
+                            return false;
+                        }
+
+                        itemService.saveOrUpdate(formDictItem);
                     }
-
-
-                case 1 :
-
-
-
-
-
-                case 2 :
 
                     break;
 
-            }
+                //等于1 时 为 json 对象
+                case 1:
 
+                    String importTexts = StrUtil.unEscapeHtml(entry.getImportText());
+
+                    //JSON 数组格式
+                    if (importTexts.contains("[")) {
+
+                        List<FormDictItem> formDictItems = JSON.parseArray(importTexts, FormDictItem.class);
+
+                        for (FormDictItem formDictItem : formDictItems) {
+
+                            formDictItem.setDictId(entry.getId());
+                            formDictItem.setPid(0L);
+                            formDictItem.setSiteId(SiteContext.getSiteId());
+
+                            itemService.saveOrUpdate(formDictItem);
+                        }
+
+                    //JSON 对象
+                    } else {
+                        FormDictItem formDictItem = JSON.parseObject(importTexts, FormDictItem.class);
+
+                        formDictItem.setDictId(entry.getId());
+                        formDictItem.setPid(0L);
+                        formDictItem.setSiteId(SiteContext.getSiteId());
+
+                        itemService.saveOrUpdate(formDictItem);
+                    }
+                    break;
+            }
 
         }
 
-        dictService.saveOrUpdate(entry);
-        renderJson(Ret.ok().set("id", entry.getId()));
+        return true;
+
     }
 
 
@@ -133,7 +206,7 @@ public class _FormDictController extends AdminControllerBase {
      */
     public void queryDatasources() {
         List<FormDict> dicts = dictService.findAll();
-        if (dicts == null){
+        if (dicts == null) {
             renderJson(Ret.fail("没有任何数据源"));
             return;
         }
@@ -142,7 +215,7 @@ public class _FormDictController extends AdminControllerBase {
         dicts.forEach(dict -> datasources.add(new BsFormDatasource(
                 dict.getName(),
                 dict.getId().toString(),
-                "/admin/form/formDict/queryOptions/"+dict.getId())));
+                "/admin/form/formDict/queryOptions/" + dict.getId())));
         renderJson(Ret.ok().set("datasources", datasources));
     }
 

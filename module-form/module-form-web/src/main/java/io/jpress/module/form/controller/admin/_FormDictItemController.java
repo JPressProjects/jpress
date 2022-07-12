@@ -23,12 +23,12 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
-import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.form.model.FormDict;
 import io.jpress.module.form.model.FormDictItem;
 import io.jpress.module.form.service.FormDictItemService;
 import io.jpress.module.form.service.FormDictService;
 import io.jpress.web.base.AdminControllerBase;
+
 import java.util.Date;
 import java.util.List;
 
@@ -47,37 +47,53 @@ public class _FormDictItemController extends AdminControllerBase {
 
         Long id = getParaToLong();
 
-        if(id == null){
+        if (id == null) {
             renderError(404);
             return;
         }
 
+        setAttr("dictId",id);
+
         Columns columns = new Columns();
-        columns.eq("dict_id",id);
-        Page<FormDictItem> entries=service.paginateByColumns(getPagePara(), getPageSizePara() ,columns);
+        columns.eq("dict_id", id);
+        Page<FormDictItem> entries = service.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
 
         render("form/form_dict_item_list.html");
     }
 
-    public void edit(){
+
+    public void edit() {
 
         int entryId = getParaToInt(0, 0);
+
         FormDictItem entry = entryId > 0 ? service.findById(entryId) : null;
+
+        Long dictId = getParaToLong("dictId");
+
         setAttr("formDictItem", entry);
 
-        List<FormDict> formDictList = formDictService.findAll();
-        setAttr("formDictList",formDictList);
+        if (entry != null) {
+            FormDict formDict = formDictService.findById(entry.getDictId());
+            setAttr("formDict", formDict);
+        }else {
+            FormDict formDict = formDictService.findById(dictId);
+            setAttr("formDict", formDict);
+        }
 
         List<FormDictItem> formDictItemList = service.findAll();
-        setAttr("formDictItemList",formDictItemList);
+        setAttr("formDictItemList", formDictItemList);
 
         render("form/form_dict_item_edit.html");
     }
 
-
     public void doSave() {
-        FormDictItem entry = getModel(FormDictItem.class,"formDictItem");
+        FormDictItem entry = getModel(FormDictItem.class, "formDictItem");
+
+        if (entry.getPid() == null) {
+            entry.setPid(0L);
+        }
+
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }

@@ -173,6 +173,14 @@ public interface FormDictItemService  {
      * @return
      */
     public Page<FormDictItem> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    
+    /**
+    * 根据 dict id 删除数据
+    *
+    * @param dictId
+    * @return boolean
+    */
+    public boolean deleteByDictId(Long dictId);
 
 
 }

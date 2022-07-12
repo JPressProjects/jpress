@@ -22,7 +22,7 @@
                             表单管理
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / FormDictItem / 字典数据管理</small>
+                            <small> 首页 / 表单 / 字典数据管理</small>
                         </h1>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
 
             <div class="col-sm-6 ">
                 <div class=" float-sm-right" style="padding-top: 45px">
-                    <a href="edit" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
+                    <a href="edit?dictId=#(dictId ??)" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
                 </div>
             </div>
 
@@ -65,9 +65,9 @@
                                 <input class="tableCheckAll" type="checkbox"/>
                             </th>
                             <th style="width: 150px">key</th>
+                            <th style="width: 100px">文本内容</th>
                             <th style="width: 100px">上级ID</th>
                             <th style="width: 100px">归属的字典ID</th>
-                            <th style="width: 100px">文本内容</th>
                             <th style="width: 100px">图片</th>
 
                         </tr>
@@ -75,7 +75,7 @@
                         <tr>
                             <td><input name="tableItem" type="checkbox" value="#(entry.id)" /></td>
                             <td>
-                               #(entry.key ??)
+                               #(entry.value ??)
                                 <div class="jp-action-card">
                                     <div class="jp-action-body">
                                         <a href="/admin/form/formDict/item/edit/#(entry.id)">编辑</a> |
@@ -84,10 +84,9 @@
                                     </div>
                                 </div>
                             </td>
-
+                            <td>#maxLength(entry.text,10)</td>
                             <td>#(entry.pid)</td>
                             <td>#(entry.dict_id)</td>
-                            <td>#maxLength(entry.text,10)</td>
                             <td>
                                 <img #if(entry.image ??) src="#(entry.image ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 20%;width: 20%">
                             </td>

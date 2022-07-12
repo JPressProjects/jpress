@@ -18,7 +18,7 @@
             $("#entryId").attr("value", data.id);
             toastr.success('内容保存成功。');
            setTimeout(function (){
-               location.href = "/admin/form/formDictItem/#(formDictItem.dict_id ??)";
+               location.href = "/admin/form/formDict/item/#(formDictItem.dict_id ??)";
            },2000)
         })
     }
@@ -42,7 +42,7 @@
                             编辑/新增
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / FormDictItem / 编辑</small>
+                            <small> 首页 / 表单 / 数据字典 / 编辑</small>
                         </h1>
                     </div>
                 </div>
@@ -57,23 +57,26 @@
         <div class="col-12">
             <div class="card card-outline card-primary">
                 <form class=" form-setting" autocomplete="off"
-                      action="/admin/form/formDictItem/doSave"
+                      action="/admin/form/formDict/item/doSave"
                       method="POST" id="form1">
 
                     <div class="card-body ">
                         <input type="hidden" id="entryId" name="formDictItem.id" value="#(formDictItem.id ??)">
-
+                        <input type="hidden" name="formDictItem.dict_id" value="#(formDict.id ??)">
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">key</label>
                             <div class="col-sm-6">
 
-                                <input type="input" name="formDictItem.key" class="form-control"
-                                       value="#(formDictItem.key ??)"
+                                <input type="input" name="formDictItem.value" class="form-control"
+                                       value="#(formDictItem.value ??)"
                                        placeholder="请输入key">
                             </div>
                         </div>
 
+
+
+                        #if(formDict.with_cascade ??)
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">上级ID</label>
                             <div class="col-sm-6">
@@ -82,22 +85,20 @@
                                     <option value="0">顶级</option>
                                     #for(item : formDictItemList)
                                     #if(item.id ?? != formDictItem.id ??)
-                                    <option value="#(item.id ??)" #if(item.id ?? == formDictItem.pid ??) selected #end>#(item.key ??)</option>
+                                    <option value="#(item.id ??)" #if(item.id ?? == formDictItem.pid ??) selected #end>#(item.value ??)</option>
                                     #end
                                     #end
                                 </select>
 
                             </div>
                         </div>
+                        #end
+
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">归属的字典ID</label>
+                            <label class="col-sm-2 col-form-label">归属的字典</label>
                             <div class="col-sm-6">
 
-                                <select name="formDictItem.dict_id" class="form-control">
-                                    #for(item : formDictList)
-                                    <option value="#(item.id ??)" #if(item.id ?? == formDictItem.dict_id ??) selected #end>#(item.name ??)</option>
-                                    #end
-                                </select>
+                                <input type="input" value="#(formDict.name ??)" class="form-control" readonly>
 
                             </div>
                         </div>

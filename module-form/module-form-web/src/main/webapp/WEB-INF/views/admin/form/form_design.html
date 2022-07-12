@@ -53,7 +53,19 @@
         $('#builder').bsFormBuilder({
             customBuilderStructure: true,
             datas: JSON.parse('#(form.builderJson ??)'),
-            optionsDatasources:'#(CPATH)/admin/form/formDict/queryDatasources',
+            optionsDatasources: '#(CPATH)/admin/form/formDict/queryDatasources',
+
+            //属性过滤器
+            bsFormPropsFilter: function (allprops, data, bsFromBuilder) {
+                if (data.component.drag.type !== 'base') {
+                    var i = allprops.length;
+                    while (i--) {
+                        if (["field", "field_type", "field_lenth", "show_list"].indexOf(allprops[i].name) >= 0) {
+                            allprops.splice(i, 1);
+                        }
+                    }
+                }
+            },
             defaultProps: [
                 {
                     name: 'field',

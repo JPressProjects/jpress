@@ -8,7 +8,8 @@ import java.util.List;
 
 
 /**
- * html 块
+ * html 块，或者说是一个 html 片段
+ * 一个 HtmlBlock 可以转换为 bsFormComponent
  */
 public class HtmlBlock {
 
@@ -116,6 +117,7 @@ public class HtmlBlock {
         component.setDragTitle(getName());
         component.setDragIndex(index);
         component.setDragType(type);
+        component.setTemplate(getTemplate());
 
         if (optionDefs != null) {
             for (HtmlBlockOptionDef optionDef : optionDefs) {

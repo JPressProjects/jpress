@@ -1,12 +1,14 @@
 package io.jpress.core.template.blocks;
 
-import io.jpress.core.bsformbuilder.BsFormComponent;
 import io.jpress.core.template.HtmlBlock;
 
 public class GridBlock extends HtmlBlock {
 
     public GridBlock() {
         setId("grid");
+        setName("DIV");
+        setType(DRAG_TYPE_LAYOUT);
+        setIcon("bi bi-grid");
         setTemplate( "<div class=\"\">\n" +
                 "  <div class=\"form-group clearfix\">\n" +
                 "    <div class=\"row pdlr-15\">\n" +
@@ -19,13 +21,13 @@ public class GridBlock extends HtmlBlock {
     }
 
 
-    @Override
-    public BsFormComponent toBsFormComponent() {
-        BsFormComponent component = new BsFormComponent();
-        component.setName("栅格");
-        component.setTag("grid");
-        component.setDragType(DRAG_TYPE_LAYOUT);
-        component.setDragIcon("bi bi-grid");
-        return component;
-    }
+//    @Override
+//    public BsFormComponent toBsFormComponent() {
+//        BsFormComponent component = new BsFormComponent();
+//        component.setName("栅格");
+//        component.setTag("grid");
+//        component.setDragType(DRAG_TYPE_LAYOUT);
+//        component.setDragIcon("bi bi-grid");
+//        return component;
+//    }
 }

@@ -62,7 +62,7 @@ public class BlockContainerDirective extends JbootDirectiveBase {
             return;
         }
 
-        String html = BlockManager.me().renderBlockContainer(containerDatas, false);
+        String html = BlockManager.me().renderAll(containerDatas, false);
         renderText(writer, html);
     }
 

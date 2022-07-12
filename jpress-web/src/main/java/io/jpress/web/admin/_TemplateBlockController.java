@@ -60,7 +60,7 @@ public class _TemplateBlockController extends AdminControllerBase {
      * 获取编辑定义的组件
      */
     public void components() {
-        renderJson(Ret.ok("components", BlockManager.me().getBsFromComponents()));
+        renderJson(Ret.ok("components", BlockManager.me().getAllComponents()));
     }
 
 

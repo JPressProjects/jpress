@@ -34,6 +34,7 @@ public class ContainerBlock extends HtmlBlock {
         component.setTag("container");
         component.setDisableTools(true);
         component.setDragType("container");
+        component.setTemplate(getTemplate());
 
         BsFormComponent.Prop idProp = new BsFormComponent.Prop("id");
         idProp.setDisabled("ture");

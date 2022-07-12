@@ -43,6 +43,7 @@
         bsFormContainerPlaceHolderSelector: ".bsFormContainer-placeholder", // 设计容器里的提示内容
         bsFormPropsSelector: ".bsFormProps", // 面板内容
         bsFormPropsTitleSelector: ".bsFormPropsTitle", // 面板标题
+        bsFormPropsFilter: null, //function 自定义属性过滤器
         customBuilderStructure: false, // 自定义容器面板
         onDataChange: null, //数据更新的监听器
         onDataChanged: null, //数据更新的监听器
@@ -406,6 +407,7 @@
             optionsCounter: 2,
             withOptions: true,
             optionsTitle: '栅格配置',
+            optionsTypes: 'custom', //options 类型值支持自定义一种方式
             opiontsAdd: function () {
                 return {
                     text: "栅格" + (++this.optionsCounter),
@@ -466,6 +468,7 @@
                 "icon": "bi bi-menu-button"
             },
             withOptions: true,
+            optionsTypes: 'custom', //options 类型值支持自定义一种方式
             counter: 1,
             defaultOptions: function (bsFormBuilder, data) {
                 let counter1 = this.counter++;
@@ -1535,13 +1538,15 @@
          */
         _initDataOptionsIfNecessary: function (data) {
             if (data.component.withOptions && !data.options) {
-                var defaultOptions = this._parseOptions(data.component.defaultOptions);
+
+                var defaultOptions = data.component.defaultOptions;
+                if (typeof defaultOptions === "function") {
+                    defaultOptions = data.component.defaultOptions(this, this.currentData)
+                }
 
 
                 if (!defaultOptions) {
-
                     var datasources = this._getOptionDatasources();
-
                     if (datasources && datasources.length > 0) {
                         defaultOptions = this._parseOptions(datasources[0].options);
                         data["optionsDatasource"] = datasources[0].value;
@@ -2035,6 +2040,12 @@
             var allProps = this._mergeProps(componentProps, this.defaultProps);
             allProps.sort((a, b) => a.index - b.index);
 
+            //自定义属性过滤器
+            if (this.options.bsFormPropsFilter && typeof this.options.bsFormPropsFilter === "function") {
+                this.options.bsFormPropsFilter(allProps, this.currentData, this)
+            }
+
+
             for (let prop of allProps) {
                 // 若组件定义了 propsfilter 过滤
                 // 那么，定义的 propsfilter 只有包含 prop，prop 才能正常被渲染
@@ -2067,9 +2078,22 @@
             // 渲染 options 功能
             if (this.currentData.component.withOptions || this.currentData.options) {
 
+                //组件支持的 options 类型
+                var componentSupportTypes = this.currentData.component.optionsTypes;
+                if (typeof componentSupportTypes === "string") {
+                    componentSupportTypes = [componentSupportTypes];
+                } else if (typeof componentSupportTypes === "function") {
+                    componentSupportTypes = this.currentData.component.optionsTypes(this, this.currentData);
+                }
+
+                // 默认支持 custom 和 datasource
+                if (!componentSupportTypes) {
+                    componentSupportTypes = ['custom', 'datasource'];
+                }
+
                 //若 options 配置了数据源，那么显示 选项类型 让用户自己选择
                 var datasources = this._getOptionDatasources();
-                if (datasources && datasources.length > 0) {
+                if (datasources && datasources.length > 0 && componentSupportTypes.length > 1) {
                     let prop = {
                         id: this.genRandomId(),
                         options: [{text: '自定义', value: 'custom'}, {text: '数据源', value: 'datasource'}],

@@ -1,5 +1,8 @@
 package io.jpress.core.bsformbuilder;
 
+/**
+ * bsFormBuilder 的选项内容
+ */
 public class BsFormOption {
 
     // 文本内容

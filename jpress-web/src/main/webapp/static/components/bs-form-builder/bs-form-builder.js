@@ -49,7 +49,7 @@
         components: [], //初始化时自定义的组件
         useComponents: [], //使用的组件 use components
         customRender: null, //自定义渲染方法，支持后端 url，同步方法 和 异步方法
-        optionsDatasourceGroups: null, // {group:array}
+        optionsDatasources: null, // {group:array}
         actionButtons: [
             {
                 text: '导出 JSON',
@@ -583,6 +583,9 @@
         //默认值是 3 的原因是，一般带有 options 的组件，都会默认有两个 options 了
         this.optionsCounter = 3;
 
+        //http 缓存
+        this.ajaxCache = {};
+
         //初始化
         if (this.options.mode === "view") {
             this._initViewMode();
@@ -963,17 +966,42 @@
             }
         },
 
+
+        /**
+         * 判断是否是 url
+         * @param text
+         * @returns {boolean}
+         * @private
+         */
         _isUrl: function (text) {
             return text && (text.indexOf("/") === 0
                 || text.indexOf("http://") === 0
                 || text.indexOf("https://") === 0)
         },
 
+        /**
+         * 异步 ajax 获取数据，并回调 func 方法
+         * @param url
+         * @param attr
+         * @param func
+         * @private
+         */
         _ajaxGet: function (url, attr, func) {
+            var cacheData = this.ajaxCache[url];
+            if (cacheData) {
+                var needData = cacheData[attr];
+                if (needData) {
+                    func(needData);
+                }
+            }
+
+            var bsFormBuilder = this;
+
             $.ajax({
                 url: url,
-                type: 'get',
+                type: 'GET',
                 success: function (data) {
+                    bsFormBuilder.ajaxCache[url] = data;
                     var needData = data[attr];
                     if (needData) {
                         func(needData);
@@ -982,6 +1010,39 @@
             })
         },
 
+
+        /**
+         * 同步 ajax 获取数据
+         * @param url
+         * @returns {string|*}
+         * @private
+         */
+        _ajaxSyncGet: function (url) {
+            var cacheData = this.ajaxCache[url];
+            if (cacheData) {
+                return cacheData;
+            }
+            var ret = "";
+            $.ajax({
+                url: url,
+                async: false,
+                type: 'GET',
+                success: function (data) {
+                    ret = data;
+                }
+            })
+            this.ajaxCache[url] = ret;
+            return ret;
+        },
+
+
+        /**
+         * 同步进行 post
+         * @param url
+         * @param data
+         * @returns {string}
+         * @private
+         */
         _ajaxSyncPost: function (url, data) {
             var ret = "";
             $.ajax({
@@ -1474,28 +1535,17 @@
          */
         _initDataOptionsIfNecessary: function (data) {
             if (data.component.withOptions && !data.options) {
-                var defaultOptions = data.component.defaultOptions;
-                if (typeof defaultOptions === "function") {
-                    defaultOptions = data.component.defaultOptions(this, data);
-                }
+                var defaultOptions = this._parseOptions(data.component.defaultOptions);
 
-                if (!defaultOptions && data.component.optionsDatasourceGroupName) {
 
-                    var datasources = this.options.optionsDatasourceGroups[data.component.optionsDatasourceGroupName];
-                    if (typeof datasources === "function") {
-                        datasources = datasources(this, data);
-                    }
+                if (!defaultOptions) {
+
+                    var datasources = this._getOptionDatasources();
 
                     if (datasources && datasources.length > 0) {
-                        defaultOptions = datasources[0].options;
-                        if (typeof defaultOptions === "function") {
-                            defaultOptions = defaultOptions(this, data);
-                        }
-
+                        defaultOptions = this._parseOptions(datasources[0].options);
                         data["optionsDatasource"] = datasources[0].value;
                     }
-
-
                 }
 
 
@@ -1708,15 +1758,7 @@
             var $template = $(template).attr("id", data.elementId).addClass("bsFormItem");
 
             if (withActive) {
-                if (this.currentData.component.disableTools !== true) {
-                    $template.append('<div class="bs-item-tools">' +
-                        '               <i class="bi bi-stickies-fill bs-item-copy" title="复制"></i>' +
-                        '               <i class="bi bi-trash-fill bs-item-del" title="删除"></i>' +
-                        '           </div>')
-                        .addClass('active')
-                } else {
-                    $template.addClass('active')
-                }
+                this._makeElementActive($template, this.currentData.component.disableTools)
             }
 
             //为 template 配置 id 属性，让 id 的值和 component 的 id 值一致
@@ -1730,7 +1772,6 @@
          * @param elementId
          */
         makeFormItemActive: function (elementId) {
-
             if (this.currentData && this.currentData.elementId === elementId) {
                 return;
             }
@@ -1738,22 +1779,29 @@
             this.currentData = this.getDataByElementId(elementId);
 
             //个别组件禁止选中
-
             this.$container.find(".bsFormItem.active").removeClass("active");
             this.$container.find(".bs-item-tools").remove();
 
+            this._makeElementActive($("#" + elementId), this.currentData.component.disableTools)
+            this.refreshPropsPanel();
+        },
 
-            if (this.currentData.component.disableTools !== true) {
-                $("#" + elementId).append('<div class="bs-item-tools">' +
+
+        /**
+         * 让 element 高亮
+         * @param $el
+         * @param disableTools
+         */
+        _makeElementActive: function ($el, disableTools) {
+            if (disableTools !== true) {
+                $el.append('<div class="bs-item-tools">' +
                     '               <i class="bi bi-stickies-fill bs-item-copy" title="复制"></i>' +
                     '               <i class="bi bi-trash-fill bs-item-del" title="删除"></i>' +
                     '           </div>')
                     .addClass('active');
             } else {
-                $("#" + elementId).addClass('active');
+                $el.addClass('active');
             }
-
-            this.refreshPropsPanel();
         },
 
         /**
@@ -2006,7 +2054,7 @@
                     newProp["id"] = this.genRandomId();
 
                     var value = this.currentData[prop.name];
-                    if (typeof value === "undefined"){
+                    if (typeof value === "undefined") {
                         value = prop.defaultValue;
                     }
                     newProp["value"] = value;
@@ -2017,22 +2065,33 @@
             }
 
             // 渲染 options 功能
-            if (this.currentData.options || this.currentData.component.withOptions) {
+            if (this.currentData.component.withOptions || this.currentData.options) {
 
-                //通过数据源的方式来渲染 options
-                if (this.currentData.component.optionsDatasourceGroupName) {
-
-                    var datasources = this.options.optionsDatasourceGroups[this.currentData.component.optionsDatasourceGroupName];
-                    if (typeof datasources === "function") {
-                        datasources = datasources(this, this.currentData);
-                    }
-
+                //若 options 配置了数据源，那么显示 选项类型 让用户自己选择
+                var datasources = this._getOptionDatasources();
+                if (datasources && datasources.length > 0) {
                     let prop = {
                         id: this.genRandomId(),
-                        options: datasources, // this.currentData.options || [],
+                        options: [{text: '自定义', value: 'custom'}, {text: '数据源', value: 'datasource'}],
+                        label: "选项类型",
+                        name: "optionsType",
+                        value: this.currentData["optionsType"],
+                    }
+
+                    let template = this._getPropTemplateByType("select");
+                    let html = this.renderPropTemplate(prop, this.currentData, template);
+                    this.$propsPanel.append(html);
+                }
+
+
+                //通过数据源的方式来渲染 options
+                if (this.currentData.optionsType === "datasource") {
+                    let prop = {
+                        id: this.genRandomId(),
+                        options: datasources || [{text: '未定义任何数据源', value: ''}],
                         label: "数据源",
                         name: "optionsDatasource",
-                        value: this.currentData["optionsDatasource"] || datasources[0].value,
+                        value: this.currentData["optionsDatasource"],
                     }
 
                     let template = this._getPropTemplateByType("select");
@@ -2052,6 +2111,62 @@
                     this.$propsPanel.append(html);
 
                     this._initOptionsSortable();
+                }
+            }
+        },
+
+
+        /**
+         * 通过数据源分组名称，获取数据源
+         * @returns {string}
+         * @private
+         */
+        _getOptionDatasources: function () {
+            var datasources = this.options.optionsDatasources;
+            if (typeof datasources === "function") {
+                datasources = datasources(this, this.currentData);
+            } else if (typeof datasources === "string" && this._isUrl(datasources)) {
+                var resp = this._ajaxSyncGet(datasources);
+
+                //后台返回的内容应该是：
+                //{
+                //   otherKey:....
+                //   datasources:[]
+                // }
+                if (resp && resp["datasources"]) {
+                    datasources = resp["datasources"];
+                }
+            }
+            return datasources;
+        },
+
+
+        /**
+         * 获取数据源里定义的 options 的内容
+         * @param options
+         * @returns {*}
+         * @private
+         */
+        _parseOptions: function (options) {
+            if (typeof options === "object" && Array.isArray(options)) {
+                return options;
+            }
+
+            if (typeof options === "function") {
+                return options(this, this.currentData);
+            }
+
+            if (typeof options === "string" && this._isUrl(options)) {
+                var resp = this._ajaxSyncGet(options);
+
+                //后台返回的内容应该是：
+                //{
+                //   otherKey:....
+                //   options:[]
+                // }
+
+                if (resp && resp['options']) {
+                    return resp['options']
                 }
             }
         },
@@ -2168,6 +2283,7 @@
             for (let data of array) {
                 delete data.component;
                 delete data.elementId;
+                delete data.customOptions;
 
                 //remove data.options elementId
                 if (data.options && Array.isArray(data.options)) {
@@ -2274,12 +2390,6 @@
                 return;
             }
 
-            //若没有传入 value 值，设置为默认值
-            if ((!value || value === "") && data.component.defaultValue) {
-                value = data.component.defaultValue;
-            }
-
-
             if (value === "true") value = true;
             else if (value === "false") value = false;
 
@@ -2287,29 +2397,20 @@
             var oldValue = data[attr]
 
 
-            //更新数据源
+            //更新数据源时，需要同时更新数据源自带的 options
             if (attr === "optionsDatasource") {
-
-                //保存数据源
-                data[attr] = value;
-
-                attr = "options";
-                var datasources = this.options.optionsDatasourceGroups[data.component.optionsDatasourceGroupName];
-                if (typeof datasources === "function") {
-                    datasources = datasources(this, data);
-                }
-
-                var options = null;
-                for (let datasource of datasources) {
-                    if (datasource.value.toString() === value) {
-                        options = datasource.options;
-                        if (typeof options === "function") {
-                            options = options(this, data);
+                var datasources = this._getOptionDatasources();
+                var optionsInDatasource = null;
+                if (datasources && datasources.length > 0) {
+                    for (let datasource of datasources) {
+                        if (datasource.value.toString() === value) {
+                            optionsInDatasource = this._parseOptions(datasource.options);
                         }
                     }
                 }
-                value = options;
+                this.updateDataAttr(data, "options", optionsInDatasource)
             }
+
 
             //当前组件定义了 onPropChange 监听方法，并且该方法执行成功了
             //那么，可以理解为该方法会去更新 html 内容，而不通过系统继续渲染了
@@ -2317,19 +2418,59 @@
                 && data.component.onPropChange(this, data, attr, value)) {
                 data[attr] = value;
             }
+
             //配置 onDataChange 方法
             else if (this.options.onDataChange && typeof this.options.onDataChange === "function"
                 && this.options.onDataChange(this, data, attr, value)) {
                 data[attr] = value;
-            } else {
+            }
+
+            //默认行为，更新数据并刷新设计面板的 element
+            else {
                 data[attr] = value;
                 this.refreshDataElement(data);
+            }
+
+            // 更新：选项类型（数据源 或者 自定义），更新这个属性后，需要刷新属性面板
+            if ("optionsType" === attr && data === this.currentData) {
+                // 更新数据类型为：数据源，则需要刷新设计面板里元素（element）的 "选项" 列表
+                if (value === "datasource") {
+                    this._cacheCustomOptions(data);
+                    var optionsDatasource = data.optionsDatasource || this._getOptionDatasources()[0].value;
+                    this.updateDataAttr(data, "optionsDatasource", optionsDatasource);
+                } else {
+                    this._resumeCustomOptions(data);
+                }
+
+                this.refreshPropsPanel();
             }
 
             if (typeof this.options.onDataChanged === "function") {
                 this.options.onDataChanged(data, attr, value, oldValue);
             }
         },
+
+
+        /**
+         * 缓存 options 数据到 customOptions，防止下次切换的时候造成数据丢失
+         * @param data
+         * @private
+         */
+        _cacheCustomOptions: function (data) {
+            this.updateDataAttr(data, "customOptions", data.options)
+        },
+
+
+        /**
+         * 恢复（copy） customOptions 数据到 options
+         * @param data
+         * @private
+         */
+        _resumeCustomOptions: function (data) {
+            this.updateDataAttr(data, "options", data.customOptions)
+            this.updateDataAttr(data, "customOptions", null)
+        },
+
 
         /**
          * 是否是视图模式

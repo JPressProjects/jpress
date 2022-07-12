@@ -24,6 +24,7 @@ import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.HttpProxy;
+import io.jpress.core.bsformbuilder.BsFormDatasource;
 import io.jpress.core.bsformbuilder.BsFormOption;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.form.model.FormDict;
@@ -31,6 +32,7 @@ import io.jpress.module.form.model.FormDictItem;
 import io.jpress.module.form.service.FormDictItemService;
 import io.jpress.module.form.service.FormDictService;
 import io.jpress.web.base.AdminControllerBase;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -129,12 +131,19 @@ public class _FormDictController extends AdminControllerBase {
     /**
      * 获取所有字典列表
      */
-    public void queryList() {
+    public void queryDatasources() {
         List<FormDict> dicts = dictService.findAll();
-        if (dicts != null) {
-            dicts.forEach(dict -> dict.keep("id", "name"));
+        if (dicts == null){
+            renderJson(Ret.fail("没有任何数据源"));
+            return;
         }
-        renderJson(Ret.ok().set("dicts", dicts));
+
+        List<BsFormDatasource> datasources = new ArrayList<>();
+        dicts.forEach(dict -> datasources.add(new BsFormDatasource(
+                dict.getName(),
+                dict.getId().toString(),
+                "/admin/form/formDict/queryOptions/"+dict.getId())));
+        renderJson(Ret.ok().set("datasources", datasources));
     }
 
     /**

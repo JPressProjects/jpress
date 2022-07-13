@@ -26,17 +26,14 @@ import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
-import io.jpress.module.job.model.JobAddress;
 import io.jpress.module.job.model.JobApply;
 import io.jpress.module.job.model.JobCategory;
-import io.jpress.module.job.service.JobAddressService;
 import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobCategoryService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
-
 import java.util.*;
 
 
@@ -49,8 +46,6 @@ public class _JobController extends AdminControllerBase {
     @Inject
     private JobCategoryService jobCategoryService;
 
-    @Inject
-    private JobAddressService jobAddressService;
 
     @Inject
     private JobApplyService jobApplyService;
@@ -73,10 +68,10 @@ public class _JobController extends AdminControllerBase {
 
     public void add() {
 
-        List<JobCategory> categoryList = jobCategoryService.findAll();
+        List<JobCategory> categoryList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_CATEGORY));
         setAttr("categoryList", categoryList);
 
-        List<JobAddress> addressList = jobAddressService.findAll();
+        List<JobCategory> addressList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_ADDRESS));
         setAttr("addressList", addressList);
 
         render("job/job_edit.html");
@@ -88,7 +83,7 @@ public class _JobController extends AdminControllerBase {
         List<JobCategory> categoryList = jobCategoryService.findAll();
         setAttr("categoryList", categoryList);
 
-        List<JobAddress> addressList = jobAddressService.findAll();
+        List<JobCategory> addressList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_ADDRESS));
         setAttr("addressList", addressList);
 
         Job entry = entryId > 0 ? service.findById(entryId) : null;

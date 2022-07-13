@@ -6,9 +6,7 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.job.model.Job;
-import io.jpress.module.job.model.JobAddress;
 import io.jpress.module.job.model.JobCategory;
-import io.jpress.module.job.service.JobAddressService;
 import io.jpress.module.job.service.JobCategoryService;
 import io.jpress.module.job.service.JobService;
 
@@ -22,8 +20,6 @@ public class JobServiceProvider extends JPressServiceBase<Job> implements JobSer
     @Inject
     private JobCategoryService jobCategoryService;
 
-    @Inject
-    private JobAddressService jobAddressService;
 
 
     /**
@@ -98,11 +94,6 @@ public class JobServiceProvider extends JPressServiceBase<Job> implements JobSer
         JobCategory jobCategory = jobCategoryService.findById(job.getCategoryId());
         if(jobCategory!=null){
             job.put("category",jobCategory);
-        }
-
-        JobAddress jobAddress = jobAddressService.findById(job.getAddressId());
-        if(jobAddress!=null){
-            job.put("address",jobAddress);
         }
 
         return job;

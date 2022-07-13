@@ -5,6 +5,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.db.model.Columns;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.commons.layer.SortKit;
@@ -31,7 +32,7 @@ public class JobCategoryDirective extends JbootDirectiveBase {
         boolean asTree = getParaToBool("asTree", scope, Boolean.FALSE);
         Long pId = getParaToLong("parentId", scope);
 
-        List<JobCategory> categoryList = jobCategoryService.findAll();
+        List<JobCategory> categoryList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_CATEGORY));
 
         SortKit.toLayer(categoryList);
 

@@ -23,16 +23,19 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.commons.aliyun.AliyunVideoUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
+import io.jpress.model.AttachmentVideo;
 import io.jpress.module.product.ProductFields;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.model.ProductCategory;
 import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.module.product.service.ProductImageService;
 import io.jpress.module.product.service.ProductService;
+import io.jpress.service.AttachmentVideoService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -53,6 +56,9 @@ public class _ProductController extends AdminControllerBase {
 
     @Inject
     private ProductImageService imageService;
+
+    @Inject
+    private AttachmentVideoService attachmentVideoService;
 
 
 
@@ -107,6 +113,16 @@ public class _ProductController extends AdminControllerBase {
                 return;
             }
             setAttr("product", product);
+
+            //获取云端 视频
+            AttachmentVideo attachmentVideo = attachmentVideoService.findById(product.getVodVid());
+            if(attachmentVideo != null){
+                String playauth = AliyunVideoUtil.getPlayAuth(attachmentVideo.getVodVid());
+
+                attachmentVideo.put("playAuth",playauth);
+
+                setAttr("attachmentVideo",attachmentVideo);
+            }
 
             List<ProductCategory> tags = categoryService.findTagListByProductId(productId);
             setAttr("tags", tags);

@@ -80,7 +80,7 @@ public class _JobController extends AdminControllerBase {
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
-        List<JobCategory> categoryList = jobCategoryService.findAll();
+        List<JobCategory> categoryList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_CATEGORY));
         setAttr("categoryList", categoryList);
 
         List<JobCategory> addressList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_ADDRESS));

@@ -6,6 +6,13 @@
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
 
+<!-- 腾讯云 超级播放器-->
+<script src="/static/components/qcloud-upload-sdk/player/hls.min.0.13.2m.js"></script>
+<script src="/static/components/qcloud-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
+
+<!--阿里云 点播-->
+<script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
+
 
 <script>
 
@@ -96,12 +103,12 @@
         event.currentTarget.parentElement.remove();
     });
 
-    function allowDrop(e)
-    {
+    function allowDrop(e) {
         e.preventDefault();
     }
 
     var dragdiv = null;
+
     function drag(e, dom) {
         dragdiv = dom;
     }
@@ -181,7 +188,171 @@
         currentCKEditor.model.insertContent(modelFragment, currentCKEditor.model.document.selection);
     }
 
+    //刷新 阿里云凭证
+    function changeAliyunPlayAuth(id, vid, playAuth) {
+
+        $.ajax({
+            url: "/admin/attachment/video/getVideoPlayAuth",
+            type: "post",
+            data: {vid: vid},
+
+            success: function (result) {
+                if (result.state == "ok") {
+                    playAuth = result.playAuth;
+                    //阿里云
+                    if (vid != "" && playAuth != "" && id != "") {
+                        var player = new Aliplayer({
+                            "id": id,
+                            "vid": vid,
+                            "playauth": playAuth,
+                            "videoWidth": "100%",
+                            "videoHeight": "100%",
+                            "autoplay": false,
+                            "isLive": false,
+                            // "cover": "缩略图",
+                            "rePlay": false,
+                            "playsinline": true,
+                            "preload": false,
+                            "controlBarVisibility": "hover",
+                            "useH5Prism": true
+                        }, function (player) {
+                            console.log("The aliyun player is created");
+                        }
+                            );
+                        return player;
+                    }
+                }
+            }
+        })
+
+    }
+
+    //创建阿里云播放器
+    function createAliyunVideoPlayer(vid, playauth, id) {
+        if (vid != "" && playauth != "" && id != null) {
+            changeAliyunPlayAuth(id, vid, playauth);
+        }
+    }
+
+    //创建腾讯云播放器
+    function createTencentVideoPlayer(aid, vid, id) {
+
+        if (aid != null && vid != null) {
+            return TCPlayer(id, {
+                fileID: vid,
+                appID: aid,
+                autoplay: false //是否自动播放
+            });
+        }
+    }
+
+    //创建播放器 容器
+    function createdVideoContainer(cloudType,vid,playAuth,cover,appId){
+
+        var VideoContainer = document.createElement('video');
+        VideoContainer.setAttribute("data-vid", vid);
+        VideoContainer.setAttribute("data-cloud", cloudType);
+        VideoContainer.setAttribute("poster", cover);
+        VideoContainer.setAttribute("class", "jpress-video");
+
+        if(cloudType == '1'){
+
+            VideoContainer.setAttribute("data-play-auth", playAuth);
+
+            VideoContainer.setAttribute("style", "height:240px;width:425px;");
+
+            //阿里云播放容器的id
+            VideoContainer.setAttribute('id', "video_player"+(Math.random()).toString().slice(5,10));
+
+        }else if(cloudType == '2'){
+            VideoContainer.setAttribute("data-app-id", appId);
+            //腾讯云播放容器的id
+            VideoContainer.setAttribute('id', "qcloud_video_player"+(Math.random()).toString().slice(5,10));
+        }
+
+        return VideoContainer;
+    }
+
+    //选择视频
+    function chooseVideo() {
+        layer.data.src = null;
+        layer.open({
+            type: 2,
+            title: '选择视频',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.3,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/attachment/video/browse?uititle=视频',
+            end: function () {
+                if (layer.data.src != null) {
+
+                    var cloudType = layer.data.type;
+                    var vid = layer.data.vid;
+                    var playAuth = layer.data.playAuth;
+                    var cover = layer.data.cover;
+                    var appId = layer.data.aid;
+                    var videoId = layer.data.videoId;
+
+                    if (cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
+
+
+                        let videoElement = createdVideoContainer(cloudType,vid,playAuth,cover);
+
+                        $(".video").html(videoElement.outerHTML)
+
+                        createAliyunVideoPlayer(vid, playAuth, videoElement.getAttribute("id"));
+
+                        $("#videoId").val(videoId)
+
+                    } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
+
+                        let videoElement = createdVideoContainer(cloudType,vid,playAuth,cover,appId);
+
+                        $(".video").html(videoElement.outerHTML)
+
+                        createTencentVideoPlayer(appId, vid, videoElement.getAttribute("id"));
+
+                        $("#videoId").val(videoId)
+
+                    }
+
+                }
+            }
+        });
+    }
+
+    //移除视频
+    $("#removeVideo").on('click', function (event) {
+
+        $("#changeVideo").empty();
+
+        $("#changeVideo").html($("#videoTemplate").html())
+    })
+
+
+    $(function (){
+
+        if('#(product.vod_vid ??)' != null){
+
+            let videoElement = createdVideoContainer('#(attachmentVideo.cloud_type ??)','#(attachmentVideo.vod_vid ??)','#(attachmentVideo.playAuth ??)','#(attachmentVideo.cover ??)');
+
+            $(".video").html(videoElement.outerHTML)
+
+            createAliyunVideoPlayer(videoElement.getAttribute("vid"),videoElement.getAttribute("playAuth"), videoElement.getAttribute("id"));
+
+            //TODO
+        }
+
+    })
+
 </script>
+
+<template id="videoTemplate">
+    <div class="card-body p-0 video">
+        <img src="/static/commons/img/nothumbnail.jpg" style="width: 100%;max-height: 500px">
+    </div>
+</template>
 
 <script id="imageItem" type="text/tmpl">
 	<div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
@@ -190,6 +361,7 @@
         <input type="hidden" name="imageIds" value="0" />
         <i class="fas fa-trash-alt image-reset" ></i>
     </div>
+
 </script>
 #end
 #define css()
@@ -198,6 +370,8 @@
 <link href="#(CPATH)/static/components/selectize/css/selectize.bootstrap4.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/vditor/dist/index.css" rel="stylesheet">
+<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
+<link href="/static/components/qcloud-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
 <style>
     .popover-content {
         padding: 9px 14px;
@@ -266,159 +440,98 @@
 #end
 
 #define content()
-    <section class="content-header">
+<section class="content-header">
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
 
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <h1>
-                                产品编辑
-                                <small data-toggle="tooltip" title="" data-placement="right"
-                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / 商品 / 产品编辑</small>
-                            </h1>
-                        </div>
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            产品编辑
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 商品 / 产品编辑</small>
+                        </h1>
                     </div>
                 </div>
             </div>
+        </div>
 
-        </div><!-- /.container-fluid -->
-    </section>
+    </div><!-- /.container-fluid -->
+</section>
 
-    <section class="content">
-        <form action="#(CPATH)/admin/product/doSave" method="post" id="form">
-            <input type="hidden" id="productStatus" name="product.status" value='#(product.status ?? "1")'>
-            <input type="hidden" id="productId" name="product.id" value="#(product.id ??)">
-<!--            <input type="hidden" name="product.user_id" value="#(product.user_id ?? USER.id)">-->
-            <div class="row">
-                <div class="col-lg-9">
+<section class="content">
+    <form action="#(CPATH)/admin/product/doSave" method="post" id="form">
+        <input type="hidden" id="productStatus" name="product.status" value='#(product.status ?? "1")'>
+        <input type="hidden" id="productId" name="product.id" value="#(product.id ??)">
+        <input type="hidden" id="videoId" name="product.vod_vid" value="#(product.vod_vid ??)">
+        <div class="row">
+            <div class="col-lg-9">
 
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <div class="">
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <input type="input" class="form-control form-control-lg" name="product.title" autocomplete="off"
-                                       placeholder="请输入标题"
-                                       id="product-title"
-                                       value="#(product.title ??)">
+                <div class="">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input type="input" class="form-control form-control-lg" name="product.title"
+                                   autocomplete="off"
+                                   placeholder="请输入标题"
+                                   id="product-title"
+                                   value="#(product.title ??)">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-sm-12"
+                             style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">
+                            <div>
+                                网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/product/<span id="slug"
+                                                                                                               class="slugSpan"
+                                                                                                               for-input="product-slug">#(product.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+                                #if(product && product.isNormal())
+                                （<a href="#(product.url)" target="_blank">访问</a>）
+                                #end
+                                <input type="hidden" id="product-slug" name="product.slug" value="#(product.slug ??)">
+                            </div>
+
+
+                            <div>
+                                <button type="button" class="chooseAttachment btn btn-default btn-sm ">
+                                    <i class="fas fa-paperclip"></i> 插入附件
+                                </button>
                             </div>
                         </div>
 
 
-                        <div class="form-group row">
-
-                            <div class="col-sm-12"style="padding-bottom: 5px;display: flex;align-items: center;justify-content: space-between;">
-                                <div>
-                                    网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/product/<span id="slug"
-                                                                                                                   class="slugSpan"
-                                                                                                                   for-input="product-slug">#(product.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
-                                    #if(product && product.isNormal())
-                                    （<a href="#(product.url)" target="_blank">访问</a>）
-                                    #end
-                                    <input type="hidden" id="product-slug" name="product.slug" value="#(product.slug ??)">
-                                </div>
-
-
-                                <div>
-                                    <button type="button" class="chooseAttachment btn btn-default btn-sm ">
-                                        <i class="fas fa-paperclip"></i> 插入附件
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="col-sm-12" style="z-index: 9999;">
-                                <div id="editor" >#(product.content ??)</div>
-                                <input type="hidden" name="product.content" id="content"/>
-                            </div>
+                        <div class="col-sm-12" style="z-index: 9999;">
+                            <div id="editor">#(product.content ??)</div>
+                            <input type="hidden" name="product.content" id="content"/>
                         </div>
+                    </div>
 
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="card card-outlinecard-solid">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">产品缩略图</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-body p-0">
 
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <div class="card card-outlinecard-solid">
-                                    <div class="card-header with-border">
-                                        <h3 class="card-title">产品缩略图</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="card-body p-0">
-
-                                            #for(image : images)
-                                            <div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
-                                                <img src="#(image.src ??)">
-                                                <input type="hidden" name="imageSrcs" value="#(image.src ??)" />
-                                                <input type="hidden" name="imageIds" value="#(image.id ?? '0' )" />
-                                                <i class="fas fa-trash-alt image-reset" ></i>
-                                            </div>
-                                            #end
-
-                                            <div class="img-wrapper img-hover" style="cursor: pointer">
-                                                <img src="#(CPATH)/static/commons/img/chose-image-btn.png" class="choseImage">
-                                            </div>
+                                        #for(image : images)
+                                        <div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)"
+                                             ondragover="allowDrop(event)" ondragstart="drag(event, this)">
+                                            <img src="#(image.src ??)">
+                                            <input type="hidden" name="imageSrcs" value="#(image.src ??)"/>
+                                            <input type="hidden" name="imageIds" value="#(image.id ?? '0' )"/>
+                                            <i class="fas fa-trash-alt image-reset"></i>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                        #end
 
-
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <div class="card card-outlinecard-solid">
-                                    <div class="card-header with-border">
-                                        <h3 class="card-title">价格</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <div class="card-body">
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">销售价格</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control" id="price"
-                                                           name="product.price" placeholder="" value="#(product.price ??)">
-                                                    <p class="text-muted">产品的实际销售价格。</p>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">原价</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control" id="origin_price"
-                                                           name="product.origin_price" placeholder="" value="#(product.origin_price ??)">
-                                                    <p class="text-muted">产品的原始价格，页面会使用删除线进行显示。</p>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">限时价格</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" class="form-control" id="limited_price"
-                                                           name="product.limited_price" placeholder="" value="#(product.limited_price ??)">
-                                                    <p class="text-muted">限时价格（早鸟价）。</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <div class="card card-outlinecard-solid">
-                                    <div class="card-header with-border">
-                                        <h3 class="card-title">其他</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <div class="card-body">
-
-                                            #(fields.render())
-
+                                        <div class="img-wrapper img-hover" style="cursor: pointer">
+                                            <img src="#(CPATH)/static/commons/img/chose-image-btn.png"
+                                                 class="choseImage">
                                         </div>
                                     </div>
                                 </div>
@@ -426,156 +539,216 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="card card-outlinecard-solid">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">价格</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">销售价格</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="price"
+                                                       name="product.price" placeholder="" value="#(product.price ??)">
+                                                <p class="text-muted">产品的实际销售价格。</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">原价</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="origin_price"
+                                                       name="product.origin_price" placeholder=""
+                                                       value="#(product.origin_price ??)">
+                                                <p class="text-muted">产品的原始价格，页面会使用删除线进行显示。</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">限时价格</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" id="limited_price"
+                                                       name="product.limited_price" placeholder=""
+                                                       value="#(product.limited_price ??)">
+                                                <p class="text-muted">限时价格（早鸟价）。</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="card card-outlinecard-solid">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">其他</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="card-body">
+
+                                        #(fields.render())
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-lg-3">
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-body">
-                            <button type="button" data-status="1" class="btn btn-primary btn-sm submitBtn">上架
-                            </button>
-                            <button type="button" data-status="2" class="btn btn-default btn-sm submitBtn">草稿
-                            </button>
-                            <a href="#" data-status="3" class="float-right submitBtn"
-                               style="padding-top: 5px;">移至垃圾箱</a>
-                        </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card card-outlinecard-solid">
+                    <div class="card-body">
+                        <button type="button" data-status="1" class="btn btn-primary btn-sm submitBtn">上架
+                        </button>
+                        <button type="button" data-status="2" class="btn btn-default btn-sm submitBtn">草稿
+                        </button>
+                        <a href="#" data-status="3" class="float-right submitBtn"
+                           style="padding-top: 5px;">移至垃圾箱</a>
                     </div>
+                </div>
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">分类</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            #for(category : categories)
+                            <div class="form-check">
+                                <label>
+                                    #for(i = 0; i < category.layerNumber; i++)
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    #end
+
+                                    #if(category.isCheck)
+                                    <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                    #else
+                                    <input type="checkbox" name="category" value="#(category.id)"/>
+                                    #end
 
 
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">分类</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group row">
-                                #for(category : categories)
-                                <div class="form-check">
-                                    <label>
-                                        #for(i = 0; i < category.layerNumber; i++)
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        #end
-
-                                        #if(category.isCheck)
-                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
-                                        #else
-                                        <input type="checkbox" name="category" value="#(category.id)"/>
-                                        #end
-
-
-                                        #(category.title ??)
-                                    </label>
-                                </div>
-                                #end
+                                    #(category.title ??)
+                                </label>
                             </div>
+                            #end
                         </div>
                     </div>
+                </div>
 
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">标签</h3>
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">标签</h3>
+                    </div>
+                    <div class="card-body">
+                        <select class="product-tags" multiple="multiple" name="tag">
+                            #for(tag : tags)
+                            <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                            #end
+                        </select>
+                        <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+
+                        <div class="tags">
+                            #productTags(count = 20)
+                            #for(tag : tags)
+                            <a href="javascript:;" class="newTag">#(tag.title)</a>
+                            #end
+                            #end
                         </div>
-                        <div class="card-body">
-                            <select class="product-tags" multiple="multiple" name="tag">
-                                #for(tag : tags)
-                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                    </div>
+                </div>
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">购买链接</h3>
+                    </div>
+                    <div class="card-body">
+                        <input type="text" class="form-control" placeholder="请输入购买链接" name="product.buy_link"
+                               value="#(product.buy_link ??)">
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">产品封面</h3>
+                    </div>
+                    <div class="card-body p-0">
+                        <img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+                             style="width: 100%;max-height: 500px"
+                             id="thumbnail">
+                        <input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
+                               id="productThumbnail">
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn-image-browser btn btn-default btn-sm "
+                                for-src="thumbnail"
+                                for-input="productThumbnail">选择图片
+                        </button>
+                        <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">选择视频</h3>
+                    </div>
+                    <div id="changeVideo">
+                        <div class="card-body p-0 video">
+                            <img src="/static/commons/img/nothumbnail.jpg" style="width: 100%;max-height: 500px">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class=" btn btn-default btn-sm" onclick="chooseVideo()">选择视频
+                        </button>
+                        <a href="javascript:;" style="padding-left: 15px" id="removeVideo">移除</a>
+                    </div>
+                </div>
+
+
+                <div class="card card-outlinecard-solid">
+                    <div class="card-header with-border ">
+                        <h3 class="card-title">模板</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="form-group row">
+                            <select class="form-control" name="product.style">
+                                <option value="">默认（product.html）</option>
+                                #for(style : styles)
+                                <option value="#(style)" #selectedIf(product && product.style==style)>
+                                    product_#(style).html
+                                </option>
                                 #end
                             </select>
-                            <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+                        </div>
 
+                        <div class="form-group row">
+                            <input type="text" class="form-control" name="product.flag"
+                                   placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
+                            #if(flags && flags.size() > 0)
+                            <p class="text-muted">当前模板支持的展示标识有：</p>
                             <div class="tags">
-                                #productTags(count = 20)
-                                #for(tag : tags)
-                                <a href="javascript:;" class="newTag">#(tag.title)</a>
-                                #end
+                                #for(flag : flags ??)
+                                <a href="javascript:;" class="tflag">#(flag)</a>
                                 #end
                             </div>
+                            #end
+
                         </div>
                     </div>
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">购买链接</h3>
-                        </div>
-                        <div class="card-body">
-                           <input type="text" class="form-control" placeholder="请输入购买链接" name="product.buy_link" value="#(product.buy_link ??)">
-                        </div>
-                    </div>
-
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">产品封面</h3>
-                        </div>
-                        <div class="card-body p-0">
-                            <img src="#(CPATH)#(product.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
-                                 style="width: 100%;max-height: 500px"
-                                 id="thumbnail">
-                            <input type="hidden" value="#(product.thumbnail ??)" name="product.thumbnail"
-                                   id="productThumbnail">
-                        </div>
-                        <div class="card-footer">
-                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
-                                    for-src="thumbnail"
-                                    for-input="productThumbnail">选择图片
-                            </button>
-                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
-                        </div>
-                    </div>
-
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">选择视频</h3>
-                        </div>
-                        <div class="card-body p-0 video">
-                            <img src="/static/commons/img/nothumbnail.jpg" style="width: 100%;max-height: 500px" id="video">
-                        </div>
-                        <div class="card-footer">
-                            <button type="button" class=" btn btn-default btn-sm " onclick="chooseVideo()">选择视频
-                            </button>
-                            <a href="javascript:;" style="padding-left: 15px" id="removeVideo">移除</a>
-                        </div>
-                    </div>
-
-
-
-                    <div class="card card-outlinecard-solid">
-                        <div class="card-header with-border ">
-                            <h3 class="card-title">模板</h3>
-                        </div>
-                        <div class="card-body">
-
-                            <div class="form-group row">
-                                <select class="form-control" name="product.style">
-                                    <option value="">默认（product.html）</option>
-                                    #for(style : styles)
-                                    <option value="#(style)" #selectedIf(product && product.style==style)>
-                                        product_#(style).html
-                                    </option>
-                                    #end
-                                </select>
-                            </div>
-
-                            <div class="form-group row">
-                                <input type="text" class="form-control" name="product.flag"
-                                       placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
-                                #if(flags && flags.size() > 0)
-                                <p class="text-muted">当前模板支持的展示标识有：</p>
-                                <div class="tags">
-                                    #for(flag : flags ??)
-                                    <a href="javascript:;" class="tflag">#(flag)</a>
-                                    #end
-                                </div>
-                                #end
-
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
+
+
             </div>
-        </form>
-    </section>
+        </div>
+    </form>
+</section>
 
 #end

@@ -96,6 +96,11 @@ public class JobServiceProvider extends JPressServiceBase<Job> implements JobSer
             job.put("category",jobCategory);
         }
 
+        JobCategory address = jobCategoryService.findById(job.getAddressId());
+        if(address != null){
+            job.put("address",address);
+        }
+
         return job;
     }
 }

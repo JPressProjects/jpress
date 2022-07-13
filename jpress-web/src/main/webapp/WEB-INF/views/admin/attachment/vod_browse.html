@@ -88,6 +88,7 @@
         var cloudType = $(this).children().attr("data-type");
         var cover = $(this).children().attr("data-path");
         var aid = $("#appId").val();
+
         parent.layer.data.src = src;
         parent.layer.data.vid = vid;
         parent.layer.data.aid = aid;
@@ -95,6 +96,7 @@
         parent.layer.data.type = cloudType;
         parent.layer.data.cover = cover;
         parent.layer.data.title = $(this).children().attr("title");
+        parent.layer.data.videoId = $(this).children().attr("videoId");
         parent.layer.closeAll();
     })
 
@@ -125,6 +127,7 @@
     <div class="card-header p-0 border-bottom-0">
         <input type="hidden" id="activeCategory" value="#(categoryId ??)">
         <input type="hidden" id="appId" value="#(appId ??)">
+        <input type="hidden" id="videoId" value="#(video.id ??)">
         <ul class="nav nav-tabs">
 
             <li class="nav-item"><a class="nav-link active" id="uititle" href="/admin/attachment/video/browse?uititle=视频">#para("uititle")库</a>
@@ -153,6 +156,7 @@
                              data-aid="#(video.playAuth ??)"
                              data-id="#(video.vod_vid ??)"
                              data-type="#(video.cloud_type ??)"
+                             videoId="#(video.id ??)"
                              title="#(video.vod_name ??)"
                              alt="#(video.vod_name ??)">
                         <div class="attachment_item_title">

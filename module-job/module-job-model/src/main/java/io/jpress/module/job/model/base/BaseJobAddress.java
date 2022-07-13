@@ -20,6 +20,20 @@ public abstract class BaseJobAddress<M extends BaseJobAddress<M>> extends JbootM
 	}
 
     /**
+     * 父级ID，暂时用不到
+     */
+	public void setPid(java.lang.Long pid) {
+		set("pid", pid);
+	}
+
+    /**
+     * 父级ID，暂时用不到
+     */
+	public java.lang.Long getPid() {
+		return getLong("pid");
+	}
+
+    /**
      * 地区名称
      */
 	public void setTitle(java.lang.String title) {
@@ -62,34 +76,6 @@ public abstract class BaseJobAddress<M extends BaseJobAddress<M>> extends JbootM
 	}
 
     /**
-     * SEO关键字
-     */
-	public void setMetaKeywords(java.lang.String metaKeywords) {
-		set("meta_keywords", metaKeywords);
-	}
-
-    /**
-     * SEO关键字
-     */
-	public java.lang.String getMetaKeywords() {
-		return getStr("meta_keywords");
-	}
-
-    /**
-     * SEO描述内容
-     */
-	public void setMetaDescription(java.lang.String metaDescription) {
-		set("meta_description", metaDescription);
-	}
-
-    /**
-     * SEO描述内容
-     */
-	public java.lang.String getMetaDescription() {
-		return getStr("meta_description");
-	}
-
-    /**
      * 创建日期
      */
 	public void setCreated(java.util.Date created) {
@@ -115,6 +101,20 @@ public abstract class BaseJobAddress<M extends BaseJobAddress<M>> extends JbootM
      */
 	public java.util.Date getModified() {
 		return getDate("modified");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

@@ -230,6 +230,20 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
 	}
 
     /**
+     * 急招
+     */
+	public void setWithHurry(java.lang.Boolean withHurry) {
+		set("with_hurry", withHurry);
+	}
+
+    /**
+     * 急招
+     */
+	public java.lang.Boolean getWithHurry() {
+		return get("with_hurry");
+	}
+
+    /**
      * 工作类型
      */
 	public void setWorkType(java.lang.Integer workType) {
@@ -339,6 +353,20 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
      */
 	public java.util.Date getModified() {
 		return getDate("modified");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

@@ -10,6 +10,14 @@ import io.jpress.module.job.model.base.BaseJobCategory;
 public class JobCategory extends BaseJobCategory<JobCategory> {
 
     private static final long serialVersionUID = 1L;
+
+
+    public static final String CATEGORY_TYPE_CATEGORY = "category";
+
+
+    public static final String CATEGORY_TYPE_ADDRESS = "address";
+
+
 	
 }
 

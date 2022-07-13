@@ -20,6 +20,20 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
 	}
 
     /**
+     * 分类的类型：category、address
+     */
+	public void setType(java.lang.String type) {
+		set("type", type);
+	}
+
+    /**
+     * 分类的类型：category、address
+     */
+	public java.lang.String getType() {
+		return getStr("type");
+	}
+
+    /**
      * 父id
      */
 	public void setPid(java.lang.Long pid) {
@@ -34,20 +48,6 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
 	}
 
     /**
-     * 创建分类的用户id
-     */
-	public void setUserId(java.lang.Long userId) {
-		set("user_id", userId);
-	}
-
-    /**
-     * 创建分类的用户id
-     */
-	public java.lang.Long getUserId() {
-		return getLong("user_id");
-	}
-
-    /**
      * 分类名称
      */
 	public void setTitle(java.lang.String title) {
@@ -59,20 +59,6 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
      */
 	public java.lang.String getTitle() {
 		return getStr("title");
-	}
-
-    /**
-     * 内容描述
-     */
-	public void setContent(java.lang.String content) {
-		set("content", content);
-	}
-
-    /**
-     * 内容描述
-     */
-	public java.lang.String getContent() {
-		return getStr("content");
 	}
 
     /**
@@ -104,20 +90,6 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
 	}
 
     /**
-     * 图标
-     */
-	public void setIcon(java.lang.String icon) {
-		set("icon", icon);
-	}
-
-    /**
-     * 图标
-     */
-	public java.lang.String getIcon() {
-		return getStr("icon");
-	}
-
-    /**
      * 排序编码
      */
 	public void setOrderNumber(java.lang.Integer orderNumber) {
@@ -146,34 +118,6 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
 	}
 
     /**
-     * SEO关键字
-     */
-	public void setMetaKeywords(java.lang.String metaKeywords) {
-		set("meta_keywords", metaKeywords);
-	}
-
-    /**
-     * SEO关键字
-     */
-	public java.lang.String getMetaKeywords() {
-		return getStr("meta_keywords");
-	}
-
-    /**
-     * SEO描述内容
-     */
-	public void setMetaDescription(java.lang.String metaDescription) {
-		set("meta_description", metaDescription);
-	}
-
-    /**
-     * SEO描述内容
-     */
-	public java.lang.String getMetaDescription() {
-		return getStr("meta_description");
-	}
-
-    /**
      * 创建日期
      */
 	public void setCreated(java.util.Date created) {
@@ -199,6 +143,20 @@ public abstract class BaseJobCategory<M extends BaseJobCategory<M>> extends Base
      */
 	public java.util.Date getModified() {
 		return getDate("modified");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

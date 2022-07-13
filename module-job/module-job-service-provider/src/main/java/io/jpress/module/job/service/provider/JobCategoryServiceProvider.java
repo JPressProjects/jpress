@@ -48,25 +48,4 @@ public class JobCategoryServiceProvider extends JPressServiceBase<JobCategory> i
         return true;
     }
 
-    /**
-     * 根据id查找信息 并添加对应信息
-     *
-     * @param entryId
-     * @return io.jpress.module.job.model.JobCategory
-     */
-    @Override
-    public JobCategory findByIdWithInfo(@NotNull long entryId) {
-
-        JobCategory jobCategory = DAO.findById(entryId);
-
-        if(jobCategory != null){
-            User user = userService.findById(jobCategory.getUserId());
-            if(user!=null){
-                jobCategory.put("user",user);
-            }
-        }
-        return jobCategory;
-    }
-
-
 }

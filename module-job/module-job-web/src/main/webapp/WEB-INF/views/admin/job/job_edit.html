@@ -275,6 +275,17 @@
                                             </div>
 
                                             <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">是否是急招</label>
+                                                <div class="col-sm-6">
+
+                                                    <input type="checkbox" class="switchery" data-for="with_hurry"
+                                                           #checkedIf(job.with_hurry
+                                                           ??)>
+                                                    <input type="hidden" id="with_hurry" name="job.with_hurry">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">是否允许在线投递</label>
                                                 <div class="col-sm-6">
 

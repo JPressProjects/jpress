@@ -40,52 +40,49 @@
             <div class="card card-outline card-primary">
                 <!-- form start -->
                 <form class=" form-setting autoAjaxSubmit" autocomplete="off"
-                      action="/admin/job/categoryDoSave"
-                      data-ok-href="/admin/job/JobCategory"
-                      data-ok-message="岗位分类保存成功"
+                      action="#if(type == "category") /admin/job/categoryDoSave #else if(type == "address") /admin/job/addressDoSave #end"
+
+                      data-ok-href="#if(type == "category") /admin/job/JobCategory #else if(type == "address") /admin/job/JobAddress #end"
+
+                      data-ok-message="保存成功"
+
                       method="post">
 
                     <div class="card-body ">
                         <input type="hidden" id="entryId" name="jobCategory.id" value="#(jobCategory.id ??)">
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">父分类</label>
+                            <label class="col-sm-2 col-form-label">#if(type == "category")父分类   #else if(type == "address") 父级地址 #end</label>
                             <div class="col-sm-9">
 
+                                #if(type == "category")
                                 <select class="form-control" name="jobCategory.pid">
                                     <option value=0>顶级分类</option>
                                     #for(item : categoryList)
-                                    <option value="#(item.id ??)" #if(item.id ?? == jobCategory.pid ??) selected #end>#(item.name ??)</option>
+                                    <option value="#(item.id ??)" #if(item.id ?? == jobCategory.pid ??) selected #end>#(item.title ??)</option>
+                                    #end
+                                </select>
+                                #else if(type == "address")
+                                <select class="form-control" name="jobCategory.pid">
+                                    <option value=0>顶级地址</option>
+                                    #for(item : addressList)
+                                    <option value="#(item.id ??)" #if(item.id ?? == jobAddress.pid ??) selected #end>#(item.title ??)</option>
                                     #end
                                 </select>
 
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">创建分类的用户</label>
-                            <div class="col-sm-9">
-
-                                <input type="input"  class="form-control" value="#(jobCategory.user.username ??)" readonly
-                                       placeholder="如果是新建可不用填写">
+                                #end
                             </div>
                         </div>
 
+
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">分类名称</label>
+                            <label class="col-sm-2 col-form-label">名称</label>
                             <div class="col-sm-9">
 
                                 <input type="input" name="jobCategory.title" class="form-control" value="#(jobCategory.title ??)"
-                                       placeholder="请填写分类名称" required>
+                                       placeholder="请填写名称" required>
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">内容描述</label>
-                            <div class="col-sm-9">
-
-                                <input type="input" name="jobCategory.content" class="form-control" value="#(jobCategory.content ??)"
-                                       placeholder="请填写描述">
-                            </div>
-                        </div>
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">摘要</label>
@@ -96,6 +93,7 @@
                             </div>
                         </div>
 
+                        #if(type == "category")
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">岗位数量</label>
                             <div class="col-sm-9">
@@ -104,25 +102,7 @@
                                        placeholder="请填写岗位数量">
                             </div>
                         </div>
-
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">图标</label>
-                            <div class="col-sm-9">
-                                <div class="jpress-image-browser">
-                                    <input type="hidden" name="jobCategory.icon" value="#(jobCategory.icon ??)"/>
-                                    <img src="#(jobCategory.icon ?? '/static/commons/img/nothumbnail.jpg')">
-                                    <div class="image-action">
-                                        <a class="image-delete"> <i class="fa fa-trash"></i></a>
-                                        <a class="image-edit"> <i class="fa fa-edit"></i></a>
-                                    </div>
-                                </div>
-                                <p class="text-muted"> </p>
-
-                            </div>
-                        </div>
-
-
+                        #end
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">排序编码</label>
@@ -139,24 +119,6 @@
 
                                 <input type="input" name="jobCategory.flag" class="form-control" value="#(jobCategory.flag ??)"
                                        placeholder="请填写标识">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">SEO关键字</label>
-                            <div class="col-sm-9">
-
-                                <input type="input" name="jobCategory.meta_keywords" class="form-control" value="#(jobCategory.meta_keywords ??)"
-                                       placeholder="请填写SEO关键字">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">SEO描述内容</label>
-                            <div class="col-sm-9">
-
-                                <input type="input" name="jobCategory.meta_description" class="form-control" value="#(jobCategory.meta_description ??)"
-                                       placeholder="请填写SEO描述内内容">
                             </div>
                         </div>
 
@@ -184,14 +146,15 @@
                             <th style="width: 10px">
                                 <input class="tableCheckAll"  type="checkbox">
                             </th>
-                            <th style="width: 100px">分类名称</th>
-                            <th style="width: 100px">父级分类</th>
-                            <th style="width: 100px">图标</th>
+                            <th style="width: 100px">名称</th>
+                            <th style="width: 100px">父级</th>
+                            <th style="width: 100px">标识</th>
+
+                            #if(type == "category")
                             <th style="width: 100px">该分类下的岗位数量</th>
-<!--                            <th>排序编码</th>-->
-<!--                            <th>标识</th>-->
-<!--                            <th>创建日期</th>-->
-<!--                            <th>修改日期</th>-->
+                            #else if(type == "address")
+                            <th style="width: 100px">摘要</th>
+                            #end
                         </tr>
                         </thead>
                         <tbody>
@@ -204,21 +167,21 @@
                                 #(entry.title)
                                 <div class="jp-action-card">
                                     <div class="jp-action-body">
-                                        <a href="/admin/job/JobCategory/#(entry.id)">编辑</a> |
+                                        <a href="#if(type == "category")/admin/job/JobCategory/#(entry.id) #else if(type == "address") /admin/job/JobAddress/#(entry.id) #end ">编辑</a> |
                                         <a href="javascript:;" class="red-action"
                                            onclick="doDel('#(entry.id)')">删除</a>
                                     </div>
                                 </div>
                             </td>
                             <td>#(entry.pid)</td>
-                            <td>
-                               <img src="#(entry.icon ??)" style="width: 40px;height: 40px">
-                            </td>
+                            <td>#(entry.flag ??)</td>
+
+                            #if(type == "category")
                             <td>#(entry.count)</td>
-<!--                            <td>#(entry.order_number)</td>-->
-<!--                            <td>#(entry.flag)</td>-->
-<!--                            <td>#date(entry.created)</td>-->
-<!--                            <td>#date(entry.modified)</td>-->
+                            #else if(type == "address")
+                            <td>#maxLength(entry.summary ??,10)</td>
+                            #end
+
                         </tr>
                         #end
 

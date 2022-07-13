@@ -36,6 +36,7 @@ import io.jpress.module.job.service.JobService;
 import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
+
 import java.util.*;
 
 
@@ -178,18 +179,20 @@ public class _JobController extends AdminControllerBase {
     @AdminMenu(text = "分类管理", groupId = "job", order = 1)
     public void JobCategory() {
 
-        Page<JobCategory> entries = jobCategoryService.paginate(getPagePara(), getPageSizePara());
+        Columns columns = new Columns();
+        columns.eq("type", JobCategory.CATEGORY_TYPE_CATEGORY);
+        Page<JobCategory> entries = jobCategoryService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
+        setAttr("type", JobCategory.CATEGORY_TYPE_CATEGORY);
 
-        List<JobCategory> categoryList = jobCategoryService.findAll();
+        List<JobCategory> categoryList = jobCategoryService.findListByColumns(columns);
         setAttr("categoryList", categoryList);
 
         long entryId = getParaToLong(0, 0L);
 
         if (entryId > 0 && entries != null) {
-            setAttr("jobCategory", jobCategoryService.findByIdWithInfo(entryId));
+            setAttr("jobCategory", jobCategoryService.findById(entryId));
         }
-
 
         render("job/job_category_list.html");
 
@@ -199,7 +202,7 @@ public class _JobController extends AdminControllerBase {
         JobCategory entry = getModel(JobCategory.class, "jobCategory");
 
         if (entry.getId() == null) {
-            entry.setUserId(getLoginedUser().getId());
+            entry.setType(JobCategory.CATEGORY_TYPE_CATEGORY);
         }
 
         long id = (long) jobCategoryService.saveOrUpdate(entry);
@@ -218,41 +221,43 @@ public class _JobController extends AdminControllerBase {
         renderOkJson();
     }
 
-
+    //地址管理 和 分类管理 共用一张表 区别在于 字段 type
     @AdminMenu(text = "地址管理", groupId = "job", order = 2)
     public void JobAddress() {
 
-        Page<JobAddress> entries = jobAddressService.paginate(getPagePara(), getPageSizePara());
+        Columns columns = new Columns();
+        columns.eq("type", JobCategory.CATEGORY_TYPE_ADDRESS);
+        Page<JobCategory> entries = jobCategoryService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
+
+        setAttr("type", JobCategory.CATEGORY_TYPE_ADDRESS);
+
+        List<JobCategory> categoryList = jobCategoryService.findListByColumns(columns);
+        setAttr("addressList", categoryList);
 
         long entryId = getParaToLong(0, 0L);
 
         if (entryId > 0 && entries != null) {
-            setAttr("jobAddress", jobAddressService.findById(entryId));
+            setAttr("jobCategory", jobCategoryService.findById(entryId));
         }
 
 
-        render("job/job_address_list.html");
+        render("job/job_category_list.html");
 
     }
 
     public void addressDoSave() {
-        JobAddress entry = getModel(JobAddress.class, "jobAddress");
-        long id = (long) jobAddressService.saveOrUpdate(entry);
+        JobCategory entry = getModel(JobCategory.class, "jobCategory");
+
+        if (entry.getId() == null) {
+
+            entry.setType(JobCategory.CATEGORY_TYPE_ADDRESS);
+
+        }
+
+        long id = (long) jobCategoryService.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", id));
     }
-
-    public void addressDoDel() {
-        Long id = getIdPara();
-        render(jobAddressService.deleteById(id) ? Ret.ok() : Ret.fail());
-    }
-
-    @EmptyValidate(@Form(name = "ids"))
-    public void addressDoDelByIds() {
-        jobAddressService.batchDeleteByIds(getParaSet("ids").toArray());
-        renderOkJson();
-    }
-
 
     @AdminMenu(text = "简历管理", groupId = "job", order = 3)
     public void JobApply() {

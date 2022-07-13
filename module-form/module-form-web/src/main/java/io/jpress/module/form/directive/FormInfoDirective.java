@@ -10,7 +10,7 @@ import io.jboot.db.model.Columns;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.SiteContext;
-import io.jpress.module.form.bsformbuilder.FormManager;
+import io.jpress.module.form.FormManager;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
 

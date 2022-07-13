@@ -122,8 +122,7 @@ public class _SiteController extends AdminControllerBase {
 
 
     public void change() {
-        Long siteId = getParaToLong("siteId");
-        SiteInfo siteInfo = siteInfoService.findById(siteId);
+        SiteInfo siteInfo = siteInfoService.findById(getParaToLong("id"));
         if (siteInfo != null) {
             CookieUtil.put(this, JPressConsts.COOKIE_ADMIN_SITE_ID, siteInfo.getSiteId());
         } else {

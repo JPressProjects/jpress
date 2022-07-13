@@ -116,7 +116,8 @@ public class BsFormManager {
             if (component != null) {
                 template = component.getTemplate();
             } else {
-                template = "<div>暂无内容</div>";
+                LogKit.error("未表单找到组件：" + tag);
+                template = "<div class=\"none-component\">没有找到相关组件</div>";
             }
 
             String htmlResult = renderTemplate(template, datas);

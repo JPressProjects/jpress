@@ -115,9 +115,8 @@ public class SiteManager implements JbootEventListener {
             //若域名匹配不到，则开始 二级目录匹配
             if (matchedSites.isEmpty()) {
                 for (SiteInfo site : allSites) {
-                    if (requestDomain.equals(site.getBindDomain())) {
-                        matchedSites.add(site);
-                        break;
+                    if (target.startsWith(site.getBindPath())) {
+                        return site;
                     }
                 }
             }

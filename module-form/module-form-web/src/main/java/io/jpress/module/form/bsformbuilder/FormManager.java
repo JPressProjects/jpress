@@ -9,7 +9,7 @@ public class FormManager extends BsFormManager {
     private static final FormManager me = new FormManager();
 
     private FormManager() {
-
+        initComponents();
     }
 
     private void initComponents() {

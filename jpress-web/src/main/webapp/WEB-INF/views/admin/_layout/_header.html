@@ -21,11 +21,11 @@
             </button>
             <div class="dropdown-menu" style="margin-top: 8px" aria-labelledby="dropdownMenuButton">
                 #if(SITE ??)
-                <a class="dropdown-item" href="#(CPATH)/admin/site/change?siteId=0">主站点</a>
+                <a class="dropdown-item" href="#(CPATH)/admin/site/change?id=0">主站点</a>
                 #end
                 #for(site : SITES)
                     #if(site != SITE)
-                    <a class="dropdown-item" href="#(CPATH)/admin/site/change?siteId=#(site.siteId ??)">#(site.name ??)</a>
+                    <a class="dropdown-item" href="#(CPATH)/admin/site/change?id=#(site.id ??)">#(site.name ??)</a>
                     #end
                 #end
             </div>

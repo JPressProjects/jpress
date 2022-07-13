@@ -2,8 +2,10 @@ package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.components.cache.AopCache;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.JbootDb;
 import io.jboot.db.model.Columns;
@@ -93,5 +95,10 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
 
         return records.stream().map(record -> findById(record.getLong("site_id")))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void shouldUpdateCache(int action, Model model, Object id) {
+        AopCache.removeAll("site_info");
     }
 }

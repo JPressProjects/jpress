@@ -45,33 +45,35 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
      * @return boolean
      */
     @Override
-    public boolean saveOrUpdateSiteRoleMapping(@NotNull Long siteId,Long[] roleIds) {
+    public boolean saveOrUpdateSiteRoleMapping(@NotNull Long siteId, Long[] roleIds) {
 
         //查询数据库相记录
         String findSql = "select role_id from site_role_mapping where site_id = ?";
         List<Record> records = Db.find(findSql, siteId);
 
         //如果有记录  才删除所有
-        if(records != null) {
+        if (records != null) {
             String sql = "delete from site_role_mapping where site_id = ?";
             Db.delete(sql, siteId);
         }
 
-        for (Long roleId : roleIds) {
-            Record record = new Record();
-            record.set("site_id",siteId);
-            record.set("role_id",roleId);
-            Db.save("site_role_mapping", record);
+        //如果 选择的角色  不为零 才添加
+        if (roleIds != null && roleIds.length > 0) {
+            for (Long roleId : roleIds) {
+                Record record = new Record();
+                record.set("site_id", siteId);
+                record.set("role_id", roleId);
+                Db.save("site_role_mapping", record);
+            }
         }
-
 
         return true;
     }
 
 
-
     /**
      * 根据用户的 id 查询该用户可操作的站点列表
+     *
      * @param userId
      * @return
      */
@@ -80,13 +82,13 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
 
         //是否是超级管理员
         boolean isSupperAdmin = roleService.isSupperAdmin(userId);
-        if (isSupperAdmin){
+        if (isSupperAdmin) {
             return findAll();
         }
 
         //用户的角色
         List<Role> userRoles = roleService.findListByUserId(userId);
-        if (userRoles == null || userRoles.isEmpty()){
+        if (userRoles == null || userRoles.isEmpty()) {
             return null;
         }
 

@@ -3,11 +3,11 @@
 #define script()
 <script>
 
-        $('.del-action').on('click', function () {
+    $('.del-action').on('click', function () {
         if (confirm('确定要删除该站点吗？删除后不可恢复')) {
-        var id = $(this).attr("data-id");
-        ajaxGet("/admin/site/delById/" + id);
-    }
+            var id = $(this).attr("data-id");
+            ajaxGet("/admin/site/delById/" + id);
+        }
     });
 
 </script>
@@ -16,8 +16,9 @@
 #end
 
 #define content()
-<!-- Content Header (Page header) -->
+
 <section class="content-header">
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
@@ -32,148 +33,172 @@
                         </h1>
                     </div>
                 </div>
-
-<!--                <div class="row">-->
-<!--                    <div class="col-12" style="padding-top: 20px">-->
-<!--                        <a href="?">全部 (#(totalCount ??))</a> |-->
-<!--                        <a href="?status=normal">已发布 (#(normalCount ??))</a> |-->
-<!--                        <a href="?status=draft">草稿 (#(draftCount ?? 0))</a> |-->
-<!--                        <a href="?status=trash" style="color: #a00">垃圾箱 (#(trashCount ?? 0))</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-            </div>
-            <div class="col-sm-6 ">
-                <div class=" float-sm-right" style="padding-top: 15px">
-                    <a href="/admin/site/add" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
-                </div>
             </div>
         </div>
 
     </div><!-- /.container-fluid -->
+
 </section>
 
-
-
-<!-- Main content -->
 <section class="content">
+
     <div class="container-fluid">
         <div class="card card-outline card-primary">
-            <div class="card-header">
-                <form class="admin-search-panel autoAjaxSubmit" action="" method="get">
-                    <div class="row">
-<!--                        <div class="form-group col-lg-2">-->
-<!--                            <input type="text" class="form-control" placeholder="请输入标题" name="title" value="#para('title')">-->
-<!--                        </div>-->
-<!--                        <div class="form-group col-lg-2">-->
-<!--                            <select class="form-control" name="categoryId">-->
-<!--                                <option value="">全部分类</option>-->
-<!--                                #for(category : categories)-->
-<!--                                <option value="#(category.id ??)" #selectedIf(category.id == numberPara('categoryId'))>#(category.layerString) #(category.title ??)</option>-->
-<!--                                #end-->
-<!--                            </select>-->
-<!--                        </div>-->
-                        <div class="form-group col-lg-2">
-                            <button type="submit" class="btn btn-primary ">查询</button>
-                            <button type="reset" class="btn btn-default">重置</button>
+
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form autocomplete="off" action="/admin/site/doSave" class="autoAjaxSubmit"
+                  data-ok-href="/admin/site/list"
+                  data-ok-message="站点信息保存成功">
+                <div class="card-body">
+
+                    <input type="hidden" name="siteInfo.id" value="#(siteInfo.id ??)">
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">站点名称</label>
+
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="给您的站点起个名字" required
+                                   name="siteInfo.name" value="#(siteInfo.name ??)">
                         </div>
                     </div>
 
-                    <!-- /.card-body -->
-                </form>
-            </div> <!-- /.card-body -->
-            <div class="card-body p-0">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">自定义站点ID</label>
 
-                <table class="table table-striped table-action">
-                    <thead>
-                    <tr>
-                        <th style="width: 10px">
-                            <input class="tableCheckAll"  type="checkbox">
-                        </th>
-                        <th style="width: 150px">站点名称</th>
-                        <th style="width: 100px">自定义站点ID</th>
-                        <th style="width: 100px">绑定域名</th>
-                        <th style="width: 100px">绑定二级目录</th>
-                        <th style="width: 100px">绑定语言</th>
-                        <th style="width: 50px">是否多语言默认站点</th>
-                        <th style="width: 50px">是否自动改变语言站点</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-
-                    #for(item : page.list ??)
-                    <tr >
-                        <td>
-                            <input name="tableItem" type="checkbox" value="#(item.id ??)"/>
-                        </td>
-                        <td>
-                            #(item.name ??)
-                            <div class="jp-action-card">
-                                <div class="jp-action-body">
-                                    <a href="/admin/site/edit/#(item.id ??)" style="color: #006505">编辑</a> |
-                                    <a href="javascript:;" class="del-action red-action" data-id="#(item.id)">删除</a>
-                                </div>
-                            </div>
-
-                        </td>
-                        <td>#(item.siteId ??)</td>
-                        <td>#(item.bindDomain ??)</td>
-                        <td>#(item.bindPath ??)</td>
-                        <td>#(item.bindLang ??)</td>
-                        <td>#if(item.withLangDefault ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                            #else <i class="fa fa-2x fa-toggle-off"></i> #end
-                        </td>
-                        <td>#if(item.withLangRansform ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                            #else <i class="fa fa-2x fa-toggle-off"></i> #end
-                        </td>
-                    </tr>
-                    #end
-
-                    </tbody>
-                </table>
-
-
-                <div class="card-footer">
-                    <div class="row">
                         <div class="col-sm-6">
-                            <div class="row">
+                            <input type="number" class="form-control" placeholder="输入ID"
+                                   name="siteInfo.siteId" value="#(siteInfo.siteId ??)">
+                        </div>
+                    </div>
 
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
-                                        <label class="form-check-label" for="checkall">全选</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-3">
-                                    <select class="form-control" name="action">
-                                        <option value="">请选择...</option>
-                                        <option value="delByIds" open-type="del-confirm">
-                                            批量删除
-                                        </option>
-                                    </select>
-                                </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">站点域名</label>
 
-                                <div class="form-group col-lg-3">
-                                    <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
-                                </div>
-                            </div>
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="设置站点的域名"
+                                   name="siteInfo.bindDomain" value="#(siteInfo.bindDomain ??)">
+                            <p class="text-muted"> 请填写绑定域名，例如 www.jpress.cn ，不要包含 http://（或https://）</p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">绑定二级目录</label>
+
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="二级目录..."
+                                   name="siteInfo.bindPath" value="#(siteInfo.bindPath ??)">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">绑定语言</label>
+
+                        <div class="col-sm-6">
+                            <input type="input" class="form-control" placeholder="填写站点对应的语言"
+                                   name="siteInfo.bindLang" value="#(siteInfo.bindLang ??)">
                         </div>
 
-                        <div class="col-sm-6">
-                            #@_paginate()
+                    </div>
+
+                    <h4 class="form-header">绑定角色</h4>
+
+                    #for(item : roleList)
+                    <div class="form-group row">
+
+                        <label class="col-sm-2 col-form-label"></label>
+
+                        <div class="col-sm-8">
+                            <input type="checkbox" class="switchery" data-for="connection_email_enable"
+                                   #checkedIf(item.isSelected ??) value="#(item.id ??)" name="roleId">
+                            <span>#(item.name ??)</span>
+                        </div>
+
+                    </div>
+                    #end
+
+                    <h4 class="form-header">站点列表</h4>
+
+                    <div class="card card-outline card-primary">
+
+                        <div class="card-body p-0">
+
+                            <table class="table table-striped table-action">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px">
+                                        <input class="tableCheckAll" type="checkbox">
+                                    </th>
+                                    <th style="width: 150px">站点名称</th>
+                                    <th style="width: 100px">自定义站点ID</th>
+                                    <th style="width: 100px">绑定域名</th>
+                                    <th style="width: 100px">绑定二级目录</th>
+                                    <th style="width: 100px">绑定语言</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                #for(item : page.list ??)
+                                <tr>
+                                    <td>
+                                        <input name="tableItem" type="checkbox" value="#(item.id ??)"/>
+                                    </td>
+                                    <td>
+                                        #(item.name ??)
+                                        <div class="jp-action-card">
+                                            <div class="jp-action-body">
+                                                <a href="/admin/site/list/#(item.id ??)" style="color: #006505">编辑</a> |
+                                                <a href="javascript:;" class="del-action red-action"
+                                                   data-id="#(item.id)">删除</a>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td>#(item.siteId ??)</td>
+                                    <td>#(item.bindDomain ??)</td>
+                                    <td>#(item.bindPath ??)</td>
+                                    <td>#(item.bindLang ??)</td>
+                                </tr>
+                                #end
+
+                                </tbody>
+                            </table>
+
+
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        #@_paginate()
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--                    </div>-->
+
+
+                </div>
+
+                <div class="card-footer">
+                    <div class="offset-sm-2 col-sm-10 submit-block">
+                        <div class="card-submit">
+                            <button type="submit" class="btn btn-primary">提交</button>
                         </div>
                     </div>
                 </div>
-                <!-- /.card-footer -->
 
-
-            </div><!-- /.card-body -->
-
-
+            </form>
         </div>
-    </div><!-- /.container-fluid -->
+    </div>
+
 </section>
-<!-- /.content -->
 
 #end

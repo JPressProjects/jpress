@@ -16,6 +16,7 @@ import io.jpress.service.RoleService;
 import io.jpress.service.SiteInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,33 +38,31 @@ public class _SiteController extends AdminControllerBase {
         Page<SiteInfo> page = siteInfoService.paginateByColumns(getPagePara(), getPageSizePara(), columns, "created desc");
         setAttr("page", page);
 
-        render("site/site_list.html");
-    }
-
-
-    public void add() {
-
-        List<Role> roleList = roleService.findAll();
-        setAttr("roleList", roleList);
-
-        render("site/site_edit.html");
-    }
-
-    public void edit() {
-
+        //获取site id
         Long siteId = getLong();
 
+        //根据site id 查询 site信息
         SiteInfo siteInfo = siteInfoService.findById(siteId);
         if (siteInfo != null) {
             setAttr("siteInfo", siteInfo);
         }
 
-        List<Role> roleList = roleService.findListBySiteId(siteId);
-        if (!roleList.isEmpty()) {
-            setAttr("roleList", roleList);
+        List<Role> roleList = new ArrayList<>();
+
+        //查询site 对象的角色 信息
+        if (siteId == null) {
+            roleList = roleService.findAll();
+        } else {
+            roleList = roleService.findListBySiteId(siteId);
         }
 
-        render("site/site_edit.html");
+        if (!roleList.isEmpty()) {
+            setAttr("roleList", roleList);
+
+        }
+
+
+        render("site/site_list.html");
     }
 
 
@@ -99,9 +98,7 @@ public class _SiteController extends AdminControllerBase {
         Long[] roleIds = getParaValuesToLong("roleId");
 
         //更新中间表
-        if (roleIds != null && roleIds.length > 0) {
-            siteInfoService.saveOrUpdateSiteRoleMapping(siteInfo.getId(), roleIds);
-        }
+        siteInfoService.saveOrUpdateSiteRoleMapping(siteInfo.getId(), roleIds);
 
         renderOkJson();
 

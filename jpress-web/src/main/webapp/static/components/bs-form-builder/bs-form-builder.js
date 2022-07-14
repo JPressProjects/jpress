@@ -283,6 +283,34 @@
     var defaultComponents = [
 
 
+        //自定义 DIV
+        {
+            "name": "DIV",
+            "tag": "div",
+            "drag": {
+                "title": "DIV",
+                "type": "container",
+                "index": 100,
+                "icon": "bi bi-fullscreen"
+            },
+            "props": [
+                {
+                    name: "className",
+                    type: "input",
+                    label: "Class样式",
+                },
+                {
+                    name: "style",
+                    type: "textarea",
+                    label: "Style样式",
+                }
+            ],
+            "template": '<div class="bsFormItem" id="{{id}}">' +
+                '   <div class="bsItemContainer {{className}}" style="{{style}}">{{$children[0]}}</div>' +
+                '</div>',
+        },
+
+
         //等分栅格
         {
             "name": "等分栅格",

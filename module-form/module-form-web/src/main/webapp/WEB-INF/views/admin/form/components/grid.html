@@ -1,0 +1,9 @@
+<div class="bsFormItem">
+    <div class="form-group clearfix">
+        <div class="row pdlr-15">
+            #for(i=0;i<grid;i++)
+            <div class="col-#(12/grid) bsItemContainer">#(children.get(i) ??)</div>
+            #end
+        </div>
+    </div>
+</div>

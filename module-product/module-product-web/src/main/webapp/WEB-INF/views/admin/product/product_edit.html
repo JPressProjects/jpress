@@ -247,7 +247,7 @@
     }
 
     //创建播放器 容器
-    function createdVideoContainer(cloudType,vid,playAuth,cover,appId){
+    function createdVideoContainer(cloudType, vid, playAuth, cover, appId) {
 
         var VideoContainer = document.createElement('video');
         VideoContainer.setAttribute("data-vid", vid);
@@ -255,19 +255,19 @@
         VideoContainer.setAttribute("poster", cover);
         VideoContainer.setAttribute("class", "jpress-video");
 
-        if(cloudType == '1'){
+        if (cloudType == '1') {
 
             VideoContainer.setAttribute("data-play-auth", playAuth);
 
             VideoContainer.setAttribute("style", "height:240px;width:425px;");
 
             //阿里云播放容器的id
-            VideoContainer.setAttribute('id', "video_player"+(Math.random()).toString().slice(5,10));
+            VideoContainer.setAttribute('id', "video_player" + (Math.random()).toString().slice(5, 10));
 
-        }else if(cloudType == '2'){
+        } else if (cloudType == '2') {
             VideoContainer.setAttribute("data-app-id", appId);
             //腾讯云播放容器的id
-            VideoContainer.setAttribute('id', "qcloud_video_player"+(Math.random()).toString().slice(5,10));
+            VideoContainer.setAttribute('id', "qcloud_video_player" + (Math.random()).toString().slice(5, 10));
         }
 
         return VideoContainer;
@@ -297,7 +297,7 @@
                     if (cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
 
 
-                        let videoElement = createdVideoContainer(cloudType,vid,playAuth,cover);
+                        let videoElement = createdVideoContainer(cloudType, vid, playAuth, cover);
 
                         $(".video").html(videoElement.outerHTML)
 
@@ -307,7 +307,7 @@
 
                     } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
 
-                        let videoElement = createdVideoContainer(cloudType,vid,playAuth,cover,appId);
+                        let videoElement = createdVideoContainer(cloudType, vid, playAuth, cover, appId);
 
                         $(".video").html(videoElement.outerHTML)
 
@@ -328,20 +328,26 @@
         $("#changeVideo").empty();
 
         $("#changeVideo").html($("#videoTemplate").html())
+
+        $("#videoId").val("");
     })
 
+    $(function () {
+        if ('#(product.vod_vid ??)' != null && '#(product.vod_vid ??)' != '' && '#(product.vod_vid ??)' != undefined) {
 
-    $(function (){
-
-        if('#(product.vod_vid ??)' != null){
-
-            let videoElement = createdVideoContainer('#(attachmentVideo.cloud_type ??)','#(attachmentVideo.vod_vid ??)','#(attachmentVideo.playAuth ??)','#(attachmentVideo.cover ??)');
-
+            //创建容器
+            let videoElement = createdVideoContainer('#(attachmentVideo.cloud_type ??)', '#(attachmentVideo.vod_vid ??)', '#(attachmentVideo.playAuth ??)', '#(attachmentVideo.cover ??)', '#(appId ??)');
+            //容器放到页面
             $(".video").html(videoElement.outerHTML)
+            //创建视频播放器 阿里云
+            if ('#(attachmentVideo.cloud_type ??)' == '1') {
+                createAliyunVideoPlayer('#(attachmentVideo.vod_vid ??)', '#(attachmentVideo.playAuth ??)', videoElement.getAttribute("id"));
+            //创建视频播放器腾讯云
+            } else if ('#(attachmentVideo.cloud_type ??)' == '2') {
+                createTencentVideoPlayer('#(appId ??)', '#(attachmentVideo.vod_vid ??)', videoElement.getAttribute("id"));
+            }
 
-            createAliyunVideoPlayer(videoElement.getAttribute("vid"),videoElement.getAttribute("playAuth"), videoElement.getAttribute("id"));
 
-            //TODO
         }
 
     })
@@ -361,6 +367,7 @@
         <input type="hidden" name="imageIds" value="0" />
         <i class="fas fa-trash-alt image-reset" ></i>
     </div>
+
 
 </script>
 #end

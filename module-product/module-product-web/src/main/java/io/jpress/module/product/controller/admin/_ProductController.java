@@ -23,6 +23,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.JPressOptions;
 import io.jpress.commons.aliyun.AliyunVideoUtil;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
@@ -123,6 +124,11 @@ public class _ProductController extends AdminControllerBase {
 
                 setAttr("attachmentVideo",attachmentVideo);
             }
+
+            //腾讯云
+            //腾讯云点播视频：appId
+            String appId = JPressOptions.get("attachment_qcloudvideo_appid");
+            setAttr("appId",appId);
 
             List<ProductCategory> tags = categoryService.findTagListByProductId(productId);
             setAttr("tags", tags);

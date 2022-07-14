@@ -790,7 +790,7 @@
                 //为 data 设置默认数据，默认数据来源于 data 对应的 component 的 defaultValue 属性
                 if (component.props) {
                     for (const prop of component.props) {
-                        if (prop.defaultValue && !data[prop.name]) {
+                        if (typeof prop.defaultValue !== "undefined" && !data[prop.name]) {
                             data[prop.name] = prop.defaultValue;
                         }
                     }
@@ -1658,7 +1658,7 @@
             //组件定义的属性，为 data 配置上： data.属性名 = 属性默认值
             if (component.props) {
                 for (const prop of component.props) {
-                    if (prop.defaultValue && !data[prop.name]) {
+                    if (typeof prop.defaultValue !== "undefined" && !data[prop.name]) {
                         data[prop.name] = prop.defaultValue;
                     }
                 }

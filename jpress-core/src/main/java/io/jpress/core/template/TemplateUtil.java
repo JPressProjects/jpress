@@ -24,8 +24,8 @@ public class TemplateUtil {
      * @param templateFile
      * @return
      */
-    public static Set<BlockContainer> readBlockContainers(File templateFile) {
-        Set<BlockContainer> containers = new HashSet<>();
+    public static Set<BlockContainerDef> readBlockContainers(File templateFile) {
+        Set<BlockContainerDef> containers = new HashSet<>();
         try (BufferedReader in = new BufferedReader(new FileReader(templateFile))) {
             String str;
             while ((str = in.readLine()) != null) {
@@ -37,7 +37,7 @@ public class TemplateUtil {
                     String parasString = str.substring(firstIndexOf, lastIndexOf);
                     String[] paras = parasString.split(",");
 
-                    BlockContainer container = new BlockContainer();
+                    BlockContainerDef container = new BlockContainerDef();
                     container.setId(paras[0].substring(1, paras[0].length() - 1));
 
                     container.setTemplateFile(templateFile.getName());
@@ -107,6 +107,8 @@ public class TemplateUtil {
                 block.setName(lineStr.substring(5));
             } else if (lineStr.startsWith("icon:")) {
                 block.setIcon(lineStr.substring(5));
+            } else if (lineStr.startsWith("type:")) {
+                block.setType(lineStr.substring(5));
             }
         } else {
             block.addTemplateLine(lineStr);

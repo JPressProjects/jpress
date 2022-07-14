@@ -25,7 +25,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.template.BlockContainer;
+import io.jpress.core.template.BlockContainerDef;
 import io.jpress.core.template.BlockManager;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
@@ -70,14 +70,14 @@ public class _TemplateBlockController extends AdminControllerBase {
     public void datas() {
         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
 
-        List<BlockContainer> blockContainers = currentTemplate.getContainers();
+        List<BlockContainerDef> blockContainers = currentTemplate.getContainers();
         if (blockContainers == null || blockContainers.isEmpty()) {
             renderJson(Ret.ok());
             return;
         }
 
         JSONArray baseDatas = new JSONArray();
-        for (BlockContainer container : blockContainers) {
+        for (BlockContainerDef container : blockContainers) {
             baseDatas.add(container.toBsFormData());
         }
 

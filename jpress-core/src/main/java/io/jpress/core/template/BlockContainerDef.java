@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * 板块容器
  */
-public class BlockContainer {
+public class BlockContainerDef {
 
     // 容器 ID
     private String id;
@@ -60,7 +60,7 @@ public class BlockContainer {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        BlockContainer container = (BlockContainer) o;
+        BlockContainerDef container = (BlockContainerDef) o;
         return Objects.equals(id, container.id);
     }
 

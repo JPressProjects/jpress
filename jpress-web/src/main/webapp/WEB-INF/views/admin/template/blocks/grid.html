@@ -1,0 +1,13 @@
+<!--name:等分栅格 -->
+<!--type:layout -->
+<!--icon:bi bi-grid -->
+
+<div class="">
+    <div class="form-group clearfix">
+        <div class="row pdlr-15">
+            #for(i = 0; i < (grid == null ? 2 : grid); i++)
+            <div class="col-#(12/grid) bsItemContainer">#(children?.get(i))</div>
+            #end"
+        </div>
+    </div>
+</div>

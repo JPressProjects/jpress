@@ -40,6 +40,8 @@ componentsDef.push(...[
             '</div>',
     },
 
+
+
     //多行输入框
     {
         "name": "多行输入框",
@@ -106,32 +108,6 @@ componentsDef.push(...[
             '</div>',
     },
 
-    //空DIV
-    // {
-    //     "name": "空DIV",
-    //     "tag": "empty-div",
-    //     "drag": {
-    //         "title": "空DIV",
-    //         "type": "assist",
-    //         "index": 100,
-    //         "icon": "bi bi-fullscreen"
-    //     },
-    //     "propsfilter": ["tag", "id"],
-    //     props: [
-    //         {
-    //             name: "height",
-    //             type: "number",
-    //             label: "高度",
-    //             disabled: false,
-    //             required: true,
-    //             defaultValue: 20
-    //         }
-    //     ],
-    //     "template": '<div class="bsFormItem">' +
-    //         '  <div class="form-group clearfix" id="{{id}}" style="height: {{height}}px">' +
-    //         '  </div>' +
-    //         '</div>',
-    // },
 
     //引用
     {
@@ -161,6 +137,39 @@ componentsDef.push(...[
             '  </div>' +
             '</div>',
     },
+
+
+
+    //分割线
+    {
+        "name": "分割线",
+        "tag": "subtraction",
+        "drag": {
+            "title": "分割线",
+            "type": "assist",
+            "index": 100,
+            "icon": "bi bi-arrows-expand"
+        },
+        "propsfilter": ["tag", "id"],
+        "props": [
+            {
+                name: "className",
+                type: "input",
+                label: "Class样式",
+            },
+            {
+                name: "style",
+                type: "textarea",
+                label: "Style样式",
+            }
+        ],
+        "template": '<div class="bsFormItem">' +
+            '  <div class="form-group clearfix">' +
+            '    <hr class="{{className}}" style="{{style}}" />' +
+            '  </div>' +
+            '</div>',
+    },
+
 
 
     //下拉菜单
@@ -195,6 +204,51 @@ componentsDef.push(...[
             '        <option value="{{option.value}}">{{option.text}}</option>' +
             '        {{~end}}' +
             '      </select>' +
+            '    </div>' +
+            '  </div>' +
+            '</div>',
+    },
+
+
+
+    //滑块
+    {
+        "name": "滑块",
+        "tag": "range",
+        "drag": {
+            "title": "滑块",
+            "type": "base",
+            "index": 100,
+            "icon": "bi bi-sliders"
+        },
+        "props": [
+            {
+                name: "max",
+                type: "number",
+                label: "最大值",
+                defaultValue: 10,
+            },
+            {
+                name: "min",
+                type: "number",
+                label: "最小值",
+                defaultValue: 1,
+            },
+            {
+                name: "step",
+                type: "number",
+                label: "步长",
+                defaultValue: 1,
+            }
+        ],
+        "template": '<div class="bsFormItem">' +
+            '  <div class="form-group clearfix">' +
+            '    <div class="form-label-left">' +
+            '      <label for="label">{{label}}</label>' +
+            '    </div>' +
+            '    <div class="flex-auto">' +
+            '      <input type="range" class="form-control" name="{{name}}" id="{{id}}"' +
+            '        placeholder="{{placeholder}}" value="{{value}}" />' +
             '    </div>' +
             '  </div>' +
             '</div>',

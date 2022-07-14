@@ -15,11 +15,11 @@
  */
 package io.jpress.core.template;
 
+import com.jfinal.kit.PathKit;
 import io.jpress.core.bsformbuilder.BsFormComponent;
 import io.jpress.core.bsformbuilder.BsFormManager;
-import io.jpress.core.template.blocks.ContainerBlock;
-import io.jpress.core.template.blocks.DivBlock;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +28,34 @@ public class BlockManager extends BsFormManager {
     private static final BlockManager me = new BlockManager();
 
     private BlockManager() {
-        initSystemBlockHtmls();
+        initComponents();
     }
 
-    private void initSystemBlockHtmls() {
-        addComponent(new ContainerBlock().toBsFormComponent());
-        addComponent(new DivBlock().toBsFormComponent());
-        addComponent(new DivBlock().toBsFormComponent());
+    private void initComponents() {
+        addComponent(new BlockContainerComponent());
+
+        File blocksDir =  new File(PathKit.getWebRootPath(),"/WEB-INF/views/admin/template/blocks");
+        if (!blocksDir.exists()){
+            return;
+        }
+
+        File[] componentFiles = blocksDir.listFiles(pathname -> pathname.getName().endsWith(".html"));
+        if (componentFiles == null){
+            return;
+        }
+
+        for (File blockFile : componentFiles) {
+            String blockFileName = blockFile.getName();
+
+            HtmlBlock htmlBlock = new HtmlBlock();
+
+            htmlBlock.setId(blockFileName.substring(0, blockFileName.length() - 5));
+
+            //fill blockHtml attrs
+            TemplateUtil.readAndFillHtmlBlock(blockFile, htmlBlock);
+
+            addComponent(htmlBlock.toBsFormComponent());
+        }
     }
 
 

@@ -151,14 +151,14 @@ public class Template {
     }
 
 
-    private List<BlockContainer> blockContainers;
+    private List<BlockContainerDef> blockContainers;
 
     /**
      * 获取模板支持设计的板块容器
      *
      * @return
      */
-    public synchronized List<BlockContainer> getContainers() {
+    public synchronized List<BlockContainerDef> getContainers() {
         if (Jboot.isDevMode()) {
             return readContainers();
         }
@@ -171,8 +171,8 @@ public class Template {
     }
 
 
-    private List<BlockContainer> readContainers() {
-        Set<BlockContainer> allContainers = new HashSet<>();
+    private List<BlockContainerDef> readContainers() {
+        Set<BlockContainerDef> allContainers = new HashSet<>();
         for (String htmlFile : htmls) {
             allContainers.addAll(TemplateUtil.readBlockContainers(new File(getAbsolutePathFile(), htmlFile)));
         }

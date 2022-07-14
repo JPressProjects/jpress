@@ -1,19 +1,19 @@
-<div class="bsFormItem">
-    <div class="form-group clearfix">
-        <div class="form-label-left">
+<div class="jpress-form-item">
+    <div class="jpress-form-group clearfix">
+        <div class="jpress-label-left">
             <label>#(label ??)</label>
         </div>
-        <div class="flex-auto">
+        <div class="jpress-input-block">
             #for(option : options)
-            <div class="form-check form-check-inline">
+            <div class="jpress-form-check">
                 <input
-                        class="form-check-input"
+                        class="jpress-check-input"
                         type="radio"
                         name="#(name ??)"
                         id="#(option.value ??)-#(id ??)"
                         value="#(option.value ??)"
                 />
-                <label class="form-check-label" for="#(option.value ??)-#(id ??)">#(option.text ??)</label>
+                <label class="jpress-check-label" for="#(option.value ??)-#(id ??)">#(option.text ??)</label>
             </div>
             #end
         </div>

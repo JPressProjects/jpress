@@ -34,7 +34,9 @@ import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.authcode.AuthCode;
 import io.jpress.commons.authcode.AuthCodeKit;
+import io.jpress.commons.email.Email;
 import io.jpress.commons.email.EmailKit;
+import io.jpress.commons.email.SimpleEmailSender;
 import io.jpress.commons.sms.SmsKit;
 import io.jpress.commons.utils.SessionUtils;
 import io.jpress.model.User;
@@ -58,6 +60,8 @@ public class UserController extends TemplateControllerBase {
     private static final String default_user_phone_register_template = "/WEB-INF/views/ucenter/user_phone_register.html";
     private static final String default_user_register_activate = "/WEB-INF/views/ucenter/user_activate.html";
     private static final String default_user_register_emailactivate = "/WEB-INF/views/ucenter/user_emailactivate.html";
+    private static final String default_user_retrieve_password = "/WEB-INF/views/ucenter/user_retrieve_password.html";
+    private static final String default_send_link_to_user = "/WEB-INF/views/ucenter/send_link_to_user.html";
 
     @Inject
     private UserService userService;
@@ -373,4 +377,73 @@ public class UserController extends TemplateControllerBase {
         }
     }
 
+
+
+    /**
+     * 找回密码
+     */
+    public void retrievePwd() {
+        render("user_retrieve_password.html", default_user_retrieve_password);
+    }
+
+    /**
+     * 重置密码
+     */
+    public void resetPwd() {
+        render("send_link_to_user.html", default_send_link_to_user);
+    }
+
+    /**
+     * 给账号发送重置密码的链接地址
+     * @param emailAddr
+     * @param captchaVO
+     */
+    public void doSendResetPwdLink(@Pattern(regexp = Regex.EMAIL) @JsonBody("email") String emailAddr, @JsonBody CaptchaVO captchaVO) {
+        ResponseModel validResult = captchaService.verification(captchaVO);
+        if (validResult != null && validResult.isSuccess()) {
+            if (!StrUtil.isEmail(emailAddr)) {
+                renderFailJson("您输入的邮箱地址有误。");
+                return;
+            }
+
+            SimpleEmailSender ses = new SimpleEmailSender();
+            if (!ses.isEnable()) {
+                renderFailJson("您未开启邮件功能，无法发送。");
+                return;
+            }
+
+            if (!ses.isConfigOk()) {
+                renderFailJson("未配置正确，smtp 或 用户名 或 密码 为空。");
+                return;
+            }
+
+            //获取关于邮箱的配置内容
+            //邮件标题
+            String subject = JPressOptions.get("reg_email_validate_title");
+            //生成验证码
+            String code = EmailKit.generateCode();
+
+
+            Email email = Email.create();
+            email.subject(subject);
+            email.content("[JPress] 重置密码："+code+"，用于注册/登录，10分站内有效。");
+            email.to(emailAddr);
+
+            //发送邮箱验证码
+            boolean sendOk = EmailKit.sendEmailCode(emailAddr, code, email);
+            if (sendOk) {
+                renderJson(Ret.ok().set("message", "邮箱验证码发送成功，请手机查看"));
+            } else {
+                renderJson(Ret.fail().set("message", "邮箱验证码实发失败，请联系管理员"));
+            }
+        } else {
+            renderFailJson("验证错误");
+        }
+    }
+
+
 }
+
+
+
+

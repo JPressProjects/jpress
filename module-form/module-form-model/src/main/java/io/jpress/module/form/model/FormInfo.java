@@ -11,6 +11,10 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
 
     private static final long serialVersionUID = 1L;
 
+
+    public static final String FORMINFO_STATUS_INIT = "init";
+    public static final String FORMINFO_STATUS_DEPLOYED = "deployed";
+
 	
 }
 

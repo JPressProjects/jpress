@@ -66,8 +66,35 @@ public class _FormInfoController extends AdminControllerBase {
             return;
         }
 
+        if (entry.getId() == null) {
+            entry.setStatus(FormInfo.FORMINFO_STATUS_INIT);
+        }
+
         service.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
+    }
+
+    public void changeStatus() {
+
+        int entryId = getParaToInt(0, 0);
+
+        FormInfo entry = entryId > 0 ? service.findById(entryId) : null;
+
+        if (entry == null) {
+            renderError(404);
+            return;
+        }
+
+        //改变表单状态 status
+        if (entry.getStatus() != null && entry.getStatus().equals(FormInfo.FORMINFO_STATUS_INIT)) {
+            entry.setStatus(FormInfo.FORMINFO_STATUS_DEPLOYED);
+        } else if (entry.getStatus() != null && entry.getStatus().equals(FormInfo.FORMINFO_STATUS_DEPLOYED)) {
+            entry.setStatus(FormInfo.FORMINFO_STATUS_INIT);
+        }
+
+        service.update(entry);
+
+        renderOkJson();
     }
 
 

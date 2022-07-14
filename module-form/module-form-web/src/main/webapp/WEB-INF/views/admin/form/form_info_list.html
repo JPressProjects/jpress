@@ -4,8 +4,14 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("/admin/form/formInfo/doDel/" + id);
+        ajaxGet("/admin/form/forminfo/doDel/" + id);
     }
+
+    function changeStatus(id){
+        ajaxGet("/admin/form/forminfo/changeStatus/" + id);
+    }
+
+
 
 </script>
 #end
@@ -80,13 +86,13 @@
                             <tr>
                                 <td><input name="tableItem" type="checkbox" value="#(entry.id)" /></td>
                                 <td>
-                                #(entry.name ??)
+                                #(entry.name ??) #if(entry.status == 'init') (未发布) #else if(entry.status == 'deployed') (已发布) #end
                                     <div class="jp-action-card">
                                         <div class="jp-action-body">
                                             <a href="/admin/form/forminfo/design/#(entry.id)">表单设计</a> |
-                                            <a href="/admin/form/formInfo/edit/#(entry.id)">编辑</a> |
-                                            <a href="javascript:;" class="red-action"
-                                               onclick="doDel('#(entry.id)')">删除</a>
+                                            <a href="/admin/form/forminfo/edit/#(entry.id)">编辑</a> |
+                                            <a href="javascript:;" onclick="changeStatus('#(entry.id)')">#if(entry.status == 'init') 发布 #else if(entry.status == 'deployed') 下架 #end</a> |
+                                            <a href="javascript:;" class="red-action" onclick="doDel('#(entry.id)')">删除</a>
                                         </div>
                                     </div>
                                 </td>

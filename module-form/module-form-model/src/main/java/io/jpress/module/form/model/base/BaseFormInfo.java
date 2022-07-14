@@ -34,6 +34,20 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
+     * 表单标识
+     */
+	public void setFlag(java.lang.String flag) {
+		set("flag", flag);
+	}
+
+    /**
+     * 表单标识
+     */
+	public java.lang.String getFlag() {
+		return getStr("flag");
+	}
+
+    /**
      * 缩略图
      */
 	public void setThumbnail(java.lang.String thumbnail) {
@@ -185,6 +199,20 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
      */
 	public java.lang.Long getSiteId() {
 		return getLong("site_id");
+	}
+
+    /**
+     * 状态
+     */
+	public void setStatus(java.lang.String status) {
+		set("status", status);
+	}
+
+    /**
+     * 状态
+     */
+	public java.lang.String getStatus() {
+		return getStr("status");
 	}
 
 }

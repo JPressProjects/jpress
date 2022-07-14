@@ -7,6 +7,7 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.db.model.Columns;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.SiteContext;
@@ -33,14 +34,19 @@ public class FormInfoDirective extends JbootDirectiveBase {
         String submitClass = getParaToString("submitClass", scope, "btn btn-primary btn-formInfo");
 
 
-        if (id == null && flag == null) {
+        FormInfo formInfo = null;
+        if (id != null || flag != null) {
+            formInfo = id != null
+                    ? formInfoService.findById(id)
+                    : formInfoService.findFirstByColumns(Columns.create("flag", flag));
+        } else {
+            formInfo = JbootControllerContext.get().getAttr("formInfo");
+        }
+
+        if (formInfo == null) {
             throw new IllegalArgumentException("id or flag must not be null.");
         }
 
-
-        FormInfo formInfo = id != null
-                ? formInfoService.findById(id)
-                : formInfoService.findFirstByColumns(Columns.create("flag", flag));
 
         JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
 

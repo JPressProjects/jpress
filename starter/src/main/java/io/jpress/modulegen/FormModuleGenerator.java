@@ -25,7 +25,7 @@ public class FormModuleGenerator {
     public static void main(String[] args) {
 
         ModuleGenerator moduleGenerator = new ModuleGenerator(moduleName, dbUrl, dbUser, dbPassword, dbTables, optionsTables,sortTables,sortOptionsTables, modelPackage, servicePackage);
-        moduleGenerator.setGenUI(true).gen();
+        moduleGenerator.setGenUI(false).gen();
 
     }
 }

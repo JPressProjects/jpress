@@ -66,7 +66,7 @@
                     }
                 }
             },
-            unUseComponents:["tab"], //不使用组件 tab
+            unUseComponents: ["tab"], //不使用组件 tab
             defaultProps: [
                 {
                     name: 'field',
@@ -82,20 +82,24 @@
                     index: 101,
                     options: [
                         {
-                            value: 'int',
-                            text: '数字',
-                        },
-                        {
                             value: "varchar",
-                            text: '字符'
+                            text: '字符（varchar）'
                         },
                         {
                             value: 'text',
-                            text: '文本'
+                            text: '文本（text）'
                         },
                         {
-                            value: 'bool',
-                            text: '布尔型'
+                            value: 'int',
+                            text: '数字（int）',
+                        },
+                        {
+                            value: 'boolean',
+                            text: '布尔型（boolean）'
+                        },
+                        {
+                            value: 'datetime',
+                            text: '时间/日期（datetime）'
                         }
                     ],
                 },
@@ -133,7 +137,7 @@
     <div class="card tool-container">
         <div class="tool-header d-flex justify-content-between align-items-center">
             <div>
-                <strong class="pr-3">#(form.name ??)表单设计</strong>
+                <strong class="pr-3">表单设计（#(form.name ??)）</strong>
                 <!--                <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>-->
                 <!--                <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>-->
                 <!--                <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>-->

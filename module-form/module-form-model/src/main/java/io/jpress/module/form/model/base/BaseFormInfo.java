@@ -215,5 +215,19 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 		return getStr("status");
 	}
 
+    /**
+     * 版本号
+     */
+	public void setVersion(java.lang.Integer version) {
+		set("version", version);
+	}
+
+    /**
+     * 版本号
+     */
+	public java.lang.Integer getVersion() {
+		return getInt("version");
+	}
+
 }
 

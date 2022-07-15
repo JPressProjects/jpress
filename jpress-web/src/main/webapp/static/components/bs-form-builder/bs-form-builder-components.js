@@ -86,7 +86,7 @@ componentsDef.push(...[
             "index": 100,
             "icon": "bi bi-info-circle"
         },
-        "propsfilter": ["tag", "id"],
+        "useProps": ["tag", "id"],
         props: [
             {
                 name: "title",
@@ -119,7 +119,7 @@ componentsDef.push(...[
             "index": 100,
             "icon": "bi bi-quote"
         },
-        "propsfilter": ["tag", "id"],
+        "useProps": ["tag", "id"],
         props: [
             {
                 name: "content",
@@ -150,7 +150,7 @@ componentsDef.push(...[
             "index": 100,
             "icon": "bi bi-arrows-expand"
         },
-        "propsfilter": ["tag", "id"],
+        "useProps": ["tag", "id"],
         "props": [
             {
                 name: "className",

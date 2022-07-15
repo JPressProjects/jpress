@@ -1663,11 +1663,10 @@
             }
 
             //组件定义的属性，为 data 配置上： data.属性名 = 属性默认值
-            if (component.props) {
-                for (const prop of component.props) {
-                    if (typeof prop.defaultValue !== "undefined" && !data[prop.name]) {
-                        data[prop.name] = prop.defaultValue;
-                    }
+            var allProps = this._getComponentAllProps(component, data);
+            for (let prop of allProps) {
+                if (typeof prop.defaultValue !== "undefined" && !data[prop.name]) {
+                    data[prop.name] = prop.defaultValue;
                 }
             }
 
@@ -2061,35 +2060,10 @@
                 return;
             }
 
-            //组件定义的 "私有" 属性
-            var componentProps = typeof component.props === "object" ?
-                component.props : [];
-
-            //组件定义的过滤器
-            let propsfilter = typeof component.propsfilter === "function"
-                ? component.propsfilter(this, this.currentData)
-                : (typeof component.propsfilter === "object" ? component.propsfilter : []);
-
-
-            // 全部属性
-            var allProps = this._mergeProps(componentProps, this.defaultProps);
-            allProps.sort((a, b) => a.index - b.index);
-
-            //自定义属性过滤器
-            if (this.options.bsFormPropsFilter && typeof this.options.bsFormPropsFilter === "function") {
-                this.options.bsFormPropsFilter(allProps, this.currentData, this)
-            }
-
+            //获取组件的所有属性
+            var allProps = this._getComponentAllProps(component, this.currentData);
 
             for (let prop of allProps) {
-                // 若组件定义了 propsfilter 过滤
-                // 那么，定义的 propsfilter 只有包含 prop，prop 才能正常被渲染
-                // ps：只有系统定义的 props 才会被过滤，组件自己的 props 不会被过滤
-                if (componentProps.indexOf(prop) < 0
-                    && propsfilter && propsfilter.length > 0
-                    && propsfilter.indexOf(prop.name) < 0) {
-                    continue;
-                }
 
                 var template = this._getPropTemplateByType(prop.type);
 
@@ -2174,6 +2148,48 @@
             }
         },
 
+        /**
+         * 获取 component 所有的属性
+         * @param component
+         * @param componentData
+         * @private
+         */
+        _getComponentAllProps: function (component, componentData) {
+            //所有默认属性
+            var defaultProps = this.deepCopy(this.defaultProps, false);
+
+            //组件定义使用的属性
+            let useProps = typeof component.useProps === "function"
+                ? component.useProps(this, this.currentData)
+                : (typeof component.useProps === "object" ? component.useProps : []);
+
+
+            if (useProps && useProps.length > 0) {
+                var index = defaultProps.length;
+                while (index--) {
+                    if (useProps.indexOf(defaultProps[index].name) < 0) {
+                        defaultProps.splice(index, 1);
+                    }
+                }
+            }
+
+            //组件定义的 "私有" 属性
+            var componentProps = typeof component.props === "object" ?
+                component.props : [];
+
+
+            // 全部属性
+            var allProps = this._mergeProps(componentProps, defaultProps);
+            allProps.sort((a, b) => a.index - b.index);
+
+
+            //过滤属性
+            if (this.options.bsFormPropsFilter && typeof this.options.bsFormPropsFilter === "function") {
+                this.options.bsFormPropsFilter(allProps, componentData, this)
+            }
+
+            return allProps;
+        },
 
         /**
          * 通过数据源分组名称，获取数据源

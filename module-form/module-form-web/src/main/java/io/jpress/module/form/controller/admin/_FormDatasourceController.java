@@ -31,10 +31,10 @@ import io.jpress.commons.utils.HttpProxy;
 import io.jpress.core.bsformbuilder.BsFormDatasource;
 import io.jpress.core.bsformbuilder.BsFormOption;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.module.form.model.FormDict;
-import io.jpress.module.form.model.FormDictItem;
-import io.jpress.module.form.service.FormDictItemService;
-import io.jpress.module.form.service.FormDictService;
+import io.jpress.module.form.model.FormDatasource;
+import io.jpress.module.form.model.FormDatasourceItem;
+import io.jpress.module.form.service.FormDatasourceItemService;
+import io.jpress.module.form.service.FormDatasourceService;
 import io.jpress.web.base.AdminControllerBase;
 
 import javax.validation.constraints.NotNull;
@@ -45,21 +45,21 @@ import java.util.stream.Collectors;
 
 
 @RequestMapping(value = "/admin/form/formDict", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _FormDictController extends AdminControllerBase {
+public class _FormDatasourceController extends AdminControllerBase {
 
     @Inject
-    private FormDictService dictService;
+    private FormDatasourceService formDatasourceService;
 
     @Inject
-    private FormDictItemService itemService;
+    private FormDatasourceItemService itemService;
 
-    @AdminMenu(text = "数据字典", groupId = "form", order = 2)
+    @AdminMenu(text = "数据源", groupId = "form", order = 2)
     public void list() {
 
         String name = getPara("name");
         Columns columns = new Columns();
         columns.likeAppendPercent("name", name);
-        Page<FormDict> entries = dictService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
+        Page<FormDatasource> entries = formDatasourceService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
 
         render("form/form_dict_list.html");
@@ -68,17 +68,17 @@ public class _FormDictController extends AdminControllerBase {
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
-        FormDict entry = entryId > 0 ? dictService.findById(entryId) : null;
+        FormDatasource entry = entryId > 0 ? formDatasourceService.findById(entryId) : null;
         setAttr("formDict", entry);
         set("now", new Date());
         render("form/form_dict_edit.html");
     }
 
     public void doSave() {
-        FormDict entry = getModel(FormDict.class, "formDict");
+        FormDatasource entry = getModel(FormDatasource.class, "formDict");
 
         if (entry.getName() == null) {
-            renderFailJson("字典名称不能为空");
+            renderFailJson("名称不能为空");
             return;
         }
 
@@ -86,10 +86,10 @@ public class _FormDictController extends AdminControllerBase {
             entry.setCreated(new Date());
         }
 
-        dictService.saveOrUpdate(entry);
+        formDatasourceService.saveOrUpdate(entry);
 
         //查询是否该 字典 对应的 item
-        FormDictItem formDictItem = itemService.findFirstByColumns(Columns.create().eq("dict_id", entry.getId()));
+        FormDatasourceItem formDictItem = itemService.findFirstByColumns(Columns.create().eq("dict_id", entry.getId()));
 
         //如果查询不为空 那么 删除然后新建
         if (formDictItem != null) {
@@ -99,7 +99,7 @@ public class _FormDictController extends AdminControllerBase {
         boolean saveOk = saveItem(entry);
 
         if (!saveOk) {
-            renderFailJson("数据字典 数据导入失败 请检查数据");
+            renderFailJson("数据源 数据导入失败 请检查数据");
             return;
         }
 
@@ -107,7 +107,7 @@ public class _FormDictController extends AdminControllerBase {
     }
 
     //保存字典对应的 item 信息 对于json 格式 有很严格的要求
-    public boolean saveItem(@NotNull FormDict entry) {
+    public boolean saveItem(@NotNull FormDatasource entry) {
 
         //内容 放入字典中 item
         if (entry.getImportType() != null && entry.getImportText() != null) {
@@ -123,7 +123,7 @@ public class _FormDictController extends AdminControllerBase {
 
                     for (String text : split) {
 
-                        FormDictItem formDictItem = new FormDictItem();
+                        FormDatasourceItem formDatasourceItem = new FormDatasourceItem();
 
                         //如果是中文的分号 替换为英文的分号
                         if (text.contains("：")) {
@@ -132,20 +132,20 @@ public class _FormDictController extends AdminControllerBase {
 
                         String[] keyAndValue = text.split(":");
 
-                        formDictItem.setDictId(entry.getId());
-                        formDictItem.setPid(0L);
-                        formDictItem.setSiteId(SiteContext.getSiteId());
+                        formDatasourceItem.setDictId(entry.getId());
+                        formDatasourceItem.setPid(0L);
+                        formDatasourceItem.setSiteId(SiteContext.getSiteId());
 
                         //防止 数组下标越界
                         try {
-                            formDictItem.setValue(keyAndValue[0]);
-                            formDictItem.setText(keyAndValue[1]);
+                            formDatasourceItem.setValue(keyAndValue[0]);
+                            formDatasourceItem.setText(keyAndValue[1]);
                         } catch (Exception e) {
                             LogKit.error("Dict Item error....." + e);
                             return false;
                         }
 
-                        itemService.saveOrUpdate(formDictItem);
+                        itemService.saveOrUpdate(formDatasourceItem);
                     }
 
                     break;
@@ -158,26 +158,26 @@ public class _FormDictController extends AdminControllerBase {
                     //JSON 数组格式
                     if (importTexts.contains("[")) {
 
-                        List<FormDictItem> formDictItems = JSON.parseArray(importTexts, FormDictItem.class);
+                        List<FormDatasourceItem> formDatasourceItems = JSON.parseArray(importTexts, FormDatasourceItem.class);
 
-                        for (FormDictItem formDictItem : formDictItems) {
+                        for (FormDatasourceItem formDatasourceItem : formDatasourceItems) {
 
-                            formDictItem.setDictId(entry.getId());
-                            formDictItem.setPid(0L);
-                            formDictItem.setSiteId(SiteContext.getSiteId());
+                            formDatasourceItem.setDictId(entry.getId());
+                            formDatasourceItem.setPid(0L);
+                            formDatasourceItem.setSiteId(SiteContext.getSiteId());
 
-                            itemService.saveOrUpdate(formDictItem);
+                            itemService.saveOrUpdate(formDatasourceItem);
                         }
 
                     //JSON 对象
                     } else {
-                        FormDictItem formDictItem = JSON.parseObject(importTexts, FormDictItem.class);
+                        FormDatasourceItem formDatasourceItem = JSON.parseObject(importTexts, FormDatasourceItem.class);
 
-                        formDictItem.setDictId(entry.getId());
-                        formDictItem.setPid(0L);
-                        formDictItem.setSiteId(SiteContext.getSiteId());
+                        formDatasourceItem.setDictId(entry.getId());
+                        formDatasourceItem.setPid(0L);
+                        formDatasourceItem.setSiteId(SiteContext.getSiteId());
 
-                        itemService.saveOrUpdate(formDictItem);
+                        itemService.saveOrUpdate(formDatasourceItem);
                     }
                     break;
             }
@@ -191,12 +191,12 @@ public class _FormDictController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(dictService.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(formDatasourceService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
-        dictService.batchDeleteByIds(getParaSet("ids").toArray());
+        formDatasourceService.batchDeleteByIds(getParaSet("ids").toArray());
         renderOkJson();
     }
 
@@ -205,7 +205,7 @@ public class _FormDictController extends AdminControllerBase {
      * 获取所有字典列表
      */
     public void queryDatasources() {
-        List<FormDict> dicts = dictService.findAll();
+        List<FormDatasource> dicts = formDatasourceService.findAll();
         if (dicts == null) {
             renderJson(Ret.fail("没有任何数据源"));
             return;
@@ -223,7 +223,7 @@ public class _FormDictController extends AdminControllerBase {
      * 获取字典内容
      */
     public void queryOptions() {
-        FormDict formDict = dictService.findById(getParaToLong());
+        FormDatasource formDict = formDatasourceService.findById(getParaToLong());
         if (formDict == null) {
             renderFailJson();
             return;
@@ -231,7 +231,7 @@ public class _FormDictController extends AdminControllerBase {
 
         //静态数据
         if (formDict.isStaticData()) {
-            List<FormDictItem> dictItemList = itemService.findListByColumns(Columns.create("dict_id", formDict.getId()));
+            List<FormDatasourceItem> dictItemList = itemService.findListByColumns(Columns.create("dict_id", formDict.getId()));
             List<BsFormOption> bsFormOptions = dictItemList.stream().map(item -> new BsFormOption(item.getText(), item.getValue())).collect(Collectors.toList());
             renderJson(Ret.ok().set("options", bsFormOptions));
         }

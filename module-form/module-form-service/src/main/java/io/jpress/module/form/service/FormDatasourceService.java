@@ -1,12 +1,12 @@
 package io.jpress.module.form.service;
 
 import com.jfinal.plugin.activerecord.Page;
-import io.jpress.module.form.model.FormDict;
+import io.jpress.module.form.model.FormDatasource;
 import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface FormDictService  {
+public interface FormDatasourceService  {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface FormDictService  {
      * @param id
      * @return
      */
-    public FormDict findById(Object id);
+    public FormDatasource findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface FormDictService  {
      * @param columns
      * @return
      */
-    public FormDict findFirstByColumns(Columns columns);
+    public FormDatasource findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface FormDictService  {
      * @param orderBy
      * @return
      */
-    public FormDict findFirstByColumns(Columns columns, String orderBy);
+    public FormDatasource findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface FormDictService  {
      *
      * @return
      */
-    public List<FormDict> findAll();
+    public List<FormDatasource> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface FormDictService  {
      * @param columns
      * @return
      */
-    public List<FormDict> findListByColumns(Columns columns);
+    public List<FormDatasource> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface FormDictService  {
      * @param orderBy
      * @return
      */
-    public List<FormDict> findListByColumns(Columns columns, String orderBy);
+    public List<FormDatasource> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface FormDictService  {
      * @param count
      * @return
      */
-    public List<FormDict> findListByColumns(Columns columns, Integer count);
+    public List<FormDatasource> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface FormDictService  {
      * @param count
      * @return
      */
-    public List<FormDict> findListByColumns(Columns columns, String orderBy, Integer count);
+    public List<FormDatasource> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -105,7 +105,7 @@ public interface FormDictService  {
      * @param model
      * @return
      */
-    public boolean delete(FormDict model);
+    public boolean delete(FormDatasource model);
 
 
     /**
@@ -123,7 +123,7 @@ public interface FormDictService  {
      * @param model
      * @return id if success
      */
-    public Object save(FormDict model);
+    public Object save(FormDatasource model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface FormDictService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(FormDict model);
+    public Object saveOrUpdate(FormDatasource model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface FormDictService  {
      * @param model
      * @return
      */
-    public boolean update(FormDict model);
+    public boolean update(FormDatasource model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface FormDictService  {
      * @param pageSize
      * @return
      */
-    public Page<FormDict> paginate(int page, int pageSize);
+    public Page<FormDatasource> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface FormDictService  {
      * @param pageSize
      * @return
      */
-    public Page<FormDict> paginateByColumns(int page, int pageSize, Columns columns);
+    public Page<FormDatasource> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,7 +172,7 @@ public interface FormDictService  {
      * @param orderBy
      * @return
      */
-    public Page<FormDict> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+    public Page<FormDatasource> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
 }

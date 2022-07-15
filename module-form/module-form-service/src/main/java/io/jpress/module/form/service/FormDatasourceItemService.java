@@ -1,12 +1,12 @@
 package io.jpress.module.form.service;
 
 import com.jfinal.plugin.activerecord.Page;
-import io.jpress.module.form.model.FormDictItem;
+import io.jpress.module.form.model.FormDatasourceItem;
 import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface FormDictItemService  {
+public interface FormDatasourceItemService  {
 
     /**
      * 根据主键查找Model
@@ -14,7 +14,7 @@ public interface FormDictItemService  {
      * @param id
      * @return
      */
-    public FormDictItem findById(Object id);
+    public FormDatasourceItem findById(Object id);
 
 
     /**
@@ -23,7 +23,7 @@ public interface FormDictItemService  {
      * @param columns
      * @return
      */
-    public FormDictItem findFirstByColumns(Columns columns);
+    public FormDatasourceItem findFirstByColumns(Columns columns);
 
     /**
      * 根据 Columns 查找单条数据
@@ -32,7 +32,7 @@ public interface FormDictItemService  {
      * @param orderBy
      * @return
      */
-    public FormDictItem findFirstByColumns(Columns columns, String orderBy);
+    public FormDatasourceItem findFirstByColumns(Columns columns, String orderBy);
 
 
     /**
@@ -40,7 +40,7 @@ public interface FormDictItemService  {
      *
      * @return
      */
-    public List<FormDictItem> findAll();
+    public List<FormDatasourceItem> findAll();
 
 
     /**
@@ -49,7 +49,7 @@ public interface FormDictItemService  {
      * @param columns
      * @return
      */
-    public List<FormDictItem> findListByColumns(Columns columns);
+    public List<FormDatasourceItem> findListByColumns(Columns columns);
 
 
     /**
@@ -59,7 +59,7 @@ public interface FormDictItemService  {
      * @param orderBy
      * @return
      */
-    public List<FormDictItem> findListByColumns(Columns columns, String orderBy);
+    public List<FormDatasourceItem> findListByColumns(Columns columns, String orderBy);
 
     /**
      * 根据 Columns 查找数据
@@ -68,7 +68,7 @@ public interface FormDictItemService  {
      * @param count
      * @return
      */
-    public List<FormDictItem> findListByColumns(Columns columns, Integer count);
+    public List<FormDatasourceItem> findListByColumns(Columns columns, Integer count);
 
     /**
      * 根据 Columns 查找数据
@@ -78,7 +78,7 @@ public interface FormDictItemService  {
      * @param count
      * @return
      */
-    public List<FormDictItem> findListByColumns(Columns columns, String orderBy, Integer count);
+    public List<FormDatasourceItem> findListByColumns(Columns columns, String orderBy, Integer count);
 
 
     /**
@@ -105,7 +105,7 @@ public interface FormDictItemService  {
      * @param model
      * @return
      */
-    public boolean delete(FormDictItem model);
+    public boolean delete(FormDatasourceItem model);
 
 
     /**
@@ -123,7 +123,7 @@ public interface FormDictItemService  {
      * @param model
      * @return id if success
      */
-    public Object save(FormDictItem model);
+    public Object save(FormDatasourceItem model);
 
 
     /**
@@ -132,7 +132,7 @@ public interface FormDictItemService  {
      * @param model
      * @return id if success
      */
-    public Object saveOrUpdate(FormDictItem model);
+    public Object saveOrUpdate(FormDatasourceItem model);
 
     /**
      * 更新
@@ -140,7 +140,7 @@ public interface FormDictItemService  {
      * @param model
      * @return
      */
-    public boolean update(FormDictItem model);
+    public boolean update(FormDatasourceItem model);
 
 
     /**
@@ -150,7 +150,7 @@ public interface FormDictItemService  {
      * @param pageSize
      * @return
      */
-    public Page<FormDictItem> paginate(int page, int pageSize);
+    public Page<FormDatasourceItem> paginate(int page, int pageSize);
 
 
     /**
@@ -160,7 +160,7 @@ public interface FormDictItemService  {
      * @param pageSize
      * @return
      */
-    public Page<FormDictItem> paginateByColumns(int page, int pageSize, Columns columns);
+    public Page<FormDatasourceItem> paginateByColumns(int page, int pageSize, Columns columns);
 
 
     /**
@@ -172,14 +172,14 @@ public interface FormDictItemService  {
      * @param orderBy
      * @return
      */
-    public Page<FormDictItem> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
-    
+    public Page<FormDatasourceItem> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+
     /**
-    * 根据 dict id 删除数据
-    *
-    * @param dictId
-    * @return boolean
-    */
+     * 根据 dict id 删除数据
+     *
+     * @param dictId
+     * @return boolean
+     */
     public boolean deleteByDictId(Long dictId);
 
 

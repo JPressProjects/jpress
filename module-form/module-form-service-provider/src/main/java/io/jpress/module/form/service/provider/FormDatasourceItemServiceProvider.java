@@ -1,16 +1,17 @@
 package io.jpress.module.form.service.provider;
 
 import io.jboot.aop.annotation.Bean;
-import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
+import io.jpress.module.form.service.FormDatasourceItemService;
+import io.jpress.module.form.model.FormDatasourceItem;
 import io.jpress.commons.service.JPressServiceBase;
-import io.jpress.module.form.model.FormDictItem;
-import io.jpress.module.form.service.FormDictItemService;
 
 import javax.validation.constraints.NotNull;
 
 @Bean
-public class FormDictItemServiceProvider extends JPressServiceBase<FormDictItem> implements FormDictItemService {
+public class FormDatasourceItemServiceProvider extends JPressServiceBase<FormDatasourceItem> implements FormDatasourceItemService {
+
+
 
     /**
      * 根据 dict id 删除数据
@@ -23,4 +24,5 @@ public class FormDictItemServiceProvider extends JPressServiceBase<FormDictItem>
 
         return  DAO.deleteByColumns(Columns.create().eq("dict_id",dictId));
     }
+
 }

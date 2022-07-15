@@ -23,24 +23,23 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
-import io.jpress.module.form.model.FormDict;
-import io.jpress.module.form.model.FormDictItem;
-import io.jpress.module.form.service.FormDictItemService;
-import io.jpress.module.form.service.FormDictService;
+import io.jpress.module.form.model.FormDatasource;
+import io.jpress.module.form.model.FormDatasourceItem;
+import io.jpress.module.form.service.FormDatasourceItemService;
+import io.jpress.module.form.service.FormDatasourceService;
 import io.jpress.web.base.AdminControllerBase;
 
-import java.util.Date;
 import java.util.List;
 
 
 @RequestMapping(value = "/admin/form/formDict/item", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _FormDictItemController extends AdminControllerBase {
+public class _FormDatasourceItemController extends AdminControllerBase {
 
     @Inject
-    private FormDictItemService service;
+    private FormDatasourceItemService service;
 
     @Inject
-    private FormDictService formDictService;
+    private FormDatasourceService formDatasourceService;
 
 
     public void index() {
@@ -56,7 +55,7 @@ public class _FormDictItemController extends AdminControllerBase {
 
         Columns columns = new Columns();
         columns.eq("dict_id", id);
-        Page<FormDictItem> entries = service.paginateByColumns(getPagePara(), getPageSizePara(), columns);
+        Page<FormDatasourceItem> entries = service.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
 
         render("form/form_dict_item_list.html");
@@ -67,28 +66,28 @@ public class _FormDictItemController extends AdminControllerBase {
 
         int entryId = getParaToInt(0, 0);
 
-        FormDictItem entry = entryId > 0 ? service.findById(entryId) : null;
+        FormDatasourceItem entry = entryId > 0 ? service.findById(entryId) : null;
 
         Long dictId = getParaToLong("dictId");
 
         setAttr("formDictItem", entry);
 
         if (entry != null) {
-            FormDict formDict = formDictService.findById(entry.getDictId());
+            FormDatasource formDict = formDatasourceService.findById(entry.getDictId());
             setAttr("formDict", formDict);
         }else {
-            FormDict formDict = formDictService.findById(dictId);
+            FormDatasource formDict = formDatasourceService.findById(dictId);
             setAttr("formDict", formDict);
         }
 
-        List<FormDictItem> formDictItemList = service.findAll();
+        List<FormDatasourceItem> formDictItemList = service.findAll();
         setAttr("formDictItemList", formDictItemList);
 
         render("form/form_dict_item_edit.html");
     }
 
     public void doSave() {
-        FormDictItem entry = getModel(FormDictItem.class, "formDictItem");
+        FormDatasourceItem entry = getModel(FormDatasourceItem.class, "formDictItem");
 
         if (entry.getPid() == null) {
             entry.setPid(0L);

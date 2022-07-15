@@ -14,7 +14,7 @@ public class FormModuleGenerator {
     private static String dbPassword = "123456";
 
     private static String moduleName = "form";
-    private static String dbTables = "form_dict,form_dict_item,form_info";
+    private static String dbTables = "form_datasource,form_datasource_item,form_info";
     private static String optionsTables = "form";
     private static String sortTables = "";
     private static String sortOptionsTables = "";

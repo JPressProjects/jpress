@@ -62,7 +62,7 @@ public class _FormDatasourceController extends AdminControllerBase {
         Page<FormDatasource> entries = formDatasourceService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
 
-        render("form/form_dict_list.html");
+        render("form/form_datasource_list.html");
     }
 
     public void edit() {
@@ -71,7 +71,7 @@ public class _FormDatasourceController extends AdminControllerBase {
         FormDatasource entry = entryId > 0 ? formDatasourceService.findById(entryId) : null;
         setAttr("formDict", entry);
         set("now", new Date());
-        render("form/form_dict_edit.html");
+        render("form/form_datasource_edit.html");
     }
 
     public void doSave() {

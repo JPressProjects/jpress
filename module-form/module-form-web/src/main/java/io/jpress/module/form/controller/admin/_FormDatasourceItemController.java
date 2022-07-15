@@ -58,7 +58,7 @@ public class _FormDatasourceItemController extends AdminControllerBase {
         Page<FormDatasourceItem> entries = service.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
 
-        render("form/form_dict_item_list.html");
+        render("form/form_datasource_item_list.html");
     }
 
 
@@ -83,7 +83,7 @@ public class _FormDatasourceItemController extends AdminControllerBase {
         List<FormDatasourceItem> formDictItemList = service.findAll();
         setAttr("formDictItemList", formDictItemList);
 
-        render("form/form_dict_item_edit.html");
+        render("form/form_datasource_item_edit.html");
     }
 
     public void doSave() {

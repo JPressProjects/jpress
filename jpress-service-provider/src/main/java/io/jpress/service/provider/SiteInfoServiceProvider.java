@@ -70,6 +70,41 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
         return true;
     }
 
+    /**
+     * 储存 中间表信息 site_lang_mapping
+     *
+     * @param siteId
+     * @param bindLanguages
+     * @return boolean
+     */
+    @Override
+    public boolean saveOrUpdateSiteLangMapping(@NotNull Long siteId, String[] bindLanguages) {
+
+        //查询数据库相记录
+        String findSql = "select lang from site_lang_mapping where site_id = ?";
+        List<Record> records = Db.find(findSql, siteId);
+
+        //如果有记录  才删除所有
+        if (records != null) {
+            String sql = "delete from site_lang_mapping where site_id = ?";
+            Db.delete(sql, siteId);
+        }
+
+
+        //如果 选择的角色  不为零 才添加
+        if (bindLanguages != null && bindLanguages.length > 0) {
+
+            for (String language : bindLanguages) {
+                Record record = new Record();
+                record.set("site_id", siteId);
+                record.set("lang", language);
+                Db.save("site_lang_mapping", record);
+            }
+        }
+
+        return true;
+    }
+
 
     /**
      * 根据用户的 id 查询该用户可操作的站点列表
@@ -97,6 +132,20 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
 
         return records.stream().map(record -> findById(record.getLong("site_id")))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 根据 site_id 查询绑定语言信息
+     *
+     * @param siteId
+     * @return void
+     */
+    @Override
+    public List<Record> findLangBySiteId(@NotNull Long siteId) {
+
+        String sql = "select lang from site_lang_mapping where site_id = ?";
+
+        return Db.find(sql, siteId);
     }
 
     @Override

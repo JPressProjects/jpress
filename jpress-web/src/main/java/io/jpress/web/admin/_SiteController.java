@@ -3,11 +3,13 @@ package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.Regex;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Role;
@@ -15,10 +17,11 @@ import io.jpress.model.SiteInfo;
 import io.jpress.service.RoleService;
 import io.jpress.service.SiteInfoService;
 import io.jpress.web.base.AdminControllerBase;
-
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 @RequestMapping(value = "/admin/site", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _SiteController extends AdminControllerBase {
@@ -38,6 +41,12 @@ public class _SiteController extends AdminControllerBase {
         Page<SiteInfo> page = siteInfoService.paginateByColumns(getPagePara(), getPageSizePara(), columns, "created desc");
         setAttr("page", page);
 
+
+        render("site/site_list.html");
+    }
+
+    public void edit() {
+
         //获取site id
         Long siteId = getLong();
 
@@ -46,6 +55,13 @@ public class _SiteController extends AdminControllerBase {
         if (siteInfo != null) {
             setAttr("siteInfo", siteInfo);
         }
+
+        List<Record> langList = siteInfoService.findLangBySiteId(siteId);
+
+        Set<String> langs = new HashSet<>();
+        langList.forEach(record -> langs.add(record.getStr("lang")));
+        setAttr("currentLans",langs);
+
 
         List<Role> roleList = new ArrayList<>();
 
@@ -58,13 +74,11 @@ public class _SiteController extends AdminControllerBase {
 
         if (!roleList.isEmpty()) {
             setAttr("roleList", roleList);
-
         }
 
+        render("site/site_edit.html");
 
-        render("site/site_list.html");
     }
-
 
     /**
      * 站点数据  保存到数据库
@@ -75,6 +89,23 @@ public class _SiteController extends AdminControllerBase {
 
         if (siteInfo == null) {
             renderFailJson("保存失败");
+            return;
+        }
+
+        if(siteInfo.getName() == null){
+            renderFailJson("请填写名称");
+            return;
+        }
+
+        //如果填写了 域名 但是 域名以 http:// 或者 https:// 开头的 则不行
+        if (siteInfo.getBindDomain() != null && (siteInfo.getBindDomain().startsWith("http://") || siteInfo.getBindDomain().startsWith("https://"))) {
+            renderFailJson("请检查域名");
+            return;
+        }
+
+        //如果用户填写了 二级目录 但是目录不以 / 开头 则不行
+        if(siteInfo.getBindPath() != null && !siteInfo.getBindPath().startsWith("/")){
+            renderFailJson("请检查绑定目录");
             return;
         }
 
@@ -93,6 +124,12 @@ public class _SiteController extends AdminControllerBase {
 //        }
 
         siteInfo.saveOrUpdate();
+
+        //获取所有绑定的语言
+        String[] bindLanguages = getParaValues("bindLang");
+
+        //更新中间表
+        siteInfoService.saveOrUpdateSiteLangMapping(siteInfo.getId(),bindLanguages);
 
         //获取所有id
         Long[] roleIds = getParaValuesToLong("roleId");

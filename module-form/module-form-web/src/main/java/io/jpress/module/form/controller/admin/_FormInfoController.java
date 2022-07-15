@@ -17,6 +17,7 @@ package io.jpress.module.form.controller.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -74,7 +75,47 @@ public class _FormInfoController extends AdminControllerBase {
         renderJson(Ret.ok().set("id", entry.getId()));
     }
 
-    public void changeStatus() {
+
+    /**
+     * 发布
+     */
+    public void doPublish() {
+
+        int entryId = getParaToInt(0, 0);
+
+        FormInfo formInfo = entryId > 0 ? service.findById(entryId) : null;
+
+        if (formInfo == null) {
+            renderError(404);
+            return;
+        }
+
+
+        Ret ret = formInfo.checkAllFields();
+        if (ret.isFail()) {
+            renderJson(ret);
+            return;
+        }
+
+        formInfo.setStatus(FormInfo.FORMINFO_STATUS_PUBLISHED);
+        formInfo.setVersion(formInfo.getVersion() == null ? 1 : formInfo.getVersion() + 1);
+
+//        System.out.println(formInfo.toCreateTableSql());
+
+        Db.update(formInfo.toCreateTableSql());
+
+
+        //改变表单状态 status
+        service.update(formInfo);
+
+        renderOkJson();
+    }
+
+
+    /**
+     * 下架
+     */
+    public void doUnPublish() {
 
         int entryId = getParaToInt(0, 0);
 
@@ -85,13 +126,9 @@ public class _FormInfoController extends AdminControllerBase {
             return;
         }
 
-        //改变表单状态 status
-        if (entry.getStatus() != null && entry.getStatus().equals(FormInfo.FORMINFO_STATUS_INIT)) {
-            entry.setStatus(FormInfo.FORMINFO_STATUS_DEPLOYED);
-        } else if (entry.getStatus() != null && entry.getStatus().equals(FormInfo.FORMINFO_STATUS_DEPLOYED)) {
-            entry.setStatus(FormInfo.FORMINFO_STATUS_INIT);
-        }
+        entry.setStatus(FormInfo.FORMINFO_STATUS_INIT);
 
+        //改变表单状态 status
         service.update(entry);
 
         renderOkJson();
@@ -102,6 +139,7 @@ public class _FormInfoController extends AdminControllerBase {
         Long id = getIdPara();
         render(service.deleteById(id) ? Ret.ok() : Ret.fail());
     }
+
 
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {

@@ -6,10 +6,19 @@ import java.util.Objects;
 
 public class DbFieldInfo {
 
+    private String paraName;
     private String name;
     private String type;
     private Integer typeLen;
     private String comment;
+
+    public String getParaName() {
+        return paraName;
+    }
+
+    public void setParaName(String paraName) {
+        this.paraName = paraName;
+    }
 
     public String getName() {
         return name;
@@ -65,7 +74,30 @@ public class DbFieldInfo {
     public String toSql() {
         //  `name` varchar(64) DEFAULT NULL COMMENT '站点名称'
         //  `created` datetime DEFAULT NULL
-        return "`" + name.trim() + "` " + type + (typeLen == null ? "" : "(" + typeLen + ") ") + "DEFAULT NULL"
+        return "`" + name.trim() + "` " + getTypeAndLen() + " DEFAULT NULL"
                 + (StrUtil.isNotBlank(comment) ? " COMMENT '" + comment.trim() + "'" : "");
+    }
+
+
+    private String getTypeAndLen() {
+        switch (type) {
+            case "varchar":
+                return "varchar(" + typeLen + ")";
+            case "text":
+                return "text";
+            case "int":
+                return "int(" + typeLen + ")";
+            case "boolean":
+                return "int(1)";
+            case "datetime":
+                return "datetime";
+            default:
+                throw new IllegalStateException("not support type: " + type);
+        }
+    }
+
+
+    public boolean isStateOk() {
+        return name != null && !StrUtil.isNumeric(name);
     }
 }

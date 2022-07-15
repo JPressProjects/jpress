@@ -1,6 +1,8 @@
 package io.jpress.module.form.controller.front;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
@@ -36,6 +38,21 @@ public class FormController extends TemplateControllerBase {
      * 提交数据到 form
      */
     public void postData(){
+        Long formId = getParaToLong();
+        if (formId == null){
+            renderError(404);
+            return;
+        }
 
+        FormInfo formInfo = formInfoService.findById(formId);
+        if (formInfo == null || !formInfo.isPublished()){
+            renderError(404);
+            return;
+        }
+        Record record = formInfo.parseRequestToRecord(getRequest());
+
+        Db.save(formInfo.getDataTableName(),record);
+
+        renderOkJson();
     }
 }

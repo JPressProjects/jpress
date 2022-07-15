@@ -56,11 +56,13 @@ public class _SiteController extends AdminControllerBase {
             setAttr("siteInfo", siteInfo);
         }
 
-        List<Record> langList = siteInfoService.findLangBySiteId(siteId);
+        if(siteId != null){
+            List<Record> langList = siteInfoService.findLangBySiteId(siteId);
 
-        Set<String> langs = new HashSet<>();
-        langList.forEach(record -> langs.add(record.getStr("lang")));
-        setAttr("currentLans",langs);
+            Set<String> langs = new HashSet<>();
+            langList.forEach(record -> langs.add(record.getStr("lang")));
+            setAttr("currentLans",langs);
+        }
 
 
         List<Role> roleList = new ArrayList<>();
@@ -93,19 +95,19 @@ public class _SiteController extends AdminControllerBase {
         }
 
         if(siteInfo.getName() == null){
-            renderFailJson("请填写名称");
+            renderFailJson("站点名称不能为空");
             return;
         }
 
         //如果填写了 域名 但是 域名以 http:// 或者 https:// 开头的 则不行
         if (siteInfo.getBindDomain() != null && (siteInfo.getBindDomain().startsWith("http://") || siteInfo.getBindDomain().startsWith("https://"))) {
-            renderFailJson("请检查域名");
+            renderFailJson("域名不能以http://或者https://开头");
             return;
         }
 
         //如果用户填写了 二级目录 但是目录不以 / 开头 则不行
         if(siteInfo.getBindPath() != null && !siteInfo.getBindPath().startsWith("/")){
-            renderFailJson("请检查绑定目录");
+            renderFailJson("绑定目录必须以/开头");
             return;
         }
 

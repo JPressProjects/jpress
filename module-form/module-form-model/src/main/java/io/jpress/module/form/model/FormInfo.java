@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.StrUtil;
 import io.jpress.module.form.model.base.BaseFormInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,10 +29,10 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
             , "range", "radio", "checkbox", "date", "time", "datetime", "switch", "file-upload");
 
 
-    public List<DbFieldInfo> toDbFieldInfo() {
+    public List<FieldInfo> getFieldInfos() {
         String json = getBuilderJson();
         JSONArray datas = JSON.parseArray(json);
-        List<DbFieldInfo> dbFieldInfos = new ArrayList<>();
+        List<FieldInfo> dbFieldInfos = new ArrayList<>();
 
         parseJsonArrayToDbFieldInfos(datas, dbFieldInfos);
 
@@ -39,25 +40,26 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     }
 
 
-    public Ret checkAllFields() {
-        List<DbFieldInfo> dbFieldInfos = toDbFieldInfo();
 
-        Set<String> comments = new HashSet<>();
-        for (DbFieldInfo dbFieldInfo : dbFieldInfos) {
+    public Ret checkAllFields() {
+        List<FieldInfo> fieldInfos = getFieldInfos();
+
+        Set<String> errorLabels = new HashSet<>();
+        for (FieldInfo dbFieldInfo : fieldInfos) {
             if (!dbFieldInfo.isStateOk()) {
-                comments.add(dbFieldInfo.getComment());
+                errorLabels.add(dbFieldInfo.getLabel());
             }
         }
 
-        if (comments.isEmpty()) {
+        if (errorLabels.isEmpty()) {
             return Ret.ok();
         } else {
-            return Ret.fail().set("message", toString(comments, ",") + "的字段名不能为空，或者不能为纯数字。");
+            return Ret.fail().set("message", toString(errorLabels, ",") + "的字段名不能为空，或者不能为纯数字。");
         }
     }
 
 
-    public static String toString(Collection<?> collection, String delimiter) {
+    private static String toString(Collection<?> collection, String delimiter) {
         StringJoiner sb = new StringJoiner(delimiter);
         if (collection != null) {
             for (Object o : collection) {
@@ -66,6 +68,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         }
         return sb.toString();
     }
+
 
 
     public String toCreateTableSql() {
@@ -81,9 +84,9 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         sqlBuilder.append("CREATE TABLE `").append(getDataTableName()).append("` (");
         sqlBuilder.append("`id` int(11) unsigned NOT NULL AUTO_INCREMENT,");
 
-        List<DbFieldInfo> dbFieldInfos = toDbFieldInfo();
-        for (DbFieldInfo dbFieldInfo : dbFieldInfos) {
-            sqlBuilder.append(dbFieldInfo.toSql()).append(",");
+        List<FieldInfo> fieldInfos = getFieldInfos();
+        for (FieldInfo fieldInfo : fieldInfos) {
+            sqlBuilder.append(fieldInfo.toFieldSql()).append(",");
         }
 
         sqlBuilder.append("PRIMARY KEY (`id`)");
@@ -94,11 +97,14 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
 
 
     public Record parseRequestToRecord(HttpServletRequest request) {
-        List<DbFieldInfo> dbFieldInfos = toDbFieldInfo();
+        List<FieldInfo> fieldInfos = getFieldInfos();
 
         Record record = new Record();
-        for (DbFieldInfo fieldInfo : dbFieldInfos) {
-            record.put(fieldInfo.getName(), request.getParameter(fieldInfo.getParaName()));
+        for (FieldInfo fieldInfo : fieldInfos) {
+            String value = request.getParameter(fieldInfo.getParaName());
+            if (StrUtil.isNotBlank(value)) {
+                record.put(fieldInfo.getFieldName(), value);
+            }
         }
 
         return record;
@@ -110,7 +116,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     }
 
 
-    private void parseJsonArrayToDbFieldInfos(JSONArray datas, List<DbFieldInfo> dbFieldInfos) {
+    private void parseJsonArrayToDbFieldInfos(JSONArray datas, List<FieldInfo> dbFieldInfos) {
         if (datas == null || datas.isEmpty()) {
             return;
         }
@@ -134,12 +140,13 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
                 String fieldType = data.getString("field_type");
                 Integer fieldLenth = data.getInteger("field_lenth");
 
-                DbFieldInfo dbFieldInfo = new DbFieldInfo();
+                FieldInfo dbFieldInfo = new FieldInfo();
                 dbFieldInfo.setParaName(data.getString("name"));
-                dbFieldInfo.setName(fieldName);
-                dbFieldInfo.setType(fieldType);
-                dbFieldInfo.setTypeLen(fieldLenth);
-                dbFieldInfo.setComment(data.getString("label"));
+                dbFieldInfo.setShowInList(data.getBoolean("show_list"));
+                dbFieldInfo.setFieldName(fieldName);
+                dbFieldInfo.setFieldType(fieldType);
+                dbFieldInfo.setFieldTypeLen(fieldLenth);
+                dbFieldInfo.setLabel(data.getString("label"));
 
                 dbFieldInfos.add(dbFieldInfo);
             }

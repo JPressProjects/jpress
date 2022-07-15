@@ -55,7 +55,7 @@
             datas: JSON.parse('#(form.builderJson ??)'),
             optionsDatasources: '#(CPATH)/admin/form/formDict/queryDatasources',
 
-            //属性过滤器
+            //属性过滤器，过滤掉非基础组件的数据库相关属性设置
             bsFormPropsFilter: function (allprops, data, bsFromBuilder) {
                 if (data.component.drag.type !== 'base') {
                     var i = allprops.length;
@@ -66,6 +66,7 @@
                     }
                 }
             },
+            unUseComponents:["tab"], //不使用组件 tab
             defaultProps: [
                 {
                     name: 'field',
@@ -112,19 +113,9 @@
                     defaultValue: true,
                     index: 103,
                 },
-            ]
-            //
-            // //禁用 name 和 label 属性
-            // defaultProps: [
-            //     {
-            //         name: "name",
-            //         type: "none",
-            //     },
-            //     {
-            //         name: "label",
-            //         type: "none",
-            //     },
-            // ]
+            ],
+
+
         });
 
         $('.update').on('click', function () {
@@ -181,7 +172,8 @@
                 </div>
             </div>
             <!-- 中间内容 -->
-            <div class="col-md-6  col-sm-4 middleContent bsFormContainer" style="overflow-y:scroll;min-height: auto !important; ">
+            <div class="col-md-6  col-sm-4 middleContent bsFormContainer"
+                 style="overflow-y:scroll;min-height: auto !important; ">
                 <div class="bsFormContainer-placeholder">从左侧拖动到此处开始设计~~~</div>
             </div>
             <!--右侧内容-->

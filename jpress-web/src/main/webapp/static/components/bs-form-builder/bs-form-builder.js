@@ -49,6 +49,7 @@
         onDataChanged: null, //数据更新的监听器
         components: [], //初始化时自定义的组件
         useComponents: [], //使用的组件 use components
+        unUseComponents: [], //不使用的组件
         customRender: null, //自定义渲染方法，支持后端 url，同步方法 和 异步方法
         optionsDatasources: null, // {group:array}
         actionButtons: [
@@ -586,6 +587,9 @@
         //当前的开启的组件
         this.useComponents = options.useComponents || [];
 
+        //不使用的组件
+        this.unUseComponents = options.unUseComponents || [];
+
         //根节点元素
         this.$rootEl = $(element);
 
@@ -938,8 +942,11 @@
             var useComponents = this.options.useComponents;
             if (!useComponents) useComponents = [];
 
+            var unUseComponents = this.options.unUseComponents;
+            if (!unUseComponents) unUseComponents = [];
+
             for (let component of defaultComponents) {
-                if (component && (useComponents.length === 0 || useComponents.indexOf(component.tag) > -1)) {
+                if (component && (useComponents.length === 0 || useComponents.indexOf(component.tag) > -1) && unUseComponents.indexOf(component.tag) === -1) {
                     this.components[component.tag] = component;
                 }
             }
@@ -947,7 +954,7 @@
             //插件定义的 components 定义
             if (window.bsComponentsDef) {
                 for (let component of window.bsComponentsDef) {
-                    if (component && (useComponents.length === 0 || useComponents.indexOf(component.tag) > -1)) {
+                    if (component && (useComponents.length === 0 || useComponents.indexOf(component.tag) > -1) && unUseComponents.indexOf(component.tag) === -1) {
                         this.components[component.tag] = component;
                     }
                 }

@@ -247,7 +247,7 @@ componentsDef.push(...[
             '      <label for="label">{{label}}</label>' +
             '    </div>' +
             '    <div class="flex-auto">' +
-            '      <input type="range" class="form-control" name="{{name}}" id="{{id}}"' +
+            '      <input type="range" class="form-control" min="{{min}}" max="{{max}}" step="{{step}}" name="{{name}}" id="{{id}}"' +
             '        placeholder="{{placeholder}}" value="{{value}}" />' +
             '    </div>' +
             '  </div>' +
@@ -335,31 +335,6 @@ componentsDef.push(...[
 
     },
 
-    //开关
-    {
-        "name": "开关",
-        "tag": "switch",
-        "drag": {
-            "title": "开关",
-            "type": "base",
-            "index": 100,
-            "icon": "bi bi-toggle-on"
-        },
-        "template": '<div class="bsFormItem">' +
-            '  <div class="form-group clearfix">' +
-            '    <div class="form-label-left">' +
-            '      <legend class="col-form-label pt-0">{{label}}</legend>' +
-            '    </div>' +
-            '    <div class="flex-auto">' +
-            '      <div class="custom-control custom-switch">' +
-            '        <input type="checkbox" class="custom-control-input" name="{{name}}" id="{{id}}" />' +
-            '        <label class="custom-control-label" for="{{id}}"></label>' +
-            '      </div>' +
-            '    </div>' +
-            '  </div>' +
-            '</div>',
-
-    },
 
 
     //时间
@@ -394,7 +369,7 @@ componentsDef.push(...[
             "title": "日期",
             "type": "base",
             "index": 100,
-            "icon": "bi bi-calendar2-date"
+            "icon": "bi bi-calendar3"
         },
         "template": '<div class="bsFormItem">' +
             '  <div class="form-group clearfix">' +
@@ -406,6 +381,57 @@ componentsDef.push(...[
             '    </div>' +
             '  </div>' +
             '</div>',
+    },
+
+
+    //日期和时间
+    {
+        "name": "日期和时间",
+        "tag": "datetime",
+        "drag": {
+            "title": "日期和时间",
+            "type": "base",
+            "index": 100,
+            "icon": "bi bi-calendar2-day"
+        },
+        "template": '<div class="bsFormItem">' +
+            '  <div class="form-group clearfix">' +
+            '    <div class="form-label-left">' +
+            '      <label for="label">{{label}}</label>' +
+            '    </div>' +
+            '    <div class="flex-auto">' +
+            '      <input type="datetime-local" class="form-control" name="{{name}}" id="{{id}}" value="{{value}}" />' +
+            '    </div>' +
+            '  </div>' +
+            '</div>',
+    },
+
+
+
+    //开关
+    {
+        "name": "开关",
+        "tag": "switch",
+        "drag": {
+            "title": "开关",
+            "type": "base",
+            "index": 100,
+            "icon": "bi bi-toggle-on"
+        },
+        "template": '<div class="bsFormItem">' +
+            '  <div class="form-group clearfix">' +
+            '    <div class="form-label-left">' +
+            '      <legend class="col-form-label pt-0">{{label}}</legend>' +
+            '    </div>' +
+            '    <div class="flex-auto">' +
+            '      <div class="custom-control custom-switch">' +
+            '        <input type="checkbox" class="custom-control-input" name="{{name}}" id="{{id}}" />' +
+            '        <label class="custom-control-label" for="{{id}}"></label>' +
+            '      </div>' +
+            '    </div>' +
+            '  </div>' +
+            '</div>',
+
     },
 
     //文件上传

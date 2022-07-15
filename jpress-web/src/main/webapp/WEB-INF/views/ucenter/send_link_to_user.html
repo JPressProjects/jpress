@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>重置密码</title>
+    <title>等待验证</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
     <link rel="stylesheet" href="/static/components/aj-captcha/css/verify.css"/>
@@ -30,20 +30,15 @@
     </style>
 
     <script>
-
-
-
-        function inputMobile(){
-            $("#mobile").show();
-            $("#user").hide();
-        }
-
-        function inputUser(){
-            $("#mobile").hide();
-            $("#user").show();
-        }
-
+        // window.onload = function (){
+        //     var token = $("#token").val();
+        //     var isEmail = $("#isEmail").val();
+        //     setTimeout(function (){
+        //         window.location.href = "/user/resetPwd?token="+token+"&isEmail="+isEmail;
+        //     },2000)
+        // }
     </script>
+
 
 </head>
 <body class="hold-transition login-page">
@@ -52,33 +47,19 @@
 
     <div class="login-box">
         <div class="login-logo" style="color: #FFF">
-            重置密码
+            等待验证
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
 
-<!--                <form action="" method="post" class="autoAjaxSubmit" data-ok-href="#para('goto',CPATH + '/ucenter')"-->
                 <form action="" method="post" class="autoAjaxSubmit" data-ok-href=""
                       data-fail-function="">
                     <label>已发送消息到你的账号，请通过消息链接，进行密码重置</label>
-<!--                    <div class="form-group">-->
-<!--                        <label onclick="inputUser()">账号</label>-->
-<!--                        <label style="padding-left: 55%" onclick="inputMobile()">手机号</label>-->
-<!--                        <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" id="user" required>-->
-<!--                        <input type="text" class="form-control" placeholder="请输入手机号" name="mobile" id="mobile" required>-->
-<!--                    </div>-->
-
-
-<!--                    <div class="form-group" style="padding-top: 30px;">-->
-<!--                        <div class="col-12" style="padding-top: 15px">-->
-<!--                            <button type="button" id="getCode" class="btn btn-primary btn-block btn-flat"> 下一步</button>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-
-
-
+                    <label><a href="#(CPATH)/user/login">返回登录页</a></label>
+                    <input type="hidden"  name="token" id="token" value="#(token ??)" />
+                    <input type="hidden" name="email" id="email" value="#(email ??)" />
+                    <input type="hidden" name="isEmail" id="isEmail" value="#(isEmail ??)" />
                 </form>
 
             </div>
@@ -100,59 +81,6 @@
 
 
 </body>
-
-<script  src="/static/components/aj-captcha/js/jquery.min.js"></script>
-<script  src="/static/components/aj-captcha/js/crypto-js.js"></script>
-<script  src="/static/components/aj-captcha/js/ase.js"></script>
-<script  src="/static/components/aj-captcha/js/verify.js"></script>
-
-<script>
-    //文本框单击全选
-    $("input:text").click(function(e){
-        $(this).select();
-    });
-
-    var isRead = false;
-
-    $('body').slideVerify({
-        // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
-        baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
-        containerId: 'getCode',//pop模式 必填 被点击之后出现行为验证码的元素id
-        mode: 'pop',     //展示模式
-        imgSize: {       //图片的大小对象,有默认值{ width: '310px',height: '155px'},可省略
-            width: '400px',
-            height: '200px',
-        },
-        barSize: {          //下方滑块的大小对象,有默认值{ width: '310px',height: '50px'},可省略
-            width: '400px',
-            height: '40px',
-        },
-        beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
-            var user = $('#user').val();
-            if (isRead && !user) {
-                alert("账号不能为空");
-                return false
-            }
-            return true;
-        },
-        //加载完毕的回调
-        ready: function () {
-            isRead = true;
-        },
-        //验证成功
-        success: function (params) {
-            var user = $('#user').val();
-            var data = $.extend({user: user}, params);
-            alert("验证成功");
-
-        },
-
-        error: function () {
-            //失败的回调
-            console.log("slideVerify error...");
-        }
-    });
-</script>
 
 </html>
 

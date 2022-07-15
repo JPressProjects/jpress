@@ -44,6 +44,21 @@ public class EmailKit {
     }
 
     /**
+     * 发送重置密码的链接到邮箱
+     * @param email
+     * @return
+     */
+    public static boolean sendResetPwdLinkToEmail(Email email) {
+
+        SimpleEmailSender emailSender = new SimpleEmailSender();
+
+        if (emailSender.send(email)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 验证用户输入的验证码是否正确
      *
      * @param email

@@ -104,6 +104,11 @@ public class UserServiceProvider extends JPressServiceBase<User> implements User
     }
 
     @Override
+    public User findFirstByMobile(String mobile) {
+        return DAO.findFirstByColumn("mobile", mobile);
+    }
+
+    @Override
     public User findByUsernameOrEmail(String usernameOrEmail) {
         return StrUtil.isEmail(usernameOrEmail)
                 ? DAO.findFirstByColumn("email", usernameOrEmail.trim().toLowerCase())

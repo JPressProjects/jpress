@@ -125,4 +125,10 @@ public interface UserService extends JbootServiceJoiner {
     List<User> findListByTagIds(Columns columns, Object... tagIds);
 
 
+    /**
+     * 根据mobile 查询 model
+     * @param mobile
+     * @return
+     */
+    User findFirstByMobile(String mobile);
 }

@@ -1,10 +1,10 @@
 package io.jpress.module.form.controller.front;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.module.form.model.FormInfo;
+import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.TemplateControllerBase;
 
@@ -17,41 +17,42 @@ public class FormController extends TemplateControllerBase {
     @Inject
     private FormInfoService formInfoService;
 
+    @Inject
+    private FormDataService formDataService;
 
-    public void index(){
+
+    public void index() {
         Long formId = getParaToLong();
-        if (formId == null){
+        if (formId == null) {
             renderError(404);
             return;
         }
 
         FormInfo formInfo = formInfoService.findById(formId);
-        setAttr("formInfo",formInfo);
+        setAttr("formInfo", formInfo);
 
-        render("form.html",DEFAULT_FORM_DETAIL_TEMPLATE);
+        render("form.html", DEFAULT_FORM_DETAIL_TEMPLATE);
     }
-
-
 
 
     /**
      * 提交数据到 form
      */
-    public void postData(){
+    public void postData() {
         Long formId = getParaToLong();
-        if (formId == null){
+        if (formId == null) {
             renderError(404);
             return;
         }
 
         FormInfo formInfo = formInfoService.findById(formId);
-        if (formInfo == null || !formInfo.isPublished()){
+        if (formInfo == null || !formInfo.isPublished()) {
             renderError(404);
             return;
         }
-        Record record = formInfo.parseRequestToRecord(getRequest());
 
-        Db.save(formInfo.getDataTableName(),record);
+        Record record = formInfo.parseRequestToRecord(getRequest());
+        formDataService.save(formInfo.getDataTableName(), record);
 
         renderOkJson();
     }

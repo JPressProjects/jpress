@@ -70,15 +70,15 @@ public class _TemplateBlockController extends AdminControllerBase {
     public void datas() {
         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
 
-        List<BlockContainerDef> blockContainers = currentTemplate.getContainers();
-        if (blockContainers == null || blockContainers.isEmpty()) {
+        List<BlockContainerDef> containerDefs = currentTemplate.getContainerDefs();
+        if (containerDefs == null || containerDefs.isEmpty()) {
             renderJson(Ret.ok());
             return;
         }
 
         JSONArray baseDatas = new JSONArray();
-        for (BlockContainerDef container : blockContainers) {
-            baseDatas.add(container.toBsFormData());
+        for (BlockContainerDef containerDef : containerDefs) {
+            baseDatas.add(containerDef.toBsFormData());
         }
 
 

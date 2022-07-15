@@ -3,7 +3,7 @@ package io.jpress.core.template;
 import java.util.*;
 
 /**
- * 板块容器
+ * 模板的板块容器定义
  */
 public class BlockContainerDef {
 
@@ -60,8 +60,8 @@ public class BlockContainerDef {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        BlockContainerDef container = (BlockContainerDef) o;
-        return Objects.equals(id, container.id);
+        BlockContainerDef containerDef = (BlockContainerDef) o;
+        return Objects.equals(id, containerDef.id);
     }
 
 

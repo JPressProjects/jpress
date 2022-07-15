@@ -24,8 +24,8 @@ public class TemplateUtil {
      * @param templateFile
      * @return
      */
-    public static Set<BlockContainerDef> readBlockContainers(File templateFile) {
-        Set<BlockContainerDef> containers = new HashSet<>();
+    public static Set<BlockContainerDef> readContainerDefs(File templateFile) {
+        Set<BlockContainerDef> containerDefs = new HashSet<>();
         try (BufferedReader in = new BufferedReader(new FileReader(templateFile))) {
             String str;
             while ((str = in.readLine()) != null) {
@@ -37,10 +37,10 @@ public class TemplateUtil {
                     String parasString = str.substring(firstIndexOf, lastIndexOf);
                     String[] paras = parasString.split(",");
 
-                    BlockContainerDef container = new BlockContainerDef();
-                    container.setId(paras[0].substring(1, paras[0].length() - 1));
+                    BlockContainerDef containerDef = new BlockContainerDef();
+                    containerDef.setId(paras[0].substring(1, paras[0].length() - 1));
 
-                    container.setTemplateFile(templateFile.getName());
+                    containerDef.setTemplateFile(templateFile.getName());
 
                     if (paras.length > 1) {
                         for (int i = 1; i < paras.length; i++) {
@@ -50,16 +50,16 @@ public class TemplateUtil {
                             } else if (blockId.endsWith("\"") || blockId.endsWith("'")) {
                                 blockId = blockId.substring(0, blockId.length() - 1);
                             }
-                            container.addSupportBlockId(blockId.trim());
+                            containerDef.addSupportBlockId(blockId.trim());
                         }
                     }
-                    containers.add(container);
+                    containerDefs.add(containerDef);
                 }
             }
         } catch (IOException e) {
             LogKit.error(e.toString(), e);
         }
-        return containers;
+        return containerDefs;
     }
 
 

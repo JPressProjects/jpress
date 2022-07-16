@@ -40,10 +40,10 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     }
 
 
-    public boolean isField(String fieldName){
+    public boolean isField(String fieldName) {
         List<FieldInfo> fieldInfos = getFieldInfos();
         for (FieldInfo fieldInfo : fieldInfos) {
-            if (fieldName.equals(fieldInfo.getFieldName())){
+            if (fieldName.equals(fieldInfo.getFieldName())) {
                 return true;
             }
         }
@@ -51,13 +51,12 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     }
 
 
-
     public Ret checkAllFields() {
         List<FieldInfo> fieldInfos = getFieldInfos();
 
         Set<String> errorLabels = new HashSet<>();
         for (FieldInfo dbFieldInfo : fieldInfos) {
-            if (!dbFieldInfo.isStateOk()) {
+            if (!dbFieldInfo.checkStateOk()) {
                 errorLabels.add(dbFieldInfo.getLabel());
             }
         }
@@ -79,7 +78,6 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         }
         return sb.toString();
     }
-
 
 
     public String toCreateTableSql() {
@@ -111,14 +109,46 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         List<FieldInfo> fieldInfos = getFieldInfos();
 
         Record record = new Record();
+        Map<String, String[]> parameters = request.getParameterMap();
         for (FieldInfo fieldInfo : fieldInfos) {
-            String value = request.getParameter(fieldInfo.getParaName());
-            if (StrUtil.isNotBlank(value)) {
-                record.put(fieldInfo.getFieldName(), value);
+            String[] values = parameters.get(fieldInfo.getParaName());
+            if (values != null && values.length > 0) {
+                String string = toString(values, ",");
+                if (StrUtil.isBlank(string)) {
+                    continue;
+                }
+
+                //检查数据长度
+                if (!fieldInfo.checkValueLen(string)) {
+                    throw new IllegalArgumentException(fieldInfo.getLabel() + "的数据长度过长！");
+                }
+
+                Object value = null;
+                try {
+                    value = fieldInfo.convertValueData(string);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(e.getMessage(), e);
+                }
+
+                if (value != null) {
+                    record.put(fieldInfo.getFieldName(), value);
+                }
             }
         }
 
         return record;
+    }
+
+
+    private static String toString(String[] strings, String delimiter) {
+        StringJoiner sb = new StringJoiner(delimiter);
+        if (strings != null) {
+            for (String o : strings) {
+                sb.add(o);
+            }
+        }
+
+        return sb.toString();
     }
 
 

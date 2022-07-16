@@ -1,6 +1,7 @@
 package io.jpress.module.form.controller.front;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.module.form.model.FormInfo;
@@ -51,8 +52,15 @@ public class FormController extends TemplateControllerBase {
             return;
         }
 
-        Record record = formInfo.parseRequestToRecord(getRequest());
-        formDataService.save(formInfo.getDataTableName(), record);
+        try {
+            // parseRequestToRecord 可能会出现数据转换异常，需要告知前端
+            Record record = formInfo.parseRequestToRecord(getRequest());
+            formDataService.save(formInfo.getDataTableName(), record);
+        }catch (Exception e){
+            renderJson(Ret.fail().set("message",e.getMessage()));
+            return;
+        }
+
 
         renderOkJson();
     }

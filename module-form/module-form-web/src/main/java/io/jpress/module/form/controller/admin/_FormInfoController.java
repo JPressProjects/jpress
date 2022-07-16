@@ -40,7 +40,6 @@ public class _FormInfoController extends AdminControllerBase {
 
     @AdminMenu(text = "表单", groupId = "form", order = 1)
     public void list() {
-
         String name = getPara("name");
         Columns columns = new Columns();
         columns.likeAppendPercent("name", name);

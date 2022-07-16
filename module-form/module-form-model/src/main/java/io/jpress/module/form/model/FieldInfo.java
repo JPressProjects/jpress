@@ -1,7 +1,9 @@
 package io.jpress.module.form.model;
 
+import io.jboot.utils.ObjectUtil;
 import io.jboot.utils.StrUtil;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class FieldInfo {
@@ -118,8 +120,53 @@ public class FieldInfo {
     }
 
 
-    public boolean isStateOk() {
+    public boolean checkStateOk() {
         return fieldName != null && !StrUtil.isNumeric(fieldName);
+    }
+
+
+    /**
+     * 检查数据长度
+     *
+     * @param value
+     * @return
+     */
+    public boolean checkValueLen(String value) {
+        switch (fieldType) {
+            case "varchar":
+                return fieldTypeLen > value.length();
+            case "text":
+                // text 长度：65535
+                return value.length() < 65535;
+            case "int":
+            case "boolean":
+            case "datetime":
+                return true;
+            default:
+                throw new IllegalStateException("not support type: " + fieldType);
+        }
+    }
+
+    /**
+     * 检查数据类型
+     *
+     * @param value
+     * @return
+     */
+    public Object convertValueData(String value) {
+        switch (fieldType) {
+            case "varchar":
+            case "text":
+                return value;
+            case "int":
+                return Long.valueOf(value);
+            case "boolean":
+                return ObjectUtil.convert(value, boolean.class);
+            case "datetime":
+                return ObjectUtil.convert(value, Date.class);
+            default:
+                throw new IllegalStateException("not support type: " + fieldType);
+        }
     }
 
     public boolean isSupportSearch() {

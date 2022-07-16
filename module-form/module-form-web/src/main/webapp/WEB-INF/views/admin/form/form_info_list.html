@@ -14,10 +14,118 @@
     function unPublished(id){
         ajaxGet("/admin/form/doUnPublish/" + id);
     }
-
-
+    $(function () {
+        $(".js-morelist").click(function (e) {
+            e.preventDefault();
+            $(this).parents(".form-operate-bar").next(".form-menu-list").toggle();
+        })
+    })
 
 </script>
+#end
+#define css()
+<style>
+    .form-card {
+        position: relative;
+    width: 100%;
+    height: 176px;
+    padding:18px;
+    background: #fff;
+    box-shadow: -2px 4px 5px 0 rgb(0 0 0 / 6%);
+    float: left;
+    border-radius: 4px;
+    margin-top: 18px;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-size: 12px;
+    margin-right: 18px;
+    /*z-index: 0;*/
+    }
+    .form-card-header{
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        max-height: 45px;
+        width: 185px;
+        text-align: left;
+        color: #484848;
+        font-size: 14px;
+    }
+    .form-card-footer{
+        position: absolute;
+        height: 46px;
+        line-height: 46px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 0 18px;
+        box-sizing: border-box;
+        text-align: left;
+        color: #aaa;
+        font-size:14px;
+    }
+    .float-right{
+        float:right;
+    }
+    .form-collection-state{
+        color: #ffbe3a;
+        margin-top:6px;
+    }
+    .form-operate-bar{
+        display: none;
+        position: absolute;
+        height: 46px;
+        line-height: 46px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 0 18px;
+        box-sizing: border-box;
+        text-align: left;
+        color: #aaa;
+        background: #f7f8fa;
+    }
+    .form-card:hover .form-operate-bar{
+        display: block;
+    }
+    .form-operate-bar a{
+        display: inline-block;
+        font-size:14px;
+        padding:0 10px;
+        color:#707070;
+    }
+    .form-menu-list{
+        display: none;
+        position:absolute;
+        right:-170px;
+        bottom:-18px;
+        width: 180px;
+        background: #fff;
+        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+        border-radius: 2px;
+        border: 1px solid #e8e8e8;
+        padding: 8px 0;
+        z-index:99;
+    }
+    .form-menu-list li{
+        list-style: none;
+    }
+    .form-menu-list li a{
+        display: block;
+        height: 32px;
+        line-height: 32px;
+        background: #fff;
+        color: #484848;
+        font-size: 13px;
+        padding: 0 10px;
+        cursor: pointer;
+        text-align: center;
+    }
+    .form-menu-list  li:hover a{
+        background: #f5f6fa;
+    }
+</style>
 #end
 
 #define content()
@@ -163,6 +271,36 @@
                     </div>
                 </div>
             </div>
+            #for(entry : page.list)
+            <div class="col-md-3">
+                <div class="form-card">
+                    <div class="form-card-header">
+                        #(entry.name ??)
+                    </div>
+                    <div class="form-collection-state">未发布</div>
+                    <div class="form-card-footer">
+                        <span >5份数据</span>
+                        <span class="float-right">1分钟前</span>
+                    </div>
+                    <div class="form-operate-bar">
+                        <a href=""><i class="fa fa-file-text-o" aria-hidden="true"></i>表单设计</a>
+                        <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i>编辑</a>
+                        <a href=""><i class="fa fa-paper-plane" aria-hidden="true"></i>发布</a>
+                        <a href="" class="js-morelist">
+                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul class="form-menu-list">
+                        <li><a href="">表单数据</a></li>
+                        <li><a href="">是否需要审核</a></li>
+                        <li><a href="">是否需要回复</a></li>
+                        <li><a href="">是否需要输入验证码</a></li>
+                        <li><a href="">是否需要对手机号进行验证</a></li>
+                        <li><a href="">删除</a></li>
+                    </ul>
+                </div>
+            </div>
+            #end
         </div>
 
     </section>

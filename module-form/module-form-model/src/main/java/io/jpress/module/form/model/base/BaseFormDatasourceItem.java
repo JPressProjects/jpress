@@ -34,14 +34,14 @@ public abstract class BaseFormDatasourceItem<M extends BaseFormDatasourceItem<M>
 	}
 
     /**
-     * 归属的字典ID
+     * 归属的数据源ID
      */
 	public void setDictId(java.lang.Long dictId) {
 		set("dict_id", dictId);
 	}
 
     /**
-     * 归属的字典ID
+     * 归属的数据源ID
      */
 	public java.lang.Long getDictId() {
 		return getLong("dict_id");

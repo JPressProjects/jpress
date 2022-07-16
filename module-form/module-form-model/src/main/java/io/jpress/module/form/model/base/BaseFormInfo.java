@@ -34,6 +34,34 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
+     * 表单标题（前台）
+     */
+	public void setTitle(java.lang.String title) {
+		set("title", title);
+	}
+
+    /**
+     * 表单标题（前台）
+     */
+	public java.lang.String getTitle() {
+		return getStr("title");
+	}
+
+    /**
+     * 表单描述（前台）
+     */
+	public void setSummary(java.lang.String summary) {
+		set("summary", summary);
+	}
+
+    /**
+     * 表单描述（前台）
+     */
+	public java.lang.String getSummary() {
+		return getStr("summary");
+	}
+
+    /**
      * 表单标识
      */
 	public void setFlag(java.lang.String flag) {
@@ -227,6 +255,20 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
      */
 	public java.lang.Integer getVersion() {
 		return getInt("version");
+	}
+
+    /**
+     * json扩展配置
+     */
+	public void setOptions(java.lang.String options) {
+		set("options", options);
+	}
+
+    /**
+     * json扩展配置
+     */
+	public java.lang.String getOptions() {
+		return getStr("options");
 	}
 
 }

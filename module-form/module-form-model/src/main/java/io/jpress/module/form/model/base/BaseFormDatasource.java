@@ -20,14 +20,14 @@ public abstract class BaseFormDatasource<M extends BaseFormDatasource<M>> extend
 	}
 
     /**
-     * 字典名称
+     * 数据源名称
      */
 	public void setName(java.lang.String name) {
 		set("name", name);
 	}
 
     /**
-     * 字典名称
+     * 数据源名称
      */
 	public java.lang.String getName() {
 		return getStr("name");

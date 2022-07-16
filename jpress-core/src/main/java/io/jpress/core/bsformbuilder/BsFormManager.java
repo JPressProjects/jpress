@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.LogKit;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
@@ -40,9 +41,6 @@ public class BsFormManager {
     private ThreadLocal<Map<String, Object>> TL = new ThreadLocal<>();
 
 
-
-
-
     public void addComponent(BsFormComponent component) {
         allComponents.add(component);
     }
@@ -57,7 +55,8 @@ public class BsFormManager {
     }
 
 
-    public String renderAll(JSONArray datas, boolean withEdit) {
+
+    public String renderAll(JSONArray datas, Record record, boolean withEdit) {
         if (datas == null || datas.isEmpty()) {
             return null;
         }
@@ -67,13 +66,15 @@ public class BsFormManager {
         StringBuilder html = new StringBuilder();
         for (int i = 0; i < datas.size(); i++) {
             JSONObject componentData = datas.getJSONObject(i);
-            html.append(renderComponentDataToHtml(componentData, withEdit));
+            html.append(renderComponentDataToHtml(componentData, record, withEdit));
         }
 
         return html.toString();
     }
 
-    public String renderComponentDataToHtml(JSONObject componentData, boolean withEdit) {
+
+
+    public String renderComponentDataToHtml(JSONObject componentData, Record record, boolean withEdit) {
         String tag = componentData.getString("tag");
         if (StrUtil.isBlank(tag)) {
             return "";
@@ -99,7 +100,7 @@ public class BsFormManager {
                 dataArray.sort(Comparator.comparingInt(o -> ((JSONObject) o).getInteger("index")));
                 StringBuilder childrenHtml = new StringBuilder();
                 for (Object childComponentData : dataArray) {
-                    childrenHtml.append(renderComponentDataToHtml((JSONObject) childComponentData, withEdit));
+                    childrenHtml.append(renderComponentDataToHtml((JSONObject) childComponentData, record, withEdit));
                 }
                 htmls.put(Integer.parseInt(key), childrenHtml.toString());
             }

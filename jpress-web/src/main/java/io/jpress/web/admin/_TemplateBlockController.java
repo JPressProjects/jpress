@@ -133,7 +133,7 @@ public class _TemplateBlockController extends AdminControllerBase {
      * @param componentData
      */
     public void render(@JsonBody JSONObject componentData) {
-        String html = BlockManager.me().renderComponentDataToHtml(componentData,true);
+        String html = BlockManager.me().renderComponentDataToHtml(componentData,null,true);
         renderHtml(html);
     }
 

@@ -39,6 +39,9 @@ public class _FormDataController extends AdminControllerBase {
     private FormDataService formDataService;
 
 
+    /**
+     * 数据列表
+     */
     public void index() {
         FormInfo formInfo = formInfoService.findById(getParaToLong());
         setAttr("form", formInfo);
@@ -61,6 +64,33 @@ public class _FormDataController extends AdminControllerBase {
 
 
         render("form/form_data_list.html");
+    }
+
+
+    /**
+     * 数据详情
+     */
+    public void detail() {
+
+        Long formId = getParaToLong();
+        if (formId == null) {
+            renderError(404);
+            return;
+        }
+
+        FormInfo formInfo = formInfoService.findById(formId);
+        if (formInfo == null) {
+            renderError(404);
+            return;
+        }
+        setAttr("formInfo", formInfo);
+
+
+        Record record = formDataService.findById(formInfo.getDataTableName(), getParaToLong("id"));
+        setAttr("data", record);
+
+
+        render("form/form_data_detail.html");
     }
 
 

@@ -8,6 +8,14 @@ public interface FormDataService {
 
 
     /**
+     * 根据 ID 查找
+     * @param tableName
+     * @param dataId
+     * @return
+     */
+    Record findById(String tableName, Long dataId);
+
+    /**
      * 保存到数据库
      *
      * @param tableName

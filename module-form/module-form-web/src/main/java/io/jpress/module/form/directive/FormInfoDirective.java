@@ -55,7 +55,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
         String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" +
                 "</form>";
 
-        String html = FormManager.me().renderAll(datas, false);
+        String html = FormManager.me().renderAll(datas, null, false);
         renderText(writer, htmlStart + html + htmlEnd);
     }
 }

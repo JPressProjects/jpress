@@ -148,7 +148,7 @@ public class FieldInfo {
     }
 
     /**
-     * 检查数据类型
+     * 数据转换
      *
      * @param value
      * @return

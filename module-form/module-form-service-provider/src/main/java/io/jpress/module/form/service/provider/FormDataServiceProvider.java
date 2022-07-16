@@ -11,6 +11,11 @@ import io.jpress.module.form.service.FormDataService;
 public class FormDataServiceProvider implements FormDataService {
 
     @Override
+    public Record findById(String tableName, Long dataId) {
+        return Db.findById(tableName, dataId);
+    }
+
+    @Override
     public Object save(String tableName, Record record) {
         return Db.save(tableName, record);
     }

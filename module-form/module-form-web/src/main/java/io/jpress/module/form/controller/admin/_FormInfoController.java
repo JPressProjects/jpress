@@ -32,7 +32,7 @@ import io.jpress.web.base.AdminControllerBase;
 import java.util.Date;
 
 
-@RequestMapping(value = "/admin/form/forminfo", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/form", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _FormInfoController extends AdminControllerBase {
 
     @Inject

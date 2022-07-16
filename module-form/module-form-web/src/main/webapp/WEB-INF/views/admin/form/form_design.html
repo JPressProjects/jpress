@@ -126,7 +126,7 @@
 
         $('.update').on('click', function () {
             var datas = $('#builder').bsFormBuilder().data("bsFormBuilder").exportToJson();
-            ajaxPost('#(CPATH)/admin/form/forminfo/design/save?id=#(form.id ??)', datas, function () {
+            ajaxPost('#(CPATH)/admin/form/design/save?id=#(form.id ??)', datas, function () {
                 showMessage("保存成功！")
             })
         });

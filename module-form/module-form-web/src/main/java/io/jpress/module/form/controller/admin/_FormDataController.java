@@ -16,33 +16,39 @@
 package io.jpress.module.form.controller.admin;
 
 import com.jfinal.aop.Inject;
+import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.module.form.model.FormInfo;
+import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
 
-@RequestMapping(value = "/admin/form/design", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class _FormDesignController extends AdminControllerBase {
+@RequestMapping(value = "/admin/form/data", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+public class _FormDataController extends AdminControllerBase {
 
     @Inject
-    private FormInfoService service;
+    private FormInfoService formInfoService;
+
+    @Inject
+    private FormDataService formDataService;
+
+
 
     public void index() {
-        FormInfo formInfo = service.findById(getParaToLong());
+        FormInfo formInfo = formInfoService.findById(getParaToLong());
         setAttr("form",formInfo);
-        render("form/form_design.html");
+
+
+        Page<Record> page = formDataService.paginate(formInfo.getDataTableName(), getPagePara(), getPageSizePara());
+        setAttr("page",page);
+
+
+        render("form/form_data_list.html");
     }
 
-
-    public void save(){
-        FormInfo formInfo = service.findById(getParaToLong("id"));
-        formInfo.setBuilderJson(getRawData());
-        service.update(formInfo);
-
-        renderOkJson();
-    }
 
 
 }

@@ -29,6 +29,17 @@ public interface FormDataService {
 
     /**
      * 分页
+     * @param tableName
+     * @param page
+     * @param pageSize
+     * @param orderBy
+     * @return
+     */
+    public Page<Record> paginate(String tableName, int page, int pageSize, String orderBy);
+
+
+    /**
+     * 分页
      *
      * @param page
      * @param pageSize

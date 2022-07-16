@@ -9,7 +9,8 @@ public class FieldInfo {
     private String label;
 
     private String paraName;
-    private boolean showInList = true;
+    private Boolean showInList = true;
+    private Boolean withSearch = false;
 
     private String fieldName;
     private String fieldType;
@@ -32,12 +33,20 @@ public class FieldInfo {
         this.paraName = paraName;
     }
 
-    public boolean isShowInList() {
+    public Boolean getShowInList() {
         return showInList;
     }
 
-    public void setShowInList(boolean showInList) {
+    public void setShowInList(Boolean showInList) {
         this.showInList = showInList;
+    }
+
+    public Boolean getWithSearch() {
+        return withSearch;
+    }
+
+    public void setWithSearch(Boolean withSearch) {
+        this.withSearch = withSearch;
     }
 
     public String getFieldName() {
@@ -111,5 +120,9 @@ public class FieldInfo {
 
     public boolean isStateOk() {
         return fieldName != null && !StrUtil.isNumeric(fieldName);
+    }
+
+    public boolean isSupportSearch() {
+        return withSearch != null && withSearch && showInList != null && showInList;
     }
 }

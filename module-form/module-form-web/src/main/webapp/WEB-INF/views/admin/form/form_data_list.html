@@ -56,12 +56,16 @@
                 <div class="card card-outline card-primary">
                     <div class="card-header with-border">
 
-                        <form class=" admin-search-panel" action="/admin/form/formInfo/list" method="get">
+                        <form class=" admin-search-panel" action="" method="get">
                             <div class="row">
 
+                                #for(field : form.fieldInfos)
+                                #if(field.isSupportSearch())
                                 <div class="form-group col-lg-2">
-                                    <input type="text" class="form-control" placeholder="请输入名称" name="name" value="#para('name')">
+                                    <input type="text" class="form-control" placeholder="请输入#(field.label ??)" name="#(field.fieldName ??)" value="#para(field.fieldName ??'')">
                                 </div>
+                                #end
+                                #end
 
                                 <div class="form-group col-lg-2">
                                     <button type="submit" class="btn btn-primary ">查询</button>
@@ -81,7 +85,7 @@
 	                                </th>
 
                                     #for(field : form.fieldInfos)
-                                    #if(field.isShowInList())
+                                    #if(field.showInList)
 	                                <th style="width: 150px">#(field.label ??)</th>
                                      #end
                                      #end
@@ -90,7 +94,7 @@
                             <tr>
                                 <td><input name="tableItem" type="checkbox" value="#(entry.id)" /></td>
                                 #for(field : form.fieldInfos)
-                                #if(field.isShowInList())
+                                #if(field.showInList)
                                     <td>#(entry.get(field.fieldName) ??)</td>
                                 #end
                                 #end

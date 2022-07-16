@@ -18,12 +18,15 @@ package io.jpress.module.form.controller.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
+
+import java.util.Map;
 
 
 @RequestMapping(value = "/admin/form/data", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -36,19 +39,29 @@ public class _FormDataController extends AdminControllerBase {
     private FormDataService formDataService;
 
 
-
     public void index() {
         FormInfo formInfo = formInfoService.findById(getParaToLong());
-        setAttr("form",formInfo);
+        setAttr("form", formInfo);
+
+        Columns columns = Columns.create();
 
 
-        Page<Record> page = formDataService.paginate(formInfo.getDataTableName(), getPagePara(), getPageSizePara());
-        setAttr("page",page);
+        Map<String, String> paras = getParas();
+        if (paras != null) {
+            paras.forEach((s, s2) -> {
+                if (formInfo.isField(s)) {
+                    columns.likeAppendPercent(s, s2);
+                }
+            });
+        }
+
+
+        Page<Record> page = formDataService.paginateByColumns(formInfo.getDataTableName(), getPagePara(), getPageSizePara(), columns);
+        setAttr("page", page);
 
 
         render("form/form_data_list.html");
     }
-
 
 
 }

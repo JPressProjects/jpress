@@ -32,11 +32,22 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     public List<FieldInfo> getFieldInfos() {
         String json = getBuilderJson();
         JSONArray datas = JSON.parseArray(json);
-        List<FieldInfo> dbFieldInfos = new ArrayList<>();
+        List<FieldInfo> fieldInfos = new ArrayList<>();
 
-        parseJsonArrayToDbFieldInfos(datas, dbFieldInfos);
+        parseJsonArrayToDbFieldInfos(datas, fieldInfos);
 
-        return dbFieldInfos;
+        return fieldInfos;
+    }
+
+
+    public boolean isField(String fieldName){
+        List<FieldInfo> fieldInfos = getFieldInfos();
+        for (FieldInfo fieldInfo : fieldInfos) {
+            if (fieldName.equals(fieldInfo.getFieldName())){
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -143,6 +154,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
                 FieldInfo dbFieldInfo = new FieldInfo();
                 dbFieldInfo.setParaName(data.getString("name"));
                 dbFieldInfo.setShowInList(data.getBoolean("show_list"));
+                dbFieldInfo.setWithSearch(data.getBoolean("with_search"));
                 dbFieldInfo.setFieldName(fieldName);
                 dbFieldInfo.setFieldType(fieldType);
                 dbFieldInfo.setFieldTypeLen(fieldLenth);

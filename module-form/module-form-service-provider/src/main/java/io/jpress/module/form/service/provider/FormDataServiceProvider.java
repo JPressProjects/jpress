@@ -18,18 +18,29 @@ public class FormDataServiceProvider implements FormDataService {
 
     @Override
     public Page<Record> paginate(String tableName, int page, int pageSize) {
-        return Db.paginate(page, pageSize, "select * ", "from " + tableName + " order by id desc");
+        return paginate(tableName, page, pageSize, "id desc");
+    }
+
+
+    @Override
+    public Page<Record> paginate(String tableName, int page, int pageSize, String orderBy) {
+        return Db.paginate(page, pageSize, "select * ", "from " + tableName + " order by " + orderBy);
     }
 
     @Override
     public Page<Record> paginateByColumns(String tableName, int page, int pageSize, Columns columns) {
-        String wherePartSql = columns.toWherePartSql();
-        return Db.paginate(page, pageSize, "select * ", "from " + tableName + " where " + wherePartSql);
+        return paginateByColumns(tableName, page, pageSize, columns, "id desc");
     }
 
     @Override
     public Page<Record> paginateByColumns(String tableName, int page, int pageSize, Columns columns, String orderBy) {
-        String wherePartSql = columns.toWherePartSql();
-        return Db.paginate(page, pageSize, "select * ", "from " + tableName + " where " + wherePartSql + " order by " + orderBy);
+        if (columns == null || columns.isEmpty()) {
+            return paginate(tableName, page, pageSize, orderBy);
+        } else {
+            String wherePartSql = columns.toWherePartSql();
+            return Db.paginate(page, pageSize, "select * "
+                    , "from " + tableName + " where " + wherePartSql + " order by " + orderBy
+                    , columns.getValueArray());
+        }
     }
 }

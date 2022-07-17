@@ -68,6 +68,23 @@ public class _FormDataController extends AdminControllerBase {
 
 
     /**
+     * 删除数据
+     */
+    public void doDel(){
+        FormInfo formInfo = formInfoService.findById(getParaToLong());
+        setAttr("form", formInfo);
+
+        if (formInfo == null){
+            renderFailJson();
+            return;
+        }
+
+        formDataService.deleteById(formInfo.getDataTableName(),getParaToLong("id"));
+        renderOkJson();
+    }
+
+
+    /**
      * 数据详情
      */
     public void detail() {

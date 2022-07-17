@@ -91,7 +91,8 @@
                                 #end
                                 <td>
                                     <a style="color: #006505" href="#(CPATH)/admin/form/data/detail?formId=#(form.id ??)&dataId=#(entry.id ??)">详情</a>
-                                    <a style="color: #a00" href="#(CPATH)/admin/form/data/detail?formId=#(form.id ??)&dataId=#(entry.id ??)">删除</a>
+                                    <a style="color: #a00" href="#(CPATH)/admin/form/data/doDel/#(form.id ??)?id=#(entry.id ??)"
+                                       open-type="del-confirm">删除</a>
                                 </td>
                             </tr>
                             #end

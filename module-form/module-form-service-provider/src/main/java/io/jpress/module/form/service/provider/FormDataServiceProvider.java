@@ -12,7 +12,20 @@ public class FormDataServiceProvider implements FormDataService {
 
     @Override
     public Record findById(String tableName, Long dataId) {
+        if (tableName == null || dataId == null){
+            return null;
+        }
+
         return Db.findById(tableName, dataId);
+    }
+
+    @Override
+    public void deleteById(String tableName, Long dataId) {
+        if (tableName == null || dataId == null){
+            return;
+        }
+
+        Db.deleteById(tableName,dataId);
     }
 
     @Override

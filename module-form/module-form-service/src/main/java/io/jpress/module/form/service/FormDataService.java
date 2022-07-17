@@ -9,11 +9,21 @@ public interface FormDataService {
 
     /**
      * 根据 ID 查找
+     *
      * @param tableName
      * @param dataId
      * @return
      */
     Record findById(String tableName, Long dataId);
+
+
+    /**
+     * 根据 id 删除
+     *
+     * @param tableName
+     * @param dataId
+     */
+    void deleteById(String tableName, Long dataId);
 
     /**
      * 保存到数据库
@@ -37,6 +47,7 @@ public interface FormDataService {
 
     /**
      * 分页
+     *
      * @param tableName
      * @param page
      * @param pageSize

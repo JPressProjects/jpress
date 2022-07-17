@@ -7,6 +7,8 @@ import com.google.common.collect.Sets;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.db.annotation.Table;
+import io.jboot.utils.ArrayUtil;
+import io.jboot.utils.CollectionUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.module.form.model.base.BaseFormInfo;
 
@@ -64,20 +66,10 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         if (errorLabels.isEmpty()) {
             return Ret.ok();
         } else {
-            return Ret.fail().set("message", toString(errorLabels, ",") + "的字段名不能为空，或者不能为纯数字。");
+            return Ret.fail().set("message", CollectionUtil.toString(errorLabels, ",") + "的字段名不能为空，或者不能为纯数字。");
         }
     }
 
-
-    private static String toString(Collection<?> collection, String delimiter) {
-        StringJoiner sb = new StringJoiner(delimiter);
-        if (collection != null) {
-            for (Object o : collection) {
-                sb.add(String.valueOf(o));
-            }
-        }
-        return sb.toString();
-    }
 
 
     public String toCreateTableSql() {
@@ -113,7 +105,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         for (FieldInfo fieldInfo : fieldInfos) {
             String[] values = parameters.get(fieldInfo.getParaName());
             if (values != null && values.length > 0) {
-                String string = toString(values, ",");
+                String string = ArrayUtil.toString(values, ",");
                 if (StrUtil.isBlank(string)) {
                     continue;
                 }
@@ -139,17 +131,6 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         return record;
     }
 
-
-    private static String toString(String[] strings, String delimiter) {
-        StringJoiner sb = new StringJoiner(delimiter);
-        if (strings != null) {
-            for (String o : strings) {
-                sb.add(o);
-            }
-        }
-
-        return sb.toString();
-    }
 
 
     public String getCurrentTableName() {

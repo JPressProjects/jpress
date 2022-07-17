@@ -7,13 +7,14 @@
         ajaxGet("/admin/form/doDel/" + id);
     }
 
-    function published(id){
+    function published(id) {
         ajaxGet("/admin/form/doPublish/" + id);
     }
 
-    function unPublished(id){
+    function unPublished(id) {
         ajaxGet("/admin/form/doUnPublish/" + id);
     }
+
     $(function () {
         $(".js-morelist").click(function (e) {
             e.preventDefault();
@@ -27,21 +28,23 @@
 <style>
     .form-card {
         position: relative;
-    width: 100%;
-    height: 176px;
-    padding:18px;
-    background: #fff;
-    box-shadow: -2px 4px 5px 0 rgb(0 0 0 / 6%);
-    float: left;
-    border-radius: 4px;
-    margin-top: 18px;
-    cursor: pointer;
-    box-sizing: border-box;
-    font-size: 12px;
-    margin-right: 18px;
-    /*z-index: 0;*/
+        width: 100%;
+        height: 176px;
+        padding: 18px;
+        background: #fff;
+        box-shadow: -2px 4px 5px 0 rgb(0 0 0 / 6%);
+        float: left;
+        border-radius: 4px;
+        margin-top: 18px;
+        cursor: pointer;
+        box-sizing: border-box;
+        font-size: 12px;
+        margin-right: 18px;
+        /*z-index: 0;*/
+        border: solid 1px #eee;
     }
-    .form-card-header{
+
+    .form-card-header {
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
@@ -52,7 +55,8 @@
         color: #484848;
         font-size: 14px;
     }
-    .form-card-footer{
+
+    .form-card-footer {
         position: absolute;
         height: 46px;
         line-height: 46px;
@@ -63,16 +67,19 @@
         box-sizing: border-box;
         text-align: left;
         color: #aaa;
-        font-size:14px;
+        font-size: 14px;
     }
-    .float-right{
-        float:right;
+
+    .float-right {
+        float: right;
     }
-    .form-collection-state{
+
+    .form-collection-state {
         color: #ffbe3a;
-        margin-top:6px;
+        margin-top: 6px;
     }
-    .form-operate-bar{
+
+    .form-operate-bar {
         display: none;
         position: absolute;
         height: 46px;
@@ -86,32 +93,37 @@
         color: #aaa;
         background: #f7f8fa;
     }
-    .form-card:hover .form-operate-bar{
+
+    .form-card:hover .form-operate-bar {
         display: block;
     }
-    .form-operate-bar a{
+
+    .form-operate-bar a {
         display: inline-block;
-        font-size:14px;
-        padding:0 10px;
-        color:#707070;
+        font-size: 14px;
+        padding: 0 10px;
+        color: #707070;
     }
-    .form-menu-list{
+
+    .form-menu-list {
         display: none;
-        position:absolute;
-        right:-170px;
-        bottom:-18px;
+        position: absolute;
+        right: -170px;
+        bottom: -18px;
         width: 180px;
         background: #fff;
         box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
         border-radius: 2px;
         border: 1px solid #e8e8e8;
         padding: 8px 0;
-        z-index:99;
+        z-index: 99;
     }
-    .form-menu-list li{
+
+    .form-menu-list li {
         list-style: none;
     }
-    .form-menu-list li a{
+
+    .form-menu-list li a {
         display: block;
         height: 32px;
         line-height: 32px;
@@ -122,7 +134,8 @@
         cursor: pointer;
         text-align: center;
     }
-    .form-menu-list  li:hover a{
+
+    .form-menu-list li:hover a {
         background: #f5f6fa;
     }
 </style>
@@ -130,178 +143,127 @@
 
 #define content()
 
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <h1>
-                                表单管理
-                                <small data-toggle="tooltip" title="" data-placement="right"
-                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / 表单 / 表单管理</small>
-                            </h1>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            表单管理
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 表单 / 表单管理</small>
+                        </h1>
 
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 ">
+                <div class=" float-sm-right" style="padding-top: 15px">
+                    <a href="edit" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline card-primary">
+                <div class="card-header with-border">
+
+                    <form class=" admin-search-panel" action="/admin/form/formInfo/list" method="get">
+                        <div class="row">
+
+                            <div class="form-group col-lg-2">
+                                <input type="text" class="form-control" placeholder="请输入名称" name="name"
+                                       value="#para('name')">
+                            </div>
+
+                            <div class="form-group col-lg-2">
+                                <button type="submit" class="btn btn-primary ">查询</button>
+                                <button type="reset" class="btn btn-default">重置</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="card-body row">
+
+                    #for(entry : page.list)
+                    <div class="col-md-3">
+                        <div class="form-card">
+                            <a href="#(CPATH)/admin/form/data/#(entry.id ??)">
+                                <div class="form-card-header">
+                                    #(entry.name ??)
+                                </div>
+                                <div class="form-collection-state">未发布</div>
+                                <div class="form-card-footer">
+                                    <span>5份数据</span>
+                                    <span class="float-right">1分钟前</span>
+                                </div>
+                            </a>
+                            <div class="form-operate-bar">
+                                <a href=""><i class="fa fa-file-text-o" aria-hidden="true"></i>表单设计</a>
+                                <a href="#(CPATH)/admin/form/edit/#(entry.id ??)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>编辑</a>
+                                <a href=""><i class="fa fa-paper-plane" aria-hidden="true"></i> 发布</a>
+<!--                                <a href="" class="js-morelist">-->
+<!--                                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>-->
+<!--                                </a>-->
+                            </div>
+<!--                            <ul class="form-menu-list">-->
+<!--                                <li><a href="">表单数据</a></li>-->
+<!--                                <li><a href="">是否需要审核</a></li>-->
+<!--                                <li><a href="">是否需要回复</a></li>-->
+<!--                                <li><a href="">是否需要输入验证码</a></li>-->
+<!--                                <li><a href="">是否需要对手机号进行验证</a></li>-->
+<!--                                <li><a href="">删除</a></li>-->
+<!--                            </ul>-->
                         </div>
                     </div>
+                    #end
+
                 </div>
-
-                <div class="col-sm-6 ">
-                    <div class=" float-sm-right" style="padding-top: 15px">
-                        <a href="edit" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
-
-                        <form class=" admin-search-panel" action="/admin/form/formInfo/list" method="get">
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
                             <div class="row">
 
-                                <div class="form-group col-lg-2">
-                                    <input type="text" class="form-control" placeholder="请输入名称" name="name" value="#para('name')">
-                                </div>
-
-                                <div class="form-group col-lg-2">
-                                    <button type="submit" class="btn btn-primary ">查询</button>
-                                    <button type="reset" class="btn btn-default">重置</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                    <div class="card-body p-0">
-
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 10px">
-	                                    <input class="tableCheckAll" type="checkbox"/>
-	                                </th>
-	                                <th style="width: 150px">表单名称</th>
-	                                <th style="width: 100px">缩略图</th>
-	                                <th style="width: 100px">是否需要审核</th>
-	                                <th style="width: 100px">是否需要回复</th>
-	                                <th style="width: 100px">是否需要输入验证码</th>
-	                                <th style="width: 100px">是否需要对手机号进行验证</th>
-                            </tr>
-                            #for(entry : page.list)
-                            <tr>
-                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" /></td>
-                                <td>
-                                #(entry.name ??) #if(entry.status == 'init') (未发布) #else if(entry.status == 'published') (已发布) #end
-                                    <div class="jp-action-card">
-                                        <div class="jp-action-body">
-                                            <a href="/admin/form/data/#(entry.id)">数据</a> |
-                                            <a href="/admin/form/design/#(entry.id)">表单设计</a> |
-                                            <a href="/admin/form/edit/#(entry.id)">编辑</a> |
-
-                                            #if(entry.status == 'init')
-                                            <a href="javascript:;" onclick="published('#(entry.id)')">发布</a> |
-                                            #else
-                                            <a href="javascript:;" onclick="unPublished('#(entry.id)')">下架</a> |
-                                            #end
-                                            <a href="javascript:;" class="red-action" onclick="doDel('#(entry.id)')">删除</a>
-                                        </div>
-                                    </div>
-                                </td>
-	                                <td>
-                                        <img #if(entry.thumbnail ??) src="#(entry.thumbnail ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 40%;width: 40%">
-                                    </td>
-
-                                   <td>#if(entry.with_audit ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                                       #else <i class="fa fa-2x fa-toggle-off"></i> #end
-                                   </td>
-
-	                                <td>#if(entry.with_reply ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end
-                                    </td>
-
-	                                <td>#if(entry.with_valid ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end
-                                    </td>
-
-	                                <td>#if(entry.with_valid_mobile ??)<i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                                        #else <i class="fa fa-2x fa-toggle-off"></i> #end
-                                    </td>
-                            </tr>
-                            #end
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="row">
-
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
-                                            <label class="form-check-label" for="checkall">全选</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-3">
-                                        <select class="form-control" name="action">
-                                            <option value="">请选择...</option>
-                                            <option value="doDelByIds" open-type="del-confirm">
-                                                批量删除
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-lg-3">
-                                        <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input tableCheckAll" id="checkall" type="checkbox">
+                                        <label class="form-check-label" for="checkall">全选</label>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="form-group col-lg-3">
+                                    <select class="form-control" name="action">
+                                        <option value="">请选择...</option>
+                                        <option value="doDelByIds" open-type="del-confirm">
+                                            批量删除
+                                        </option>
+                                    </select>
+                                </div>
 
-                            <div class="col-sm-6">
-                                #@_paginate()
+                                <div class="form-group col-lg-3">
+                                    <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                                </div>
                             </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            #@_paginate()
                         </div>
                     </div>
                 </div>
             </div>
-            #for(entry : page.list)
-            <div class="col-md-3">
-                <div class="form-card">
-                    <div class="form-card-header">
-                        #(entry.name ??)
-                    </div>
-                    <div class="form-collection-state">未发布</div>
-                    <div class="form-card-footer">
-                        <span >5份数据</span>
-                        <span class="float-right">1分钟前</span>
-                    </div>
-                    <div class="form-operate-bar">
-                        <a href=""><i class="fa fa-file-text-o" aria-hidden="true"></i>表单设计</a>
-                        <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i>编辑</a>
-                        <a href=""><i class="fa fa-paper-plane" aria-hidden="true"></i>发布</a>
-                        <a href="" class="js-morelist">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    <ul class="form-menu-list">
-                        <li><a href="">表单数据</a></li>
-                        <li><a href="">是否需要审核</a></li>
-                        <li><a href="">是否需要回复</a></li>
-                        <li><a href="">是否需要输入验证码</a></li>
-                        <li><a href="">是否需要对手机号进行验证</a></li>
-                        <li><a href="">删除</a></li>
-                    </ul>
-                </div>
-            </div>
-            #end
         </div>
 
-    </section>
+    </div>
+
+</section>
 #end

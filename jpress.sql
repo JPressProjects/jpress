@@ -7,7 +7,7 @@
 #
 # 主机: 192.168.1.2 (MySQL 5.7.31)
 # 数据库: jpress
-# 生成时间: 2022-07-15 10:33:24 +0000
+# 生成时间: 2022-07-17 09:50:22 +0000
 # ************************************************************
 
 
@@ -294,7 +294,9 @@ VALUES
 	(88,1,NULL,'course.png',NULL,'/attachment/20220712/b1cdbdef0968417da31b68cdf196f5a9.png','image/png','.png',NULL,NULL,0,1,'2022-07-12 16:35:58',NULL),
 	(89,1,NULL,'course2.png',NULL,'/attachment/20220712/dc5b0af6e5b041458ab95aafe9c2dd81.png','image/png','.png',NULL,NULL,0,1,'2022-07-12 16:43:03',NULL),
 	(90,1,NULL,'video.mp4',NULL,'/attachment/20220713/a01cc06232504566a334a76a0cce428b.mp4','video/mp4','.mp4',NULL,NULL,0,1,'2022-07-13 14:13:39',NULL),
-	(91,1,NULL,'video.mp4',NULL,'/attachment/20220713/eff549d146444a0192ceed6a0605a597.mp4','video/mp4','.mp4',NULL,NULL,0,1,'2022-07-13 14:15:26',NULL);
+	(91,1,NULL,'video.mp4',NULL,'/attachment/20220713/eff549d146444a0192ceed6a0605a597.mp4','video/mp4','.mp4',NULL,NULL,0,1,'2022-07-13 14:15:26',NULL),
+	(92,1,NULL,'3123111.jpeg',NULL,'/attachment/20220717/bceb825c9d224f8fb1316f4bab29d13d.jpeg','image/jpeg','.jpeg',NULL,NULL,0,1,'2022-07-17 17:03:15',NULL),
+	(93,1,NULL,'111123123213123.jpeg',NULL,'/attachment/20220717/7b9cb0991458403b80397f01debe3006.jpeg','image/jpeg','.jpeg',NULL,NULL,0,1,'2022-07-17 17:08:54',NULL);
 
 /*!40000 ALTER TABLE `attachment` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -411,6 +413,32 @@ VALUES
 UNLOCK TABLES;
 
 
+# 转储表 form_data_3_12
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `form_data_3_12`;
+
+CREATE TABLE `form_data_3_12` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ssss` varchar(11) DEFAULT NULL COMMENT '姓名',
+  `bbbb` text COMMENT '描述',
+  `s1` varchar(11) DEFAULT NULL COMMENT '单选框',
+  `s2` varchar(11) DEFAULT NULL COMMENT '复选框',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+LOCK TABLES `form_data_3_12` WRITE;
+/*!40000 ALTER TABLE `form_data_3_12` DISABLE KEYS */;
+
+INSERT INTO `form_data_3_12` (`id`, `ssss`, `bbbb`, `s1`, `s2`)
+VALUES
+	(1,'aaa','bbb','value1','value2'),
+	(2,'ccc','ddd','value2','value1');
+
+/*!40000 ALTER TABLE `form_data_3_12` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 # 转储表 form_datasource
 # ------------------------------------------------------------
 
@@ -478,6 +506,8 @@ DROP TABLE IF EXISTS `form_info`;
 CREATE TABLE `form_info` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(128) DEFAULT NULL COMMENT '表单名称',
+  `title` varchar(256) DEFAULT NULL COMMENT '表单标题（前台）',
+  `summary` text COMMENT '表单描述（前台）',
   `flag` varchar(32) DEFAULT NULL COMMENT '表单标识',
   `thumbnail` varchar(512) DEFAULT NULL COMMENT '缩略图',
   `bg_image` varchar(512) DEFAULT NULL COMMENT '表单背景图',
@@ -492,16 +522,17 @@ CREATE TABLE `form_info` (
   `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
   `status` varchar(32) DEFAULT NULL COMMENT '状态',
   `version` int(11) DEFAULT NULL COMMENT '版本号',
+  `options` text COMMENT 'json扩展配置',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自定义表单';
 
 LOCK TABLES `form_info` WRITE;
 /*!40000 ALTER TABLE `form_info` DISABLE KEYS */;
 
-INSERT INTO `form_info` (`id`, `name`, `flag`, `thumbnail`, `bg_image`, `header_image`, `with_hook`, `hook_url`, `with_audit`, `with_reply`, `with_valid`, `with_valid_mobile`, `builder_json`, `site_id`, `status`, `version`)
+INSERT INTO `form_info` (`id`, `name`, `title`, `summary`, `flag`, `thumbnail`, `bg_image`, `header_image`, `with_hook`, `hook_url`, `with_audit`, `with_reply`, `with_valid`, `with_valid_mobile`, `builder_json`, `site_id`, `status`, `version`, `options`)
 VALUES
-	(3,'表单1','表单1的标识',NULL,NULL,NULL,0,'xxxxx.com',0,0,0,0,'[{\"id\":\"a42a599a2d\",\"tag\":\"input\",\"label\":\"输入框\",\"name\":\"input_1\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"index\":0,\"field\":\"ssss\"},{\"id\":\"76fa74784b\",\"tag\":\"textarea\",\"label\":\"多行输入框\",\"name\":\"textarea_2\",\"field_type\":\"text\",\"field_lenth\":11,\"show_list\":true,\"rows\":3,\"index\":1,\"field\":\"bbbb\"},{\"id\":\"d2327b5f4e\",\"tag\":\"tips\",\"label\":\"提示\",\"name\":\"tips_3\",\"index\":2},{\"id\":\"9934434e9d\",\"tag\":\"grid\",\"label\":\"等分栅格\",\"name\":\"grid_1\",\"grid\":2,\"index\":3,\"children\":{\"0\":[{\"id\":\"ee59439959\",\"tag\":\"radio\",\"label\":\"单选框\",\"name\":\"radio_2\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"}],\"optionsTitle\":\"选项\",\"parentDataId\":\"9934434e9d\",\"parentDataIndex\":0,\"index\":0,\"field\":\"s1\"}],\"1\":[{\"id\":\"c0a76b0e53\",\"tag\":\"checkbox\",\"label\":\"复选框\",\"name\":\"checkbox_3\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"}],\"optionsTitle\":\"选项\",\"parentDataId\":\"9934434e9d\",\"parentDataIndex\":1,\"index\":0,\"field\":\"s2\"}]}}]',0,'init',7),
-	(4,'表单2','表单2标识',NULL,NULL,NULL,0,NULL,0,0,0,0,NULL,0,'init',1);
+	(3,'表单1',NULL,NULL,'表单1的标识',NULL,NULL,NULL,0,'xxxxx.com',0,0,0,0,'[{\"id\":\"a42a599a2d\",\"tag\":\"input\",\"label\":\"姓名\",\"name\":\"input_1\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"index\":0,\"field\":\"ssss\",\"with_search\":true},{\"id\":\"76fa74784b\",\"tag\":\"textarea\",\"label\":\"描述\",\"name\":\"textarea_2\",\"field_type\":\"text\",\"field_lenth\":11,\"show_list\":true,\"rows\":3,\"index\":1,\"field\":\"bbbb\"},{\"id\":\"d2327b5f4e\",\"tag\":\"tips\",\"label\":\"提示\",\"name\":\"tips_3\",\"index\":2},{\"id\":\"9934434e9d\",\"tag\":\"grid\",\"label\":\"等分栅格\",\"name\":\"grid_1\",\"grid\":2,\"index\":3,\"children\":{\"0\":[{\"id\":\"ee59439959\",\"tag\":\"radio\",\"label\":\"单选框\",\"name\":\"radio_2\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"}],\"optionsTitle\":\"选项\",\"parentDataId\":\"9934434e9d\",\"parentDataIndex\":0,\"index\":0,\"field\":\"s1\"}],\"1\":[{\"id\":\"c0a76b0e53\",\"tag\":\"checkbox\",\"label\":\"复选框\",\"name\":\"checkbox_3\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"}],\"optionsTitle\":\"选项\",\"parentDataId\":\"9934434e9d\",\"parentDataIndex\":1,\"index\":0,\"field\":\"s2\"}]}}]',0,'published',12,NULL),
+	(4,'表单2',NULL,NULL,'表单2标识',NULL,NULL,NULL,0,NULL,0,0,0,0,NULL,0,'init',1,NULL);
 
 /*!40000 ALTER TABLE `form_info` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1245,7 +1276,7 @@ LOCK TABLES `template_block_option` WRITE;
 
 INSERT INTO `template_block_option` (`template_id`, `site`, `options`)
 VALUES
-	('cn.jeanstudio.calmlog',NULL,'[{\"children\":{\"0\":[{\"parentDataId\":\"右边栏\",\"name\":\"search_4\",\"index\":0,\"id\":\"2940117c11\",\"tag\":\"search\",\"label\":\"search\",\"parentDataIndex\":0},{\"parentDataId\":\"右边栏\",\"name\":\"wechat_2\",\"index\":1,\"id\":\"9516dcd8fc\",\"tag\":\"wechat\",\"label\":\" 微信\",\"parentDataIndex\":0},{\"parentDataId\":\"右边栏\",\"排序方式\":\"created\",\"name\":\"system_articles_1\",\"文章数量\":\"10\",\"index\":2,\"id\":\"a95c66feee\",\"tag\":\"system_articles\",\"label\":\"文章列表\",\"标题\":\"最新文章\",\"parentDataIndex\":0}]},\"id\":\"右边栏\",\"tag\":\"container\",\"templateFile\":\"_rightbar.html\"},{\"children\":{\"0\":[{\"parentDataId\":\"右边栏2\",\"name\":\"tags_1\",\"index\":0,\"id\":\"a0ab6661fe\",\"tag\":\"tags\",\"label\":\" 文章标签\",\"parentDataIndex\":0}]},\"id\":\"右边栏2\",\"tag\":\"container\",\"templateFile\":\"_rightbar.html\"}]');
+	('cn.jeanstudio.calmlog',NULL,'[{\"children\":{\"0\":[{\"parentDataId\":\"右边栏\",\"name\":\"search_4\",\"index\":0,\"id\":\"2940117c11\",\"tag\":\"search\",\"label\":\"search\",\"parentDataIndex\":0},{\"parentDataId\":\"右边栏\",\"name\":\"wechat_2\",\"index\":1,\"id\":\"9516dcd8fc\",\"tag\":\"wechat\",\"label\":\" 微信\",\"parentDataIndex\":0,\"微信图片\":\"/attachment/20220717/bceb825c9d224f8fb1316f4bab29d13d.jpeg\"},{\"parentDataId\":\"右边栏\",\"排序方式\":\"created\",\"name\":\"system_articles_1\",\"文章数量\":\"10\",\"index\":2,\"id\":\"a95c66feee\",\"tag\":\"system_articles\",\"label\":\"文章列表\",\"标题\":\"最新文章\",\"parentDataIndex\":0}]},\"id\":\"右边栏\",\"tag\":\"container\",\"templateFile\":\"_rightbar.html\"},{\"children\":{\"0\":[{\"parentDataId\":\"右边栏2\",\"name\":\"tags_1\",\"index\":0,\"id\":\"a0ab6661fe\",\"tag\":\"tags\",\"label\":\" 文章标签\",\"parentDataIndex\":0}]},\"id\":\"右边栏2\",\"tag\":\"container\",\"templateFile\":\"_rightbar.html\"}]');
 
 /*!40000 ALTER TABLE `template_block_option` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1300,7 +1331,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
 VALUES
-	(1,'admin','admin','admin',NULL,'789b622f5fe881287240270bda53c0668c1f0fcb9757c3b0440018f763578084','ASCkepSxWewRo2BtadGVEWZgZJRPvpoP',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2022-04-13 11:26:01','web_register','2022-07-15 16:29:13','2022-04-13 11:26:01'),
+	(1,'admin','admin','admin',NULL,'789b622f5fe881287240270bda53c0668c1f0fcb9757c3b0440018f763578084','ASCkepSxWewRo2BtadGVEWZgZJRPvpoP',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2022-04-13 11:26:01','web_register','2022-07-17 15:30:19','2022-04-13 11:26:01'),
 	(3,'ces','ces','ces',NULL,'72cac646b1d71e479b469bf157e9763a975a45f4c6e6573a05cb3c3d492d742b','zV27LzqLMxG7zG3Rbm5vS3XKnQFgiYKc','4a66432623f34e15831eb5e88ec63dba','2586283122@qq.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'registered','2022-07-01 14:20:48','web_register','2022-07-15 16:43:36',NULL),
 	(4,'ces6666','ces6666','ces6666',NULL,'311e84ed6ffc2ec566540338652e0307948bf680f1c70b2065f6009f66657bdf','tqWsgcayYJhCunXfOUKA40Zo2TNhHYF9','4a66432623f34e15831eb5e88ec63dba','3470879513@qq.com',NULL,'18984961014',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'registered','2022-07-13 10:53:45','web_register','2022-07-13 10:54:06',NULL);
 

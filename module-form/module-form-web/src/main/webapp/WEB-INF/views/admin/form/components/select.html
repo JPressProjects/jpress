@@ -6,7 +6,7 @@
         <div class="jpress-input-block">
             <select class="jpress-custom-select" name="#(name ??)">
                 #for(option : options)
-                <option value="#(option.value ??)">#(option.text ??)</option>
+                <option value="#(option.value ??)" #if(value == options.value) selected #end>#(option.text ??)</option>
                 #end
             </select>
         </div>

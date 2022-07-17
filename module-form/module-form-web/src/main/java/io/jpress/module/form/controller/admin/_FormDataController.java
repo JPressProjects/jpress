@@ -72,7 +72,7 @@ public class _FormDataController extends AdminControllerBase {
      */
     public void detail() {
 
-        Long formId = getParaToLong();
+        Long formId = getParaToLong("formId");
         if (formId == null) {
             renderError(404);
             return;
@@ -86,8 +86,8 @@ public class _FormDataController extends AdminControllerBase {
         setAttr("formInfo", formInfo);
 
 
-        Record record = formDataService.findById(formInfo.getDataTableName(), getParaToLong("id"));
-        setAttr("data", record);
+        Record record = formDataService.findById(formInfo.getDataTableName(), getParaToLong("dataId"));
+        setAttr("record", record);
 
 
         render("form/form_data_detail.html");

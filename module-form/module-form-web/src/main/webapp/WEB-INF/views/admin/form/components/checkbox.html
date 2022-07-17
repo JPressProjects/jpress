@@ -12,6 +12,7 @@
                         name="#(name ??)"
                         id="#(option.value ??)-#(id ??)"
                         value="#(option.value ??)"
+                        #if(contains(value,option.value)) checked #end
                 />
                 <label class="jpress-check-label" for="#(option.value ??)-#(id ??)">#(option.text ??)</label>
             </div>

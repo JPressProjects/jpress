@@ -19,7 +19,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.LogKit;
-import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
@@ -56,7 +55,7 @@ public class BsFormManager {
 
 
 
-    public String renderAll(JSONArray datas, Record record, boolean withEdit) {
+    public String renderAll(JSONArray datas, Map values, boolean withEdit) {
         if (datas == null || datas.isEmpty()) {
             return null;
         }
@@ -66,7 +65,7 @@ public class BsFormManager {
         StringBuilder html = new StringBuilder();
         for (int i = 0; i < datas.size(); i++) {
             JSONObject componentData = datas.getJSONObject(i);
-            html.append(renderComponentDataToHtml(componentData, record, withEdit));
+            html.append(renderComponentDataToHtml(componentData, values, withEdit));
         }
 
         return html.toString();
@@ -74,7 +73,7 @@ public class BsFormManager {
 
 
 
-    public String renderComponentDataToHtml(JSONObject componentData, Record record, boolean withEdit) {
+    public String renderComponentDataToHtml(JSONObject componentData, Map values, boolean withEdit) {
         String tag = componentData.getString("tag");
         if (StrUtil.isBlank(tag)) {
             return "";
@@ -100,11 +99,23 @@ public class BsFormManager {
                 dataArray.sort(Comparator.comparingInt(o -> ((JSONObject) o).getInteger("index")));
                 StringBuilder childrenHtml = new StringBuilder();
                 for (Object childComponentData : dataArray) {
-                    childrenHtml.append(renderComponentDataToHtml((JSONObject) childComponentData, record, withEdit));
+                    childrenHtml.append(renderComponentDataToHtml((JSONObject) childComponentData, values, withEdit));
                 }
                 htmls.put(Integer.parseInt(key), childrenHtml.toString());
             }
             datas.put("children", htmls);
+        }
+
+        if (values != null && datas.containsKey("field")){
+            //设置 datas 的 value 值
+            Object value = values.get(datas.get("field"));
+
+            //复选框
+            if ("checkbox".equals(datas.get("tag")) && value != null){
+                value = value.toString().split(",");
+            }
+
+            datas.put("value", value);
         }
 
         try {

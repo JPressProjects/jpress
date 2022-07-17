@@ -26,6 +26,7 @@ import io.jpress.core.addon.AddonManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -161,6 +162,20 @@ public class JPressCoreFunctions {
         }
 
         return Long.valueOf(value);
+    }
+
+    public static boolean contains(Object[] arrays,Object value){
+        if (arrays == null || arrays.length == 0){
+            return false;
+        }
+
+        for (Object array : arrays) {
+            if (Objects.equals(array,value)){
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

@@ -15,6 +15,8 @@ import io.jpress.module.form.FormManager;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
 
+import java.util.Map;
+
 @JFinalDirective("formInfo")
 public class FormInfoDirective extends JbootDirectiveBase {
 
@@ -32,6 +34,8 @@ public class FormInfoDirective extends JbootDirectiveBase {
 
         String submitText = getParaToString("submitText", scope, "提交");
         String submitClass = getParaToString("submitClass", scope, "btn btn-primary btn-formInfo");
+
+        Map values = getPara("values",scope);
 
 
         FormInfo formInfo = null;
@@ -55,7 +59,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
         String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" +
                 "</form>";
 
-        String html = FormManager.me().renderAll(datas, null, false);
+        String html = FormManager.me().renderAll(datas, values, false);
         renderText(writer, htmlStart + html + htmlEnd);
     }
 }

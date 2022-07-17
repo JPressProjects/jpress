@@ -46,14 +46,6 @@
                         <form class=" admin-search-panel" action="" method="get">
                             <div class="row">
 
-                                #for(field : form.fieldInfos)
-                                #if(field.isSupportSearch())
-                                <div class="form-group col-lg-2">
-                                    <input type="text" class="form-control" placeholder="请输入#(field.label ??)" name="#(field.fieldName ??)" value="#para(field.fieldName ??'')">
-                                </div>
-                                #end
-                                #end
-
                                 <div class="form-group col-lg-2">
                                     <button type="submit" class="btn btn-primary ">查询</button>
                                     <button type="reset" class="btn btn-default">重置</button>
@@ -63,32 +55,7 @@
 
                     </div>
                     <div class="card-body p-0">
-
-                        <table class="table table-striped">
-                            <tbody>
-                            <tr>
-                                <th style="width: 10px">
-	                                    <input class="tableCheckAll" type="checkbox"/>
-	                                </th>
-
-                                    #for(field : form.fieldInfos)
-                                    #if(field.showInList)
-	                                <th style="width: 150px">#(field.label ??)</th>
-                                     #end
-                                     #end
-                            </tr>
-                            #for(entry : page.list)
-                            <tr>
-                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" /></td>
-                                #for(field : form.fieldInfos)
-                                #if(field.showInList)
-                                    <td>#(entry.get(field.fieldName) ??)</td>
-                                #end
-                                #end
-                            </tr>
-                            #end
-                            </tbody>
-                        </table>
+                        #formInfo(values=record?.toMap())
                     </div>
                     <div class="card-footer">
                         <div class="row">

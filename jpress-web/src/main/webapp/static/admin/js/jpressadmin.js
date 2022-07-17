@@ -643,7 +643,7 @@ function initOptionFormSubmit() {
 
 
 function initImageBrowserButton() {
-    $(".btn-image-browser,.jpress-image-browser .image-reset").on("click", function () {
+    $(".btn-image-browser,.jpress-image-browser .image-reset").off("click").on("click", function () {
         var $this = $(this);
         layer.open({
             type: 2,
@@ -664,9 +664,9 @@ function initImageBrowserButton() {
                         $this.siblings('img').attr('src', getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
                     }
                     if (input) {
-                        $("#" + input).val(layer.data.src).trigger("valChanged", layer.data.src);
+                        $("#" + input).val(layer.data.src).trigger("change", layer.data.src);
                     } else {
-                        $this.siblings('input[type="hidden"]').val(layer.data.src).trigger("valChanged", layer.data.src);
+                        $this.siblings('input[type="hidden"]').val(layer.data.src).trigger("change", layer.data.src);
                     }
                 }
             }
@@ -674,7 +674,7 @@ function initImageBrowserButton() {
     })
 
 
-    $(".jpress-image-browser .image-edit").on("click", function () {
+    $(".jpress-image-browser .image-edit").off("click").on("click", function () {
         var $this = $(this);
         layer.open({
             type: 2,
@@ -687,18 +687,18 @@ function initImageBrowserButton() {
             end: function () {
                 if (layer.data.src != null) {
                     $this.parent().siblings('img').attr('src', getContextPath() + layer.data.src).trigger("srcChanged", getContextPath() + layer.data.src);
-                    $this.parent().siblings('input[type="hidden"]').val(layer.data.src).trigger("valChanged", layer.data.src);
+                    $this.parent().siblings('input[type="hidden"]').val(layer.data.src).trigger("change", layer.data.src);
                 }
             }
         });
     })
 
 
-    $(".jpress-image-browser .image-delete").on("click", function () {
+    $(".jpress-image-browser .image-delete").off("click").on("click", function () {
         var $this = $(this);
         $this.parent().siblings('img').attr('src', getContextPath() + '/static/commons/img/nothumbnail.jpg')
             .trigger("srcChanged", getContextPath() + '/static/commons/img/nothumbnail.jpg');
-        $this.parent().siblings('input[type="hidden"]').val('').trigger("valChanged", '');
+        $this.parent().siblings('input[type="hidden"]').val('').trigger("change", '');
 
     })
 
@@ -713,7 +713,7 @@ function initImageBrowserButton() {
     });
 
 
-    $(".jpress-image-browser img").on("srcChanged", function (e,imgsrc) {
+    $(".jpress-image-browser img").off("srcChanged").on("srcChanged", function (e,imgsrc) {
         if (imgsrc.endsWith("nothumbnail.jpg")){
             $(this).parent().find('.image-delete').css("display","none");
         }else {

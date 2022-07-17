@@ -10,66 +10,81 @@
         min-height: calc(100vh - calc(3.5rem + 1px));
         overflow: hidden;
     }
-    .bsFormContainer{
-        min-height:auto !important;
+
+    .bsFormContainer {
+        min-height: auto !important;
     }
+
     .tool-content {
         position: absolute;
         width: 100%;
         height: 100%;
 
     }
-    .middleContent{
-        overflow-y:scroll;
+
+    .middleContent {
+        overflow-y: scroll;
     }
+
     .main-footer.text-sm {
         display: none !important;
     }
-    .item-title{
-        font-size:14px;
+
+    .item-title {
+        font-size: 14px;
     }
-    .bsFormFilter{
-        border:none !important;
-        padding:0 !important;
+
+    .bsFormFilter {
+        border: none !important;
+        padding: 0 !important;
     }
-    .bsFormFilter  .bsFormItem{
-        border:1px dashed #d1d1d1;
+
+    .bsFormFilter .bsFormItem {
+        border: 1px dashed #d1d1d1;
         cursor: pointer;
         padding: 10px;
-        margin-bottom:10px !important;
+        margin-bottom: 10px !important;
     }
+
     .bsFormItem > .bsFormItem:hover, .bsFormItem > .bsFormItem.active {
         border: 1px solid #007bff !important;
         background-color: #e9f4fd !important;
     }
+
     .bsItemContainer {
         min-height: 50px;
         border: 1px dashed #ccc;
         background: #f1f1f1;
         padding: 5px 5px 0 5px;
     }
-    .card-body{
-        border:none !important;
+
+    .card-body {
+        border: none !important;
         background: #fff !important;
-        padding:1.25rem !important;
+        padding: 1.25rem !important;
     }
-    .right-card-title{
-        margin-bottom:10px !important;
+
+    .right-card-title {
+        margin-bottom: 10px !important;
     }
-    .cl-code .row{
-        margin-left:0 !important;
-        margin-right:0 !important;
+
+    .cl-code .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
-    .cl-code img{
-        max-width:50%;
+
+    .cl-code img {
+        max-width: 50%;
         margin: 0 auto;
     }
+
     .bsFormItem .bsFormItem.active {
         border: 1px solid #0056b3 !important;
         background-color: #e9f4fd !important;
     }
-    .dropdown-item{
-        padding:.75rem 1rem;
+
+    .dropdown-item {
+        padding: .75rem 1rem;
     }
 </style>
 #end
@@ -117,7 +132,41 @@
                     name: "label",
                     type: "none",
                 },
-            ]
+            ],
+
+            propTemplates: {
+                image: function () {
+                    return '<div class="form-group clearfix">' +
+                        '       <div class="form-label-left">' +
+                        '             {{~ if(required)}}' +
+                        '             <span class="red required">*</span>' +
+                        '             {{~end}}' +
+                        '              <label for="{{id}}">{{label}}</label>' +
+                        '        </div>' +
+                        '        <div class="flex-auto">' +
+                        '             <div class="jpress-image-browser">' +
+                        '               <input type="hidden" class="onchange" id="{{id}}" data-attr="{{name}}"  value="{{value}}" />' +
+                        '               {{~ if (value)}}' +
+                        '               <img src="{{value}}" />' +
+                        '               {{~else}}' +
+                        '               <img src="#(CPATH)/static/commons/img/nothumbnail.jpg" />' +
+                        '               {{~end}}' +
+                        '               <div class="image-action">' +
+                        '                   <a class="image-delete"> <i class="fa fa-trash"></i></a>' +
+                        '                   <a class="image-edit"> <i class="fa fa-edit"></i></a>' +
+                        '               </div>' +
+                        '            </div>' +
+                        '        </div>' +
+                        '    </div>';
+                }
+            },
+
+            bsFormPropsItemAppended: function (prop, data, b) {
+                if (prop.type === "image") {
+                    initImageBrowserButton()
+                }
+            }
+
         });
 
         $('.update').on('click', function () {
@@ -128,14 +177,14 @@
         });
 
         // 折叠内容
-        $(".middleContent").on("click",".btn-tool",function(event){
+        $(".middleContent").on("click", ".btn-tool", function (event) {
             // 阻止事件冒泡
             event.stopPropagation();
             let className = $(this).find("i").attr("class");
             if (className == "fas fa-plus") {
-                $(this).find("i").attr('class','fas fa-minus');
+                $(this).find("i").attr('class', 'fas fa-minus');
             } else {
-                $(this).find("i").attr('class','fas fa-plus');
+                $(this).find("i").attr('class', 'fas fa-plus');
             }
             $(this).parents(".card-header").next(".card-body").toggle();
         })

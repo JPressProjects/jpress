@@ -44,6 +44,7 @@
         bsFormPropsSelector: ".bsFormProps", // 面板内容
         bsFormPropsTitleSelector: ".bsFormPropsTitle", // 面板标题
         bsFormPropsFilter: null, //function 自定义属性过滤器
+        bsFormPropsItemAppended: null, //监听 props html 内容被追加，可以通其设置 propsPanel 里的表单内容或者事件
         customBuilderStructure: false, // 自定义容器面板
         onDataChange: null, //数据更新的监听器
         onDataChanged: null, //数据更新的监听器
@@ -2079,8 +2080,10 @@
                     }
                     newProp["value"] = value;
 
-                    var html = this.renderPropTemplate(newProp, this.currentData, template);
-                    this.$propsPanel.append(html);
+                    // var htmlString = this.renderPropTemplate(newProp, this.currentData, template);
+                    // this.$propsPanel.append(htmlString);
+
+                    this._appendPropsPanel(newProp, this.currentData, template);
                 }
             }
 
@@ -2112,8 +2115,10 @@
                     }
 
                     let template = this._getPropTemplateByType("select");
-                    let html = this.renderPropTemplate(prop, this.currentData, template);
-                    this.$propsPanel.append(html);
+                    this._appendPropsPanel(prop, this.currentData, template);
+
+                    // let htmlString = this.renderPropTemplate(prop, this.currentData, template);
+                    // this.$propsPanel.append(htmlString);
                 }
 
 
@@ -2128,8 +2133,9 @@
                     }
 
                     let template = this._getPropTemplateByType("select");
-                    let html = this.renderPropTemplate(prop, this.currentData, template);
-                    this.$propsPanel.append(html);
+                    this._appendPropsPanel(prop, this.currentData, template);
+                    // let htmlString = this.renderPropTemplate(prop, this.currentData, template);
+                    // this.$propsPanel.append(htmlString);
                 }
                 //通过 sortable 的方式来渲染 options
                 else {
@@ -2140,11 +2146,29 @@
                     }
 
                     let template = this._getPropTemplateByType("options");
-                    let html = this.renderPropTemplate(prop, this.currentData, template);
-                    this.$propsPanel.append(html);
+                    this._appendPropsPanel(prop, this.currentData, template);
+                    // let htmlString = this.renderPropTemplate(prop, this.currentData, template);
+                    // this.$propsPanel.append(htmlString);
 
                     this._initOptionsSortable();
                 }
+            }
+        },
+
+
+        /**
+         * 追加 html 内容到属性面板
+         * @param prop
+         * @param data
+         * @param template
+         * @private
+         */
+        _appendPropsPanel: function (prop, data, template) {
+            let htmlString = this.renderPropTemplate(prop, data, template);
+            this.$propsPanel.append(htmlString);
+
+            if (this.options.bsFormPropsItemAppended && typeof this.options.bsFormPropsItemAppended === "function") {
+                this.options.bsFormPropsItemAppended(prop, data, this);
             }
         },
 

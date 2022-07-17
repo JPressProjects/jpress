@@ -1,12 +1,12 @@
-<div class="bsFormItem">
-    <div class="form-group clearfix">
-        <div class="form-label-left">
-            <legend class="col-form-label pt-0">#(label ??)</legend>
+<div class="jpress-form-item">
+    <div class="jpress-form-group clearfix">
+        <div class="jpress-label-left">
+            <label for="#(id ??)">#(label ??)</label>
         </div>
-        <div class="flex-auto">
-            <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="#(id ??)" value="true" #(value == "true") checked #end/>
-                <label class="custom-control-label" for="#(id ??)"></label>
+        <div class="jpress-input-block">
+            <div class="jpress-custom-switch">
+                <input type="checkbox" class="jpress-custom-input" id="#(id ??)" value="true" #if(value == "true") checked #end/>
+                <label class="jpress-custom-label" for="#(id ??)"></label>
             </div>
         </div>
     </div>

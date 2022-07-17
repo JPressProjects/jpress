@@ -83,7 +83,7 @@ public class _FormDataController extends AdminControllerBase {
             renderError(404);
             return;
         }
-        setAttr("formInfo", formInfo);
+        setAttr("form", formInfo);
 
 
         Record record = formDataService.findById(formInfo.getDataTableName(), getParaToLong("dataId"));

@@ -28,6 +28,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
 
         Long id = getParaToLong("id", scope);
         String flag = getParaToString("flag", scope);
+        boolean withForm = getParaToBool("withForm", scope, true);
 
         String formClass = getParaToString("formClass", scope, "formInfo");
         String formMethod = getParaToString("formMethod", scope, "POST");
@@ -35,7 +36,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
         String submitText = getParaToString("submitText", scope, "提交");
         String submitClass = getParaToString("submitClass", scope, "btn btn-primary btn-formInfo");
 
-        Map values = getPara("values",scope);
+        Map values = getPara("values", scope);
 
 
         FormInfo formInfo = null;
@@ -44,22 +45,26 @@ public class FormInfoDirective extends JbootDirectiveBase {
                     ? formInfoService.findById(id)
                     : formInfoService.findFirstByColumns(Columns.create("flag", flag));
         } else {
-            formInfo = JbootControllerContext.get().getAttr("formInfo");
+            formInfo = JbootControllerContext.get().getAttr("form");
         }
 
         if (formInfo == null) {
-            throw new IllegalArgumentException("id or flag must not be null.");
+            throw new IllegalArgumentException("#formInfo() id or flag must not be null.");
         }
 
 
         JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
+        if (withForm) {
+            String action = JFinal.me().getContextPath() + SiteContext.getSitePath() + "/form/postData/" + formInfo.getId();
+            String htmlStart = "<form id=\"form-" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
+            String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" +
+                    "</form>";
 
-        String action = JFinal.me().getContextPath() + SiteContext.getSitePath() + "/form/postData/" + formInfo.getId();
-        String htmlStart = "<form id=\"form-" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
-        String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" +
-                "</form>";
-
-        String html = FormManager.me().renderAll(datas, values, false);
-        renderText(writer, htmlStart + html + htmlEnd);
+            String html = FormManager.me().renderAll(datas, values, false);
+            renderText(writer, htmlStart + html + htmlEnd);
+        } else {
+            String html = FormManager.me().renderAll(datas, values, false);
+            renderText(writer, html);
+        }
     }
 }

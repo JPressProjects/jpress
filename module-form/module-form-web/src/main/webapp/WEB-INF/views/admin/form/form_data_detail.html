@@ -9,63 +9,49 @@
 
 #define content()
 
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <h1>
-                                表单数据
-                                <small data-toggle="tooltip" title="" data-placement="right"
-                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                                <small> 首页 / 表单 / 表单数据</small>
-                            </h1>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 ">
-                    <div class=" float-sm-right" style="padding-top: 15px">
-                        <a href="edit" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-
+<section class="content-header">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
-                <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
+            <div class="col-sm-6">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            数据详情
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 表单 / 表单数据 / 数据详情</small>
+                        </h1>
 
-                        <form class=" admin-search-panel" action="" method="get">
-                            <div class="row">
-
-                                <div class="form-group col-lg-2">
-                                    <button type="submit" class="btn btn-primary ">查询</button>
-                                    <button type="reset" class="btn btn-default">重置</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                    <div class="card-body p-0">
-                        #formInfo(values=record?.toMap())
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-sm-6">
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </section>
+            <div class="col-sm-6 ">
+                <div class=" float-sm-right" style="padding-top: 15px">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline card-primary">
+                <div class="card-header with-border">
+
+                    表单名称： #(form.name ??) <br />
+                    数据ID： #(record.id ??)
+
+                </div>
+                <div class="card-body">
+                    #formInfo(values=record?.toMap(), withForm=false)
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
 #end

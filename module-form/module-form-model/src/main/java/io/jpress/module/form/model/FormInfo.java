@@ -90,7 +90,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
 
 
         StringBuilder sqlBuilder = new StringBuilder();
-        sqlBuilder.append("CREATE TABLE `").append(getDataTableName()).append("` (");
+        sqlBuilder.append("CREATE TABLE `").append(getCurrentTableName()).append("` (");
         sqlBuilder.append("`id` int(11) unsigned NOT NULL AUTO_INCREMENT,");
 
         List<FieldInfo> fieldInfos = getFieldInfos();
@@ -152,8 +152,13 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     }
 
 
-    public String getDataTableName() {
+    public String getCurrentTableName() {
         return "form_data_" + getId() + "_" + getVersion();
+    }
+
+
+    public String getPrevTableName() {
+        return "form_data_" + getId() + "_" + (getVersion() - 1);
     }
 
 

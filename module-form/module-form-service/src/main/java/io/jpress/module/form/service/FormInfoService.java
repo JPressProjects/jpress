@@ -8,6 +8,13 @@ import java.util.List;
 
 public interface FormInfoService  {
 
+
+    /**
+     * 发布表单
+     * @param formInfo
+     */
+    void publish(FormInfo formInfo);
+
     /**
      * 根据主键查找Model
      *

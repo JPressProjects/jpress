@@ -59,7 +59,7 @@ public class _FormDataController extends AdminControllerBase {
         }
 
 
-        Page<Record> page = formDataService.paginateByColumns(formInfo.getDataTableName(), getPagePara(), getPageSizePara(), columns);
+        Page<Record> page = formDataService.paginateByColumns(formInfo.getCurrentTableName(), getPagePara(), getPageSizePara(), columns);
         setAttr("page", page);
 
 
@@ -79,7 +79,7 @@ public class _FormDataController extends AdminControllerBase {
             return;
         }
 
-        formDataService.deleteById(formInfo.getDataTableName(),getParaToLong("id"));
+        formDataService.deleteById(formInfo.getCurrentTableName(),getParaToLong("id"));
         renderOkJson();
     }
 
@@ -103,7 +103,7 @@ public class _FormDataController extends AdminControllerBase {
         setAttr("form", formInfo);
 
 
-        Record record = formDataService.findById(formInfo.getDataTableName(), getParaToLong("dataId"));
+        Record record = formDataService.findById(formInfo.getCurrentTableName(), getParaToLong("dataId"));
         setAttr("record", record);
 
 

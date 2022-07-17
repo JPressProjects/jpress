@@ -55,7 +55,7 @@ public class FormController extends TemplateControllerBase {
         try {
             // parseRequestToRecord 可能会出现数据转换异常，需要告知前端
             Record record = formInfo.parseRequestToRecord(getRequest());
-            formDataService.save(formInfo.getDataTableName(), record);
+            formDataService.save(formInfo.getCurrentTableName(), record);
         }catch (Exception e){
             renderJson(Ret.fail().set("message",e.getMessage()));
             return;

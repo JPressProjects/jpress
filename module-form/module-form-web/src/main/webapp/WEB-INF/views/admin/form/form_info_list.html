@@ -74,8 +74,13 @@
         float: right;
     }
 
-    .form-collection-state {
+    .form-state-unpublish {
         color: #ffbe3a;
+        margin-top: 6px;
+    }
+
+    .form-state-published {
+        color: #007bff;
         margin-top: 6px;
     }
 
@@ -200,9 +205,15 @@
                         <div class="form-card">
                             <a href="#(CPATH)/admin/form/data/#(entry.id ??)">
                                 <div class="form-card-header">
-                                    #(entry.name ??)
+                                    <i class="bi bi-bar-chart-fill"></i>
+                                     #(entry.name ??)
                                 </div>
-                                <div class="form-collection-state">未发布</div>
+
+                                #if(entry.isPublished())
+                                <div class="form-state-published">已经发布</div>
+                                #else
+                                <div class="form-state-unpublish">未发布</div>
+                                #end
                                 <div class="form-card-footer">
                                     <span>5份数据</span>
                                     <span class="float-right">1分钟前</span>
@@ -211,7 +222,13 @@
                             <div class="form-operate-bar">
                                 <a href="#(CPATH)/admin/form/design/#(entry.id ??)"><i class="fa fa-file-text-o" aria-hidden="true"></i>表单设计</a>
                                 <a href="#(CPATH)/admin/form/edit/#(entry.id ??)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>编辑</a>
-                                <a href=""><i class="fa fa-paper-plane" aria-hidden="true"></i> 发布</a>
+
+                                #if(entry.isPublished())
+                                <a href="javascript:;" onclick="unPublished('#(entry.id)')"><i class="bi bi-lightning-fill" aria-hidden="true"></i>下线</a>
+                                #else
+                                <a href="javascript:;" onclick="published('#(entry.id)')"><i class="fa fa-paper-plane" aria-hidden="true"></i> 发布</a>
+                                #end
+
 <!--                                <a href="" class="js-morelist">-->
 <!--                                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>-->
 <!--                                </a>-->

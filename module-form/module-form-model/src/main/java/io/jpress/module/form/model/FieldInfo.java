@@ -153,13 +153,16 @@ public class FieldInfo {
      * @param value
      * @return
      */
-    public Object convertValueData(String value) {
+    public Object convertValueData(Object value) {
+        if (value == null){
+            return null;
+        }
         switch (fieldType) {
             case "varchar":
             case "text":
-                return value;
+                return ObjectUtil.convert(value,String.class);
             case "int":
-                return Long.valueOf(value);
+                return ObjectUtil.convert(value,Long.class);
             case "boolean":
                 return ObjectUtil.convert(value, boolean.class);
             case "datetime":

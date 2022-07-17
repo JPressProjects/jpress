@@ -17,7 +17,6 @@ package io.jpress.module.form.controller.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -26,6 +25,7 @@ import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.form.model.FormInfo;
+import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -36,14 +36,18 @@ import java.util.Date;
 public class _FormInfoController extends AdminControllerBase {
 
     @Inject
-    private FormInfoService service;
+    private FormInfoService formInfoService;
+
+    @Inject
+    private FormDataService formDataService;
+
 
     @AdminMenu(text = "表单", groupId = "form", order = 1)
     public void list() {
         String name = getPara("name");
         Columns columns = new Columns();
         columns.likeAppendPercent("name", name);
-        Page<FormInfo> entries = service.paginateByColumns(getPagePara(), getPageSizePara(), columns);
+        Page<FormInfo> entries = formInfoService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
         render("form/form_info_list.html");
     }
@@ -52,11 +56,13 @@ public class _FormInfoController extends AdminControllerBase {
     public void edit() {
         int entryId = getParaToInt(0, 0);
 
-        FormInfo entry = entryId > 0 ? service.findById(entryId) : null;
+        FormInfo entry = entryId > 0 ? formInfoService.findById(entryId) : null;
         setAttr("formInfo", entry);
         set("now", new Date());
         render("form/form_info_edit.html");
     }
+
+
 
     public void doSave() {
         FormInfo entry = getModel(FormInfo.class, "formInfo");
@@ -70,7 +76,7 @@ public class _FormInfoController extends AdminControllerBase {
             entry.setStatus(FormInfo.FORMINFO_STATUS_INIT);
         }
 
-        service.saveOrUpdate(entry);
+        formInfoService.saveOrUpdate(entry);
         renderJson(Ret.ok().set("id", entry.getId()));
     }
 
@@ -82,7 +88,7 @@ public class _FormInfoController extends AdminControllerBase {
 
         int entryId = getParaToInt(0, 0);
 
-        FormInfo formInfo = entryId > 0 ? service.findById(entryId) : null;
+        FormInfo formInfo = entryId > 0 ? formInfoService.findById(entryId) : null;
 
         if (formInfo == null) {
             renderError(404);
@@ -99,13 +105,13 @@ public class _FormInfoController extends AdminControllerBase {
         formInfo.setStatus(FormInfo.FORMINFO_STATUS_PUBLISHED);
         formInfo.setVersion(formInfo.getVersion() == null ? 1 : formInfo.getVersion() + 1);
 
-//        System.out.println(formInfo.toCreateTableSql());
-
-        Db.update(formInfo.toCreateTableSql());
-
 
         //改变表单状态 status
-        service.update(formInfo);
+        formInfoService.update(formInfo);
+
+
+        //发布表单
+        formInfoService.publish(formInfo);
 
         renderOkJson();
     }
@@ -118,7 +124,7 @@ public class _FormInfoController extends AdminControllerBase {
 
         int entryId = getParaToInt(0, 0);
 
-        FormInfo entry = entryId > 0 ? service.findById(entryId) : null;
+        FormInfo entry = entryId > 0 ? formInfoService.findById(entryId) : null;
 
         if (entry == null) {
             renderError(404);
@@ -128,7 +134,7 @@ public class _FormInfoController extends AdminControllerBase {
         entry.setStatus(FormInfo.FORMINFO_STATUS_INIT);
 
         //改变表单状态 status
-        service.update(entry);
+        formInfoService.update(entry);
 
         renderOkJson();
     }
@@ -136,13 +142,13 @@ public class _FormInfoController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
-        render(service.deleteById(id) ? Ret.ok() : Ret.fail());
+        render(formInfoService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
 
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
-        service.batchDeleteByIds(getParaSet("ids").toArray());
+        formInfoService.batchDeleteByIds(getParaSet("ids").toArray());
         renderOkJson();
     }
 

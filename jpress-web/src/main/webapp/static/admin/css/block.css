@@ -332,6 +332,13 @@ select {
 .tool-container{
     height: 100%;
 }
+#rightSwitch{
+     display: inline-block;
+     padding:3px  6px 2px;
+     border-radius:4px;
+     cursor: pointer;
+    border:1px solid #fff;
+}
 .switch-btn{
     display: inline-block;
     padding:3px  6px 2px;

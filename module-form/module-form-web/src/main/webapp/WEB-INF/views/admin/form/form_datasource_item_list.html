@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("/admin/form/formDictItem/doDel/" + id);
+        ajaxGet("/admin/form/datasourceItem/doDel/" + id);
     }
 
 </script>
@@ -78,7 +78,7 @@
                                #(entry.value ??)
                                 <div class="jp-action-card">
                                     <div class="jp-action-body">
-                                        <a href="/admin/form/formDict/item/edit/#(entry.id)">编辑</a> |
+                                        <a href="/admin/form/datasource/item/edit/#(entry.id)">编辑</a> |
                                         <a href="javascript:;" class="red-action"
                                            onclick="doDel('#(entry.id)')">删除</a>
                                     </div>

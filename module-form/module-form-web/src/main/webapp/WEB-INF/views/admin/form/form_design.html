@@ -52,7 +52,7 @@
         $('#builder').bsFormBuilder({
             customBuilderStructure: true,
             datas: JSON.parse('#(form.builderJson ??)'),
-            optionsDatasources: '#(CPATH)/admin/form/formDict/queryDatasources',
+            optionsDatasources: '#(CPATH)/admin/form/datasource/queryDatasources',
 
             //属性过滤器，过滤掉非基础组件的数据库相关属性设置
             bsFormPropsFilter: function (allprops, data, bsFromBuilder) {

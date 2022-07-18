@@ -4,7 +4,7 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("/admin/form/formDict/doDel/" + id);
+        ajaxGet("/admin/form/datasource/doDel/" + id);
     }
 
 
@@ -21,17 +21,17 @@
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <h1>
-                            表单管理
+                            数据源
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / 表单 / 数据字典</small>
+                            <small> 首页 / 表单 / 数据源</small>
                         </h1>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-6 ">
-                <div class=" float-sm-right" style="padding-top: 45px">
+                <div class=" float-sm-right" style="padding-top: 15px">
                     <a href="edit" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
                 </div>
             </div>
@@ -46,7 +46,7 @@
         <div class="col-12">
             <div class="card card-outline card-primary">
                 <div class="card-header with-border">
-                    <form class=" admin-search-panel" action="/admin/form/formDict/list" method="get">
+                    <form class=" admin-search-panel" action="/admin/form/datasource/list" method="get">
                         <div class="row">
 
                             <div class="form-group col-lg-2">
@@ -61,7 +61,7 @@
                     </form>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body ">
+                <div class="card-body p-0">
 
                     <table class="table table-striped">
                         <tbody>
@@ -69,7 +69,7 @@
                             <th style="width: 10px">
                                 <input class="tableCheckAll" type="checkbox"/>
                             </th>
-                            <th style="width: 150px">字典名称</th>
+                            <th style="width: 150px">数据源名称</th>
                             <th>导入类型</th>
                             <th>导入内容</th>
                             <th>是否级联</th>
@@ -86,8 +86,8 @@
                             #(entry.name)
                                 <div class="jp-action-card">
                                     <div class="jp-action-body">
-                                        <a href="/admin/form/formDict/item/#(entry.id ??)">数据管理</a> |
-                                        <a href="/admin/form/formDict/edit/#(entry.id ??)">编辑</a> |
+                                        <a href="/admin/form/datasource/item/#(entry.id ??)">数据管理</a> |
+                                        <a href="/admin/form/datasource/edit/#(entry.id ??)">编辑</a> |
                                         <a href="javascript:;" class="red-action"
                                            onclick="doDel('#(entry.id)')">删除</a>
                                     </div>

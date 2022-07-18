@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@RequestMapping(value = "/admin/form/formDict", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/form/datasource", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _FormDatasourceController extends AdminControllerBase {
 
     @Inject
@@ -215,7 +215,7 @@ public class _FormDatasourceController extends AdminControllerBase {
         dicts.forEach(dict -> datasources.add(new BsFormDatasource(
                 dict.getName(),
                 dict.getId().toString(),
-                "/admin/form/formDict/queryOptions/" + dict.getId())));
+                "/admin/form/datasource/queryOptions/" + dict.getId())));
         renderJson(Ret.ok().set("datasources", datasources));
     }
 

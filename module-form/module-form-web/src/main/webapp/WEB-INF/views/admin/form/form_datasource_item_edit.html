@@ -18,7 +18,7 @@
             $("#entryId").attr("value", data.id);
             toastr.success('内容保存成功。');
            setTimeout(function (){
-               location.href = "/admin/form/formDict/item/#(formDictItem.dict_id ??)";
+               location.href = "/admin/form/datasource/item/#(formDictItem.dict_id ??)";
            },2000)
         })
     }
@@ -57,7 +57,7 @@
         <div class="col-12">
             <div class="card card-outline card-primary">
                 <form class=" form-setting" autocomplete="off"
-                      action="/admin/form/formDict/item/doSave"
+                      action="/admin/form/datasource/item/doSave"
                       method="POST" id="form1">
 
                     <div class="card-body ">

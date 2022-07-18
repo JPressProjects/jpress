@@ -32,7 +32,7 @@ import io.jpress.web.base.AdminControllerBase;
 import java.util.List;
 
 
-@RequestMapping(value = "/admin/form/formDict/item", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
+@RequestMapping(value = "/admin/form/datasource/item", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _FormDatasourceItemController extends AdminControllerBase {
 
     @Inject

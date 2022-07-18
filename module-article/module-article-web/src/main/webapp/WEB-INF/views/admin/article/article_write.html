@@ -71,7 +71,7 @@
     function doChangeEditor(id) {
         if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
             var changeMode = editMode == "html" ? "markdown" : "html";
-            if (id != '0') {
+            if (id && id !== '0') {
                 ajaxGet('#(CPATH)/admin/article/doChangeEditMode?id=' + id + "&mode=" + changeMode);
             } else {
                 ajaxGet('#(CPATH)/commons/changeEditor/' + changeMode);
@@ -157,17 +157,18 @@
         const modelFragment = currentCKEditor.data.toModel(viewFragment);
         currentCKEditor.model.insertContent(modelFragment, currentCKEditor.model.document.selection);
     }
-$(function () {
-    $(".article-sttr .form-group").children(".col-form-label").removeClass("col-sm-2").addClass("col-sm-4");
-    $(".article-sttr .form-group").children("div").removeClass("col-sm-6").addClass("col-sm-8");
 
-    // 设置按钮
-    $("#rightSwitch").click(function () {
-        $(this).toggleClass('switch-btn');
-        $(".rightPanel").toggle();
-        $(".leftPanel").toggleClass("col-lg-12", "col-lg-3");
-    });
-})
+    $(function () {
+        $(".article-sttr .form-group").children(".col-form-label").removeClass("col-sm-2").addClass("col-sm-4");
+        $(".article-sttr .form-group").children("div").removeClass("col-sm-6").addClass("col-sm-8");
+
+        // 设置按钮
+        $("#rightSwitch").click(function () {
+            $(this).toggleClass('switch-btn');
+            $(".rightPanel").toggle();
+            $(".leftPanel").toggleClass("col-lg-12", "col-lg-3");
+        });
+    })
 
 </script>
 
@@ -196,33 +197,32 @@ $(function () {
 
                     if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
 
-                        if(cloudType != null && cloudType != '' && cloudType == '1'){//阿里云
+                        if (cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
 
                             var aliyunVideo = document.createElement('video');
-                            aliyunVideo.setAttribute("data-vid",vid);
-                            aliyunVideo.setAttribute("data-play-auth",playAuth);
-                            aliyunVideo.setAttribute("data-cloud",cloudType);
-                            aliyunVideo.setAttribute("poster",cover);
-                            aliyunVideo.setAttribute("style","height:240px;width:425px;");
-                            aliyunVideo.setAttribute("class","jpress-video");
+                            aliyunVideo.setAttribute("data-vid", vid);
+                            aliyunVideo.setAttribute("data-play-auth", playAuth);
+                            aliyunVideo.setAttribute("data-cloud", cloudType);
+                            aliyunVideo.setAttribute("poster", cover);
+                            aliyunVideo.setAttribute("style", "height:240px;width:425px;");
+                            aliyunVideo.setAttribute("class", "jpress-video");
                             //阿里云播放容器的id
-                            var idStra = "video_player"+(Math.random()).toString().slice(5,10)
+                            var idStra = "video_player" + (Math.random()).toString().slice(5, 10)
                             aliyunVideo.setAttribute('id', idStra);
 
                             insertHtmlToEditor(aliyunVideo.outerHTML);
 
-                        }
-                        else if(cloudType != null && cloudType != '' && cloudType == '2'){//腾讯云
+                        } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
 
                             var qcloudVideo = document.createElement('video');
-                            qcloudVideo.setAttribute("data-vid",vid);
-                            qcloudVideo.setAttribute("data-app-id",appId);
-                            qcloudVideo.setAttribute("data-cloud",cloudType);
-                            qcloudVideo.setAttribute("poster",cover);
-                            qcloudVideo.setAttribute("style","height:240px;width:425px;");
-                            qcloudVideo.setAttribute("class","jpress-video");
+                            qcloudVideo.setAttribute("data-vid", vid);
+                            qcloudVideo.setAttribute("data-app-id", appId);
+                            qcloudVideo.setAttribute("data-cloud", cloudType);
+                            qcloudVideo.setAttribute("poster", cover);
+                            qcloudVideo.setAttribute("style", "height:240px;width:425px;");
+                            qcloudVideo.setAttribute("class", "jpress-video");
                             //腾讯云播放容器的id
-                            var idStr = "qcloud_video_player"+(Math.random()).toString().slice(5,10)
+                            var idStr = "qcloud_video_player" + (Math.random()).toString().slice(5, 10)
                             qcloudVideo.setAttribute('id', idStr);
 
                             insertHtmlToEditor(qcloudVideo.outerHTML);
@@ -248,22 +248,22 @@ $(function () {
 <link href="#(CPATH)/static/components/vditor/dist/index.css" rel="stylesheet">
 <!--<link rel="stylesheet" href="#(CPATH)/static/admin/css/tool.css">-->
 
-<link href="https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.min.css" rel="stylesheet"/>
-<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
-
 <style>
-    .main-footer.text-sm ,.main-footer{
+    .main-footer.text-sm, .main-footer {
         display: none !important;
     }
+
     .content-wrapper {
         position: relative;
         min-height: calc(100vh - calc(3.5rem + 1px));
         overflow: hidden;
     }
-    .panelContainer{
-        position:relative;
+
+    .panelContainer {
+        position: relative;
         height: calc(100% - 70px);
     }
+
     .popover-content {
         padding: 9px 14px;
         margin: 0 10px;
@@ -282,25 +282,30 @@ $(function () {
         /*min-height: 500px;*/
         height: calc(100vh - 180px);
     }
-    .article-header i{
-        font-size:22px;
+
+    .article-header i {
+        font-size: 22px;
         cursor: pointer;
     }
-    .boder-bottom{
-        border-bottom:1px solid #d9d9d9;
+
+    .boder-bottom {
+        border-bottom: 1px solid #d9d9d9;
     }
-    .setting-dropmenu{
-        width:300px;
-        top:100%;
-        left:initial !important;
-        right:0;
+
+    .setting-dropmenu {
+        width: 300px;
+        top: 100%;
+        left: initial !important;
+        right: 0;
     }
-    .tab-content{
+
+    .tab-content {
         height: 100%;
     }
-    .leftPanel{
-        width:100%;
-        height:100%;
+
+    .leftPanel {
+        width: 100%;
+        height: 100%;
         overflow-y: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -309,70 +314,105 @@ $(function () {
     .leftPanel::-webkit-scrollbar {
         width: 0;
     }
-    .rightPanel{
+
+    .rightPanel {
         position: sticky;
         height: 100%;
         overflow-y: scroll;
     }
-    .pannel-inner{
-        width:100%;
-        height:auto;
-        padding-left:0 !important;
+
+    .pannel-inner {
+        width: 100%;
+        height: auto;
+        padding-left: 0 !important;
         overflow-x: hidden;
     }
-    #formAttrTab .nav-link{
-        padding-left:1rem;
-        padding-right:1rem;
-        border:none;
-        border-bottom:4px solid #fff;
-        position:relative;
-        top:-1px;
-        color:#333;
-        font-size:15px;
+
+    #formAttrTab .nav-link {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        border: none;
+        border-bottom: 4px solid #fff;
+        position: relative;
+        top: -1px;
+        color: #333;
+        font-size: 15px;
     }
-    #formAttrTab  .nav-link.active{
-        border:none;
-        border-bottom:4px solid #0056b3;
-        color:#0056b3;
-        font-size:15px;
+
+    #formAttrTab .nav-link.active {
+        border: none;
+        border-bottom: 4px solid #0056b3;
+        color: #0056b3;
+        font-size: 15px;
     }
-    .dropdown-item{
-        padding:.75rem 1rem;
+
+    .dropdown-item {
+        padding: .75rem 1rem;
     }
-    .card{
+
+    .card {
         margin-bottom: 0rem;
         border-radius: 0;
     }
+
     .ck-editor__editable_inline, .ck-source-editing-area {
         height: calc(100vh - 158px);
     }
-    #rightSwitch{
+
+    #rightSwitch {
         display: inline-block;
-        padding:3px  6px 2px;
-        border-radius:4px;
+        padding: 3px 6px 2px;
+        border-radius: 4px;
         cursor: pointer;
-        border:1px solid #fff;
+        border: 1px solid #fff;
     }
-    .switch-btn{
+
+    .switch-btn {
         display: inline-block;
-        padding:3px  6px 2px;
-        border-radius:4px;
+        padding: 3px 6px 2px;
+        border-radius: 4px;
         cursor: pointer;
         background-color: #000;
-        border:1px solid #000;
+        border: 1px solid #000;
     }
-    .switch-btn i,.switch-btn-active i{
-        color:#fff;
-        font-size:18px !important;
+
+    .switch-btn i, .switch-btn-active i {
+        color: #fff;
+        font-size: 18px !important;
         vertical-align: middle;
     }
-    .switch-btn-active{
-        border:1px solid #fff;
-        background-color:#fff;
+
+    .switch-btn-active {
+        border: 1px solid #fff;
+        background-color: #fff;
     }
-    .switch-btn-active i{
-        font-size:18px !important;
-        color:#0069d9;
+
+    .switch-btn-active i {
+        font-size: 18px !important;
+        color: #0069d9;
+    }
+
+    .ck-editor .ck-sticky-panel .ck-sticky-panel__content .ck-toolbar_grouping {
+        background: #fff;
+        height: 45px;
+        border-top: none;
+    }
+
+    .vditor-toolbar {
+        padding-left: 64px;
+        height: 45px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        border-top: none;
+    }
+
+    .vditor-hint {
+        background: #f6f6f6;
+    }
+
+    .vditor-hint:before {
+        border-bottom-color: #f6f6f6;
     }
 </style>
 #end
@@ -380,40 +420,42 @@ $(function () {
 #define content()
 <section class="content" style="position: absolute;height:100%;width:100%;padding: 0">
     <section class="article-header d-flex justify-content-between align-items-center p-3 boder-bottom bg-white">
-    <div class="d-flex align-items-center justify-content-between" style="width: 40%">
-        <div class="input-group mr-2" >
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="article-title">标题</span>
+        <div class="d-flex align-items-center justify-content-between" style="width: 40%">
+            <div class="input-group mr-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="article-title">标题</span>
+                </div>
+                <input type="text" class="form-control" placeholder="请输入文章标题..." aria-label="..."
+                       aria-describedby="article-title">
             </div>
-            <input type="text" class="form-control" placeholder="请输入文章标题..." aria-label="..." aria-describedby="article-title">
-        </div>
 
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="insertFile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                插入附件
-            </button>
-            <div class="dropdown-menu" aria-labelledby="insertFile">
-                <a class="dropdown-item" href="#">插入附件</a>
-                <a class="dropdown-item" href="#">插入视频</a>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="insertFile" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    插入附件
+                </button>
+                <div class="dropdown-menu" aria-labelledby="insertFile">
+                    <a class="dropdown-item" href="#">插入附件</a>
+                    <a class="dropdown-item" href="#">插入视频</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="d-flex align-items-center justify-content-between">
-        <button type="button" class="btn btn-secondary mr-2">保存草稿</button>
-        <button type="button" class="btn btn-secondary mr-2">预览</button>
-        <button type="button" class="btn btn-primary mr-2">发布</button>
-        <!--<button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>-->
-        <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
-        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                class="bi bi-three-dots-vertical"></i></span>
-        <div class="dropdown-menu mr-2">
-            <a class="dropdown-item" href="#">项目一</a>
-            <a class="dropdown-item" href="#">项目二</a>
-            <a class="dropdown-item" href="#">项目三</a>
-            <a class="dropdown-item" href="#">项目二四</a>
+        <div class="d-flex align-items-center justify-content-between">
+            <button type="button" class="btn btn-secondary mr-2">保存草稿</button>
+            <button type="button" class="btn btn-secondary mr-2">预览</button>
+            <button type="button" class="btn btn-primary mr-2">发布</button>
+            <!--<button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>-->
+            <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
+            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                    class="bi bi-three-dots-vertical"></i></span>
+            <div class="dropdown-menu mr-2">
+                <a class="dropdown-item" href="javascript:;" onclick="doChangeEditor()">切换编辑器</a>
+                <a class="dropdown-item" href="#">项目二</a>
+                <a class="dropdown-item" href="#">项目三</a>
+                <a class="dropdown-item" href="#">项目二四</a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
     <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form" class="h-100 bg-white">
         <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
         <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
@@ -455,23 +497,28 @@ $(function () {
                                href="#componentAttr" role="tab" aria-controls="component" aria-selected="true">文章</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab" aria-controls="module" aria-selected="false">模板</a>
+                            <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab"
+                               aria-controls="module" aria-selected="false">模板</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="formAttrTabContent">
-                        <div class="tab-pane fade show active" id="componentAttr" role="tabpanel" aria-labelledby="componentAttr-tab">
+                        <div class="tab-pane fade show active" id="componentAttr" role="tabpanel"
+                             aria-labelledby="componentAttr-tab">
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-header" id="heading1">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapse1" aria-expanded="true"
+                                                    aria-controls="collapse1">
                                                 文章属性
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
 
                                         </h2>
                                     </div>
-                                    <div id="collapse1" class="collapse show" aria-labelledby="heading1" data-parent="#accordionExample">
+                                    <div id="collapse1" class="collapse show" aria-labelledby="heading1"
+                                         data-parent="#accordionExample">
                                         <div class="card-body article-sttr">
                                             #(fields.render())
                                         </div>
@@ -480,13 +527,16 @@ $(function () {
                                 <div class="card">
                                     <div class="card-header" id="heading2">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-link  btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapseTwo">
+                                            <button class="btn btn-link  btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapse2"
+                                                    aria-expanded="false" aria-controls="collapseTwo">
                                                 固定链接
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordionExample">
+                                    <div id="collapse2" class="collapse" aria-labelledby="heading2"
+                                         data-parent="#accordionExample">
                                         <div class="card-body">
                                         </div>
                                     </div>
@@ -494,13 +544,16 @@ $(function () {
                                 <div class="card">
                                     <div class="card-header" id="heading3">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapseThree">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapse3"
+                                                    aria-expanded="false" aria-controls="collapseThree">
                                                 分类
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionExample">
+                                    <div id="collapse3" class="collapse" aria-labelledby="heading3"
+                                         data-parent="#accordionExample">
                                         <div class="card-body">
                                         </div>
                                     </div>
@@ -508,13 +561,16 @@ $(function () {
                                 <div class="card">
                                     <div class="card-header" id="heading4">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapseThree">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapse4"
+                                                    aria-expanded="false" aria-controls="collapseThree">
                                                 标签
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionExample">
+                                    <div id="collapse4" class="collapse" aria-labelledby="heading4"
+                                         data-parent="#accordionExample">
                                         <div class="card-body">
                                         </div>
                                     </div>

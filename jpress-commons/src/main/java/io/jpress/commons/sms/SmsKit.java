@@ -69,6 +69,26 @@ public class SmsKit {
     }
 
     /**
+     * 发送重置密码的链接到手机
+     * @param mobile
+     * @param template
+     * @param sign
+     * @return
+     */
+    public static boolean sendReserPwdLinkToMobile(String mobile, String template, String sign) {
+
+        SmsMessage sms = new SmsMessage();
+        sms.setSign(sign);
+        sms.setMobile(mobile);
+        sms.setTemplate(template);
+
+        if (sms.send()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 验证用户输入的手机号是否正确
      *
      * @param mobile

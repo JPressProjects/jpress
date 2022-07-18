@@ -16,12 +16,17 @@
 package io.jpress.commons.email;
 
 import io.jboot.Jboot;
+import io.jboot.utils.NamedThreadPools;
 import io.jpress.commons.utils.CommonsUtils;
+
+import java.util.concurrent.ExecutorService;
 
 
 public class EmailKit {
 
     private static final String CACHE_NAME = "email_code";
+
+    private static ExecutorService fixedThreadPool = NamedThreadPools.newFixedThreadPool(3,"user_reset_password");
 
 
     /**
@@ -35,12 +40,12 @@ public class EmailKit {
 
         SimpleEmailSender emailSender = new SimpleEmailSender();
 
-        if (emailSender.send(email)) {
-            //有效期，2个小时
-            Jboot.getCache().put(CACHE_NAME, emailAddr, code, 60 * 60 * 2);
-            return true;
-        }
-        return false;
+        fixedThreadPool.execute(() -> {
+            emailSender.send(email);
+        });
+        //有效期，2个小时
+        Jboot.getCache().put(CACHE_NAME, emailAddr, code, 60 * 60 * 2);
+        return true;
     }
 
     /**
@@ -52,10 +57,10 @@ public class EmailKit {
 
         SimpleEmailSender emailSender = new SimpleEmailSender();
 
-        if (emailSender.send(email)) {
-            return true;
-        }
-        return false;
+        fixedThreadPool.execute(() -> {
+            emailSender.send(email);
+        });
+        return true;
     }
 
     /**

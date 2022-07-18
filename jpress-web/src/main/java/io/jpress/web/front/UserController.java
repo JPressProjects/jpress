@@ -23,6 +23,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
+import io.jboot.utils.CacheUtil;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -46,8 +47,7 @@ import io.jpress.web.commons.email.EmailSender;
 
 import javax.validation.constraints.Pattern;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -67,7 +67,6 @@ public class UserController extends TemplateControllerBase {
     private static final String default_send_link_to_user = "/WEB-INF/views/ucenter/send_link_to_user.html";
     private static final String default_user_reset_password = "/WEB-INF/views/ucenter/user_reset_password.html";
 
-    private static Map<String, String> tokenMap = new HashMap<>();
 
     @Inject
     private UserService userService;
@@ -412,12 +411,13 @@ public class UserController extends TemplateControllerBase {
         render("user_reset_password.html", default_user_reset_password);
     }
 
+
     /**
      * 给邮箱账号发送重置密码的链接地址
      * @param emailAddr
      * @param captchaVO
      */
-    public void doSendResetPwdLinkToEmail(@Pattern(regexp = Regex.EMAIL) @JsonBody("email") String emailAddr, @JsonBody CaptchaVO captchaVO) {
+    public  void doSendResetPwdLinkToEmail(@Pattern(regexp = Regex.EMAIL) @JsonBody("email")  String emailAddr,@JsonBody  CaptchaVO captchaVO) {
         ResponseModel validResult = captchaService.verification(captchaVO);
         if (validResult != null && validResult.isSuccess()) {
             if (!StrUtil.isEmail(emailAddr)) {
@@ -436,33 +436,44 @@ public class UserController extends TemplateControllerBase {
                 return;
             }
 
-//            Map<String, String> tokenMap = new HashMap<>();
             //生成唯一不重复的字符串
             String token = UUID.randomUUID().toString();
             //token和邮箱绑定
-            tokenMap.put(token,emailAddr);
+            CacheUtil.put("email_token",token,emailAddr,60 * 60);
+
+            String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
+            String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=true";
+//            String url = "http://test.jpress.cn:8080/user/resetPwd?token=" + token+"&isEmail=true";
+
+            String webName = JPressOptions.get(JPressConsts.ATTR_WEB_NAME);
+            if (webName == null) {
+                webName = "";
+            }
+
+            String title = webName + JPressOptions.get("reg_email_reset_pwd_title");
+            String content = "<a href=\"" + url + "\">" + url + "</a>";
+            String template = JPressOptions.get("reg_email_reset_pwd_template");
+
+            String contentLink = null;
+            if(template != null && !("").equals(template)){
+                contentLink = template.replace("{url}", content);
+            }else{
+                contentLink = "重置密码地址：<a href=\"" + url + "\">" + url + "</a>";
+            }
+
 
             //获取关于邮箱的配置内容
             Email email = Email.create();
-            email.subject("JPress：点击下方链接进行密码重置");
-            email.content("<html lang='zh-CN'><head >"
-                    + "<meta charset='utf-8'>"
-                    + "</head><body>"
-                    + "<div><a href='http://test.jpress.cn:8080/user/resetPwd?token="+token+"&isEmail=true"+"'>重置密码</a></div>"
-                    + "</body></html>"
-            );
+            email.subject(title);
+            email.content(contentLink);
+
 
             email.to(emailAddr);
+            String emailNumber = CacheUtil.get("email_token", token);
 
-
-//            renderJson(Ret.ok().set("message", "邮箱重置密码链接发送成功，请手机查看").set("token",token).set("email",tokenMap.get(token)).set("isEmail",true));
             //发送邮箱重置密码链接
-            boolean sendOk = EmailKit.sendResetPwdLinkToEmail(email);
-            if (sendOk) {
-                renderJson(Ret.ok().set("message", "邮箱重置密码链接发送成功，请手机查看").set("token",token).set("email",tokenMap.get(token)).set("isEmail",true));
-            } else {
-                renderJson(Ret.fail().set("message", "邮箱重置密码链接实发失败，请联系管理员"));
-            }
+            EmailKit.sendResetPwdLinkToEmail(email);
+            renderJson(Ret.ok().set("message", "邮箱重置密码链接发送成功，请手机查看").set("token",token).set("email",emailNumber).set("isEmail",true));
         } else {
             renderFailJson("验证错误");
         }
@@ -480,67 +491,69 @@ public class UserController extends TemplateControllerBase {
             //生成唯一不重复的字符串
             String token = UUID.randomUUID().toString();
             //token和电话号码绑定
-            tokenMap.put(token,mobile);
+            CacheUtil.put("mobile_token", token, mobile, 60 * 60);
 
-//            String template = JPressOptions.get("reg_sms_validate_template");
-            String template = "<html lang='zh-CN'><head >"
-                                + "<meta charset='utf-8'>"
-                                + "</head><body>"
-                                + "<div><a href='http://test.jpress.cn:8080/user/resetPwd?token="+token+"&isEmail=false"+"'>JPress：重置密码</a></div>"
-                                + "</body></html>";
+            String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
+            String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=false";
+//            String url = "http://test.jpress.cn:8080/user/resetPwd?token=" + token+"&isEmail=false";
+//            String template = JPressOptions.get("reg_sms_reset_pwd_template");
+
+            String template = "重置密码地址：<a href=\"" + url + "\">" + url + "</a>";
             String sign = JPressOptions.get("reg_sms_validate_sign");
+            String mobileNumber = CacheUtil.get("mobile_token", token);
 
-            renderJson(Ret.ok().set("message", "短信重置密码链接发送成功，请手机查看").set("token",token).set("mobile",tokenMap.get(token)).set("isEmail",false));
-
-//                boolean sendOk = SmsKit.sendReserPwdLinkToMobile(mobile,  template, sign);
-//                boolean sendOk = SmsKit.sendCode(mobile, code, template, sign);
-//
-//                if (sendOk) {
-//                    renderJson(Ret.ok().set("message", "短信重置密码链接发送成功，请手机查看").set("token",token).set("mobile",tokenMap.get(token)).set("isEmail",false));
-//                } else {
-//                    renderJson(Ret.fail().set("message", "短信实发失败，请联系管理员"));
-//                }
+            boolean sendOk = SmsKit.sendReserPwdLinkToMobile(mobile, template, sign);
+            if (sendOk) {
+                renderJson(Ret.ok().set("message", "短信重置密码链接发送成功，请手机查看").set("token", token).set("mobile", mobileNumber).set("isEmail", false));
+            } else {
+                renderJson(Ret.fail().set("message", "短信实发失败，请联系管理员"));
+            }
         } else {
             renderFailJson("验证错误");
         }
     }
 
-
-
-
+    /**
+     * 重置用户密码
+     */
     public void doResetPassword() {
 
         String token = getPara("token");
+        //根据cacheName和token从缓存中获取数据value
+        String email = CacheUtil.get("email_token", token);
+        String mobile = CacheUtil.get("mobile_token", token);
+        //根据缓存名称获取存入的key
+        List emailTokenKeys = CacheUtil.getKeys("email_token");
+        List mobileTokenKeys = CacheUtil.getKeys("mobile_token");
+
         Boolean isEmail = getParaToBoolean("type");
-        String email = getPara("email");
-        String mobile = getPara("phone");
+
         String pwd = getPara("pwd");
         String confirmPwd = getPara("confirmPwd");
 
         if (StrUtil.isBlank(token)) {
-            renderJson(Ret.fail().set("message", "token错误，请重新发送").set("errorCode", 2));
+            renderJson(Ret.fail().set("message", "token不能为空，请重新发送").set("errorCode", 2));
             return;
         }
-
-        if(isEmail && !email.equals(tokenMap.get(token))){
+        if(isEmail && !emailTokenKeys.contains(token)){
             renderJson(Ret.fail().set("message", "token是无效的，请重新发送！").set("errorCode", 5));
             return;
         }
 
         if (isEmail && StrUtil.isBlank(email)) {
-            renderJson(Ret.fail().set("message", "邮箱不能为空").set("errorCode", 2));
+            renderJson(Ret.fail().set("message", "邮箱不存在或已被删除").set("errorCode", 2));
             return;
         } else {
             email = email.toLowerCase();
         }
 
-        if(!isEmail && !mobile.equals(tokenMap.get(token))){
+        if(!isEmail && !mobileTokenKeys.contains(token)){
             renderJson(Ret.fail().set("message", "token是无效的，请重新发送！").set("errorCode", 5));
             return;
         }
 
         if (!isEmail && StrUtil.isBlank(mobile)) {
-            renderJson(Ret.fail().set("message", "手机号不能为空").set("errorCode", 2));
+            renderJson(Ret.fail().set("message", "手机号不存在或已被删除").set("errorCode", 2));
             return;
         }
 
@@ -570,7 +583,7 @@ public class UserController extends TemplateControllerBase {
                 user.setPassword(hashedPass);
                 userService.update(user);
             }else{
-                renderJson(Ret.fail().set("message", "该邮箱不存在").set("errorCode", 11));
+                renderJson(Ret.fail().set("message", "邮箱不存在或已被删除").set("errorCode", 11));
                 return;
             }
             renderJson(user != null ? OK.set("message","重置密码成功") : FAIL.set("message","重置密码失败"));
@@ -585,7 +598,7 @@ public class UserController extends TemplateControllerBase {
                 user.setPassword(hashedPass);
                 userService.update(user);
             }else{
-                renderJson(Ret.fail().set("message", "该手机号未注册").set("errorCode", 11));
+                renderJson(Ret.fail().set("message", "该手机号不存在或已被删除").set("errorCode", 11));
                 return;
             }
             renderJson(user != null ? OK.set("message","重置密码成功") : FAIL.set("message","重置密码失败"));

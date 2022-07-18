@@ -24,6 +24,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
+import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.model.JobApply;
@@ -58,10 +59,16 @@ public class _JobController extends AdminControllerBase {
 
     @AdminMenu(text = "招聘岗位", groupId = "job", order = 0)
     public void list() {
+
         Columns columns = new Columns();
+        columns.eq("title", getPara("title"));
+        columns.eq("category_id",getParaToLong("categoryId"));
         Page<Job> entries = service.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(), columns, "created desc");
         setAttr("page", entries);
 
+        List<JobCategory> categoryList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_CATEGORY));
+        SortKit.toLayer(categoryList);
+        setAttr("categoryList", categoryList);
 
         render("job/job_list.html");
     }
@@ -81,6 +88,7 @@ public class _JobController extends AdminControllerBase {
         int entryId = getParaToInt(0, 0);
 
         List<JobCategory> categoryList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_CATEGORY));
+        SortKit.toLayer(categoryList);
         setAttr("categoryList", categoryList);
 
         List<JobCategory> addressList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_ADDRESS));
@@ -176,16 +184,15 @@ public class _JobController extends AdminControllerBase {
 
         Columns columns = new Columns();
         columns.eq("type", JobCategory.CATEGORY_TYPE_CATEGORY);
-        Page<JobCategory> entries = jobCategoryService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
-        setAttr("page", entries);
-        setAttr("type", JobCategory.CATEGORY_TYPE_CATEGORY);
+        List<JobCategory> categories = jobCategoryService.findListByColumnsWithParent(columns,"order_number asc");
+        SortKit.toLayer(categories);
+        setAttr("categories", categories);
 
-        List<JobCategory> categoryList = jobCategoryService.findListByColumns(columns);
-        setAttr("categoryList", categoryList);
+        setAttr("type", JobCategory.CATEGORY_TYPE_CATEGORY);
 
         long entryId = getParaToLong(0, 0L);
 
-        if (entryId > 0 && entries != null) {
+        if (entryId > 0 && categories != null) {
             setAttr("jobCategory", jobCategoryService.findById(entryId));
         }
 
@@ -198,6 +205,7 @@ public class _JobController extends AdminControllerBase {
 
         if (entry.getId() == null) {
             entry.setType(JobCategory.CATEGORY_TYPE_CATEGORY);
+            entry.setCount(0L);
         }
 
         long id = (long) jobCategoryService.saveOrUpdate(entry);
@@ -210,11 +218,6 @@ public class _JobController extends AdminControllerBase {
         render(jobCategoryService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 
-    @EmptyValidate(@Form(name = "ids"))
-    public void categoryDoDelByIds() {
-        jobCategoryService.batchDeleteByIds(getParaSet("ids").toArray());
-        renderOkJson();
-    }
 
     //地址管理 和 分类管理 共用一张表 区别在于 字段 type
     @AdminMenu(text = "地址", groupId = "job", order = 2)
@@ -222,20 +225,16 @@ public class _JobController extends AdminControllerBase {
 
         Columns columns = new Columns();
         columns.eq("type", JobCategory.CATEGORY_TYPE_ADDRESS);
-        Page<JobCategory> entries = jobCategoryService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
-        setAttr("page", entries);
+        List<JobCategory> categories = jobCategoryService.findListByColumnsWithParent(columns,"order_number asc");
+        setAttr("categories", categories);
 
         setAttr("type", JobCategory.CATEGORY_TYPE_ADDRESS);
 
-        List<JobCategory> categoryList = jobCategoryService.findListByColumns(columns);
-        setAttr("addressList", categoryList);
-
         long entryId = getParaToLong(0, 0L);
 
-        if (entryId > 0 && entries != null) {
+        if (entryId > 0 && categories != null) {
             setAttr("jobCategory", jobCategoryService.findById(entryId));
         }
-
 
         render("job/job_category_list.html");
 
@@ -245,9 +244,8 @@ public class _JobController extends AdminControllerBase {
         JobCategory entry = getModel(JobCategory.class, "jobCategory");
 
         if (entry.getId() == null) {
-
             entry.setType(JobCategory.CATEGORY_TYPE_ADDRESS);
-
+            entry.setPid(0L);
         }
 
         long id = (long) jobCategoryService.saveOrUpdate(entry);
@@ -258,8 +256,13 @@ public class _JobController extends AdminControllerBase {
     public void JobApply() {
 
         Columns columns = new Columns();
+        columns.likeAppendPercent("user_name",getPara("username"));
+        columns.eq("job_id",getLong("jobId"));
         Page<JobApply> page = jobApplyService.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(), columns, "created desc");
         setAttr("page", page);
+
+        List<Job> jobList = service.findAll();
+        setAttr("jobList",jobList);
 
         render("job/job_apply_list.html");
     }

@@ -18,6 +18,19 @@ public class JobCategory extends BaseJobCategory<JobCategory> {
     public static final String CATEGORY_TYPE_ADDRESS = "address";
 
 
-	
+    @Override
+    public JobCategory getParent() {
+        return super.getParent();
+    }
+
+    @Override
+    public boolean isMyChild(long id) {
+        return super.isMyChild(id);
+    }
+
+    @Override
+    public String getLayerString() {
+        return super.getLayerString();
+    }
 }
 

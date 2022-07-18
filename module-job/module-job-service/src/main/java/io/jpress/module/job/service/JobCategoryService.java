@@ -183,4 +183,12 @@ public interface JobCategoryService {
     */
     public boolean updateCount(List<Long> categoryIds);
 
+    /**
+    * 分页查询  并添加父级信息
+    *
+    * @param columns
+    * @param orderBy
+    * @return com.jfinal.plugin.activerecord.Page<io.jpress.module.job.model.JobCategory>
+    */
+   List<JobCategory> findListByColumnsWithParent(Columns columns,String orderBy);
 }

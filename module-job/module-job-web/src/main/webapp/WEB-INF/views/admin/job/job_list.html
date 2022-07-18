@@ -31,7 +31,7 @@
 
             </div>
             <div class="col-sm-6 ">
-                <div class=" float-sm-right" style="padding-top: 45px">
+                <div class=" float-sm-right" style="padding-top: 15px">
                     <a href="/admin/job/add" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>
                 </div>
             </div>
@@ -47,6 +47,20 @@
             <div class="card-header">
                 <form class=" admin-search-panel" action="" method="get">
                     <div class="row">
+
+                        <div class="form-group col-lg-2">
+                            <input type="text" class="form-control" placeholder="请输入名称" name="title" value="#para('title')">
+                        </div>
+
+                        <div class="form-group col-lg-2">
+                            <select class="form-control" name="categoryId">
+                                <option value="">全部分类</option>
+                                #for(category : categoryList)
+                                <option value="#(category.id ??)" #selectedIf(category.id == numberPara('categoryId'))>#(category.layerString) #(category.title ??)</option>
+                                #end
+                            </select>
+                        </div>
+
                         <div class="form-group col-lg-2">
                             <button type="submit" class="btn btn-primary ">查询</button>
                             <button type="reset" class="btn btn-default">重置</button>

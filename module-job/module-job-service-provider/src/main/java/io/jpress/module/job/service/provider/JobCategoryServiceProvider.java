@@ -2,7 +2,9 @@ package io.jpress.module.job.service.provider;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
+import io.jboot.db.model.Columns;
 import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.User;
 import io.jpress.module.job.model.JobCategory;
@@ -46,6 +48,45 @@ public class JobCategoryServiceProvider extends JPressServiceBase<JobCategory> i
         }
 
         return true;
+    }
+
+
+    /**
+     * 分页查询  并添加父级信息
+     *
+     * @param columns
+     * @return com.jfinal.plugin.activerecord.Page<io.jpress.module.job.model.JobCategory>
+     */
+    @Override
+    public List<JobCategory> findListByColumnsWithParent(Columns columns,String orderBy) {
+
+        List<JobCategory> categoryList = DAO.findListByColumns(columns,orderBy);
+
+        for (JobCategory jobCategory : categoryList) {
+
+            appendInfo(jobCategory);
+
+        }
+
+        return categoryList;
+    }
+
+
+    /**
+    * 追加 category 对应的信息
+    *
+    * @return io.jpress.module.job.model.JobCategory
+    */
+    private JobCategory appendInfo(@NotNull JobCategory jobCategory){
+
+        //添加父级 信息
+        if(jobCategory.getPid() != null && jobCategory.getPid() != 0){
+            JobCategory jobParent = DAO.findById(jobCategory.getPid());
+            jobCategory.setParent(jobParent);
+        }
+
+
+        return jobCategory;
     }
 
 }

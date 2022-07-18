@@ -158,10 +158,10 @@
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <h1>
-                            编辑/新增
+                            #if(job.id  ??) 编辑 #else 新增 #end
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / Job / 编辑</small>
+                            <small> 首页 / 招聘 /  #if(job.id  ??) 编辑 #else 新增 #end</small>
                         </h1>
                     </div>
                 </div>
@@ -383,9 +383,8 @@
                             #for(item : categoryList)
                             <div>
                                 <label>
-                                    <input type="radio" name="job.category_id" value="#(item.id)" #if(item.id ??==
-                                           job.category_id ??) checked #end/>
-                                    #(item.title ??)
+                                    <input type="radio" name="job.category_id" value="#(item.id)" #if(item.id ??== job.category_id ??) checked #end/>
+                                    #(item.layerString ??) #(item.title ??)
                                 </label>
                             </div>
                             #else

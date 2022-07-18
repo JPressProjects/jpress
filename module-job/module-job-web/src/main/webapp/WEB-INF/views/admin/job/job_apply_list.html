@@ -20,20 +20,15 @@
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <h1>
-                            招聘管理
+                            投递列表
                             <small data-toggle="tooltip" title="可以查看所有岗位，鼠标移到岗位标题上，可以对其编辑或删除等操作" data-placement="bottom"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / 招聘 / 简历管理</small>
+                            <small> 首页 / 招聘 / 投递列表</small>
                         </h1>
                     </div>
                 </div>
 
             </div>
-<!--            <div class="col-sm-6 ">-->
-<!--                <div class=" float-sm-right" style="padding-top: 45px">-->
-<!--                    <a href="/admin/job/add" type="button" class="btn btn-primary"><i class="fas fa-plus"></i>新建</a>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
 
     </div>
@@ -46,6 +41,22 @@
             <div class="card-header">
                 <form class=" admin-search-panel" action="" method="get">
                     <div class="row">
+
+
+                        <div class="form-group col-lg-2">
+                            <input type="text" class="form-control" placeholder="请输入名称" name="username" value="#para('username')">
+                        </div>
+
+                        <div class="form-group col-lg-2">
+                            <select class="form-control" name="jobId">
+                                <option value="">全部岗位</option>
+                                #for(job : jobList)
+                                <option value="#(job.id ??)" #selectedIf(job.id == numberPara('jobId'))>#(job.title ??)</option>
+                                #end
+                            </select>
+                        </div>
+
+
                         <div class="form-group col-lg-2">
                             <button type="submit" class="btn btn-primary ">查询</button>
                             <button type="reset" class="btn btn-default">重置</button>
@@ -91,9 +102,6 @@
                         </td>
                         <td>#(entry.job.title ??)</td>
                         <td>#(entry.mobile ??)</td>
-<!--                        <td>-->
-<!--                            #if(entry.gender ?? == 0) 男 #else if(entry.gender ?? == 1) 女 #end-->
-<!--                        </td>-->
                         <td>#(entry.work_years ??)</td>
 
                         <td>

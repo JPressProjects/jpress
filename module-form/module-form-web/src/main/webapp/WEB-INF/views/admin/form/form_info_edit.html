@@ -24,19 +24,19 @@
         doSubmit();
     })
 
-    $(function (){
+    $(function () {
 
         var isShow = $(".isShow");
 
-         isShow.change(function (){
+        isShow.change(function () {
 
-         let boolean = $("#formInfo_with_hook").val();
+            let boolean = $("#formInfo_with_hook").val();
 
-         if(boolean == "false"){
-             $("#isShow").css("display","none")
-         }else {
-             $("#isShow").css("display","")
-         }
+            if (boolean == "false") {
+                $("#isShow").css("display", "none")
+            } else {
+                $("#isShow").css("display", "")
+            }
 
         })
 
@@ -55,7 +55,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <h1>
-                            #if(formInfo.id  ??) 编辑 #else 新增 #end
+                            #if(formInfo.id ??) 编辑 #else 新增 #end
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
                             <small> 首页 / 表单 / 编辑</small>
@@ -86,6 +86,24 @@
                                 <input type="input" name="formInfo.name" class="form-control"
                                        value="#(formInfo.name ??)"
                                        placeholder="请输入名称">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">表单标题（前台显示）</label>
+                            <div class="col-sm-6">
+
+                                <input type="input" name="formInfo.title" class="form-control"
+                                       value="#(formInfo.title ??)"
+                                       placeholder="表单标题">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">表单描述（前台显示）</label>
+                            <div class="col-sm-6">
+                                <textarea name="formInfo.summary" class="form-control"
+                                          rows="3" placeholder="...">#(formInfo.summary ??)</textarea>
                             </div>
                         </div>
 
@@ -135,7 +153,8 @@
                             <label class="col-sm-2 col-form-label">表单头图</label>
                             <div class="col-sm-9">
                                 <div class="jpress-image-browser">
-                                    <input type="hidden" name="formInfo.header_image" value="#(formInfo.header_image ??)"/>
+                                    <input type="hidden" name="formInfo.header_image"
+                                           value="#(formInfo.header_image ??)"/>
                                     <img src="#(formInfo.header_image ?? '/static/commons/img/nothumbnail.jpg')">
                                     <div class="image-action">
                                         <a class="image-delete"> <i class="fa fa-trash"></i></a>
@@ -169,9 +188,6 @@
                                        placeholder="请输入钩子连接">
                             </div>
                         </div>
-
-
-
 
 
                         <div class="form-group row">

@@ -8,6 +8,17 @@
     <title>表单详情</title>
 </head>
 
-#formInfo()
+<div style="background: url('#(form.bgImage)')">
+    <img src="#(form.headerImage ??)" />
+
+    <div>
+        #(form.title ??) <br/>
+        #(form.summary ??)
+    </div>
+
+    <div class="form-content">
+        #formInfo()
+    </div>
+</div>
 
 </html>

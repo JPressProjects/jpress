@@ -2,6 +2,7 @@ package io.jpress.module.form.directive;
 
 import com.alibaba.fastjson.JSONArray;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
@@ -15,6 +16,7 @@ import io.jpress.module.form.FormManager;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
 
+import java.util.Enumeration;
 import java.util.Map;
 
 @JFinalDirective("formInfo")
@@ -45,7 +47,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
                     ? formInfoService.findById(id)
                     : formInfoService.findFirstByColumns(Columns.create("flag", flag));
         } else {
-            formInfo = JbootControllerContext.get().getAttr("form");
+            formInfo = getFormInfoInAttrs();
         }
 
         if (formInfo == null) {
@@ -66,5 +68,25 @@ public class FormInfoDirective extends JbootDirectiveBase {
             String html = FormManager.me().renderAll(datas, values, false);
             renderText(writer, html);
         }
+    }
+
+
+
+    private FormInfo getFormInfoInAttrs(){
+        Controller controller = JbootControllerContext.get();
+        if (controller == null){
+            return null;
+        }
+
+        Enumeration<String> attrs = controller.getAttrNames();
+        while (attrs.hasMoreElements()){
+            String attr = attrs.nextElement();
+            Object value = controller.getAttr(attr);
+            if (value instanceof FormInfo){
+                return (FormInfo) value;
+            }
+        }
+
+        return null;
     }
 }

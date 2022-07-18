@@ -30,7 +30,7 @@ public class FormController extends TemplateControllerBase {
         }
 
         FormInfo formInfo = formInfoService.findById(formId);
-        setAttr("formInfo", formInfo);
+        setAttr("form", formInfo);
 
         render("form.html", DEFAULT_FORM_DETAIL_TEMPLATE);
     }

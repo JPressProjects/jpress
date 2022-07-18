@@ -183,10 +183,10 @@ textarea.jpress-form-control {
 }
 .jpress-custom-switch .jpress-custom-label::before {
     left:2px;
-    top:9px;
+    top:8px;
     width: 36px;
     pointer-events: all;
-    border-radius: 0.5rem;
+    border-radius: 10px;
     transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .jpress-custom-input:checked~.jpress-custom-label::before {

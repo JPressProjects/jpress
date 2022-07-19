@@ -81,17 +81,17 @@
                                    操作
                                 </th>
                             </tr>
-                            #for(entry : page.list)
+                            #for(record : page.list)
                             <tr>
-                                <td><input name="tableItem" type="checkbox" value="#(entry.id)" /></td>
+                                <td><input name="tableItem" type="checkbox" value="#(record.id)" /></td>
                                 #for(field : form.fieldInfos)
                                 #if(field.showInList)
-                                    <td>#(entry.get(field.fieldName) ??)</td>
+                                    <td>#(record.get(field.fieldName) ??)</td>
                                 #end
                                 #end
                                 <td>
-                                    <a style="color: #006505" href="#(CPATH)/admin/form/data/detail?formId=#(form.id ??)&dataId=#(entry.id ??)">详情</a>
-                                    <a style="color: #a00" href="#(CPATH)/admin/form/data/doDel/#(form.id ??)?id=#(entry.id ??)"
+                                    <a style="color: #006505" href="#(CPATH)/admin/form/data/detail?formId=#(form.id ??)&dataId=#(record.id ??)">详情</a>
+                                    <a style="color: #a00" href="#(CPATH)/admin/form/data/doDel/#(form.id ??)?id=#(record.id ??)"
                                        open-type="del-confirm">删除</a>
                                 </td>
                             </tr>

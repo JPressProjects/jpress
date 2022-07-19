@@ -54,7 +54,7 @@ public class _FormDatasourceItemController extends AdminControllerBase {
         setAttr("dictId",id);
 
         Columns columns = new Columns();
-        columns.eq("dict_id", id);
+        columns.eq("datasource_id", id);
         Page<FormDatasourceItem> entries = service.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
 
@@ -70,24 +70,24 @@ public class _FormDatasourceItemController extends AdminControllerBase {
 
         Long dictId = getParaToLong("dictId");
 
-        setAttr("formDictItem", entry);
+        setAttr("datasourceItem", entry);
 
         if (entry != null) {
-            FormDatasource formDict = formDatasourceService.findById(entry.getDictId());
-            setAttr("formDict", formDict);
+            FormDatasource datasource = formDatasourceService.findById(entry.getDatasourceId());
+            setAttr("datasource", datasource);
         }else {
-            FormDatasource formDict = formDatasourceService.findById(dictId);
-            setAttr("formDict", formDict);
+            FormDatasource datasource = formDatasourceService.findById(dictId);
+            setAttr("datasource", datasource);
         }
 
-        List<FormDatasourceItem> formDictItemList = service.findAll();
-        setAttr("formDictItemList", formDictItemList);
+        List<FormDatasourceItem> datasourceItemList = service.findAll();
+        setAttr("datasourceItemList", datasourceItemList);
 
         render("form/form_datasource_item_edit.html");
     }
 
     public void doSave() {
-        FormDatasourceItem entry = getModel(FormDatasourceItem.class, "formDictItem");
+        FormDatasourceItem entry = getModel(FormDatasourceItem.class, "datasourceItem");
 
         if (entry.getPid() == null) {
             entry.setPid(0L);

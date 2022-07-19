@@ -36,15 +36,15 @@ public abstract class BaseFormDatasourceItem<M extends BaseFormDatasourceItem<M>
     /**
      * 归属的数据源ID
      */
-	public void setDictId(java.lang.Long dictId) {
-		set("dict_id", dictId);
+	public void setDatasourceId(java.lang.Long datasourceId) {
+		set("datasource_id", datasourceId);
 	}
 
     /**
      * 归属的数据源ID
      */
-	public java.lang.Long getDictId() {
-		return getLong("dict_id");
+	public java.lang.Long getDatasourceId() {
+		return getLong("datasource_id");
 	}
 
     /**

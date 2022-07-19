@@ -64,10 +64,9 @@
                             <th style="width: 10px">
                                 <input class="tableCheckAll" type="checkbox"/>
                             </th>
-                            <th style="width: 150px">key</th>
-                            <th style="width: 100px">文本内容</th>
+                            <th style="width: 150px">value</th>
+                            <th style="width: 100px">显示文本</th>
                             <th style="width: 100px">上级ID</th>
-                            <th style="width: 100px">归属的字典ID</th>
                             <th style="width: 100px">图片</th>
 
                         </tr>
@@ -86,7 +85,6 @@
                             </td>
                             <td>#maxLength(entry.text,10)</td>
                             <td>#(entry.pid)</td>
-                            <td>#(entry.dict_id)</td>
                             <td>
                                 <img #if(entry.image ??) src="#(entry.image ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 20%;width: 20%">
                             </td>

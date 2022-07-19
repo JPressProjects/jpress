@@ -31,7 +31,7 @@
 
         isStatic.change(function (){
 
-            let isStaticShow = $("#formDict_with_static").val();
+            let isStaticShow = $("#datasource_with_static").val();
 
             if(isStaticShow == "true"){
                 $("#importType").css("display","");
@@ -39,7 +39,7 @@
                 $("#importUrl").css("display","none");
                 $("#headers").css("display","none");
 
-                $("#importTextTextarea").prop("name","formDict.import_text");
+                $("#importTextTextarea").prop("name","datasource.import_text");
 
                 $("#importUrlInput").removeAttr("name")
             }else {
@@ -48,11 +48,11 @@
                 $("#importUrl").css("display","");
                 $("#headers").css("display","");
 
-                $('input:radio[name="formDict.import_type"][value="0"]').prop("checked",false);
-                $('input:radio[name="formDict.import_type"][value="1"]').prop("checked",false);
-                $('input:radio[name="formDict.import_type"][value="2"]').prop("checked",true);
+                $('input:radio[name="datasource.import_type"][value="0"]').prop("checked",false);
+                $('input:radio[name="datasource.import_type"][value="1"]').prop("checked",false);
+                $('input:radio[name="datasource.import_type"][value="2"]').prop("checked",true);
 
-                $("#importUrlInput").prop("name","formDict.import_text");
+                $("#importUrlInput").prop("name","datasource.import_text");
                 $("#importTextTextarea").removeAttr("name")
             }
 
@@ -72,7 +72,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <h1>
-                            #if(formDict.id ??) 编辑 #else 新增 #end
+                            #if(datasource.id ??) 编辑 #else 新增 #end
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
                             <small> 首页 / 表单 / 数据字典 / 编辑</small>
@@ -94,15 +94,15 @@
                       method="POST" id="form1">
 
                     <div class="card-body ">
-                        <input type="hidden" id="entryId" name="formDict.id" value="#(formDict.id ??)">
+                        <input type="hidden" id="entryId" name="datasource.id" value="#(datasource.id ??)">
 
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">名称</label>
                             <div class="col-sm-6">
 
-                                <input type="input" name="formDict.name" class="form-control"
-                                       value="#(formDict.name ??)"
+                                <input type="input" name="datasource.name" class="form-control"
+                                       value="#(datasource.name ??)"
                                        placeholder="请输入字典名称" required>
                             </div>
                         </div>
@@ -112,9 +112,9 @@
                             <label class="col-sm-2 col-form-label">是否级联</label>
                             <div class="col-sm-6">
 
-                                <input type="checkbox" class="switchery" data-for="formDict_with_cascade"
-                                       #checkedIf(formDict.with_cascade ??)>
-                                <input type="hidden" id="formDict_with_cascade" name="formDict.with_cascade">
+                                <input type="checkbox" class="switchery" data-for="datasource_with_cascade"
+                                       #checkedIf(datasource.with_cascade ??)>
+                                <input type="hidden" id="datasource_with_cascade" name="datasource.with_cascade">
                             </div>
                         </div>
 
@@ -122,51 +122,51 @@
                             <label class="col-sm-2 col-form-label">是否是静态内容</label>
                             <div class="col-sm-6">
 
-                                <input type="checkbox" class="switchery isStatic" data-for="formDict_with_static"
-                                       #checkedIf(formDict.with_static ??)>
-                                <input type="hidden" id="formDict_with_static" name="formDict.with_static">
+                                <input type="checkbox" class="switchery isStatic" data-for="datasource_with_static"
+                                       #checkedIf(datasource.with_static ??)>
+                                <input type="hidden" id="datasource_with_static" name="datasource.with_static">
                             </div>
                         </div>
 
-                        <div class="form-group row" #if(!formDict.with_static ??) style="display: none" #end id="importType">
+                        <div class="form-group row" #if(!datasource.with_static ??) style="display: none" #end id="importType">
                             <label class="col-sm-2 col-form-label">导入类型</label>
                             <div class="col-sm-6" style="margin-top: 10px">
-                                <input type="radio" name="formDict.import_type" value="0" #if(formDict.import_type ??== 0) checked #end>一行一个内容
+                                <input type="radio" name="datasource.import_type" value="0" #if(datasource.import_type ??== 0) checked #end>一行一个内容
 
-                                <input style="margin-left: 20px" type="radio" name="formDict.import_type" value="1" #if(formDict.import_type ??== 1) checked #end>json内容
+                                <input style="margin-left: 20px" type="radio" name="datasource.import_type" value="1" #if(datasource.import_type ??== 1) checked #end>json内容
 
                                 <div style="margin-left: 20px;display: none">
-                                    <input type="radio" name="formDict.import_type" value="2" #if(!formDict.with_static ??) checked #end>动态URL
+                                    <input type="radio" name="datasource.import_type" value="2" #if(!datasource.with_static ??) checked #end>动态URL
                                 </div>
 
                             </div>
                         </div>
 
-                        <div class="form-group row" #if(!formDict.with_static ??) style="display: none" #end id="importText">
+                        <div class="form-group row" #if(!datasource.with_static ??) style="display: none" #end id="importText">
                             <label class="col-sm-2 col-form-label">导入内容</label>
                             <div class="col-sm-6">
 
-                                <textarea id="importTextTextarea" name="formDict.import_text" class="form-control" rows="3">#(formDict.import_text ??)</textarea>
+                                <textarea id="importTextTextarea" name="datasource.import_text" class="form-control" rows="3">#(datasource.import_text ??)</textarea>
 
                             </div>
                         </div>
 
-                        <div class="form-group row" #if(formDict.with_static ??) style="display: none" #end id="importUrl">
+                        <div class="form-group row" #if(datasource.with_static ??) style="display: none" #end id="importUrl">
                             <label class="col-sm-2 col-form-label">动态URL</label>
                             <div class="col-sm-6">
 
                                 <input type="input" id="importUrlInput" class="form-control"
-                                       value="#(formDict.import_text ??)" name="formDict.import_text"
+                                       value="#(datasource.import_text ??)" name="datasource.import_text"
                                        placeholder="请输入导入数据的url">
                             </div>
                         </div>
 
-                        <div class="form-group row" #if(formDict.with_static ??) style="display: none" #end id="headers">
+                        <div class="form-group row" #if(datasource.with_static ??) style="display: none" #end id="headers">
                             <label class="col-sm-2 col-form-label">headers</label>
                             <div class="col-sm-6">
 
-                                <input type="input" name="formDict.headers" class="form-control"
-                                       value="#(formDict.headers ??)"
+                                <input type="input" name="datasource.headers" class="form-control"
+                                       value="#(datasource.headers ??)"
                                        placeholder="请输入导入数据的headers信息">
                             </div>
                         </div>

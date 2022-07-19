@@ -69,13 +69,13 @@ public class _FormDatasourceController extends AdminControllerBase {
         int entryId = getParaToInt(0, 0);
 
         FormDatasource entry = entryId > 0 ? formDatasourceService.findById(entryId) : null;
-        setAttr("formDict", entry);
+        setAttr("datasource", entry);
         set("now", new Date());
         render("form/form_datasource_edit.html");
     }
 
     public void doSave() {
-        FormDatasource entry = getModel(FormDatasource.class, "formDict");
+        FormDatasource entry = getModel(FormDatasource.class, "datasource");
 
         if (entry.getName() == null) {
             renderFailJson("名称不能为空");
@@ -89,10 +89,10 @@ public class _FormDatasourceController extends AdminControllerBase {
         formDatasourceService.saveOrUpdate(entry);
 
         //查询是否该 字典 对应的 item
-        FormDatasourceItem formDictItem = itemService.findFirstByColumns(Columns.create().eq("dict_id", entry.getId()));
+        FormDatasourceItem datasourceItem = itemService.findFirstByColumns(Columns.create().eq("dict_id", entry.getId()));
 
         //如果查询不为空 那么 删除然后新建
-        if (formDictItem != null) {
+        if (datasourceItem != null) {
             itemService.deleteByDictId(entry.getId());
         }
 
@@ -132,7 +132,7 @@ public class _FormDatasourceController extends AdminControllerBase {
 
                         String[] keyAndValue = text.split(":");
 
-                        formDatasourceItem.setDictId(entry.getId());
+                        formDatasourceItem.setDatasourceId(entry.getId());
                         formDatasourceItem.setPid(0L);
                         formDatasourceItem.setSiteId(SiteContext.getSiteId());
 
@@ -162,7 +162,7 @@ public class _FormDatasourceController extends AdminControllerBase {
 
                         for (FormDatasourceItem formDatasourceItem : formDatasourceItems) {
 
-                            formDatasourceItem.setDictId(entry.getId());
+                            formDatasourceItem.setDatasourceId(entry.getId());
                             formDatasourceItem.setPid(0L);
                             formDatasourceItem.setSiteId(SiteContext.getSiteId());
 
@@ -173,7 +173,7 @@ public class _FormDatasourceController extends AdminControllerBase {
                     } else {
                         FormDatasourceItem formDatasourceItem = JSON.parseObject(importTexts, FormDatasourceItem.class);
 
-                        formDatasourceItem.setDictId(entry.getId());
+                        formDatasourceItem.setDatasourceId(entry.getId());
                         formDatasourceItem.setPid(0L);
                         formDatasourceItem.setSiteId(SiteContext.getSiteId());
 
@@ -223,21 +223,21 @@ public class _FormDatasourceController extends AdminControllerBase {
      * 获取字典内容
      */
     public void queryOptions() {
-        FormDatasource formDict = formDatasourceService.findById(getParaToLong());
-        if (formDict == null) {
+        FormDatasource datasource = formDatasourceService.findById(getParaToLong());
+        if (datasource == null) {
             renderFailJson();
             return;
         }
 
         //静态数据
-        if (formDict.isStaticData()) {
-            List<FormDatasourceItem> dictItemList = itemService.findListByColumns(Columns.create("dict_id", formDict.getId()));
+        if (datasource.isStaticData()) {
+            List<FormDatasourceItem> dictItemList = itemService.findListByColumns(Columns.create("datasource_id", datasource.getId()));
             List<BsFormOption> bsFormOptions = dictItemList.stream().map(item -> new BsFormOption(item.getText(), item.getValue())).collect(Collectors.toList());
             renderJson(Ret.ok().set("options", bsFormOptions));
         }
         //动态数据
         else {
-            String url = formDict.getImportText();
+            String url = datasource.getImportText();
             HttpProxy proxy = new HttpProxy();
             proxy.start(url, getResponse());
             renderNull();

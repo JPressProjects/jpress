@@ -24,7 +24,9 @@ public class FormInfoServiceProvider extends JPressServiceBase<FormInfo> impleme
     @Override
     public void publish(FormInfo formInfo) {
 
-        Db.update(formInfo.toCreateTableSql());
+        String createTableSql = formInfo.toCreateTableSql();
+
+        Db.update(createTableSql);
 
         //表单的版本大于1，发布多次了
         if (formInfo.getVersion() > 1) {

@@ -57,7 +57,7 @@ public class _JobController extends AdminControllerBase {
     @Inject
     private OptionService optionService;
 
-    @AdminMenu(text = "招聘岗位", groupId = "job", order = 0)
+    @AdminMenu(text = "招聘岗位", groupId = "job", order = 11)
     public void list() {
 
         Columns columns = new Columns();
@@ -179,7 +179,7 @@ public class _JobController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "分类", groupId = "job", order = 1)
+    @AdminMenu(text = "分类", groupId = "job", order = 22)
     public void JobCategory() {
 
         Columns columns = new Columns();
@@ -220,7 +220,7 @@ public class _JobController extends AdminControllerBase {
 
 
     //地址管理 和 分类管理 共用一张表 区别在于 字段 type
-    @AdminMenu(text = "地址", groupId = "job", order = 2)
+    @AdminMenu(text = "地址", groupId = "job", order = 33)
     public void JobAddress() {
 
         Columns columns = new Columns();
@@ -252,7 +252,7 @@ public class _JobController extends AdminControllerBase {
         renderJson(Ret.ok().set("id", id));
     }
 
-    @AdminMenu(text = "投递列表", groupId = "job", order = 3)
+    @AdminMenu(text = "简历管理", groupId = "job", order = 1)
     public void JobApply() {
 
         Columns columns = new Columns();
@@ -333,7 +333,7 @@ public class _JobController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "设置", groupId = "job", order = 4)
+    @AdminMenu(text = "设置", groupId = "job", order = 99)
     public void setting() {
         render("job/job_setting.html");
     }

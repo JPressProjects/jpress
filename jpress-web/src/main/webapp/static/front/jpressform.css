@@ -16,7 +16,7 @@
     padding:0 15px;
 }
 .jpress-form-item {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     clear: both;
     *zoom: 1;
 }
@@ -401,10 +401,11 @@ hr{
     user-select: none;
     background-color: transparent;
     border: 1px solid transparent;
-    padding: 5px 12px;
+    padding: 6px 30px;
     font-size: 13px;
     line-height: 1.5;
     border-radius: 6px;
+    cursor: pointer;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .btn-primary {
@@ -416,4 +417,14 @@ hr{
     color: #fff;
     background-color: #0069d9;
     border-color: #0062cc;
+}
+
+/*中心内容*/
+.bg-gray{
+    background-color:#efefef;
+}
+.centerContent{
+    width:829px;
+    margin:10px auto;
+    background-color:#fff;
 }

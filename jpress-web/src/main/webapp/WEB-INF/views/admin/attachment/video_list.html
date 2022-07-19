@@ -14,6 +14,40 @@
 </script>
 
 #end
+#define css()
+<style>
+    .video-card{
+        width:100%;
+        margin:0 auto 16px;
+        border-radius:4px;
+        background-color:#fff;
+        box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    }
+    .video-img{
+        position: relative;
+        height:180px;
+        overflow:hidden;
+    }
+    .video-tag{
+        position: absolute;
+        right:14px;
+        bottom:15px;
+        color:#fff;
+        font-size:10px;
+        background-color:rgba(0,0,0,0.35);
+        border-radius:16px;
+        padding:4px 10px 3px;
+    }
+    .ellipsis1 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .video-desc{
+        color:#999;
+    }
+</style>
+#end
 
 
 #define content()
@@ -142,6 +176,27 @@
                         </tbody>
                     </table>
 
+                    <!---->
+                    <div class="pl-3 pr-3">
+                        <div class="row">
+                            #for(item : page.list ??)
+                            <div class="col-md-3">
+                                <div class="video-card">
+                                    <div class="video-img">
+                                        <img src="#(item.thumbnail ??)" alt="" class="video-poster">
+                                        <span class="video-tag">#(item.category.title ?? "未分类")</span>
+                                    </div>
+                                    <div class="video-content">
+                                        <h6 class="video-title p-2 ellipsis1"><a href="#(CPATH)/admin/attachment/video/edit/#(item.id)" class="text-dark"> #(item.vodName ??) </a></h6>
+                                        <p class="video-desc pl-2 pr-2 pb-2">
+                                            <i class="bi bi-clock"></i> #date(item.created ??)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            #end
+                        </div>
+                    </div>
 
                     <div class="card-footer">
                         <div class="row">

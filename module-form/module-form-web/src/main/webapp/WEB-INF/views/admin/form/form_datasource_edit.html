@@ -27,32 +27,36 @@
 
     $(function () {
 
-        let isStatic = $(".isStatic")
 
-        isStatic.change(function (){
+        let isStatic = $("input[name='formDict.with_static']")
 
-            let isStaticShow = $("#datasource_with_static").val();
 
-            if(isStaticShow == "true"){
-                $("#importType").css("display","");
-                $("#importText").css("display","");
-                $("#importUrl").css("display","none");
-                $("#headers").css("display","none");
+        isStatic.click(function () {
 
-                $("#importTextTextarea").prop("name","datasource.import_text");
+            let isStatic = $("input[name='formDict.with_static']:checked").val();
+
+
+            if (isStatic == "true") {
+                $("#importType").css("display", "");
+                $("#importText").css("display", "");
+                $("#importUrl").css("display", "none");
+                $("#headers").css("display", "none");
+
+                $("#importTextTextarea").prop("name", "formDict.import_text");
 
                 $("#importUrlInput").removeAttr("name")
-            }else {
-                $("#importType").css("display","none");
-                $("#importText").css("display","none");
-                $("#importUrl").css("display","");
-                $("#headers").css("display","");
+            } else {
+                $("#importType").css("display", "none");
+                $("#importText").css("display", "none");
+                $("#importUrl").css("display", "");
+                $("#headers").css("display", "");
 
-                $('input:radio[name="datasource.import_type"][value="0"]').prop("checked",false);
-                $('input:radio[name="datasource.import_type"][value="1"]').prop("checked",false);
-                $('input:radio[name="datasource.import_type"][value="2"]').prop("checked",true);
+                $('input:radio[name="datasource.import_type"][value="0"]').prop("checked", false);
+                $('input:radio[name="datasource.import_type"][value="1"]').prop("checked", false);
+                $('input:radio[name="datasource.import_type"][value="2"]').prop("checked", true);
 
-                $("#importUrlInput").prop("name","datasource.import_text");
+                $("#importUrlInput").prop("name", "datasource.import_text");
+
                 $("#importTextTextarea").removeAttr("name")
             }
 
@@ -120,11 +124,9 @@
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">是否是静态内容</label>
-                            <div class="col-sm-6">
-
-                                <input type="checkbox" class="switchery isStatic" data-for="datasource_with_static"
-                                       #checkedIf(datasource.with_static ??)>
-                                <input type="hidden" id="datasource_with_static" name="datasource.with_static">
+                            <div class="col-sm-6" style="margin-top: 10px">
+                                <input type="radio" name="formDict.with_static" value=true #if(datasource.with_static ?? == true) checked #end>是
+                                <input type="radio" name="formDict.with_static" value=false #if(datasource.with_static ?? == false || !datasource.with_static ??) checked #end>否
                             </div>
                         </div>
 

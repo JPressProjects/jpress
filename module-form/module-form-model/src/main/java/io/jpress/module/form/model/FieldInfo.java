@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public class FieldInfo {
 
+    private String tag;
     private String label;
 
     private String paraName;
@@ -18,6 +19,14 @@ public class FieldInfo {
     private String fieldType;
     private Integer fieldTypeLen;
 
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public String getLabel() {
         return label;
@@ -170,6 +179,12 @@ public class FieldInfo {
             default:
                 throw new IllegalStateException("not support type: " + fieldType);
         }
+    }
+
+
+
+    public boolean isSupportChat(){
+        return "checkbox".equals(tag) || "radio".equals(tag) || "select".equals(tag);
     }
 
     public boolean isSupportSearch() {

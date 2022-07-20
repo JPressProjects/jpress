@@ -15,6 +15,9 @@
  */
 package io.jpress.module.form.controller.admin;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.liaochong.myexcel.core.DefaultExcelBuilder;
 import com.github.liaochong.myexcel.core.EnjoyExcelBuilder;
 import com.github.liaochong.myexcel.utils.AttachmentExportUtil;
@@ -22,14 +25,17 @@ import com.github.liaochong.myexcel.utils.FileExportUtil;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Action;
 import com.jfinal.core.CPI;
+import com.jfinal.json.Json;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.app.ApplicationUtil;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.AnnotationUtil;
+import io.jboot.utils.JsonUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.module.form.model.FieldInfo;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
@@ -40,9 +46,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.awt.geom.PathIterator;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RequestMapping(value = "/admin/form/data", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -63,7 +67,6 @@ public class _FormDataController extends AdminControllerBase {
         setAttr("form", formInfo);
 
         Columns columns = Columns.create();
-
 
         Map<String, String> paras = getParas();
         if (paras != null) {
@@ -130,7 +133,7 @@ public class _FormDataController extends AdminControllerBase {
     /**
      * 导出为excel
      */
-    public void excelExport() throws IOException {
+    public void excelExport() {
 
         try (EnjoyExcelBuilder excelBuilder = new EnjoyExcelBuilder()) {
 
@@ -151,6 +154,61 @@ public class _FormDataController extends AdminControllerBase {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * 图表 echars信息
+     */
+    public void formChartsInfo() {
+
+
+        FormInfo formInfo = formInfoService.findById(getParaToLong());
+
+        JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
+        JSONArray options = getOptions(datas, getPara("field"));
+
+        //TODO
+
+
+        System.out.println(options);
+
+
+        render("form/form_echarts.html");
+    }
+
+
+    private JSONArray getOptions(JSONArray datas,String field){
+        if (datas == null || datas.size()== 0){
+            return null;
+        }
+
+        Map<String,Map<String,Object>> mapInfo = new HashMap<>();
+
+        for (int i = 0; i < datas.size(); i++) {
+
+            JSONObject jsonObject = datas.getJSONObject(i);
+            JSONArray options = jsonObject.getJSONArray("options");
+
+            if (options != null && field.equals(jsonObject.getString("field"))){
+                return options;
+            }
+
+            JSONObject children = jsonObject.getJSONObject("children");
+
+            if (children != null) {
+                for (String key : children.keySet()) {
+                    JSONArray jsonArray = children.getJSONArray(key);
+                    JSONArray childOptions = getOptions(jsonArray, field);
+                    if (childOptions != null){
+                        return childOptions;
+                    }
+                }
+            }
+
+
+        }
+
+        return null;
     }
 
 }

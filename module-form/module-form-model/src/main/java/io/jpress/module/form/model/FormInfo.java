@@ -175,11 +175,13 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
                 dbFieldInfo.setFieldType(fieldType);
                 dbFieldInfo.setFieldTypeLen(fieldLenth);
                 dbFieldInfo.setLabel(data.getString("label"));
+                dbFieldInfo.setTag(data.getString("tag"));
 
                 dbFieldInfos.add(dbFieldInfo);
             }
         }
     }
+
 
 
     public boolean isPublished() {

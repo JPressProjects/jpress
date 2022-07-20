@@ -49,19 +49,19 @@ public class ModelProxy {
 
     static class ProcessColumnsHandler implements MethodHandler {
 
-        private static final String proxyMethodName = "processColumns";
-        private static final String copyMethodName = "copy";
+        private static final String processColumns = "processColumns";
+        private static final String copy = "copy";
 
         @Override
         public Object invoke(Object self, Method originalMethod, Method proxyMethod, Object[] args) throws Throwable {
 
-            if (proxyMethodName.equals(originalMethod.getName())) {
+            if (processColumns.equals(originalMethod.getName())) {
                 Columns columns = (Columns) args[0];
                 columns.addToFirst(Column.create("site_id", SiteContext.getSiteId()));
             }
 
             //copy
-            else if (copyMethodName.equals(originalMethod.getName())) {
+            else if (copy.equals(originalMethod.getName())) {
                 JbootModel selfModel = (JbootModel) self;
                 JbootModel dao = (JbootModel) get(ClassUtil.getUsefulClass(self.getClass()));
                 dao.put(CPI.getAttrs(selfModel));

@@ -1,31 +1,7 @@
 #@layout()
-#define css()
-#@layout_css?()
-<link rel="stylesheet" href="#(CPATH)/static/components/datepicker/css/bootstrap-datepicker3.min.css">
-#end
 #define script()
-#@layout_script?()
-<script src="#(CPATH)/static/components/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="#(CPATH)/static/components/datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
 <script>
-    $("input[hint='date']").datepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-CN'
-    });
 
-    function doSubmit() {
-        ajaxSubmit("#form1", function (data) {
-            $("#entryId").attr("value", data.id);
-            toastr.success('内容保存成功。');
-        })
-    }
-
-    $("#submit").on("click", function () {
-        doSubmit();
-    })
-
-
-    $(function () {
 
 
         let isStatic = $("input[name='formDict.with_static']")
@@ -62,7 +38,6 @@
 
         })
 
-    })
 </script>
 #end
 
@@ -93,7 +68,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card card-outline card-primary">
-                <form class=" form-setting" autocomplete="off"
+                <form class=" form-setting aotuAjaxSubmit" autocomplete="off"
                       action="/admin/form/datasource/doSave"
                       method="POST" id="form1">
 
@@ -185,7 +160,7 @@
                     <div class="card-footer">
                         <div class="offset-sm-2 col-sm-10 submit-block">
                             <div class="card-submit">
-                                <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                <button type="submit" class="btn btn-primary">提交</button>
                             </div>
                         </div>
                     </div>

@@ -27,9 +27,10 @@
     <div class="row">
         <div class="col-12">
             <div class="card card-outline card-primary">
-                <form class=" form-setting" autocomplete="off"
+                <form class="form-setting autoAjaxSubmit" autocomplete="off"
                       action="/admin/form/datasource/item/doSave"
-                      method="POST" id="form1">
+                      data-ok-href="#(CPATH)/admin/form/datasource/item/#(datasource.id ??)"
+                      method="POST">
 
                     <div class="card-body ">
                         <input type="hidden" id="entryId" name="datasourceItem.id" value="#(datasourceItem.id ??)">
@@ -112,7 +113,7 @@
                     <div class="card-footer">
                         <div class="offset-sm-2 col-sm-10 submit-block">
                             <div class="card-submit">
-                                <button id="submit" type="button" class="btn btn-primary">提交</button>
+                                <button type="submit" class="btn btn-primary">提交</button>
                             </div>
                         </div>
                     </div>

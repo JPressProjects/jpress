@@ -27,8 +27,8 @@
     .video-card:hover{
         -webkit-box-shadow: 0 15px 30px rgb(0 0 0 / 10%);
         box-shadow: 0 15px 30px rgb(0 0 0 / 10%);
-        -webkit-transform: translate3d(0,-2px,0);
-        transform: translate3d(0,-2px,0);
+        /*-webkit-transform: translate3d(0,-2px,0);*/
+        /*transform: translate3d(0,-2px,0);*/
     }
     .video-img{
         position: relative;
@@ -38,20 +38,37 @@
     .video-tag{
         position: absolute;
         right:14px;
-        bottom:15px;
+        top:15px;
         color:#fff;
         font-size:10px;
         background-color:rgba(0,0,0,0.35);
         border-radius:16px;
         padding:4px 10px 3px;
     }
+    .video-title{
+        padding:15px 12px 12px;
+    }
+    .video-desc{
+        display:flex;
+        display: -moz-flex;
+        display: -webkit-flex;
+        align-items: center;
+        justify-content: space-between;
+        padding:0 12px 12px;
+        color:#999;
+    }
     .ellipsis1 {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-    .video-desc{
-        color:#999;
+   .video-operation i{
+       color:#999;
+       font-size:18px;
+   }
+    .dropdown-menu .dropdown-item{
+        height:36px;
+        line-height:36px;
     }
 </style>
 #end
@@ -135,7 +152,7 @@
 
 
                     <!---->
-                    <div class="pl-3 pr-3">
+                    <div class="p-3">
                         <div class="row">
                             #for(item : page.list ??)
                             <div class="col-md-3">
@@ -145,12 +162,25 @@
                                         <span class="video-tag">#(item.category.title ?? "未分类")</span>
                                     </div>
                                     <div class="video-content">
-                                        <h6 class="video-title p-2 ellipsis1"><a href="#(CPATH)/admin/attachment/video/edit/#(item.id)" class="text-dark"> #(item.vodName ??) </a></h6>
-                                        <p class="video-desc pl-2 pr-2 pb-2">
-                                            <i class="bi bi-clock"></i> #date(item.created ??)
-                                            <a href="#(CPATH)/admin/attachment/video/edit/#(item.id)">编辑</a> |
-                                            <a href="javascript:;" class="del-action red-action" data-id="#(item.id)">删除</a>
-                                        </p>
+                                        <h6 class="video-title  ellipsis1"><a href="#(CPATH)/admin/attachment/video/edit/#(item.id)" class="text-dark"> #(item.vodName ??) </a></h6>
+                                        <div class="video-desc">
+                                            <span><i class="bi bi-clock"></i> #date(item.created ??)</span>
+                                            <div>
+                                                <a href="#(CPATH)/admin/attachment/video/edit/#(item.id)">编辑</a> |
+                                                <a href="javascript:;" class="del-action red-action" data-id="#(item.id)">删除</a>
+                                            </div>
+                                        </div>
+                                        <!--操作按钮-->
+                                        <!--<div class="video-desc">-->
+                                            <!--<span><i class="bi bi-clock"></i> #date(item.created ??)</span>-->
+                                            <!--<div class="dropup show">-->
+                                                <!--<a href="javascript:void(0);" class="video-operation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-three-dots"></i></a>-->
+                                                <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+                                                    <!--<a class="dropdown-item" href="#(CPATH)/admin/attachment/video/edit/#(item.id)"><i class="bi bi-pencil-square"></i> 编辑</a>-->
+                                                    <!--<a class="del-action red-action dropdown-item" href="javascript:void(0);" data-id="#(item.id)"><i class="bi bi-trash"></i> 删除</a>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </div>

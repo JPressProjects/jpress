@@ -7,18 +7,18 @@
     <link href="#(CPATH)/static/front/jpressform.css" rel="stylesheet">
     <title>表单详情</title>
 </head>
-<body class="bg-gray">
-<div style="background: url('#(form.bgImage)') center center no-repeat;background-size:cover;" class="centerContent">
-    <img src="#(form.headerImage ??)" alt="" class="width-100">
-    <div class="bg-white pd-30">
-        <div class="jpress-form-header">
-            <h5 class="jpress-form-title">#(form.title ??) </h5>
-            <p class="jpress-form-desc"> #(form.summary ??)</p>
-        </div>
-        <div class="form-content pt-30 pb-30">
-            #formInfo()
+<body style="background: url('#(form.bgImage)') center center no-repeat;background-size:cover;">
+    <div  class="centerContent">
+        <img src="#(form.headerImage ??)" alt="" class="width-100">
+        <div class="bg-white pd-30">
+            <div class="jpress-form-header">
+                <h5 class="jpress-form-title">#(form.title ??) </h5>
+                <p class="jpress-form-desc"> #(form.summary ??)</p>
+            </div>
+            <div class="form-content pt-30 pb-30">
+                #formInfo()
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

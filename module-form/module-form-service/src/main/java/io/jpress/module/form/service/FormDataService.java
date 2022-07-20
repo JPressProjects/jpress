@@ -4,6 +4,8 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.db.model.Columns;
 
+import java.util.List;
+
 public interface FormDataService {
 
 
@@ -77,6 +79,9 @@ public interface FormDataService {
      * @return
      */
     public Page<Record> paginateByColumns(String tableName, int page, int pageSize, Columns columns, String orderBy);
+
+
+    public List<Record> findAll(String tableName);
 
 
 }

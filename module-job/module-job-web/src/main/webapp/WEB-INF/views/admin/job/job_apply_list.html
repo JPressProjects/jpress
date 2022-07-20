@@ -117,12 +117,12 @@
                         </td>
 
 
-                        <td>#if(entry.with_viewed ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                            #else <i class="fa fa-2x fa-toggle-off"></i> #end
+                        <td>#if(entry.with_viewed ??)是
+                            #else 否 #end
                         </td>
 
-                        <td>#if(entry.with_disposed ??) <i class="fa fa-2x fa-toggle-on" style="color:#32bc69"></i>
-                            #else <i class="fa fa-2x fa-toggle-off"></i> #end
+                        <td>#if(entry.with_disposed ??) 是
+                            #else 否 #end
                         </td>
 
                         <td>#date(entry.disposed_time ??,"yyyy-MM-dd")</td>

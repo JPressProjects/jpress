@@ -15,17 +15,33 @@
  */
 package io.jpress.module.form.controller.admin;
 
+import com.github.liaochong.myexcel.core.DefaultExcelBuilder;
+import com.github.liaochong.myexcel.core.EnjoyExcelBuilder;
+import com.github.liaochong.myexcel.utils.AttachmentExportUtil;
+import com.github.liaochong.myexcel.utils.FileExportUtil;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.Action;
+import com.jfinal.core.CPI;
+import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import io.jboot.app.ApplicationUtil;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.AnnotationUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
+import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.ss.usermodel.Workbook;
 
+import java.awt.geom.PathIterator;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -70,16 +86,16 @@ public class _FormDataController extends AdminControllerBase {
     /**
      * 删除数据
      */
-    public void doDel(){
+    public void doDel() {
         FormInfo formInfo = formInfoService.findById(getParaToLong());
         setAttr("form", formInfo);
 
-        if (formInfo == null){
+        if (formInfo == null) {
             renderFailJson();
             return;
         }
 
-        formDataService.deleteById(formInfo.getCurrentTableName(),getParaToLong("id"));
+        formDataService.deleteById(formInfo.getCurrentTableName(), getParaToLong("id"));
         renderOkJson();
     }
 
@@ -110,5 +126,31 @@ public class _FormDataController extends AdminControllerBase {
         render("form/form_data_detail.html");
     }
 
+
+    /**
+     * 导出为excel
+     */
+    public void excelExport() throws IOException {
+
+        try (EnjoyExcelBuilder excelBuilder = new EnjoyExcelBuilder()) {
+
+            FormInfo formInfo = formInfoService.findById(getParaToLong());
+
+            List<Record> records = formDataService.findAll(formInfo.getCurrentTableName());
+            Map<String, Object> datas = new HashMap<>();
+            datas.put("records", records);
+            datas.put("form", formInfo);
+
+            excelBuilder.fileTemplate(PathKit.getWebRootPath() + "/WEB-INF/views/admin/form/", "form_data_excel.html");
+
+            Workbook workbook = excelBuilder.build(datas);
+            AttachmentExportUtil.export(workbook, formInfo.getName(), getResponse());
+            renderNull();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

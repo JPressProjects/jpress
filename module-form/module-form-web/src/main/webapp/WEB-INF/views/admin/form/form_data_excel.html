@@ -1,0 +1,21 @@
+<table>
+    <tbody>
+    <tr>
+        #for(field : form.fieldInfos)
+        #if(field.showInList)
+        <th>#(field.label ??)</th>
+        #end
+        #end
+
+    </tr>
+    #for(record : records)
+    <tr>
+        #for(field : form.fieldInfos)
+        #if(field.showInList)
+        <td>#(record.get(field.fieldName) ??)</td>
+        #end
+        #end
+    </tr>
+    #end
+    </tbody>
+</table>

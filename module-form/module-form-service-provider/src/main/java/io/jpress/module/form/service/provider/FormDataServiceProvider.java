@@ -7,6 +7,8 @@ import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jpress.module.form.service.FormDataService;
 
+import java.util.List;
+
 @Bean
 public class FormDataServiceProvider implements FormDataService {
 
@@ -62,5 +64,10 @@ public class FormDataServiceProvider implements FormDataService {
                     , "from " + tableName + " where " + wherePartSql + " order by " + orderBy
                     , columns.getValueArray());
         }
+    }
+
+    @Override
+    public List<Record> findAll(String tableName) {
+        return Db.findAll(tableName);
     }
 }

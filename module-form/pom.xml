@@ -15,6 +15,13 @@
     <groupId>io.jpress</groupId>
     <artifactId>module-form</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github.liaochong</groupId>
+            <artifactId>myexcel</artifactId>
+        </dependency>
+    </dependencies>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

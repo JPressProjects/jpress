@@ -8,19 +8,19 @@
     <title>表单详情</title>
 </head>
 <body class="bg-gray">
-<div style="background: #fff url('#(form.bgImage)') center center no-repeat;background-size:cover;" class="centerContent">
-
-    <!--<img src="#(form.headerImage ??)" alt="" class="width-100 mb-15">-->
+<div style="background: url('#(form.bgImage)') center center no-repeat;background-size:cover;" class="centerContent">
     <!--<img src="https://cdn1.wenjuan.com/appear-PC-%E6%91%84%E5%BD%B1.png" alt="" class="width-100 mb-15">-->
-
-<!--    <div class="pdlr-15">-->
-<!--        #(form.title ??) <br/>-->
-<!--        #(form.summary ??)-->
-<!--    </div>-->
-
-    <div class="form-content pd-30">
-        #formInfo()
+    <img src="#(form.headerImage ??)" alt="" class="width-100">
+    <div class="bg-white pd-30">
+        <div class="jpress-form-header">
+            <h5 class="jpress-form-title">#(form.title ??) </h5>
+            <p class="jpress-form-desc"> #(form.summary ??)</p>
+        </div>
+        <div class="form-content pt-30 pb-30">
+            #formInfo()
+        </div>
     </div>
+
 </div>
 </body>
 </html>

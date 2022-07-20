@@ -12,8 +12,20 @@
 .pd-30{
     padding:30px;
 }
+.pt-30{
+    padding-top:30px !important;
+}
+.pb-30{
+    padding-bottom:30px !important;
+}
+.pb-60{
+    padding-bottom:60px;
+}
 .pdlr-15{
     padding:0 15px;
+}
+.bg-white{
+    background-color: #fff;
 }
 .jpress-form-item {
     margin-bottom: 25px;
@@ -402,9 +414,9 @@ hr{
     background-color: transparent;
     border: 1px solid transparent;
     padding: 6px 30px;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
@@ -427,4 +439,18 @@ hr{
     width:829px;
     margin:10px auto;
     background-color:#fff;
+}
+.jpress-form-header{
+    padding-bottom:20px;
+    border-bottom:3px solid #007bff;
+}
+.jpress-form-title{
+    font-size:18px;
+    margin-bottom:20px;
+}
+.jpress-form-desc{
+    font-size: 16px;
+}
+button[type="submit"]{
+    margin:15px auto 0;
 }

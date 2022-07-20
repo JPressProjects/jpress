@@ -1,11 +1,15 @@
 package io.jpress.web.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.upload.UploadFile;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.JsonUtil;
 import io.jboot.utils.StrUtil;
+import io.jboot.utils.TypeDef;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -17,6 +21,8 @@ import io.jpress.commons.aliyun.CloudVideoInfo;
 import io.jpress.commons.qcloud.QCloudLiveUtil;
 import io.jpress.commons.qcloud.QCloudVideoUtil;
 import io.jpress.commons.qcloud.Signature;
+import io.jpress.commons.utils.AliyunOssUtils;
+import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.AttachmentVideo;
 import io.jpress.model.AttachmentVideoCategory;
@@ -24,6 +30,8 @@ import io.jpress.service.AttachmentVideoCategoryService;
 import io.jpress.service.AttachmentVideoService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -47,7 +55,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
         columns.likeAppendPercent("vod_name",getPara("title"));
         columns.eq("video_type",getPara("type"));
         columns.eq("category_id",getPara("categoryId"));
-        Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(), columns, "id desc");
+        Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), 12, columns, "id desc");
         if(page != null){
             for (AttachmentVideo attachmentVideo : page.getList()) {
                 if(attachmentVideo.getCategoryId() != null){
@@ -73,6 +81,14 @@ public class _AttachmentVideoController extends AdminControllerBase {
         //视频云类型
         String cloudType = JPressOptions.get("attachment_cloud_type");
         setAttr("cloudType",cloudType);
+
+        String options = video.getOptions();
+        if (StrUtil.isNotBlank(options)){
+            Map<String,String> map = JsonUtil.get(options,"", TypeDef.MAP_STRING);
+            setAttr("options",map);
+        }
+
+
         if(AttachmentVideo.CLOUD_TYPE_ALIYUN.equals(cloudType)){
 
             String playauth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
@@ -133,11 +149,30 @@ public class _AttachmentVideoController extends AdminControllerBase {
         String cloudType = JPressOptions.get("attachment_cloud_type");
         video.setCloudType(cloudType);
 
+        Map<String, String> optionParas = getOptionParas();
+        String json = JSON.toJSONString(optionParas);
+        video.setOptions(json);
+
         attachmentVideoService.saveOrUpdate(video);
         //更新视频分类下的内容数量
         videoCategoryService.doUpdateVideoCategoryCount(video.getCategoryId());
         renderOkJson();
     }
+
+    protected Map<String, String> getOptionParas() {
+        Map<String, String> paras = getParas();
+        Map<String, String> retMap = null;
+        if (paras != null && !paras.isEmpty()) {
+            retMap = new HashMap<>();
+            for (Map.Entry<String, String> e : paras.entrySet()) {
+                if (e.getKey() != null && e.getKey().startsWith("option.")) {
+                    retMap.put(e.getKey().substring(7), e.getValue());
+                }
+            }
+        }
+        return retMap == null || retMap.isEmpty() ? null : retMap;
+    }
+
 
     public void doGetVideoInfo(String videoId){
 
@@ -346,6 +381,63 @@ public class _AttachmentVideoController extends AdminControllerBase {
         String playAuth = AliyunVideoUtil.getPlayAuth(videoId);
 
         return Ret.ok("playAuth",playAuth);
+    }
+
+
+    /**
+     * 本地视频上传
+     */
+    public void uploadLocalVideo(){
+
+        if (!isMultipartRequest()) {
+            renderError(404);
+            return;
+        }
+
+        UploadFile uploadFile = getFile();
+        if (uploadFile == null) {
+            renderJson(Ret.fail().set("message", "请选择要上传的文件"));
+            return;
+        }
+
+
+        File file = uploadFile.getFile();
+        if (!getLoginedUser().isStatusOk()) {
+            file.delete();
+            renderJson(Ret.of("error", Ret.of("message", "当前用户未激活，不允许上传任何文件。")));
+            return;
+        }
+
+        if (AttachmentUtils.isUnSafe(file)) {
+            file.delete();
+            renderJson(Ret.fail().set("message", "不支持此类文件上传"));
+            return;
+        }
+
+        String mineType = uploadFile.getContentType();
+        String fileType = mineType.split("/")[0];
+        if(!"video".equals(fileType)){
+            file.delete();
+            renderJson(Ret.fail().set("message", "此处只支持上传视频"));
+            return;
+        }
+
+        Integer maxSize = JPressOptions.getAsInt("attachment_other_maxsize", 100);
+
+        int fileSize = Math.round(file.length() / 1024 * 100) / 100;
+        if (maxSize > 0 && fileSize > maxSize * 1024) {
+            file.delete();
+            renderJson(Ret.fail().set("message", "上传文件大小不能超过 " + maxSize + " MB"));
+            return;
+        }
+
+        String path = AttachmentUtils.moveFile(uploadFile);
+        AliyunOssUtils.upload(path, AttachmentUtils.file(path));
+
+        String src = path.replace("\\", "/");
+
+
+        renderJson(Ret.ok().set("success", true).set("src", src ));
     }
 
 }

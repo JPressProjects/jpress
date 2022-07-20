@@ -28,6 +28,10 @@
 <!-- 本地资源-->
 <script src="/static/components/qcloud-upload-sdk/player/TcPlayer-2.4.1.js"></script>;
 
+<script src="#(CPATH)/static/components/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="#(CPATH)/static/components/jquery-file-upload/js/jquery.fileupload.js"></script>
+
 
 
 
@@ -40,11 +44,12 @@
 
     function videoContentTypeChange(select) {
         var selectedValue = select.options[select.options.selectedIndex].value;
+        var cloudType = $("#cloudType").val();
         if (selectedValue == 'vod') {
             $("#videos").show();
             $("#live").hide();
             $("#code").hide();
-        } else if (selectedValue == 'live') {
+        } else if (selectedValue == 'live' && cloudType != '4') {
             $("#videos").hide();
             $("#live").show();
             $("#code").hide();
@@ -323,6 +328,7 @@
         if(cloudType == '1'){
             $("#aliyun").show();
             $("#qcloud").hide();
+            $("#local").hide();
 
             $("#livePlayer").show();
             $("#id_test_video").hide();
@@ -341,6 +347,19 @@
 
             $("#createLive").hide();
             $("#createLiveQCloud").show();
+
+        }
+        else if(cloudType == '4'){
+            $("#aliyun").hide();
+            $("#live").hide();
+            $("#qcloud").hide();
+            $("#local").show();
+
+            $("#livePlayer").hide();
+            $("#id_test_video").hide();
+
+            $("#createLive").hide();
+            $("#createLiveQCloud").hide();
 
         }
 
@@ -492,6 +511,45 @@
 </script>
 
 <!-- 腾讯云 end-->
+
+<!-- 本地视频上传-->
+
+<script>
+
+    function uploadLocalVideo(){
+
+        var title = $('#videoTitle').val();
+        if (title == "") {
+            alert("请先输入标题，才能进行文件上传。");
+            return;
+        }
+
+        $('#localVideoInputFile').fileupload({
+            dropZone: $('#uploader'),
+            url: '/admin/attachment/video/uploadLocalVideo',
+            sequentialUploads: true,
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $("#localVideoInputFileLable").text("上传进度：" + progress + "%")
+            },
+            done: function (e, data) {
+
+                if(data.result.state == "ok"){
+                    toastr.success("文件上传成功...")
+                    $("#localPlay").attr("src",data.result.src);
+                    // $("#videoPlayUrl").attr("value",data.result.src);
+                    $("#videoContent").attr("value",data.result.src);
+                }else {
+                    toastr.error(data.result.message)
+                }
+            }
+        });
+    }
+
+</script>
+
+<!--本地视频上传 end-->
+
 
 
 #end
@@ -679,6 +737,34 @@
                                     </div>
                                 </div>
 
+                                <div id="local">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">选择视频文件</label>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <div class="custom-file" id="uploader"  onclick="uploadLocalVideo()">
+                                                    <input  id="localVideoInputFile" type="file" name="files[]" multiple>
+                                                    <label class="custom-file-label" for="localVideoInputFile"
+                                                           id="localVideoInputFileLable">点击选择上传视频</label>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted">
+                                                要上传视频，请先在 <a href="#(CPATH)/admin/attachment/setting">[设置]</a> 中进行阿里云点播视频配置。
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+<!--                                        <input type="hidden" name="" value="#(cloudType ??)" id="cloudType">-->
+                                        <label class="col-sm-2 col-form-label"> 视频</label>
+
+                                        <div class="col-sm-6">
+                                            <input type="hidden" name="option.local_video_url" value="#(options.local_video_url ??)" id="videoContent">
+                                            <video class=" pr-0 bg-gray" controls="controls" id="localPlay" src="#(options.local_video_url ??)" style="height: 350px;"></video>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
 
@@ -751,8 +837,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label"> iframe 代码</label>
                                     <div class="col-sm-6">
-                                        <textarea rows="3" class="form-control" placeholder="请输入"
-                                                  name="video.content" data-render="ckeditor"
+                                        <textarea rows="3" class="form-control" placeholder="请输入" id="videoPlayUrl"
+                                                  name="video.content"  value="#(video.content ??)"
                                         >#(video.content ??)</textarea>
                                     </div>
                                 </div>

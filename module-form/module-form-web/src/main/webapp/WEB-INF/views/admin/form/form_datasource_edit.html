@@ -76,10 +76,10 @@
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <h1>
-                            #if(datasource.id ??) 编辑 #else 新增 #end
+                            #if(datasource.id ??) 编辑数据源 #else 新增数据源 #end
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / 表单 / 数据字典 / 编辑</small>
+                            <small> 首页 / 表单 / 数据源 /  #if(datasource.id ??) 编辑 #else 新增 #end </small>
                         </h1>
                     </div>
                 </div>
@@ -123,10 +123,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">是否是静态内容</label>
+                            <label class="col-sm-2 col-form-label">内容选择</label>
                             <div class="col-sm-6" style="margin-top: 10px">
-                                <input type="radio" name="formDict.with_static" value=true #if(datasource.with_static ?? == true) checked #end>是
-                                <input type="radio" name="formDict.with_static" value=false #if(datasource.with_static ?? == false || !datasource.with_static ??) checked #end>否
+
+                                <label for="formDict.with_static1">
+                                    <input type="radio" id="formDict.with_static1" name="formDict.with_static" value=true #if(datasource.with_static ?? == true) checked #end>静态内容
+                                </label>
+
+                                <label for="formDict.with_static2">
+                                    <input id="formDict.with_static2" style="margin-left: 10px" type="radio" name="formDict.with_static" value=false #if(datasource.with_static ?? == false || !datasource.with_static ??) checked #end>动态内容
+                                </label>
+
                             </div>
                         </div>
 

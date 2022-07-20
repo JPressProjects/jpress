@@ -55,6 +55,7 @@ public class _FormDatasourceItemController extends AdminControllerBase {
 
         Columns columns = new Columns();
         columns.eq("datasource_id", id);
+        columns.likeAppendPercent("value",getPara("value"));
         Page<FormDatasourceItem> entries = service.paginateByColumns(getPagePara(), getPageSizePara(), columns);
         setAttr("page", entries);
 

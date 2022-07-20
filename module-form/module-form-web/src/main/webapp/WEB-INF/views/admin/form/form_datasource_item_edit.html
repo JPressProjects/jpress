@@ -39,10 +39,10 @@
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <h1>
-                            #if(datasourceItem.id ??) 编辑 #else 新增 #end
+                            #if(datasourceItem.id ??) 编辑数据 #else 新增数据 #end
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / 表单 / 数据字典 / 编辑</small>
+                            <small> 首页 / 表单 / 数据源 / 数据管理 /  #if(datasourceItem.id ??) 编辑 #else 新增 #end </small>
                         </h1>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
 
                     <div class="card-body ">
                         <input type="hidden" id="entryId" name="datasourceItem.id" value="#(datasourceItem.id ??)">
-                        <input type="hidden" name="datasourceItem.dict_id" value="#(datasource.id ??)">
+                        <input type="hidden" name="datasourceItem.datasource_id" value="#(datasource.id ??)">
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">key</label>

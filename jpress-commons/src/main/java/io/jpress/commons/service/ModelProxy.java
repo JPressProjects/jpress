@@ -16,8 +16,11 @@
 package io.jpress.commons.service;
 
 import com.jfinal.kit.LogKit;
+import com.jfinal.plugin.activerecord.CPI;
 import io.jboot.db.model.Column;
 import io.jboot.db.model.Columns;
+import io.jboot.db.model.JbootModel;
+import io.jboot.utils.ClassUtil;
 import io.jpress.SiteContext;
 import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.ProxyObject;
@@ -47,13 +50,22 @@ public class ModelProxy {
     static class ProcessColumnsHandler implements MethodHandler {
 
         private static final String proxyMethodName = "processColumns";
+        private static final String copyMethodName = "copy";
 
         @Override
         public Object invoke(Object self, Method originalMethod, Method proxyMethod, Object[] args) throws Throwable {
 
-            if (proxyMethodName.equalsIgnoreCase(originalMethod.getName())) {
+            if (proxyMethodName.equals(originalMethod.getName())) {
                 Columns columns = (Columns) args[0];
                 columns.addToFirst(Column.create("site_id", SiteContext.getSiteId()));
+            }
+
+            //copy
+            else if (copyMethodName.equals(originalMethod.getName())) {
+                JbootModel selfModel = (JbootModel) self;
+                JbootModel dao = (JbootModel) get(ClassUtil.getUsefulClass(self.getClass()));
+                dao.put(CPI.getAttrs(selfModel));
+                return dao;
             }
 
             return proxyMethod.invoke(self, args);

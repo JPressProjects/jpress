@@ -24,23 +24,6 @@
         doSubmit();
     })
 
-    $(function () {
-
-        var isShow = $(".isShow");
-
-        isShow.change(function () {
-
-            let boolean = $("#formInfo_with_hook").val();
-
-            if (boolean == "false") {
-                $("#isShow").css("display", "none")
-            } else {
-                $("#isShow").css("display", "")
-            }
-
-        })
-
-    })
 
 </script>
 #end
@@ -55,10 +38,10 @@
                 <div class="row mb-2">
                     <div class="col-sm-12">
                         <h1>
-                            #if(formInfo.id ??) 编辑 #else 新增 #end
+                            #(formInfo ? '编辑' : '新增')表单
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / 表单 / 编辑</small>
+                            <small> 首页 / 表单 / #(formInfo ? '编辑' : '新增')表单</small>
                         </h1>
                     </div>
                 </div>
@@ -117,21 +100,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">缩略图</label>
-                            <div class="col-sm-9">
-                                <div class="jpress-image-browser">
-                                    <input type="hidden" name="formInfo.thumbnail" value="#(formInfo.thumbnail ??)"/>
-                                    <img src="#(formInfo.thumbnail ?? '/static/commons/img/nothumbnail.jpg')">
-                                    <div class="image-action">
-                                        <a class="image-delete"> <i class="fa fa-trash"></i></a>
-                                        <a class="image-edit"> <i class="fa fa-edit"></i></a>
-                                    </div>
-                                </div>
-                                <p class="text-muted"></p>
-
-                            </div>
-                        </div>
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">表单背景图</label>
@@ -166,59 +134,6 @@
                             </div>
                         </div>
 
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">是否有钩子</label>
-                            <div class="col-sm-6">
-
-                                <input type="checkbox" class="switchery isShow" data-for="formInfo_with_hook"
-                                       #checkedIf(formInfo.with_hook ??)>
-
-                                <input type="hidden" id="formInfo_with_hook" name="formInfo.with_hook">
-                            </div>
-                        </div>
-
-
-                        <div #if(!formInfo.with_hook ??) style="display: none" #end class="form-group row" id="isShow">
-                            <label class="col-sm-2 col-form-label">钩子链接</label>
-                            <div class="col-sm-6">
-
-                                <input type="input" name="formInfo.hook_url" class="form-control"
-                                       value="#(formInfo.hook_url ??)"
-                                       placeholder="请输入钩子连接">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">是否需要回复</label>
-                            <div class="col-sm-6">
-
-                                <input type="checkbox" class="switchery" data-for="formInfo_with_reply"
-                                       #checkedIf(formInfo.with_reply ??)>
-                                <input type="hidden" id="formInfo_with_reply" name="formInfo.with_reply">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">是否需要输入验证码</label>
-                            <div class="col-sm-6">
-
-                                <input type="checkbox" class="switchery" data-for="formInfo_with_valid"
-                                       #checkedIf(formInfo.with_valid ??)>
-                                <input type="hidden" id="formInfo_with_valid" name="formInfo.with_valid">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">是否需要对手机号进行验证</label>
-                            <div class="col-sm-6">
-
-                                <input type="checkbox" class="switchery" data-for="formInfo_with_valid_mobile"
-                                       #checkedIf(formInfo.with_valid_mobile ??)>
-                                <input type="hidden" id="formInfo_with_valid_mobile" name="formInfo.with_valid_mobile">
-                            </div>
-                        </div>
 
                     </div>
                     <!-- /.card-body -->

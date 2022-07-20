@@ -132,6 +132,20 @@ public abstract class BaseFormDatasource<M extends BaseFormDatasource<M>> extend
 	}
 
     /**
+     * json 扩展
+     */
+	public void setOptions(java.lang.String options) {
+		set("options", options);
+	}
+
+    /**
+     * json 扩展
+     */
+	public java.lang.String getOptions() {
+		return getStr("options");
+	}
+
+    /**
      * 站点ID
      */
 	public void setSiteId(java.lang.Long siteId) {

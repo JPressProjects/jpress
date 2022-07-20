@@ -48,6 +48,20 @@ public abstract class BaseFormDatasourceItem<M extends BaseFormDatasourceItem<M>
 	}
 
     /**
+     * value 值
+     */
+	public void setValue(java.lang.String value) {
+		set("value", value);
+	}
+
+    /**
+     * value 值
+     */
+	public java.lang.String getValue() {
+		return getStr("value");
+	}
+
+    /**
      * 文本内容
      */
 	public void setText(java.lang.String text) {
@@ -59,20 +73,6 @@ public abstract class BaseFormDatasourceItem<M extends BaseFormDatasourceItem<M>
      */
 	public java.lang.String getText() {
 		return getStr("text");
-	}
-
-    /**
-     * key
-     */
-	public void setValue(java.lang.String value) {
-		set("value", value);
-	}
-
-    /**
-     * key
-     */
-	public java.lang.String getValue() {
-		return getStr("value");
 	}
 
     /**

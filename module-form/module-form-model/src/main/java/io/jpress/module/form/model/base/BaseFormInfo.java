@@ -76,20 +76,6 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
-     * 缩略图
-     */
-	public void setThumbnail(java.lang.String thumbnail) {
-		set("thumbnail", thumbnail);
-	}
-
-    /**
-     * 缩略图
-     */
-	public java.lang.String getThumbnail() {
-		return getStr("thumbnail");
-	}
-
-    /**
      * 表单背景图
      */
 	public void setBgImage(java.lang.String bgImage) {
@@ -118,90 +104,6 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
-     * 是否有钩子
-     */
-	public void setWithHook(java.lang.Boolean withHook) {
-		set("with_hook", withHook);
-	}
-
-    /**
-     * 是否有钩子
-     */
-	public java.lang.Boolean getWithHook() {
-		return get("with_hook");
-	}
-
-    /**
-     * 钩子链接
-     */
-	public void setHookUrl(java.lang.String hookUrl) {
-		set("hook_url", hookUrl);
-	}
-
-    /**
-     * 钩子链接
-     */
-	public java.lang.String getHookUrl() {
-		return getStr("hook_url");
-	}
-
-    /**
-     * 是否需要审核
-     */
-	public void setWithAudit(java.lang.Boolean withAudit) {
-		set("with_audit", withAudit);
-	}
-
-    /**
-     * 是否需要审核
-     */
-	public java.lang.Boolean getWithAudit() {
-		return get("with_audit");
-	}
-
-    /**
-     * 是否需要回复
-     */
-	public void setWithReply(java.lang.Boolean withReply) {
-		set("with_reply", withReply);
-	}
-
-    /**
-     * 是否需要回复
-     */
-	public java.lang.Boolean getWithReply() {
-		return get("with_reply");
-	}
-
-    /**
-     * 是否需要输入验证码
-     */
-	public void setWithValid(java.lang.Boolean withValid) {
-		set("with_valid", withValid);
-	}
-
-    /**
-     * 是否需要输入验证码
-     */
-	public java.lang.Boolean getWithValid() {
-		return get("with_valid");
-	}
-
-    /**
-     * 是否需要对手机号进行验证
-     */
-	public void setWithValidMobile(java.lang.Boolean withValidMobile) {
-		set("with_valid_mobile", withValidMobile);
-	}
-
-    /**
-     * 是否需要对手机号进行验证
-     */
-	public java.lang.Boolean getWithValidMobile() {
-		return get("with_valid_mobile");
-	}
-
-    /**
      * 表单构建 JSON
      */
 	public void setBuilderJson(java.lang.String builderJson) {
@@ -216,31 +118,17 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
-     * 站点ID
+     * json扩展配置
      */
-	public void setSiteId(java.lang.Long siteId) {
-		set("site_id", siteId);
+	public void setOptions(java.lang.String options) {
+		set("options", options);
 	}
 
     /**
-     * 站点ID
+     * json扩展配置
      */
-	public java.lang.Long getSiteId() {
-		return getLong("site_id");
-	}
-
-    /**
-     * 状态
-     */
-	public void setStatus(java.lang.String status) {
-		set("status", status);
-	}
-
-    /**
-     * 状态
-     */
-	public java.lang.String getStatus() {
-		return getStr("status");
+	public java.lang.String getOptions() {
+		return getStr("options");
 	}
 
     /**
@@ -258,17 +146,31 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
-     * json扩展配置
+     * 状态
      */
-	public void setOptions(java.lang.String options) {
-		set("options", options);
+	public void setStatus(java.lang.String status) {
+		set("status", status);
 	}
 
     /**
-     * json扩展配置
+     * 状态
      */
-	public java.lang.String getOptions() {
-		return getStr("options");
+	public java.lang.String getStatus() {
+		return getStr("status");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

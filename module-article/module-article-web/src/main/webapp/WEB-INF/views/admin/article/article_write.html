@@ -398,7 +398,7 @@
         border-top: none;
     }
 
-    .vditor{
+    .vditor {
         border-top: none;
     }
 
@@ -422,44 +422,48 @@
 
 #define content()
 <section class="content" style="position: absolute;height:100%;width:100%;padding: 0">
-    <section class="article-header d-flex justify-content-between align-items-center p-3 boder-bottom bg-white">
-        <div class="d-flex align-items-center justify-content-between" style="width: 40%">
-            <div class="input-group mr-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="article-title">标题</span>
-                </div>
-                <input type="text" class="form-control" placeholder="请输入文章标题..." aria-label="..."
-                       aria-describedby="article-title">
-            </div>
 
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="insertFile" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                    插入附件
-                </button>
-                <div class="dropdown-menu" aria-labelledby="insertFile">
-                    <a class="dropdown-item" href="#">插入附件</a>
-                    <a class="dropdown-item" href="#">插入视频</a>
+    <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form" class="h-100 bg-white">
+        <section class="article-header d-flex justify-content-between align-items-center p-3 boder-bottom bg-white">
+            <div class="d-flex align-items-center justify-content-between" style="width: 40%">
+                <div class="input-group mr-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">标题</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="请输入文章标题..." name="article.title"
+                           autocomplete="off"
+                           id="article-title"
+                           value="#(article.title ??)">
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="insertFile" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        插入附件
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="insertFile">
+                        <a class="dropdown-item" href="#">插入附件</a>
+                        <a class="dropdown-item" href="#">插入视频</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex align-items-center justify-content-between">
-            <button type="button" class="btn btn-secondary mr-2">保存草稿</button>
-            <button type="button" class="btn btn-secondary mr-2">预览</button>
-            <button type="button" class="btn btn-primary mr-2">发布</button>
-            <!--<button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>-->
-            <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
-            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                    class="bi bi-three-dots-vertical"></i></span>
-            <div class="dropdown-menu mr-2">
-                <a class="dropdown-item" href="javascript:;" onclick="doChangeEditor()">切换编辑器</a>
-                <a class="dropdown-item" href="#">项目二</a>
-                <a class="dropdown-item" href="#">项目三</a>
-                <a class="dropdown-item" href="#">项目二四</a>
+            <div class="d-flex align-items-center justify-content-between">
+                <button type="button" data-status="draft" class="btn btn-secondary mr-2 submitBtn">保存草稿</button>
+                <button type="button" class="btn btn-secondary mr-2">预览</button>
+                <button type="button" data-status="normal" class="btn btn-primary mr-2 submitBtn">发布</button>
+                <!--<button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>-->
+                <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
+                <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                        class="bi bi-three-dots-vertical"></i></span>
+                <div class="dropdown-menu mr-2">
+                    <a class="dropdown-item" href="javascript:;" onclick="doChangeEditor()">切换编辑器</a>
+                    <a class="dropdown-item submitBtn" data-status="trash" href="javascript:;">移至垃圾箱</a>
+                    <a class="dropdown-item" href="#">项目三</a>
+                    <a class="dropdown-item" href="#">项目二四</a>
+                </div>
             </div>
-        </div>
-    </section>
-    <form action="#(CPATH)/admin/article/doWriteSave" method="post" id="form" class="h-100 bg-white">
+        </section>
+
         <input type="hidden" id="articleStatus" name="article.status" value='#(article.status ?? "normal")'>
         <input type="hidden" id="articleId" name="article.id" value="#(article.id ??)">
         <input type="hidden" id="appId" name="appId" value="#(appId ??)">
@@ -523,13 +527,16 @@
                                     <div id="collapse2" class="collapse" aria-labelledby="heading2"
                                          data-parent="#accordionExample">
                                         <div class="card-body">
-                                            网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span id="slug"
-                                                                                                                           class="slugSpan"
-                                                                                                                           for-input="article-slug">#(article.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+                                            网址：<span
+                                                class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span
+                                                id="slug"
+                                                class="slugSpan"
+                                                for-input="article-slug">#(article.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
                                             #if(article && article.isNormal())
                                             （<a href="#(article.url)" target="_blank">访问</a>）
                                             #end
-                                            <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
+                                            <input type="hidden" id="article-slug" name="article.slug"
+                                                   value="#(article.slug ??)">
 
                                         </div>
                                     </div>
@@ -559,7 +566,8 @@
                                                         #end
 
                                                         #if(category.isCheck)
-                                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                                        <input type="checkbox" name="category" value="#(category.id)"
+                                                               checked/>
                                                         #else
                                                         <input type="checkbox" name="category" value="#(category.id)"/>
                                                         #end
@@ -574,7 +582,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
 
                                 <div class="card">
@@ -594,7 +601,8 @@
                                             <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
                                                  style="width: 100%;max-height: 500px"
                                                  id="thumbnail">
-                                            <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
+                                            <input type="hidden" value="#(article.thumbnail ??)"
+                                                   name="article.thumbnail"
                                                    id="articleThumbnail">
                                         </div>
                                         <div class="card-footer">
@@ -602,7 +610,8 @@
                                                     for-src="thumbnail"
                                                     for-input="articleThumbnail">选择图片
                                             </button>
-                                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                                            <a href="javascript:;" style="padding-left: 15px"
+                                               id="removeThumbnail">移除</a>
                                         </div>
                                     </div>
                                 </div>

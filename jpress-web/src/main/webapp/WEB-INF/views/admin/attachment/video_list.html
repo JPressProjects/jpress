@@ -35,6 +35,11 @@
         height:180px;
         overflow:hidden;
     }
+    .video-img img{
+        height:100%;
+        width:100%;
+        object-fit: cover;
+    }
     .video-tag{
         position: absolute;
         right:14px;
@@ -162,25 +167,25 @@
                                         <span class="video-tag">#(item.category.title ?? "未分类")</span>
                                     </div>
                                     <div class="video-content">
-                                        <h6 class="video-title  ellipsis1"><a href="#(CPATH)/admin/attachment/video/edit/#(item.id)" class="text-dark"> #(item.vodName ??) </a></h6>
-                                        <div class="video-desc">
-                                            <span><i class="bi bi-clock"></i> #date(item.created ??)</span>
-                                            <div>
-                                                <a href="#(CPATH)/admin/attachment/video/edit/#(item.id)">编辑</a> |
-                                                <a href="javascript:;" class="del-action red-action" data-id="#(item.id)">删除</a>
-                                            </div>
-                                        </div>
-                                        <!--操作按钮-->
+                                        <h6 class="video-title mb-0 ellipsis1"><a href="#(CPATH)/admin/attachment/video/edit/#(item.id)" class="text-dark"> #(item.vodName ??) </a></h6>
                                         <!--<div class="video-desc">-->
                                             <!--<span><i class="bi bi-clock"></i> #date(item.created ??)</span>-->
-                                            <!--<div class="dropup show">-->
-                                                <!--<a href="javascript:void(0);" class="video-operation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-three-dots"></i></a>-->
-                                                <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
-                                                    <!--<a class="dropdown-item" href="#(CPATH)/admin/attachment/video/edit/#(item.id)"><i class="bi bi-pencil-square"></i> 编辑</a>-->
-                                                    <!--<a class="del-action red-action dropdown-item" href="javascript:void(0);" data-id="#(item.id)"><i class="bi bi-trash"></i> 删除</a>-->
-                                                <!--</div>-->
+                                            <!--<div>-->
+                                                <!--<a href="#(CPATH)/admin/attachment/video/edit/#(item.id)">编辑</a> |-->
+                                                <!--<a href="javascript:;" class="del-action red-action" data-id="#(item.id)">删除</a>-->
                                             <!--</div>-->
                                         <!--</div>-->
+                                        <!--操作按钮-->
+                                        <div class="video-desc">
+                                            <span><i class="bi bi-clock"></i> #date(item.created ??)</span>
+                                            <div class="dropup show">
+                                                <a href="javascript:void(0);" class="video-operation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-three-dots"></i></a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" href="#(CPATH)/admin/attachment/video/edit/#(item.id)"><i class="bi bi-pencil-square"></i> 编辑</a>
+                                                    <a class="del-action red-action dropdown-item" href="javascript:void(0);" data-id="#(item.id)"><i class="bi bi-trash"></i> 删除</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

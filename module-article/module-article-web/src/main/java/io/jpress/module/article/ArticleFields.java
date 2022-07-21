@@ -141,7 +141,7 @@ public class ArticleFields {
                 79));
 
         fields.add(new SmartField("with_lead_news",
-                "是否是头条",
+                "是否头条",
                 "article.with_lead_news",
                 "请输入",
                 SmartField.TYPE_SWITCH,

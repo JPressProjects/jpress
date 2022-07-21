@@ -2,6 +2,7 @@ package io.jpress;
 
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Model;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 
 public class SiteContext {
@@ -33,7 +34,7 @@ public class SiteContext {
         }
 
         String path = site.getStr("bind_path");
-        return path != null ? path : "";
+        return StrUtil.isNotBlank(path) ? path : "";
     }
 
 }

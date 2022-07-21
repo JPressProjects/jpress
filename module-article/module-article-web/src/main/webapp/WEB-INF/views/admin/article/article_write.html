@@ -159,8 +159,8 @@
     }
 
     $(function () {
-        $(".article-sttr .form-group").children(".col-form-label").removeClass("col-sm-2").addClass("col-sm-4");
-        $(".article-sttr .form-group").children("div").removeClass("col-sm-6").addClass("col-sm-8");
+        // $(".article-sttr .form-group").children(".col-form-label").removeClass("col-sm-2").addClass("col-sm-4");
+        // $(".article-sttr .form-group").children("div").removeClass("col-sm-6").addClass("col-sm-8");
 
         // 设置按钮
         $("#rightSwitch").click(function () {
@@ -508,6 +508,139 @@
                         <div class="tab-pane fade show active" id="componentAttr" role="tabpanel"
                              aria-labelledby="componentAttr-tab">
                             <div class="accordion" id="accordionExample">
+
+                                <div class="card">
+                                    <div class="card-header" id="heading2">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link  btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapse2"
+                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                固定链接
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse2" class="collapse" aria-labelledby="heading2"
+                                         data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            网址：<span class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span id="slug"
+                                                                                                                           class="slugSpan"
+                                                                                                                           for-input="article-slug">#(article.slug ??)</span>#if(option("web_fake_static_enable"))#option('web_fake_static_suffix')#end
+                                            #if(article && article.isNormal())
+                                            （<a href="#(article.url)" target="_blank">访问</a>）
+                                            #end
+                                            <input type="hidden" id="article-slug" name="article.slug" value="#(article.slug ??)">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card">
+                                    <div class="card-header" id="heading3">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapse3"
+                                                    aria-expanded="false" aria-controls="collapseThree">
+                                                分类
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse3" class="collapse" aria-labelledby="heading3"
+                                         data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                #for(category : categories)
+                                                <div>
+                                                    <label>
+                                                        #for(i = 0; i < category.layerNumber; i++)
+                                                        &nbsp;&nbsp;
+                                                        #end
+
+                                                        #if(category.isCheck)
+                                                        <input type="checkbox" name="category" value="#(category.id)" checked/>
+                                                        #else
+                                                        <input type="checkbox" name="category" value="#(category.id)"/>
+                                                        #end
+
+                                                        #(category.title ??)
+                                                    </label>
+                                                </div>
+                                                #else
+                                                暂无分类
+                                                #end
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="card">
+                                    <div class="card-header" id="heading5">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link  btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapse5"
+                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                图片
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse5" class="collapse" aria-labelledby="heading2"
+                                         data-parent="#accordionExample">
+                                        <div class="card-body p-0">
+                                            <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
+                                                 style="width: 100%;max-height: 500px"
+                                                 id="thumbnail">
+                                            <input type="hidden" value="#(article.thumbnail ??)" name="article.thumbnail"
+                                                   id="articleThumbnail">
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="button" class="btn-image-browser btn btn-default btn-sm "
+                                                    for-src="thumbnail"
+                                                    for-input="articleThumbnail">选择图片
+                                            </button>
+                                            <a href="javascript:;" style="padding-left: 15px" id="removeThumbnail">移除</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card">
+                                    <div class="card-header" id="heading4">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapse4"
+                                                    aria-expanded="false" aria-controls="collapseThree">
+                                                标签
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapse4" class="collapse" aria-labelledby="heading4"
+                                         data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <select class="form-control article-tags" multiple="multiple" name="tag">
+                                                #for(tag : tags)
+                                                <option value="#(tag.title ??)" selected>#(tag.title ??)</option>
+                                                #end
+                                            </select>
+                                            <p class="text-muted">多个标签请用 “回车键” 或英文逗号（,）隔开。</p>
+
+                                            <div class="tags">
+                                                #tags(count = 20)
+                                                #for(tag : tags)
+                                                <a href="javascript:;" class="newTag">#(tag.title)</a>
+                                                #end
+                                                #end
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div class="card">
                                     <div class="card-header" id="heading1">
                                         <h2 class="mb-0">
@@ -527,60 +660,54 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-header" id="heading2">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link  btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#collapse2"
-                                                    aria-expanded="false" aria-controls="collapseTwo">
-                                                固定链接
-                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse2" class="collapse" aria-labelledby="heading2"
-                                         data-parent="#accordionExample">
-                                        <div class="card-body">
-                                        </div>
-                                    </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="formAttr" role="tabpanel" aria-labelledby="formAttr-tab">
+
+
+                            <div class="card">
+                                <div class="card-header" id="heading10">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                data-toggle="collapse" data-target="#collapse10" aria-expanded="true"
+                                                aria-controls="collapse1">
+                                            模板
+                                            <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                        </button>
+                                    </h2>
                                 </div>
-                                <div class="card">
-                                    <div class="card-header" id="heading3">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#collapse3"
-                                                    aria-expanded="false" aria-controls="collapseThree">
-                                                分类
-                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse3" class="collapse" aria-labelledby="heading3"
-                                         data-parent="#accordionExample">
-                                        <div class="card-body">
+                                <div id="collapse10" class="collapse show" aria-labelledby="heading1"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body article-sttr">
+                                        <div class="form-group row">
+                                            <label class="col-sm-12">渲染模板文件</label>
+                                            <select class="form-control" name="article.style">
+                                                <option value="">默认（article.html）</option>
+                                                #for(style : styles)
+                                                <option value="#(style)" #selectedIf(article && article.style==style)>
+                                                    article_#(style).html
+                                                </option>
+                                                #end
+                                            </select>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="heading4">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#collapse4"
-                                                    aria-expanded="false" aria-controls="collapseThree">
-                                                标签
-                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse4" class="collapse" aria-labelledby="heading4"
-                                         data-parent="#accordionExample">
-                                        <div class="card-body">
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-12">文章标识</label>
+                                            <input type="text" class="form-control" name="article.flag"
+                                                   placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
+                                            #if(flags && flags.size() > 0)
+                                            <p class="text-muted">当前模板支持的展示标识有：</p>
+                                            <div class="tags">
+                                                #for(flag : flags ??)
+                                                <a href="javascript:;" class="tflag">#(flag)</a>
+                                                #end
+                                            </div>
+                                            #end
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="tab-pane fade" id="formAttr" role="tabpanel" aria-labelledby="formAttr-tab">
 
                         </div>
                     </div>

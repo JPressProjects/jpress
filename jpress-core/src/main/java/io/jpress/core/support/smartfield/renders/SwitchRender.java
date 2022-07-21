@@ -27,10 +27,21 @@ import java.util.Objects;
  */
 public class SwitchRender implements SmartFieldRender {
 
+//    protected static String template = "" +
+//            "<div class=\"form-group row\">\n" +
+//            "    <label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
+//            "    <div class=\"col-sm-6\">\n" +
+//            "        <input type=\"checkbox\" {checked} class=\"switchery\"\n" +
+//            "               data-for=\"{id}\" value=\"true\">\n" +
+//            "        <p class=\"text-muted\">{helpText}</p>\n" +
+//            "        <input type=\"hidden\" id=\"{id}\" name=\"{name}\">\n" +
+//            "    </div>\n" +
+//            "</div>";
+
     protected static String template = "" +
             "<div class=\"form-group row\">\n" +
-            "    <label class=\"col-sm-2 col-form-label\">{label}</label>\n" +
-            "    <div class=\"col-sm-6\">\n" +
+            "    <label class=\"col-sm-9\" style=\"padding-top:7.5px;padding-left:15px\">{label}</label>\n" +
+            "    <div class=\"col-sm-3\">\n" +
             "        <input type=\"checkbox\" {checked} class=\"switchery\"\n" +
             "               data-for=\"{id}\" value=\"true\">\n" +
             "        <p class=\"text-muted\">{helpText}</p>\n" +

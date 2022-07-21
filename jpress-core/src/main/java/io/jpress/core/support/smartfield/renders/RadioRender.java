@@ -29,12 +29,12 @@ import java.util.Objects;
 public class RadioRender implements SmartFieldRender {
 
     protected static String template1 = "" +
-            "<div class=\"form-group row\">\n" +
-            "    <label class=\"col-sm-2 col-form-label\">{label}</label>";
+            "<div class=\"form-group\">\n" +
+            "    <label class=\"col-sm-12\">{label}</label>";
 
 
     protected static String template_item = "" +
-            "   <div class=\"{offset} col-sm-10\">\n" +
+            "   <div class=\"{offset} col-sm-12\">\n" +
             "        <div class=\"radio\">\n" +
             "            <label>\n" +
             "                <input type=\"radio\" name=\"{name}\" value=\"{value}\" {checked}> {text}\n" +

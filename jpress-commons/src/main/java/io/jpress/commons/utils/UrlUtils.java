@@ -3,6 +3,7 @@ package io.jpress.commons.utils;
 
 import com.jfinal.core.JFinal;
 import io.jpress.JPressOptions;
+import io.jpress.SiteContext;
 
 public class UrlUtils {
 
@@ -14,7 +15,11 @@ public class UrlUtils {
 
     private static String buildUrl(Object... paths) {
         boolean isWebFlatUrlEnable = JPressOptions.isFlatUrlEnable();
-        StringBuilder url = new StringBuilder(JFinal.me().getContextPath());
+
+        StringBuilder url = new StringBuilder(JFinal.me().getContextPath())
+                .append(SiteContext.getSitePath());
+
+
         for (int i = 0; i < paths.length; i++) {
             Object path = paths[i];
             if (path == null){
@@ -26,6 +31,7 @@ public class UrlUtils {
                 url.append(path);
             }
         }
+
         return url.append(JPressOptions.getAppUrlSuffix()).toString();
     }
 

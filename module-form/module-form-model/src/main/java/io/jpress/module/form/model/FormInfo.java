@@ -10,6 +10,7 @@ import io.jboot.db.annotation.Table;
 import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.CollectionUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.form.model.base.BaseFormInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,15 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     private static final Set<String> fieldTags = Sets.newHashSet("input", "textarea", "select"
             , "range", "radio", "checkbox", "date", "time", "datetime", "switch", "file-upload");
 
+
+    public String getUrl(){
+        return UrlUtils.getUrl("/form/",getId());
+    }
+
+
+    public String getActionUrl(){
+        return UrlUtils.getUrl("/form/postData/",getId());
+    }
 
     public List<FieldInfo> getFieldInfos() {
         String json = getBuilderJson();

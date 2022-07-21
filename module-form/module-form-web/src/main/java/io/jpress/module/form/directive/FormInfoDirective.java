@@ -3,7 +3,6 @@ package io.jpress.module.form.directive;
 import com.alibaba.fastjson.JSONArray;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
-import com.jfinal.core.JFinal;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
@@ -11,7 +10,6 @@ import io.jboot.db.model.Columns;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
-import io.jpress.SiteContext;
 import io.jpress.module.form.FormManager;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
@@ -57,8 +55,8 @@ public class FormInfoDirective extends JbootDirectiveBase {
 
         JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
         if (withForm) {
-            String action = JFinal.me().getContextPath() + SiteContext.getSitePath() + "/form/postData/" + formInfo.getId();
-            String htmlStart = "<form id=\"form-" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
+            String action = formInfo.getActionUrl();
+            String htmlStart = "<form id=\"form" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
             String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" +
                     "</form>";
 
@@ -71,18 +69,17 @@ public class FormInfoDirective extends JbootDirectiveBase {
     }
 
 
-
-    private FormInfo getFormInfoInAttrs(){
+    private FormInfo getFormInfoInAttrs() {
         Controller controller = JbootControllerContext.get();
-        if (controller == null){
+        if (controller == null) {
             return null;
         }
 
         Enumeration<String> attrs = controller.getAttrNames();
-        while (attrs.hasMoreElements()){
+        while (attrs.hasMoreElements()) {
             String attr = attrs.nextElement();
             Object value = controller.getAttr(attr);
-            if (value instanceof FormInfo){
+            if (value instanceof FormInfo) {
                 return (FormInfo) value;
             }
         }

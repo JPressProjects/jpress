@@ -66,8 +66,35 @@ public class FormDataServiceProvider implements FormDataService {
         }
     }
 
+    /**
+     * 查询所有
+     *
+     * @param tableName
+     * @return java.util.List<com.jfinal.plugin.activerecord.Record>
+     */
     @Override
     public List<Record> findAll(String tableName) {
         return Db.findAll(tableName);
     }
+
+
+    /**
+     * 根据filed
+     *
+     * @param tableName
+     * @param filedName
+     * @param value
+     * @return int
+     */
+    @Override
+    public int findCountByValue(String tableName, String filedName,String value) {
+
+        String sql = "select count(*) as count from "+tableName+" where "+filedName+" = ?";
+
+        Record record = Db.findFirst(sql,value);
+
+        return record.getInt("count");
+    }
+
+
 }

@@ -80,8 +80,25 @@ public interface FormDataService {
      */
     public Page<Record> paginateByColumns(String tableName, int page, int pageSize, Columns columns, String orderBy);
 
-
+    /**
+    * 查询所有
+    *
+    * @param tableName
+    * @return java.util.List<com.jfinal.plugin.activerecord.Record>
+    */
     public List<Record> findAll(String tableName);
+    
+    /**
+    * 根据filed
+    *
+    * @param tableName
+    * @param filedName
+    * @param value
+    * @return int
+    */
+    public int findCountByValue(String tableName,String filedName,String value);
+    
+    
 
 
 }

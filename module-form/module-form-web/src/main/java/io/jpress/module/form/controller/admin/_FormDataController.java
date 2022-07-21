@@ -27,6 +27,7 @@ import com.jfinal.core.Action;
 import com.jfinal.core.CPI;
 import com.jfinal.json.Json;
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.app.ApplicationUtil;
@@ -35,7 +36,9 @@ import io.jboot.utils.AnnotationUtil;
 import io.jboot.utils.JsonUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.commons.Rets;
 import io.jpress.module.form.model.FieldInfo;
+import io.jpress.module.form.model.FormChartsInfo;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
@@ -156,33 +159,60 @@ public class _FormDataController extends AdminControllerBase {
 
     }
 
-    /**
-     * 图表 echars信息
-     */
-    public void formChartsInfo() {
 
+    /**
+     * 图表 echars 页面
+     */
+    public void formCharts() {
+
+        setAttr("formId",getParaToLong());
+
+        setAttr("field",getPara("field"));
+
+        render("form/form_data_charts.html");
+    }
+
+    /**
+     * 图表 echars 数据
+     */
+    public void formChartsData(){
 
         FormInfo formInfo = formInfoService.findById(getParaToLong());
 
         JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
         JSONArray options = getOptions(datas, getPara("field"));
 
-        //TODO
+        List<FormChartsInfo> chartsInfoList = new ArrayList<>();
 
+        if(options != null && options.size() > 0){
 
-        System.out.println(options);
+            for (int i = 0; i < options.size(); i++) {
 
+                    FormChartsInfo formChartsInfo = new FormChartsInfo();
 
-        render("form/form_echarts.html");
+                    JSONObject jsonObject = options.getJSONObject(i);
+
+                    int count = formDataService.findCountByValue(formInfo.getCurrentTableName(), getPara("field"), jsonObject.getString("value"));
+
+                    formChartsInfo.setName(jsonObject.getString("text") + "(" + count +")");
+
+                    formChartsInfo.setValue(count);
+
+                    chartsInfoList.add(formChartsInfo);
+
+            }
+
+        }
+
+        renderJson(chartsInfoList);
     }
+
 
 
     private JSONArray getOptions(JSONArray datas,String field){
         if (datas == null || datas.size()== 0){
             return null;
         }
-
-        Map<String,Map<String,Object>> mapInfo = new HashMap<>();
 
         for (int i = 0; i < datas.size(); i++) {
 

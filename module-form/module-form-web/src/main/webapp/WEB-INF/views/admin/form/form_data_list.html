@@ -6,7 +6,7 @@
 
 
     //打开对应的图表信息
-    function chartInfo(field){
+    function chartInfo(field,label){
 
         layer.open({
             type: 2,
@@ -14,9 +14,8 @@
             anim: 2,
             shadeClose: true,
             shade: 0.3,
-            area: ['90%', '90%'],
-            content: jpress.cpath + '/admin/form/data/formChartsInfo/#(form.id ??)?field=' + field,
-
+            area: ['45%', '70%'],
+            content: jpress.cpath + '/admin/form/data/formCharts/#(form.id ??)?field=' + field+"&label=" + label,
         })
     }
 
@@ -90,7 +89,7 @@
 
                                     #for(field : form.fieldInfos)
                                     #if(field.showInList)
-	                                <th style="width: 150px">#(field.label ??) #if(field.isSupportChat()) <i onclick="chartInfo('#(field.fieldName ??)')" class="bi bi-file-text"></i> #end</th>
+	                                <th style="width: 150px">#(field.label ??) #if(field.isSupportChat()) <i onclick="chartInfo('#(field.fieldName ??)','#(field.label ??)')" class="bi bi-file-text"></i> #end</th>
                                      #end
                                      #end
 

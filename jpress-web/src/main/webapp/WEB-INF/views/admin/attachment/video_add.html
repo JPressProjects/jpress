@@ -1,7 +1,8 @@
 #@layout()
 
 #define css()
-<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
+<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"
+      xmlns="http://www.w3.org/1999/html"/>
 <link href="/static/components/qcloud-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
 #end
 
@@ -40,25 +41,79 @@
     /**
      *  设置 视频类型 选择的显示和隐藏
      */
-    videoContentTypeChange(document.getElementById("videoType"));
+    videoContentTypeChange(document.getElementById("videoType").value);
 
-    function videoContentTypeChange(select) {
-        var selectedValue = select.options[select.options.selectedIndex].value;
+    function videoContentTypeChange(value) {
+
         var cloudType = $("#cloudType").val();
-        if (selectedValue == 'vod') {
+        if (value == 'vod') {
             $("#videos").show();
             $("#live").hide();
-            $("#code").hide();
-        } else if (selectedValue == 'live' && cloudType != '4') {
+            $("#code").hide()
+
+        } else if (value == 'live' && cloudType != '4') {
             $("#videos").hide();
             $("#live").show();
             $("#code").hide();
-        } else {
+
+        } else if (value == 'code') {
             $("#videos").hide();
             $("#live").hide();
-            $("#code").show();
+            $("#code").show()
+
+        } else if (value == 'live' && cloudType == '4') {
+            alert("要配置直播，请在设置中选择其他云类型！")
         }
     }
+
+
+    /**
+     *  根据 云类型 选择的显示和隐藏
+     */
+    cloudTypeChange(document.getElementById("cloudType").value);
+
+    function cloudTypeChange(cloudType) {
+
+        //根据云类型，隐藏和显示对应的容器
+        // var cloudType = $("#cloudType").val();
+        if(cloudType == '1'){
+            $("#aliyun").show();
+            $("#qcloud").hide();
+            $("#local").hide();
+
+            $("#livePlayer").show();
+            $("#id_test_video").hide();
+
+            $("#createLive").show();
+            $("#createLiveQCloud").hide();
+
+        }else if(cloudType == '2'){
+            $("#aliyun").hide();
+            $("#qcloud").show();
+            $("#local").hide();
+
+            $("#livePlayer").hide();
+            $("#id_test_video").show();
+
+            $("#createLive").hide();
+            $("#createLiveQCloud").show();
+
+        }
+        else if(cloudType == '4'){
+            $("#aliyun").hide();
+            $("#live").hide();
+            $("#qcloud").hide();
+            $("#local").show();
+
+            $("#livePlayer").hide();
+            $("#id_test_video").hide();
+
+            $("#createLive").hide();
+            $("#createLiveQCloud").hide();
+
+        }
+    }
+
 
 </script>
 
@@ -324,44 +379,7 @@
              player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
         }
 
-        var cloudType = $("#cloudType").val();
-        if(cloudType == '1'){
-            $("#aliyun").show();
-            $("#qcloud").hide();
-            $("#local").hide();
 
-            $("#livePlayer").show();
-            $("#id_test_video").hide();
-
-            $("#createLive").show();
-            $("#createLiveQCloud").hide();
-
-
-
-        }else if(cloudType == '2'){
-            $("#aliyun").hide();
-            $("#qcloud").show();
-
-            $("#livePlayer").hide();
-            $("#id_test_video").show();
-
-            $("#createLive").hide();
-            $("#createLiveQCloud").show();
-
-        }
-        else if(cloudType == '4'){
-            $("#aliyun").hide();
-            $("#live").hide();
-            $("#qcloud").hide();
-            $("#local").show();
-
-            $("#livePlayer").hide();
-            $("#id_test_video").hide();
-
-            $("#createLive").hide();
-            $("#createLiveQCloud").hide();
-
-        }
 
         var mysign="";
 
@@ -667,16 +685,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label"> 类型 </label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" id="videoType" placeholder="请选择类型"
-                                            name="video.video_type"
-                                            onchange="videoContentTypeChange(this)">
-                                        <option value="vod" #selectedIf(video && video.videoType == 'vod')>视频
-                                        </option>
-                                        <option value="live" #selectedIf(video && video.videoType== 'live')>直播
-                                        </option>
-                                        <option value="code" #selectedIf(video && video.videoType== 'code')>代码
-                                        </option>
-                                    </select>
+                                    <input type="hidden"  name="videoType" id="videoType" value="#(video.videoType ?? 'vod')">
+                                    <label>
+                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="vod" checked #checkedIf(video && video.video_type == 'vod') > 视频</input>
+                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="live" #checkedIf(video && video.video_type == 'live') > 直播</input>
+                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="code" #checkedIf(video && video.video_type == 'code')  > 代码</input>
+                                    </label>
+
+
                                 </div>
                             </div>
 

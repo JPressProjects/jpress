@@ -17,6 +17,8 @@ public class AttachmentVideo extends BaseAttachmentVideo<AttachmentVideo> {
     public static final String CLOUD_TYPE_ALIYUN = "1";
     //腾讯云
     public static final String CLOUD_TYPE_QCLOUD = "2";
+    //本地视频
+    public static final String CLOUD_TYPE_LOCAL = "4";
 
 
     // 视频点播

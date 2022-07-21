@@ -355,10 +355,22 @@ public class _AttachmentVideoController extends AdminControllerBase {
         Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(),
                 Columns.create("category_id", categoryId).eq("video_type",AttachmentVideo.VIDEO_TYPE_VIDEO),"id desc");
         for (AttachmentVideo video : page.getList()) {
-            if(video.getCloudType().equals(AttachmentVideo.CLOUD_TYPE_ALIYUN)){
+            if(AttachmentVideo.CLOUD_TYPE_ALIYUN.equals(video.getCloudType())){
+                //阿里云获取播放凭证
                 if(video.getVodVid() != null){
                     String playAuth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
                     video.put("playAuth",playAuth);
+                }
+            }else if(AttachmentVideo.CLOUD_TYPE_LOCAL.equals(video.getCloudType())){
+                //获取本地视频存放路径
+                String options = video.getOptions();
+                if (StrUtil.isNotBlank(options)){
+                    Map<String,String> map = JsonUtil.get(options,"", TypeDef.MAP_STRING);
+//                    setAttr("options",map);
+                    if(map != null){
+                        String url = map.get("local_video_url");
+                        video.put("localUrl", url);
+                    }
                 }
             }
         }

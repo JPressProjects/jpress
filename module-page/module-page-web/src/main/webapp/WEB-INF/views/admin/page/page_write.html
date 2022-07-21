@@ -164,6 +164,7 @@
                     var vid = layer.data.vid;
                     var playAuth = layer.data.playAuth;
                     var cover = layer.data.cover;
+                    var src = layer.data.src;
                     var appId = layer.data.aid;
 
                     if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
@@ -198,6 +199,18 @@
                             qcloudVideo.setAttribute('id', idStr);
 
                             insertHtmlToEditor(qcloudVideo.outerHTML);
+                        }
+                        else if(cloudType != null && cloudType != '' && cloudType == '4'){//本地视频
+                            if(src == null || src == ''){
+                                alert("请先上传视频")
+                            }else{
+                                var video = document.createElement('video')
+                                video.setAttribute('src', src)
+                                video.setAttribute('style', "height:240px;width:425px;")
+                                video.setAttribute('controls', 'controls')
+
+                                insertHtmlToEditor(video.outerHTML);
+                            }
                         }
 
                     } else if (currentVditor) {

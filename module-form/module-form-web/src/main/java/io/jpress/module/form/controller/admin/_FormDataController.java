@@ -15,41 +15,30 @@
  */
 package io.jpress.module.form.controller.admin;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.liaochong.myexcel.core.DefaultExcelBuilder;
 import com.github.liaochong.myexcel.core.EnjoyExcelBuilder;
 import com.github.liaochong.myexcel.utils.AttachmentExportUtil;
-import com.github.liaochong.myexcel.utils.FileExportUtil;
 import com.jfinal.aop.Inject;
-import com.jfinal.core.Action;
-import com.jfinal.core.CPI;
-import com.jfinal.json.Json;
 import com.jfinal.kit.PathKit;
-import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import io.jboot.app.ApplicationUtil;
 import io.jboot.db.model.Columns;
-import io.jboot.utils.AnnotationUtil;
-import io.jboot.utils.JsonUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
-import io.jpress.commons.Rets;
-import io.jpress.module.form.model.FieldInfo;
-import io.jpress.module.form.model.FormChartsInfo;
+import io.jpress.module.form.model.EChartsItem;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.awt.geom.PathIterator;
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 
 @RequestMapping(value = "/admin/form/data", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -182,13 +171,13 @@ public class _FormDataController extends AdminControllerBase {
         JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
         JSONArray options = getOptions(datas, getPara("field"));
 
-        List<FormChartsInfo> chartsInfoList = new ArrayList<>();
+        List<EChartsItem> chartsInfoList = new ArrayList<>();
 
         if(options != null && options.size() > 0){
 
             for (int i = 0; i < options.size(); i++) {
 
-                    FormChartsInfo formChartsInfo = new FormChartsInfo();
+                    EChartsItem formChartsInfo = new EChartsItem();
 
                     JSONObject jsonObject = options.getJSONObject(i);
 

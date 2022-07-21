@@ -61,8 +61,6 @@
             $("#live").hide();
             $("#code").show()
 
-        } else if (value == 'live' && cloudType == '4') {
-            alert("要配置直播，请在设置中选择其他云类型！")
         }
     }
 
@@ -109,10 +107,24 @@
             $("#id_test_video").hide();
 
             $("#createLive").hide();
-            $("#createLiveQCloud").hide();
+            $("#createLiveQCloud").hide()
+            $("#localLiveHide").hide();//云类型是本地视频时，隐藏选择直播按钮
 
         }
     }
+
+    /**
+     * 编辑时 隐藏视频类型
+     */
+    hideVideoType();
+
+    function hideVideoType(){
+        var videoId = $("#videoId").val();
+        if(videoId != null && videoId != ''){
+            $("#videoTypeDiv").hide();
+        }
+    }
+
 
 
 </script>
@@ -362,6 +374,7 @@
 
 
     window.onload = function() {
+
         //初始化
         //视频
         var aid = $("#appId").val();
@@ -682,17 +695,22 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group row" id="videoTypeDiv">
                                 <label class="col-sm-2 col-form-label"> 类型 </label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" style="top: 7.5px;">
                                     <input type="hidden"  name="videoType" id="videoType" value="#(video.videoType ?? 'vod')">
                                     <label>
-                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="vod" checked #checkedIf(video && video.video_type == 'vod') > 视频</input>
-                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="live" #checkedIf(video && video.video_type == 'live') > 直播</input>
-                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="code" #checkedIf(video && video.video_type == 'code')  > 代码</input>
+                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="vod"
+                                                  checked #checkedIf(video && video.video_type == 'vod') > 视频</input>
                                     </label>
-
-
+                                    <label id="localLiveHide">
+                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="live"
+                                               #checkedIf(video && video.video_type == 'live') > 直播</input>
+                                    </label>
+                                    <label>
+                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="code"
+                                               #checkedIf(video && video.video_type == 'code')  > 代码</input>
+                                    </label>
                                 </div>
                             </div>
 
@@ -706,7 +724,7 @@
                                     <div class="col-sm-6">
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="videoInputFile">
+                                                <input type="file" class="custom-file-input" accept="video/*" id="videoInputFile">
                                                 <label class="custom-file-label" for="videoInputFile"
                                                        id="videoInputFileLable">点击选择上传视频</label>
                                             </div>
@@ -731,7 +749,7 @@
                                         <div class="col-sm-6">
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="tcentVideoInputFile">
+                                                    <input type="file" class="custom-file-input"  accept="video/*" id="tcentVideoInputFile">
                                                     <label class="custom-file-label" for="tcentVideoInputFile"
                                                            id="tcentVideoInputFileLable">点击选择上传视频</label>
                                                 </div>
@@ -759,7 +777,7 @@
                                         <div class="col-sm-6">
                                             <div class="input-group">
                                                 <div class="custom-file" id="uploader"  onclick="uploadLocalVideo()">
-                                                    <input  id="localVideoInputFile" type="file" name="files[]" multiple>
+                                                    <input  id="localVideoInputFile" type="file" name="files[]"  accept="video/*" multiple>
                                                     <label class="custom-file-label" for="localVideoInputFile"
                                                            id="localVideoInputFileLable">点击选择上传视频</label>
                                                 </div>

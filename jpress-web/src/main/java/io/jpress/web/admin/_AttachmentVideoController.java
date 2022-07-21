@@ -218,7 +218,34 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
     public void doDel(){
-        attachmentVideoService.deleteById(getIdPara());
+        Long id = getParaToLong();
+        if (id == null) {
+            renderError(404);
+            return;
+        }
+
+        AttachmentVideo attachmentVideo = attachmentVideoService.findById(id);
+        if (attachmentVideo == null) {
+            renderError(404);
+            return;
+        }
+
+        if (attachmentVideoService.delete(attachmentVideo)) {
+            //删除本地的视频副本
+            String options = attachmentVideo.getOptions();
+            if (StrUtil.isNotBlank(options)){
+                Map<String,String> map = JsonUtil.get(options,"", TypeDef.MAP_STRING);
+                if(map != null){
+                    String path = map.get("local_video_url");
+                    File attachmentFile = AttachmentUtils.file(path);
+                    if (attachmentFile.exists() && attachmentFile.isFile()) {
+                        attachmentFile.delete();
+                        AliyunOssUtils.delete(new StringBuilder(path).delete(0, 1).toString());
+                    }
+                }
+            }
+        }
+
         renderOkJson();
     }
 
@@ -426,20 +453,12 @@ public class _AttachmentVideoController extends AdminControllerBase {
             return;
         }
 
-        String mineType = uploadFile.getContentType();
-        String fileType = mineType.split("/")[0];
-        if(!"video".equals(fileType)){
-            file.delete();
-            renderJson(Ret.fail().set("message", "此处只支持上传视频"));
-            return;
-        }
-
         Integer maxSize = JPressOptions.getAsInt("attachment_other_maxsize", 100);
 
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
         if (maxSize > 0 && fileSize > maxSize * 1024) {
             file.delete();
-            renderJson(Ret.fail().set("message", "上传文件大小不能超过 " + maxSize + " MB"));
+            renderJson(Ret.fail().set("message", "上传视频大小不能超过 " + maxSize + " MB"));
             return;
         }
 

@@ -3,33 +3,8 @@
 #define script()
 
 <script>
-    //页面加载时
-    window.onload = function () {
-        var cloudType = $("#cloudType").val();
-        if (cloudType == '1') {
-            $("#aliyun").show();
-            $("#tencentyun").hide();
-            $("#huaweicloud").hide();
-            $("#local").hide();
-        } else if (cloudType == '2') {
-            $("#aliyun").hide();
-            $("#tencentyun").show();
-            $("#huaweicloud").hide();
-            $("#local").hide();
-        }
-        else if (cloudType == '3') {
-            $("#aliyun").hide();
-            $("#tencentyun").hide();
-            $("#huaweicloud").show();
-            $("#local").hide();
-        }
-        else if (cloudType == '4') {
-            $("#aliyun").hide();
-            $("#tencentyun").hide();
-            $("#huaweicloud").hide();
-            $("#local").show();
-        }
-    }
+
+    selectCloudType();
 
     //切换视频云
     function selectCloudType() {

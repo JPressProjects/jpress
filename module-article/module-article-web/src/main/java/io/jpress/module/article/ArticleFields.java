@@ -32,139 +32,6 @@ public class ArticleFields {
     private List<SmartField> fields = new ArrayList<>();
     private static ArticleFields me = new ArticleFields();
 
-    private ArticleFields() {
-        initDefaultFields();
-    }
-
-    private void initDefaultFields() {
-
-        fields.add(new SmartField("summary",
-                "文章摘要",
-                "article.summary",
-                "请输入",
-                SmartField.TYPE_TEXTAREA,
-                null,
-                null,
-                null,
-                10).addAttr("rows", 4));
-
-        fields.add(new SmartField("meta_keywords",
-                "SEO关键字",
-                "article.meta_keywords",
-                "请输入",
-                SmartField.TYPE_TEXTAREA,
-                null,
-                null,
-                null,
-                20).addAttr("rows", 2));
-
-        fields.add(new SmartField("meta_description",
-                "SEO描述",
-                "article.meta_description",
-                "请输入",
-                SmartField.TYPE_TEXTAREA,
-                null,
-                null,
-                null,
-                30).addAttr("rows", 2));
-
-        fields.add(new SmartField("order_number",
-                "排序序号",
-                "article.order_number",
-                "请输入",
-                SmartField.TYPE_INPUT,
-                null,
-                null,
-                "文章列表会根据这个数值进行排序，越大越靠前。",
-                50));
-
-
-        fields.add(new SmartField("link_to",
-                "外链",
-                "article.link_to",
-                "请输入",
-                SmartField.TYPE_INPUT,
-                null,
-                null,
-                "填写外链后，浏览文章将会跳转到此链接。",
-                60));
-
-        fields.add(new SmartField("created",
-                "发布时间",
-                "article.created",
-                "请输入",
-                SmartField.TYPE_DATETIME,
-                null,
-                null,
-                null,
-                61));
-
-
-        fields.add(new SmartField("comment_status",
-                "允许评论",
-                "article.comment_status",
-                "请输入",
-                SmartField.TYPE_SWITCH,
-                "true",
-                null,
-                null,
-                70));
-
-        fields.add(new SmartField("with_recommend",
-                "是否推荐",
-                "article.with_recommend",
-                "请输入",
-                SmartField.TYPE_SWITCH,
-                "true",
-                null,
-                null,
-                73));
-
-        fields.add(new SmartField("with_top",
-                "是否置顶",
-                "article.with_top",
-                "请输入",
-                SmartField.TYPE_SWITCH,
-                "true",
-                null,
-                null,
-                76));
-
-        fields.add(new SmartField("with_hot",
-                "是否热门",
-                "article.with_hot",
-                "请输入",
-                SmartField.TYPE_SWITCH,
-                "true",
-                null,
-                null,
-                79));
-
-        fields.add(new SmartField("with_lead_news",
-                "是否头条",
-                "article.with_lead_news",
-                "请输入",
-                SmartField.TYPE_SWITCH,
-                "true",
-                null,
-                null,
-                81));
-
-        fields.add(new SmartField("with_allow_search",
-                "是否允许被搜索",
-                "article.with_allow_search",
-                "请输入",
-                SmartField.TYPE_SWITCH,
-                "true",
-                null,
-                null,
-                83));
-
-
-        fields.sort(Comparator.comparingInt(SmartField::getOrderNo));
-
-    }
-
     public static ArticleFields me() {
         return me;
     }
@@ -186,6 +53,13 @@ public class ArticleFields {
     public List<SmartField> getFields() {
         return fields;
     }
+
+
+    public String render(String defaultContent) {
+        String content = render();
+        return StrUtil.isNotBlank(content) ? content : defaultContent;
+    }
+
 
     public String render() {
         StringBuilder s = new StringBuilder();

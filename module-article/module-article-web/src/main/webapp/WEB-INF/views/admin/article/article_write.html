@@ -159,9 +159,6 @@
     }
 
     $(function () {
-        // $(".article-sttr .form-group").children(".col-form-label").removeClass("col-sm-2").addClass("col-sm-4");
-        // $(".article-sttr .form-group").children("div").removeClass("col-sm-6").addClass("col-sm-8");
-
         // 设置按钮
         $("#rightSwitch").click(function () {
             $(this).toggleClass('switch-btn');
@@ -500,32 +497,100 @@
                 <div class="pannel-inner">
                     <ul class="nav nav-tabs" id="formAttrTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="componentAttr-tab" data-toggle="tab"
-                               href="#componentAttr" role="tab" aria-controls="component" aria-selected="true">文章</a>
+                            <a class="nav-link active" data-toggle="tab"
+                               href="#main-tab" role="tab" aria-controls="component" aria-selected="true">文章</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="formAttr-tab" data-toggle="tab" href="#formAttr" role="tab"
+                            <a class="nav-link" data-toggle="tab" href="#template-tab" role="tab"
                                aria-controls="module" aria-selected="false">模板</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#extend-tab" role="tab"
+                               aria-controls="module" aria-selected="false">扩展</a>
+                        </li>
                     </ul>
-                    <div class="tab-content" id="formAttrTabContent">
-                        <div class="tab-pane fade show active" id="componentAttr" role="tabpanel"
-                             aria-labelledby="componentAttr-tab">
-                            <div class="accordion" id="accordionExample">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="main-tab" role="tabpanel">
+                            <div class="accordion">
 
+
+                                <!--基础-->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#fields-card">
+                                                基础
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="fields-card" class="collapse">
+                                        <div class="card-body">
+
+
+                                            <div class="form-group">
+                                                <label class="col-sm-12">文章摘要</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control"
+                                                              id="summary"
+                                                              name="article.summary"
+                                                              placeholder="请输入" rows="4">相遇</textarea>
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-12">排序序号</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control"
+                                                           id="order_number"
+                                                           name="article.order_number"
+                                                           placeholder="请输入" value="0" />
+                                                    <p class="text-muted">文章列表会根据这个数值进行排序，越大越靠前。</p>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label class="col-sm-12">外链</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control"
+                                                           id="link_to"
+                                                           name="article.link_to"
+                                                           placeholder="请输入" value="" />
+                                                    <p class="text-muted">填写外链后，浏览文章将会跳转到此链接。</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-12">发布时间</label>
+                                                <div class="col-sm-12">
+                                                    <input type="text" class="form-control datetime"
+                                                           id="created"
+                                                           name="article.created"
+                                                           placeholder="请输入" value="2022-04-13 11:26:36" />
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--固定链接-->
                                 <div class="card">
                                     <div class="card-header" id="heading2">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link  btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#collapse2"
-                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                    data-toggle="collapse" data-target="#slug-card">
                                                 固定链接
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapse2" class="collapse" aria-labelledby="heading2"
-                                         data-parent="#accordionExample">
+                                    <div id="slug-card" class="collapse">
                                         <div class="card-body">
                                             网址：<span
                                                 class="domainSpan">#option('web_domain')</span>#(CPATH)/article/<span
@@ -543,19 +608,18 @@
                                 </div>
 
 
+                                <!--分类-->
                                 <div class="card">
                                     <div class="card-header" id="heading3">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#collapse3"
-                                                    aria-expanded="false" aria-controls="collapseThree">
+                                                    data-toggle="collapse" data-target="#category-card">
                                                 分类
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapse3" class="collapse" aria-labelledby="heading3"
-                                         data-parent="#accordionExample">
+                                    <div id="category-card" class="collapse">
                                         <div class="card-body">
                                             <div class="form-group">
                                                 #for(category : categories)
@@ -584,19 +648,18 @@
                                 </div>
 
 
+                                <!--图片-->
                                 <div class="card">
                                     <div class="card-header" id="heading5">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link  btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#collapse5"
-                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                    data-toggle="collapse" data-target="#image-card">
                                                 图片
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapse5" class="collapse" aria-labelledby="heading2"
-                                         data-parent="#accordionExample">
+                                    <div id="image-card" class="collapse">
                                         <div class="card-body p-0">
                                             <img src="#(CPATH)#(article.thumbnail ?? '/static/commons/img/nothumbnail.jpg')"
                                                  style="width: 100%;max-height: 500px"
@@ -617,19 +680,18 @@
                                 </div>
 
 
+                                <!--标签-->
                                 <div class="card">
                                     <div class="card-header" id="heading4">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#collapse4"
-                                                    aria-expanded="false" aria-controls="collapseThree">
+                                                    data-toggle="collapse" data-target="#tags-card">
                                                 标签
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapse4" class="collapse" aria-labelledby="heading4"
-                                         data-parent="#accordionExample">
+                                    <div id="tags-card" class="collapse">
                                         <div class="card-body">
                                             <select class="form-control article-tags" multiple="multiple" name="tag">
                                                 #for(tag : tags)
@@ -650,75 +712,215 @@
                                 </div>
 
 
+                                <!--SEO-->
                                 <div class="card">
-                                    <div class="card-header" id="heading1">
+                                    <div class="card-header">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#collapse1" aria-expanded="true"
-                                                    aria-controls="collapse1">
-                                                文章属性
+                                                    data-toggle="collapse" data-target="#seo-card">
+                                                SEO
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
-
                                         </h2>
                                     </div>
-                                    <div id="collapse1" class="collapse show" aria-labelledby="heading1"
-                                         data-parent="#accordionExample">
-                                        <div class="card-body article-sttr">
-                                            #(fields.render())
+                                    <div id="seo-card" class="collapse">
+                                        <div class="card-body">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-12">SEO关键字</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" id="meta_keywords"
+                                                              name="article.meta_keywords" placeholder="请输入"
+                                                              rows="2"></textarea>
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-12">SEO描述</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" id="meta_description"
+                                                              name="article.meta_description" placeholder="请输入"
+                                                              rows="2"></textarea>
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
+
+                                <!--状态-->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#status-card">
+                                                状态
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="status-card" class="collapse">
+                                        <div class="card-body">
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-9"
+                                                       style="padding-top:7.5px;padding-left:15px">允许评论</label>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" checked class="switchery"
+                                                           data-for="comment_status" value="true">
+                                                    <p class="text-muted"></p>
+                                                    <input type="hidden" id="comment_status"
+                                                           name="article.comment_status">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-9"
+                                                       style="padding-top:7.5px;padding-left:15px">是否推荐</label>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" checked class="switchery"
+                                                           data-for="with_recommend" value="true">
+                                                    <p class="text-muted"></p>
+                                                    <input type="hidden" id="with_recommend"
+                                                           name="article.with_recommend">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-9"
+                                                       style="padding-top:7.5px;padding-left:15px">是否置顶</label>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" checked class="switchery"
+                                                           data-for="with_top" value="true">
+                                                    <p class="text-muted"></p>
+                                                    <input type="hidden" id="with_top" name="article.with_top">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-9"
+                                                       style="padding-top:7.5px;padding-left:15px">是否热门</label>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" checked class="switchery"
+                                                           data-for="with_hot" value="true">
+                                                    <p class="text-muted"></p>
+                                                    <input type="hidden" id="with_hot" name="article.with_hot">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-9"
+                                                       style="padding-top:7.5px;padding-left:15px">是否头条</label>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" checked class="switchery"
+                                                           data-for="with_lead_news" value="true">
+                                                    <p class="text-muted"></p>
+                                                    <input type="hidden" id="with_lead_news"
+                                                           name="article.with_lead_news">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-9" style="padding-top:7.5px;padding-left:15px">是否允许被搜索</label>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" checked class="switchery"
+                                                           data-for="with_allow_search" value="true">
+                                                    <p class="text-muted"></p>
+                                                    <input type="hidden" id="with_allow_search"
+                                                           name="article.with_allow_search">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="formAttr" role="tabpanel" aria-labelledby="formAttr-tab">
 
 
-                            <div class="card">
-                                <div class="card-header" id="heading10">
-                                    <h2 class="mb-0">
-                                        <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                data-toggle="collapse" data-target="#collapse10" aria-expanded="true"
-                                                aria-controls="collapse1">
-                                            模板
-                                            <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                        </button>
-                                    </h2>
-                                </div>
-                                <div id="collapse10" class="collapse show" aria-labelledby="heading1"
-                                     data-parent="#accordionExample">
-                                    <div class="card-body article-sttr">
-                                        <div class="form-group row">
-                                            <label class="col-sm-12">渲染模板文件</label>
-                                            <select class="form-control" name="article.style">
-                                                <option value="">默认（article.html）</option>
-                                                #for(style : styles)
-                                                <option value="#(style)" #selectedIf(article && article.style==style)>
-                                                    article_#(style).html
-                                                </option>
-                                                #end
-                                            </select>
-                                        </div>
+                        <!--模板 tab -->
+                        <div class="tab-pane fade" id="template-tab" role="tabpanel">
+                            <div class="accordion">
 
-                                        <div class="form-group row">
-                                            <label class="col-sm-12">文章标识</label>
-                                            <input type="text" class="form-control" name="article.flag"
-                                                   placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
-                                            #if(flags && flags.size() > 0)
-                                            <p class="text-muted">当前模板支持的展示标识有：</p>
-                                            <div class="tags">
-                                                #for(flag : flags ??)
-                                                <a href="javascript:;" class="tflag">#(flag)</a>
+                                <!--模板-->
+                                <div class="card">
+                                    <div class="card-header" id="heading10">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#template-card">
+                                                模板
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="template-card" class="collapse show">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <label class="col-sm-12">渲染模板文件</label>
+                                                <select class="form-control" name="article.style">
+                                                    <option value="">默认（article.html）</option>
+                                                    #for(style : styles)
+                                                    <option value="#(style)" #selectedIf(article && article.style==style)>
+                                                        article_#(style).html
+                                                    </option>
+                                                    #end
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-12">文章标识</label>
+                                                <input type="text" class="form-control" name="article.flag"
+                                                       placeholder="文章标识" value="#(article.flag ??)" id="flag"/>
+                                                #if(flags && flags.size() > 0)
+                                                <p class="text-muted">当前模板支持的展示标识有：</p>
+                                                <div class="tags">
+                                                    #for(flag : flags ??)
+                                                    <a href="javascript:;" class="tflag">#(flag)</a>
+                                                    #end
+                                                </div>
                                                 #end
                                             </div>
-                                            #end
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+
+                            </div>
                         </div>
+
+
+                        <!--扩展 tab-->
+                        <div class="tab-pane fade" id="extend-tab" role="tabpanel">
+                            <div class="accordion">
+
+                                <!--扩展属性-->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#extend-card">
+                                                扩展属性
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="extend-card" class="collapse show">
+                                        <div class="card-body">
+
+                                            #(fields.render('暂无扩展字段'))
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+
                     </div>
                 </div>
             </div>

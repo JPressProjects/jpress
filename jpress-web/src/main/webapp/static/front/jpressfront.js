@@ -632,32 +632,31 @@ function initJPressVideo() {
 
     $('.jpress-video').each(function () {
 
-        var cloudType = $(this).attr("data-cloud");
-        var vid = $(this).attr("data-vid");
-        var id = $(this).attr("id");
-        var aid = $(this).attr("data-app-id");
-        var playAuth = $(this).attr("data-play-auth");
+        var containerId = $(this).attr("id");
+        var id = $(this).attr("data-vid");
 
+        $.ajax({
+            url: "/admin/attachment/video/getVideoInfo",
+            type: "post",
+            data: {id:id},
 
-        if (cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
+            success: function (result) {
+                if (result.state == "ok") {
+                    var cloudType = result.cloudType;
 
-            loadCss("https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css")
+                    if (cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
 
-            loadJs("https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js",
-                function () {
-                    //阿里云视频播放凭证有时效性
-                    $.ajax({
-                        url: "/admin/attachment/video/getVideoPlayAuth",
-                        type: "post",
-                        data: {vid: vid},
+                        var vid = result.vid;
+                        var playAuth = result.playAuth
 
-                        success: function (result) {
-                            if (result.state == "ok") {
-                                playAuth = result.playAuth;
+                        loadCss("https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css")
+
+                        loadJs("https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js",
+                            function () {
                                 //阿里云
-                                if (vid != "" && playAuth != "" && id != "") {
+                                if (vid != "" && playAuth != "" && containerId != "") {
                                     var player = new Aliplayer({
-                                            "id": id,
+                                            "id": containerId,
                                             "vid": vid,
                                             "playauth": playAuth,
                                             "videoWidth": "100%",
@@ -676,26 +675,36 @@ function initJPressVideo() {
                                     );
                                     return player;
                                 }
-                            }
-                        }
-                    })
-                })
+                            })
 
-        } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
+                    } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
 
-            loadCss("https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.min.css")
+                        var vid =result.vid;
+                        var aid =result.aid;
 
-            loadJs(["https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/libs/hls.min.0.13.2m.js",
-                    "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js"],
-                function () {
-                    if (vid != "" && aid != "" && id != "") {
-                        new TCPlayer(id, {
-                            fileID: vid,
-                            appID: aid
-                        });
+                        loadCss("https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.min.css")
+
+                        loadJs(["https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/libs/hls.min.0.13.2m.js",
+                                "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js"],
+                            function () {
+                                if (vid != "" && aid != "" && containerId != "") {
+                                    new TCPlayer(containerId, {
+                                        fileID: vid,
+                                        appID: aid
+                                    });
+                                }
+                            })
                     }
-                })
-        }
+                    else if (cloudType != null && cloudType != '' && cloudType == '4') {//本地视频
+
+                        $("#"+containerId).attr("src",result.src);
+                        $("#"+containerId).attr("controls","controls");
+                    }
+
+                }
+            }
+        })
+
     })
 }
 

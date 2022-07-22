@@ -158,23 +158,18 @@
             content: jpress.cpath + '/admin/attachment/video/browse?uititle=视频',
             end: function () {
 
-                if (layer.data.vid != null) {
+                if (layer.data.id != null) {
 
+                    var id = layer.data.id;
                     var cloudType = layer.data.type;
-                    var vid = layer.data.vid;
-                    var playAuth = layer.data.playAuth;
                     var cover = layer.data.cover;
-                    var src = layer.data.src;
-                    var appId = layer.data.aid;
 
                     if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
 
                         if(cloudType != null && cloudType != '' && cloudType == '1'){//阿里云
 
                             var aliyunVideo = document.createElement('video');
-                            aliyunVideo.setAttribute("data-vid",vid);
-                            aliyunVideo.setAttribute("data-play-auth",playAuth);
-                            aliyunVideo.setAttribute("data-cloud",cloudType);
+                            aliyunVideo.setAttribute("data-vid",id);
                             aliyunVideo.setAttribute("poster",cover);
                             aliyunVideo.setAttribute("style","height:240px;width:425px;");
                             aliyunVideo.setAttribute("class","jpress-video");
@@ -188,11 +183,9 @@
                         else if(cloudType != null && cloudType != '' && cloudType == '2'){//腾讯云
 
                             var qcloudVideo = document.createElement('video');
-                            qcloudVideo.setAttribute("data-vid",vid);
-                            qcloudVideo.setAttribute("data-app-id",appId);
-                            qcloudVideo.setAttribute("data-cloud",cloudType);
+                            qcloudVideo.setAttribute("data-vid",id);
                             qcloudVideo.setAttribute("poster",cover);
-                            // qcloudVideo.setAttribute("style","height:240px;width:425px;");
+                            qcloudVideo.setAttribute("style","height:240px;width:425px;");
                             qcloudVideo.setAttribute("class","jpress-video");
                             //腾讯云播放容器的id
                             var idStr = "qcloud_video_player"+(Math.random()).toString().slice(5,10)
@@ -201,16 +194,17 @@
                             insertHtmlToEditor(qcloudVideo.outerHTML);
                         }
                         else if(cloudType != null && cloudType != '' && cloudType == '4'){//本地视频
-                            if(src == null || src == ''){
-                                alert("请先上传视频")
-                            }else{
-                                var video = document.createElement('video')
-                                video.setAttribute('src', src)
-                                video.setAttribute('style', "height:240px;width:425px;")
-                                video.setAttribute('controls', 'controls')
+                            var video = document.createElement('video')
+                            video.setAttribute("data-vid",id)
+                            video.setAttribute("poster",cover);
+                            video.setAttribute('style', "height:240px;width:425px;")
+                            video.setAttribute("class","jpress-video");
 
-                                insertHtmlToEditor(video.outerHTML);
-                            }
+                            //本地视频播放容器的id
+                            var idStr = "local_video_player"+(Math.random()).toString().slice(5,10)
+                            video.setAttribute('id', idStr);
+
+                            insertHtmlToEditor(video.outerHTML);
                         }
 
                     } else if (currentVditor) {

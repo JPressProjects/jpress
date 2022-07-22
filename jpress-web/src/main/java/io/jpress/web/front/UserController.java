@@ -357,6 +357,97 @@ public class UserController extends TemplateControllerBase {
         renderJson(user != null ? OK : FAIL);
     }
 
+    /**
+     * 手机号注册
+     */
+    public void doPhoneRegister() {
+
+        boolean regEnable = JPressOptions.isTrueOrEmpty("reg_enable");
+        if (!regEnable) {
+            renderJson(Ret.fail().set("message", "注册功能已经关闭").set("errorCode", 12));
+            return;
+        }
+
+        String username = getPara("username");
+        String phone = getPara("phone");
+        String pwd = getPara("pwd");
+        String confirmPwd = getPara("confirmPwd");
+
+        if (StrUtil.isBlank(username)) {
+            renderJson(Ret.fail().set("message", "用户名不能为空").set("errorCode", 1));
+            return;
+        }
+
+        if (StrUtil.isBlank(phone)) {
+            renderJson(Ret.fail().set("message", "手机号不能为空").set("errorCode", 2));
+            return;
+        }
+
+        if (StrUtil.isBlank(pwd)) {
+            renderJson(Ret.fail().set("message", "密码不能为空").set("errorCode", 3));
+            return;
+        }
+
+        if (StrUtil.isBlank(confirmPwd)) {
+            renderJson(Ret.fail().set("message", "确认密码不能为空").set("errorCode", 4));
+            return;
+        }
+
+        if (!pwd.equals(confirmPwd)) {
+            renderJson(Ret.fail().set("message", "两次输入密码不一致").set("errorCode", 5));
+            return;
+        }
+
+        if (StrUtil.isBlank(getPara("captcha"))) {
+            renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 6));
+            return;
+        }
+
+        if (!SmsKit.validateCode(phone,getPara("captcha"))) {
+            renderJson(Ret.fail().set("message", "验证码不正确").set("errorCode", 7));
+            return;
+        }
+
+        User user = userService.findFirstByUsername(username);
+        if (user != null) {
+            renderJson(Ret.fail().set("message", "该用户名已经存在").set("errorCode", 10));
+            return;
+        }
+
+        user = userService.findFirstByMobile(phone);
+        if (user != null) {
+            renderJson(Ret.fail().set("message", "该手机号已被注册").set("errorCode", 11));
+            return;
+        }
+
+        String salt = HashKit.generateSaltForSha256();
+        String hashedPass = HashKit.sha256(salt + pwd);
+
+        user = new User();
+        user.setUsername(username);
+        user.setNickname(username);
+        user.setRealname(username);
+        user.setMobile(phone);
+        user.setSalt(salt);
+        user.setPassword(hashedPass);
+        user.setCreated(new Date());
+
+        user.setMobileStatus("ok" );
+
+        user.setCreateSource(User.SOURCE_WEB_REGISTER);
+        user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
+
+        //强制用户状态为未激活
+        boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");
+        if (isNotActivate) {
+            user.setStatus(User.STATUS_REG);
+        }
+
+        userService.save(user);
+
+        renderJson(user != null ? OK : FAIL);
+    }
+
 
     /**
      * 发送短信验证码

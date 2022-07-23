@@ -24,24 +24,21 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: Sitemap处理器
+ * @Title: Sitemap 处理器
  * @Package io.jpress.web.sitemap
  */
 public class SitemapHandler extends Handler {
 
-    private static final String xml = ".xml";
-    private static final String sitemap = "/sitemap";
-
+    private static final String sitemap = "/sitemap.xml";
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
-        if (target.endsWith(xml) && target.startsWith(sitemap)) {
+        if (target.equalsIgnoreCase(sitemap)) {
             next.handle(target.substring(0, target.length() - 4), request, response, isHandled);
         } else {
             next.handle(target, request, response, isHandled);
         }
-
     }
 
 

@@ -16,14 +16,9 @@
 package io.jpress.web.sitemap;
 
 
-import java.util.Date;
 import java.util.List;
 
 public interface SitemapProvider {
 
-    public String getName();
-
-    public Date getLastmod();
-
-    public List<Sitemap> getSitemaps();
+    List<Sitemap> getSitemaps();
 }

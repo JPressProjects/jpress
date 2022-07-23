@@ -36,7 +36,6 @@ import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.module.article.service.search.ArticleSearcher;
 import io.jpress.module.article.service.search.ArticleSearcherFactory;
-import io.jpress.module.article.service.sitemap.ArticleSitemapManager;
 import io.jpress.module.article.service.task.ArticleCommentsCountUpdateTask;
 import io.jpress.module.article.service.task.ArticleViewsCountUpdateTask;
 import io.jpress.service.UserService;
@@ -299,7 +298,6 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
         Object id = super.save(model);
         if (id != null && model.isNormal()) {
             ArticleSearcherFactory.getSearcher().addArticle(model);
-            ArticleSitemapManager.me().rebuild();
             SeoManager.me().ping(model.toPingData());
             SeoManager.me().baiduPush(model.getUrl());
         }
@@ -310,9 +308,6 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
     public boolean update(Article model) {
         boolean success = super.update(model);
         if (success) {
-
-            ArticleSitemapManager.me().rebuild();
-
             if (model.isNormal()) {
                 ArticleSearcherFactory.getSearcher().updateArticle(model);
                 SeoManager.me().ping(model.toPingData());
@@ -330,7 +325,6 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
         boolean success = super.delete(model);
         if (success) {
             ArticleSearcherFactory.getSearcher().deleteArticle(model.getId());
-            ArticleSitemapManager.me().rebuild();
         }
         return success;
     }

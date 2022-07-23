@@ -22,16 +22,16 @@ import java.util.Date;
 
 public class SitemapUtil {
 
-    private static ThreadLocal<SimpleDateFormat> formats =ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+    private static ThreadLocal<SimpleDateFormat> formats = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"));
 
-    public static final String date2str(Date date){
+    public static final String date2str(Date date) {
         if (date == null) {
             return null;
         }
         return formats.get().format(date);
     }
 
-    public static final Date str2date(String str){
+    public static final Date str2date(String str) {
         try {
             return formats.get().parse(str);
         } catch (ParseException e) {
@@ -41,7 +41,7 @@ public class SitemapUtil {
     }
 
 
-    public static final String nowStr(){
+    public static final String nowStr() {
         return formats.get().format(new Date());
     }
 

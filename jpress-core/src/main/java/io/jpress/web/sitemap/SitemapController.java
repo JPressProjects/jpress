@@ -15,11 +15,11 @@
  */
 package io.jpress.web.sitemap;
 
-import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/sitemap")
@@ -36,28 +36,31 @@ public class SitemapController extends JbootController {
             return;
         }
 
-        String para = getPara(0);
 
         StringBuilder xmlBuilder = new StringBuilder();
 
-        if (StrUtil.isBlank(para)) {
-            buildIndexHeader(xmlBuilder);
-            List<Sitemap> sitemaps = SitemapManager.me().getIndexSitemapList();
-            sitemaps.forEach(sitemap -> xmlBuilder.append(sitemap.toXml()));
-            buildIndexFooter(xmlBuilder);
-        } else {
-            SitemapProvider provider = SitemapManager.me().getProvider(para);
-            if (provider == null) {
-                renderError(404);
-                return;
-            }
+        List<SitemapProvider> providers = SitemapManager.me().getProviders();
+
+        buildUrlsetHeader(xmlBuilder);
+
+        //首页 sitemap
+        Sitemap index = new Sitemap();
+        index.setLoc("/");
+        index.setChangefreq("daily");
+        index.setLastmod(new Date());
+        index.setPriority(1F);
+        xmlBuilder.append(index.toXml());
+
+
+        providers.forEach(provider -> {
             List<Sitemap> sitemaps = provider.getSitemaps();
-            buildUrlsetHeader(xmlBuilder);
             if (sitemaps != null) {
-                sitemaps.forEach(sitemap -> xmlBuilder.append(sitemap.toUrlXml()));
+                sitemaps.forEach(sitemap -> xmlBuilder.append(sitemap.toXml()));
             }
-            buildUrlsetFooter(xmlBuilder);
-        }
+        });
+
+
+        buildUrlsetFooter(xmlBuilder);
 
         renderText(xmlBuilder.toString(), contentType);
     }
@@ -65,28 +68,15 @@ public class SitemapController extends JbootController {
 
     private void buildUrlsetHeader(StringBuilder xmlBuilder) {
         buildHeader(xmlBuilder);
-        xmlBuilder.append("<urlset");
+        xmlBuilder.append("<sitemapindex");
         xmlBuilder.append(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
         xmlBuilder.append(" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9\" ");
         xmlBuilder.append(" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" ");
         xmlBuilder.append(" > ");
     }
+
 
     private void buildUrlsetFooter(StringBuilder xmlBuilder) {
-        xmlBuilder.append("</urlset>");
-        buildFooter(xmlBuilder);
-    }
-
-    private void buildIndexHeader(StringBuilder xmlBuilder) {
-        buildHeader(xmlBuilder);
-        xmlBuilder.append("<sitemapindex ");
-        xmlBuilder.append(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
-        xmlBuilder.append(" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9\" ");
-        xmlBuilder.append(" xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" ");
-        xmlBuilder.append(" > ");
-    }
-
-    private void buildIndexFooter(StringBuilder xmlBuilder) {
         xmlBuilder.append("</sitemapindex>");
         buildFooter(xmlBuilder);
     }

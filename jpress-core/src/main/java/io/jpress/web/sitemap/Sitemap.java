@@ -114,15 +114,6 @@ public class Sitemap implements Serializable {
 
     public String toXml() {
         StringBuilder xmlBuilder = new StringBuilder();
-        xmlBuilder.append("<sitemap>");
-        xmlBuilder.append("<loc>" + getLocWithDomain() + "</loc>");
-        xmlBuilder.append("<lastmod>" + SitemapUtil.date2str(lastmod) + "</lastmod>");
-        xmlBuilder.append("</sitemap>");
-        return xmlBuilder.toString();
-    }
-
-    public String toUrlXml() {
-        StringBuilder xmlBuilder = new StringBuilder();
         xmlBuilder.append("<url>");
         xmlBuilder.append("<loc>" + getLocWithDomain() + "</loc>");
         xmlBuilder.append("<lastmod>" + SitemapUtil.date2str(lastmod) + "</lastmod>");

@@ -21,7 +21,6 @@ import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.sitemap.Sitemap;
 import io.jpress.web.sitemap.SitemapProvider;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,16 +30,16 @@ public class PageSitemapProvider implements SitemapProvider {
     @Inject
     private SinglePageService pageService;
 
-    @Override
-    public String getName() {
-        return "page";
-    }
-
-    @Override
-    public Date getLastmod() {
-        List<Sitemap> sitemaps = getSitemaps();
-        return sitemaps == null || sitemaps.isEmpty() ? null : sitemaps.get(0).getLastmod();
-    }
+//    @Override
+//    public String getName() {
+//        return "page";
+//    }
+//
+//    @Override
+//    public Date getLastmod() {
+//        List<Sitemap> sitemaps = getSitemaps();
+//        return sitemaps == null || sitemaps.isEmpty() ? null : sitemaps.get(0).getLastmod();
+//    }
 
     @Override
     public List<Sitemap> getSitemaps() {

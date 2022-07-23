@@ -20,13 +20,10 @@ import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.utils.ClassScanner;
 import io.jboot.utils.ClassUtil;
-import io.jboot.utils.StrUtil;
 import io.jpress.core.install.Installer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class SitemapManager implements JbootEventListener {
 
@@ -39,7 +36,7 @@ public class SitemapManager implements JbootEventListener {
         return me;
     }
 
-    private Map<String, SitemapProvider> providers = new ConcurrentHashMap<>();
+    private List<SitemapProvider> providers = new ArrayList<>();
 
     public void init() {
         if (Installer.notInstall()) {
@@ -50,9 +47,7 @@ public class SitemapManager implements JbootEventListener {
         List<Class<SitemapProvider>> cls = ClassScanner.scanSubClass(SitemapProvider.class, true);
         cls.forEach(c -> {
             SitemapProvider provider = ClassUtil.newInstance(c);
-            if (provider != null && StrUtil.isNotBlank(provider.getName())) {
-                providers.put(provider.getName(), provider);
-            }
+            providers.add(provider);
         });
 
     }
@@ -64,24 +59,17 @@ public class SitemapManager implements JbootEventListener {
 
 
     public void addProvider(SitemapProvider provider) {
-        providers.put(provider.getName(), provider);
+        providers.add(provider);
     }
 
-    public SitemapProvider getProvider(String name) {
-        return providers.get(name);
-    }
-
-    public Map<String, SitemapProvider> getProviders() {
+    public List<SitemapProvider> getProviders() {
         return providers;
     }
 
-    public List<Sitemap> getIndexSitemapList() {
-        List<Sitemap> sitemaps = new ArrayList<>();
-        for (SitemapProvider provider : providers.values()) {
-            sitemaps.add(new Sitemap("/sitemap/" + provider.getName() + ".xml", provider.getLastmod()));
-        }
-        return sitemaps;
+    public void setProviders(List<SitemapProvider> providers) {
+        this.providers = providers;
     }
+
 
 
 }

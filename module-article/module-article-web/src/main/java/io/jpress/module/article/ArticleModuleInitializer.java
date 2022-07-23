@@ -27,7 +27,6 @@ import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
-import io.jpress.module.article.service.sitemap.ArticleSitemapManager;
 
 import java.util.List;
 
@@ -79,7 +78,7 @@ public class ArticleModuleInitializer extends ModuleBase {
 
     @Override
     public void onStart() {
-        ArticleSitemapManager.me().init();
+//        ArticleSitemapManager.me().init();
         ArticleBlocks.init();
         FlatUrlHandler.addProcesser(new ArticleFlatUrlProcesser());
     }

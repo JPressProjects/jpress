@@ -16,56 +16,27 @@
 package io.jpress.module.article.service.sitemap;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.web.sitemap.Sitemap;
 import io.jpress.web.sitemap.SitemapProvider;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 public class ArticleSitemapProvider implements SitemapProvider {
 
-    private String name;
-    private int page;
-    private Date lastmod;
-
     @Inject
     private ArticleService articleService;
 
-
-    public ArticleSitemapProvider() {
-    }
-
-    public ArticleSitemapProvider(String name, int page) {
-        this.name = name;
-        this.page = page;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Date getLastmod() {
-        if (lastmod != null) {
-            return lastmod;
-        }
-
-        lastmod = Db.queryDate("select `modified` from article  where status = 'normal' order by id desc limit " + ((page - 1) * 100) + ",1");
-        return lastmod;
-    }
 
 
     @Override
     public List<Sitemap> getSitemaps() {
 
-        Page<Article> articlePage = articleService.paginateInNormal(page, 100);
+        Page<Article> articlePage = articleService.paginateInNormal(1, 100);
         if (articlePage.getList().isEmpty()) {
             return null;
         }

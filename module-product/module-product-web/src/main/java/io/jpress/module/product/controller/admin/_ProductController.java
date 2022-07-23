@@ -116,7 +116,7 @@ public class _ProductController extends AdminControllerBase {
             setAttr("product", product);
 
             //获取云端 视频
-            AttachmentVideo attachmentVideo = attachmentVideoService.findById(product.getVodVid());
+            AttachmentVideo attachmentVideo = attachmentVideoService.findById(product.getVideoId());
             if(attachmentVideo != null){
                 String playauth = AliyunVideoUtil.getPlayAuth(attachmentVideo.getVodVid());
 

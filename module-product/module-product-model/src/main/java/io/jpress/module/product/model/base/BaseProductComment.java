@@ -179,5 +179,19 @@ public abstract class BaseProductComment<M extends BaseProductComment<M>> extend
 		return getDate("created");
 	}
 
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
+	}
+
 }
 

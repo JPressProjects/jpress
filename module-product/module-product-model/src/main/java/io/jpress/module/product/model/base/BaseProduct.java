@@ -278,17 +278,17 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 	}
 
     /**
-     * 视频云端ID
+     * 视频ID
      */
-	public void setVodVid(java.lang.String vodVid) {
-		set("vod_vid", vodVid);
+	public void setVideoId(java.lang.String videoId) {
+		set("video_id", videoId);
 	}
 
     /**
-     * 视频云端ID
+     * 视频ID
      */
-	public java.lang.String getVodVid() {
-		return getStr("vod_vid");
+	public java.lang.String getVideoId() {
+		return getStr("video_id");
 	}
 
     /**
@@ -375,12 +375,32 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 		return getStr("remarks");
 	}
 
+    /**
+     * json 扩展
+     */
 	public void setOptions(java.lang.String options) {
 		set("options", options);
 	}
 
+    /**
+     * json 扩展
+     */
 	public java.lang.String getOptions() {
 		return getStr("options");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

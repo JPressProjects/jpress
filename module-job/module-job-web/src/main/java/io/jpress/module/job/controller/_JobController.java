@@ -76,6 +76,7 @@ public class _JobController extends AdminControllerBase {
     public void add() {
 
         List<JobCategory> categoryList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_CATEGORY));
+        SortKit.toLayer(categoryList);
         setAttr("categoryList", categoryList);
 
         List<JobCategory> addressList = jobCategoryService.findListByColumns(Columns.create().eq("type",JobCategory.CATEGORY_TYPE_ADDRESS));

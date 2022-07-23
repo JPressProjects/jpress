@@ -383,8 +383,12 @@
                             #for(item : categoryList)
                             <div>
                                 <label>
+                                    #for(i = 0; i < item.layerNumber; i++)
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    #end
+
                                     <input type="radio" name="job.category_id" value="#(item.id)" #if(item.id ??== job.category_id ??) checked #end/>
-                                    #(item.layerString ??) #(item.title ??)
+                                     #(item.title ??)
                                 </label>
                             </div>
                             #else

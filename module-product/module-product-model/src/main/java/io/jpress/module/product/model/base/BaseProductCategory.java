@@ -313,5 +313,19 @@ public abstract class BaseProductCategory<M extends BaseProductCategory<M>> exte
 		return getDate("modified");
 	}
 
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
+	}
+
 }
 

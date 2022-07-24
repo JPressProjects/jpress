@@ -165,6 +165,13 @@
             $(".rightPanel").toggle();
             $(".leftPanel").toggleClass("col-lg-12", "col-lg-3");
         });
+        // 设置编辑器的高度
+        var headerHeight = $(".article-header ").innerHeight();
+        var mainHeight = $(".main-header").innerHeight();
+        var editorHeight = $(window).height() - parseFloat(headerHeight) - parseFloat(mainHeight);
+        $('#editor').css({
+            "min-height": editorHeight
+        })
     })
 
 </script>
@@ -258,7 +265,7 @@
 
     .panelContainer {
         position: relative;
-        height: calc(100% - 70px);
+        height: calc(100% - 71px);
     }
 
     .popover-content {
@@ -450,7 +457,7 @@
                 <button type="button" data-status="normal" class="btn btn-primary mr-2 submitBtn">发布</button>
                 <!--<button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>-->
                 <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
-                <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="pl-2"><i
                         class="bi bi-three-dots-vertical"></i></span>
                 <div class="dropdown-menu mr-2">
                     <a class="dropdown-item" href="javascript:;" onclick="doChangeEditor()">切换编辑器</a>
@@ -486,7 +493,7 @@
                         <!--</div>-->
                         <!--</div>-->
                         <div class="">
-                            <div id="editor">#(article.orignalContent ??)</div>
+                            <div id="editor" style="height:auto;">#(article.orignalContent ??)</div>
                             <input type="hidden" name="article.content" id="content"/>
                         </div>
                     </div>

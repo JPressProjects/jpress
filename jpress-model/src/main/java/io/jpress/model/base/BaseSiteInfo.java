@@ -76,31 +76,43 @@ public abstract class BaseSiteInfo<M extends BaseSiteInfo<M>> extends JbootModel
 	}
 
     /**
-     * 绑定语言
+     * 其他扩展字段
      */
-	public void setBindLang(java.lang.String bindLang) {
-		set("bind_lang", bindLang);
+	public void setOptions(java.lang.String options) {
+		set("options", options);
 	}
 
     /**
-     * 绑定语言
+     * 其他扩展字段
      */
-	public java.lang.String getBindLang() {
-		return getStr("bind_lang");
+	public java.lang.String getOptions() {
+		return getStr("options");
 	}
 
+    /**
+     * 创建时间
+     */
 	public void setCreated(java.util.Date created) {
 		set("created", created);
 	}
 
+    /**
+     * 创建时间
+     */
 	public java.util.Date getCreated() {
 		return getDate("created");
 	}
 
+    /**
+     * 修改时间
+     */
 	public void setModified(java.util.Date modified) {
 		set("modified", modified);
 	}
 
+    /**
+     * 修改时间
+     */
 	public java.util.Date getModified() {
 		return getDate("modified");
 	}

@@ -20,14 +20,14 @@ public abstract class BaseAttachmentVideo<M extends BaseAttachmentVideo<M>> exte
 	}
 
     /**
-     * vod、live、local、code
+     * vod、live、code
      */
 	public void setVideoType(java.lang.String videoType) {
 		set("video_type", videoType);
 	}
 
     /**
-     * vod、live、local、code
+     * vod、live、code
      */
 	public java.lang.String getVideoType() {
 		return getStr("video_type");

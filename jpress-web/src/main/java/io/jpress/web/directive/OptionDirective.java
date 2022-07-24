@@ -45,7 +45,9 @@ public class OptionDirective extends JbootDirectiveBase {
 
         String defaultValue = getPara(1, scope, "");
 
-        String value = JPressOptions.get(key);
+        Long siteId = getParaToLong(2, scope);
+
+        String value = siteId != null ? JPressOptions.getBySiteId(key, siteId) : JPressOptions.get(key);
         if (value == null || "".equals(value)) {
             value = defaultValue;
         }

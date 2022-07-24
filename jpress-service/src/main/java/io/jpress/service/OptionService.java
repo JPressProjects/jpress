@@ -48,9 +48,6 @@ public interface OptionService {
 
     Boolean findAsBoolByKey(String key);
 
-    Integer findAsIntegerByKey(String key);
-
-    Float findAsFloatByKey(String key);
 
     Object saveOrUpdate(String key, String value);
 

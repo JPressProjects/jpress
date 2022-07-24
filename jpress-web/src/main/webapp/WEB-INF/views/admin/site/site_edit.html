@@ -1,15 +1,5 @@
 #@layout()
 
-#define script()
-
-<script>
-
-
-</script>
-
-
-#end
-
 #define content()
 
 <section class="content-header">
@@ -51,7 +41,6 @@
 
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">站点名称</label>
-
                         <div class="col-sm-6">
                             <input type="input" class="form-control" placeholder="给您的站点起个名字" required
                                    name="siteInfo.name" value="#(siteInfo.name ??)">
@@ -60,7 +49,6 @@
 
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">自定义站点ID</label>
-
                         <div class="col-sm-6">
                             <input type="number" class="form-control" placeholder="输入ID"
                                    name="siteInfo.siteId" value="#(siteInfo.siteId ??)">
@@ -69,7 +57,6 @@
 
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">站点域名</label>
-
                         <div class="col-sm-6">
                             <input type="input" class="form-control" placeholder="设置站点的域名"
                                    name="siteInfo.bindDomain" value="#(siteInfo.bindDomain ??)">

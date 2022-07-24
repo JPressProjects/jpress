@@ -86,6 +86,23 @@ public class JPressCoreFunctions {
     }
 
 
+    public static Object option(String key, Object defaulValue,Number siteId) {
+
+        String value = JPressOptions.getBySiteId(key,siteId.longValue());
+
+        if (StrUtil.isBlank(value)) {
+            value = defaulValue == null ? "" : defaulValue.toString();
+        }
+        if ("true".equalsIgnoreCase(value)) {
+            return true;
+        }
+        if ("false".equalsIgnoreCase(value)) {
+            return false;
+        }
+        return value;
+    }
+
+
     public static List<String> linesOption(String key) {
         String value = JPressOptions.get(key);
         if (StrUtil.isBlank(value)) {

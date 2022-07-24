@@ -27,7 +27,7 @@ import io.jpress.core.wechat.WechatAddonConfig;
         id = "ip.press.helloaddon",
         title = "Hello World",
         description = "这是一个 Hello World 微信插件，方便开发参考。用户输入 hello，返回 world",
-        author = "海哥")
+        author = "jpress.cn")
 public class HelloWechatAddon implements WechatAddon {
 
 

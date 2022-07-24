@@ -29,7 +29,7 @@ import io.jpress.core.wechat.WechatAddonConfig;
         id = "ip.press.getopenid",
         title = "获取用户OpenId",
         description = "当用户在公众号输入关键字 openid 时，把用户的 openId 返回给用户",
-        author = "海哥")
+        author = "jpress.cn")
 public class GetOpenIdAddon implements WechatAddon {
 
 

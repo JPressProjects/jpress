@@ -27,16 +27,6 @@ import io.jpress.service.OptionService;
 @Bean
 public class OptionServiceProvider extends JPressServiceBase<Option> implements OptionService {
 
-//    @Override
-//    protected Option initDao() {
-//        return new Option() {
-//            @Override
-//            protected void processColumns(Columns columns, String action) {
-//                columns.eq("site_id", SiteContext.getSiteId());
-//            }
-//        };
-//    }
-
     @Override
     @Cacheable(name = "option", key = "#(key)", nullCacheEnable = true)
     public String findByKey(String key) {
@@ -44,23 +34,13 @@ public class OptionServiceProvider extends JPressServiceBase<Option> implements 
         return option == null ? null : option.getValue();
     }
 
+
     @Override
     public Boolean findAsBoolByKey(String key) {
         String value = findByKey(key);
         return value == null ? null : Boolean.valueOf(value);
     }
 
-    @Override
-    public Integer findAsIntegerByKey(String key) {
-        String value = findByKey(key);
-        return value == null ? null : Integer.valueOf(value);
-    }
-
-    @Override
-    public Float findAsFloatByKey(String key) {
-        String value = findByKey(key);
-        return value == null ? null : Float.valueOf(value);
-    }
 
     @Override
     @CacheEvict(name = "option", key = "#(key)")
@@ -77,6 +57,7 @@ public class OptionServiceProvider extends JPressServiceBase<Option> implements 
 
         return saveOrUpdate(option);
     }
+
 
     @Override
     public boolean deleteById(Object id) {

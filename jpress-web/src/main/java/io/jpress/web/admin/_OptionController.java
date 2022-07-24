@@ -18,9 +18,11 @@ package io.jpress.web.admin;
 import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
+import io.jpress.SiteContext;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.AdminControllerBase;
 
@@ -38,12 +40,6 @@ import java.util.Set;
 @RequestMapping(value = "/admin/option", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _OptionController extends AdminControllerBase {
 
-//    private static final Set<String> allowHtmlTagKeys = Sets.newHashSet("wechat_reply_user_subscribe"
-//            , "wechat_reply_user_scan"
-//            , "wechat_reply_unknow"
-//            , "web_copyright"
-//    );
-
     private static final Set<String> ignoreKeys = Sets.newHashSet("csrf_token");
 
     @Inject
@@ -53,7 +49,7 @@ public class _OptionController extends AdminControllerBase {
 
         Enumeration<String> paraNames = getParaNames();
         if (paraNames == null || !paraNames.hasMoreElements()) {
-            renderJson(Ret.fail("msg", "para is empty"));
+            renderJson(Ret.fail("para is empty"));
             return;
         }
 
@@ -61,7 +57,7 @@ public class _OptionController extends AdminControllerBase {
         HashMap<String, String> datasMap = new HashMap<>();
         while (paraNames.hasMoreElements()) {
             String key = paraNames.nextElement();
-            if (ignoreKeys.contains(key)){
+            if (ignoreKeys.contains(key) || StrUtil.isBlank(key)) {
                 continue;
             }
             String value = getPara(key);
@@ -72,8 +68,22 @@ public class _OptionController extends AdminControllerBase {
         for (Map.Entry<String, String> entry : datasMap.entrySet()) {
             //Mysql 对于字符串不区分大小写，所以保持统一
             String key = entry.getKey().trim();
-            service.saveOrUpdate(key, entry.getValue());
-            JPressOptions.set(key, entry.getValue());
+
+
+            //以 mainsite_ 开头的 key，都会保存到主站点
+            if (key.startsWith("mainsite_")) {
+                Long currentSiteId = SiteContext.getSiteId();
+                try {
+                    SiteContext.setSiteId(0L);
+                    service.saveOrUpdate(key, entry.getValue());
+                    JPressOptions.set(key, entry.getValue());
+                }finally {
+                    SiteContext.setSiteId(currentSiteId);
+                }
+            } else {
+                service.saveOrUpdate(key, entry.getValue());
+                JPressOptions.set(key, entry.getValue());
+            }
         }
 
         renderOkJson();

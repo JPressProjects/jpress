@@ -36,6 +36,9 @@
                                 <div class="col-sm-6">
                                     <input type="input" class="form-control" placeholder="登录微信公众号平台获取...."
                                            name="wechat_appid" value="#option('wechat_appid')">
+                                    <p class="text-muted"> 微信公众号后台填写的 URL 为：
+                                        <span >#option('web_domain')#(CPATH)/wechat/msg?appId=您的公众号的AppId</span>
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group row">

@@ -9,7 +9,6 @@ import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.validate.Regex;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Role;
@@ -17,11 +16,10 @@ import io.jpress.model.SiteInfo;
 import io.jpress.service.RoleService;
 import io.jpress.service.SiteInfoService;
 import io.jpress.web.base.AdminControllerBase;
-import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 @RequestMapping(value = "/admin/site", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _SiteController extends AdminControllerBase {
@@ -56,16 +54,16 @@ public class _SiteController extends AdminControllerBase {
             setAttr("siteInfo", siteInfo);
         }
 
+
         if(siteId != null){
             List<Record> langList = siteInfoService.findLangBySiteId(siteId);
-
             Set<String> langs = new HashSet<>();
             langList.forEach(record -> langs.add(record.getStr("lang")));
-            setAttr("currentLans",langs);
+            setAttr("currentLangs",langs);
         }
 
 
-        List<Role> roleList = new ArrayList<>();
+        List<Role> roleList;
 
         //查询site 对象的角色 信息
         if (siteId == null) {
@@ -73,6 +71,7 @@ public class _SiteController extends AdminControllerBase {
         } else {
             roleList = roleService.findListBySiteId(siteId);
         }
+
 
         if (!roleList.isEmpty()) {
             setAttr("roleList", roleList);

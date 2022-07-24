@@ -90,6 +90,8 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
         super.index();
     }
 
+
+
     /**
      * 新用户关注了公众号
      *
@@ -130,6 +132,7 @@ public class WechatMsgNotifyController extends MsgControllerAdapter {
         renderTextMsg(inTextMsg, key);
 
     }
+
 
     private void renderTextMsg(InMsg inMsg, String key) {
         if (StrUtil.isBlank(key)) {

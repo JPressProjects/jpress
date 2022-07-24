@@ -3,8 +3,8 @@ package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.Record;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
@@ -17,7 +17,6 @@ import io.jpress.service.RoleService;
 import io.jpress.service.SiteInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -55,27 +54,21 @@ public class _SiteController extends AdminControllerBase {
         }
 
 
-        if(siteId != null){
-            List<Record> langList = siteInfoService.findLangBySiteId(siteId);
-            Set<String> langs = new HashSet<>();
-            langList.forEach(record -> langs.add(record.getStr("lang")));
-            setAttr("currentLangs",langs);
+            setAttr("currentLangs",siteInfo.getBindLangsAsSet());
+
+
+        List<Role> roleList = roleService.findAll();
+        if (roleList != null){
+            for (Role role : roleList) {
+                if (siteInfo.hasRole(role.getId())){
+                    role.put("isSelected",true);
+                }
+            }
         }
 
 
-        List<Role> roleList;
 
-        //查询site 对象的角色 信息
-        if (siteId == null) {
-            roleList = roleService.findAll();
-        } else {
-            roleList = roleService.findListBySiteId(siteId);
-        }
-
-
-        if (!roleList.isEmpty()) {
             setAttr("roleList", roleList);
-        }
 
         render("site/site_edit.html");
 
@@ -124,19 +117,28 @@ public class _SiteController extends AdminControllerBase {
 //            }
 //        }
 
-        siteInfo.saveOrUpdate();
 
         //获取所有绑定的语言
         String[] bindLanguages = getParaValues("bindLang");
-
-        //更新中间表
-        siteInfoService.saveOrUpdateSiteLangMapping(siteInfo.getId(),bindLanguages);
+        siteInfo.setBindLangs(ArrayUtil.toString(bindLanguages,","));
 
         //获取所有id
         Long[] roleIds = getParaValuesToLong("roleId");
+        siteInfo.setBindRoles(ArrayUtil.toString(roleIds,","));
 
-        //更新中间表
-        siteInfoService.saveOrUpdateSiteRoleMapping(siteInfo.getId(), roleIds);
+
+        siteInfoService.saveOrUpdate(siteInfo);
+
+
+
+
+//        //更新中间表
+//        siteInfoService.saveOrUpdateSiteLangMapping(siteInfo.getId(),bindLanguages);
+//
+//
+//
+//        //更新中间表
+//        siteInfoService.saveOrUpdateSiteRoleMapping(siteInfo.getId(), roleIds);
 
         renderOkJson();
 

@@ -160,7 +160,7 @@ public class SiteManager implements JbootEventListener {
             while (locales.hasMoreElements()) {
                 Locale locale = locales.nextElement();
                 for (SiteInfo site : allSites) {
-                    Set<String> bindLangs = StrUtil.splitToSetByComma(site.getBindLang());
+                    Set<String> bindLangs = site.getBindLangsAsSet();
                     if (bindLangs != null && bindLangs.contains(locale.toString())) {
                         return site;
                     }

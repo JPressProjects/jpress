@@ -76,6 +76,34 @@ public abstract class BaseSiteInfo<M extends BaseSiteInfo<M>> extends JbootModel
 	}
 
     /**
+     * 绑定语言
+     */
+	public void setBindLangs(java.lang.String bindLangs) {
+		set("bind_langs", bindLangs);
+	}
+
+    /**
+     * 绑定语言
+     */
+	public java.lang.String getBindLangs() {
+		return getStr("bind_langs");
+	}
+
+    /**
+     * 绑定的角色列表
+     */
+	public void setBindRoles(java.lang.String bindRoles) {
+		set("bind_roles", bindRoles);
+	}
+
+    /**
+     * 绑定的角色列表
+     */
+	public java.lang.String getBindRoles() {
+		return getStr("bind_roles");
+	}
+
+    /**
      * 其他扩展字段
      */
 	public void setOptions(java.lang.String options) {

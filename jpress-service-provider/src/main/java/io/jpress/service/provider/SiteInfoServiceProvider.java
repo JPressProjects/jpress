@@ -1,7 +1,6 @@
 package io.jpress.service.provider;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
@@ -16,7 +15,6 @@ import io.jpress.model.base.BaseRole;
 import io.jpress.service.RoleService;
 import io.jpress.service.SiteInfoService;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,74 +33,6 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
     @Cacheable(name = "site_info")
     public List<SiteInfo> findAll() {
         return super.findAll();
-    }
-
-    /**
-     * 储存 中间表信息
-     *
-     * @param siteId
-     * @param roleIds
-     * @return boolean
-     */
-    @Override
-    public boolean saveOrUpdateSiteRoleMapping(@NotNull Long siteId, Long[] roleIds) {
-
-        //查询数据库相记录
-        String findSql = "select role_id from site_role_mapping where site_id = ?";
-        List<Record> records = Db.find(findSql, siteId);
-
-        //如果有记录  才删除所有
-        if (records != null) {
-            String sql = "delete from site_role_mapping where site_id = ?";
-            Db.delete(sql, siteId);
-        }
-
-        //如果 选择的角色  不为零 才添加
-        if (roleIds != null && roleIds.length > 0) {
-            for (Long roleId : roleIds) {
-                Record record = new Record();
-                record.set("site_id", siteId);
-                record.set("role_id", roleId);
-                Db.save("site_role_mapping", record);
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * 储存 中间表信息 site_lang_mapping
-     *
-     * @param siteId
-     * @param bindLanguages
-     * @return boolean
-     */
-    @Override
-    public boolean saveOrUpdateSiteLangMapping(@NotNull Long siteId, String[] bindLanguages) {
-
-        //查询数据库相记录
-        String findSql = "select lang from site_lang_mapping where site_id = ?";
-        List<Record> records = Db.find(findSql, siteId);
-
-        //如果有记录  才删除所有
-        if (records != null) {
-            String sql = "delete from site_lang_mapping where site_id = ?";
-            Db.delete(sql, siteId);
-        }
-
-
-        //如果 选择的角色  不为零 才添加
-        if (bindLanguages != null && bindLanguages.length > 0) {
-
-            for (String language : bindLanguages) {
-                Record record = new Record();
-                record.set("site_id", siteId);
-                record.set("lang", language);
-                Db.save("site_lang_mapping", record);
-            }
-        }
-
-        return true;
     }
 
 
@@ -134,19 +64,6 @@ public class SiteInfoServiceProvider extends JbootServiceBase<SiteInfo> implemen
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 根据 site_id 查询绑定语言信息
-     *
-     * @param siteId
-     * @return void
-     */
-    @Override
-    public List<Record> findLangBySiteId(@NotNull Long siteId) {
-
-        String sql = "select lang from site_lang_mapping where site_id = ?";
-
-        return Db.find(sql, siteId);
-    }
 
     @Override
     public void shouldUpdateCache(int action, Model model, Object id) {

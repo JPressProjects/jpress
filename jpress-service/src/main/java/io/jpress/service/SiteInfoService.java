@@ -1,9 +1,8 @@
 package io.jpress.service;
 
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.Record;
-import io.jpress.model.SiteInfo;
 import io.jboot.db.model.Columns;
+import io.jpress.model.SiteInfo;
 
 import java.util.List;
 
@@ -176,24 +175,6 @@ public interface SiteInfoService  {
     public Page<SiteInfo> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
-    /**
-    * 储存 中间表信息 site_role_mapping
-    *
-    * @param siteId
-    * @param roleIds
-    * @return boolean
-    */
-    public boolean saveOrUpdateSiteRoleMapping(Long siteId,Long[] roleIds);
-
-
-    /**
-     * 储存 中间表信息 site_lang_mapping
-     *
-     * @param siteId
-     * @param bindLanguages
-     * @return boolean
-     */
-    public boolean saveOrUpdateSiteLangMapping(Long siteId,String[] bindLanguages);
 
 
     /**
@@ -204,11 +185,4 @@ public interface SiteInfoService  {
     List<SiteInfo> findListByUserId(Long userId);
 
 
-    /**
-    * 根据 site_id 查询绑定语言信息
-    *
-    * @param siteId
-    * @return void
-    */
-    public List<Record> findLangBySiteId(Long siteId);
 }

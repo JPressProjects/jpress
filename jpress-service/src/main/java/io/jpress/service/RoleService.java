@@ -112,12 +112,4 @@ public interface RoleService {
     boolean doChangeRoleByIds(Long roleId, Object... ids);
 
     List<Role> findListByUserId(long userId);
-
-    /**
-    * 查询全部 并且确定是否与站点有关联
-    *
-    * @param siteId
-    * @return java.util.List<io.jpress.model.Role>
-    */
-    List<Role> findListBySiteId(Long siteId);
 }

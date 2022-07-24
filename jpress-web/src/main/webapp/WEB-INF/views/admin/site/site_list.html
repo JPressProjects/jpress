@@ -48,7 +48,7 @@
             <form class=" form-setting" autocomplete="off" id="optionForm" method="post">
                 <div class="card-body">
 
-                    <h4 class="form-header">基本设置</h4>
+                    <h4 class="form-header">主站点设置</h4>
 
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">主站点域名</label>
@@ -56,16 +56,14 @@
                         <div class="col-sm-6">
                             <input type="input" class="form-control" placeholder="填写网站的域名"
                                    name="web_domain" value="#option('web_domain')">
-                            <p class="text-muted"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://jpress.io </p>
+                            <p class="text-muted"> 请填写http（或https）开头，结尾不要包含“/”。例如：http://www.jpress.cn </p>
                         </div>
-
                     </div>
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">是否根据浏览器语言自动跳转站点</label>
+                        <label class="col-sm-2 col-form-label">是否自动根据浏览器语言，跳转到子站点</label>
                         <div class="col-sm-6">
-
                             <input type="checkbox" class="switchery" data-for="auto_redirect_by_browser_lang"
                                    #checkedIf(option("auto_redirect_by_browser_lang"))>
                             <input type="hidden" id="auto_redirect_by_browser_lang" name="auto_redirect_by_browser_lang">
@@ -74,7 +72,7 @@
 
 
                     <div>
-                        <h4 class="form-header">站点列表
+                        <h4 class="form-header" style="line-height: 35px">子站点列表
                             <a href="/admin/site/edit" type="button" class="btn btn-primary float-sm-right"><i class="fas fa-plus"></i>新建</a>
                         </h4>
 
@@ -89,10 +87,7 @@
                             <table class="table table-striped table-action">
                                 <thead>
                                 <tr>
-                                    <th style="width: 10px">
-                                        <input class="tableCheckAll" type="checkbox">
-                                    </th>
-                                    <th style="width: 150px">站点名称</th>
+                                    <th style="width: 150px">子站点名称</th>
                                     <th style="width: 100px">自定义站点ID</th>
                                     <th style="width: 100px">绑定域名</th>
                                     <th style="width: 100px">绑定二级目录</th>
@@ -104,9 +99,6 @@
 
                                 #for(item : page.list ??)
                                 <tr>
-                                    <td>
-                                        <input name="tableItem" type="checkbox" value="#(item.id ??)"/>
-                                    </td>
                                     <td>
                                         #(item.name ??)
                                         <div class="jp-action-card">

@@ -7,7 +7,7 @@
 #
 # 主机: 192.168.1.2 (MySQL 5.7.31)
 # 数据库: jpress
-# 生成时间: 2022-07-20 02:37:33 +0000
+# 生成时间: 2022-07-24 04:46:16 +0000
 # ************************************************************
 
 
@@ -71,9 +71,9 @@ LOCK TABLES `article` WRITE;
 
 INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `author`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `with_recommend`, `with_top`, `with_hot`, `with_lead_news`, `with_allow_search`, `options`, `site_id`)
 VALUES
-	(1,NULL,NULL,'欢迎使用JPress',NULL,'<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>','html',NULL,NULL,NULL,NULL,1,0,'draft',1,0,NULL,10,'2021-06-01 12:00:00','2022-07-14 10:03:53',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
-	(2,NULL,NULL,'不许人间见白头',NULL,'<p>在亿万人海相遇，是一种奇迹。</p>','html','相遇',NULL,'/attachment/20220413/6933d238a8944c2f9a39926e0a33b861.jpg',NULL,1,0,'draft',1,2,NULL,22,'2022-04-13 11:26:36','2022-07-04 15:40:16','000',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
-	(3,NULL,'ces','上帝笑了99次',NULL,'<p>&nbsp;</p>\n<p>腾讯云视频点播</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" poster=\"/attachment/20220706/13c36dcfb4794890a266805c4baefbec.png\" id=\"qcloud_video_player49764\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>阿里云视频点播</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" id=\"video_player11679\" poster=\"/attachment/20220705/56a1c33c92164862839c0e52fce14714.png\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>','html',NULL,NULL,NULL,NULL,1,0,'draft',1,1,NULL,32,'2022-04-15 15:18:55','2022-07-04 15:40:15',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+	(1,NULL,NULL,'欢迎使用JPress','admin','<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>','html','相遇',NULL,NULL,NULL,1,0,'normal',1,0,NULL,14,'2022-04-13 11:26:36','2022-07-23 13:27:16',NULL,NULL,NULL,1,1,1,1,1,NULL,0),
+	(2,NULL,NULL,'不许人间见白头','admin','<p>在亿万人海相遇，是一种奇迹。</p>','html','相遇',NULL,'/attachment/20220413/6933d238a8944c2f9a39926e0a33b861.jpg',NULL,1,0,'normal',1,0,NULL,27,'2022-04-13 11:26:36','2022-07-21 18:13:04','000',NULL,NULL,1,1,1,1,1,NULL,0),
+	(3,NULL,'ces','上帝笑了99次',NULL,'<p>&nbsp;</p>\n<p>腾讯云视频点播</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" poster=\"/attachment/20220706/13c36dcfb4794890a266805c4baefbec.png\" id=\"qcloud_video_player49764\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>阿里云视频点播</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" id=\"video_player11679\" poster=\"/attachment/20220705/56a1c33c92164862839c0e52fce14714.png\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>','html',NULL,NULL,NULL,NULL,1,0,'draft',1,1,NULL,32,'2022-04-15 15:18:55','2022-07-04 15:40:15',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1);
 
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -120,8 +120,8 @@ INSERT INTO `article_category` (`id`, `pid`, `user_id`, `slug`, `title`, `conten
 VALUES
 	(1,0,NULL,'guwen','古文',NULL,NULL,NULL,'category',NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,'2022-04-15 15:53:05','2022-06-09 17:34:23',NULL),
 	(2,1,NULL,'shici','诗词',NULL,NULL,NULL,'category',NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL,'2022-04-15 15:53:21','2022-06-09 17:34:23',NULL),
-	(3,1,NULL,'sanwen','散文',NULL,NULL,NULL,'category','&lt;i class=&quot;bi bi-apple&quot;&gt;&lt;/i&gt;',0,0,NULL,NULL,2,2,NULL,NULL,NULL,'2022-04-15 16:40:22','2022-06-20 13:42:04',NULL),
-	(4,1,NULL,'cipaiming','词牌名',NULL,NULL,NULL,'category','&lt;i class=&quot;bi bi-apple&quot;&gt;&lt;/i&gt;',0,1,'/attachment/20220617/e88f8593f64947d0bfec744bb3d749b7.png','/attachment/20220617/58f750d10dcd4f40888cb56fb118a844.png',1,NULL,NULL,NULL,NULL,'2022-04-15 16:41:13','2022-06-23 14:47:55',NULL),
+	(3,1,NULL,'sanwen','散文',NULL,NULL,NULL,'category','&lt;i class=&quot;bi bi-apple&quot;&gt;&lt;/i&gt;',0,0,NULL,NULL,1,2,NULL,NULL,NULL,'2022-04-15 16:40:22','2022-07-21 18:13:04',NULL),
+	(4,1,NULL,'cipaiming','词牌名',NULL,NULL,NULL,'category','&lt;i class=&quot;bi bi-apple&quot;&gt;&lt;/i&gt;',0,1,'/attachment/20220617/e88f8593f64947d0bfec744bb3d749b7.png','/attachment/20220617/58f750d10dcd4f40888cb56fb118a844.png',0,NULL,NULL,NULL,NULL,'2022-04-15 16:41:13','2022-07-23 13:27:16',NULL),
 	(5,0,NULL,'wenz','wenz','012010','0120',NULL,'category','201',NULL,NULL,NULL,NULL,0,1,'02101',NULL,NULL,'2022-06-09 15:04:39','2022-06-09 16:39:53',NULL),
 	(6,0,NULL,'11.com','11',NULL,NULL,NULL,'category',NULL,0,0,NULL,NULL,0,NULL,NULL,NULL,NULL,'2022-06-22 16:25:01','2022-06-22 16:25:01',NULL),
 	(7,0,NULL,'a111','111',NULL,NULL,NULL,'category',NULL,0,0,NULL,NULL,0,0,NULL,NULL,NULL,'2022-07-18 10:00:08','2022-07-18 10:10:27',0),
@@ -150,8 +150,6 @@ LOCK TABLES `article_category_mapping` WRITE;
 
 INSERT INTO `article_category_mapping` (`article_id`, `category_id`)
 VALUES
-	(1,4),
-	(2,3),
 	(3,3);
 
 /*!40000 ALTER TABLE `article_category_mapping` ENABLE KEYS */;
@@ -301,7 +299,13 @@ VALUES
 	(90,1,NULL,'video.mp4',NULL,'/attachment/20220713/a01cc06232504566a334a76a0cce428b.mp4','video/mp4','.mp4',NULL,NULL,0,1,'2022-07-13 14:13:39',NULL),
 	(91,1,NULL,'video.mp4',NULL,'/attachment/20220713/eff549d146444a0192ceed6a0605a597.mp4','video/mp4','.mp4',NULL,NULL,0,1,'2022-07-13 14:15:26',NULL),
 	(92,1,NULL,'3123111.jpeg',NULL,'/attachment/20220717/bceb825c9d224f8fb1316f4bab29d13d.jpeg','image/jpeg','.jpeg',NULL,NULL,0,1,'2022-07-17 17:03:15',NULL),
-	(93,1,NULL,'111123123213123.jpeg',NULL,'/attachment/20220717/7b9cb0991458403b80397f01debe3006.jpeg','image/jpeg','.jpeg',NULL,NULL,0,1,'2022-07-17 17:08:54',NULL);
+	(93,1,NULL,'111123123213123.jpeg',NULL,'/attachment/20220717/7b9cb0991458403b80397f01debe3006.jpeg','image/jpeg','.jpeg',NULL,NULL,0,1,'2022-07-17 17:08:54',NULL),
+	(94,1,NULL,'video.mp4',NULL,'/attachment/20220720/6247c116ada44d6fb270a24981f8b704.mp4','video/mp4','.mp4',NULL,NULL,0,1,'2022-07-20 14:36:32',NULL),
+	(95,1,NULL,'student.png',NULL,'/attachment/20220720/054d5015f41d495f9ce366b95b154812.png','image/png','.png',NULL,NULL,0,1,'2022-07-20 15:43:09',NULL),
+	(96,1,NULL,'studyroom.png',NULL,'/attachment/20220720/cff4304095d04c50840a8628d5c32b5d.png','image/png','.png',NULL,NULL,0,1,'2022-07-20 16:32:33',NULL),
+	(97,1,NULL,'video.png',NULL,'/attachment/20220720/c2d0606423fc4716adc35e3bda2756da.png','image/png','.png',NULL,NULL,0,1,'2022-07-20 17:47:15',NULL),
+	(98,1,NULL,'course2.png',NULL,'/attachment/20220721/ede6c961fdfd46e8b5f6476a1733fce2.png','image/png','.png',NULL,NULL,0,1,'2022-07-21 09:57:17',NULL),
+	(99,1,NULL,'course.png',NULL,'/attachment/20220721/057fb44d240347beb55c770476269e43.png','image/png','.png',NULL,NULL,0,1,'2022-07-21 11:22:18',NULL);
 
 /*!40000 ALTER TABLE `attachment` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -381,13 +385,16 @@ VALUES
 	(79,'vod','2',NULL,'/attachment/20220701/e2c20ed766f24fef83c872cb9027d679.png',NULL,'www',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2022-06-23 17:20:58','2022-07-01 16:32:00'),
 	(80,'vod','2',6,'/attachment/20220701/9589653c891345778e8a7d88fa42f8dd.png','387702302489451763','测试11212',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2022-06-27 16:24:07','2022-07-01 16:31:48'),
 	(81,'vod','2',5,'/attachment/20220701/6e9b0e86116646ba8528047979bfea48.png','387702302490459125','ces ',NULL,'1',NULL,'ypf-play.jpress.cn','live','liveteststream','rtmp://170100.livepush.myqcloud.com/live/liveteststream?txSecret=de2456f7850646cc3ddda9b15446ef4d&amp;txTime=62BD0019','2022-06-28 16:03:00','2022-06-28 16:03:00',NULL,NULL,'2022-06-28 14:01:22','2022-07-01 16:31:35'),
-	(82,'vod','1',NULL,'/attachment/20220707/e7799ed053ec470399f9ec20ec044a2a.png','38bab6eea9a44b0abd85a64099382fc8','阿里云-2',NULL,'1',NULL,'ypf-play.jpress.cn','live','liveteststream','rtmp://170100.livepush.myqcloud.com/live/liveteststream?txSecret=de2456f7850646cc3ddda9b15446ef4d&amp;txTime=62BD0019',NULL,NULL,NULL,NULL,'2022-06-29 14:27:44','2022-07-13 15:08:30'),
+	(82,'vod','1',NULL,'/attachment/20220707/e7799ed053ec470399f9ec20ec044a2a.png','a5548278d8e24371a956b73727315fc1','阿里云-2',NULL,'1',NULL,'http://live.jpress.cn','cgzj','bb41c82d1b4e4650b7c4f819a7597552','rtmp://pushlive.jpress.cn/cgzj/bb41c82d1b4e4650b7c4f819a7597552?auth_key=1658377935-0-0-6f80b89c77f5a7c73ef0d02eb1bf2f40',NULL,NULL,NULL,'{}','2022-06-29 14:27:44','2022-07-21 10:36:38'),
 	(83,'vod','2',4,'/attachment/20220707/cbd0d563e68448c39bac78ad70a77e75.png','387702303148726927','腾讯云-2',NULL,'1',NULL,'ypf-play.jpress.cn','live','liveteststream','rtmp://170100.livepush.myqcloud.com/live/liveteststream?txSecret=408f30ced9e374b3edc206a58ecad4f7&amp;txTime=62BE59B0',NULL,NULL,NULL,NULL,'2022-06-30 10:26:55','2022-07-13 16:06:31'),
 	(84,'vod','2',NULL,'/attachment/20220712/dc5b0af6e5b041458ab95aafe9c2dd81.png','387702303148321756','腾讯云视频',409258,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2022-07-01 16:35:34','2022-07-13 16:04:16'),
-	(85,'vod','2',NULL,'/attachment/20220712/b1cdbdef0968417da31b68cdf196f5a9.png','4d3871e9edc0430485d44222dff9e124','阿里云视频',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2022-07-04 14:40:44','2022-07-14 15:53:36'),
-	(86,'live','2',5,NULL,NULL,'腾讯云-直播',NULL,'1',NULL,'ypf-play.jpress.cn','live','4e05c174541d4b719df2ca33dbba8e18','rtmp://170100.livepush.myqcloud.com/live/4e05c174541d4b719df2ca33dbba8e18?txSecret=360d20d09fbf106d371b60ad9ef63b77&amp;txTime=62D76005','2022-07-18 17:18:00','2022-07-19 17:18:00',NULL,NULL,'2022-07-18 17:19:27','2022-07-19 10:04:26'),
-	(87,'live','2',6,NULL,NULL,'腾讯云  ---直播1',NULL,'1',NULL,'ypf-play.jpress.cn','live','fcaf27c4eda74a7c95b1a499371178c7','rtmp://170100.livepush.myqcloud.com/live/fcaf27c4eda74a7c95b1a499371178c7?txSecret=3b76b8ef7bbecccc9783843f0d5caedb&amp;txTime=62D7664C','2022-07-19 10:18:00','2022-07-20 10:18:00',NULL,NULL,'2022-07-19 10:18:04','2022-07-19 10:20:41'),
-	(88,'vod','2',NULL,NULL,NULL,'101',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2022-07-19 11:01:55',NULL);
+	(85,'vod','1',NULL,'/attachment/20220721/ede6c961fdfd46e8b5f6476a1733fce2.png','0f12b1a078e149d2956d1adf9d2d9d16','阿里云1视频',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'{\"local_video_url\":\"/attachment/20220722/01e5c7cfe2f34eb794d0237920c5283a.mp4\"}','2022-07-04 14:40:44','2022-07-22 14:33:15'),
+	(86,'live','2',5,NULL,NULL,'腾讯云-直播',NULL,'1',NULL,'ypf-play.jpress.cn','live','2cb2f13c40d94bc18614b7a560406958','rtmp://170100.livepush.myqcloud.com/live/2cb2f13c40d94bc18614b7a560406958?txSecret=13103c83ba104d89dcd84b6cf071a979&amp;txTime=62D8B7CC','2022-07-18 17:18:00','2022-07-19 17:18:00',NULL,'{}','2022-07-18 17:19:27','2022-07-21 10:02:39'),
+	(87,'vod','2',6,'/attachment/20220720/c2d0606423fc4716adc35e3bda2756da.png','387702303501658601','腾讯云  ---直播1',NULL,'1',NULL,'ypf-play.jpress.cn','live','fcaf27c4eda74a7c95b1a499371178c7','rtmp://170100.livepush.myqcloud.com/live/fcaf27c4eda74a7c95b1a499371178c7?txSecret=3b76b8ef7bbecccc9783843f0d5caedb&amp;txTime=62D7664C','2022-07-19 10:18:00','2022-07-20 10:18:00',NULL,'{\"local_video_url\":\"/attachment/20220722/13765370fa0f4be684ef3a5d65b9ec2c.mp4\"}','2022-07-19 10:18:04','2022-07-22 14:34:19'),
+	(88,'vod','4',5,'/attachment/20220720/054d5015f41d495f9ce366b95b154812.png',NULL,'101',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'010','{\"local_video_url\":\"/attachment/20220720/6e37e323b7dc4c7bac7cb0c8ce5e1144.mp4\"}','2022-07-19 11:01:55','2022-07-20 17:02:31'),
+	(89,'vod','4',6,'/attachment/20220720/cff4304095d04c50840a8628d5c32b5d.png','616eadf648e64508a829ab6f417a1e7a','本地视频02',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/attachment/20220720/d6fbaf0550894d39840fa8be46ae7dd3.mp4','{\"local_video_url\":\"/attachment/20220720/ff332beeab624dc08e5a37a077170336.mp4\"}','2022-07-20 16:32:43','2022-07-22 11:51:16'),
+	(90,'vod','4',6,'/attachment/20220720/cff4304095d04c50840a8628d5c32b5d.png','485ac04aa15f49d8b1c510f453949ec2','本地视频',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'/attachment/20220720/5f4c50a4f33e48a5aa4c1c7c4deb1bec.mp4','{\"local_video_url\":\"/attachment/20220721/53470b2bba3a4aa6a4fecbda82e6b2c2.mp4\"}','2022-07-20 16:32:43','2022-07-22 14:25:41'),
+	(91,'vod','4',4,'/attachment/20220721/057fb44d240347beb55c770476269e43.png',NULL,'1010101',NULL,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'{}','2022-07-21 11:22:19',NULL);
 
 /*!40000 ALTER TABLE `attachment_video` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -413,39 +420,43 @@ LOCK TABLES `attachment_video_category` WRITE;
 
 INSERT INTO `attachment_video_category` (`id`, `title`, `count`, `order_number`, `created`, `modified`)
 VALUES
-	(4,'精彩回顾',3,1,'2022-06-17 11:54:00','2022-07-13 16:06:31'),
-	(5,'采访',5,2,'2022-06-17 11:54:40','2022-07-19 10:04:26'),
-	(6,'十佳球',5,3,'2022-06-17 16:44:22','2022-07-19 10:20:41');
+	(4,'精彩回顾',4,1,'2022-06-17 11:54:00','2022-07-21 11:22:19'),
+	(5,'采访',7,2,'2022-06-17 11:54:40','2022-07-21 17:41:04'),
+	(6,'十佳球',7,3,'2022-06-17 16:44:22','2022-07-22 14:34:19');
 
 /*!40000 ALTER TABLE `attachment_video_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# 转储表 form_data_3_14
+# 转储表 form_data_3_15
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `form_data_3_14`;
+DROP TABLE IF EXISTS `form_data_3_15`;
 
-CREATE TABLE `form_data_3_14` (
+CREATE TABLE `form_data_3_15` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ssss` varchar(11) DEFAULT NULL COMMENT '姓名',
   `bbbb` text COMMENT '描述',
   `v_enable` int(1) DEFAULT NULL COMMENT '是否启用',
   `s1` varchar(11) DEFAULT NULL COMMENT '单选框',
+  `aaa` varchar(11) DEFAULT NULL COMMENT '输入框',
+  `bbb` varchar(11) DEFAULT NULL COMMENT '多行输入框',
+  `ccc` varchar(11) DEFAULT NULL COMMENT '下拉菜单',
   `s2` varchar(11) DEFAULT NULL COMMENT '复选框',
+  `ddd` varchar(11) DEFAULT NULL COMMENT '下拉菜单',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `form_data_3_14` WRITE;
-/*!40000 ALTER TABLE `form_data_3_14` DISABLE KEYS */;
+LOCK TABLES `form_data_3_15` WRITE;
+/*!40000 ALTER TABLE `form_data_3_15` DISABLE KEYS */;
 
-INSERT INTO `form_data_3_14` (`id`, `ssss`, `bbbb`, `v_enable`, `s1`, `s2`)
+INSERT INTO `form_data_3_15` (`id`, `ssss`, `bbbb`, `v_enable`, `s1`, `aaa`, `bbb`, `ccc`, `s2`, `ddd`)
 VALUES
-	(1,'aaa','bbb',NULL,'value1','value2'),
-	(2,'ccc','ddd',NULL,'value2','value1'),
-	(3,'zhangsan','xxxxx',NULL,'value1','value2');
+	(1,'aaa','bbb',NULL,'value1',NULL,NULL,NULL,'value2',NULL),
+	(2,'ccc','ddd',NULL,'value2',NULL,NULL,NULL,'value1',NULL),
+	(3,'zhangsan','xxxxx',NULL,'value1',NULL,NULL,NULL,'value2',NULL);
 
-/*!40000 ALTER TABLE `form_data_3_14` ENABLE KEYS */;
+/*!40000 ALTER TABLE `form_data_3_15` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -505,7 +516,9 @@ LOCK TABLES `form_datasource_item` WRITE;
 INSERT INTO `form_datasource_item` (`id`, `pid`, `datasource_id`, `value`, `text`, `image`, `site_id`)
 VALUES
 	(43,0,16,'张三','20',NULL,0),
-	(46,0,17,'111','11111',NULL,0);
+	(46,0,17,'贵阳4s店','贵阳4s店',NULL,0),
+	(47,0,3,'1','1',NULL,0),
+	(48,0,17,'北京4s店','北京4s店',NULL,0);
 
 /*!40000 ALTER TABLE `form_datasource_item` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -537,7 +550,7 @@ LOCK TABLES `form_info` WRITE;
 
 INSERT INTO `form_info` (`id`, `name`, `title`, `summary`, `flag`, `bg_image`, `header_image`, `builder_json`, `options`, `version`, `status`, `site_id`)
 VALUES
-	(3,'表单1','aaaa','aaaaaabbbb','表单1的标识',NULL,'/attachment/20220717/7b9cb0991458403b80397f01debe3006.jpeg','[{\"id\":\"a42a599a2d\",\"tag\":\"input\",\"label\":\"姓名\",\"name\":\"input_1\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"index\":0,\"field\":\"ssss\",\"with_search\":true},{\"id\":\"76fa74784b\",\"tag\":\"textarea\",\"label\":\"描述\",\"name\":\"textarea_2\",\"field_type\":\"text\",\"field_lenth\":11,\"show_list\":true,\"rows\":3,\"index\":1,\"field\":\"bbbb\"},{\"id\":\"c6e5eb1ca3\",\"tag\":\"switch\",\"label\":\"是否启用\",\"name\":\"switch_1\",\"field_type\":\"boolean\",\"field_lenth\":11,\"show_list\":true,\"with_search\":false,\"index\":2,\"field\":\"v_enable\"},{\"id\":\"9934434e9d\",\"tag\":\"grid\",\"label\":\"等分栅格\",\"name\":\"grid_1\",\"grid\":2,\"index\":3,\"children\":{\"0\":[{\"id\":\"ee59439959\",\"tag\":\"radio\",\"label\":\"单选框\",\"name\":\"radio_2\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"}],\"optionsTitle\":\"选项\",\"parentDataId\":\"9934434e9d\",\"parentDataIndex\":0,\"index\":0,\"field\":\"s1\"}],\"1\":[{\"id\":\"c0a76b0e53\",\"tag\":\"checkbox\",\"label\":\"复选框\",\"name\":\"checkbox_3\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"}],\"optionsTitle\":\"选项\",\"parentDataId\":\"9934434e9d\",\"parentDataIndex\":1,\"index\":0,\"field\":\"s2\"}]}}]',NULL,14,'published',0),
+	(3,'表单1','aaaa','aaaaaabbbb','表单1的标识',NULL,'/attachment/20220717/7b9cb0991458403b80397f01debe3006.jpeg','[{\"id\":\"a42a599a2d\",\"tag\":\"input\",\"label\":\"姓名\",\"name\":\"input_1\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"index\":0,\"field\":\"ssss\",\"with_search\":true},{\"id\":\"76fa74784b\",\"tag\":\"textarea\",\"label\":\"描述\",\"name\":\"textarea_2\",\"field_type\":\"text\",\"field_lenth\":11,\"show_list\":true,\"rows\":3,\"index\":1,\"field\":\"bbbb\"},{\"id\":\"c6e5eb1ca3\",\"tag\":\"switch\",\"label\":\"是否启用\",\"name\":\"switch_1\",\"field_type\":\"boolean\",\"field_lenth\":11,\"show_list\":true,\"with_search\":false,\"index\":2,\"field\":\"v_enable\"},{\"id\":\"a881759430\",\"tag\":\"select\",\"label\":\"下拉菜单\",\"name\":\"select_1\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"with_search\":false,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"},{\"text\":\"选项4\",\"value\":\"value4\"}],\"optionsTitle\":\"选项\",\"index\":3,\"field\":\"ddd\"},{\"id\":\"9934434e9d\",\"tag\":\"grid\",\"label\":\"等分栅格\",\"name\":\"grid_1\",\"grid\":2,\"index\":4,\"children\":{\"0\":[{\"id\":\"ee59439959\",\"tag\":\"radio\",\"label\":\"单选框\",\"name\":\"radio_2\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"},{\"text\":\"选项3\",\"value\":\"value3\"},{\"text\":\"选项4\",\"value\":\"value4\"}],\"optionsTitle\":\"选项\",\"parentDataId\":\"9934434e9d\",\"parentDataIndex\":0,\"index\":0,\"field\":\"s1\"}],\"1\":[{\"id\":\"c0a76b0e53\",\"tag\":\"checkbox\",\"label\":\"复选框\",\"name\":\"checkbox_3\",\"field_type\":\"varchar\",\"field_lenth\":11,\"show_list\":true,\"options\":[{\"text\":\"选项1\",\"value\":\"value1\"},{\"text\":\"选项2\",\"value\":\"value2\"}],\"optionsTitle\":\"选项\",\"parentDataId\":\"9934434e9d\",\"parentDataIndex\":1,\"index\":0,\"field\":\"s2\"}]}}]',NULL,15,'published',0),
 	(4,'表单2',NULL,NULL,'表单2标识',NULL,NULL,NULL,NULL,1,'init',0);
 
 /*!40000 ALTER TABLE `form_info` ENABLE KEYS */;
@@ -584,10 +597,8 @@ LOCK TABLES `job` WRITE;
 
 INSERT INTO `job` (`id`, `title`, `content`, `department`, `category_id`, `address_id`, `age_limit_start`, `age_limit_end`, `education`, `years_limit_type`, `with_notify`, `notify_emails`, `notify_title`, `notify_content`, `with_remote`, `with_apply`, `with_hurry`, `work_type`, `recruit_type`, `recruit_numbers`, `expired_to`, `meta_keywords`, `meta_description`, `created`, `modified`, `site_id`)
 VALUES
-	(32,'岗位1','&lt;p&gt;xxxxxxxxxxxxxxxxxxxx&lt;/p&gt;','研发部',10,6,20,35,5,2,0,'1871225044@qq.com','这是测试用的邮件标题','这是测试用的邮件内容',0,1,NULL,0,0,10,'2022-07-06 00:00:00','xxxxx','xxxxxx','2022-07-05 00:00:00','2022-07-07 16:38:40',0),
-	(33,'岗位2','&lt;p&gt;vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv&lt;/p&gt;','运维部',9,6,18,35,5,3,1,'1871225044@qq.com','测试通知邮件','测试通知邮件内容',1,1,NULL,0,1,2,'2022-07-07 00:00:00','vvvvv','vvvvv','2022-07-01 00:00:00','2022-07-08 15:10:33',0),
-	(34,'岗位3','&lt;p&gt;33333333333333333333333333333333333333&lt;/p&gt;','研发部',19,6,20,35,6,4,0,'2822115980@qq.com','测试邮件','测试邮件内容',1,1,0,0,0,10,'2022-07-09 00:00:00','嘻嘻嘻嘻嘻','xxxxxx','2022-07-07 00:00:00','2022-07-18 15:28:50',0),
-	(38,'岗位1','&lt;p&gt;xxxxxxxxxxxxx&lt;/p&gt;',NULL,18,NULL,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,0,0,0,NULL,NULL,NULL,NULL,NULL,NULL,'2022-07-18 10:46:17',NULL,0);
+	(32,'岗位1','&lt;p&gt;xxxxxxxxxxxxxxxxxxxx&lt;/p&gt;','研发部',22,14,20,35,5,2,0,'1871225044@qq.com','这是测试用的邮件标题','这是测试用的邮件内容',0,1,0,0,0,10,'2022-07-06 00:00:00','xxxxx','xxxxxx','2022-07-05 00:00:00','2022-07-22 11:28:47',0),
+	(33,'岗位2','&lt;p&gt;vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv&lt;/p&gt;','运维部',22,6,18,35,5,3,1,'1871225044@qq.com','测试通知邮件','测试通知邮件内容',1,1,0,0,1,2,'2022-07-07 00:00:00','vvvvv','vvvvv','2022-07-01 00:00:00','2022-07-22 09:16:46',0);
 
 /*!40000 ALTER TABLE `job` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -627,8 +638,7 @@ LOCK TABLES `job_apply` WRITE;
 
 INSERT INTO `job_apply` (`id`, `job_id`, `user_name`, `mobile`, `mobile_area`, `email`, `gender`, `birthday`, `work_years`, `education`, `last_company`, `cv_path`, `attachment`, `referral_code`, `with_viewed`, `with_disposed`, `disposed_content`, `disposed_time`, `created`, `site_id`)
 VALUES
-	(2,33,'小潘','17684251552','+86','1871225044@qq.com',0,'2022-07-06 16:16:00',1,5,'贵州小码科技','/attachment/20220706/412105e591b54ac0b0f74c14cedeb8ff.png','/attachment/20220706/d9f427876ce44b55bb45e8bc3fabf242.png',NULL,1,1,'不错啊 进入面试','2022-07-07 16:42:19','2022-07-06 16:17:14',NULL),
-	(15,35,'小王','18212840981','+86','1871225044@qq.com',0,'2022-07-23 15:15:00',6,5,'贵州小码科技',NULL,NULL,'2244',1,1,'可以','2022-07-13 15:20:44','2022-07-13 15:20:21',0);
+	(2,33,'小潘','17684251552','+86','1871225044@qq.com',0,'2022-07-06 16:16:00',1,5,'贵州小码科技','/attachment/20220706/412105e591b54ac0b0f74c14cedeb8ff.png','/attachment/20220706/d9f427876ce44b55bb45e8bc3fabf242.png',NULL,1,1,'不错啊 进入面试','2022-07-07 16:42:19','2022-07-06 16:17:14',NULL);
 
 /*!40000 ALTER TABLE `job_apply` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -659,13 +669,13 @@ LOCK TABLES `job_category` WRITE;
 
 INSERT INTO `job_category` (`id`, `type`, `pid`, `title`, `summary`, `count`, `order_number`, `flag`, `created`, `modified`, `site_id`)
 VALUES
-	(14,'address',0,'地址2','bbbbb',NULL,2,'2','2022-07-13 09:45:14',NULL,0),
-	(15,'address',0,'地址3','xx',NULL,9,'1','2022-07-13 15:04:53','2022-07-18 15:29:29',0),
+	(14,'address',0,'地址2','bbbbb',NULL,22,'2','2022-07-13 09:45:14','2022-07-22 11:10:05',0),
+	(15,'address',0,'地址3','xx',NULL,222,'1','2022-07-13 15:04:53','2022-07-22 11:10:13',0),
 	(18,'category',0,'分类1','分类1摘要',1,1,'1','2022-07-18 10:45:49','2022-07-18 14:45:51',0),
 	(19,'category',18,'分类2','分类2摘要',1,8,'1','2022-07-18 10:57:53','2022-07-18 15:28:50',0),
-	(20,'category',0,'分类3',NULL,0,3,'1','2022-07-18 13:54:58','2022-07-18 15:02:49',0),
+	(20,'category',0,'分类3',NULL,0,3,'1','2022-07-18 13:54:58','2022-07-22 11:28:47',0),
 	(21,'category',20,'分类4',NULL,0,4,'1','2022-07-18 13:55:42','2022-07-18 14:46:06',0),
-	(22,'category',18,'分类5',NULL,0,6,'1','2022-07-18 15:02:08',NULL,0);
+	(22,'category',18,'分类5',NULL,2,6,'1','2022-07-18 15:02:08','2022-07-22 11:28:47',0);
 
 /*!40000 ALTER TABLE `job_category` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -754,30 +764,30 @@ VALUES
 	(185,0,'attachment_img_maxsize',NULL),
 	(186,0,'attachment_watermark_enable','false'),
 	(187,0,'attachment_other_maxsize',NULL),
-	(188,0,'attachment_aliyunvideo_accesskeyid',NULL),
+	(188,0,'attachment_aliyunvideo_accesskeyid','LTAI5tC5K81VtukxZ2xCzKpi'),
 	(189,0,'attachment_aliyunlive_playdomain',NULL),
 	(190,0,'attachment_aliyunoss_bucketname',NULL),
 	(191,0,'attachment_aliyunoss_accesskeysecret',NULL),
-	(192,0,'attachment_qcloudvideo_secretkey','IL9lAcw5KPHwWrwGNI0ThpjPtAEft1Vz'),
+	(192,0,'attachment_qcloudvideo_secretkey','pOhla9SWMwHMBl59xXrvjIgrnW0ECvPd'),
 	(193,0,'attachment_aliyunlive_accesskeysecret',NULL),
 	(194,0,'attachment_aliyunlive_accesskeyid',NULL),
 	(195,0,'attachment_aliyunlive_pushauthstring',NULL),
-	(196,0,'attachment_qcloudlive_play_txtime','2022-07-20 10:19:56'),
+	(196,0,'attachment_qcloudlive_play_txtime','2022-07-21 10:19:56'),
 	(197,0,'attachment_aliyunoss_del','false'),
 	(198,0,'attachment_qcloudlive_appname','live'),
-	(199,0,'attachment_cloud_type','3'),
-	(200,0,'attachment_qcloudlive_push_key','iJfDTGWwGdNDy7cCDmmG'),
+	(199,0,'attachment_cloud_type','2'),
+	(200,0,'attachment_qcloudlive_push_key',NULL),
 	(201,0,'attachment_aliyunlive_appname',NULL),
-	(202,0,'attachment_qcloudvideo_appid',NULL),
+	(202,0,'attachment_qcloudvideo_appid','1312635314'),
 	(203,0,'attachment_aliyunlive_regionid',NULL),
-	(204,0,'attachment_qcloudlive_play_key','7GpbpNmEkjdDHZj6aZ7s'),
-	(205,0,'attachment_qcloudlive_txtime','2022-07-20 10:19:56'),
-	(206,0,'attachment_aliyunvideo_accesskeysecret','0ZTnS3vegB3wZA5eqOEzdj2QGgBSeO'),
+	(204,0,'attachment_qcloudlive_play_key',NULL),
+	(205,0,'attachment_qcloudlive_txtime','2022-07-21 10:19:56'),
+	(206,0,'attachment_aliyunvideo_accesskeysecret','a9EPgd3AhenYSJ8bxO9Qeoy33n5ngT'),
 	(207,0,'attachment_aliyunlive_pushdomain',NULL),
 	(208,0,'attachment_aliyunoss_enable','false'),
 	(209,0,'attachment_aliyunoss_accesskeyid',NULL),
 	(210,0,'attachment_watermark_img',NULL),
-	(211,0,'attachment_qcloudvideo_secretid','AKIDOefYO5YXO1PXQXdeXUEsLabVDqPozuZ1'),
+	(211,0,'attachment_qcloudvideo_secretid','AKIDvgDVYMvFJ8h15tSlpdBZicqrc8OO8crt'),
 	(212,0,'attachment_qcloudlive_pushdomain','170100.livepush.myqcloud.com'),
 	(213,0,'attachment_aliyunlive_playauthstring',NULL),
 	(214,0,'connection_sms_appid',NULL),
@@ -827,8 +837,22 @@ VALUES
 	(258,0,'reg_email_reset_pwd_title','JPress重置密码，请点击下方链接'),
 	(259,0,'browser_lang_automatic_jump','false'),
 	(260,0,'reg_sms_reset_pwd_template',NULL),
-	(261,0,'attachment_huaweivideo_ak',NULL),
-	(262,0,'attachment_huaweivideo_sk',NULL);
+	(261,0,'attachment_huaweivideo_ak','OPW307C3TXJG0R2AR3NI'),
+	(262,0,'attachment_huaweivideo_sk','SHQyDGqSgr3I3qNJVNXUVR7MyJeIfllvNtR2QYGe'),
+	(263,0,'web_template_preview_enable','false'),
+	(264,6,'web_domain',NULL),
+	(265,6,'auto_redirect_by_browser_lang','false'),
+	(266,6,'mainsite_redirect_by_browser_lang','true'),
+	(267,0,'mainsite_redirect_by_browser_lang','true'),
+	(268,6,'web_subtitle',NULL),
+	(269,6,'web_ipc_no',NULL),
+	(270,6,'web_title',NULL),
+	(271,6,'web_mater_mobile',NULL),
+	(272,6,'web_config_code',NULL),
+	(273,6,'web_mater_wxopenid',NULL),
+	(274,6,'web_mater_email',NULL),
+	(275,6,'web_name',NULL),
+	(276,6,'web_copyright',NULL);
 
 /*!40000 ALTER TABLE `option` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -878,7 +902,7 @@ CREATE TABLE `product` (
   `view_count` int(11) unsigned DEFAULT '0' COMMENT '访问量',
   `sales_count` int(11) unsigned DEFAULT '0' COMMENT '销售量，用于放在前台显示',
   `buy_link` varchar(255) DEFAULT NULL COMMENT '购买链接',
-  `vod_vid` varchar(64) DEFAULT NULL COMMENT '视频云端ID',
+  `video_id` varchar(64) DEFAULT NULL COMMENT '视频ID',
   `created` datetime DEFAULT NULL COMMENT '创建日期',
   `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
   `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询',
@@ -900,10 +924,11 @@ CREATE TABLE `product` (
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 
-INSERT INTO `product` (`id`, `slug`, `title`, `content`, `summary`, `usp`, `thumbnail`, `style`, `order_number`, `price`, `origin_price`, `limited_price`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `sales_count`, `buy_link`, `vod_vid`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`, `options`, `site_id`)
+INSERT INTO `product` (`id`, `slug`, `title`, `content`, `summary`, `usp`, `thumbnail`, `style`, `order_number`, `price`, `origin_price`, `limited_price`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `sales_count`, `buy_link`, `video_id`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `remarks`, `options`, `site_id`)
 VALUES
 	(1,NULL,'产品1','<p>哈哈哈哈哈哈哈哈哈</p>','10','10','/attachment/20220629/2bbe54d79cab4cd89cd548dd995896cd.jpg',NULL,0,10.00,10.00,10.00,1,1,0,NULL,0,NULL,'www.baidu.com','85','2022-07-14 10:33:29','2022-07-14 10:33:29','1','10','10',NULL,NULL,0),
-	(2,NULL,'测试视频商品','<p>xxxxxx</p>',NULL,NULL,NULL,NULL,0,20.00,NULL,NULL,1,1,0,NULL,0,NULL,NULL,'82','2022-07-15 14:30:50','2022-07-15 14:30:50',NULL,NULL,NULL,NULL,NULL,0);
+	(2,NULL,'测试视频商品','<p>xxxxxx</p>',NULL,NULL,NULL,NULL,0,20.00,NULL,NULL,1,1,0,NULL,0,NULL,NULL,'82','2022-07-15 14:30:50','2022-07-15 14:30:50',NULL,NULL,NULL,NULL,NULL,0),
+	(3,NULL,'xxxxx',NULL,NULL,NULL,NULL,NULL,0,99.00,NULL,NULL,1,1,0,NULL,0,NULL,NULL,NULL,'2022-07-22 09:18:00','2022-07-22 09:18:00',NULL,NULL,NULL,NULL,NULL,0);
 
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -950,7 +975,9 @@ LOCK TABLES `product_category` WRITE;
 
 INSERT INTO `product_category` (`id`, `pid`, `user_id`, `slug`, `title`, `content`, `summary`, `style`, `type`, `icon`, `with_recommend`, `with_top`, `ornament`, `thumbnail`, `count`, `order_number`, `flag`, `meta_keywords`, `meta_description`, `options`, `created`, `modified`, `site_id`)
 VALUES
-	(1,0,NULL,'ccc','010',NULL,NULL,NULL,'category',NULL,1,1,'/attachment/20220617/58f750d10dcd4f40888cb56fb118a844.png','/attachment/20220617/e88f8593f64947d0bfec744bb3d749b7.png',0,NULL,NULL,NULL,NULL,NULL,'2022-06-15 11:57:00','2022-07-14 10:33:29',NULL);
+	(1,0,NULL,'ccc','010',NULL,NULL,NULL,'category',NULL,1,1,'/attachment/20220617/58f750d10dcd4f40888cb56fb118a844.png','/attachment/20220617/e88f8593f64947d0bfec744bb3d749b7.png',0,NULL,NULL,NULL,NULL,NULL,'2022-06-15 11:57:00','2022-07-14 10:33:29',0),
+	(2,0,NULL,'http://127.0.0.1:8080/product/category/1','1','1','1',NULL,'category','1',0,0,NULL,NULL,0,1,'1',NULL,NULL,NULL,'2022-07-22 11:21:45','2022-07-22 11:21:46',0),
+	(3,2,NULL,'http://127.0.0.1:8080/product/category/2','2',NULL,NULL,NULL,'category',NULL,0,0,NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,'2022-07-22 11:23:51','2022-07-22 11:23:51',0);
 
 /*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1113,9 +1140,9 @@ VALUES
 	(10,5,NULL,'大大1111aaa','<p>\n <video class=\"jpress-video\" style=\"with:100%;\" preload=\"auto\" controls=\"true\" id=\"qcloud_video_player\" poster=\"/attachment/20220705/7b14c2c52c3a4f58a2c7c6175cec2e7e.jpg\"></video>大大从VS</p>','html',NULL,NULL,NULL,NULL,NULL,NULL,'normal',0,0,NULL,6,'2022-06-23 11:40:18','2022-07-05 18:04:58',NULL,NULL,NULL,NULL),
 	(12,NULL,'ces_1','dad','<p>aliyun</p>\n<p>&nbsp;</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" data-vid=\"bd77e9572bfa4ab896d3c911e9521bd9\" data-play-auth=\"eyJTZWN1cml0eVRva2VuIjoiQ0FJU2h3TjFxNkZ0NUIyeWZTaklyNWJGQU83ZGxLbFhoWStTTVd2VjBHTTJPODF1bjQzOGl6ejJJSDlJZEhWb0FPOGZ2dlUwbTJ0WTdQc1psck1xRU1FWkd4R1pNcElzczhzTHJGNzlKcExGc3QySjZyOEpqc1VWb3ZsTS9rYXBzdlhKYXNEVkVmbDJFNVhFTWlJUi8wMGU2TC8rY2lyWXBUWEhWYlNDbFo5Z2FQa09Rd0M4ZGtBb0xkeEtKd3hrMnQxNFVtWFdPYVNDUHdMU2htUEJMVXhtdldnR2wyUnp1NHV5M3ZPZDVoZlpwMXI4eE80YXhlTDBQb1AyVjgxbExacGxlc3FwM0k0U2M3YmFnaFpVNGdscjhxbHg3c3BCNVN5Vmt0eVdHVWhKL3phTElvaXQ3TnBqZmlCMGVvUUFQb3BGcC9YNmp2QWF3UExVbTliWXhncGhCOFIrWGo3RFpZYXV4N0d6ZW9XVE84MCthS3p3TmxuVXo5bUxMZU9WaVE0L1ptOEJQdzQ0RUxoSWFGMElVRTF5R21DQ2QvWDRvZ3VSUDF6N0VwTG9pdjltamNCSHFIeno1c2VQS2xTMVJMR1U3RDBWSUpkVWJUbHphRUpHZ1RTNExmWldJbGNUS0FNOVd1MlBNYXgzYlFGRHI1M3ZzVGJiWHpaYjBtcHR1UG56ZDE0Sk9CS2cxMUtVR29BQmZTNkhPT3QvcjBodU1UdEo4UE1hU2t6VitQWDF5RmZLRHl2Q09BQlFKY3pyeS9PTUc3T0lKK3N3Z0Q2UzZoZVBDMUdONnBBMzdrSGlkUTBxbG5BUmRqcThCMzJWaGlOR0JlTDROVzl1WHZWNUI3TWpZankxZlNNTXBDcGpRZ1lhSW5Zd1BnbXFGQjFaSTltU0JxaEtnZjZicmhBNVpPVDRCS1JoSHZCVGQ0az0iLCJBdXRoSW5mbyI6IntcIkNJXCI6XCIyOXpsWlYrYnV5WlFaZFI0Zi9RWWZ4VU9MTGFrOG9WdlViRXlMcHEwcDhXb2FmczMwRGErVjZpdVg5R3hMdStvXCIsXCJDYWxsZXJcIjpcIkxQbzJEcnlWRFp4TCtFQjhheUQvakhmRkFIdDEvUGJlQzQ0RW13TnBMQU09XCIsXCJFeHBpcmVUaW1lXCI6XCIyMDIyLTA3LTA3VDAzOjU0OjA1WlwiLFwiTWVkaWFJZFwiOlwiYmQ3N2U5NTcyYmZhNGFiODk2ZDNjOTExZTk1MjFiZDlcIixcIlNpZ25hdHVyZVwiOlwiaHNGR0o2d0xHcVYzY1dSaHFORkloYzJzRXhZPVwifSIsIlZpZGVvTWV0YSI6eyJTdGF0dXMiOiJOb3JtYWwiLCJWaWRlb0lkIjoiYmQ3N2U5NTcyYmZhNGFiODk2ZDNjOTExZTk1MjFiZDkiLCJUaXRsZSI6IumYv+mHjOS6keinhumikSIsIkNvdmVyVVJMIjoiaHR0cDovL291dGluLWVhNmNjYTUzZjJjNTExZWNiOGE5MDAxNjNlMWEzYjRhLm9zcy1jbi1zaGFuZ2hhaS5hbGl5dW5jcy5jb20vYmQ3N2U5NTcyYmZhNGFiODk2ZDNjOTExZTk1MjFiZDkvc25hcHNob3RzL2JmYzBkM2JjNjkyODQ2NTVhMTRmYzIzMzU5ZWM0MjExLTAwMDAxLmpwZz9FeHBpcmVzPTE2NTcxNjk1NDUmT1NTQWNjZXNzS2V5SWQ9TFRBSXJrd2IyMUt5R2pKbCZTaWduYXR1cmU9eGw4TzNscThHS2FSdXNVaTMxeTZWJTJCeGE2eXMlM0QiLCJEdXJhdGlvbiI6Ny42Njd9LCJBY2Nlc3NLZXlJZCI6IlNUUy5OVXBLVGl5dnYyTXkzTWQ0Y2M3QkJwSFdpIiwiQWNjZXNzS2V5U2VjcmV0IjoiR01oZGtCRnlhdml5Z2d3WmlLeUxkekR2UTZUeE56ajVUZ3hyaTdtdDExcEwiLCJSZWdpb24iOiJjbi1zaGFuZ2hhaSIsIkN1c3RvbWVySWQiOjEzNjQ2NTU3MTQ1NzQ1NTR9\" data-cloud=\"1\" poster=\"/attachment/20220707/3eb1ef75fca44c01965717e96cd8695c.png\" id=\"video_player41051\"></video></p>\n<p>&nbsp;</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" data-vid=\"a58ebb82a1a748cfa368c172f8b37619\" data-play-auth=\"eyJTZWN1cml0eVRva2VuIjoiQ0FJU2h3TjFxNkZ0NUIyeWZTaklyNURBS083ODI2ZHR4SkcvVkhQbnJuaGdlc29VbkwrYXJEejJJSDlJZEhWb0FPOGZ2dlUwbTJ0WTdQc1psck1xRU1FWkd4R1pNcElzczhzTHJGNzlKcExGc3QySjZyOEpqc1VnMTdoRS9rYXBzdlhKYXNEVkVmbDJFNVhFTWlJUi8wMGU2TC8rY2lyWXBUWEhWYlNDbFo5Z2FQa09Rd0M4ZGtBb0xkeEtKd3hrMnQxNFVtWFdPYVNDUHdMU2htUEJMVXhtdldnR2wyUnp1NHV5M3ZPZDVoZlpwMXI4eE80YXhlTDBQb1AyVjgxbExacGxlc3FwM0k0U2M3YmFnaFpVNGdscjhxbHg3c3BCNVN5Vmt0eVdHVWhKL3phTElvaXQ3TnBqZmlCMGVvUUFQb3BGcC9YNmp2QWF3UExVbTliWXhncGhCOFIrWGo3RFpZYXV4N0d6ZW9XVE84MCthS3p3TmxuVXo5bUxMZU9WaVE0L1ptOEJQdzQ0RUxoSWFGMElVRTF5R21DQ2QvWDRvZ3VSUDF6N0VwTG9pdjltamNCSHFIeno1c2VQS2xTMVJMR1U3RDBWSUpkVWJUbHphRUpHZ1RTNExmWldJbGNUS0FNOVd1MlBNYXgzYlFGRHI1M3ZzVGJiWHpaYjBtcHR1UG56ZDE0Sk9CS2cxMUtVR29BQmJ4eVgva0JBb3ZZV0lIMkhFR0ZkOVRtYlE4dC9xMUhHUnRvdU84WGNNcGFSZEJGbzZ0ZUg0NkhSMUNrMmhiNjJhTkxkM1V3OFBHY0lkSUNoVlBiem5YNXF2NUVwd2tKalprbUxOWEpZMXFjZ2ZESDhzcDRYRXpscGJwNEVGTHZkeVduQWtlL3JaSEtwVjZtZUprcEhCZ1I4bW1TVndLb1NIV3BNMzVjdmFkUT0iLCJBdXRoSW5mbyI6IntcIkNJXCI6XCJFSFhuaWU1Q1JoeGRMMXF1NHRiSUpyUFUzSTdvbFlxNEhScGM2WmVYdnc4cXBFNkhIZnFmRXdlSWNVMllYTU9KXCIsXCJDYWxsZXJcIjpcIkFiUFAvWmZYY2JyenlzRFBkdVVKc09CbVEyNXVjS09mcnhQdnRQU2FBaFk9XCIsXCJFeHBpcmVUaW1lXCI6XCIyMDIyLTA3LTA3VDA4OjIzOjEwWlwiLFwiTWVkaWFJZFwiOlwiYTU4ZWJiODJhMWE3NDhjZmEzNjhjMTcyZjhiMzc2MTlcIixcIlNpZ25hdHVyZVwiOlwiQmF5RGpBYmoza25PL2VpU3Qyd0U2cXdMaFp3PVwifSIsIlZpZGVvTWV0YSI6eyJTdGF0dXMiOiJOb3JtYWwiLCJWaWRlb0lkIjoiYTU4ZWJiODJhMWE3NDhjZmEzNjhjMTcyZjhiMzc2MTkiLCJUaXRsZSI6IumYv+mHjOS6kS0yIiwiQ292ZXJVUkwiOiJodHRwOi8vb3V0aW4tZWE2Y2NhNTNmMmM1MTFlY2I4YTkwMDE2M2UxYTNiNGEub3NzLWNuLXNoYW5naGFpLmFsaXl1bmNzLmNvbS9hNThlYmI4MmExYTc0OGNmYTM2OGMxNzJmOGIzNzYxOS9zbmFwc2hvdHMvNmIxY2U1NDVlYzZmNDUxYmI2ZTY2MDgzNGU0NzJmMWItMDAwMDEuanBnP0V4cGlyZXM9MTY1NzE4NTY5MCZPU1NBY2Nlc3NLZXlJZD1MVEFJcmt3YjIxS3lHakpsJlNpZ25hdHVyZT1uZVd4Q252QU1sS2E5RHlYQ1ElMkYwOWV1SGRYdyUzRCIsIkR1cmF0aW9uIjo3LjY2N30sIkFjY2Vzc0tleUlkIjoiU1RTLk5TdWNUSDZ4THNTVFZVVkp4NXZFOHN6MU4iLCJBY2Nlc3NLZXlTZWNyZXQiOiJEZHRFbXFZS1pNeVQzeWtnRWRrcERjeDFzb3I4anh5Znlvc1pnUlJSZmltZiIsIlJlZ2lvbiI6ImNuLXNoYW5naGFpIiwiQ3VzdG9tZXJJZCI6MTM2NDY1NTcxNDU3NDU1NH0=\" data-cloud=\"1\" poster=\"/attachment/20220707/e7799ed053ec470399f9ec20ec044a2a.png\" id=\"video_player04181\"></video>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>qcloud &nbsp;&nbsp;</p>\n<p>&nbsp;</p>\n<p>\n <video class=\"jpress-video\" data-vid=\"387702302843641596\" data-app-id=\"1312635314\" data-cloud=\"2\" poster=\"/attachment/20220707/cbd0d563e68448c39bac78ad70a77e75.png\" id=\"qcloud_video_player69678\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>\n <video class=\"jpress-video\" data-vid=\"387702302810414136\" data-app-id=\"1312635314\" data-cloud=\"2\" poster=\"/attachment/20220707/7989e8a4b4044fdea638de1b5478d908.png\" id=\"qcloud_video_player50343\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>','html',NULL,NULL,NULL,NULL,NULL,NULL,'normal',1,0,NULL,324,'2022-07-06 09:32:43','2022-07-07 16:24:17',NULL,NULL,NULL,NULL),
 	(14,NULL,NULL,'adadaaaa','<p>&nbsp;</p>\n<p>腾讯云视频点播</p>\n<p>&nbsp;</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" id=\"qcloud_video_player29501\" poster=\"/attachment/20220707/ec3e44685c64477497fc3a495f1ced83.png\" data-cloud=\"2\" data-app-id=\"1312635314\" data-vid=\"387702302810414136\"></video></p>\n<p>&nbsp;</p>\n<p>阿里云视频点播</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" id=\"video_player15037\" poster=\"/attachment/20220707/4e6bbecf5ade4c86915439176ff94a73.png\" data-cloud=\"1\" data-play-auth=\"eyJTZWN1cml0eVRva2VuIjoiQ0FJU2h3TjFxNkZ0NUIyeWZTaklyNURZQWM3bWdMUmlqcVBaWnhEYWhrUXdTTjBkaG82Y3BEejJJSDlJZEhWb0FPOGZ2dlUwbTJ0WTdQc1psck1xRU1FWkd4R1pNcElzczhzTHJGNzlKcExGc3QySjZyOEpqc1VTMy85Si9rYXBzdlhKYXNEVkVmbDJFNVhFTWlJUi8wMGU2TC8rY2lyWXBUWEhWYlNDbFo5Z2FQa09Rd0M4ZGtBb0xkeEtKd3hrMnQxNFVtWFdPYVNDUHdMU2htUEJMVXhtdldnR2wyUnp1NHV5M3ZPZDVoZlpwMXI4eE80YXhlTDBQb1AyVjgxbExacGxlc3FwM0k0U2M3YmFnaFpVNGdscjhxbHg3c3BCNVN5Vmt0eVdHVWhKL3phTElvaXQ3TnBqZmlCMGVvUUFQb3BGcC9YNmp2QWF3UExVbTliWXhncGhCOFIrWGo3RFpZYXV4N0d6ZW9XVE84MCthS3p3TmxuVXo5bUxMZU9WaVE0L1ptOEJQdzQ0RUxoSWFGMElVRTF5R21DQ2QvWDRvZ3VSUDF6N0VwTG9pdjltamNCSHFIeno1c2VQS2xTMVJMR1U3RDBWSUpkVWJUbHphRUpHZ1RTNExmWldJbGNUS0FNOVd1MlBNYXgzYlFGRHI1M3ZzVGJiWHpaYjBtcHR1UG56ZDE0Sk9CS2cxMUtVR29BQnJtVkRER2N0Rk1ZR2gxWWtRUlVETUJjODdLRUx0NU8yNkxoNXovVS9kVWQrV1YxcUFmWnd5bjJ5NFBnMWtUakJXSUlscXR2UkpodDI1TlFObFA1OFpRWXcxS21icGpuZ21xb3ZxajM3ekxWZUQ3RnN1NVF5ME82ZC9lUTFyWlpyR0dVY1poNFozUVNYTmZsS2xFUmdQMENCUjQydDhEaDcxaVhmT2tsdkp6WT0iLCJBdXRoSW5mbyI6IntcIkNJXCI6XCIyOXpsWlYrYnV5WlFaZFI0Zi9RWWZ4VU9MTGFrOG9WdlViRXlMcHEwcDhXb2FmczMwRGErVjZpdVg5R3hMdStvXCIsXCJDYWxsZXJcIjpcIkxQbzJEcnlWRFp4TCtFQjhheUQvakhmRkFIdDEvUGJlQzQ0RW13TnBMQU09XCIsXCJFeHBpcmVUaW1lXCI6XCIyMDIyLTA3LTA3VDAxOjA2OjM3WlwiLFwiTWVkaWFJZFwiOlwiYmQ3N2U5NTcyYmZhNGFiODk2ZDNjOTExZTk1MjFiZDlcIixcIlNpZ25hdHVyZVwiOlwiWkFZZjA5cTY2OWtPdHpNUGt6N0N2L21vejI4PVwifSIsIlZpZGVvTWV0YSI6eyJTdGF0dXMiOiJOb3JtYWwiLCJWaWRlb0lkIjoiYmQ3N2U5NTcyYmZhNGFiODk2ZDNjOTExZTk1MjFiZDkiLCJUaXRsZSI6IumYv+mHjOS6keinhumikSIsIkNvdmVyVVJMIjoiaHR0cDovL291dGluLWVhNmNjYTUzZjJjNTExZWNiOGE5MDAxNjNlMWEzYjRhLm9zcy1jbi1zaGFuZ2hhaS5hbGl5dW5jcy5jb20vYmQ3N2U5NTcyYmZhNGFiODk2ZDNjOTExZTk1MjFiZDkvc25hcHNob3RzL2JmYzBkM2JjNjkyODQ2NTVhMTRmYzIzMzU5ZWM0MjExLTAwMDAxLmpwZz9FeHBpcmVzPTE2NTcxNTk0OTcmT1NTQWNjZXNzS2V5SWQ9TFRBSXJrd2IyMUt5R2pKbCZTaWduYXR1cmU9bWpQQTVDMlR0WW1CZnZRTWg0cGJ1JTJGVm1JQUElM0QiLCJEdXJhdGlvbiI6Ny42Njd9LCJBY2Nlc3NLZXlJZCI6IlNUUy5OU21KdFJta0M5YTJlNmtiRGVEUjFpSzdGIiwiQWNjZXNzS2V5U2VjcmV0IjoiMlVFQ05DdGhKN0R2WUY2V0FEVzVITXFaWGZGQ0pybnhOcmJOMVJjR1BGYkEiLCJSZWdpb24iOiJjbi1zaGFuZ2hhaSIsIkN1c3RvbWVySWQiOjEzNjQ2NTU3MTQ1NzQ1NTR9\" data-vid=\"bd77e9572bfa4ab896d3c911e9521bd9\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>','html',NULL,NULL,NULL,NULL,NULL,NULL,'normal',1,0,NULL,77,'2022-07-06 14:27:13','2022-07-07 09:05:04',NULL,NULL,NULL,NULL),
-	(17,1,NULL,'主站点的页面','<p>xxxxxx</p>','html',NULL,NULL,NULL,NULL,NULL,NULL,'normal',1,0,NULL,1,'2022-07-08 17:14:35','2022-07-08 17:15:42',NULL,NULL,NULL,0),
+	(17,1,NULL,'主站点的页面','<p>xxxxxx</p>','html',NULL,NULL,NULL,NULL,NULL,NULL,'normal',1,0,NULL,2,'2022-07-08 17:14:35','2022-07-08 17:15:42',NULL,NULL,NULL,0),
 	(18,NULL,NULL,'测试站点的页面','<p>测试站点的页面测试站点的页面测试站点的页面测试站点的页面</p>','html',NULL,NULL,NULL,NULL,NULL,NULL,'normal',1,0,NULL,0,'2022-07-08 17:15:26','2022-07-08 17:15:26',NULL,NULL,NULL,1),
-	(19,NULL,NULL,'aaaa','<p>aa</p>\n<p>aaaaa</p>\n<p>&nbsp;</p>\n<p>阿里云</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" data-vid=\"c711d4fcc6714c64b4dda1afe1f3f457\" data-play-auth=\"eyJTZWN1cml0eVRva2VuIjoiQ0FJU2h3TjFxNkZ0NUIyeWZTaklyNWJ0UGR6VG9aeEo3WU9oWVhUSmltWURidUVaaXFERGxEejJJSDlJZEhWb0FPOGZ2dlUwbTJ0WTdQc1psck1xRU1FWkd4R1pNcElzczhzTHJGNzlKcExGc3QySjZyOEpqc1YwenBCMS9FYXBzdlhKYXNEVkVmbDJFNVhFTWlJUi8wMGU2TC8rY2lyWXBUWEhWYlNDbFo5Z2FQa09Rd0M4ZGtBb0xkeEtKd3hrMnQxNFVtWFdPYVNDUHdMU2htUEJMVXhtdldnR2wyUnp1NHV5M3ZPZDVoZlpwMXI4eE80YXhlTDBQb1AyVjgxbExacGxlc3FwM0k0U2M3YmFnaFpVNGdscjhxbHg3c3BCNVN5Vmt0eVdHVWhKL3phTElvaXQ3TnBqZmlCMGVvUUFQb3BGcC9YNmp2QWF3UExVbTliWXhncGhCOFIrWGo3RFpZYXV4N0d6ZW9XVE84MCthS3p3TmxuVXo5bUxMZU9WaVE0L1ptOEJQdzQ0RUxoSWFGMElVRTF5R21DQ2QvWDRvZ3VSUDF6N0VwTG9pdjltamNCSHFIeno1c2VQS2xTMVJMR1U3RDBWSUpkVWJUbHphRUpHZ1RTNExmWldJbGNUS0FNOVd1MlBNYXgzYlFGRHI1M3ZzVGJiWHpaYjBtcHR1UG56ZDE0Sk9CS2cxMUtVR29BQlBzTlhheEVIM3crL0lZTWZYakZ6T3VCOFovaFBmVUJXdEFIeUZtRzRPaVIyM3g3akd4TFZsZ1huNXdGZDdPKzE4OEE0Vjl0L01XaFFIcktQWTY2bjBjK2xqVkRhMnRQQzdsNmw3cXJNWmUwNzdZdHNteDN1RG4wOUhtQ1d5NHpJY2FBb2hmQUdHaERHdzVvR2lNMDNtL3UxRWwvdEhrTDF6eFQyZTlLdVdTST0iLCJBdXRoSW5mbyI6IntcIkNJXCI6XCJEMTY2N21icEFCWlM4WFFiMm42a3d0dTkzODJORlpBaldlcml4d0FSc0FudGt5T0VLZjZxR0k0Zmo1VWkrdHVWXCIsXCJDYWxsZXJcIjpcIjNaVFFKZFVIQ0xTTUprUFdtcWQ1K2R6RndpUmxmdldDRUVHd0ZoRy9zVms9XCIsXCJFeHBpcmVUaW1lXCI6XCIyMDIyLTA3LTEyVDA4OjQwOjAyWlwiLFwiTWVkaWFJZFwiOlwiYzcxMWQ0ZmNjNjcxNGM2NGI0ZGRhMWFmZTFmM2Y0NTdcIixcIlNpZ25hdHVyZVwiOlwidFNxbU03SHNwTnFsUmVZbGVZTGM5VWtKODJBPVwifSIsIlZpZGVvTWV0YSI6eyJTdGF0dXMiOiJOb3JtYWwiLCJWaWRlb0lkIjoiYzcxMWQ0ZmNjNjcxNGM2NGI0ZGRhMWFmZTFmM2Y0NTciLCJUaXRsZSI6IumYv+mHjOS6keinhumikSIsIkNvdmVyVVJMIjoiaHR0cDovL291dGluLWVhNmNjYTUzZjJjNTExZWNiOGE5MDAxNjNlMWEzYjRhLm9zcy1jbi1zaGFuZ2hhaS5hbGl5dW5jcy5jb20vYzcxMWQ0ZmNjNjcxNGM2NGI0ZGRhMWFmZTFmM2Y0NTcvc25hcHNob3RzLzBkOTBiOWM2NjJjMzQ3MmQ4NzE2NjA1ZmVmNzUyYzlkLTAwMDAxLmpwZz9FeHBpcmVzPTE2NTc2MTg3MDImT1NTQWNjZXNzS2V5SWQ9TFRBSXJrd2IyMUt5R2pKbCZTaWduYXR1cmU9dCUyQlF1aW45cE5YeSUyQkhlYmdPJTJGUUxOSkFEekNFJTNEIiwiRHVyYXRpb24iOjcuNjY3fSwiQWNjZXNzS2V5SWQiOiJTVFMuTlVYdmZnTENoWkFKY1J4bmZWYm41ZWVodiIsIkFjY2Vzc0tleVNlY3JldCI6IjdGbU1DNExnWURGOWhacTVZU2Q4NTJiaEgzQzh4WFJrVWlZQlRFcUdadzRkIiwiUmVnaW9uIjoiY24tc2hhbmdoYWkiLCJDdXN0b21lcklkIjoxMzY0NjU1NzE0NTc0NTU0fQ==\" data-cloud=\"1\" poster=\"/attachment/20220712/b1cdbdef0968417da31b68cdf196f5a9.png\" id=\"video_player60421\"></video></p>\n<p>&nbsp;</p>\n<p>腾讯云</p>\n<p>\n <video class=\"jpress-video\" id=\"qcloud_video_player08681\" poster=\"/attachment/20220712/dc5b0af6e5b041458ab95aafe9c2dd81.png\" data-cloud=\"2\" data-app-id=\"1312635314\" data-vid=\"387702303107862376\"></video></p>\n<p>&nbsp;</p>\n<p>\n <video class=\"jpress-video\" id=\"qcloud_video_player25056\" poster=\"/attachment/20220712/dc5b0af6e5b041458ab95aafe9c2dd81.png\" data-cloud=\"2\" data-app-id=\"1312635314\" data-vid=\"387702303107862376\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>','html',NULL,NULL,NULL,NULL,NULL,NULL,'normal',1,0,NULL,12,'2022-07-12 11:05:58','2022-07-12 16:48:43',NULL,NULL,NULL,0);
+	(19,NULL,NULL,'aaaa','<p>&nbsp;</p>\n<p>阿里云</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" id=\"local_video_player58437\" poster=\"/attachment/20220721/ede6c961fdfd46e8b5f6476a1733fce2.png\" data-vid=\"85\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>腾讯云</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" id=\"local_video_player67429\" poster=\"/attachment/20220720/c2d0606423fc4716adc35e3bda2756da.png\" data-vid=\"87\"></video></p>\n<p>&nbsp;</p>\n<p>本地视频</p>\n<p>&nbsp;</p>\n<p>\n <video class=\"jpress-video\" style=\"height:240px;width:425px;\" id=\"local_video_player41451\" poster=\"/attachment/20220720/cff4304095d04c50840a8628d5c32b5d.png\" data-vid=\"89\"></video></p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>\n<p>&nbsp;</p>','html',NULL,NULL,NULL,NULL,NULL,NULL,'normal',1,0,NULL,113,'2022-07-12 11:05:58','2022-07-22 14:34:47',NULL,NULL,NULL,0);
 
 /*!40000 ALTER TABLE `single_page` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1196,79 +1223,25 @@ CREATE TABLE `site_info` (
   `name` varchar(64) DEFAULT NULL COMMENT '站点名称',
   `bind_domain` varchar(64) DEFAULT NULL COMMENT '绑定域名',
   `bind_path` varchar(64) DEFAULT NULL COMMENT '绑定二级目录',
-  `bind_lang` varchar(11) DEFAULT NULL COMMENT '绑定语言',
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `bind_langs` varchar(256) DEFAULT NULL COMMENT '绑定语言',
+  `bind_roles` varchar(128) DEFAULT NULL COMMENT '绑定的角色列表',
+  `options` text COMMENT '其他扩展字段',
+  `created` datetime DEFAULT NULL COMMENT '创建时间',
+  `modified` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `site_info` WRITE;
 /*!40000 ALTER TABLE `site_info` DISABLE KEYS */;
 
-INSERT INTO `site_info` (`id`, `site_id`, `name`, `bind_domain`, `bind_path`, `bind_lang`, `created`, `modified`)
+INSERT INTO `site_info` (`id`, `site_id`, `name`, `bind_domain`, `bind_path`, `bind_langs`, `bind_roles`, `options`, `created`, `modified`)
 VALUES
-	(23,6,'5','5','5','5','2022-07-14 16:33:05','2022-07-14 16:37:48'),
-	(24,6,'6','6','6','6','2022-07-14 16:35:27','2022-07-15 09:29:08'),
-	(25,7,'7','7','7','7','2022-07-15 09:30:14',NULL),
-	(26,2,'xxx','www.baidu.com','/aaaaa','zh_HK','2022-07-15 09:45:33','2022-07-15 14:09:07');
+	(23,6,'5','5','5',NULL,NULL,NULL,'2022-07-14 16:33:05','2022-07-14 16:37:48'),
+	(24,6,'6','6','6',NULL,NULL,NULL,'2022-07-14 16:35:27','2022-07-15 09:29:08'),
+	(25,7,'7','7','7',NULL,NULL,NULL,'2022-07-15 09:30:14',NULL),
+	(26,2,'xxx','www.baidu.com','/aaaaa','zh_CN,zh_HK,zh_TW,ary','2',NULL,'2022-07-15 09:45:33','2022-07-24 12:44:24');
 
 /*!40000 ALTER TABLE `site_info` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# 转储表 site_lang_mapping
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `site_lang_mapping`;
-
-CREATE TABLE `site_lang_mapping` (
-  `site_id` int(11) unsigned NOT NULL,
-  `lang` varchar(32) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-LOCK TABLES `site_lang_mapping` WRITE;
-/*!40000 ALTER TABLE `site_lang_mapping` DISABLE KEYS */;
-
-INSERT INTO `site_lang_mapping` (`site_id`, `lang`)
-VALUES
-	(26,'zh_CN'),
-	(26,'zh_HK'),
-	(26,'zh_TW');
-
-/*!40000 ALTER TABLE `site_lang_mapping` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# 转储表 site_role_mapping
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `site_role_mapping`;
-
-CREATE TABLE `site_role_mapping` (
-  `site_id` int(11) unsigned NOT NULL COMMENT '站点ID',
-  `role_id` int(11) DEFAULT NULL COMMENT '站点绑定的角色ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='站点绑定的角色，必须是该角色用户才能操作该站点';
-
-LOCK TABLES `site_role_mapping` WRITE;
-/*!40000 ALTER TABLE `site_role_mapping` DISABLE KEYS */;
-
-INSERT INTO `site_role_mapping` (`site_id`, `role_id`)
-VALUES
-	(4,1),
-	(5,2),
-	(7,1),
-	(7,2),
-	(13,1),
-	(13,2),
-	(1,1),
-	(23,1),
-	(24,1),
-	(24,2),
-	(22,1),
-	(20,2),
-	(26,1);
-
-/*!40000 ALTER TABLE `site_role_mapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -1289,7 +1262,7 @@ LOCK TABLES `template_block_option` WRITE;
 
 INSERT INTO `template_block_option` (`template_id`, `site`, `options`)
 VALUES
-	('cn.jeanstudio.calmlog',NULL,'[{\"children\":{\"0\":[{\"parentDataId\":\"右边栏\",\"name\":\"search_4\",\"index\":0,\"id\":\"2940117c11\",\"tag\":\"search\",\"label\":\"search\",\"parentDataIndex\":0},{\"parentDataId\":\"右边栏\",\"name\":\"wechat_2\",\"index\":1,\"id\":\"9516dcd8fc\",\"tag\":\"wechat\",\"label\":\" 微信\",\"parentDataIndex\":0,\"微信图片\":\"/attachment/20220717/bceb825c9d224f8fb1316f4bab29d13d.jpeg\"},{\"parentDataId\":\"右边栏\",\"排序方式\":\"created\",\"name\":\"system_articles_1\",\"文章数量\":\"10\",\"index\":2,\"id\":\"a95c66feee\",\"tag\":\"system_articles\",\"label\":\"文章列表\",\"标题\":\"最新文章\",\"parentDataIndex\":0}]},\"id\":\"右边栏\",\"tag\":\"container\",\"templateFile\":\"_rightbar.html\"},{\"children\":{\"0\":[{\"parentDataId\":\"右边栏2\",\"name\":\"tags_1\",\"index\":0,\"id\":\"a0ab6661fe\",\"tag\":\"tags\",\"label\":\" 文章标签\",\"parentDataIndex\":0}]},\"id\":\"右边栏2\",\"tag\":\"container\",\"templateFile\":\"_rightbar.html\"}]');
+	('cn.jeanstudio.calmlog',NULL,'[{\"children\":{\"0\":[{\"parentDataId\":\"右边栏\",\"name\":\"search_4\",\"index\":1,\"id\":\"2940117c11\",\"tag\":\"search\",\"label\":\"search\",\"parentDataIndex\":0},{\"parentDataId\":\"右边栏\",\"name\":\"wechat_2\",\"index\":2,\"微信图片\":\"/attachment/20220717/bceb825c9d224f8fb1316f4bab29d13d.jpeg\",\"id\":\"9516dcd8fc\",\"tag\":\"wechat\",\"label\":\" 微信\",\"parentDataIndex\":0},{\"parentDataId\":\"右边栏\",\"排序方式\":\"created\",\"name\":\"system_articles_1\",\"文章数量\":\"10\",\"index\":3,\"id\":\"a95c66feee\",\"tag\":\"system_articles\",\"label\":\"文章列表\",\"标题\":\"最新文章\",\"parentDataIndex\":0}]},\"id\":\"右边栏\",\"tag\":\"container\",\"templateFile\":\"_rightbar.html\"},{\"children\":{\"0\":[{\"id\":\"2dc201babb\",\"tag\":\"newarticles\",\"label\":\" 文章列表\",\"name\":\"newarticles_3\",\"标题\":\"最新文章\",\"文章数量\":\"10\",\"parentDataId\":\"右边栏2\",\"parentDataIndex\":0,\"index\":0},{\"parentDataId\":\"右边栏2\",\"name\":\"tags_1\",\"index\":1,\"id\":\"a0ab6661fe\",\"tag\":\"tags\",\"label\":\" 文章标签\",\"parentDataIndex\":0}]},\"id\":\"右边栏2\",\"tag\":\"container\",\"templateFile\":\"_rightbar.html\"}]');
 
 /*!40000 ALTER TABLE `template_block_option` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1344,7 +1317,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `username`, `nickname`, `realname`, `identity`, `password`, `salt`, `anonym`, `email`, `email_status`, `mobile`, `mobile_status`, `gender`, `signature`, `birthday`, `company`, `occupation`, `address`, `zipcode`, `site`, `graduateschool`, `education`, `avatar`, `idcardtype`, `idcard`, `remark`, `status`, `created`, `create_source`, `logged`, `activated`)
 VALUES
-	(1,'admin','admin','admin',NULL,'789b622f5fe881287240270bda53c0668c1f0fcb9757c3b0440018f763578084','ASCkepSxWewRo2BtadGVEWZgZJRPvpoP',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2022-04-13 11:26:01','web_register','2022-07-19 13:16:28','2022-04-13 11:26:01'),
+	(1,'admin','admin','admin',NULL,'789b622f5fe881287240270bda53c0668c1f0fcb9757c3b0440018f763578084','ASCkepSxWewRo2BtadGVEWZgZJRPvpoP',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ok','2022-04-13 11:26:01','web_register','2022-07-23 16:26:17','2022-04-13 11:26:01'),
 	(3,'ces','ces','ces',NULL,'3455d6c1e122cc18563c26245152cd32da280f915fa2b5bee0b5926453e179d4','ADdfmU11ydFSIIPOruTa0GxA2MuHWNLy','4a66432623f34e15831eb5e88ec63dba','2586283122@qq.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'registered','2022-07-01 14:20:48','web_register','2022-07-18 15:02:44',NULL),
 	(4,'ces6666','ces6666','ces6666',NULL,'f67914ede72b47d70a78014e8e743da8ab012b22a0f9a82253ab25dda7cd1b0a','lSE7BmgVxiHmi1gkdLM9ZP3zsJhkhKlK','4a66432623f34e15831eb5e88ec63dba','',NULL,'18984961014',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'registered','2022-07-13 10:53:45','web_register','2022-07-18 14:46:54',NULL),
 	(5,'qqq','qqq','qqq',NULL,'887fbe506044d90fa29da466951ebbc7cd5f3accae020e6272dc86086d64d127','qmky3ggxL9n47pM4SWDJs38JyTnOgdaE','4a66432623f34e15831eb5e88ec63dba','3470879513@qq.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'registered','2022-07-18 16:39:18','web_register','2022-07-18 16:43:08',NULL);

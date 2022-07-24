@@ -30,7 +30,7 @@
         position: relative;
         width: 100%;
         height: 176px;
-        padding: 18px;
+        padding: 18px 15px;
         background: #fff;
         box-shadow: -2px 4px 5px 0 rgb(0 0 0 / 6%);
         float: left;
@@ -92,7 +92,7 @@
         left: 0;
         bottom: 0;
         width: 100%;
-        padding: 0 18px;
+        padding: 0;
         box-sizing: border-box;
         text-align: left;
         color: #aaa;
@@ -108,40 +108,6 @@
         font-size: 14px;
         padding: 0 10px;
         color: #707070;
-    }
-
-    .form-menu-list {
-        display: none;
-        position: absolute;
-        right: -170px;
-        bottom: -18px;
-        width: 180px;
-        background: #fff;
-        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
-        border-radius: 2px;
-        border: 1px solid #e8e8e8;
-        padding: 8px 0;
-        z-index: 99;
-    }
-
-    .form-menu-list li {
-        list-style: none;
-    }
-
-    .form-menu-list li a {
-        display: block;
-        height: 32px;
-        line-height: 32px;
-        background: #fff;
-        color: #484848;
-        font-size: 13px;
-        padding: 0 10px;
-        cursor: pointer;
-        text-align: center;
-    }
-
-    .form-menu-list li:hover a {
-        background: #f5f6fa;
     }
 </style>
 #end
@@ -220,24 +186,25 @@
                                 </div>
                             </a>
                             <div class="form-operate-bar">
-                                <a href="#(CPATH)/admin/form/design/#(entry.id ??)"><i class="bi bi-file-earmark-text"></i>表单设计</a>
-                                <a href="#(CPATH)/admin/form/edit/#(entry.id ??)"><i class="bi bi-pencil-square"></i>编辑</a>
+                                <div class="d-flex justify-content-between">
+                                    <a href="#(CPATH)/admin/form/design/#(entry.id ??)"><i class="bi bi-file-earmark-text pr-1"></i>表单设计</a>
+                                    <a href="#(CPATH)/admin/form/edit/#(entry.id ??)"><i class="bi bi-pencil-square pr-1"></i>编辑</a>
 
-                                #if(entry.isPublished())
-                                <a href="javascript:;" onclick="unPublished('#(entry.id)')"><i class="bi bi-lightning-fill" aria-hidden="true"></i>下线</a>
-                                #else
-                                <a href="javascript:;" onclick="published('#(entry.id)')"><i class="fa fa-paper-plane" aria-hidden="true"></i> 发布</a>
-                                #end
-
-                                <a href="" class="js-morelist">
-                                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                                </a>
+                                    #if(entry.isPublished())
+                                    <a href="javascript:;" onclick="unPublished('#(entry.id)')"><i class="bi bi-lightning-fill pr-1" aria-hidden="true"></i>下线</a>
+                                    #else
+                                    <a href="javascript:;" onclick="published('#(entry.id)')"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i> 发布</a>
+                                    #end
+                                    <div class="d-inline-block dropdown show">
+                                        <a href="javascript:void(0);" class="video-operation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-three-dots"></i></a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" href="/form/#(entry.id ??)" target="_blank"> 查看预览</a>
+                                            <a class="dropdown-item" href="javascript:void(0);">暂停数据</a>
+                                            <a href="" class="dropdown-item" href="javascript:void(0);" >删除</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <ul class="form-menu-list">
-                                <li><a href="/form/#(entry.id ??)" target="_blank">查看预览</a></li>
-                                <li><a href="">暂停数据</a></li>
-                                <li><a href="">删除</a></li>
-                            </ul>
                         </div>
                     </div>
                     #end

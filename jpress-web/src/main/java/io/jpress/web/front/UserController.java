@@ -572,11 +572,11 @@ public class UserController extends TemplateControllerBase {
 
 
     /**
-     * 给手机账号发送重置密码的链接地址
+     * 重置密码 给手机账号发送验证码
      * @param mobile
      * @param captchaVO
      */
-    public void doSendResetPwdLinkToMobile(@Pattern(regexp = Regex.MOBILE) @JsonBody("mobile") String mobile, @JsonBody CaptchaVO captchaVO) {
+    public void doResetPwdSendCodeToMobile(@Pattern(regexp = Regex.MOBILE) @JsonBody("mobile") String mobile, @JsonBody CaptchaVO captchaVO) {
         ResponseModel validResult = captchaService.verification(captchaVO);
         if (validResult != null && validResult.isSuccess()) {
             //生成唯一不重复的字符串
@@ -584,18 +584,14 @@ public class UserController extends TemplateControllerBase {
             //token和电话号码绑定
             CacheUtil.put("mobile_token", token, mobile, 60 * 60);
 
-            String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
-            String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=false";
-//            String url = "http://test.jpress.cn:8080/user/resetPwd?token=" + token+"&isEmail=false";
-//            String template = JPressOptions.get("reg_sms_reset_pwd_template");
-
-            String template = "重置密码地址：<a href=\"" + url + "\">" + url + "</a>";
+            String code = SmsKit.generateCode();
+            String template = JPressOptions.get("reg_sms_reset_pwd_template");
             String sign = JPressOptions.get("reg_sms_validate_sign");
-            String mobileNumber = CacheUtil.get("mobile_token", token);
 
-            boolean sendOk = SmsKit.sendReserPwdLinkToMobile(mobile, template, sign);
+            boolean sendOk = SmsKit.sendCode(mobile, code, template, sign);
+
             if (sendOk) {
-                renderJson(Ret.ok().set("message", "短信重置密码链接发送成功，请手机查看").set("token", token).set("mobile", mobileNumber).set("isEmail", false));
+                renderJson(Ret.ok().set("message", "短信验证码发送成功，请手机查看").set("token", token).set("mobile", mobile).set("isEmail", false));
             } else {
                 renderJson(Ret.fail().set("message", "短信实发失败，请联系管理员"));
             }
@@ -694,6 +690,47 @@ public class UserController extends TemplateControllerBase {
             }
             renderJson(user != null ? OK.set("message","重置密码成功") : FAIL.set("message","重置密码失败"));
         }
+    }
+
+
+    /**
+     * 通过手机号找回密码
+     * 验证输入的验证码是否正确
+     * 验证手机号是否注册
+     */
+    public void validateCodeToResetPwd(){
+
+        String phone = getPara("mobile");
+        String token = getPara("token");
+//        List keys = CacheUtil.getKeys("mobile_token");
+
+
+        if (StrUtil.isBlank(getPara("captcha"))) {
+            renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 6));
+            return;
+        }
+
+        if (!SmsKit.validateCode(phone,getPara("captcha"))) {
+            renderJson(Ret.fail().set("message", "验证码不正确").set("errorCode", 7));
+            return;
+        }
+
+
+        User user = userService.findFirstByMobile(phone);
+
+        if (user == null) {
+            renderJson(Ret.fail().set("message", "手机号未注册，请重新输入！").set("errorCode", 11));
+            return;
+        }else{
+
+            String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
+            String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=true";
+            redirect(url);
+            return;
+
+        }
+
+
     }
 
 

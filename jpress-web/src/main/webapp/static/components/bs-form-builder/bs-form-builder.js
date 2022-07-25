@@ -37,6 +37,7 @@
     //默认配置
     var defaultOptions = {
         mode: "builder", // 模式 builder 工具模式,  view 预览模式
+        templateEngine: new Fasty(),
         bsFormContainerSelector: ".bsFormContainer", // 设计容器
         bsFormContainerFilterSelector: ".bsFormFilter", // 设计容器里，不允许拖动的组件 class
         bsFormContainerSortableGroup: "shared", // 配置主容器里的 group 名称
@@ -1517,31 +1518,31 @@
          * @param template
          * @private
          */
-        _getRenderMethodBody: function (template) {
-            let body = template.replace(/\'/g, "&#39;")
-                .replace(/\"/g, "&quot;")
-                .replace(/[\r\n\t]/g, "")
-                .replace(/\{\{.+\&#39;*.\}\}/g, x => {
-                    return x.replace(/\&#39;/g, "\'")
-                })
-                .replace(/\{\{.+\&quot;*.\}\}/g, x => {
-                    return x.replace(/\&quot;/g, '"')
-                })
-                .replace(/\{\{~\s*end\s*\}\}/g, "\"}ret+=\"")
-                .replace(/\{\{~\s*else\s*\}\}/g, () => {
-                    return '";}else{ ret+="';
-                })
-                .replace(/\{\{~\s*elseif.+?\}\}/g, x => {
-                    return x.replace("elseif", "}else if")
-                })
-                .replace(/\{\{~(.+?)\}\}/g, (_, x) => {
-                    return '";' + x + '{ ret+="';
-                })
-                .replace(/\{\{(.+?)\}\}/g, (_, x) => {
-                    return '"; ret+= ' + x + '; ret+="';
-                });
-            return 'let ret=""; ret += "' + body + '";return ret;';
-        },
+        // _getRenderMethodBody: function (template) {
+        //     let body = template.replace(/\'/g, "&#39;")
+        //         .replace(/\"/g, "&quot;")
+        //         .replace(/[\r\n\t]/g, "")
+        //         .replace(/\{\{.+\&#39;*.\}\}/g, x => {
+        //             return x.replace(/\&#39;/g, "\'")
+        //         })
+        //         .replace(/\{\{.+\&quot;*.\}\}/g, x => {
+        //             return x.replace(/\&quot;/g, '"')
+        //         })
+        //         .replace(/\{\{~\s*end\s*\}\}/g, "\"}ret+=\"")
+        //         .replace(/\{\{~\s*else\s*\}\}/g, () => {
+        //             return '";}else{ ret+="';
+        //         })
+        //         .replace(/\{\{~\s*elseif.+?\}\}/g, x => {
+        //             return x.replace("elseif", "}else if")
+        //         })
+        //         .replace(/\{\{~(.+?)\}\}/g, (_, x) => {
+        //             return '";' + x + '{ ret+="';
+        //         })
+        //         .replace(/\{\{(.+?)\}\}/g, (_, x) => {
+        //             return '"; ret+= ' + x + '; ret+="';
+        //         });
+        //     return 'let ret=""; ret += "' + body + '";return ret;';
+        // },
 
 
         /**
@@ -1553,17 +1554,23 @@
          * @private
          */
         _renderTemplate: function (template, paras, values) {
-            try {
-                let body = this._getRenderMethodBody(template);
-                return new Function(...paras, body)(...values)
-                    .replace(/\&#39;/g, '\'').replace(/\&quot;/g, '"');
-            } catch (err) {
-                console.error("template error  >>>", err);
-                console.error("template paras  >>>", paras);
-                console.error("template values >>>", values);
-                console.error("template        >>>", template);
-                return "";
+            // try {
+            //     let body = this._getRenderMethodBody(template);
+            //     return new Function(...paras, body)(...values)
+            //         .replace(/\&#39;/g, '\'').replace(/\&quot;/g, '"');
+            // } catch (err) {
+            //     console.error("template error  >>>", err);
+            //     console.error("template paras  >>>", paras);
+            //     console.error("template values >>>", values);
+            //     console.error("template        >>>", template);
+            //     return "";
+            // }
+
+            var data = {};
+            for (let i = 0; i < paras.length; i++) {
+                data[paras[i]] = values[i]
             }
+            return this.options.templateEngine.render(template, data)
         },
 
 

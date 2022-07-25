@@ -330,3 +330,51 @@ select {
 .pointer {
     cursor: pointer;
 }
+
+.bsForm-upload-btn,
+.bsForm-upload-item {
+    position: relative;
+    display: inline-block;
+    color: #ccc;
+    height: 126px;
+    width: 126px;
+    border: 1px dashed #d8d8d8;
+    margin-top: 10px;
+    background-color: #f7f8fa;
+    cursor: pointer;
+    vertical-align: middle;
+
+}
+.bsForm-upload-btn p{
+    font-size:14px;
+}
+.bsForm-upload-btn .bsForm-icon {
+    font-size: 42px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.bsForm-upload-file {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: inline-block;
+    height: 120px;
+    width: 120px;
+    opacity: 0;
+    cursor: pointer;
+}
+.bsFormDelete{
+    position: absolute;
+    right:10px;
+    top:10px;
+    font-size:18px;
+}
+.bsFormDelete i{
+    padding:2px 5px;
+    background-color:rgba(0,0,0,0.5);
+    color:#fff;
+    border-radius:2px;
+}

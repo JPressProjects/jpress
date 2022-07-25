@@ -69,7 +69,7 @@
 
     }
 
-    //简历文件上传
+    //附件文件上传
     function uploadFileFJ() {
 
         let formData = new FormData();
@@ -104,8 +104,7 @@
 
     }
 
-    //获取手机验证码
-    function getMobileCode() {
+    $("#getMobileCode").on('click',function (){
 
         let mobile = $("#mobile").val();
 
@@ -128,14 +127,12 @@
                 }
             })
         }
-
-    }
-
+    })
 
     var isRead = false;
 
 
-    //滑块验证 并获取邮箱验证码
+   // 滑块验证 并获取邮箱验证码
     $('body').slideVerify({
         // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
         baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
@@ -189,7 +186,6 @@
         }
     });
 
-
 </script>
 
 #end
@@ -236,7 +232,7 @@
             <input style="width:60%;float:left;" type="code" class="form-control" placeholder="验证码" id="mobile_code"
                    name="mobileCode" autocomplete="off">
 
-            <input style="width:40%;float:right;" type="button" class="btn btn-primary" id="getMobileCode" onclick="getMobileCode()"
+            <input style="width:40%;float:right;" type="button" class="btn btn-primary" id="getMobileCode"
                    value="获取验证码"/>
 
             <div class="clearfix"></div>

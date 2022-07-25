@@ -1088,6 +1088,148 @@ function setSaveHotKeyFunction(func) {
     });
 }
 
+/**
+ * 初始化 视频播放器
+ */
+function initJPressVideo() {
+
+    $('.jpress-video').each(function () {
+
+        var containerId = $(this).attr("id");
+        var id = $(this).attr("data-vid");
+
+        $.ajax({
+            url: "/admin/attachment/video/getVideoInfo",
+            type: "post",
+            data: {id:id},
+
+            success: function (result) {
+                if (result.state == "ok") {
+                    var cloudType = result.cloudType;
+
+                    if (cloudType != null && cloudType != '' && cloudType == '1') {//阿里云
+
+                        var vid = result.vid;
+                        var playAuth = result.playAuth
+
+                        loadCss("https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css")
+
+                        loadJs("https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js",
+                            function () {
+                                //阿里云
+                                if (vid != "" && playAuth != "" && containerId != "") {
+                                    var player = new Aliplayer({
+                                            "id": containerId,
+                                            "vid": vid,
+                                            "playauth": playAuth,
+                                            "videoWidth": "100%",
+                                            "videoHeight": "100%",
+                                            "autoplay": false,
+                                            "isLive": false,
+                                            // "cover": "缩略图",
+                                            "rePlay": false,
+                                            "playsinline": true,
+                                            "preload": false,
+                                            "controlBarVisibility": "hover",
+                                            "useH5Prism": true
+                                        }, function (player) {
+                                            console.log("The aliyun player is created");
+                                        }
+                                    );
+                                    return player;
+                                }
+                            })
+
+                    } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
+
+                        var vid =result.vid;
+                        var aid =result.aid;
+
+                        loadCss("https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.min.css")
+
+                        loadJs(["https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/libs/hls.min.0.13.2m.js",
+                                "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js"],
+                            function () {
+                                if (vid != "" && aid != "" && containerId != "") {
+                                    new TCPlayer(containerId, {
+                                        fileID: vid,
+                                        appID: aid
+                                    });
+                                }
+                            })
+                    }
+                    else if (cloudType != null && cloudType != '' && cloudType == '4') {//本地视频
+
+                        $("#"+containerId).attr("src",result.src);
+                        $("#"+containerId).attr("controls","controls");
+                    }
+
+                }
+            }
+        })
+
+    })
+}
+
+
+function loadJs(scripts, callback) {
+    if (typeof scripts === "string") {
+        scripts = [scripts];
+    }
+    var count = scripts.length;
+
+    function useCallback() {
+        return function () {
+            if (--count < 1) {
+                callback();
+            }
+        };
+    }
+
+    function loadScript(url) {
+        var scriptEl = document.createElement('script');
+        scriptEl.setAttribute('src', url);
+        scriptEl.setAttribute('type', "text/javascript");
+        scriptEl.onload = useCallback();
+        document.body.appendChild(scriptEl);
+        // document.head.appendChild(s);
+    }
+
+    for (var script of scripts) {
+        loadScript(script);
+    }
+}
+
+
+
+function loadCss(links, callback) {
+    if (typeof links === "string") {
+        links = [links];
+    }
+    var count = links.length;
+
+    function useCallback() {
+        return function () {
+            if (--count < 1 && callback) {
+                callback();
+            }
+        };
+    }
+
+    function loadLink(url) {
+        var linkEl = document.createElement("link");
+        linkEl.rel = "stylesheet";
+        linkEl.href = url;
+        linkEl.onload = useCallback();
+        document.head.appendChild(linkEl);
+    }
+
+    for (var script of links) {
+        loadLink(script);
+    }
+}
+
+
 
 $(document).ready(function () {
 
@@ -1135,4 +1277,6 @@ $(document).ready(function () {
     initCkEdtiorComponent();
 
     initInputClearButton();
+
+    initJPressVideo();
 });

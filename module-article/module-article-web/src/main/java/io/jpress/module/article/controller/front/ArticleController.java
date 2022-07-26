@@ -61,6 +61,7 @@ public class ArticleController extends TemplateControllerBase {
     private ArticleCommentService commentService;
 
 
+
     public void index() {
         Article article = getArticle();
 

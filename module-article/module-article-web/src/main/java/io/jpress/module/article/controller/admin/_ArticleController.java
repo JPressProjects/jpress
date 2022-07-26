@@ -175,6 +175,8 @@ public class _ArticleController extends AdminControllerBase {
         //默认情况下，请求会被 escape，通过 getOriginalPara 获得非 escape 的数据
         article.setContent(getCleanedOriginalPara("article.content"));
 
+        System.out.println(article.getContent());
+
 
         if (!validateSlug(article)) {
             renderJson(Ret.fail("message", "固定连接不能以数字结尾"));

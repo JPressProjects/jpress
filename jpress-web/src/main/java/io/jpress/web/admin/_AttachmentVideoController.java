@@ -341,7 +341,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
      * 腾讯云 使用任务流模板进行视频处理
      * @param fileId
      */
-    public void setTaskStream(String fileId) throws Exception {
+     public void setTaskStream(String fileId) throws Exception {
         String procedureResponse = QCloudVideoUtil.setAdaptiveBitstream(fileId);
 
         render(Ret.ok().set("procedureResponse",procedureResponse));

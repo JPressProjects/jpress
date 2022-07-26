@@ -13,9 +13,9 @@
 <script>
 
     //上传文件名  回显
-    $('#inputGroupFile04').on('change', function () {
+    $('#inputUpdateFileResume').on('change', function () {
 
-        let fileName = $("#inputGroupFile04")[0].files[0].name;
+        let fileName = $("#inputUpdateFileResume")[0].files[0].name;
 
         // 这个 也可以获取文件名 同样的效果 let fileName =  document.getElementById("inputGroupFile04").files[0].name;
 
@@ -24,22 +24,22 @@
 
 
     //上传文件名  回显
-    $('#inputGroupFile03').on('change', function () {
+    $('#inputUpdateFileAttachment').on('change', function () {
 
-        let fileName = $("#inputGroupFile03")[0].files[0].name;
+        let fileName = $("#inputUpdateFileAttachment")[0].files[0].name;
 
         // 这个 也可以获取文件名 同样的效果 let fileName =  document.getElementById("inputGroupFile04").files[0].name;
 
-        $(this).next('.file_fj').html(fileName);
+        $(this).next('.file-attachment').html(fileName);
     })
 
 
     //简历文件上传
-    function uploadFileJL() {
+    function uploadFileResume() {
 
         let formData = new FormData();
 
-        formData.append("file", $("#inputGroupFile04")[0].files[0]);
+        formData.append("file", $("#inputUpdateFileResume")[0].files[0]);
 
         $.ajax({
             url: '/job/apply/uploadFile',
@@ -59,7 +59,7 @@
                     $("#filePath").val(result.filePath);
 
                     //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
-                    $('#inputGroupFile04').val('');
+                    $('#inputUpdateFileResume').val('');
 
                     alert("上传成功");
 
@@ -70,11 +70,11 @@
     }
 
     //附件文件上传
-    function uploadFileFJ() {
+    function uploadFileAttachment() {
 
         let formData = new FormData();
 
-        formData.append("file", $("#inputGroupFile03")[0].files[0]);
+        formData.append("file", $("#inputUpdateFileAttachment")[0].files[0]);
 
         $.ajax({
             url: '/job/apply/uploadFile',
@@ -94,7 +94,7 @@
                     $("#attachment").val(result.filePath);
 
                     //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
-                    $('#inputGroupFile03').val('');
+                    $('#inputUpdateFileAttachment').val('');
 
                     alert("上传成功");
 
@@ -301,11 +301,11 @@
             <label>简历上传</label>
             <div class="input-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile04">
-                    <label class="custom-file-label" for="inputGroupFile04">请选择文件</label>
+                    <input type="file" class="custom-file-input" id="inputUpdateFileResume">
+                    <label class="custom-file-label" for="inputUpdateFileResume">请选择文件</label>
                 </div>
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" onclick="uploadFileJL()" type="button">
+                    <button class="btn btn-outline-secondary" onclick="uploadFileResume()" type="button">
                         开始上传
                     </button>
                 </div>
@@ -316,11 +316,11 @@
             <label>附件上传</label>
             <div class="input-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile03">
-                    <label class="custom-file-label file_fj" for="inputGroupFile03">请选择文件</label>
+                    <input type="file" class="custom-file-input" id="inputUpdateFileAttachment">
+                    <label class="custom-file-label file-attachment" for="inputUpdateFileAttachment">请选择文件</label>
                 </div>
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" onclick="uploadFileFJ()" type="button">
+                    <button class="btn btn-outline-secondary" onclick="uploadFileAttachment()" type="button">
                         开始上传
                     </button>
                 </div>

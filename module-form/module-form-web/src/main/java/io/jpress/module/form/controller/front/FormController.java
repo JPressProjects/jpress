@@ -64,4 +64,30 @@ public class FormController extends TemplateControllerBase {
 
         renderOkJson();
     }
+
+
+//    /**
+//     * 获取表单数据
+//     */
+//    public void detail(){
+//
+//        Long formId = getParaToLong();
+//
+//        FormInfo formInfo = formInfoService.findById(formId);
+//
+//        if(formId == null || formInfo == null){
+//            renderError(404);
+//            return;
+//        }
+//
+//
+//
+//
+//
+//
+//
+//
+//    }
+
+
 }

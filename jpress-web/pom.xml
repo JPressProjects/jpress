@@ -44,6 +44,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-form-service</artifactId>
+            <version>5.0</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
 

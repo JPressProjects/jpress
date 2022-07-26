@@ -47,7 +47,6 @@ import io.jpress.web.commons.email.EmailSender;
 
 import javax.validation.constraints.Pattern;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -531,6 +530,7 @@ public class UserController extends TemplateControllerBase {
             String token = UUID.randomUUID().toString();
             //token和邮箱绑定
             CacheUtil.put("email_token",token,emailAddr,60 * 60);
+            CacheUtil.put("email_token",emailAddr,token,60 * 60);
 
             String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
             String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=true";
@@ -546,7 +546,7 @@ public class UserController extends TemplateControllerBase {
             String template = JPressOptions.get("reg_email_reset_pwd_template");
 
             String contentLink = null;
-            if(template != null && !("").equals(template)){
+            if(!("").equals(template)){
                 contentLink = template.replace("{url}", content);
             }else{
                 contentLink = "重置密码地址：<a href=\"" + url + "\">" + url + "</a>";
@@ -564,7 +564,7 @@ public class UserController extends TemplateControllerBase {
 
             //发送邮箱重置密码链接
             EmailKit.sendResetPwdLinkToEmail(email);
-            renderJson(Ret.ok().set("message", "邮箱重置密码链接发送成功，请手机查看").set("token",token).set("email",emailNumber).set("isEmail",true));
+            renderJson(Ret.ok().set("message", "邮箱重置密码链接发送成功，请手机查看").set("email",emailNumber).set("isEmail",true));
         } else {
             renderFailJson("验证错误");
         }
@@ -583,6 +583,7 @@ public class UserController extends TemplateControllerBase {
             String token = UUID.randomUUID().toString();
             //token和电话号码绑定
             CacheUtil.put("mobile_token", token, mobile, 60 * 60);
+            CacheUtil.put("mobile_token", mobile, token, 60 * 60);
 
             String code = SmsKit.generateCode();
             String template = JPressOptions.get("reg_sms_reset_pwd_template");
@@ -591,10 +592,11 @@ public class UserController extends TemplateControllerBase {
             boolean sendOk = SmsKit.sendCode(mobile, code, template, sign);
 
             if (sendOk) {
-                renderJson(Ret.ok().set("message", "短信验证码发送成功，请手机查看").set("token", token).set("mobile", mobile).set("isEmail", false));
+                renderJson(Ret.ok().set("message", "短信验证码发送成功，请手机查看！").set("mobile", mobile).set("isEmail", false));
             } else {
                 renderJson(Ret.fail().set("message", "短信实发失败，请联系管理员"));
             }
+
         } else {
             renderFailJson("验证错误");
         }
@@ -605,13 +607,13 @@ public class UserController extends TemplateControllerBase {
      */
     public void doResetPassword() {
 
-        String token = getPara("token");
+        String token = getPara("token") == null ? "" : getPara("token");
         //根据cacheName和token从缓存中获取数据value
-        String email = CacheUtil.get("email_token", token);
-        String mobile = CacheUtil.get("mobile_token", token);
-        //根据缓存名称获取存入的key
-        List emailTokenKeys = CacheUtil.getKeys("email_token");
-        List mobileTokenKeys = CacheUtil.getKeys("mobile_token");
+        String email = CacheUtil.get("email_token", token) == null ? "": CacheUtil.get("email_token", token);
+        String mobile = CacheUtil.get("mobile_token", token) == null ? "": CacheUtil.get("mobile_token", token);
+        //根据缓存名称获取存入的token
+        String emailToken = CacheUtil.get("email_token", email);
+        String mobileToken = CacheUtil.get("mobile_token", mobile);
 
         Boolean isEmail = getParaToBoolean("type");
 
@@ -622,7 +624,7 @@ public class UserController extends TemplateControllerBase {
             renderJson(Ret.fail().set("message", "token不能为空，请重新发送").set("errorCode", 2));
             return;
         }
-        if(isEmail && !emailTokenKeys.contains(token)){
+        if(isEmail && !("").equals(emailToken) && !token.equals(emailToken)){
             renderJson(Ret.fail().set("message", "token是无效的，请重新发送！").set("errorCode", 5));
             return;
         }
@@ -634,7 +636,7 @@ public class UserController extends TemplateControllerBase {
             email = email.toLowerCase();
         }
 
-        if(!isEmail && !mobileTokenKeys.contains(token)){
+        if(!isEmail&& !("").equals(mobileToken)  && !mobileToken.equals(token)){
             renderJson(Ret.fail().set("message", "token是无效的，请重新发送！").set("errorCode", 5));
             return;
         }
@@ -701,9 +703,7 @@ public class UserController extends TemplateControllerBase {
     public void validateCodeToResetPwd(){
 
         String phone = getPara("mobile");
-        String token = getPara("token");
-//        List keys = CacheUtil.getKeys("mobile_token");
-
+        Object token = CacheUtil.get("mobile_token", phone);
 
         if (StrUtil.isBlank(getPara("captcha"))) {
             renderJson(Ret.fail().set("message", "验证码不能为空").set("errorCode", 6));
@@ -719,15 +719,14 @@ public class UserController extends TemplateControllerBase {
         User user = userService.findFirstByMobile(phone);
 
         if (user == null) {
-            renderJson(Ret.fail().set("message", "手机号未注册，请重新输入！").set("errorCode", 11));
+            renderJson(Ret.fail().set("message", "手机号未注册或已被删除，请重新输入！").set("errorCode", 11));
             return;
         }else{
 
             String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
-            String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=true";
-            redirect(url);
-            return;
-
+            String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=false";
+//            redirect(url);
+            renderJson(Ret.ok().set("message","校验正确，可以进行密码重置！").set("url",url));
         }
 
 

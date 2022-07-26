@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="...">
     <meta name="kewords" content="...">
+    <link href="#(CPATH)/static/components/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="#(CPATH)/static/front/jpressform.css" rel="stylesheet">
     <title>表单详情</title>
 </head>
@@ -22,5 +23,26 @@
             </div>
         </div>
     </div>
+    <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+    <script src="#(CPATH)/static/front/fileUpload.js"></script>
+    <script>
+        $("#fileUploadContent").initUpload({
+            "uploadUrl": "#", //上传文件信息地址
+            //"size":350,//文件大小限制，单位kb,默认不限制
+            //"maxFileNumber":3,//文件个数限制，为整数
+            //"filelSavePath":"",//文件上传地址，后台设置的根目录
+            "beforeUpload": beforeUploadFun, //在上传前执行的函数
+            //"onUpload":onUploadFun，//在上传后执行的函数
+            //autoCommit:true,//文件是否自动上传
+            "fileType": ['png', 'jpg', 'gif', 'jpeg', 'svg'] //文件类型限制，默认不限制，注意写的是文件后缀
+        });
+
+        function beforeUploadFun(opt) {
+            opt.otherData = [{
+                "name": "name",
+                "value": "default"
+            }];
+        }
+    </script>
 </body>
 </html>

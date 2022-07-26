@@ -454,3 +454,91 @@ hr{
 button[type="submit"]{
     margin:15px auto 0;
 }
+
+/*上传图片*/
+.fileContainer {
+    display: inline-block;
+    vertical-align: middle;
+}
+.jpress-upload-btn,
+.jpress-upload-item {
+    position: relative;
+    display: inline-block;
+    color: #ccc;
+    height: 126px;
+    width: 126px;
+    overflow: hidden;
+    border: 1px dashed #d8d8d8;
+    margin-top: 10px;
+    background-color: #f7f8fa;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.jpress-upload-btn {
+    margin-right: 5px;
+}
+
+.jpress-upload-item {
+    margin: 10px 5px 0;
+}
+
+.jpress-upload-item img {
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.jpress-upload-btn p {
+    font-size: 14px;
+}
+
+.jpress-upload-btn .jpress-icon {
+    font-size: 42px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.jpress-upload-file {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: inline-block;
+    height: 120px;
+    width: 120px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-delete {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 18px;
+}
+
+.file-delete i {
+    padding: 2px 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 2px;
+}
+
+.jpress-images-name {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 32px;
+    padding: 0 12px;
+    line-height: 32px;
+    font-size: 14px;
+    box-sizing: border-box;
+    color: #fff;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+button:focus{
+    outline:none;
+}

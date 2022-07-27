@@ -255,7 +255,7 @@
             shadeClose: true,
             shade: 0.3,
             area: ['90%', '90%'],
-            content: jpress.cpath + '/admin/attachment/form/browse',
+            content: jpress.cpath + '/admin/form/browse',
             end: function () {
 
                 if(layer.data.id != null){
@@ -264,7 +264,7 @@
 
                     var formName = layer.data.name;
 
-                    let html = '<p><div class="jpress-form" style="background-color:#ccc;height:100px;width:100px;" data-form-id='+formId+'>'+formName+'</div></p>'
+                    let html = '<div><div class="jpress-form" style="background-color:#ccc;height:100px;width:100px;margin: 15px;" data-form-id='+formId+'>'+formName+'</div></div>'
 
                     insertHtmlToEditor(html);
 
@@ -272,11 +272,8 @@
                     alert("此编辑器暂不支持插入视频！")
                 }
 
-
             }
         })
-
-
 
     })
 

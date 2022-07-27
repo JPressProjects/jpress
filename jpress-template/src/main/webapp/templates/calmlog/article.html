@@ -6,6 +6,7 @@
 
 <script>
 
+    //替换表单内容
     $(function () {
 
         $(".jpress-form").each(function () {
@@ -15,17 +16,17 @@
             var formId = $this.attr('data-form-id');
 
             if(formId != null){
-                // $.ajax({
-                //     url: '/admin/attachment/form/detail/'+formId,
-                //     type: 'get',
-                //     data: {},
-                //     success: function (result) {
-                //         console.log(result)
-                //     }
-                // })
+                $.ajax({
+                    url: '/form/detail/'+formId,
+                    type: 'get',
+                    data: {},
+                    success: function (result) {
+                       if(result.state == true){
+                           $this.html(result.html);
+                       }
+                    }
+                })
             }
-            //TODO
-
         })
 
 

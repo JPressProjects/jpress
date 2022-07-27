@@ -152,4 +152,17 @@ public class _FormInfoController extends AdminControllerBase {
         renderOkJson();
     }
 
+    /**
+     * 选择表单
+     */
+    public void browse() {
+
+        Columns columns = new Columns();
+        columns.eq("status",FormInfo.FORMINFO_STATUS_PUBLISHED);
+        Page<FormInfo> page = formInfoService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
+        setAttr("page",page);
+
+        render("attachment/form_browse.html");
+    }
+
 }

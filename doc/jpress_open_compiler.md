@@ -1,5 +1,5 @@
-# 使用编辑器打开项目
-##使用 idea 打开
+# 导入源码到编辑器
+##使用 idea 导入
 
 * 1- 打开 IDEA 客户端
 * 2- 点击左上角 **File->open**
@@ -18,7 +18,7 @@
 * 6-成功打开项目
 ![img.png](./assets/image/idea_5.png)
   
-## 使用 eclipse 打开
+## 使用 eclipse 导入
 * 1- 打开 eclipse 客户端
 * 2-点击左上角 **File->import**
 ![img.png](assets/image/eclipse_1.png)

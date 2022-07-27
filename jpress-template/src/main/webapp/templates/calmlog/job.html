@@ -1,6 +1,40 @@
 #include("./layout.html")
 #@layout()
 
+#define script()
+
+<script>
+
+    //替换表单内容
+    $(function () {
+
+        $(".jpress-form").each(function () {
+
+            var $this = $(this);
+
+            var formId = $this.attr('data-form-id');
+
+            if(formId != null){
+                $.ajax({
+                    url: '/form/detail/'+formId,
+                    type: 'get',
+                    data: {},
+                    success: function (result) {
+                        if(result.state == true){
+                            $this.html(result.html);
+                        }
+                    }
+                })
+            }
+        })
+
+
+    })
+
+</script>
+
+#end
+
 
 #define content()
 <div class="col-md-9 cl-left">

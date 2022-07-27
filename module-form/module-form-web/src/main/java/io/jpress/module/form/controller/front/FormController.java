@@ -9,10 +9,14 @@ import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.TemplateControllerBase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequestMapping("/form")
 public class FormController extends TemplateControllerBase {
 
     private static final String DEFAULT_FORM_DETAIL_TEMPLATE = "/WEB-INF/views/front/form/detail.html";
+    private static final String DEFAULT_FORM_DETAIL_ARTICLE = "/WEB-INF/views/front/form/form_article_detail.html";
 
 
     @Inject
@@ -66,28 +70,32 @@ public class FormController extends TemplateControllerBase {
     }
 
 
-//    /**
-//     * 获取表单数据
-//     */
-//    public void detail(){
-//
-//        Long formId = getParaToLong();
-//
-//        FormInfo formInfo = formInfoService.findById(formId);
-//
-//        if(formId == null || formInfo == null){
-//            renderError(404);
-//            return;
-//        }
-//
-//
-//
-//
-//
-//
-//
-//
-//    }
+    /**
+     * 获取表单数据
+     */
+    public void detail(){
+
+        Long formId = getParaToLong();
+
+        FormInfo formInfo = formInfoService.findById(formId);
+
+        if(formId == null || formInfo == null){
+            renderError(404);
+            return;
+        }
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("formId",formId);
+
+
+        String resultHtml = renderToString(DEFAULT_FORM_DETAIL_ARTICLE, map);
+
+        map.put("state",true);
+        map.put("html",resultHtml);
+
+        renderJson(map);
+
+    }
 
 
 }

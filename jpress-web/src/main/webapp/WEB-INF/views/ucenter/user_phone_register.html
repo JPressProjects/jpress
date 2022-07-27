@@ -6,7 +6,6 @@
     <title>手机号注册</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
-    <link rel="stylesheet" href="/static/components/aj-captcha/css/verify.css"/>
 
 
     <!--[if lt IE 9]>
@@ -34,6 +33,19 @@
         }
     </style>
 
+    <script>
+
+        //输入手机号时赋值给按钮的data-value属性
+        function changeMobile()
+        {
+            var val = $("#phone").val();
+            $("#getCode").attr("data-value",val);
+            //初始化行为验证码的容器
+            initJPressAJCaptcha();
+        }
+
+    </script>
+
 </head>
 <body class="hold-transition login-page">
 
@@ -56,9 +68,14 @@
                     <div class="form-group">
                         <label>手机号</label>
                         <div class="input-group jpress-tip mb-3">
-                            <input type="text" class="form-control" placeholder="请输入手机号" name="phone" id="phone" required>
+                            <input type="text" class="form-control" placeholder="请输入手机号" name="phone" id="phone" onchange="changeMobile()" required>
                             <div class="input-group-append">
-                                <button type="button" class="input-group-text" id="getCode" autocomplete="off" style="float: right;background: #DDDDDD;"  >获取验证码</button>
+
+                                <button type="button" id="getCode" data-type="pointsVerify" data-location="body"
+                                        data-value="" data-path="/user/doSendLoginCode" required
+                                        data-url="" data-point="验证码发送成功，请注意查收！"
+                                        style="float: right;background: #DDDDDD;"
+                                        class="input-group-text jpress-captcha" >获取验证码</button>
                             </div>
                         </div>
                     </div>
@@ -118,94 +135,5 @@
 
 </html>
 
-<script  src="/static/components/aj-captcha/js/jquery.min.js"></script>
-<script  src="/static/components/aj-captcha/js/crypto-js.js"></script>
-<script  src="/static/components/aj-captcha/js/ase.js"></script>
-<script  src="/static/components/aj-captcha/js/verify.js"></script>
 
-<script>
-    //文本框单击全选
-    $("input:text").click(function(e){
-        $(this).select();
-    });
-
-    var isRead = false;
-
-    $('body').slideVerify({
-        // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
-        baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
-        containerId: 'getCode',//pop模式 必填 被点击之后出现行为验证码的元素id
-        mode: 'pop',     //展示模式
-        imgSize: {       //图片的大小对象,有默认值{ width: '310px',height: '155px'},可省略
-            width: '400px',
-            height: '200px',
-        },
-        barSize: {          //下方滑块的大小对象,有默认值{ width: '310px',height: '50px'},可省略
-            width: '400px',
-            height: '40px',
-        },
-        beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
-            var mobile = $('#phone').val();
-            if (isRead && !mobile) {
-                alert("手机号不能为空");
-                return false
-            }
-            return true;
-        },
-        //加载完毕的回调
-        ready: function () {
-            isRead = true;
-        },
-        //验证成功
-        success: function (params) {
-            var mobile = $('#phone').val();
-            var data = $.extend({mobile: mobile}, params);
-            $.ajax({
-                url: '/user/doSendLoginCode',
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success:
-                    function (result) {
-                        console.log(result);
-                        if (result.state == "ok") {
-                            layer.msg('验证码发送成功，请注意查收。');
-                        } else {
-                            alert(result.message);
-                        }
-                    },
-                error:
-                    function (arg) {
-                        console.log("error...", arg);
-                        if (arg.responseJSON) {
-                            alert(arg.responseJSON.message);
-                        }
-                    }
-            });
-            // Utils.postJson(
-            //     "/user/doSendLoginCode",
-            //     $.extend({mobile: mobile}, params),
-            //     function (result) {
-            //         console.log(result);
-            //         if (result.state == "ok") {
-            //             layer.msg('验证码发送成功，请注意查收。');
-            //         } else {
-            //             alert(result.message);
-            //         }
-            //     },
-            //     function (arg) {
-            //         console.log("error...", arg);
-            //         if (arg.responseJSON) {
-            //             alert(arg.responseJSON.message);
-            //         }
-            //     }
-            // )
-        },
-        error: function () {
-            //失败的回调
-            console.log("slideVerify error...");
-        }
-    });
-</script>
 

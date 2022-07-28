@@ -34,7 +34,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
         String formMethod = getParaToString("formMethod", scope, "POST");
 
         String submitText = getParaToString("submitText", scope, "提交");
-        String submitClass = getParaToString("submitClass", scope, "btn btn-primary btn-formInfo");
+        String submitClass = getParaToString("submitClass", scope, "btn btn-primary btn-form-submit");
 
         Map values = getPara("values", scope);
 

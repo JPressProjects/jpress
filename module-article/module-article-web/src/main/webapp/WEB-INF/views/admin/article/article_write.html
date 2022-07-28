@@ -245,7 +245,7 @@
 
 
     //选择表单
-    $("#chooseForm").on("click",function (){
+    $(".chooseForm").on("click",function (){
         var $this = $(this);
 
         layer.open({
@@ -264,12 +264,12 @@
 
                     var formName = layer.data.name;
 
-                    let html = '<div><div class="jpress-form" style="background-color:#ccc;height:100px;width:100px;margin: 15px;" data-form-id='+formId+'>'+formName+'</div></div>'
+                    let html = '<div><div class="jpress-form" style="background-color:#ccc;height:100px;width:100px;margin: 15px;" data-form-id='+formId+'>'+formName+'</div></div><br />'
 
                     insertHtmlToEditor(html);
 
                 } else if (currentVditor) {
-                    alert("此编辑器暂不支持插入视频！")
+                    alert("此编辑器暂不支持插入表单！")
                 }
 
             }
@@ -478,12 +478,12 @@
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="insertFile" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                        插入附件
+                        插入...
                     </button>
                     <div class="dropdown-menu" aria-labelledby="insertFile">
-                        <a class="dropdown-item" href="#">插入附件</a>
-                        <a class="dropdown-item" href="#">插入视频</a>
-                        <a class="dropdown-item" id="chooseForm">插入表单</a>
+                        <a class="dropdown-item chooseAttachment" href="#">插入附件</a>
+                        <a class="dropdown-item chooseVideo" href="#">插入视频</a>
+                        <a class="dropdown-item chooseForm" href="#">插入表单</a>
                     </div>
                 </div>
             </div>

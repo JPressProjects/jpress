@@ -118,6 +118,7 @@ public class HtmlBlock {
         component.setDragIndex(index);
         component.setDragType(type);
         component.setTemplate(getTemplate());
+        component.addProp(new BsFormComponent.Prop());
 
         if (optionDefs != null) {
             for (HtmlBlockOptionDef optionDef : optionDefs) {

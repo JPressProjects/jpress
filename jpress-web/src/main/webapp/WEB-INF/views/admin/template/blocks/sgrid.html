@@ -1,0 +1,13 @@
+<!--name:灵活栅格 -->
+<!--type:layout -->
+<!--icon:bi bi-grid-1x2 -->
+
+<div class="jpress-form-item">
+    <div class="jpress-form-group clearfix">
+        <div class="row">
+            #for(i=0;i<options.size();i++)
+            <div class="col-#(options.get(i).value) bsItemContainer">#(children.get(i) ??)</div>
+            #end
+        </div>
+    </div>
+</div>

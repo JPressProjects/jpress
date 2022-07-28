@@ -147,6 +147,15 @@ public class BsFormManager {
 
     private String renderTemplate(String htmlString, Map<String, Object> datas) {
         try {
+            if (!datas.containsKey("options")){
+                JSONObject component = (JSONObject) datas.get("component");
+                if (component != null) {
+                    Boolean withOptions = component.getBoolean("withOptions");
+                    if (withOptions != null && withOptions) {
+                        datas.put("options", component.getJSONArray("defaultOptions"));
+                    }
+                }
+            }
             return getEngine().getTemplateByString(htmlString).renderToString(datas);
         } catch (Exception ex) {
             LogKit.error(htmlString);

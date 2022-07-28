@@ -1725,10 +1725,6 @@
             })
 
 
-            // 若 data 中不存在 options 数据，
-            // 那么查看下组件是否有 defaultOptions 配置
-            this._initDataOptionsIfNecessary(data);
-
 
             //default props + component.props + "value" + "placeholder" +"options"
             var allPropNames = this.defaultProps.map(prop => prop.name).concat(["value", "placeholder", "options"]);
@@ -1786,6 +1782,10 @@
         render: function (data, withActive) {
             var component = data.component;
             var template = null;
+
+            // 若 data 中不存在 options 数据，
+            // 那么查看下组件是否有 defaultOptions 配置
+            this._initDataOptionsIfNecessary(data);
 
             if (typeof component.template === "function") {
                 template = component.template(this, data);
@@ -2096,6 +2096,10 @@
 
             // 渲染 options 功能
             if (this.currentData.component.withOptions || this.currentData.options) {
+
+                // 若 data 中不存在 options 数据，
+                // 那么查看下组件是否有 defaultOptions 配置
+                this._initDataOptionsIfNecessary(this.currentData);
 
                 //组件支持的 options 类型
                 var componentSupportTypes = this.currentData.component.optionsTypes;

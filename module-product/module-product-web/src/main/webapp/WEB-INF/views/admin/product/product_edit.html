@@ -264,6 +264,40 @@
 
     })
 
+    //选择表单
+    $("#chooseForm").on("click",function (){
+        var $this = $(this);
+
+        layer.open({
+            type: 2,
+            title: '选择表单',
+            anim: 2,
+            shadeClose: true,
+            shade: 0.3,
+            area: ['90%', '90%'],
+            content: jpress.cpath + '/admin/form/browse',
+            end: function () {
+
+                if(layer.data.id != null){
+
+                    var formId = layer.data.id;
+
+                    var formName = layer.data.name;
+
+                    let html = '<div><div class="jpress-form" style="background-color:#ccc;height:100px;width:100px;margin: 15px;" data-form-id='+formId+'>'+formName+'</div></div>'
+
+                    insertHtmlToEditor(html);
+
+                } else if (currentVditor) {
+                    alert("此编辑器暂不支持插入视频！")
+                }
+
+            }
+        })
+
+    })
+
+
 </script>
 
 <template id="videoTemplate">
@@ -418,6 +452,10 @@
                             <div>
                                 <button type="button" class="chooseAttachment btn btn-default btn-sm ">
                                     <i class="fas fa-paperclip"></i> 插入附件
+                                </button>
+
+                                <button type="button" class="chooseAttachment btn btn-default btn-sm " id="chooseForm">
+                                    <i class="fas fa-paperclip"></i> 插入表单
                                 </button>
                             </div>
                         </div>

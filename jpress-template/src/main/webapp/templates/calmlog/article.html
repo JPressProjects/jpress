@@ -3,37 +3,6 @@
 
 #define script()
 <script src="/static/components/jquery/jquery.form.min.js"></script>
-
-<script>
-
-    //替换表单内容
-    $(function () {
-
-        $(".jpress-form").each(function () {
-
-            var $this = $(this);
-            $this.removeAttr('style')
-
-            var formId = $this.attr('data-form-id');
-
-            if(formId != null){
-                $.ajax({
-                    url: '/form/detail/'+formId,
-                    type: 'get',
-                    data: {},
-                    success: function (result) {
-                       if(result.state == true){
-                           $this.html(result.html);
-                       }
-                    }
-                })
-            }
-        })
-
-
-    })
-
-</script>
 #end
 
 

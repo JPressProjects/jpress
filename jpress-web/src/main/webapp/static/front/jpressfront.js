@@ -737,8 +737,6 @@ function loadJs(scripts, callback) {
     }
 }
 
-
-
 function loadCss(links, callback) {
     if (typeof links === "string") {
         links = [links];
@@ -766,6 +764,31 @@ function loadCss(links, callback) {
     }
 }
 
+//初始化表单 数据
+function initFormData(){
+
+    $(".jpress-form").each(function () {
+
+        var $this = $(this);
+        $this.removeAttr('style')
+
+        var formId = $this.attr('data-form-id');
+
+        if(formId != null){
+            $.ajax({
+                url: '/form/detail/'+formId,
+                type: 'get',
+                data: {},
+                success: function (result) {
+                    if(result.state == true){
+                        $this.html(result.html);
+                    }
+                }
+            })
+        }
+    })
+}
+
 
 $(document).ready(function () {
 
@@ -790,5 +813,7 @@ $(document).ready(function () {
 
 
     initJPressVideo();
+
+    initFormData()
 });
 

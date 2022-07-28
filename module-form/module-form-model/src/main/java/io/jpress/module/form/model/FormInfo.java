@@ -177,17 +177,17 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
                 String fieldType = data.getString("field_type");
                 Integer fieldLenth = data.getInteger("field_lenth");
 
-                FieldInfo dbFieldInfo = new FieldInfo();
-                dbFieldInfo.setParaName(data.getString("name"));
-                dbFieldInfo.setShowInList(data.getBoolean("show_list"));
-                dbFieldInfo.setWithSearch(data.getBoolean("with_search"));
-                dbFieldInfo.setFieldName(fieldName);
-                dbFieldInfo.setFieldType(fieldType);
-                dbFieldInfo.setFieldTypeLen(fieldLenth);
-                dbFieldInfo.setLabel(data.getString("label"));
-                dbFieldInfo.setTag(data.getString("tag"));
+                FieldInfo fieldInfo = new FieldInfo();
+                fieldInfo.setParaName(data.getString("name"));
+                fieldInfo.setShowInList(data.getBoolean("show_list"));
+                fieldInfo.setWithSearch(data.getBoolean("with_search"));
+                fieldInfo.setFieldName(fieldName);
+                fieldInfo.setFieldType(fieldType);
+                fieldInfo.setFieldTypeLen(fieldLenth);
+                fieldInfo.setLabel(data.getString("label"));
+                fieldInfo.setTag(data.getString("tag"));
 
-                dbFieldInfos.add(dbFieldInfo);
+                dbFieldInfos.add(fieldInfo);
             }
         }
     }
@@ -196,6 +196,13 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
 
     public boolean isPublished() {
         return FORMINFO_STATUS_PUBLISHED.equals(getStatus());
+    }
+
+
+    @Override
+    public String getBuilderJson() {
+        String builderJson = super.getBuilderJson();
+        return StrUtil.isNotBlank(builderJson) ? builderJson : "[]";
     }
 }
 

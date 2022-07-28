@@ -34,6 +34,12 @@ public class FormController extends TemplateControllerBase {
         }
 
         FormInfo formInfo = formInfoService.findById(formId);
+        if (formInfo == null) {
+            renderError(404);
+            return;
+        }
+
+
         setAttr("form", formInfo);
 
         render("form.html", DEFAULT_FORM_DETAIL_TEMPLATE);
@@ -60,8 +66,8 @@ public class FormController extends TemplateControllerBase {
             // parseRequestToRecord 可能会出现数据转换异常，需要告知前端
             Record record = formInfo.parseRequestToRecord(getRequest());
             formDataService.save(formInfo.getCurrentTableName(), record);
-        }catch (Exception e){
-            renderJson(Ret.fail().set("message",e.getMessage()));
+        } catch (Exception e) {
+            renderJson(Ret.fail().set("message", e.getMessage()));
             return;
         }
 
@@ -73,25 +79,25 @@ public class FormController extends TemplateControllerBase {
     /**
      * 获取表单数据
      */
-    public void detail(){
+    public void detail() {
 
         Long formId = getParaToLong();
 
         FormInfo formInfo = formInfoService.findById(formId);
 
-        if(formId == null || formInfo == null){
+        if (formId == null || formInfo == null) {
             renderError(404);
             return;
         }
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("formId",formId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("formId", formId);
 
 
         String resultHtml = renderToString(DEFAULT_FORM_DETAIL_ARTICLE, map);
 
-        map.put("state",true);
-        map.put("html",resultHtml);
+        map.put("state", true);
+        map.put("html", resultHtml);
 
         renderJson(map);
 

@@ -22,7 +22,7 @@ import io.jboot.db.model.Columns;
 import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleBase;
-import io.jpress.module.article.block.ArticleBlocks;
+import io.jpress.core.template.BlockManager;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
@@ -78,8 +78,7 @@ public class ArticleModuleInitializer extends ModuleBase {
 
     @Override
     public void onStart() {
-//        ArticleSitemapManager.me().init();
-        ArticleBlocks.init();
+        BlockManager.me().addBlocksByPath("article-","/WEB-INF/views/commons/article/blocks");
         FlatUrlHandler.addProcesser(new ArticleFlatUrlProcesser());
     }
 }

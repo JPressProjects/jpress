@@ -34,28 +34,8 @@ public class BlockManager extends BsFormManager {
     private void initComponents() {
         addComponent(new BlockContainerComponent());
 
-        File blocksDir =  new File(PathKit.getWebRootPath(),"/WEB-INF/views/admin/template/blocks");
-        if (!blocksDir.exists()){
-            return;
-        }
-
-        File[] componentFiles = blocksDir.listFiles(pathname -> pathname.getName().endsWith(".html"));
-        if (componentFiles == null){
-            return;
-        }
-
-        for (File blockFile : componentFiles) {
-            String blockFileName = blockFile.getName();
-
-            HtmlBlock htmlBlock = new HtmlBlock();
-
-            htmlBlock.setId(blockFileName.substring(0, blockFileName.length() - 5));
-
-            //fill blockHtml attrs
-            TemplateUtil.readAndFillHtmlBlock(blockFile, htmlBlock);
-
-            addComponent(htmlBlock.toBsFormComponent());
-        }
+        //根据路径来添加
+        addBlocksByPath("","/WEB-INF/views/admin/template/blocks");
     }
 
 
@@ -67,6 +47,32 @@ public class BlockManager extends BsFormManager {
 
     public void addBlock(HtmlBlock block) {
         addComponent(block.toBsFormComponent());
+    }
+
+
+    public void addBlocksByPath(String componentPrefix,String path) {
+        File blocksPathDir =  new File(PathKit.getWebRootPath(),path);
+        if (!blocksPathDir.exists()){
+            return;
+        }
+
+        File[] blockFiles = blocksPathDir.listFiles(pathname -> pathname.getName().endsWith(".html"));
+        if (blockFiles == null || blockFiles.length == 0){
+            return;
+        }
+
+        for (File blockFile : blockFiles) {
+            String blockFileName = blockFile.getName();
+
+            HtmlBlock htmlBlock = new HtmlBlock();
+
+            htmlBlock.setId(componentPrefix + blockFileName.substring(0, blockFileName.length() - 5));
+
+            //fill blockHtml attrs
+            TemplateUtil.readAndFillHtmlBlock(blockFile, htmlBlock);
+
+            addComponent(htmlBlock.toBsFormComponent());
+        }
     }
 
 

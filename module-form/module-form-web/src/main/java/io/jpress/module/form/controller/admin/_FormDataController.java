@@ -25,6 +25,8 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.module.form.model.EChartsItem;
 import io.jpress.module.form.model.FormInfo;
@@ -91,6 +93,29 @@ public class _FormDataController extends AdminControllerBase {
         }
 
         formDataService.deleteById(formInfo.getCurrentTableName(), getParaToLong("id"));
+        renderOkJson();
+    }
+
+
+    /**
+     * 批量删除数据
+     */
+    @EmptyValidate(@Form(name = "ids"))
+    public void doDelByIds() {
+
+        FormInfo formInfo = formInfoService.findById(getParaToLong());
+
+        Object[] ids = getParaSet("ids").toArray();
+
+        if (formInfo == null || ids.length <= 0) {
+            renderFailJson();
+            return;
+        }
+
+        for (Object id : ids) {
+            formDataService.deleteById(formInfo.getCurrentTableName(), Long.parseLong(id.toString()));
+        }
+
         renderOkJson();
     }
 

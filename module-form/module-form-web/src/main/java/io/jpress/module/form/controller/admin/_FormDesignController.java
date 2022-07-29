@@ -38,6 +38,12 @@ public class _FormDesignController extends AdminControllerBase {
 
     public void save(){
         FormInfo formInfo = service.findById(getParaToLong("id"));
+
+        if(formInfo.getStatus() != null && formInfo.getStatus().equals(FormInfo.FORMINFO_STATUS_PUBLISHED)){
+            renderFailJson("表单已发布 更新失败");
+            return;
+        }
+
         formInfo.setBuilderJson(getRawData());
         service.update(formInfo);
 

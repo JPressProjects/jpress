@@ -125,11 +125,7 @@
             <artifactId>jpress-service-provider</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-page-web</artifactId>
-            <version>5.0</version>
-        </dependency>
+
 
         <dependency>
             <groupId>io.jpress</groupId>
@@ -143,11 +139,46 @@
             <version>5.0</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-form-web</artifactId>
+            <version>5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-form-service-provider</artifactId>
+            <version>5.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-job-web</artifactId>
+            <version>5.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-job-service-provider</artifactId>
+            <version>5.0</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.jpress</groupId>
+            <artifactId>module-page-web</artifactId>
+            <version>5.0</version>
+        </dependency>
+
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-service-provider</artifactId>
             <version>5.0</version>
         </dependency>
+
 
         <dependency>
             <groupId>io.jpress</groupId>

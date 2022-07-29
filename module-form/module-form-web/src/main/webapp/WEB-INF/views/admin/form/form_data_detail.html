@@ -44,9 +44,29 @@
         <div class="col-12">
             <div class="card card-outline card-primary">
                 <div class="card-header with-border">
+                    <div class="row invoice-info">
 
-                    表单名称： #(form.name ??) <br />
-                    数据ID： #(record.id ??)
+                        <div class="col-sm-3 invoice-col">
+                            <p>表单名称 ： #(form.name ??)</p>
+                            <p>数 据 ID &nbsp; ：#(record.id ??)</p>
+                            <p>用 户 IP &nbsp; ：#(record.user_ip ??)</p>
+                            <p>是否手机 ：#(record.user_with_mobile ??)</p>
+                        </div>
+
+                        <div class="col-sm-3 invoice-col">
+                            <p>用 户 浏 览 器：#(record.user_browser ??)</p>
+                            <p>浏 览 器 版 本：#(record.user_browser_version ??)</p>
+                            <p>用户操作系统：#(record.user_os ??)</p>
+                            <p>用户网络类型：#(record.user_network ??)</p>
+                        </div>
+
+                        <div class="col-sm-3 invoice-col">
+                            <p>用 户 设 备 &nbsp;&nbsp; ：#(record.user_device ??)</p>
+                            <p>设 备 品 牌 &nbsp;&nbsp; ：#(record.user_device_brand ??)</p>
+                            <p>用户开始时间：#(record.user_start_time ??)</p>
+                            <p>用户提交时间：#date(record.user_submit_time ??,"yyyy-MM-dd")</p>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="card-body">

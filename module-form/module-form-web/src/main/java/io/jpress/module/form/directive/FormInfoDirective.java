@@ -7,6 +7,7 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
@@ -55,16 +56,21 @@ public class FormInfoDirective extends JbootDirectiveBase {
 
         JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
         if (withForm) {
-            String action = formInfo.getActionUrl();
-            String htmlStart = "<form id=\"form" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
-            String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" +
-                    "</form>";
 
             String html = FormManager.me().renderAll(datas, values, false);
-            renderText(writer, htmlStart + html + htmlEnd);
+
+            if (StrUtil.isNotBlank(html)) {
+                String action = formInfo.getActionUrl();
+                String htmlStart = "<form id=\"form" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
+                String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" + "</form>";
+                renderText(writer, htmlStart + html + htmlEnd);
+            }
         } else {
             String html = FormManager.me().renderAll(datas, values, false);
-            renderText(writer, html);
+
+            if (StrUtil.isNotBlank(html)) {
+                renderText(writer, html);
+            }
         }
     }
 

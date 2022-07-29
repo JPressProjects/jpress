@@ -112,6 +112,9 @@ public class FieldInfo {
 
 
     private String getTypeAndLen() {
+        if ("image-upload".equals(tag)) {
+            return "text";
+        }
         switch (fieldType) {
             case "varchar":
                 return "varchar(" + fieldTypeLen + ")";
@@ -141,6 +144,10 @@ public class FieldInfo {
      * @return
      */
     public boolean checkValueLen(String value) {
+        if ("image-upload".equals(tag)) {
+            return value.length() < 65535;
+        }
+
         switch (fieldType) {
             case "varchar":
                 return fieldTypeLen > value.length();
@@ -166,6 +173,11 @@ public class FieldInfo {
         if (value == null){
             return null;
         }
+
+        if ("image-upload".equals(tag)) {
+            return ObjectUtil.convert(value, String.class);
+        }
+
         switch (fieldType) {
             case "varchar":
             case "text":

@@ -65,6 +65,16 @@
                         }
                     }
                 }
+
+                //删除图片上传的自定义字段类型属性，因为其默认使用 text 类型了
+                if (data.component.tag === "image-upload"){
+                    var i = allprops.length;
+                    while (i--) {
+                        if (["field_type", "field_lenth"].indexOf(allprops[i].name) >= 0) {
+                            allprops.splice(i, 1);
+                        }
+                    }
+                }
             },
             unUseComponents: ["tab"], //不使用组件 tab
             defaultProps: [

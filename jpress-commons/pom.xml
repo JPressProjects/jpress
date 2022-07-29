@@ -55,10 +55,11 @@
             <version>4.0.11</version>
         </dependency>
 
+
         <dependency>
-            <groupId>com.huaweicloud.sdk</groupId>
-            <artifactId>huaweicloud-sdk-vod</artifactId>
-            <version>3.0.98</version>
+            <groupId>nl.basjes.parse.useragent</groupId>
+            <artifactId>yauaa</artifactId>
+            <version>7.3.0</version>
         </dependency>
 
         <dependency>

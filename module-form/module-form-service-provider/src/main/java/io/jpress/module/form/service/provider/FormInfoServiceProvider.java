@@ -4,11 +4,8 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jpress.commons.service.JPressServiceBase;
-import io.jpress.module.form.model.FieldInfo;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
-
-import java.util.List;
 
 @Bean
 public class FormInfoServiceProvider extends JPressServiceBase<FormInfo> implements FormInfoService {
@@ -25,34 +22,24 @@ public class FormInfoServiceProvider extends JPressServiceBase<FormInfo> impleme
     public void publish(FormInfo formInfo) {
 
         String createTableSql = formInfo.toCreateTableSql();
+        int update = Db.update(createTableSql);
 
-        Db.update(createTableSql);
-
-        //表单的版本大于1，发布多次了
-        if (formInfo.getVersion() > 1) {
-
-            //copy 数据
-            copyOldData(formInfo);
-
-            //删除旧的表
-            deleteOldTable(formInfo);
-
+        //第一次发布
+        if (formInfo.getVersion() == 1) {
+            return;
         }
+
+        //copy 数据
+        copyOldData(formInfo);
+
+        //删除旧的表
+        deleteOldTable(formInfo);
     }
 
 
     private void copyOldData(FormInfo formInfo) {
-        List<FieldInfo> fieldInfos = formInfo.getFieldInfos();
-
         Db.each(record -> {
-            Record newRecord = new Record();
-            newRecord.put("id", record.get("id"));
-
-            fieldInfos.forEach(fieldInfo -> {
-                Object oldValue = record.get(fieldInfo.getFieldName());
-                newRecord.put(fieldInfo.getFieldName(), fieldInfo.convertValueData(oldValue));
-            });
-
+            Record newRecord = formInfo.newRecord(record);
             Db.save(formInfo.getCurrentTableName(), newRecord);
             return true;
         }, "select * from " + formInfo.getPrevTableName());

@@ -7,9 +7,8 @@ import com.google.common.collect.Sets;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.ArrayUtil;
-import io.jboot.utils.CollectionUtil;
-import io.jboot.utils.StrUtil;
+import io.jboot.utils.*;
+import io.jpress.commons.UserAgentUtil;
 import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.form.model.base.BaseFormInfo;
 
@@ -28,26 +27,57 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     public static final String FORMINFO_STATUS_INIT = "init";
     public static final String FORMINFO_STATUS_PUBLISHED = "published";
 
+
     private static final Set<String> fieldTags = Sets.newHashSet("input", "textarea", "select"
-            , "range", "radio", "checkbox", "date", "time", "datetime", "switch", "file-upload");
+            , "range", "radio", "checkbox", "date", "time", "datetime", "switch", "file-upload", "image-upload");
 
 
-    public String getUrl(){
-        return UrlUtils.getUrl("/form/",getId());
+    /**
+     * form_data_xx_xx 的默认字段
+     */
+    private static final Set<String> systemFields = Sets.newHashSet("id", "user_ip", "user_agent"
+            , "user_browser", "user_browser_version", "user_os", "user_device", "user_device_brand", "user_network", "user_with_mobile", "user_start_time", "user_submit_time");
+
+
+    private List<FieldInfo> fieldInfos;
+
+
+    public String getUrl() {
+        return UrlUtils.getUrl("/form/", getId());
     }
 
 
-    public String getActionUrl(){
-        return UrlUtils.getUrl("/form/postData/",getId());
+    public String getActionUrl() {
+        return UrlUtils.getUrl("/form/postData/", getId());
     }
+
+
+    public Record newRecord(Record oldRecord) {
+        List<FieldInfo> fieldInfos = getFieldInfos();
+
+        Record newRecord = new Record();
+
+        systemFields.forEach(field -> {
+            Object oldValue = oldRecord.get(field);
+            newRecord.put(field, oldValue);
+        });
+
+        fieldInfos.forEach(fieldInfo -> {
+            Object oldValue = oldRecord.get(fieldInfo.getFieldName());
+            newRecord.put(fieldInfo.getFieldName(), fieldInfo.convertValueData(oldValue));
+        });
+
+        return newRecord;
+    }
+
 
     public List<FieldInfo> getFieldInfos() {
-        String json = getBuilderJson();
-        JSONArray datas = JSON.parseArray(json);
-        List<FieldInfo> fieldInfos = new ArrayList<>();
-
-        parseJsonArrayToDbFieldInfos(datas, fieldInfos);
-
+        if (fieldInfos == null) {
+            String json = getBuilderJson();
+            JSONArray datas = JSON.parseArray(json);
+            fieldInfos = new ArrayList<>();
+            parseJsonArrayToDbFieldInfos(datas, fieldInfos);
+        }
         return fieldInfos;
     }
 
@@ -81,7 +111,6 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     }
 
 
-
     public String toCreateTableSql() {
         //CREATE TABLE `form_dict_item` (
         //  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -100,6 +129,17 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
             sqlBuilder.append(fieldInfo.toFieldSql()).append(",");
         }
 
+        sqlBuilder.append("  `user_ip` varchar(64) DEFAULT NULL COMMENT '用户IP',\n" +
+                "  `user_agent` varchar(512) DEFAULT NULL COMMENT '用户浏览器agent',\n" +
+                "  `user_browser` varchar(64) DEFAULT NULL COMMENT '用户浏览器',\n" +
+                "  `user_browser_version` varchar(64) DEFAULT NULL COMMENT '用户浏览器版本',\n" +
+                "  `user_os` varchar(128) DEFAULT NULL COMMENT '用户操作系统',\n" +
+                "  `user_device` varchar(128) DEFAULT NULL COMMENT '用户设备',\n" +
+                "  `user_device_brand` varchar(128) DEFAULT NULL COMMENT '用户设备品牌',\n" +
+                "  `user_network` varchar(32) DEFAULT NULL COMMENT '用户网络类型',\n" +
+                "  `user_with_mobile` tinyint(1) DEFAULT NULL COMMENT '是否是手机',\n" +
+                "  `user_start_time` datetime DEFAULT NULL COMMENT '用户开始时间',\n" +
+                "  `user_submit_time` datetime DEFAULT NULL COMMENT '用户提交时间',\n");
         sqlBuilder.append("PRIMARY KEY (`id`)");
         sqlBuilder.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
@@ -125,7 +165,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
                     throw new IllegalArgumentException(fieldInfo.getLabel() + "的数据长度过长！");
                 }
 
-                Object value = null;
+                Object value;
                 try {
                     value = fieldInfo.convertValueData(string);
                 } catch (Exception e) {
@@ -138,9 +178,26 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
             }
         }
 
+        String userAgentString = RequestUtil.getUserAgent(request);
+        Map<String, String> userAgent = UserAgentUtil.getUserAgent(userAgentString);
+
+        record.set("user_ip", RequestUtil.getIpAddress(request));
+        record.set("user_agent", userAgentString);
+        record.set("user_browser", UserAgentUtil.getBrowserName(userAgent));
+        record.set("user_browser_version", UserAgentUtil.getBrowserVersion(userAgent));
+        record.set("user_os", UserAgentUtil.getOsName(userAgent));
+        record.set("user_device", UserAgentUtil.getDeviceName(userAgent));
+        record.set("user_device_brand", UserAgentUtil.getDeviceBrand(userAgent));
+        record.set("user_network", UserAgentUtil.getNetworkType(userAgent));
+        record.set("user_with_mobile", RequestUtil.isMobileBrowser(request));
+
+        String userStartTime = request.getParameter("user_start_time");
+        record.set("user_start_time", StrUtil.isBlank(userStartTime) ? null : ObjectUtil.convert(userStartTime, Date.class));
+
+        record.set("user_submit_time", new Date());
+
         return record;
     }
-
 
 
     public String getCurrentTableName() {
@@ -153,7 +210,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     }
 
 
-    private void parseJsonArrayToDbFieldInfos(JSONArray datas, List<FieldInfo> dbFieldInfos) {
+    private void parseJsonArrayToDbFieldInfos(JSONArray datas, List<FieldInfo> fieldInfos) {
         if (datas == null || datas.isEmpty()) {
             return;
         }
@@ -166,7 +223,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
             //容器（布局组件）
             if (children != null) {
                 for (String s : children.keySet()) {
-                    parseJsonArrayToDbFieldInfos(children.getJSONArray(s), dbFieldInfos);
+                    parseJsonArrayToDbFieldInfos(children.getJSONArray(s), fieldInfos);
                 }
             }
 
@@ -187,11 +244,10 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
                 fieldInfo.setLabel(data.getString("label"));
                 fieldInfo.setTag(data.getString("tag"));
 
-                dbFieldInfos.add(fieldInfo);
+                fieldInfos.add(fieldInfo);
             }
         }
     }
-
 
 
     public boolean isPublished() {

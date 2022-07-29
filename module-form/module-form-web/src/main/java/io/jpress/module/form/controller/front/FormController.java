@@ -67,6 +67,7 @@ public class FormController extends TemplateControllerBase {
             Record record = formInfo.parseRequestToRecord(getRequest());
             formDataService.save(formInfo.getCurrentTableName(), record);
         } catch (Exception e) {
+            e.printStackTrace();
             renderJson(Ret.fail().set("message", e.getMessage()));
             return;
         }

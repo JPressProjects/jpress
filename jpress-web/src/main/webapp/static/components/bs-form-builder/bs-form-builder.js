@@ -45,6 +45,7 @@
         bsFormPropsSelector: ".bsFormProps", // 面板内容
         bsFormPropsTitleSelector: ".bsFormPropsTitle", // 面板标题
         bsFormPropsFilter: null, //function 自定义属性过滤器
+        bsFormPropsItemAppendBefore: null, //监听 props html 内容被追加时，可以返回指定的 html 内容，替换本身的 html，亦或者返回空字符串
         bsFormPropsItemAppended: null, //监听 props html 内容被追加，可以通其设置 propsPanel 里的表单内容或者事件
         customBuilderStructure: false, // 自定义容器面板
         onDataChange: null, //数据更新的监听器
@@ -1725,7 +1726,6 @@
             })
 
 
-
             //default props + component.props + "value" + "placeholder" +"options"
             var allPropNames = this.defaultProps.map(prop => prop.name).concat(["value", "placeholder", "options"]);
             if (data.component.props) {
@@ -2176,10 +2176,15 @@
          */
         _appendPropsPanel: function (prop, data, template) {
             let htmlString = this.renderPropTemplate(prop, data, template);
+
+            if (this.options.bsFormPropsItemAppendBefore && typeof this.options.bsFormPropsItemAppendBefore === "function") {
+                htmlString = this.options.bsFormPropsItemAppendBefore(this, prop, data, htmlString);
+            }
+
             this.$propsPanel.append(htmlString);
 
             if (this.options.bsFormPropsItemAppended && typeof this.options.bsFormPropsItemAppended === "function") {
-                this.options.bsFormPropsItemAppended(prop, data, this);
+                this.options.bsFormPropsItemAppended(this, prop, data);
             }
         },
 

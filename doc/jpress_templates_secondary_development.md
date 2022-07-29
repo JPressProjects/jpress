@@ -1,13 +1,13 @@
 # jpress 模板二次开发
 
 ## 1-源码下载
-> 请查看 [jpress源码获取文档](xxxxxxxxx)
+> 请查看 [jpress源码获取文档](./jpress_download_source.md)
 
 ## 2-导入源码到编辑器
-> 请查看 [jpress导入源码到编辑器文档](xxxxxxxxx)
+> 请查看 [jpress导入源码到编辑器文档](./jpress_open_compiler.md)
 
 ## 3-编译并运行
-> 请查看 [jpress编译和运行文档](xxxxxxxxx)
+> 请查看 [jpress编译和运行文档](./jpress_compile_with_run.md)
 
 ## 4-数据库设计
 >在jpress编译和运行起来之后 已经在本地建库建表 那么我们使用数据库连接工具来连接上数据库 这里以 **Navicat** 为例 来演示

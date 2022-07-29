@@ -1,7 +1,7 @@
 #jpress源码获取
 
 ## 首先进入 jpress 的 gitee 界面
-[jpress源码获取地址](https://gitee.com/JPressProjects/jpress)
+**jpress源码获取地址：[https://gitee.com/JPressProjects/jpress](https://gitee.com/JPressProjects/jpress)**
 
 ![img.png](./assets/image/jpress_1.png)
 
@@ -11,7 +11,7 @@
 
 ## 使用 git 拉取项目流程
 ### 1-下载 git 工具
-[git下载地址](https://git-scm.com/download)
+**git下载地址：[https://git-scm.com/download](https://git-scm.com/download)**
 * 将 git 下载并安装
 
 ### 2-在本地新建文件夹

@@ -13,7 +13,7 @@
 >在jpress编译和运行起来之后 已经在本地建库建表 那么我们使用数据库连接工具来连接上数据库 这里以 **Navicat** 为例 来演示
 
 * 1-下载并安装 **Navicat** 数据库连接工具
-  [Navicat下载连接](https://www.navicat.com.cn/)
+  **Navicat下载连接：[https://www.navicat.com.cn/](https://www.navicat.com.cn/)**
   
 * 2-打开 Navicat 软件 **点击左上角新建连接 选择 mysql**
   ![img.png](assets/image/template_1.png)

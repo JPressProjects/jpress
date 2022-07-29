@@ -4,13 +4,14 @@
             <label>#(label ??)</label>
         </div>
         <div class="jpress-input-block">
-            <div class="uploadList" data-url="#(url ??)" id="fileUploadContent">
+            <div class="uploadList" data-url="#(url ??)" id="fileUploadContent" data-name="#(name ??)">
                 <button type="button" class="jpress-upload-btn">
                     <i class="bi bi-plus-lg  jpress-icon"></i>
                     <p>点击上传图片</p>
                     <div class="jpress-upload-file selectFileBt" name="#(name ??)" id="#(id ??)"></div>
-                    <input class="bsForm-upload-file" type="hidden"  accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
-                           name="#(name ??)" multiple="true" id="#(id ??)">
+                    <input class="bsForm-upload-file" type="hidden"
+                           accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
+                           multiple="true">
                 </button>
             </div>
         </div>

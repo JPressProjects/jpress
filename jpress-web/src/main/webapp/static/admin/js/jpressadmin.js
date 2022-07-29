@@ -1406,5 +1406,4 @@ $(document).ready(function () {
 
     initJPressVideo();
 
-    initJPressAJCaptcha();
 });

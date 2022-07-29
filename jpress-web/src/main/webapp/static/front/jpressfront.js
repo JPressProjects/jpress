@@ -790,6 +790,138 @@ function initFormData(){
 }
 
 
+function initJPressAJCaptcha() {
+    $('.jpress-captcha').each(function () {
+
+        var containerId = $(this).attr("id");
+        if (!containerId) {
+            alert("请联系管理员，容器id未配置！")
+            return;
+        }
+
+        var captchaType = $(this).attr("data-type");
+        if (!captchaType) {
+            captchaType = 'pointsVerify';//设置默认类型
+        }
+
+        var location = $(this).attr("data-location");
+        if (!location) {
+            location = 'body';
+        }
+        var valueId = $(this).attr("data-value-id");
+        if(!valueId){
+            alert("请联系管理员，数据id未配置！")
+            return;
+        }
+
+        var ajaxUrl = $(this).attr("data-path");
+        if (!ajaxUrl) {
+            alert("请联系管理员，请求路径未配置！")
+            return;
+        }
+
+        var ajaxGetSuccessToUrl = $(this).attr("data-url");
+        var ajaxGetSuccessPoint = $(this).attr("data-point");
+
+        var option = {
+            // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
+            baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
+            containerId: containerId,//pop模式 必填 被点击之后出现行为验证码的元素id
+            mode: 'pop',     //展示模式
+            beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
+
+                var val = $("#"+valueId).val();
+
+                if (isRead && !val) {
+                    alert("数据不能为空");
+                    return false
+                }
+                return true;
+            },
+            //加载完毕的回调
+            ready: function () {
+                isRead = true;
+            },
+            //验证成功
+            success: function (params) {
+
+                var value = $("#"+valueId).val();
+
+                var dataType = null;
+                var regx = /^0?1[3|4|5|8][0-9]\d{8}$/;
+                var isMobile = regx.test(value);
+                //判断是否是手机号
+                if (isMobile) {
+                    dataType = {mobile: value};
+                } else {
+                    dataType = {email: value};
+                }
+
+                var data = $.extend(dataType, params);
+                // var url = ajaxUrl;
+
+                $.ajax({
+                    url: ajaxUrl,
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success:
+                        function (result) {
+                            console.log(result);
+                            if (result.state == "ok") {
+                                if (ajaxGetSuccessToUrl == null || ajaxGetSuccessToUrl == '') {
+                                    var point = ajaxGetSuccessPoint == null || ajaxGetSuccessPoint == '' ? "验证成功" : ajaxGetSuccessPoint;
+                                    alert(point);
+                                } else {
+                                    window.location.href = ajaxGetSuccessToUrl;
+                                }
+
+                            } else {
+                                alert(result.message);
+                            }
+                        },
+                    error:
+                        function (arg) {
+                            console.log("error...", arg);
+                            if (arg.responseJSON) {
+                                alert(arg.responseJSON.message);
+                            }
+                        }
+                });
+
+            },
+
+            error: function () {
+                //失败的回调
+                console.log("pointsVerify error...");
+            }
+        };
+
+        loadCss("/static/components/aj-captcha/css/verify.css");
+        loadJs([
+                "/static/components/aj-captcha/js/crypto-js.js",
+                "/static/components/aj-captcha/js/ase.js",
+                "/static/components/aj-captcha/js/verify.js"
+            ],
+            function () {
+
+                if (captchaType == 'pointsVerify') {
+
+                    var isRead = false;
+                    $(location).pointsVerify(option);
+
+                } else if (captchaType == 'slideVerify') {
+
+                    var isRead = false;
+                    $(location).slideVerify(option);
+                }
+            })
+
+    })
+}
+
+
 $(document).ready(function () {
 
     /*为String添加必要的扩张方法*/
@@ -811,9 +943,12 @@ $(document).ready(function () {
     /*设置产品粘贴板*/
     initClipboardJSComponent();
 
-
+    /*初始化视频播放容器*/
     initJPressVideo();
 
     initFormData()
+
+    /*初始化行为验证码容器*/
+    initJPressAJCaptcha();
 });
 

@@ -1,11 +1,19 @@
 # jpress 的编译和运行
 * **这里以idea为例来演示操作 eclipse同理即可**
 ## 1-编译
-* 1-打开终端
-  ![img.png](assets/image/jpress_6.png)
+
+在编译之前，请先配置好当前电脑的 Maven 环境，和 JDk 环境。
+
+* 1、Maven 环境配置：
+* 2、JDK 环境配置：
+
+
+1-打开终端
+
+![img.png](assets/image/jpress_6.png)
   
-* 2-输入编译命令 **mvn clean package** 然后回车 等待编译结束
-  ![img.png](assets/image/jpress_7.png)
+2-输入编译命令 **mvn clean package** 然后回车 等待编译结束
+![img.png](assets/image/jpress_7.png)
   
 * 3-编译结束
   ![img.png](assets/image/jpress_8.png)

@@ -1233,7 +1233,7 @@ function initJPressAJCaptcha() {
     $('.jpress-captcha').each(function () {
 
         var containerId = $(this).attr("id");
-        if (containerId == null || containerId == '') {
+        if (!containerId) {
             return;
         }
 
@@ -1247,21 +1247,21 @@ function initJPressAJCaptcha() {
             location = 'body';
         }
 
-        var value = $(this).attr("data-value");
-
-        if (value == null || value == '') {
-            return;
-        } else {
-            var dataType = null;
-            var regx = /^0?1[3|4|5|8][0-9]\d{8}$/;
-            var isMobile = regx.test(value);
-            //判断是否是手机号
-            if (isMobile) {
-                dataType = {mobile: value};
-            } else {
-                dataType = {email: value};
-            }
-        }
+        // var value = $(this).attr("data-value");
+        //
+        // if (value == null || value == '') {
+        //     return;
+        // } else {
+        //     var dataType = null;
+        //     var regx = /^0?1[3|4|5|8][0-9]\d{8}$/;
+        //     var isMobile = regx.test(value);
+        //     //判断是否是手机号
+        //     if (isMobile) {
+        //         dataType = {mobile: value};
+        //     } else {
+        //         dataType = {email: value};
+        //     }
+        // }
 
         var ajaxUrl = $(this).attr("data-path");
         if (ajaxUrl == null || ajaxUrl == '') {
@@ -1279,12 +1279,14 @@ function initJPressAJCaptcha() {
             ],
             function () {
                 var option = {
-                    // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
                     baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
                     containerId: containerId,//pop模式 必填 被点击之后出现行为验证码的元素id
                     mode: 'pop',     //展示模式
                     beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
-                        var val = value;
+                        // var val = value;
+
+
+
                         if (isRead && !val) {
                             alert("账号不能为空");
                             return false

@@ -1,11 +1,12 @@
-# 导入源码到编辑器
-##使用 idea 导入
+# 导入 JPress 源码到编辑器
+
+## 使用 idea 导入
 
 * 1- 打开 IDEA 客户端
 * 2- 点击左上角 **File->open**
 ![img.png](./assets/image/idea_1.png)
   
-* 3-在弹出的文件选择框中**选择 jpress 源码文件夹** 点击ok
+* 3-在弹出的文件选择框中**选择 jpress 源码文件夹** 点击 ok 按钮。
 ![img.png](./assets/image/idea_2.png)
   
 * 4-选择信任项目

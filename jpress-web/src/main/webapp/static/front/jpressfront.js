@@ -946,7 +946,7 @@ $(document).ready(function () {
     /*初始化视频播放容器*/
     initJPressVideo();
 
-    initFormData()
+    initFormData();
 
     /*初始化行为验证码容器*/
     initJPressAJCaptcha();

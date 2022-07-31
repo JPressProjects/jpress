@@ -1,0 +1,14 @@
+<!--name:图片 -->
+<!--type:system -->
+<!--icon:bi bi-image -->
+<!--index: 22 -->
+<div class="#blockOption('Class样式')" style="#blockOption('Style样式:textarea')">
+
+    #if(blockOption('图片链接'))
+    <a href="#blockOption('图片链接')" target="#blockOption('打开方式:target')">
+        <img src="#blockOption('选择图片:image','/static/commons/img/nothumbnail.jpg')" style="max-width: 100%" >
+    </a>
+    #else
+    <img src="#blockOption('选择图片:image','/static/commons/img/nothumbnail.jpg')" style="max-width: 100%" >
+    #end
+</div>

@@ -52,7 +52,7 @@ public class _TemplateBlockController extends AdminControllerBase {
         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
         setAttr("template", currentTemplate);
 
-        render("template/block.html");
+        render("template/block_design.html");
     }
 
 

@@ -2191,16 +2191,16 @@
         /**
          * 获取 component 所有的属性
          * @param component
-         * @param componentData
+         * @param data
          * @private
          */
-        _getComponentAllProps: function (component, componentData) {
+        _getComponentAllProps: function (component, data) {
             //所有默认属性
             var defaultProps = this.deepCopy(this.defaultProps, false);
 
             //组件定义使用的属性
             let useProps = typeof component.useProps === "function"
-                ? component.useProps(this, this.currentData)
+                ? component.useProps(this, data)
                 : (typeof component.useProps === "object" ? component.useProps : []);
 
 
@@ -2225,7 +2225,7 @@
 
             //过滤属性
             if (this.options.bsFormPropsFilter && typeof this.options.bsFormPropsFilter === "function") {
-                this.options.bsFormPropsFilter(allProps, componentData, this)
+                this.options.bsFormPropsFilter(allProps, data, this)
             }
 
             return allProps;

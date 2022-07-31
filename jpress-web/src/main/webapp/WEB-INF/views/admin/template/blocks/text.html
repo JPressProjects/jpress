@@ -1,0 +1,13 @@
+<!--name:文字 -->
+<!--type:system -->
+<!--icon:bi bi-123 -->
+<!--index: 11 -->
+<div class="#blockOption('Class样式')" style="#blockOption('Style样式:textarea')">
+    #if(blockOption('文字链接'))
+    <a href="#blockOption('文字链接')" target="#blockOption('打开方式:target')">
+        #blockOption('文字内容')
+    </a>
+    #else
+    #blockOption('文字内容:textarea')
+    #end
+</div>

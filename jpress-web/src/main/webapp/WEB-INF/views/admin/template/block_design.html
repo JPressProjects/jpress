@@ -136,6 +136,20 @@
             ],
 
             propTemplates: {
+                target: function () {
+                    return '<div class="form-group clearfix">' +
+                        '       <div class="form-label-left">' +
+                        '            <legend class="col-form-label pt-0">打开方式</legend>' +
+                        '        </div>' +
+                        '        <div class="flex-auto">' +
+                        '            <select class="custom-select onchange" {{~if (disabled)}}disabled{{~end}} data-attr="{{name}}">' +
+                        '                   <option value="">当前窗口</option>' +
+                        '                   <option value="_blank" {{value == "_blank" ? "selected" : ""}}>新窗口(_blank)</option>' +
+                        '             </select>' +
+                        '        </div>' +
+                        '    </div>';
+                },
+
                 image: function () {
                     return '<div class="form-group clearfix">' +
                         '       <div class="form-label-left">' +
@@ -162,7 +176,7 @@
                 }
             },
 
-            bsFormPropsItemAppended: function (prop, data, b) {
+            bsFormPropsItemAppended: function (builder, prop, data) {
                 if (prop.type === "image") {
                     initImageBrowserButton()
                 }
@@ -190,6 +204,11 @@
             $(this).parents(".card-header").next(".card-body").toggle();
         })
 
+        $(".middleContent").on("click", "a", function (event) {
+            // 防止 a 跳转到其他页面
+            event.preventDefault();
+        })
+
     });
 </script>
 #end
@@ -200,10 +219,10 @@
         <div class="tool-header d-flex justify-content-between align-items-center">
             <div>
                 <strong class="pr-3">模板板块设置</strong>
-                <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>
-                <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>
-                <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>
-                <span class="tool-btn"><i class="bi bi-list-nested"></i></span>
+                <!--                <span class="tool-btn"><i class="bi bi-x-square-fill"></i></span>-->
+                <!--                <span class="tool-btn"><i class="bi bi-arrow-90deg-left"></i></span>-->
+                <!--                <span class="tool-btn disabled"><i class="bi bi-arrow-90deg-right"></i></span>-->
+                <!--                <span class="tool-btn"><i class="bi bi-list-nested"></i></span>-->
             </div>
             <div>
                 <button class="btn btn-primary btn-sm mr-2 update">更新</button>

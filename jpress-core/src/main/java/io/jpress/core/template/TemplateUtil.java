@@ -109,6 +109,8 @@ public class TemplateUtil {
                 block.setIcon(lineStr.substring(5));
             } else if (lineStr.startsWith("type:")) {
                 block.setType(lineStr.substring(5));
+            }else if (lineStr.startsWith("index:")) {
+                block.setIndex(lineStr.substring(6));
             }
         } else {
             block.addTemplateLine(lineStr);

@@ -12,6 +12,7 @@ public class BsFormComponent {
     private Drag drag = new Drag();
     private List<Prop> props;
     private Boolean disableTools;
+
     private String template;
 
     public String getName() {
@@ -44,12 +45,13 @@ public class BsFormComponent {
     }
 
     public void setDragIndex(String dragIndex) {
-        if(StrUtil.isNotBlank(dragIndex)) {
-            this.drag.index = Integer.valueOf(dragIndex);
+        if (StrUtil.isNotBlank(dragIndex)) {
+            this.drag.index = Integer.valueOf(dragIndex.trim());
         }
     }
+
     public void setDragType(String dragType) {
-        if(StrUtil.isNotBlank(dragType)) {
+        if (StrUtil.isNotBlank(dragType)) {
             this.drag.type = dragType;
         }
     }
@@ -64,8 +66,8 @@ public class BsFormComponent {
     }
 
 
-    public void  addProp(Prop prop){
-        if (props == null){
+    public void addProp(Prop prop) {
+        if (props == null) {
             props = new ArrayList<>();
         }
 
@@ -80,7 +82,7 @@ public class BsFormComponent {
         this.disableTools = disableTools;
     }
 
-    public String getTemplate() {
+    public String template() {
         return template;
     }
 

@@ -54,7 +54,6 @@ public class BsFormManager {
     }
 
 
-
     public String renderAll(JSONArray datas, Map values, boolean withEdit) {
         if (datas == null || datas.isEmpty()) {
             return null;
@@ -70,7 +69,6 @@ public class BsFormManager {
 
         return html.toString();
     }
-
 
 
     public String renderComponentDataToHtml(JSONObject componentData, Map values, boolean withEdit) {
@@ -106,12 +104,12 @@ public class BsFormManager {
             datas.put("children", htmls);
         }
 
-        if (values != null && datas.containsKey("field")){
+        if (values != null && datas.containsKey("field")) {
             //设置 datas 的 value 值
             Object value = values.get(datas.get("field"));
 
             //复选框
-            if ("checkbox".equals(datas.get("tag")) && value != null){
+            if (value != null && isArrayValueComponent(datas.get("tag"))) {
                 value = value.toString().split(",");
             }
 
@@ -126,7 +124,7 @@ public class BsFormManager {
             String template = null;
 
             if (component != null) {
-                template = component.getTemplate();
+                template = component.template();
             } else {
                 LogKit.error("未表单找到组件：" + tag);
                 template = "<div class=\"none-component\">没有找到相关组件</div>";
@@ -145,9 +143,14 @@ public class BsFormManager {
     }
 
 
+    private static boolean isArrayValueComponent(Object tag) {
+        return "checkbox".equals(tag) || "image-upload".equals(tag);
+    }
+
+
     private String renderTemplate(String htmlString, Map<String, Object> datas) {
         try {
-            if (!datas.containsKey("options")){
+            if (!datas.containsKey("options")) {
                 JSONObject component = (JSONObject) datas.get("component");
                 if (component != null) {
                     Boolean withOptions = component.getBoolean("withOptions");

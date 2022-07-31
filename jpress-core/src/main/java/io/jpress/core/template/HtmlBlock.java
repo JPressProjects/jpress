@@ -5,6 +5,7 @@ import io.jpress.core.bsformbuilder.BsFormComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -80,7 +81,30 @@ public class HtmlBlock {
         if (optionDefs == null) {
             optionDefs = new ArrayList<>();
         }
-        optionDefs.add(optionDef);
+
+        HtmlBlockOptionDef existOptionDef = null;
+        for (HtmlBlockOptionDef def : optionDefs) {
+            if (Objects.equals(def.getName(),optionDef.getName())){
+                existOptionDef = def;
+            }
+        }
+
+        if (existOptionDef == null){
+            optionDefs.add(optionDef);
+        }else {
+            mergeOptionDef(optionDef,existOptionDef);
+        }
+    }
+
+    /**
+     * 合并新的 option 到已经存在的 options
+     * @param newOptionDef
+     * @param existOptionDef
+     */
+    private void mergeOptionDef(HtmlBlockOptionDef newOptionDef, HtmlBlockOptionDef existOptionDef) {
+        if (StrUtil.isNotBlank(newOptionDef.getType())){
+            existOptionDef.setType(newOptionDef.getType());
+        }
     }
 
     public String getIndex() {
@@ -118,7 +142,6 @@ public class HtmlBlock {
         component.setDragIndex(index);
         component.setDragType(type);
         component.setTemplate(getTemplate());
-        component.addProp(new BsFormComponent.Prop());
 
         if (optionDefs != null) {
             for (HtmlBlockOptionDef optionDef : optionDefs) {

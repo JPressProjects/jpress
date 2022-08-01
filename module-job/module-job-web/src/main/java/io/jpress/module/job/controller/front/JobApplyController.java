@@ -1,6 +1,5 @@
 package io.jpress.module.job.controller.front;
 
-import com.alibaba.fastjson.JSON;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
@@ -25,6 +24,7 @@ import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
+
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.HashMap;
@@ -60,7 +60,7 @@ public class JobApplyController extends TemplateControllerBase {
         setAttr("job", job);
 
 
-        render("jobapply.html");
+        render("job_apply.html");
     }
 
 
@@ -87,6 +87,9 @@ public class JobApplyController extends TemplateControllerBase {
     public void doSave() {
 
         JobApply entry = getModel(JobApply.class, "jobApply");
+
+        Long jobId = entry.getJobId();
+
 
         String mobileCode = getPara("mobileCode");
         String emailCode = getPara("emailCode");

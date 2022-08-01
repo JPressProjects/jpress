@@ -569,6 +569,19 @@ a.card-link:hover .cl-card-main-title{
         justify-content:center;
         margin:2rem auto;
     }
+    .application-details{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap:wrap;
+        justify-content: space-between;
+    }
+    .application-details .form-group{
+        width:45%;
+
+    }
 
 
 

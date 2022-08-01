@@ -580,7 +580,27 @@ a.card-link:hover .cl-card-main-title{
     }
     .application-details .form-group{
         width:45%;
-
+    }
+    .application-detail .form-control{
+        margin-bottom:1rem;
+    }
+    .application-detail .form-group .form-control:focus{
+        box-shadow:none;
+    }
+    .job-verification-code{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin-top:0.5rem;
+        justify-content: space-between;
+    }
+    .job-verification-code .btn{
+        padding:0;
+    }
+    .job-verification-code .btn{
+        border: 1px solid #ced4da;
     }
 
 

@@ -178,9 +178,7 @@ public class JobApplyController extends TemplateControllerBase {
     }
 
     //获取手机号验证码
-    public void getMobileCode() {
-
-        String mobile = getPara("mobile");
+    public void getMobileCode(@JsonBody("mobile") String mobile) {
 
         Map<String, Object> map = new HashMap<>();
 

@@ -104,65 +104,6 @@
 
     }
 
-    //TODO
-
-    var isRead = false;
-
-
-   // 滑块验证 并获取邮箱验证码
-    $('body').slideVerify({
-        // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
-        baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
-        containerId: 'getEmailCode',//pop模式 必填 被点击之后出现行为验证码的元素id
-        mode: 'pop',     //展示模式
-        imgSize: {       //图片的大小对象,有默认值{ width: '310px',height: '155px'},可省略
-            width: '400px',
-            height: '200px',
-        },
-        barSize: {          //下方滑块的大小对象,有默认值{ width: '310px',height: '50px'},可省略
-            width: '400px',
-            height: '40px',
-        },
-        beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
-            let email = $("#email").val();
-            if (isRead && !email) {
-                alert("邮箱不能为空");
-                return false
-            }
-            return true;
-        },
-        //加载完毕的回调
-        ready: function () {
-            isRead = true;
-        },
-        //验证成功
-        success: function (params) {
-            let email = $("#email").val();
-
-            var data = $.extend({email: email}, params);
-
-            $.ajax({
-                url: '/job/apply/getEmailCode/#(job.id ??)',
-                type: 'post',
-                data: JSON.stringify(data),
-                contentType: "json",
-                success: function (result) {
-                    if (result.state == false) {
-                        alert(result.message);
-                    }
-
-                    if (result.state == true) {
-                        alert(result.message)
-                    }
-                }
-            })
-        },
-        error: function () {
-            //失败的回调
-            console.log("slideVerify error...");
-        }
-    });
-
 </script>
 
 #end
@@ -211,7 +152,7 @@
 
             <input style="width:40%;float:right;" type="button" class="btn btn-primary jpress-captcha" id="getCode" data-type="pointsVerify" data-location="body"
                    data-value-id="mobile" data-path="/job/apply/getMobileCode"
-                   data-url="" data-point="验证码发送成功，请注意查收！"
+                   data-url="" data-point="手机验证码发送成功，请注意查收！"
                    value="获取验证码"/>
 
             <div class="clearfix"></div>
@@ -228,8 +169,9 @@
                    name="emailCode" autocomplete="off">
 
 
-            <input style="width:40%;float:right;" id="getEmailCode" type="button"
-                   class="btn btn-primary"
+            <input style="width:40%;float:right;" id="getEmailCode" type="button" data-type="slideVerify" data-location="html"
+                   class="btn btn-primary jpress-captcha"  data-value-id="email" data-path="/job/apply/getEmailCode/#(job.id ??)"
+                   data-url="" data-point="邮箱验证码发送成功，请注意查收！"
                    value="获取验证码"/>
 
             <div class="clearfix"></div>

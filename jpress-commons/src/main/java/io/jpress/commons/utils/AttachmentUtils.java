@@ -15,6 +15,7 @@
  */
 package io.jpress.commons.utils;
 
+import com.jfinal.kit.LogKit;
 import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
@@ -24,10 +25,7 @@ import io.jpress.JPressConfig;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class AttachmentUtils {
 
@@ -55,7 +53,7 @@ public class AttachmentUtils {
 
         try {
             org.apache.commons.io.FileUtils.moveFile(file, newfile);
-            newfile.setReadable(true,false);
+            newfile.setReadable(true, false);
         } catch (IOException e) {
             LOG.error(e.toString(), e);
         }
@@ -91,7 +89,7 @@ public class AttachmentUtils {
                 : path;
     }
 
-    static List<String> imageSuffix = new ArrayList<>();
+    static Set<String> imageSuffix = new HashSet<>();
 
     static {
         imageSuffix.add(".jpg");
@@ -110,11 +108,14 @@ public class AttachmentUtils {
         return false;
     }
 
-    static List<String> unSafeFilesSuffix = new ArrayList<>();
+
+    static Set<String> unSafeFilesSuffix = new HashSet<>();
 
     static {
         unSafeFilesSuffix.add(".jsp");
         unSafeFilesSuffix.add(".jspx");
+        unSafeFilesSuffix.add(".asp");
+        unSafeFilesSuffix.add(".aspx");
         unSafeFilesSuffix.add(".php");
         unSafeFilesSuffix.add(".html");
         unSafeFilesSuffix.add(".htm");
@@ -134,6 +135,14 @@ public class AttachmentUtils {
         }
         return false;
     }
+
+
+    public static void delete(File file) {
+        if (file != null && !file.delete()) {
+            LogKit.error("file {} can not deleted!", file);
+        }
+    }
+
 
     public static void main(String[] args) {
         System.out.println(FileUtil.getSuffix("xxx.jpg"));

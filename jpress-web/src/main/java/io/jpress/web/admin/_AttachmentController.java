@@ -183,14 +183,14 @@ public class _AttachmentController extends AdminControllerBase {
 
         File file = uploadFile.getFile();
         if (AttachmentUtils.isUnSafe(file)) {
-            file.delete();
+            AttachmentUtils.delete(uploadFile.getFile());
             renderJson(Ret.fail().set("message", "不支持此类文件上传"));
             return;
         }
 
         File rootFile = new File(PathKit.getWebRootPath(), file.getName());
         if (rootFile.exists()) {
-            file.delete();
+            AttachmentUtils.delete(uploadFile.getFile());
             renderJson(Ret.fail().set("message", "该文件已经存在，请手动删除后再重新上传。"));
             return;
         }

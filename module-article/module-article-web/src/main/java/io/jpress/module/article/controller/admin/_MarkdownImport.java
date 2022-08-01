@@ -60,6 +60,7 @@ public class _MarkdownImport extends AdminControllerBase {
         }
 
         if (!".md".equals(FileUtil.getSuffix(ufile.getFileName()))) {
+            AttachmentUtils.delete(ufile.getFile());
             renderJson(Ret.fail("message", "请选择Markdown格式的文件"));
             return;
         }

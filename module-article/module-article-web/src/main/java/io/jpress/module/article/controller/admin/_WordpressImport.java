@@ -56,6 +56,7 @@ public class _WordpressImport extends AdminControllerBase {
         }
 
         if (!".xml".equals(FileUtil.getSuffix(ufile.getFileName()))) {
+            AttachmentUtils.delete(ufile.getFile());
             renderJson(Ret.fail("message", "请选择从WordPress导出的XML文件"));
             return;
         }

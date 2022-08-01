@@ -76,13 +76,13 @@ public class _AddonController extends AdminControllerBase {
         }
 
         if (!StringUtils.equalsAnyIgnoreCase(FileUtil.getSuffix(ufile.getFileName()), ".zip", ".jar")) {
-            renderFail("只支持 .zip 或 .jar 的插件文件",ufile);
+            renderFailAndDeleteFile("只支持 .zip 或 .jar 的插件文件",ufile);
             return;
         }
 
         AddonInfo addon = AddonUtil.readSimpleAddonInfo(ufile.getFile());
         if (addon == null || StrUtil.isBlank(addon.getId())) {
-            renderFail("无法读取插件配置信息。",ufile);
+            renderFailAndDeleteFile("无法读取插件配置信息。",ufile);
             return;
         }
 
@@ -95,7 +95,7 @@ public class _AddonController extends AdminControllerBase {
 
             //说明该插件已经被安装了
             if (AddonManager.me().getAddonInfo(addon.getId()) != null) {
-                renderFail("该插件已经存在。",ufile);
+                renderFailAndDeleteFile("该插件已经存在。",ufile);
                 return;
             }
             //该插件之前已经被卸载了
@@ -103,7 +103,7 @@ public class _AddonController extends AdminControllerBase {
 
                 //尝试再次去清除jar包，若还是无法删除，则无法安装
                 if (!AddonUtil.forceDelete(newAddonFile)) {
-                    renderFail("该插件已经存在。",ufile);
+                    renderFailAndDeleteFile("该插件已经存在。",ufile);
                     return;
                 }
             }
@@ -116,16 +116,16 @@ public class _AddonController extends AdminControllerBase {
         try {
             FileUtils.moveFile(ufile.getFile(), newAddonFile);
             if (!AddonManager.me().install(newAddonFile)) {
-                renderFail("该插件安装失败，请联系管理员。",ufile);
+                renderFailAndDeleteFile("该插件安装失败，请联系管理员。",ufile);
                 return;
             }
             if (!AddonManager.me().start(addon.getId())) {
-                renderFail("该插件安装失败，请联系管理员。",ufile);
+                renderFailAndDeleteFile("该插件安装失败，请联系管理员。",ufile);
                 return;
             }
         } catch (Throwable e) {
             LOG.error("addon install error : ", e);
-            renderFail("该插件安装失败，请联系管理员。",ufile);
+            renderFailAndDeleteFile("该插件安装失败，请联系管理员。",ufile);
             deleteFileQuietly(newAddonFile);
             return;
         }
@@ -164,19 +164,19 @@ public class _AddonController extends AdminControllerBase {
 
         UploadFile ufile = getFile();
         if (ufile == null) {
-            renderFail(null);
+            renderFailAndDeleteFile(null);
             return;
         }
 
         String oldAddonId = getPara("id");
         AddonInfo oldAddon = AddonManager.me().getAddonInfo(oldAddonId);
         if (oldAddon == null) {
-            renderFail("无法读取旧的插件信息，可能已经被卸载。", ufile);
+            renderFailAndDeleteFile("无法读取旧的插件信息，可能已经被卸载。", ufile);
             return;
         }
 
         if (!StringUtils.equalsAnyIgnoreCase(FileUtil.getSuffix(ufile.getFileName()), ".zip", ".jar")) {
-            renderFail("只支持 .zip 或 .jar 的插件文件", ufile);
+            renderFailAndDeleteFile("只支持 .zip 或 .jar 的插件文件", ufile);
             return;
         }
 
@@ -186,7 +186,7 @@ public class _AddonController extends AdminControllerBase {
             return;
         } catch (Exception ex) {
             LOG.error(ex.toString(), ex);
-            renderFail("插件升级失败，请联系管理员", ufile);
+            renderFailAndDeleteFile("插件升级失败，请联系管理员", ufile);
             return;
         } finally {
             deleteFileQuietly(ufile.getFile());
@@ -197,7 +197,7 @@ public class _AddonController extends AdminControllerBase {
         org.apache.commons.io.FileUtils.deleteQuietly(file);
     }
 
-    private void renderFail(String msg, UploadFile... uploadFiles) {
+    private void renderFailAndDeleteFile(String msg, UploadFile... uploadFiles) {
         renderJson(Ret.fail()
                 .set("success", false)
                 .setIfNotBlank("message", msg));

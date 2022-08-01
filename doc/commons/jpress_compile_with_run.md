@@ -10,41 +10,41 @@
 
 1-打开终端
 
-![img.png](assets/image/jpress_6.png)
+![img.png](../commons/img/jpress/jpress_6.png)
   
 2-输入编译命令 **mvn clean package** 然后回车 等待编译结束
-![img.png](assets/image/jpress_7.png)
+![img.png](../commons/img/jpress/jpress_7.png)
   
 * 3-编译结束
-  ![img.png](assets/image/jpress_8.png)
+  ![img.png](../commons/img/jpress/jpress_8.png)
   
 ## 2-运行
 * 1-找到项目启动类 并**点击绿色小箭头启动项目**
-  ![img.png](assets/image/jpress_9.png)
+  ![img.png](../commons/img/jpress/jpress_9.png)
   
 * 2-出现如下界面 则表示启动成功
-![img.png](assets/image/jpress_10.png)
+![img.png](../commons/img/jpress/jpress_10.png)
   
 * 3-启动项目之后在本地环境下 可以**通过 http://127.0.0.1:8080 或者 http://localhost:8080 来访问我们的首页**
 * 4-如果我们是第一次下载并启动 那么就会进入到 jpress的图形安装页面 **安装过程会自动建库建表**
-  ![img.png](assets/image/jpress_11.png)
+  ![img.png](../commons/img/jpress/jpress_11.png)
   
 * 5-然后点击下一步 然后填入对应的信息 点击下一步
-  ![img.png](assets/image/jpress_12.png)
+  ![img.png](../commons/img/jpress/jpress_12.png)
   
 * 6-然后 同样的填入对应的信息 点击完成 然后等待一会
-  ![img.png](assets/image/jpress_13.png)
+  ![img.png](../commons/img/jpress/jpress_13.png)
 
 * 7-出现提示安装成功的弹窗之后 则表示安装成功
-  ![img.png](assets/image/jpress_14.png)
+  ![img.png](../commons/img/jpress/jpress_14.png)
   
 * 8-安装成功之后 需要在项目文件中 **stater->target->classes 文件夹下找到 **install.lock 和 jboot.properties 俩个文件**
-  ![img.png](assets/image/jpress_15.png)
+  ![img.png](../commons/img/jpress/jpress_15.png)
   
 * 9-然后将这俩个文件 复制到 **starter->src->main->resource** 目录下
 >说明->因为 jpress 是否安装决定在这两个文件 当执行 mvn clean 命令时 maven 会清除 target 下的所有文件 从而使 JPress 会再次走安装流程 所以需要将这俩个文件复制到 resources目录下
 
-  ![img.png](assets/image/jpress_16.png)
+  ![img.png](../commons/img/jpress/jpress_16.png)
   
 * 10-访问 jpress 首页
 >我们可以通过 http://localhost:8080 来访问我们的首页
@@ -52,7 +52,7 @@
 * 11-访问 jpress 后台
 >我们可以通过 http://localhost:8080/admin 来访问我们的后台
 
-  ![img.png](assets/image/jpress_17.png)
+  ![img.png](../commons/img/jpress/jpress_17.png)
 
 * 12-输入账号和密码 以及验证码之后进入后台 **至此 jpress 已经编译并运行成功**
-  ![img.png](assets/image/jpress_18.png)
+  ![img.png](../commons/img/jpress/jpress_18.png)

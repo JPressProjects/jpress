@@ -45,14 +45,16 @@ public class JobApplyController extends TemplateControllerBase {
     @Inject
     private CaptchaService captchaService;
 
-
     public void index() {
 
         Long id = getLong();
 
         Job job = jobService.findByIdWithInfo(id);
 
-        if (id == null || job == null) {
+        //获取 招聘设置中  是否允许简历投递
+        Boolean isApplyEnable = optionService.findAsBoolByKey(JobApply.JOB_APPLY_ENABLE);
+
+        if (id == null || job == null || !isApplyEnable || !job.getWithApply()) {
             renderError(404);
             return;
         }
@@ -94,11 +96,24 @@ public class JobApplyController extends TemplateControllerBase {
         String mobileCode = getPara("mobileCode");
         String emailCode = getPara("emailCode");
 
+        //如果提交为空 404
         if (entry == null) {
             renderError(404);
             return;
         }
 
+        //获取岗位信息
+        Job job = jobService.findById(entry.getJobId());
+        //获取 招聘设置中  是否允许简历投递
+        Boolean isApplyEnable = optionService.findAsBoolByKey(JobApply.JOB_APPLY_ENABLE);
+        //如果此岗位已经关闭 在线投递 那么 404 如果招聘设置中 简历投递被关闭 那么 404
+        if (job == null || !job.getWithApply() || !isApplyEnable) {
+            renderError(404);
+            return;
+        }
+
+
+        //填写必填信息
         if (entry.getMobile() == null || entry.getJobId() == null || entry.getUserName() == null) {
             renderFailJson("请填写重要信息");
             return;
@@ -143,10 +158,9 @@ public class JobApplyController extends TemplateControllerBase {
 
         jobApplyService.saveOrUpdate(entry);
 
-        Job job = jobService.findById(entry.getJobId());
 
-        //job 不为 null 并且设置了 有新申请 通知之后发送邮件
-        if (job != null && job.getWithNotify() && job.getWithNotify() != null) {
+        //job 如果设置了 有新申请 通知之后发送邮件
+        if (job.getWithNotify() && job.getWithNotify() != null) {
             sendEmail(job);
         }
 
@@ -235,7 +249,7 @@ public class JobApplyController extends TemplateControllerBase {
     }
 
     //获取邮箱验证码
-    public void getEmailCode(@JsonBody("email") String email,@JsonBody CaptchaVO captchaVO) {
+    public void getEmailCode(@JsonBody("email") String email, @JsonBody CaptchaVO captchaVO) {
 
         Long id = getLong();
 
@@ -278,7 +292,7 @@ public class JobApplyController extends TemplateControllerBase {
         //获取到 html 文件
         FileSource fileSource = new FileSource(absolutePathFile.getAbsolutePath(), "jobemail.html");
         //将code 放入map中
-        HashMap<String,Object> htmlMap = new HashMap<>();
+        HashMap<String, Object> htmlMap = new HashMap<>();
         htmlMap.put("code", code);
         //将html文件渲染为 为 string 格式 并传入参数
         String renderResult = engine.getTemplate(fileSource).renderToString(htmlMap);
@@ -300,7 +314,7 @@ public class JobApplyController extends TemplateControllerBase {
     }
 
     //邮箱验证
-    public boolean validationEmail(String email, String code)  {
+    public boolean validationEmail(String email, String code) {
 
         if (code == null || email == null) {
             return false;

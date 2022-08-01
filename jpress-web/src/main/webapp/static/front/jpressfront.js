@@ -920,6 +920,62 @@ function initJPressAJCaptcha() {
     })
 }
 
+//job apply 页面 选择文件
+function jobFileChoose(){
+
+    $(".chooseFileResume").each(function (){
+
+        var $this = $(this);
+
+        $this.on('change',function (){
+            let id = $this.attr("data-result-id");
+
+            if(!id){
+                let fileName =$this.files[0].name;
+
+                $("#"+id).html(fileName);
+            }
+        })
+
+        //TODO
+    })
+}
+
+//job apply 文件上传
+function jobUploadFile(fileId,inputId){
+
+    let formData = new FormData();
+
+    formData.append("file", $("#"+fileId)[0].files[0]);
+
+    $.ajax({
+        url: '/job/apply/uploadFile',
+        type: 'post',
+        cache: false,//关闭上传文件缓存
+        data: formData,
+        processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理
+        contentType: false,
+        success: function (result) {
+
+            if (result.state == "fail") {
+                alert(result.message);
+            }
+
+            if (result.state == true) {
+
+                $("#"+inputId).val(result.filePath);
+
+                //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
+                $('#'+fileId).val('');
+
+                alert("上传成功");
+
+            }
+        }
+    })
+
+}
+
 
 $(document).ready(function () {
 
@@ -945,9 +1001,13 @@ $(document).ready(function () {
     /*初始化视频播放容器*/
     initJPressVideo();
 
+    /*初始化表单数据*/
     initFormData();
 
     /*初始化行为验证码容器*/
     initJPressAJCaptcha();
+
+    /*job apply 页面 文件选择*/
+    jobFileChoose();
 });
 

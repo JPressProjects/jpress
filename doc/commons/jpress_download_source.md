@@ -3,7 +3,7 @@
 ## 1、进入 JPress 的 gitee 界面
 **JPress源码地址：[https://gitee.com/JPressProjects/jpress](https://gitee.com/JPressProjects/jpress)**
 
-![img.png](./assets/image/jpress_1.png)
+![img.png](../commons/img/jpress/jpress_1.png)
 
 点击图注1的（克隆/下载）按钮 有俩种获取jpress源码的方式
 * 1、直接下载 zip 包 然后再本地解压即可
@@ -20,18 +20,18 @@
 
 本文档创建的文件夹为：D://demo
 
-![img_1.png](./assets/image/jpress_2.png)
+![img_1.png](../commons/img/jpress/jpress_2.png)
 
 ### 3、通过 git-scm 拉取 JPress 源码
 
 * 1、在创建的文件夹里的空白处，点击鼠标右键，选择 `Git Bash Here` 如下图所示：
-![img.png](./assets/image/jpress_3.png)
+![img.png](../commons/img/jpress/jpress_3.png)
   
 * 2、在弹出的控制台输入框，输入： `git clone  复制的链接`  命令，点击回车键自动下载源码。
-![img.png](./assets/image/jpress_4.png)
+![img.png](../commons/img/jpress/jpress_4.png)
   
 * 3、稍等片刻，源码下载完毕后，会在当前文件夹下创建 `jpress` 目录
-![img.png](./assets/image/jpress_5.png)
+![img.png](../commons/img/jpress/jpress_5.png)
 
   
 

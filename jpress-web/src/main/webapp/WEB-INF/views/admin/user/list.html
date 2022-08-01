@@ -114,7 +114,7 @@
                                 <th style="width: 10px">
                                     <input class="tableCheckAll" id="checkall" type="checkbox"/>
                                 </th>
-                                <th style="width: 40px">ID</th>
+                                <th style="width: 20px">ID</th>
                                 <th style="width: 20%">登录名</th>
                                 <th style="width: 10%">昵称</th>
                                 <th>标签</th>
@@ -131,6 +131,7 @@
                                 </td>
                                 <td>#(user.id)</td>
                                 <td>
+                                    <img src="#(user.avatar )" style="width: 20px;height: 20px">
                                     <strong>
                                         #if(user.username)
                                         <a href="#(CPATH)/admin/user/detail/#(user.id)">

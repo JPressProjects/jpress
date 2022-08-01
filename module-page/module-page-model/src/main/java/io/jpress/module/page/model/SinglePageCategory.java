@@ -15,8 +15,8 @@ public class SinglePageCategory extends BaseSinglePageCategory<SinglePageCategor
 
 
     @JsonIgnore
-    public String getHtmlView() {
-        return StrUtil.isBlank(getStyle()) ? "pagelist.html" : "pagelist_" + getStyle().trim() + ".html";
+    public String getPageView() {
+        return StrUtil.isBlank(getStyle()) ? "page.html" : "page_" + getStyle().trim() + ".html";
     }
 	
 }

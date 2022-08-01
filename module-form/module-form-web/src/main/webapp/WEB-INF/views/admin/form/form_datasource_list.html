@@ -70,10 +70,7 @@
                                 <input class="tableCheckAll" type="checkbox"/>
                             </th>
                             <th style="width: 150px">数据源名称</th>
-                            <th>导入类型</th>
-                            <th>导入内容</th>
-                            <th>是否级联</th>
-                            <th>是否是静态内容</th>
+                            <th>内容类型</th>
                             <th>创建时间</th>
                             <th>修改时间</th>
 
@@ -94,15 +91,13 @@
                                 </div>
                             </td>
 
-                            <td>#(entry.import_type)</td>
-                            <td>#maxLength(entry.import_text,10)</td>
 
-                            <td>#if(entry.with_cascade ??)是
-                                #else 否 #end
-                            </td>
-
-                            <td>#if(entry.with_static ??)是
-                                #else 否 #end
+                            <td>
+                                #if(entry.with_static ??)
+                                静态
+                                #else
+                                动态
+                                #end
                             </td>
 
                             <td>#date(entry.created)</td>

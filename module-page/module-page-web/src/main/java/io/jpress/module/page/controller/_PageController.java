@@ -234,7 +234,7 @@ public class _PageController extends AdminControllerBase {
                 }
             }
         }
-        initStylesAttr("pagelist_");
+        initStylesAttr("page_");
         render("page/page_category_list.html");
     }
 

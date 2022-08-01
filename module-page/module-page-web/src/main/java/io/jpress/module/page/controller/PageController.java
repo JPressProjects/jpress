@@ -27,7 +27,9 @@ import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.model.User;
 import io.jpress.module.page.PageNotifyKit;
 import io.jpress.module.page.model.SinglePage;
+import io.jpress.module.page.model.SinglePageCategory;
 import io.jpress.module.page.model.SinglePageComment;
+import io.jpress.module.page.service.SinglePageCategoryService;
 import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.service.OptionService;
@@ -49,6 +51,8 @@ public class PageController extends TemplateControllerBase {
     @Inject
     private SinglePageService pageService;
 
+    @Inject
+    private SinglePageCategoryService pageCategoryService;
 
     @Inject
     private SinglePageCommentService commentService;
@@ -107,7 +111,19 @@ public class PageController extends TemplateControllerBase {
 
         setAttr("page", page);
 
-        render(page.getHtmlView());
+        String pageStyle = page.getStyle();
+        if (StrUtil.isNotBlank(pageStyle)) {
+            render(page.getHtmlView());
+            return;
+        }
+
+
+        SinglePageCategory pageCategory = pageCategoryService.findById(page.getCategoryId());
+        if (pageCategory != null) {
+            render(pageCategory.getPageView());
+        } else {
+            render(page.getHtmlView());
+        }
     }
 
 

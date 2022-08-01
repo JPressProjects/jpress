@@ -114,13 +114,14 @@
                                 <label class="col-sm-2 col-form-label">页面模板</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="category.style">
-                                        <option value="">默认（pagelist.html）</option>
+                                        <option value="">默认（page.html）</option>
                                         #for(style : styles)
                                         <option value="#(style)" #selectedIf(category && category.style== style)>
-                                            pagelist_#(style).html
+                                            page_#(style).html
                                         </option>
                                         #end
                                     </select>
+                                    <p class="text-muted"> 该分类下的页面，当未配置页面模板的时候默认使用的模板。</p>
                                 </div>
                             </div>
 

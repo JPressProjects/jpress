@@ -11,13 +11,11 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.model.Role;
 import io.jpress.model.SiteInfo;
 import io.jpress.service.RoleService;
 import io.jpress.service.SiteInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
-import java.util.List;
 import java.util.Set;
 
 @RequestMapping(value = "/admin/site", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -57,18 +55,9 @@ public class _SiteController extends AdminControllerBase {
             setAttr("currentLangs",siteInfo.getBindLangsAsSet());
 
 
-        List<Role> roleList = roleService.findAll();
-        if (roleList != null){
-            for (Role role : roleList) {
-                if (siteInfo.hasRole(role.getId())){
-                    role.put("isSelected",true);
-                }
-            }
-        }
 
 
 
-            setAttr("roleList", roleList);
 
         render("site/site_edit.html");
 
@@ -103,42 +92,13 @@ public class _SiteController extends AdminControllerBase {
             return;
         }
 
-        //如果设置了为默认站点
-//        if (siteInfo.getWithLangDefault()) {
-//            //查询是否有默认站点
-//            SiteInfo siteInfoByDefault = siteInfoService.findLangDefaultSite();
-//
-//            //如果siteInfoByDefault 不为 null 就是已经有啦more站点
-//            // 如果是修改 那么修改的不是 默认站点的话 不行
-//            // 如果是新建 那么在已经有默认站点的情况下  不行
-//            if (siteInfoByDefault != null && (siteInfo.getId() == null || (siteInfo.getId() != null && !siteInfo.getId().equals(siteInfoByDefault.getId())))) {
-//                renderFailJson("已经有默认站点,请重新设置");
-//                return;
-//            }
-//        }
-
 
         //获取所有绑定的语言
         String[] bindLanguages = getParaValues("bindLang");
         siteInfo.setBindLangs(ArrayUtil.toString(bindLanguages,","));
 
-        //获取所有id
-        Long[] roleIds = getParaValuesToLong("roleId");
-        siteInfo.setBindRoles(ArrayUtil.toString(roleIds,","));
-
 
         siteInfoService.saveOrUpdate(siteInfo);
-
-
-
-
-//        //更新中间表
-//        siteInfoService.saveOrUpdateSiteLangMapping(siteInfo.getId(),bindLanguages);
-//
-//
-//
-//        //更新中间表
-//        siteInfoService.saveOrUpdateSiteRoleMapping(siteInfo.getId(), roleIds);
 
         renderOkJson();
 

@@ -11,10 +11,16 @@ public abstract class BaseSiteInfo<M extends BaseSiteInfo<M>> extends JbootModel
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
 	public void setId(java.lang.Long id) {
 		set("id", id);
 	}
 
+    /**
+     * 主键
+     */
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
@@ -87,20 +93,6 @@ public abstract class BaseSiteInfo<M extends BaseSiteInfo<M>> extends JbootModel
      */
 	public java.lang.String getBindLangs() {
 		return getStr("bind_langs");
-	}
-
-    /**
-     * 绑定的角色列表
-     */
-	public void setBindRoles(java.lang.String bindRoles) {
-		set("bind_roles", bindRoles);
-	}
-
-    /**
-     * 绑定的角色列表
-     */
-	public java.lang.String getBindRoles() {
-		return getStr("bind_roles");
 	}
 
     /**

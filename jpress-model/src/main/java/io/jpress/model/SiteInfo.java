@@ -14,18 +14,8 @@ import java.util.Set;
 public class SiteInfo extends BaseSiteInfo<SiteInfo> {
 
     private static final long serialVersionUID = 1L;
-    private Set<Long> roleArray;
     private Set<String> langArray;
 
-
-    public boolean hasRole(Long roleId) {
-        for (Long role : getBindRolesAsSet()) {
-            if (roleId.equals(role)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 
     public boolean hasLang(String lang) {
@@ -45,25 +35,6 @@ public class SiteInfo extends BaseSiteInfo<SiteInfo> {
         return langArray;
     }
 
-
-    public Set<Long> getBindRolesAsSet() {
-        if (roleArray == null) {
-            roleArray = toLongSet(getBindRoles());
-        }
-        return roleArray;
-    }
-
-
-    private Set<Long> toLongSet(String string) {
-        Set<Long> set = new HashSet<>();
-        if (StrUtil.isNotBlank(string)) {
-            String[] strings = string.split(",");
-            for (String s : strings) {
-                set.add(Long.parseLong(s));
-            }
-        }
-        return set;
-    }
 
 
     private Set<String> toStringSet(String string) {

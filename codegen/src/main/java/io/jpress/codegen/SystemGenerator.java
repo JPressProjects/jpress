@@ -48,7 +48,7 @@ public class SystemGenerator {
         String sortTables = "menu,wechat_menu";
         String sortOptionsTables = "";
 
-        JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://192.168.1.2:3306/jpress");
+        JbootApplication.setBootArg("jboot.datasource.url", "jdbc:mysql://192.168.3.2:3306/jpress");
         JbootApplication.setBootArg("jboot.datasource.user", "root");
         JbootApplication.setBootArg("jboot.datasource.password", "123456");
 

@@ -823,6 +823,7 @@ function initJPressAJCaptcha() {
         var ajaxGetSuccessToUrl = $(this).attr("data-url");
         var ajaxGetSuccessPoint = $(this).attr("data-point");
 
+        var val =null;
         var option = {
             // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
             baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
@@ -830,7 +831,7 @@ function initJPressAJCaptcha() {
             mode: 'pop',     //展示模式
             beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
 
-                var val = $("#"+valueId).val();
+               val = $("#"+valueId).val();
 
                 if (isRead && !val) {
                     alert("数据不能为空");
@@ -845,16 +846,14 @@ function initJPressAJCaptcha() {
             //验证成功
             success: function (params) {
 
-                var value = $("#"+valueId).val();
-
                 var dataType = null;
-                var regx = /^0?1[3|4|5|8][0-9]\d{8}$/;
-                var isMobile = regx.test(value);
+                var regx = /^1(3|4|5|6|7|8|9)\d{9}$/;
+                var isMobile = regx.test(val);
                 //判断是否是手机号
                 if (isMobile) {
-                    dataType = {mobile: value};
-                } else {
-                    dataType = {email: value};
+                    dataType = {mobile: val};
+                } else if(!isMobile){
+                    dataType = {email: val};
                 }
 
                 var data = $.extend(dataType, params);

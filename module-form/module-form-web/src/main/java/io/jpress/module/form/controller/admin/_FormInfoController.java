@@ -44,11 +44,14 @@ public class _FormInfoController extends AdminControllerBase {
 
     @AdminMenu(text = "表单", groupId = "form", order = 1)
     public void list() {
+
         String name = getPara("name");
+
         Columns columns = new Columns();
         columns.likeAppendPercent("name", name);
-        Page<FormInfo> entries = formInfoService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
+        Page<FormInfo> entries = formInfoService.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(), columns,"");
         setAttr("page", entries);
+
         render("form/form_info_list.html");
     }
 

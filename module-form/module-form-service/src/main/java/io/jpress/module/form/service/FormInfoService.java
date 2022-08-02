@@ -6,11 +6,12 @@ import io.jboot.db.model.Columns;
 
 import java.util.List;
 
-public interface FormInfoService  {
+public interface FormInfoService {
 
 
     /**
      * 发布表单
+     *
      * @param formInfo
      */
     void publish(FormInfo formInfo);
@@ -180,6 +181,16 @@ public interface FormInfoService  {
      * @return
      */
     public Page<FormInfo> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
+
+    /**分页查询 并添加信息
+     *
+     * @param page
+     * @param pageSize
+     * @param columns
+     * @param orderBy
+     * @return com.jfinal.plugin.activerecord.Page<io.jpress.module.form.model.FormInfo>
+     */
+    public Page<FormInfo> paginateByColumnsWithInfo(int page, int pageSize, Columns columns, String orderBy);
 
 
 }

@@ -1,4 +1,4 @@
-#@layout()
+ #@layout()
 
 #define script()
 <script>
@@ -148,7 +148,7 @@
             <div class="card card-outline card-primary">
                 <div class="card-header with-border">
 
-                    <form class=" admin-search-panel" action="/admin/form/formInfo/list" method="get">
+                    <form class=" admin-search-panel" action="/admin/form/list" method="get">
                         <div class="row">
 
                             <div class="form-group col-lg-2">
@@ -181,8 +181,8 @@
                                 <div class="form-state-unpublish">未发布</div>
                                 #end
                                 <div class="jpress-from-card-footer">
-                                    <span>5份数据</span>
-                                    <span class="float-right">1分钟前</span>
+                                    <span>#(entry.data_count ??)份数据</span>
+                                    <span class="float-right">#if(entry.timeDifference ??) #(entry.timeDifference ??)前 #end</span>
                                 </div>
                             </a>
                             <div class="form-operate-bar">

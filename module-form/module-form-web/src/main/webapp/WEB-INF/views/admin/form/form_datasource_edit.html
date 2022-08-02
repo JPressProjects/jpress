@@ -87,15 +87,15 @@
                         </div>
 
 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">是否级联</label>
-                            <div class="col-sm-6">
+<!--                        <div class="form-group row">-->
+<!--                            <label class="col-sm-2 col-form-label">是否级联</label>-->
+<!--                            <div class="col-sm-6">-->
 
-                                <input type="checkbox" class="switchery" data-for="datasource_with_cascade"
-                                       #checkedIf(datasource.with_cascade ??)>
-                                <input type="hidden" id="datasource_with_cascade" name="datasource.with_cascade">
-                            </div>
-                        </div>
+<!--                                <input type="checkbox" class="switchery" data-for="datasource_with_cascade"-->
+<!--                                       #checkedIf(datasource.with_cascade ??)>-->
+<!--                                <input type="hidden" id="datasource_with_cascade" name="datasource.with_cascade">-->
+<!--                            </div>-->
+<!--                        </div>-->
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">内容选择</label>
@@ -113,11 +113,11 @@
                         </div>
 
                         <div class="form-group row" #if(!datasource.with_static ??) style="display: none" #end id="importType">
-                            <label class="col-sm-2 col-form-label">导入类型</label>
+<!--                            <label class="col-sm-2 col-form-label">导入类型</label>-->
                             <div class="col-sm-6" style="margin-top: 10px">
-                                <input type="radio" name="datasource.import_type" value="0" #if(datasource.import_type ??== 0) checked #end>一行一个内容
+<!--                                <input type="radio" name="datasource.import_type" value="0" #if(datasource.import_type ??== 0) checked #end>一行一个内容-->
 
-                                <input style="margin-left: 20px" type="radio" name="datasource.import_type" value="1" #if(datasource.import_type ??== 1) checked #end>json内容
+<!--                                <input style="margin-left: 20px" type="radio" name="datasource.import_type" value="1" #if(datasource.import_type ??== 1) checked #end>json内容-->
 
                                 <div style="margin-left: 20px;display: none">
                                     <input type="radio" name="datasource.import_type" value="2" #if(!datasource.with_static ??) checked #end>动态URL
@@ -127,12 +127,12 @@
                         </div>
 
                         <div class="form-group row" #if(!datasource.with_static ??) style="display: none" #end id="importText">
-                            <label class="col-sm-2 col-form-label">导入内容</label>
-                            <div class="col-sm-6">
+<!--                            <label class="col-sm-2 col-form-label">导入内容</label>-->
+<!--                            <div class="col-sm-6">-->
 
-                                <textarea id="importTextTextarea" name="datasource.import_text" class="form-control" rows="3">#(datasource.import_text ??)</textarea>
+<!--                                <textarea id="importTextTextarea" name="datasource.import_text" class="form-control" rows="3">#(datasource.import_text ??)</textarea>-->
 
-                            </div>
+<!--                            </div>-->
                         </div>
 
                         <div class="form-group row" #if(datasource.with_static ??) style="display: none" #end id="importUrl">
@@ -142,6 +142,20 @@
                                 <input type="input" id="importUrlInput" class="form-control"
                                        value="#(datasource.import_text ??)" name="datasource.import_text"
                                        placeholder="请输入导入数据的url">
+                                <p class="text-muted"> URL 返回的数据 应为 json 格式内容 例如：
+
+                                    <code>[
+                                        {
+                                        "text": "text1",
+                                        "value": "value1"
+                                        },
+                                        {
+                                        "text": "text2",
+                                        "value": "value2"
+                                        }
+                                        ]</code>
+                                </p>
+
                             </div>
                         </div>
 
@@ -149,9 +163,8 @@
                             <label class="col-sm-2 col-form-label">headers</label>
                             <div class="col-sm-6">
 
-                                <input type="input" name="datasource.headers" class="form-control"
-                                       value="#(datasource.headers ??)"
-                                       placeholder="请输入导入数据的headers信息">
+                                <textarea placeholder="请输入导入数据的headers信息" rows="5" class="form-control" name="datasource.headers">#(datasource.headers ??)</textarea>
+
                             </div>
                         </div>
 

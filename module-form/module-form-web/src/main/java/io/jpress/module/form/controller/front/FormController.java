@@ -15,6 +15,7 @@ import io.jpress.web.base.TemplateControllerBase;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/form")
@@ -71,7 +72,20 @@ public class FormController extends TemplateControllerBase {
         try {
             // parseRequestToRecord 可能会出现数据转换异常，需要告知前端
             Record record = formInfo.parseRequestToRecord(getRequest());
+
             formDataService.save(formInfo.getCurrentTableName(), record);
+
+            //更新表单 的 数据数量 和 最后数据时间
+            List<Record> list = formDataService.findAll(formInfo.getCurrentTableName());
+
+            if(list.size() > 0){
+                formInfo.setDataCount(list.size());
+
+                formInfo.setDataCreated(list.get(list.size() - 1).getDate("user_submit_time"));
+
+                formInfo.update();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             renderJson(Ret.fail().set("message", e.getMessage()));

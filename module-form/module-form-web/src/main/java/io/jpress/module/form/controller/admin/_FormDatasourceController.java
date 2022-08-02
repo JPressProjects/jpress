@@ -83,6 +83,7 @@ public class _FormDatasourceController extends AdminControllerBase {
         }
 
         if (entry.getId() == null) {
+            entry.setWithCascade(false);
             entry.setCreated(new Date());
         }
 

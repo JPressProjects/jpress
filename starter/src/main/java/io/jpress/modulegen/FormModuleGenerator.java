@@ -9,7 +9,7 @@ import io.jpress.codegen.ModuleGenerator;
  **/
 public class FormModuleGenerator {
 
-    private static String dbUrl = "jdbc:mysql://192.168.1.2:3306/jpress";
+    private static String dbUrl = "jdbc:mysql://192.168.3.2:3306/jpress";
     private static String dbUser = "root";
     private static String dbPassword = "123456";
 

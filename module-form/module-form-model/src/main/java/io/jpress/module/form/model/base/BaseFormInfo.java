@@ -160,6 +160,34 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
+     * 数据量
+     */
+	public void setDataCount(java.lang.Integer dataCount) {
+		set("data_count", dataCount);
+	}
+
+    /**
+     * 数据量
+     */
+	public java.lang.Integer getDataCount() {
+		return getInt("data_count");
+	}
+
+    /**
+     * 数据最后添加时间
+     */
+	public void setDataCreated(java.util.Date dataCreated) {
+		set("data_created", dataCreated);
+	}
+
+    /**
+     * 数据最后添加时间
+     */
+	public java.util.Date getDataCreated() {
+		return getDate("data_created");
+	}
+
+    /**
      * 站点ID
      */
 	public void setSiteId(java.lang.Long siteId) {

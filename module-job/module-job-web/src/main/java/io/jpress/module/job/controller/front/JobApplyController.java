@@ -90,11 +90,9 @@ public class JobApplyController extends TemplateControllerBase {
 
         JobApply entry = getModel(JobApply.class, "jobApply");
 
-        Long jobId = entry.getJobId();
-
-
         String mobileCode = getPara("mobileCode");
         String emailCode = getPara("emailCode");
+
 
         //如果提交为空 404
         if (entry == null) {
@@ -234,7 +232,6 @@ public class JobApplyController extends TemplateControllerBase {
         }
 
         renderJson(map);
-        //TODO
     }
 
     //手机验证码验证

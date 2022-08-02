@@ -9,7 +9,9 @@
 
 
 #define content()
-<div class="col-md-9 cl-left" style="margin:20px auto;">
+<div class="col-md-9 cl-left" style="
+
+margin:20px auto;">
     <div class="cl-artical-content">
     <div>
         <h5 class="cl-artical-title">#(job.title ??)</h5>
@@ -46,11 +48,11 @@
                 <label>简历上传</label>
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputUpdateFileResume">
-                        <label class="custom-file-label" for="inputUpdateFileResume">请选择文件</label>
+                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileResume" data-result-id="file-resume">
+                        <label class="custom-file-label"  id="file-resume" for="inputUpdateFileResume">请选择文件</label>
                     </div>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" onclick="uploadFileResume()" type="button">
+                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileResume" data-result-id="filePath">
                             开始上传
                         </button>
                     </div>
@@ -61,11 +63,11 @@
                 <label>附件上传</label>
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputUpdateFileAttachment">
-                        <label class="custom-file-label file-attachment" for="inputUpdateFileAttachment">请选择文件</label>
+                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileAttachment" data-result-id="file-attachment">
+                        <label class="custom-file-label"  id="file-attachment" for="inputUpdateFileAttachment">请选择文件</label>
                     </div>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" onclick="uploadFileAttachment()" type="button">
+                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileAttachment" data-result-id="attachment">
                             开始上传
                         </button>
                     </div>

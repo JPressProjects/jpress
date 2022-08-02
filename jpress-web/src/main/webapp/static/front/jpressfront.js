@@ -498,9 +498,9 @@ var productInfo = {
  */
 function addProductToCart(productId, productSpec, ok, fail) {
     ajaxPost(getContextPath() + '/product/doAddCart', {
-            id: productId,
-            spec: productSpec
-        },
+        id: productId,
+        spec: productSpec
+    },
         ok ? ok : function () {
             alert('成功添加到购物车。')
         },
@@ -517,8 +517,8 @@ function addProductToCart(productId, productSpec, ok, fail) {
  */
 function addProductToFavorite(productId, ok, fail) {
     ajaxPost(getContextPath() + '/product/doAddFavorite', {
-            id: productId
-        },
+        id: productId
+    },
         ok ? ok : function () {
             alert('成功添加到收藏夹。')
         },
@@ -535,8 +535,8 @@ function addProductToFavorite(productId, ok, fail) {
  */
 function addArticleToFavorite(articleId, ok, fail) {
     ajaxPost(getContextPath() + '/article/doAddFavorite', {
-            id: articleId
-        },
+        id: articleId
+    },
         ok ? ok : function () {
             alert('成功添加到收藏夹。')
         },
@@ -553,9 +553,9 @@ function addArticleToFavorite(articleId, ok, fail) {
  */
 function buyProduct(productId, ok, fail) {
     ajaxPost(getContextPath() + '/product/doBuy', {
-            id: productId,
-            spec: productInfo.spec
-        },
+        id: productId,
+        spec: productInfo.spec
+    },
         ok ? ok : function (data) {
             if (data.gotoUrl) {
                 if (isMobileBrowser()) {
@@ -638,7 +638,7 @@ function initJPressVideo() {
         $.ajax({
             url: "/admin/attachment/video/getVideoInfo",
             type: "post",
-            data: {id:id},
+            data: {id: id},
 
             success: function (result) {
                 if (result.state == "ok") {
@@ -656,36 +656,36 @@ function initJPressVideo() {
                                 //阿里云
                                 if (vid != "" && playAuth != "" && containerId != "") {
                                     var player = new Aliplayer({
-                                            "id": containerId,
-                                            "vid": vid,
-                                            "playauth": playAuth,
-                                            "videoWidth": "100%",
-                                            "videoHeight": "100%",
-                                            "autoplay": false,
-                                            "isLive": false,
-                                            // "cover": "缩略图",
-                                            "rePlay": false,
-                                            "playsinline": true,
-                                            "preload": false,
-                                            "controlBarVisibility": "hover",
-                                            "useH5Prism": true
-                                        }, function (player) {
-                                            console.log("The aliyun player is created");
-                                        }
-                                    );
+                                        "id": containerId,
+                                        "vid": vid,
+                                        "playauth": playAuth,
+                                        "videoWidth": "100%",
+                                        "videoHeight": "100%",
+                                        "autoplay": false,
+                                        "isLive": false,
+                                        // "cover": "缩略图",
+                                        "rePlay": false,
+                                        "playsinline": true,
+                                        "preload": false,
+                                        "controlBarVisibility": "hover",
+                                        "useH5Prism": true
+                                    }, function (player) {
+                                        console.log("The aliyun player is created");
+                                    }
+                                        );
                                     return player;
                                 }
                             })
 
                     } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
 
-                        var vid =result.vid;
-                        var aid =result.aid;
+                        var vid = result.vid;
+                        var aid = result.aid;
 
                         loadCss("https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.min.css")
 
                         loadJs(["https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/libs/hls.min.0.13.2m.js",
-                                "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js"],
+                            "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js"],
                             function () {
                                 if (vid != "" && aid != "" && containerId != "") {
                                     new TCPlayer(containerId, {
@@ -694,11 +694,10 @@ function initJPressVideo() {
                                     });
                                 }
                             })
-                    }
-                    else if (cloudType != null && cloudType != '' && cloudType == '4') {//本地视频
+                    } else if (cloudType != null && cloudType != '' && cloudType == '4') {//本地视频
 
-                        $("#"+containerId).attr("src",result.src);
-                        $("#"+containerId).attr("controls","controls");
+                        $("#" + containerId).attr("src", result.src);
+                        $("#" + containerId).attr("controls", "controls");
                     }
 
                 }
@@ -765,7 +764,7 @@ function loadCss(links, callback) {
 }
 
 //初始化表单 数据
-function initFormData(){
+function initFormData() {
 
     $(".jpress-form").each(function () {
 
@@ -774,13 +773,13 @@ function initFormData(){
 
         var formId = $this.attr('data-form-id');
 
-        if(formId != null){
+        if (formId != null) {
             $.ajax({
-                url: '/form/detail/'+formId,
+                url: '/form/detail/' + formId,
                 type: 'get',
                 data: {},
                 success: function (result) {
-                    if(result.state == true){
+                    if (result.state == true) {
                         $this.html(result.html);
                     }
                 }
@@ -809,7 +808,7 @@ function initJPressAJCaptcha() {
             location = 'body';
         }
         var valueId = $(this).attr("data-value-id");
-        if(!valueId){
+        if (!valueId) {
             alert("请联系管理员，数据id未配置！")
             return;
         }
@@ -823,7 +822,7 @@ function initJPressAJCaptcha() {
         var ajaxGetSuccessToUrl = $(this).attr("data-url");
         var ajaxGetSuccessPoint = $(this).attr("data-point");
 
-        var val =null;
+        var val = null;
         var option = {
             // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
             baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
@@ -831,7 +830,7 @@ function initJPressAJCaptcha() {
             mode: 'pop',     //展示模式
             beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
 
-               val = $("#"+valueId).val();
+                val = $("#" + valueId).val();
 
                 if (isRead && !val) {
                     alert("数据不能为空");
@@ -852,7 +851,7 @@ function initJPressAJCaptcha() {
                 //判断是否是手机号
                 if (isMobile) {
                     dataType = {mobile: val};
-                } else if(!isMobile){
+                } else if (!isMobile) {
                     dataType = {email: val};
                 }
 
@@ -899,10 +898,10 @@ function initJPressAJCaptcha() {
 
         loadCss("/static/components/aj-captcha/css/verify.css");
         loadJs([
-                "/static/components/aj-captcha/js/crypto-js.js",
-                "/static/components/aj-captcha/js/ase.js",
-                "/static/components/aj-captcha/js/verify.js"
-            ],
+            "/static/components/aj-captcha/js/crypto-js.js",
+            "/static/components/aj-captcha/js/ase.js",
+            "/static/components/aj-captcha/js/verify.js"
+        ],
             function () {
 
                 if (captchaType == 'pointsVerify') {
@@ -921,59 +920,74 @@ function initJPressAJCaptcha() {
 }
 
 //job apply 页面 选择文件
-function jobFileChoose(){
+function jobFileChoose() {
 
-    $(".chooseFileResume").each(function (){
+    $(".chooseFile").each(function () {
 
         var $this = $(this);
 
-        $this.on('change',function (){
-            let id = $this.attr("data-result-id");
+        let id = $this.attr("data-result-id");
 
-            if(!id){
-                let fileName =$this.files[0].name;
+        if (id != null && id != "" && id != undefined) {
 
-                $("#"+id).html(fileName);
-            }
-        })
+            $this.bind('change', function () {
 
-        //TODO
+                let fileName = $this[0].files[0].name
+
+                $("#" + id).html(fileName);
+            })
+        }
+
     })
 }
 
 //job apply 文件上传
-function jobUploadFile(fileId,inputId){
+function jobUploadFile() {
 
-    let formData = new FormData();
 
-    formData.append("file", $("#"+fileId)[0].files[0]);
+    $(".uploadFile").each(function () {
 
-    $.ajax({
-        url: '/job/apply/uploadFile',
-        type: 'post',
-        cache: false,//关闭上传文件缓存
-        data: formData,
-        processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理
-        contentType: false,
-        success: function (result) {
+        var $this = $(this);
 
-            if (result.state == "fail") {
-                alert(result.message);
-            }
+        let fileId = $this.attr("data-file-id");
+        let inputId = $this.attr("data-result-id");
 
-            if (result.state == true) {
+        if (fileId != null && inputId != null) {
 
-                $("#"+inputId).val(result.filePath);
+            $this.bind('click', function () {
 
-                //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
-                $('#'+fileId).val('');
+                let formData = new FormData()
 
-                alert("上传成功");
+                formData.append("file", $("#" + fileId)[0].files[0]);
 
-            }
+                $.ajax({
+                    url: '/job/apply/uploadFile',
+                    type: 'post',
+                    cache: false,//关闭上传文件缓存
+                    data: formData,
+                    processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理
+                    contentType: false,
+                    success: function (result) {
+
+                        if (result.state == "fail") {
+                            alert(result.message);
+                        }
+
+                        if (result.state == true) {
+
+                            $("#" + inputId).val(result.filePath);
+
+                            //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
+                            $('#' + fileId).val('');
+
+                            alert("上传成功");
+
+                        }
+                    }
+                })
+            })
         }
     })
-
 }
 
 
@@ -1009,5 +1023,8 @@ $(document).ready(function () {
 
     /*job apply 页面 文件选择*/
     jobFileChoose();
+
+    /*job apply 页面 文件上传*/
+    jobUploadFile();
 });
 

@@ -512,66 +512,6 @@ function addProductToCart(productId, productSpec, ok, fail) {
         })
 }
 
-/*
-添加商品到收藏夹
- */
-function addProductToFavorite(productId, ok, fail) {
-    ajaxPost(getContextPath() + '/product/doAddFavorite', {
-        id: productId
-    },
-        ok ? ok : function () {
-            alert('成功添加到收藏夹。')
-        },
-        fail ? fail : function (data) {
-            alert('添加到收藏夹失败：' + data.message)
-            if (data.gotoUrl) {
-                location.href = data.gotoUrl;
-            }
-        })
-}
-
-/*
-添加文章到收藏夹
- */
-function addArticleToFavorite(articleId, ok, fail) {
-    ajaxPost(getContextPath() + '/article/doAddFavorite', {
-        id: articleId
-    },
-        ok ? ok : function () {
-            alert('成功添加到收藏夹。')
-        },
-        fail ? fail : function (data) {
-            alert('添加到收藏夹失败：' + data.message)
-            if (data.gotoUrl) {
-                location.href = data.gotoUrl;
-            }
-        })
-}
-
-/*
-购买产品
- */
-function buyProduct(productId, ok, fail) {
-    ajaxPost(getContextPath() + '/product/doBuy', {
-        id: productId,
-        spec: productInfo.spec
-    },
-        ok ? ok : function (data) {
-            if (data.gotoUrl) {
-                if (isMobileBrowser()) {
-                    location.href = data.gotoUrl;
-                } else {
-                    window.open(data.gotoUrl, '_blank')
-                }
-            }
-        },
-        fail ? fail : function (data) {
-            alert('无法进行购买：' + data.message)
-            if (data.gotoUrl) {
-                location.href = data.gotoUrl;
-            }
-        })
-}
 
 
 function initProductSpec() {
@@ -586,9 +526,11 @@ function initProductSpec() {
 }
 
 
+
 function setProductSpec(spec) {
     productInfo.spec = spec;
 }
+
 
 function initSwiperComponent() {
 
@@ -824,8 +766,7 @@ function initJPressAJCaptcha() {
 
         var val = null;
         var option = {
-            // baseUrl: 'https://mirror.anji-plus.com/captcha-api',  //服务器请求地址, 默认地址为安吉服务器;
-            baseUrl: '/commons',  //服务器请求地址, 默认地址为安吉服务器;
+            baseUrl: getContextPath() + '/commons',  //服务器请求地址,
             containerId: containerId,//pop模式 必填 被点击之后出现行为验证码的元素id
             mode: 'pop',     //展示模式
             beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效

@@ -595,6 +595,42 @@ label:not(.form-check-label):not(.custom-file-label) {
     font-size: 14px;
 }
 
+.float-right {
+    float: right;
+}
+
+.form-state-unpublish {
+    color: #ffbe3a;
+    margin-top: 6px;
+}
+
+.form-state-published {
+    color: #007bff;
+    margin-top: 6px;
+}
+
+.form-operate-bar {
+    display: none;
+    position: absolute;
+    height: 46px;
+    line-height: 46px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: left;
+    color: #aaa;
+    background: #f7f8fa;
+}
+
 .jpress-from-card:hover .form-operate-bar {
     display: block;
+}
+
+.form-operate-bar a {
+    display: inline-block;
+    font-size: 14px;
+    padding: 0 10px;
+    color: #707070;
 }

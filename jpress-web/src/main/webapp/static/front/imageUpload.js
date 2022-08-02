@@ -40,8 +40,9 @@ $(function(){
                     let imgObjPreview = document.getElementById("img" +fileCodeId + fileList[i].name);
                     if (fileList && fileList[i]) {
                         imgObjPreview.style.display = 'block';
-                        imgObjPreview.style.width = '100px';
-                        imgObjPreview.style.height = '100px';
+                        imgObjPreview.style.width = '126px';
+                        imgObjPreview.style.height = '126px';
+                        imgObjPreview.style.objectFit = 'cover';
                         if (userAgent.indexOf('MSIE') == -1) {
                             //IE以外浏览器
                             imgObjPreview.src = window.URL.createObjectURL(currentObj.files[i]); //获取上传图片文件的物理路径;

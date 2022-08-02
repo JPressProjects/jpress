@@ -435,10 +435,26 @@ hr{
 .bg-gray{
     background-color:#efefef;
 }
-.centerContent{
-    width:829px;
-    margin:10px auto;
-    background-color:#fff;
+@media screen and (min-width:997px) {
+    .centerContent{
+        width:829px;
+        margin:10px auto;
+        background-color:#fff;
+    }
+}
+@media  screen and (max-width: 996px)  and (min-width:576px){
+    .centerContent{
+        width:96%;
+        margin:10px auto;
+        background-color:#fff;
+    }
+}
+@media  screen and (max-width: 576px) {
+    .centerContent{
+        width:100%;
+        margin:10px auto;
+        background-color:#fff;
+    }
 }
 .jpress-form-header{
     padding-bottom:20px;

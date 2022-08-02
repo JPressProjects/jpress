@@ -2,46 +2,13 @@
 
 #define css()
 <style>
-
     .nav-tabs .nav-link {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
-
-    .jpress-form-item {
-        position: relative;
-        width: 100%;
-        height: 176px;
-        padding: 18px 15px;
-        background: #fff;
-        box-shadow: -2px 4px 5px 0 rgb(0 0 0 / 6%);
-        float: left;
-        border-radius: 4px;
-        margin-top: 18px;
-        cursor: pointer;
-        box-sizing: border-box;
-        font-size: 12px;
-        margin-right: 18px;
-        /*z-index: 0;*/
-        border: solid 1px #eee;
-    }
-
-    .jpress-form-item:hover {
+    .jpress-from-card:hover {
         border: 1px solid #0069d9;
     }
-
-    .jpress-form-item-title {
-        height: 10%;
-        background-color: #ecf0f5;
-        text-align: center;
-        padding: 0 5px;
-        overflow: hidden;
-    }
-
-    .jpress-form-item-title p {
-        overflow: hidden;
-    }
-
     .my-row {
         display: flex;
         flex-wrap: wrap;
@@ -66,21 +33,6 @@
     .card.card-outline-tabs .card-header a {
         border-top-color: #dee2e6;
     }
-
-
-    .float-right {
-        float: right;
-    }
-
-    .form-state-unpublish {
-        color: #ffbe3a;
-        margin-top: 6px;
-    }
-
-    .form-state-published {
-        color: #007bff;
-        margin-top: 6px;
-    }
 </style>
 #end
 
@@ -94,7 +46,7 @@
     //clear layer.data
     parent.layer.data = {};
 
-    $(".jpress-form-item").click(function () {
+    $(".jpress-from-card").click(function () {
 
         //表单id
         parent.layer.data.id = $(this).children().attr("data-id");
@@ -126,7 +78,7 @@
                 <div class="row">
                     #for(form : page.list)
                     <div class="col-md-3">
-                        <div class="jpress-form-card" data-id="#(form.id ??)" data-name="#(form.name ??)">
+                        <div class="jpress-from-card" data-id="#(form.id ??)" data-name="#(form.name ??)">
                             <a href="javascript:void(0);">
                                 <div class="jpress-from-card-header">
                                     <i class="bi bi-bar-chart-fill"></i>

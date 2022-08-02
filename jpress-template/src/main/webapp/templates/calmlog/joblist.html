@@ -46,12 +46,14 @@
     #jobPage(pageSize = 3)
     #for(job : jobPage.list)
     <div class="joblist-card">
-        <a class="joblist-card-link" href="/job/#(job.id ??)">
+        <a class="joblist-card-link" href="#(job.url ??)">
 
-                <h5 class="cl-job-title">#(job.title ??)</h5>
-
+            <div class="job-title-group">
+                #if(job.with_hurry ??) <span>急</span> #end
+                <h5 class="cl-artical-title">#(job.title ??)</h5>
+            </div>
                 <div class="cl-card-tag">
-                    <p><span>#if(job.work_type ?? == 0) 全职 #else if(job.work_type ?? == 1) 兼职 #else if(job.work_type ?? == 2) 钟点工 #end</span> - <span>#(job.address.title ??)</span></p>
+                    <p><span>#(job.category.title ??)</span></p>
                     <p><span>发布时间:#date(job.created ??)</span></p>
                 </div>
 
@@ -86,8 +88,13 @@
        <div class="job-right-list">
            #jobs(orderBy = "created desc",count = 10)
 
-            #for(item:jobList)
-           <a href="/job/#(item.id ??)">#(item.title ??)</a>
+            #for(job:jobList)
+           <div class="job-right-title-group">
+               #if(job.with_hurry ??) <span>急</span> #end
+               <a href="#(job.url ??)">#(job.title ??)</a>
+           </div>
+
+
             #end
 
            #end

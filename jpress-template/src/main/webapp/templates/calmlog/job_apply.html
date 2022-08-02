@@ -14,7 +14,10 @@
 margin:20px auto;">
     <div class="cl-artical-content">
     <div>
-        <h5 class="cl-artical-title">#(job.title ??)</h5>
+        <div class="job-title-group">
+            #if(job.with_hurry ??) <span>急</span> #end
+            <h5 class="cl-artical-title">#(job.title ??)</h5>
+        </div>
         <div class="cl-card-tag">
             <p>
                 <span>#(job.address.title ??)</span> |

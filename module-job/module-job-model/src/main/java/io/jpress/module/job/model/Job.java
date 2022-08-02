@@ -2,6 +2,7 @@ package io.jpress.module.job.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.utils.UrlUtils;
 import io.jpress.module.job.model.base.BaseJob;
 
 /**
@@ -16,6 +17,10 @@ public class Job extends BaseJob<Job> {
 
     public String getHtml(){
         return StrUtil.unEscapeHtml(getContent());
+    }
+
+    public String getUrl(){
+        return UrlUtils.getUrl("/job/",getId());
     }
 
 	

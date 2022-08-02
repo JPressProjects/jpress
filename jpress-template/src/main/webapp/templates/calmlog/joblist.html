@@ -5,13 +5,13 @@
 #define content()
 <div class="col-md-9 cl-left">
 
-    <div>
-        <h5>职位筛选</h5>
-        <div>
+    <div class="cl-artical-content" style="margin-bottom:1rem;">
+        <h5 class="cl-job-title">职位筛选</h5>
+        <div style="margin-top:20px;">
             <form action="/job/list">
                 <div class="form-group">
-                    <input style="width:85%;float:left;" name="title" type="text" class="form-control" placeholder="请输入岗位名称" id="title"  onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off">
-                    <input style="width:15%;float:right;" type="submit" id="btn_yzm" class="btn btn-primary" value="点击搜索" />
+                    <input style="width:85%;float:left;border-radius: 0;" name="title" type="text" class="form-control" placeholder="请输入岗位名称" id="title"  onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off">
+                    <input style="width:15%;float:right;border-radius: 0;" type="submit" id="btn_yzm" class="btn btn-primary" value="点击搜索" />
                     <div class="clearfix"></div>
                 </div>
 
@@ -26,7 +26,7 @@
                     #end
 
                     #jobCategories()
-                    <select class="form-control" style="width: 30%;float: left;margin-left: 5%" name="categoryId">
+                    <select class="form-control" style="width: 30%;float: left;margin-left: 10px;" name="categoryId">
                         <option value="">选择分类</option>
                         #for(item : categoryList)
                         <option value="#(item.id ??)" #if(para('categoryId') == item.id ??) selected #end>#(item.title ??)</option>
@@ -41,21 +41,20 @@
         </div>
     </div>
 
-    #jobPage(pageSize = 1)
+    <div class="cl-artical-content" style="padding:0 0 20px 0;">
+
+    #jobPage(pageSize = 3)
     #for(job : jobPage.list)
-    <div class="cl-card">
-        <a class="card-link" href="/job/#(job.id ??)">
-            <div class="row">
+    <div class="joblist-card">
+        <a class="joblist-card-link" href="/job/#(job.id ??)">
 
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <p class="cl-card-main-info">#(job.title ??)</p>
-                    <p class="cl-card-main-info">#(job.address.title ??)</p>
+                <h5 class="cl-job-title">#(job.title ??)</h5>
+
+                <div class="cl-card-tag">
+                    <p><span>#if(job.work_type ?? == 0) 全职 #else if(job.work_type ?? == 1) 兼职 #else if(job.work_type ?? == 2) 钟点工 #end</span> - <span>#(job.address.title ??)</span></p>
+                    <p><span>发布时间:#date(job.created ??)</span></p>
                 </div>
 
-                <div class="col-lg-9 col-md-8 col-sm-12 cl-card-main">
-                    <p class="cl-card-more" style="margin-top: 90px;margin-left: 350px">发布时间:#date(job.created ??)</p>
-                </div>
-            </div>
         </a>
 
     </div>
@@ -73,23 +72,26 @@
 
     #end
 
+    </div>
+
 </div>
 
 <div class="col-md-3 cl-right">
+    <div class="cl-artical-content">
 
-        <div>
-            最新职位
-            <a href="#">更多</a>
+        <div class="job-right-title">
+            <h5>最新职位</h5>
+            <a class="cl-card-tag" href="#">更多</a>
         </div>
-       <div>
+       <div class="job-right-list">
            #jobs(orderBy = "created desc",count = 10)
 
             #for(item:jobList)
-           <a href="/job/#(item.id ??)"><p>#(item.title ??)</p></a>
+           <a href="/job/#(item.id ??)">#(item.title ??)</a>
             #end
 
            #end
        </div>
-
+    </div>
 </div>
 #end

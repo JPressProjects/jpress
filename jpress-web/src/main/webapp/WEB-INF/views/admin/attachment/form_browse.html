@@ -9,25 +9,26 @@
     }
 
     .attachment_form_item {
-        height: 220px;
-        width: 200px;
-        padding: 0px;
-        border: 1px solid #ddd;
-        margin: 10px;
+        position: relative;
+        width: 100%;
+        height: 176px;
+        padding: 18px 15px;
+        background: #fff;
+        box-shadow: -2px 4px 5px 0 rgb(0 0 0 / 6%);
         float: left;
+        border-radius: 4px;
+        margin-top: 18px;
         cursor: pointer;
+        box-sizing: border-box;
+        font-size: 12px;
+        margin-right: 18px;
+        /*z-index: 0;*/
+        border: solid 1px #eee;
     }
 
     .attachment_form_item:hover {
-        border: 1px solid #3c8dbc;
+        border: 1px solid #0069d9;
     }
-
-    .attachment_form_item img {
-        height: 90%;
-        min-height: 90%;
-        width: 100%;
-    }
-
     .attachment_item_title {
         height: 10%;
         background-color: #ecf0f5;
@@ -64,8 +65,44 @@
     .card.card-outline-tabs .card-header a {
         border-top-color: #dee2e6;
     }
+    .form-card-header {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        max-height: 45px;
+        width: 185px;
+        text-align: left;
+        color: #484848;
+        font-size: 14px;
+    }
 
+    .form-card-footer {
+        position: absolute;
+        height: 46px;
+        line-height: 46px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 0 18px;
+        box-sizing: border-box;
+        text-align: left;
+        color: #aaa;
+        font-size: 14px;
+    }
 
+    .float-right {
+        float: right;
+    }
+    .form-state-unpublish {
+        color: #ffbe3a;
+        margin-top: 6px;
+    }
+
+    .form-state-published {
+        color: #007bff;
+        margin-top: 6px;
+    }
 </style>
 #end
 
@@ -107,20 +144,29 @@
 
     <div class="card-body">
         <div class="tab-content" style="padding-top:20px;">
-
-
             <div class="active tab-pane" id="activity">
-                <div class="my-row">
+                <div class="row">
                     #for(form : page.list)
-                    <div class="attachment_form_item">
-                        <img src="#(CPATH)#(form.bg_image ?? '/static/commons/img/suffix/video.png')"
-                             data-id="#(form.id ??)"
-                             data-name="#(form.name ??)">
-                        <div class="attachment_item_title">
-                            <p>#(form.name ??)</p>
+                    <!--<img src="#(CPATH)#(form.bg_image ?? '/static/commons/img/suffix/video.png')"-->
+                    <div class="col-md-3">
+                        <div class="attachment_form_item" data-id="#(form.id ??)" data-name="#(form.name ??)">
+                            <a href="javascript:void(0);">
+                                <div class="form-card-header">
+                                    <i class="bi bi-bar-chart-fill"></i>
+                                    #(form.name ??)
+                                </div>
+                                #if(form.isPublished())
+                                <div class="form-state-published">已经发布</div>
+                                #else
+                                <div class="form-state-unpublish">未发布</div>
+                                #end
+                                <div class="form-card-footer">
+                                    <span>#(form.data_count ??, "暂无")</span>
+                                    <span class="float-right">#(form.data_created ??)</span>
+                                </div>
+                            </a>
                         </div>
                     </div>
-
                     #end
                 </div>
 

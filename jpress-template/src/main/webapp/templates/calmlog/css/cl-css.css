@@ -341,7 +341,7 @@ a.card-link:hover .cl-card-main-title {
 /*artical*/
 .cl-artical-title {
     padding: 20px 0 0 0;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 400;
     line-height: 1.4em;
 
@@ -727,20 +727,20 @@ a.card-link:hover .cl-card-main-title {
     display: -ms-flexbox;
     display: flex;
     align-items:center;
-    padding:20px 0;
+    padding:10px 0;
     }
 
 .job-title-group span{
     display:inline-block;
-    width:2rem;
-    height:2rem;
-    line-height:2rem;
+    width:1.4rem;
+    height:1.4rem;
+    line-height:1.4rem;
     margin:0;
     padding:0;
     text-align:center;
     color:#fff;
     background-color:#ff6b6b;
-    margin-right:10px;
+    margin-right:5px;
 }
 .job-title-group .cl-artical-title{
     padding:0;
@@ -762,13 +762,15 @@ a.card-link:hover .cl-card-main-title {
 }
 
 .job-right-title-group span{
-    padding:3px 6px;
+    padding:1px 3px;
     color: #fff;
     background-color: #ff6b6b;
-    margin-right: 5px;
-    font-size: 14px;
+    margin-right:2px;
+    font-size: 12px;
 }
-
+.job-right-title-group a{
+    font-size:14px;
+}
 
 
 

@@ -401,7 +401,7 @@ hr{
     max-width: 100%;
 }
 /*按钮*/
-.btn{
+.btn-form-submit{
     display: inline-block;
     font-weight: 400;
     color: #212529;
@@ -420,12 +420,12 @@ hr{
     cursor: pointer;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
-.btn-primary {
+.btn-form-submit {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
 }
-.btn-primary.focus, .btn-primary:focus {
+.btn-form-submit.focus, .btn-form-submit:focus {
     color: #fff;
     background-color: #0069d9;
     border-color: #0062cc;
@@ -451,9 +451,7 @@ hr{
 .jpress-form-desc{
     font-size: 16px;
 }
-button[type="submit"]{
-    margin:15px auto 0;
-}
+
 
 /*上传图片*/
 .fileContainer {

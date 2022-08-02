@@ -159,10 +159,10 @@ public class _FormInfoController extends AdminControllerBase {
 
         Columns columns = new Columns();
         columns.eq("status",FormInfo.FORMINFO_STATUS_PUBLISHED);
-        Page<FormInfo> page = formInfoService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
+        Page<FormInfo> page = formInfoService.paginateByColumns(getPagePara(), 8, columns);
         setAttr("page",page);
 
-        render("attachment/form_browse.html");
+        render("form/form_browse.html");
     }
 
 }

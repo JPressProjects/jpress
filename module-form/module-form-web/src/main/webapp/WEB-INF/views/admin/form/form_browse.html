@@ -8,7 +8,7 @@
         border-top-right-radius: 0;
     }
 
-    .attachment_form_item {
+    .jpress-form-item {
         position: relative;
         width: 100%;
         height: 176px;
@@ -26,10 +26,11 @@
         border: solid 1px #eee;
     }
 
-    .attachment_form_item:hover {
+    .jpress-form-item:hover {
         border: 1px solid #0069d9;
     }
-    .attachment_item_title {
+
+    .jpress-form-item-title {
         height: 10%;
         background-color: #ecf0f5;
         text-align: center;
@@ -37,7 +38,7 @@
         overflow: hidden;
     }
 
-    .attachment_item_title p {
+    .jpress-form-item-title p {
         overflow: hidden;
     }
 
@@ -65,35 +66,12 @@
     .card.card-outline-tabs .card-header a {
         border-top-color: #dee2e6;
     }
-    .form-card-header {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-        max-height: 45px;
-        width: 185px;
-        text-align: left;
-        color: #484848;
-        font-size: 14px;
-    }
 
-    .form-card-footer {
-        position: absolute;
-        height: 46px;
-        line-height: 46px;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        padding: 0 18px;
-        box-sizing: border-box;
-        text-align: left;
-        color: #aaa;
-        font-size: 14px;
-    }
 
     .float-right {
         float: right;
     }
+
     .form-state-unpublish {
         color: #ffbe3a;
         margin-top: 6px;
@@ -116,7 +94,7 @@
     //clear layer.data
     parent.layer.data = {};
 
-    $(".attachment_form_item").click(function () {
+    $(".jpress-form-item").click(function () {
 
         //表单id
         parent.layer.data.id = $(this).children().attr("data-id");
@@ -147,11 +125,10 @@
             <div class="active tab-pane" id="activity">
                 <div class="row">
                     #for(form : page.list)
-                    <!--<img src="#(CPATH)#(form.bg_image ?? '/static/commons/img/suffix/video.png')"-->
                     <div class="col-md-3">
-                        <div class="attachment_form_item" data-id="#(form.id ??)" data-name="#(form.name ??)">
+                        <div class="jpress-form-card" data-id="#(form.id ??)" data-name="#(form.name ??)">
                             <a href="javascript:void(0);">
-                                <div class="form-card-header">
+                                <div class="jpress-from-card-header">
                                     <i class="bi bi-bar-chart-fill"></i>
                                     #(form.name ??)
                                 </div>
@@ -160,7 +137,7 @@
                                 #else
                                 <div class="form-state-unpublish">未发布</div>
                                 #end
-                                <div class="form-card-footer">
+                                <div class="jpress-from-card-footer">
                                     <span>#(form.data_count ??, "暂无")</span>
                                     <span class="float-right">#(form.data_created ??)</span>
                                 </div>

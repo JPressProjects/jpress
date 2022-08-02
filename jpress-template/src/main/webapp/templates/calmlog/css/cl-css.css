@@ -560,7 +560,7 @@ a.card-link:hover .cl-card-main-title{
     height: 1px;
     background-color: #f4f4f5;
     }
-    .apply-button{
+  .apply-button{
         display: -webkit-box;
         display: -webkit-flex;
         display: -moz-box;
@@ -569,7 +569,7 @@ a.card-link:hover .cl-card-main-title{
         justify-content:center;
         margin:2rem auto;
     }
-    .application-details{
+  .application-details{
         display: -webkit-box;
         display: -webkit-flex;
         display: -moz-box;
@@ -578,16 +578,16 @@ a.card-link:hover .cl-card-main-title{
         flex-wrap:wrap;
         justify-content: space-between;
     }
-    .application-details .form-group{
+  .application-details .form-group{
         width:45%;
     }
-    .application-detail .form-control{
+  .application-detail .form-control{
         margin-bottom:1rem;
     }
-    .application-detail .form-group .form-control:focus{
+  .application-detail .form-group .form-control:focus{
         box-shadow:none;
     }
-    .job-verification-code{
+  .job-verification-code{
         display: -webkit-box;
         display: -webkit-flex;
         display: -moz-box;
@@ -596,11 +596,19 @@ a.card-link:hover .cl-card-main-title{
         margin-top:0.5rem;
         justify-content: space-between;
     }
-    .job-verification-code .btn{
+  .job-verification-code .btn{
         padding:0;
     }
-    .job-verification-code .btn{
+  .job-verification-code .btn{
         border: 1px solid #ced4da;
+    }
+  .job-group-mobile1{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        justify-content: space-between;
     }
 
 

@@ -39,41 +39,7 @@ margin:20px auto;">
                 <input type="text" class="form-control" id="referral_code" placeholder="推荐码" name="jobApply.referral_code">
             </div>
         </div>
-        <h6 class="description-title">
-            上传
-            <div class="title-divider"></div>
-        </h6>
-        <div class="application-details">
-            <div class="form-group">
-                <label>简历上传</label>
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileResume" data-result-id="file-resume">
-                        <label class="custom-file-label"  id="file-resume" for="inputUpdateFileResume">请选择文件</label>
-                    </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileResume" data-result-id="filePath">
-                            开始上传
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <label>附件上传</label>
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileAttachment" data-result-id="file-attachment">
-                        <label class="custom-file-label"  id="file-attachment" for="inputUpdateFileAttachment">请选择文件</label>
-                    </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileAttachment" data-result-id="attachment">
-                            开始上传
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <h6 class="description-title">
             个人信息
             <div class="title-divider"></div>
@@ -85,16 +51,21 @@ margin:20px auto;">
             </div>
 
             <div class="form-group">
-                <label for="mobile_area">手机区号</label>
-                <select class="form-control" id="mobile_area" name="jobApply.mobile_area">
-                    <option value="+86">+86</option>
+                <label for="gender">性别</label>
+                <select class="form-control" id="gender" name="jobApply.gender">
+                    <option value="0">男</option>
+                    <option value="1">女</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="mobile">手机号</label>
-                <input type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile" required>
-
+                <div class="job-group-mobile1">
+                    <select style="width:26%;" class="form-control" id="mobile_area" name="jobApply.mobile_area">
+                        <option value="+86">+86</option>
+                    </select>
+                    <input style="width:73%;" type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile" required>
+                </div>
                 #if(option("job_mobile_enable"))
                 <div class="job-verification-code">
                     <input style="width:70%;" type="code" class="form-control" placeholder="验证码" id="mobile_code"
@@ -130,13 +101,7 @@ margin:20px auto;">
                 #end
             </div>
 
-            <div class="form-group">
-                <label for="gender">性别</label>
-                <select class="form-control" id="gender" name="jobApply.gender">
-                    <option value="0">男</option>
-                    <option value="1">女</option>
-                </select>
-            </div>
+
 
             <div class="form-group">
                 <label>出生日期</label>
@@ -169,6 +134,41 @@ margin:20px auto;">
                 <input type="text" class="form-control" id="last_company" placeholder="输入公司名称" name="jobApply.last_company">
             </div>
 
+        </div>
+        <h6 class="description-title">
+            上传
+            <div class="title-divider"></div>
+        </h6>
+        <div class="application-details">
+            <div class="form-group">
+                <label>简历上传</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileResume" data-result-id="file-resume">
+                        <label class="custom-file-label"  id="file-resume" for="inputUpdateFileResume">请选择文件</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileResume" data-result-id="filePath">
+                            开始上传
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>附件上传</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileAttachment" data-result-id="file-attachment">
+                        <label class="custom-file-label"  id="file-attachment" for="inputUpdateFileAttachment">请选择文件</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileAttachment" data-result-id="attachment">
+                            开始上传
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="form-group apply-button">
             <input type="submit" id="btn_yzm" class="btn btn-primary" value="提交申请"/>

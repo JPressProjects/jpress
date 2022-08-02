@@ -33,19 +33,6 @@
         }
     </style>
 
-    <script>
-
-        //输入手机号时赋值给按钮的data-value属性
-        // function changeMobile()
-        // {
-        //     var val = $("#phone").val();
-        //     $("#getCode").attr("data-value",val);
-        //     //初始化行为验证码的容器
-        //     initJPressAJCaptcha();
-        // }
-
-    </script>
-
 </head>
 <body class="hold-transition login-page">
 
@@ -58,7 +45,7 @@
         <!-- /.login-logo -->
         <div class="card" id="content">
             <div class="card-body login-card-body">
-                <form action="#(CPATH)/user/doPhoneRegister" method="post" class="autoAjaxSubmit" data-ok-function="ok">
+                <form action="#(CPATH)/user/doPhoneRegister" method="post" class="autoAjaxSubmit"  data-ok-function="ok">
 
                     <div class="form-group">
                         <label>账号</label>
@@ -122,7 +109,6 @@
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script src="#(CPATH)/static/admin/js/jpressutils.js"></script>
-<script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
 <script src="#(CPATH)/static/front/jpressfront.js"></script>
 
 <script>

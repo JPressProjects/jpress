@@ -31,30 +31,6 @@
         }
     </style>
 
-    <script>
-
-        function doGetSmsCode() {
-            var phone = $('#phone').val();
-            var captcha = $('#captcha').val();
-
-            if (phone == '') {
-                alert('手机号不能为空....');
-                return;
-            }
-            if (captcha == '') {
-                alert('验证码不能为空....');
-                return;
-            }
-
-
-            $.get("#(CPATH)/commons/getsmscode?phone=" + phone + "&captcha=" + captcha, function (result) {
-                $('#captcha').val('');
-                $('#captchaimg').attr("src", '#(CPATH)/commons/captcha?d=' + Math.random())
-                alert(result.message);
-            });
-        }
-
-    </script>
 
     <script>
 
@@ -75,20 +51,6 @@
 
     </script>
 
-    <script>
-
-        //输入手机号时赋值给按钮的data-value属性
-        function changeEmail()
-        {
-            var val = $("#email").val();
-            $("#getCode").attr("data-value",val);
-            //初始化行为验证码的容器
-            initJPressAJCaptcha();
-        }
-
-    </script>
-
-
 
 </head>
 <body class="hold-transition login-page">
@@ -107,37 +69,29 @@
                         <label>账号</label>
                         <input type="text" class="form-control" placeholder="请输入账号" name="username" required>
                     </div>
-                    #if(option('reg_sms_validate_enable'))
-                    <div class="form-group">
-                        <label>手机号</label>
-                        <input type="text" class="form-control" placeholder="请输入手机号" name="phone" id="phone">
-                    </div>
-                    <div class="form-group">
-                        <label>手机验证码</label>
-                        <div>
-                            <input type="text" autocomplete="off" class="form-control" style="width: 120px;float: left;margin-right: 10px"
-                                   placeholder="请输入验证码" name="sms_code">
-                            <button type="button" class="btn btn-primary btn-block btn-flat" style="width: 100px;"
-                                    onclick="doGetSmsCode()">
-                                获取验证码
-                            </button>
-                        </div>
-                    </div>
-                    #end
+
                     <div class="form-group">
                         <label>邮箱</label>
 
                         <div class="input-group jpress-tip mb-3">
-                                <input type="text" class="form-control" placeholder="请输入邮箱" name="email" id="email" onchange="changeEmail()" required>
+                                <input type="text" class="form-control" placeholder="请输入邮箱" name="email" id="email" required>
                             <div class="input-group-append">
 <!--                                onclick="doGetEmailCode()"-->
 
                                 <button type="button" id="getCode" data-type="pointsVerify" data-location="body"
-                                        data-value="" data-path="/commons/getemailcode/sendEmailCode" required
+                                        data-value-id="email" data-path="/commons/getemailcode/sendEmailCode" required
                                         data-url="" data-point="验证码发送成功，请注意查收！"
                                         style="float: right;background: #DDDDDD;"
                                         class="input-group-text jpress-captcha" >获取验证码</button>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: block;">验证码</label>
+                        <div class="clearfix position-relative" >
+                            <input type="text" id="captcha" autocomplete="off" class="form-control " style="float: left;"
+                                   placeholder="请输入验证码" name="captcha" required>
                         </div>
                     </div>
 
@@ -149,13 +103,7 @@
                         <label>确认密码</label>
                         <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd" required>
                     </div>
-                    <div class="form-group">
-                        <label style="display: block;">验证码</label>
-                        <div class="clearfix position-relative" >
-                            <input type="text" id="captcha" autocomplete="off" class="form-control " style="float: left;"
-                                   placeholder="请输入验证码" name="captcha" required>
-                        </div>
-                    </div>
+
 
                     <div class="form-group" style="padding-top: 30px;">
                         <div class="col-sm-12" style="padding-top: 15px">
@@ -182,7 +130,7 @@
 <script src="#(CPATH)/static/components/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script src="#(CPATH)/static/admin/js/jpressutils.js"></script>
-<script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
+<script src="#(CPATH)/static/front/jpressfront.js"></script>
 
 <script>
     function ok() {

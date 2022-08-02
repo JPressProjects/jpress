@@ -436,7 +436,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
         String src = path.replace("\\", "/");
 
 
-        renderJson(Ret.ok().set("success", true).set("src", src ));
+        renderJson(Ret.ok().set("success", true).set("src", src ).set("fileName",file.getName()));
     }
 
 

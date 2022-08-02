@@ -147,18 +147,10 @@
         var userData = '{"Vod":{}}'
         if (uploader) {
             uploader.stopUpload()
-            // $('#auth-progress').text('0')
-            // $('#status').text("")
         }
         var title = $('#videoTitle').val();
-        if (title == "") {
-            alert("请先输入标题，才能进行文件上传。");
-            return;
-        }
 
         uploader = createVideoUploader(fileName, title);
-        // 首先调用 uploader.addFile(event.target.files[i], null, null, null, userData)
-        // console.log(uploader)
 
         uploader.addFile(file, null, null, null, userData);
         uploader.startUpload();
@@ -192,6 +184,11 @@
             //开始上传，需要设置（或者刷新）凭证
             'onUploadstarted': function (uploadInfo) {
                 console.log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
+
+                if(!title){
+                    title = uploadInfo.file.name;
+                    $('#videoTitle').val(uploadInfo.file.name);
+                }
 
                 if (uploadInfo.videoId) {
                     //需要刷新上传凭证
@@ -410,11 +407,6 @@
         };
 
         $('#tcentVideoInputFile').on('change', function(e) {
-            var title = $('#videoTitle').val();
-            if (title == "") {
-                alert("请先输入标题，才能进行文件上传。");
-                return;
-            }
 
             var file = e.target.files[0]
             if (!file) {
@@ -422,6 +414,10 @@
                 return
             }
 
+            var title = $('#videoTitle').val();
+            if(!title){
+                $('#videoTitle').val(file.name);
+            }
 
             var videoFile = this.files[0];
             var fileId=null;
@@ -550,10 +546,6 @@
     function uploadLocalVideo(){
 
         var title = $('#videoTitle').val();
-        if (title == "") {
-            alert("请先输入标题，才能进行文件上传。");
-            return;
-        }
 
         $('#localVideoInputFile').fileupload({
             dropZone: $('#uploader'),
@@ -570,6 +562,12 @@
                     $("#localPlay").attr("src",data.result.src);
                     // $("#videoPlayUrl").attr("value",data.result.src);
                     $("#videoContent").attr("value",data.result.src);
+
+                    if(!title){
+
+                        $('#videoTitle').val(data.result.fileName);
+                    }
+
                 }else {
                     toastr.error(data.result.message)
                 }

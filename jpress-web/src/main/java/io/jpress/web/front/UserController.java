@@ -290,18 +290,6 @@ public class UserController extends TemplateControllerBase {
             return;
         }
 
-        String phoneNumber = getPara("phone");
-
-        //是否启用短信验证
-        boolean smsValidate = JPressOptions.getAsBool("reg_sms_validate_enable");
-        if (smsValidate) {
-            String paraCode = getPara("sms_code");
-            if (!SmsKit.validateCode(phoneNumber, paraCode)) {
-                renderJson(Ret.fail().set("message", "短信验证码输入错误").set("errorCode", 7));
-                return;
-            }
-        }
-
 
         User user = userService.findFirstByUsername(username);
         if (user != null) {
@@ -326,9 +314,6 @@ public class UserController extends TemplateControllerBase {
         user.setSalt(salt);
         user.setPassword(hashedPass);
         user.setCreated(new Date());
-
-        user.setMobile(phoneNumber);
-        user.setMobileStatus(smsValidate ? "ok" : null); // 如果 smsValidate == true，并走到此处，说明验证码已经验证通过了
 
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
         user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
@@ -435,6 +420,14 @@ public class UserController extends TemplateControllerBase {
 
         user.setCreateSource(User.SOURCE_WEB_REGISTER);
         user.setAnonym(CookieUtil.get(this, JPressConsts.COOKIE_ANONYM));
+
+        //是否启用短信验证
+        boolean smsValidate = JPressOptions.getAsBool("reg_sms_validate_enable");
+        if (smsValidate) {
+            user.setStatus(User.STATUS_REG);
+        }else {
+            user.setStatus(User.STATUS_OK);
+        }
 
         //强制用户状态为未激活
         boolean isNotActivate = JPressOptions.getAsBool("reg_users_is_not_activate");

@@ -1,0 +1,107 @@
+#include("./layout.html")
+#@layout(true)
+
+
+#define content()
+<div class="container">
+
+    #include("header.html")
+    <div class="bh-artical-content" style="background-color:#fafafa;padding-bottom:20px;">
+        <h5 class="cl-job-title">职位筛选</h5>
+        <div style="margin-top:20px;">
+            <form action="/job/list">
+                <div class="form-group">
+                    <input style="width:85%;float:left;border-radius: 0;" name="title" type="text" class="form-control" placeholder="请输入岗位名称" id="title"  onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off">
+                    <input style="width:15%;float:right;border-radius: 0;" type="submit" id="btn_yzm" class="btn btn-primary" value="点击搜索" />
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    #jobAddress()
+                    <select class="form-control" style="width: 30%;float: left" name="addressId">
+                        <option value="">选择工作地点</option>
+                        #for(item : addressList)
+                        <option #if(para('addressId') == item.id ??) selected #end value="#(item.id ??)">#para('addressId')---#(item.title ??)</option>
+                        #end
+                    </select>
+                    #end
+
+                    #jobCategories()
+                    <select class="form-control" style="width: 30%;float: left;margin-left: 10px;" name="categoryId">
+                        <option value="">选择分类</option>
+                        #for(item : categoryList)
+                        <option value="#(item.id ??)" #if(para('categoryId') == item.id ??) selected #end>#(item.title ??)</option>
+                        #end
+                    </select>
+                    #end
+
+                    <div class="clearfix"></div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="cl-artical-content" style="padding:0 0 20px 0;">
+
+    #jobPage(pageSize = 3)
+    #for(job : jobPage.list)
+    <div class="joblist-card">
+        <a class="joblist-card-link" href="#(job.url ??)">
+
+            <div class="job-title-group">
+                #if(job.with_hurry ??) <span>急</span> #end
+                <h5 class="cl-artical-title" style="font-size:1rem;">#(job.title ??)</h5>
+            </div>
+                <div class="cl-card-tag">
+                    <p><span>#(job.category.title ??)</span></p>
+                    <p><span>发布时间:#date(job.created ??)</span></p>
+                </div>
+
+        </a>
+
+    </div>
+    #end
+
+    #jobPaginate()
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            #for(page : pages)
+            <li class="page-item #(page.style)"><a class="page-link" href="#(page.url ??)">#(page.text)</a></li>
+            #end
+        </ul>
+    </nav>
+    #end
+
+    #end
+
+    </div>
+
+
+    <div class="col-md-3 cl-right" style="display:none;">
+        <div class="cl-artical-content">
+
+            <div class="job-right-title">
+                <h5>最新职位</h5>
+                <a class="cl-card-tag" href="#">更多</a>
+            </div>
+            <div class="job-right-list">
+                #jobs(orderBy = "created desc",count = 10)
+
+                #for(job:jobList)
+                <div class="job-right-title-group">
+                    #if(job.with_hurry ??) <span>急</span> #end
+                    <a href="#(job.url ??)">#(job.title ??)</a>
+                </div>
+
+
+                #end
+
+                #end
+            </div>
+        </div>
+    </div>
+</div>
+
+
+#end

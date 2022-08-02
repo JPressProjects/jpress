@@ -1,0 +1,186 @@
+#include("./layout.html")
+#@layout(true)
+
+#define css()
+#end
+
+#define script()
+#end
+
+
+#define content()
+<div class="container">
+
+    #include("header.html")
+    <div class="bh-artical-content">
+    <div>
+        <div class="job-title-group">
+            #if(job.with_hurry ??) <span>急</span> #end
+            <h5 class="cl-artical-title">#(job.title ??)</h5>
+        </div>
+        <div class="cl-card-tag">
+            <p>
+                <span>#(job.address.title ??)</span> |
+                <span>发布时间：#date(job.created ??)</span>
+            </p>
+        </div>
+
+    </div>
+    <hr/>
+
+    <form action="/job/apply/doSave" class="ajaxSubmit" data-ok-message="申请成功" data-ok-href="/job/list" method="post">
+
+        <input type="hidden" id="filePath" name="jobApply.cv_path">
+        <input type="hidden" id="attachment" name="jobApply.attachment">
+        <input type="hidden" name="jobApply.job_id" value="#(job.id ??)">
+
+        <h6 class="job-desc-title">
+            申请信息
+            <div class="job-desc-title-divider"></div>
+        </h6>
+        <div class="job-apply-detail">
+            <div class="form-group">
+                <label for="referral_code">推荐码</label>
+                <input type="text" class="form-control" id="referral_code" placeholder="推荐码" name="jobApply.referral_code">
+            </div>
+        </div>
+
+        <h6 class="job-desc-title">
+            个人信息
+            <div class="job-desc-title-divider"></div>
+        </h6>
+        <div class="job-apply-detail">
+            <div class="form-group">
+                <label for="username">姓名</label>
+                <input type="text" class="form-control" id="username" placeholder="输入姓名" name="jobApply.user_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">性别</label>
+                <select class="form-control" id="gender" name="jobApply.gender">
+                    <option value="0">男</option>
+                    <option value="1">女</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">手机号</label>
+                <div class="job-group-mobile1">
+                    <select style="width:26%;" class="form-control" id="mobile_area" name="jobApply.mobile_area">
+                        <option value="+86">+86</option>
+                    </select>
+                    <input style="width:73%;" type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile" required>
+                </div>
+                #if(option("job_mobile_enable"))
+                <div class="job-verification-code">
+                    <input style="width:70%;" type="code" class="form-control" placeholder="验证码" id="mobile_code"
+                           name="mobileCode" autocomplete="off">
+
+                    <input style="width:28%;" type="button" class="btn jpress-captcha" id="getCode" data-type="pointsVerify" data-location="body"
+                           data-value-id="mobile" data-path="/job/apply/getMobileCode"
+                           data-url="" data-point="手机验证码发送成功，请注意查收！"
+                           value="获取验证码"/>
+
+                </div>
+                #end
+
+            </div>
+
+            <div class="form-group">
+                <label for="email">邮箱</label>
+
+                <input type="email" class="form-control" id="email" placeholder="邮箱" name="jobApply.email" required>
+
+                #if(option("job_email_enable"))
+                <div class="job-verification-code">
+                    <input style="width:70%;" type="code" class="form-control" placeholder="验证码" id="email_code"
+                           name="emailCode" autocomplete="off">
+
+
+                    <input style="width:28%;" id="getEmailCode" type="button" data-type="slideVerify" data-location="html"
+                           class="btn jpress-captcha"  data-value-id="email" data-path="/job/apply/getEmailCode/#(job.id ??)"
+                           data-url="" data-point="邮箱验证码发送成功，请注意查收！"
+                           value="获取验证码"/>
+
+                </div>
+                #end
+            </div>
+
+
+
+            <div class="form-group">
+                <label>出生日期</label>
+                <input type="datetime-local" class="form-control datetime" placeholder="点击选择" name="jobApply.birthday">
+            </div>
+
+            <div class="form-group">
+                <label for="work_years">工作经验</label>
+                <input type="number" class="form-control" id="work_years" placeholder="工作经验" name="jobApply.work_years"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="education">最高学历</label>
+                <select class="form-control" id="education" name="jobApply.education" required>
+                    <option value="">请选择学历</option>
+                    <option value="0">其它</option>
+                    <option value="1">初中及以下</option>
+                    <option value="2">中专/中技</option>
+                    <option value="3">高中</option>
+                    <option value="4">大专</option>
+                    <option value="5">本科</option>
+                    <option value="6">硕士</option>
+                    <option value="7">博士</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="last_company">最近工作的公司</label>
+                <input type="text" class="form-control" id="last_company" placeholder="输入公司名称" name="jobApply.last_company">
+            </div>
+
+        </div>
+        <h6 class="job-desc-title">
+            上传
+            <div class="job-desc-title-divider"></div>
+        </h6>
+        <div class="job-apply-detail">
+            <div class="form-group">
+                <label>简历上传</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileResume" data-result-id="file-resume">
+                        <label class="custom-file-label"  id="file-resume" for="inputUpdateFileResume">请选择文件</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileResume" data-result-id="filePath">
+                            开始上传
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>附件上传</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileAttachment" data-result-id="file-attachment">
+                        <label class="custom-file-label"  id="file-attachment" for="inputUpdateFileAttachment">请选择文件</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileAttachment" data-result-id="attachment">
+                            开始上传
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group job-apply-button">
+            <input type="submit" id="btn_yzm" class="btn btn-primary" value="提交申请"/>
+        </div>
+
+    </form>
+
+    </div>
+</div>
+#end

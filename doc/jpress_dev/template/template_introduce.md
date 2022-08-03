@@ -14,7 +14,7 @@
 一个完整的模板，文件内容如下：
 
 ```
-mytemplate
+newtemplate
 ├── index.html
 ├── screenshot.png
 └── template.properties
@@ -22,14 +22,14 @@ mytemplate
 
 其中 `index.html` 、 `screenshot.png` 、`template.properties` 是模板的必须文件，一个模板最少由着三个文件组成。如下所示：
 ![img.png](../image/template/template_1.png)
-> 更多文件请参考: [模板的目录结构](xxxxx)
+> 更多文件请参考: [模板的目录结构](template_directory.md)
 
 - index.html : 网站首页的模板
 - screenshot.png : 后台的模板缩略图
 - template.properties 模板的配置信息
 
 ::: tip 提示
-当我们开始开发一个新的模板的时候，可以先用这个三个文件，打包成 zip 包之后，通过 JPress 后台进行安装，看一下效果。同时可以把 `mytemplate` 文件夹直接复制到 JPress 的 `templates` 目录下也等同于安装。
+当我们开始开发一个新的模板的时候，可以先用这个三个文件，打包成 zip 包之后，通过 JPress 后台进行安装，看一下效果。同时可以把 `NewTemplate` 文件夹直接复制到 JPress 的 `templates` 目录下也等同于安装。
 :::
 
 模板的配置文件 `template.properties` 内容如下
@@ -54,3 +54,7 @@ screenshot = screenshot.png
 * version ：版本（不添加默认为1.0.0）
 * versionCode ：版本号（只能是数字，不填写默认为1）
 * screenshot ：此模板的缩略图图片（不填写默认为：screenshot.png）
+
+> 当至少我们拥有这三个文件之后 重启我们的程序 那么新的模板 就会出现在后台模板中
+
+![img.png](../image/template/template_2.png)

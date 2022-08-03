@@ -15,9 +15,14 @@
  */
 package io.jpress.module.page;
 
+import com.jfinal.aop.Aop;
+import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
+import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleBase;
+import io.jpress.module.page.model.SinglePage;
+import io.jpress.module.page.service.SinglePageService;
 
 import java.util.List;
 
@@ -43,7 +48,15 @@ public class PageModuleInitializer extends ModuleBase {
 
     }
 
+    @Override
+    public String onRenderDashboardBox(Controller controller) {
 
+        List<SinglePage> singlePages = Aop.get(SinglePageService.class).findListByColumns(Columns.create(), "created desc", 5);
+        controller.setAttr("singlePages",singlePages);
+
+
+        return "/WEB-INF/views/admin/page/_dashboard_box.html";
+    }
 
     @Override
     public void onEngineConfig(Engine engine) {

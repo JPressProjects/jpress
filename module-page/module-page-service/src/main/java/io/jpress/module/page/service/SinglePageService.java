@@ -140,4 +140,6 @@ public interface SinglePageService extends JbootServiceJoiner {
      * @param pageId
      */
     void doUpdateCommentCount(long pageId);
+
+    public List<SinglePage> findListByColumns(Columns columns, String orderBy, Integer count);
 }

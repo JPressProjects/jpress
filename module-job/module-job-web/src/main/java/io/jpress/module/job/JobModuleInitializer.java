@@ -15,8 +15,14 @@
  */
 package io.jpress.module.job;
 
+import com.jfinal.aop.Aop;
+import com.jfinal.core.Controller;
+import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleBase;
+import io.jpress.module.job.model.Job;
+import io.jpress.module.job.service.JobService;
+
 import java.util.List;
 
 /**
@@ -26,6 +32,17 @@ import java.util.List;
  * @Package io.jpress.module.job
  */
 public class JobModuleInitializer extends ModuleBase {
+
+
+
+    @Override
+    public String onRenderDashboardBox(Controller controller) {
+
+        List<Job> jobList = Aop.get(JobService.class).findListByColumns(Columns.create(),"created desc",5);
+        controller.setAttr("jobList",jobList);
+
+        return "job/_dashboard_box.html";
+    }
 
     @Override
     public void onConfigAdminMenu(List<MenuGroup> adminMenus) {

@@ -15,12 +15,16 @@
  */
 package io.jpress.module.form;
 
+import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import io.jboot.Jboot;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
+import io.jpress.module.form.model.FormInfo;
+import io.jpress.module.form.service.FormInfoService;
+
 import java.util.List;
 
 /**
@@ -34,7 +38,11 @@ public class FormModuleInitializer extends JbootAppListenerBase implements Modul
 
     @Override
     public String onRenderDashboardBox(Controller controller) {
-        return null;
+
+        List<FormInfo> formInfoList = Aop.get(FormInfoService.class).findListByColumns(Columns.create(), "id desc", 5);
+        controller.setAttr("formInfoList",formInfoList);
+
+        return "/WEB-INF/views/admin/form/_dashboard_box.html";
     }
 
     @Override

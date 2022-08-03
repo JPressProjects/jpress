@@ -15,10 +15,15 @@
  */
 package io.jpress.module.product;
 
+import com.jfinal.aop.Aop;
+import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
+import io.jboot.db.model.Columns;
 import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleBase;
+import io.jpress.module.product.model.Product;
+import io.jpress.module.product.service.ProductService;
 
 import java.util.List;
 
@@ -40,6 +45,14 @@ public class ProductModuleInitializer extends ModuleBase {
         adminMenus.add(menuGroup);
     }
 
+    @Override
+    public String onRenderDashboardBox(Controller controller) {
+
+        List<Product> productList = Aop.get(ProductService.class).findListByColumns(Columns.create(), "created desc", 5);
+        controller.setAttr("productList", productList);
+
+        return "/WEB-INF/views/admin/product/_dashboard_box.html";
+    }
 
     @Override
     public void onEngineConfig(Engine engine) {

@@ -1,0 +1,31 @@
+<style>
+    .comment-content p {
+        display: inline;
+    }
+
+    table td a{
+        color:#007bff;
+    }
+
+</style>
+
+<div class="col-md-6 col-sm-6 col-12">
+    <div class="card card-outline card-dashboard">
+        <div class="card-header with-border">
+            <h3 class="card-title">最新页面</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+            <table class="table table-striped">
+                <tbody>
+                #for(page : singlePages)
+                <tr>
+                    <td style="width: 150px">#date(page.created ??)</td>
+                    <td><a href="/#(page.id ??)" target="_blank">#(page.title ??)</a></td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

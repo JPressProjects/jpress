@@ -86,9 +86,9 @@
 
                     #for(entry : page.list)
                     <div class="col-md-3">
-                        <div class="jpress-from-card">
+                        <div class="jpress-form-item">
                             <a href="#(CPATH)/admin/form/data/#(entry.id ??)">
-                                <div class="jpress-from-card-header">
+                                <div class="jpress-form-item-header">
                                     <i class="bi bi-bar-chart-fill"></i>
                                      #(entry.name ??)
                                 </div>
@@ -98,7 +98,7 @@
                                 #else
                                 <div class="form-state-unpublish">未发布</div>
                                 #end
-                                <div class="jpress-from-card-footer">
+                                <div class="jpress-form-item-footer">
                                     <span>#(entry.data_count ??)份数据</span>
                                     <span class="float-right">#if(entry.timeDifference ??) #(entry.timeDifference ??)前 #end</span>
                                 </div>

@@ -6,7 +6,7 @@
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
-    .jpress-from-card:hover {
+    .jpress-form-item:hover {
         border: 1px solid #0069d9;
     }
     .my-row {
@@ -46,12 +46,11 @@
     //clear layer.data
     parent.layer.data = {};
 
-    $(".jpress-from-card").click(function () {
+    $(".jpress-form-item").click(function () {
 
         //表单id
-        parent.layer.data.id = $(this).children().attr("data-id");
-
-        parent.layer.data.name = $(this).children().attr("data-name");
+        parent.layer.data.id = $(this).attr("data-id");
+        parent.layer.data.name = $(this).attr("data-name");
         parent.layer.closeAll();
     })
 
@@ -78,9 +77,9 @@
                 <div class="row">
                     #for(form : page.list)
                     <div class="col-md-3">
-                        <div class="jpress-from-card" data-id="#(form.id ??)" data-name="#(form.name ??)">
+                        <div class="jpress-form-item" data-id="#(form.id ??)" data-name="#(form.name ??)">
                             <a href="javascript:void(0);">
-                                <div class="jpress-from-card-header">
+                                <div class="jpress-form-item-header">
                                     <i class="bi bi-bar-chart-fill"></i>
                                     #(form.name ??)
                                 </div>
@@ -89,7 +88,7 @@
                                 #else
                                 <div class="form-state-unpublish">未发布</div>
                                 #end
-                                <div class="jpress-from-card-footer">
+                                <div class="jpress-form-item-footer">
                                     <span>#(form.data_count ??, "暂无")</span>
                                     <span class="float-right">#(form.data_created ??)</span>
                                 </div>

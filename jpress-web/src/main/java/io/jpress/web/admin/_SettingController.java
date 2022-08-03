@@ -110,7 +110,7 @@ public class _SettingController extends AdminControllerBase {
     }
 
     @AdminMenu(text = "垃圾过滤", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 44)
-    public void filter() {
+    public void filter() throws Exception {
         render("setting/filter.html");
     }
 

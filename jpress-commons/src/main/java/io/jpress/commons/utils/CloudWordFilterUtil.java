@@ -10,11 +10,8 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.green.model.v20180509.TextScanRequest;
 import com.aliyuncs.http.FormatType;
 import com.aliyuncs.http.HttpResponse;
-import com.aliyuncs.imageaudit.model.v20191230.ScanTextRequest;
-import com.aliyuncs.imageaudit.model.v20191230.ScanTextResponse;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.google.gson.Gson;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
@@ -22,20 +19,31 @@ import com.tencentcloudapi.common.profile.HttpProfile;
 import com.tencentcloudapi.tms.v20200713.TmsClient;
 import com.tencentcloudapi.tms.v20200713.models.TextModerationRequest;
 import com.tencentcloudapi.tms.v20200713.models.TextModerationResponse;
+import io.jboot.utils.HttpUtil;
+import io.jboot.utils.StrUtil;
+import io.jpress.JPressOptions;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class IllegalWordFilterUtil {
+public class CloudWordFilterUtil {
+
+    private static String accessKeyIds = "";
+    private static String secrets = "";
+    private static String regionId = "cn-shanghai";
+    private static String appCode = "";
+    private static String endpoint = "";
 
     /**
      * 阿里云 文本内容检测
-     * @param Content
+     * @param accessKeyId
+     * @param secret
+     * @param content
      */
-    public static void textScanRequest(String Content) {
+    public static boolean aliyunTextScan(String accessKeyId,String secret,String content) {
 
         IClientProfile profile = DefaultProfile
-                .getProfile("cn-shanghai", "", "");
+                .getProfile("cn-shanghai", accessKeyId, secret);
         DefaultProfile
                 .addEndpoint("cn-shanghai", "Green", "green.cn-shanghai.aliyuncs.com");
         IAcsClient client = new DefaultAcsClient(profile);
@@ -51,7 +59,7 @@ public class IllegalWordFilterUtil {
         /**
          * 待检测的文本，长度不超过10000个字符。
          */
-        task1.put("content", "我所有的朋友，都普遍聪明平和，去你妈的，大傻逼，就像是一种社交工具，你在吸的时候可以谈很深刻的事情，而如果你在清醒的时候谈，别人一定会觉得你有病。");
+        task1.put("content", content);
         tasks.add(task1);
         JSONObject data = new JSONObject();
 
@@ -60,7 +68,7 @@ public class IllegalWordFilterUtil {
          **/
         data.put("scenes", Arrays.asList("antispam"));
         data.put("tasks", tasks);
-        System.out.println(JSON.toJSONString(data, true));
+
         textScanRequest.setHttpContent(data.toJSONString().getBytes(StandardCharsets.UTF_8), "UTF-8", FormatType.JSON);
         // 请务必设置超时时间。
         textScanRequest.setConnectTimeout(3000);
@@ -69,30 +77,30 @@ public class IllegalWordFilterUtil {
             HttpResponse httpResponse = client.doAction(textScanRequest);
             if(httpResponse.isSuccess()){
                 JSONObject scrResponse = JSON.parseObject(new String(httpResponse.getHttpContent(), "UTF-8"));
-                System.out.println(JSON.toJSONString(scrResponse, true));
+
                 if (200 == scrResponse.getInteger("code")) {
                     JSONArray taskResults = scrResponse.getJSONArray("data");
+
                     for (Object taskResult : taskResults) {
+
                         if(200 == ((JSONObject)taskResult).getInteger("code")){
                             JSONArray sceneResults = ((JSONObject)taskResult).getJSONArray("results");
+
                             for (Object sceneResult : sceneResults) {
                                 String scene = ((JSONObject)sceneResult).getString("scene");
                                 String suggestion = ((JSONObject)sceneResult).getString("suggestion");
                                 // 根据scene和suggetion做相关处理。
                                 // suggestion为pass表示未命中垃圾。suggestion为block表示命中了垃圾，可以通过label字段查看命中的垃圾分类。
-                                System.out.println("args = [" + scene + "]");
-                                System.out.println("args = [" + suggestion + "]");
+
+                                if(("block").equals(suggestion)){
+                                    return true;
+                                }
                             }
-                        }else{
-                            System.out.println("task process fail:" + ((JSONObject)taskResult).getInteger("code"));
                         }
                     }
-                } else {
-                    System.out.println("detect not success. code:" + scrResponse.getInteger("code"));
                 }
-            }else{
-                System.out.println("response not success. status:" + httpResponse.getStatus());
             }
+
         } catch (ServerException e) {
             e.printStackTrace();
         } catch (ClientException e) {
@@ -101,51 +109,9 @@ public class IllegalWordFilterUtil {
             e.printStackTrace();
         }
 
+        return false;
     }
 
-
-    public static void scanText(String content){
-        DefaultProfile profile = DefaultProfile.getProfile("cn-shanghai", "<your-access-key-id>", "<your-access-key-secret>");
-
-        IAcsClient client = new DefaultAcsClient(profile);
-
-        ScanTextRequest request = new ScanTextRequest();
-
-        List<ScanTextRequest.Tasks> tasksList = new ArrayList<ScanTextRequest.Tasks>();
-
-        ScanTextRequest.Tasks tasks1 = new ScanTextRequest.Tasks();
-        tasks1.setContent("");
-        tasksList.add(tasks1);
-        request.setTaskss(tasksList);
-
-        List<ScanTextRequest.Labels> labelsList = new ArrayList<ScanTextRequest.Labels>();
-
-        ScanTextRequest.Labels labels1 = new ScanTextRequest.Labels();
-        labels1.setLabel("abuse");
-        labelsList.add(labels1);
-
-        ScanTextRequest.Labels labels2 = new ScanTextRequest.Labels();
-        labels2.setLabel("contraband");
-        labelsList.add(labels2);
-
-        ScanTextRequest.Labels labels3 = new ScanTextRequest.Labels();
-        labels3.setLabel("porn");
-        labelsList.add(labels3);
-        request.setLabelss(labelsList);
-
-        try {
-            ScanTextResponse response = client.getAcsResponse(request);
-            System.out.println(new Gson().toJson(response));
-        } catch (ServerException e) {
-            e.printStackTrace();
-        } catch (ClientException e) {
-//            System.out.println("ErrCode:" + e.getErrCode());
-//            System.out.println("ErrMsg:" + e.getErrMsg());
-            System.out.println("RequestId:" + e.getRequestId());
-        } catch (com.aliyuncs.exceptions.ClientException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     /**
@@ -153,20 +119,20 @@ public class IllegalWordFilterUtil {
      * @param appCode
      * @param content
      */
-    public static void textScanByAppCode(String appCode , String content){
+    public static boolean xiaohuaeraiTextScan(String appCode , String content){
         String host = "https://textfilter.xiaohuaerai.com";
         String path = "/textfilter";
         String method = "POST";
-        String appcode = "你自己的AppCode";
+        String appcode = appCode;
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
         //根据API的要求，定义相对应的Content-Type
         headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         Map<String, String> querys = new HashMap<String, String>();
-        Map<String, String> bodys = new HashMap<String, String>();
-        bodys.put("src", "需要过滤的文本");
-        bodys.put("type", "strict");
+        Map<String, Object> bodys = new HashMap<String, Object>();
+        bodys.put("src", content);
+        bodys.put("type", "detail");
         //strict:严格，easy：宽松，detail：详细信息
 
 
@@ -182,13 +148,23 @@ public class IllegalWordFilterUtil {
              */
 //            HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
 //            System.out.println(response.toString());
+//            获取response的body
+//            System.out.println(EntityUtils.toString(response.getEntity()));
 
+            String response = HttpUtil.httpPost(host + path, bodys, headers, null);
+            if(StrUtil.isNotBlank(response)){
+                JSONObject jsonObject = JSONObject.parseObject(response);
 
-            //获取response的body
-            //System.out.println(EntityUtils.toString(response.getEntity()));
+                if(200 == jsonObject.getInteger("status") && ("block").equals(jsonObject.getString("msg"))){
+                    //非法文本
+                    return true;
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
@@ -198,31 +174,36 @@ public class IllegalWordFilterUtil {
      * @param content
      */
 
-    public static void textScanByTaiYue(String appCode , String content){
+    public static boolean ultrapowerTextScan(String appCode , String content){
         String host = "http://monitoring.market.alicloudapi.com";
         String path = "/neirongjiance";
         String method = "POST";
-        String appcode = "你自己的AppCode";
+        String appcode = appCode;
         Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
         //根据API的要求，定义相对应的Content-Type
         headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        Map<String, String> querys = new HashMap<String, String>();
-        Map<String, String> bodys = new HashMap<String, String>();
-        bodys.put("in", "要过滤的文本");
+        Map<String, Object> bodys = new HashMap<String, Object>();
+        bodys.put("in", content);
 
 
         try {
-//            HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
-//            System.out.println(response.toString());
 
+            String response = HttpUtil.httpPost(host + path, bodys, headers, null);
+            if(StrUtil.isNotBlank(response)){
+                JSONObject jsonObject = JSONObject.parseObject(response);
 
-            //获取response的body
-            //System.out.println(EntityUtils.toString(response.getEntity()));
+                if(200 == jsonObject.getInteger("status") && ("block").equals(jsonObject.getString("msg"))){
+                    //非法文本
+                    return true;
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
@@ -231,12 +212,12 @@ public class IllegalWordFilterUtil {
      * @param content
      * @return
      */
-    public static String  qcloudTextScan(String content){
+    public static boolean  qcloudTextScan(String accessKeyId,String secret,String content){
         try{
 
             // 实例化一个认证对象，入参需要传入腾讯云账户secretId，secretKey,此处还需注意密钥对的保密
             // 密钥可前往https://console.cloud.tencent.com/cam/capi网站进行获取
-            Credential cred = new Credential("", "");
+            Credential cred = new Credential(accessKeyId, secret);
 
             // 实例化一个http选项，可选的，没有特殊需求可以跳过
             HttpProfile httpProfile = new HttpProfile();
@@ -265,16 +246,64 @@ public class IllegalWordFilterUtil {
             // 输出json格式的字符串回包
             System.out.println(TextModerationResponse.toJsonString(resp));
 
-            return  TextModerationResponse.toJsonString(resp);
+            if(resp != null && ("Block").equals(resp.getSuggestion())){
+                return true;
+            }
         } catch (TencentCloudSDKException e) {
-
-            System.out.println(e.toString());
-           return e.toString();
+            e.toString();
         }
+        return false;
     }
 
+    /**
+     * 判断文本内容是否 安全
+     * @param content
+     * @return
+     */
+    public static boolean isIllegalWords(String content){
+//        String service = "aliyun";
+        //开启云过滤功能
+        String serviceEnable = JPressOptions.get("text_filter_service_enable");
+
+        //云过滤服务商
+        String service = JPressOptions.get("text_filter_service");
+
+        String appId = JPressOptions.get("text_filter_appid");
+        String appSecret = JPressOptions.get("text_filter_appsecret");
+        String appCode = JPressOptions.get("text_filter_appcode");
+
+        if(StrUtil.isNotBlank(serviceEnable)){
+            Boolean enable = Boolean.valueOf(serviceEnable);
+            if(!enable){
+                return false;
+            }
+        }
 
 
+        if(StrUtil.isBlank(content)){
+            return false;
+        }
+
+
+        if(("aliyun").equals(service)){//阿里云
+            return aliyunTextScan(appId, appSecret, content);
+
+        }
+        else if(("qcloud").equals(service)){//腾讯云
+            return qcloudTextScan(appId,appSecret,content);
+
+        }
+        else if(("xiaohuaerai").equals(service)){//小花儿AI
+            return xiaohuaeraiTextScan(appCode,content);
+
+        }
+        else if(("ultrapower").equals(service)){//泰岳语义工厂
+            return ultrapowerTextScan(appCode,content);
+
+        }
+
+        return false;
+    }
 
 
 }

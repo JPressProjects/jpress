@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>登录到JPress</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
+
+    <!--[if lt IE 9]>
+    <script src="#(CPATH)/static/html5shiv/html5shiv.min.js"></script>
+    <script src="#(CPATH)/static/respond/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .login-page {
+            background-image: url("#(CDN)#(CPATH)/static/commons/img/bg.png");
+            background-size: cover;
+        }
+
+        .login-box {
+            margin-top: 100px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+
+    </style>
+</head>
+<body class="hold-transition login-page">
+
+<div class="wrapper">
+
+    <div class="login-box">
+        <div class="login-logo" style="color: #FFF">
+            #option('web_name','JPress')
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+
+                <form action="#(CPATH)#(action)" method="post" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin/index" data-fail-function="loginFail">
+
+                    <div class="form-group">
+                        <label>账号</label>
+                        <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" class="form-control" placeholder="及密码..." name="pwd">
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: block;">验证码</label>
+                        <div>
+                            <input type="text" id="captcha" class="form-control" autocomplete="off" style="float: left;width: 70%;"
+                                   placeholder="请输入验证码" name="captcha" required>
+                            <img src="#(CPATH)/commons/captcha" id="captcha-img" style="float: right;height: 34px;margin-top: 2px;"
+                                 onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="padding-top: 30px;">
+                        <div class="col-12" style="padding-top: 15px">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat"> 登 录</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+
+</div>
+
+<script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
+<script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/jquery.validate.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/additional-methods.min.js"></script>
+<script src="#(CPATH)/static/components/jquery-validation/localization/messages_zh.min.js"></script>
+<script src="#(CPATH)/static/components/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="#(CPATH)/static/admin/js/jpressutils.js"></script>
+<script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
+<script>
+    function loginFail(result) {
+        showErrorMessage(result.message);
+        $('#captcha').val('');
+        $('#captcha-img').attr('src',"#(CPATH)/commons/captcha?id="+Math.random())
+
+        if (result.errorCode == 11){
+            $('input[name="account"]').val('')
+            $('input[name="pwd"]').val('')
+        }else if (result.errorCode == 12){
+            $('input[name="pwd"]').val('')
+        }
+    }
+</script>
+
+</body>
+</html>
+

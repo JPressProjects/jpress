@@ -6,77 +6,174 @@
     <title>登录到JPress</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/fontawesome-free/css/all.min.css">
 
     <!--[if lt IE 9]>
     <script src="#(CPATH)/static/html5shiv/html5shiv.min.js"></script>
     <script src="#(CPATH)/static/respond/respond.min.js"></script>
     <![endif]-->
     <style>
-        .login-page {
-            background-image: url("#(CDN)#(CPATH)/static/commons/img/bg.png");
+        .login-content{
+            background-color:#fff;
+            width:50%;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            border-radius:12px;
+            min-height:60vh;
+            overflow:hidden;
+        }
+        .login-left{
+            width:30%;
+            background-image: url("#(CDN)#(CPATH)/static/commons/img/login-img.png");
             background-size: cover;
+            background-color:#409EFF;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            flex-direction:column;
+            justify-content:space-between;
+            color:#fff;
+        }
+        .login-logo2{
+            padding:20px 0 0 30px;
+            font-size:36px;
+            font-weight:500;
+        }
+        .login-logo2 span{
+            font-size:20px;
+            font-weight:400;
+            vertical-align:text-top;
+
+        }
+        .login-bottom{
+            text-align:center;
+            padding-bottom:20px;
+        }
+        .login-bottom p{
+            line-height:1.5em;
+            margin-bottom:0;
+            font-size:14px;
+
+        }
+        .login-right{
+            width:70%;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .login-page {
+            background-image: url("#(CDN)#(CPATH)/static/commons/img/bg1.png");
+            background-size: contain;
+            background-repeat:repeat;
         }
 
         .login-box {
-            margin-top: 100px;
+            width: 60%;
+            margin: 0 auto;
         }
-
+        .login-box .card{
+            box-shadow:none;
+        }
         .form-group {
             text-align: left;
+        }
+        .login-input-content{
+            position:relative;
+        }
+        .login-input-content .login-icon{
+            position:absolute;
+            left:12px;
+            top:7px;
+        }
+        .login-input-content .form-control{
+            text-indent:20px;
         }
 
 
     </style>
 </head>
 <body class="hold-transition login-page">
-
-<div class="wrapper">
-
-    <div class="login-box">
-        <div class="login-logo" style="color: #FFF">
-            #option('web_name','JPress')
-        </div>
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-
-                <form action="#(CPATH)#(action)" method="post" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin/index" data-fail-function="loginFail">
-
-                    <div class="form-group">
-                        <label>账号</label>
-                        <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>密码</label>
-                        <input type="password" class="form-control" placeholder="及密码..." name="pwd">
-                    </div>
-
-                    <div class="form-group">
-                        <label style="display: block;">验证码</label>
-                        <div>
-                            <input type="text" id="captcha" class="form-control" autocomplete="off" style="float: left;width: 70%;"
-                                   placeholder="请输入验证码" name="captcha" required>
-                            <img src="#(CPATH)/commons/captcha" id="captcha-img" style="float: right;height: 34px;margin-top: 2px;"
-                                 onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="padding-top: 30px;">
-                        <div class="col-12" style="padding-top: 15px">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat"> 登 录</button>
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-            <!-- /.login-card-body -->
+<div class="login-content">
+    <div class="login-left">
+        <div class="login-logo2">JPress<span>®</span></div>
+        <div class="login-bottom">
+            <p>专注企业门户建设</p>
+            <p>Focus on enterprise portal construction</p>
         </div>
     </div>
-    <!-- /.login-box -->
+    <div class="login-right">
+
+        <div class="login-box">
+            <div class="login-logo" style="color: #333;font-size:2rem;font-weight:400;">
+                网站管理系统登录
+            </div>
+            <!-- /.login-logo -->
+            <div class="card">
+                <div class="card-body login-card-body">
+
+                    <form action="#(CPATH)#(action)" method="post" class="autoAjaxSubmit" data-ok-href="#(CPATH)/admin/index" data-fail-function="loginFail">
+
+                        <div class="form-group">
+                            <div class="login-input-content">
+                                <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" autocomplete="off"  required>
+                                <span class="login-icon"><i class="fas fa-user"></i></span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="login-input-content">
+                                <input type="password" class="form-control" placeholder="及密码..." name="pwd" autocomplete="new-password" required>
+                                <span class="login-icon"><i class="fas fa-key"></i></span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div style="display:flex;justify-content:space-between;">
+                                <div class="login-input-content" style="width: 72%;">
+                                <input type="text" id="captcha" class="form-control" autocomplete="off"
+                                       placeholder="请输入验证码" name="captcha" required>
+                                    <span class="login-icon"><i class="fab fa-black-tie"></i></span>
+                                </div>
+                                <img src="#(CPATH)/commons/captcha" id="captcha-img" style="height: 34px;margin-top: 2px;"
+                                     onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
+                            </div>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <div class="form-group">
+                                <div class="col-12" style="padding: 0;">
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat"> 登 录</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+                <!-- /.login-card-body -->
+            </div>
+        </div>
+        <!-- /.login-box -->
+
+    </div>
 
 </div>
+
+
 
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>

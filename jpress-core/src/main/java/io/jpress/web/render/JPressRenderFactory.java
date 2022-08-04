@@ -22,6 +22,8 @@ import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.web.handler.JPressHandler;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -31,7 +33,7 @@ public class JPressRenderFactory extends JbootRenderFactory {
 
     @Override
     public Render getErrorRender(int errorCode) {
-        if (JPressHandler.getCurrentTarget().startsWith("/admin/")) {
+        if (JPressHandler.getCurrentTarget() != null && JPressHandler.getCurrentTarget().startsWith("/admin/")) {
             if (errorCode == 404) {
                 return getErrorRender(errorCode, "/WEB-INF/views/admin/error/404.html");
             } else {
@@ -48,19 +50,16 @@ public class JPressRenderFactory extends JbootRenderFactory {
             return super.getErrorRender(errorCode);
         }
 
-        StringBuilder errorView = new StringBuilder("error_")
-                .append(errorCode)
-                .append(".html");
+        String errorView = "error_" + errorCode + ".html";
+        HttpServletRequest currentRequest = JPressHandler.getCurrentRequest();
 
+        boolean withMobile = currentRequest != null && RequestUtil.isMobileBrowser(currentRequest);
+        String view = template.matchView(errorView, withMobile);
 
-        String view = template.matchView(errorView.toString(),
-                RequestUtil.isMobileBrowser(JPressHandler.getCurrentRequest()));
-
-
-        return view == null ? super.getErrorRender(errorCode) : new TemplateRender(template.buildRelativePath(view), errorCode);
+        return view == null ? super.getErrorRender(errorCode) :
+                (currentRequest == null ? new GlobalErrorRender(template.buildRelativePath(view), errorCode)
+                        : new TemplateRender(template.buildRelativePath(view), errorCode));
     }
-
-
 
 
 }

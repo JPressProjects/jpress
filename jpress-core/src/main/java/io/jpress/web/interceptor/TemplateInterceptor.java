@@ -27,6 +27,7 @@ import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -41,16 +42,8 @@ public class TemplateInterceptor implements Interceptor {
 
         Controller controller = inv.getController();
 
-        controller.setAttr(JPressConsts.ATTR_WEB_TITLE, JPressOptions.get(JPressConsts.OPTION_WEB_TITLE, "JPress"));
-        controller.setAttr(JPressConsts.ATTR_WEB_SUBTITLE, JPressOptions.get(JPressConsts.OPTION_WEB_SUBTITLE, "欢迎使用JPress"));
-        controller.setAttr(JPressConsts.ATTR_WEB_NAME, JPressOptions.get(JPressConsts.OPTION_WEB_NAME));
-        controller.setAttr(JPressConsts.ATTR_WEB_IPC_NO, JPressOptions.get(JPressConsts.OPTION_WEB_IPC_NO));
-        controller.setAttr(JPressConsts.ATTR_SEO_TITLE, JPressOptions.get(JPressConsts.OPTION_SEO_TITLE));
-        controller.setAttr(JPressConsts.ATTR_SEO_KEYWORDS, JPressOptions.get(JPressConsts.OPTION_SEO_KEYWORDS));
-        controller.setAttr(JPressConsts.ATTR_SEO_DESCRIPTION, JPressOptions.get(JPressConsts.OPTION_SEO_DESCRIPTION));
+        setGlobalAttrs(controller.getRequest());
 
-        controller.setAttr(JPressConsts.ATTR_WEB_DOMAIN, JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN));
-        controller.setAttr(JPressConsts.ATTR_WEB_COPYRIGHT, JPressOptions.get(JPressConsts.OPTION_WEB_COPYRIGHT));
 
         //添加CSRF的配置，方便在前台进行退出等操作
         String csrfToken = CSRFInterceptor.createSCRFToken(inv);
@@ -59,16 +52,32 @@ public class TemplateInterceptor implements Interceptor {
             inv.getController().setAttr(CSRFInterceptor.CSRF_ATTR_KEY, csrfToken);
         }
 
+        inv.invoke();
+    }
+
+
+    public static void setGlobalAttrs(HttpServletRequest request){
+
+        request.setAttribute(JPressConsts.ATTR_WEB_TITLE, JPressOptions.get(JPressConsts.OPTION_WEB_TITLE, "JPress"));
+        request.setAttribute(JPressConsts.ATTR_WEB_SUBTITLE, JPressOptions.get(JPressConsts.OPTION_WEB_SUBTITLE, "欢迎使用JPress"));
+        request.setAttribute(JPressConsts.ATTR_WEB_NAME, JPressOptions.get(JPressConsts.OPTION_WEB_NAME));
+        request.setAttribute(JPressConsts.ATTR_WEB_IPC_NO, JPressOptions.get(JPressConsts.OPTION_WEB_IPC_NO));
+        request.setAttribute(JPressConsts.ATTR_SEO_TITLE, JPressOptions.get(JPressConsts.OPTION_SEO_TITLE));
+        request.setAttribute(JPressConsts.ATTR_SEO_KEYWORDS, JPressOptions.get(JPressConsts.OPTION_SEO_KEYWORDS));
+        request.setAttribute(JPressConsts.ATTR_SEO_DESCRIPTION, JPressOptions.get(JPressConsts.OPTION_SEO_DESCRIPTION));
+
+        request.setAttribute(JPressConsts.ATTR_WEB_DOMAIN, JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN));
+        request.setAttribute(JPressConsts.ATTR_WEB_COPYRIGHT, JPressOptions.get(JPressConsts.OPTION_WEB_COPYRIGHT));
+
+
         MenuService menuService = Aop.get(MenuService.class);
         List<Menu> menus = menuService.findListByType(Menu.TYPE_MAIN);
         SortKit.toTree(menus);
-        controller.setAttr(JPressConsts.ATTR_MENUS, menus);
+        request.setAttribute(JPressConsts.ATTR_MENUS, menus);
 
 
         Template template = TemplateManager.me().getCurrentTemplate();
-        controller.setAttr("TPATH", template == null ? "" : template.getRelativePath());
-
-        inv.invoke();
+        request.setAttribute("TPATH", template == null ? "" : template.getRelativePath());
     }
 
 

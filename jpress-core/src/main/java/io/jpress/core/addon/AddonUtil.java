@@ -77,7 +77,7 @@ public class AddonUtil {
 
     private static boolean isResource(String name) {
         String suffix = FileUtil.getSuffix(name);
-        return suffix != null && resourceSuffix.contains(suffix.toLowerCase()) && !name.contains("...");
+        return suffix != null && resourceSuffix.contains(suffix.toLowerCase()) && !name.contains("..");
     }
 
     public static File resourceFile(String addonId, String path) {
@@ -117,31 +117,29 @@ public class AddonUtil {
         ZipFile zipFile = new ZipFile(addonInfo.buildJarFile());
         try {
             Enumeration<?> entryEnum = zipFile.entries();
-            if (null != entryEnum) {
-                while (entryEnum.hasMoreElements()) {
-                    OutputStream os = null;
-                    InputStream is = null;
-                    try {
-                        ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
-                        if (!zipEntry.isDirectory() && isResource(zipEntry.getName())) {
-                            File targetFile = new File(basePath + File.separator + zipEntry.getName());
-                            if (!targetFile.getParentFile().exists()) {
-                                targetFile.getParentFile().mkdirs();
-                            }
-                            if (targetFile.exists()){
-                                forceDelete(targetFile);
-                            }
-                            os = new BufferedOutputStream(new FileOutputStream(targetFile));
-                            is = zipFile.getInputStream(zipEntry);
-                            byte[] buffer = new byte[1024];
-                            int readLen = 0;
-                            while ((readLen = is.read(buffer, 0, 1024)) > 0) {
-                                os.write(buffer, 0, readLen);
-                            }
+            while (entryEnum.hasMoreElements()) {
+                OutputStream os = null;
+                InputStream is = null;
+                try {
+                    ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
+                    if (!zipEntry.isDirectory() && isResource(zipEntry.getName())) {
+                        File targetFile = new File(basePath + File.separator + zipEntry.getName());
+                        if (!targetFile.getParentFile().exists()) {
+                            targetFile.getParentFile().mkdirs();
                         }
-                    } finally {
-                        CommonsUtils.quietlyClose(is, os);
+                        if (targetFile.exists()){
+                            forceDelete(targetFile);
+                        }
+                        os = new BufferedOutputStream(new FileOutputStream(targetFile));
+                        is = zipFile.getInputStream(zipEntry);
+                        byte[] buffer = new byte[1024];
+                        int readLen = 0;
+                        while ((readLen = is.read(buffer, 0, 1024)) > 0) {
+                            os.write(buffer, 0, readLen);
+                        }
                     }
+                } finally {
+                    CommonsUtils.quietlyClose(is, os);
                 }
             }
         } finally {

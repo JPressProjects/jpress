@@ -35,7 +35,7 @@ public class SitemapHandler extends Handler {
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
         if (target.equalsIgnoreCase(sitemap)) {
-            next.handle(target.substring(0, target.length() - 4), request, response, isHandled);
+            next.handle("/sitemap", request, response, isHandled);
         } else {
             next.handle(target, request, response, isHandled);
         }

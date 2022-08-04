@@ -63,7 +63,20 @@ public class JPressHandler extends Handler {
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+        try {
+            targetContext.set(target);
+            requestContext.set(request);
+            request.setAttribute("VERSION", JPressConsts.VERSION);
+            request.setAttribute("CPATH", request.getContextPath());
+            doHandle(target, request, response, isHandled);
+        } finally {
+            targetContext.remove();
+            requestContext.remove();
+        }
+    }
 
+
+    public void doHandle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
         //不让访问 插件目录 下的 .html、 .sql 文件 和 WEB-INF 目录下的任何文件
         if (target.startsWith(ADDON_TARGET_PREFIX)) {
             if (target.endsWith(".html")
@@ -123,16 +136,7 @@ public class JPressHandler extends Handler {
             target = target.substring(0, target.length() - suffix.length());
         }
 
-        try {
-            targetContext.set(target);
-            requestContext.set(request);
-            request.setAttribute("VERSION", JPressConsts.VERSION);
-            request.setAttribute("CPATH", request.getContextPath());
-            next.handle(target, request, response, isHandled);
-        } finally {
-            targetContext.remove();
-            requestContext.remove();
-        }
+        next.handle(target, request, response, isHandled);
     }
 
 

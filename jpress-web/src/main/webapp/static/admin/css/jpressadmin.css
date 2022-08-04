@@ -357,7 +357,9 @@ label:not(.form-check-label):not(.custom-file-label) {
     display: flex;
     justify-content: center;
 }
-
+.dropdown-menu{
+    min-width:100px;
+}
 .dropdown-item-title {
     font-size: 14px;
     line-height: 1.6em;

@@ -435,23 +435,32 @@ hr{
 .bg-gray{
     background-color:#efefef;
 }
-@media screen and (min-width:997px) {
+/* 超小设备 (手机, 600px 以下屏幕设备) */
+@media only screen and (max-width: 640px) {
     .centerContent{
-        width:829px;
-        margin:10px auto;
+        width:100%;
         background-color:#fff;
     }
 }
-@media  screen and (max-width: 996px)  and (min-width:576px){
+/* 小设备 (平板电脑和大型手机，600 像素及以上) */
+@media only screen and (min-width: 640px) {
+    .centerContent{
+        width:100%;
+        background-color:#fff;
+    }
+}
+/* 中型设备（平板电脑，768 像素及以上） */
+@media only screen and (min-width: 768px) {
     .centerContent{
         width:96%;
         margin:10px auto;
         background-color:#fff;
     }
 }
-@media  screen and (max-width: 576px) {
+/* 大型设备（笔记本电脑/台式机，992 像素及以上） */
+@media only screen and (min-width: 992px) {
     .centerContent{
-        width:100%;
+        width:829px;
         margin:10px auto;
         background-color:#fff;
     }

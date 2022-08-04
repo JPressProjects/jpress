@@ -28,11 +28,7 @@ import java.util.*;
 
 public class CloudWordFilterUtil {
 
-    private static String accessKeyIds = "";
-    private static String secrets = "";
-    private static String regionId = "cn-shanghai";
-    private static String appCode = "";
-    private static String endpoint = "";
+
 
     /**
      * 阿里云 文本内容检测
@@ -40,19 +36,19 @@ public class CloudWordFilterUtil {
      * @param secret
      * @param content
      */
-    public static boolean aliyunTextScan(String accessKeyId,String secret,String content) {
+    public static boolean aliyunTextScan(String accessKeyId,String secret,String regionId,String content) {
 
         IClientProfile profile = DefaultProfile
-                .getProfile("cn-shanghai", accessKeyId, secret);
+                .getProfile(regionId, accessKeyId, secret);
         DefaultProfile
-                .addEndpoint("cn-shanghai", "Green", "green.cn-shanghai.aliyuncs.com");
+                .addEndpoint(regionId, "Green", "green.cn-shanghai.aliyuncs.com");
         IAcsClient client = new DefaultAcsClient(profile);
         TextScanRequest textScanRequest = new TextScanRequest();
         textScanRequest.setAcceptFormat(FormatType.JSON); // 指定API返回格式。
         textScanRequest.setHttpContentType(FormatType.JSON);
         textScanRequest.setMethod(com.aliyuncs.http.MethodType.POST); // 指定请求方法。
         textScanRequest.setEncoding("UTF-8");
-        textScanRequest.setRegionId("cn-shanghai");
+        textScanRequest.setRegionId(regionId);
         List<Map<String, Object>> tasks = new ArrayList<Map<String, Object>>();
         Map<String, Object> task1 = new LinkedHashMap<String, Object>();
         task1.put("dataId", UUID.randomUUID().toString());
@@ -194,9 +190,37 @@ public class CloudWordFilterUtil {
             if(StrUtil.isNotBlank(response)){
                 JSONObject jsonObject = JSONObject.parseObject(response);
 
-                if(200 == jsonObject.getInteger("status") && ("block").equals(jsonObject.getString("msg"))){
-                    //非法文本
-                    return true;
+                if (200 == jsonObject.getInteger("status") && jsonObject.getBoolean("success")) {
+                    JSONObject data = JSON.parseObject(jsonObject.getString("data"));
+                    System.out.println("data--->"+data);
+
+                    JSONArray out = data.getJSONArray("out");
+
+                    for (Object result : out) {
+
+                        String politics = ((JSONObject)result).getString("政治敏感监测");
+                        String politicsStr = politics.substring(politics.indexOf("[") + 1, politics.lastIndexOf("]"));
+                        if(StrUtil.isNotBlank(politicsStr)){
+                            return true;
+                        }
+                        String contraband = ((JSONObject)result).getString("违禁品监测");
+                        String contrabandStr = contraband.substring(contraband.indexOf("[") + 1, contraband.lastIndexOf("]"));
+                        if(StrUtil.isNotBlank(contrabandStr)){
+                            return true;
+                        }
+                        String flood = ((JSONObject)result).getString("恶意灌水监测");//false
+
+                        String porn = ((JSONObject)result).getString("色情监测");
+                        String pornStr = porn.substring(porn.indexOf("[") + 1, porn.lastIndexOf("]"));
+                        if(StrUtil.isNotBlank(pornStr)){
+                            return true;
+                        }
+                        String abuse = ((JSONObject)result).getString("辱骂监测");
+                        String abuseStr = abuse.substring(abuse.indexOf("[") + 1, abuse.lastIndexOf("]"));
+                        if(StrUtil.isNotBlank(abuseStr)){
+                            return true;
+                        }
+                    }
                 }
             }
 
@@ -212,7 +236,7 @@ public class CloudWordFilterUtil {
      * @param content
      * @return
      */
-    public static boolean  qcloudTextScan(String accessKeyId,String secret,String content){
+    public static boolean  qcloudTextScan(String accessKeyId,String secret,String region,String content){
         try{
 
             // 实例化一个认证对象，入参需要传入腾讯云账户secretId，secretKey,此处还需注意密钥对的保密
@@ -228,7 +252,7 @@ public class CloudWordFilterUtil {
             clientProfile.setHttpProfile(httpProfile);
 
             // 实例化要请求产品的client对象,clientProfile是可选的
-            TmsClient client = new TmsClient(cred, "ap-shanghai", clientProfile);
+            TmsClient client = new TmsClient(cred, region, clientProfile);
 
             // 实例化一个请求对象,每个接口都会对应一个request对象
             TextModerationRequest req = new TextModerationRequest();
@@ -244,7 +268,7 @@ public class CloudWordFilterUtil {
             TextModerationResponse resp = client.TextModeration(req);
 
             // 输出json格式的字符串回包
-            System.out.println(TextModerationResponse.toJsonString(resp));
+//            System.out.println(TextModerationResponse.toJsonString(resp));
 
             if(resp != null && ("Block").equals(resp.getSuggestion())){
                 return true;
@@ -261,7 +285,6 @@ public class CloudWordFilterUtil {
      * @return
      */
     public static boolean isIllegalWords(String content){
-//        String service = "aliyun";
         //开启云过滤功能
         String serviceEnable = JPressOptions.get("text_filter_service_enable");
 
@@ -270,6 +293,7 @@ public class CloudWordFilterUtil {
 
         String appId = JPressOptions.get("text_filter_appid");
         String appSecret = JPressOptions.get("text_filter_appsecret");
+        String regionId = JPressOptions.get("text_filter_regionid");
         String appCode = JPressOptions.get("text_filter_appcode");
 
         if(StrUtil.isNotBlank(serviceEnable)){
@@ -286,11 +310,11 @@ public class CloudWordFilterUtil {
 
 
         if(("aliyun").equals(service)){//阿里云
-            return aliyunTextScan(appId, appSecret, content);
+            return aliyunTextScan(appId, appSecret,regionId, content);
 
         }
         else if(("qcloud").equals(service)){//腾讯云
-            return qcloudTextScan(appId,appSecret,content);
+            return qcloudTextScan(appId,appSecret,regionId,content);
 
         }
         else if(("xiaohuaerai").equals(service)){//小花儿AI
@@ -298,6 +322,7 @@ public class CloudWordFilterUtil {
 
         }
         else if(("ultrapower").equals(service)){//泰岳语义工厂
+            System.out.println("泰岳语义工厂-->"+ultrapowerTextScan(appCode,content));
             return ultrapowerTextScan(appCode,content);
 
         }

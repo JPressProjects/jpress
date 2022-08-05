@@ -41,6 +41,7 @@ public class SiteManager implements JbootEventListener {
     static {
         ignoreDomains.add("127.0.0.1");
         ignoreDomains.add("localhost");
+        ignoreDomains.add("0.0.0.0");
     }
 
     private static final SiteManager me = new SiteManager();
@@ -136,22 +137,25 @@ public class SiteManager implements JbootEventListener {
                 }
             }
 
-            String langRansformEnable = JPressOptions.getBySiteId("lang_ransform_enable", 0L);
-            if (!"true".equalsIgnoreCase(langRansformEnable)) {
-                return null;
-            }
-
-
-            String closeLangMatch = CookieUtil.get(request, JPressConsts.COOKIE_SITE_LANG_CLOSE);
-            if ("1".equalsIgnoreCase(closeLangMatch)) {
+            String redirectByBrowserLang = JPressOptions.getBySiteId("mainsite_redirect_by_browser_lang", 0L);
+            if (!"true".equalsIgnoreCase(redirectByBrowserLang)) {
                 return null;
             }
 
             String lang = request.getParameter("lang");
+            if ("1".equals(lang)) {
+                CookieUtil.remove(response, JPressConsts.COOKIE_SITE_LANG_CLOSE);
+            } else {
+                String closeLangMatch = CookieUtil.get(request, JPressConsts.COOKIE_SITE_LANG_CLOSE);
+                if ("1".equals(closeLangMatch)) {
+                    return null;
+                }
+            }
 
             //关闭语言匹配
-            if ("0".equalsIgnoreCase(lang)) {
-                CookieUtil.put(response, JPressConsts.COOKIE_SITE_LANG_CLOSE, "1");
+            if ("0".equals(lang)) {
+                //设置 maxAgeInSeconds 为 -1，则意味着关闭浏览器后  cookies 失效
+                CookieUtil.put(response, JPressConsts.COOKIE_SITE_LANG_CLOSE, "1", -1);
                 return null;
             }
 

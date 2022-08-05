@@ -148,8 +148,8 @@
                                        placeholder="请输入验证码" name="captcha" required>
                                     <span class="login-icon"><i class="fab fa-black-tie"></i></span>
                                 </div>
-                                <img src="#(CPATH)/commons/captcha" id="captcha-img" style="height: 34px;margin-top: 2px;border-radius: 3px;margin-left: 3px"
-                                     onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
+                                <img src="#(CPATH)#(SPATH)/commons/captcha" id="captcha-img" style="height: 34px;margin-top: 2px;border-radius: 3px;margin-left: 3px"
+                                     onclick="this.src='#(CPATH)#(SPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
                             </div>
                         </div>
                         <div style="margin-top:30px;">
@@ -188,7 +188,7 @@
     function loginFail(result) {
         showErrorMessage(result.message);
         $('#captcha').val('');
-        $('#captcha-img').attr('src',"#(CPATH)/commons/captcha?id="+Math.random())
+        $('#captcha-img').attr('src',"#(CPATH)#(SPATH)/commons/captcha?id="+Math.random())
 
         if (result.errorCode == 11){
             $('input[name="account"]').val('')

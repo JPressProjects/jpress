@@ -1,9 +1,12 @@
 package io.jpress.model;
 
+import com.jfinal.core.Controller;
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.model.base.BaseSiteInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +20,6 @@ public class SiteInfo extends BaseSiteInfo<SiteInfo> {
     private Set<String> langArray;
 
 
-
     public boolean hasLang(String lang) {
         for (String s : getBindLangsAsSet()) {
             if (s.equalsIgnoreCase(lang)) {
@@ -28,13 +30,12 @@ public class SiteInfo extends BaseSiteInfo<SiteInfo> {
     }
 
 
-    public Set<String > getBindLangsAsSet() {
+    public Set<String> getBindLangsAsSet() {
         if (langArray == null) {
             langArray = toStringSet(getBindLangs());
         }
         return langArray;
     }
-
 
 
     private Set<String> toStringSet(String string) {
@@ -48,6 +49,38 @@ public class SiteInfo extends BaseSiteInfo<SiteInfo> {
         return set;
     }
 
+    public String getUrl() {
+        String bindDomain = StrUtil.defaultIfBlank(getBindDomain(), "");
+        if (StrUtil.isNotBlank(bindDomain)) {
+            Controller controller = JbootControllerContext.get();
+            HttpServletRequest request = controller.getRequest();
+            bindDomain = request.getScheme() + "://" + bindDomain;
+        }
+        return bindDomain + StrUtil.defaultIfBlank(getBindPath(), "");
+    }
 
+    public boolean isSiteAction(String target, HttpServletRequest request) {
+        String bindDomain = getBindDomain();
+        String bindPath = getBindPath();
+
+        if (StrUtil.areNotEmpty(bindDomain,bindPath)){
+            if (bindDomain.equals(request.getServerName()) && target.startsWith(bindPath)){
+                return true;
+            }
+        }
+
+        if (StrUtil.isNotBlank(bindDomain) && StrUtil.isBlank(bindPath)){
+            if (bindDomain.equals(request.getServerName())){
+                return true;
+            }
+        }
+
+        if (StrUtil.isNotBlank(bindPath) && StrUtil.isBlank(bindDomain)){
+            if (target.startsWith(bindPath)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

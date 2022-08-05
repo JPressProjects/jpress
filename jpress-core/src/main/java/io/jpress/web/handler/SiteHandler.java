@@ -1,6 +1,7 @@
 package io.jpress.web.handler;
 
 import com.jfinal.handler.Handler;
+import com.jfinal.kit.HandlerKit;
 import io.jboot.components.cache.JbootCache;
 import io.jboot.components.cache.JbootCacheManager;
 import io.jboot.utils.StrUtil;
@@ -23,8 +24,15 @@ public class SiteHandler extends Handler {
         // 3、更加 cookie 信息匹配
         SiteInfo siteInfo = SiteManager.me().matchedSite(target, request, response);
         if (siteInfo != null) {
+
+            if (!siteInfo.isSiteAction(target, request)) {
+                HandlerKit.redirect(siteInfo.getUrl(), request, response, isHandled);
+                return;
+            }
+
             request.setAttribute(JPressConsts.ATTR_SITE_ID, siteInfo.getSiteId());
             request.setAttribute("SITE", siteInfo);
+
             if (StrUtil.isNotBlank(siteInfo.getBindPath())
                     && target.startsWith(siteInfo.getBindPath())) {
                 if (target.length() == siteInfo.getBindPath().length()) {
@@ -33,6 +41,9 @@ public class SiteHandler extends Handler {
                     target = target.substring(siteInfo.getBindPath().length());
                 }
             }
+
+            request.setAttribute("SPATH", StrUtil.defaultIfBlank(siteInfo.getBindPath(), ""));
+            JPressHandler.setCurrentTarget(target);
             SiteContext.setSiteId(siteInfo.getSiteId());
         }
 

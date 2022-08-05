@@ -51,12 +51,9 @@ public class _SiteController extends AdminControllerBase {
             setAttr("siteInfo", siteInfo);
         }
 
-
-            setAttr("currentLangs",siteInfo.getBindLangsAsSet());
-
-
-
-
+        if (siteInfo != null) {
+            setAttr("currentLangs", siteInfo.getBindLangsAsSet());
+        }
 
 
         render("site/site_edit.html");
@@ -75,7 +72,7 @@ public class _SiteController extends AdminControllerBase {
             return;
         }
 
-        if(siteInfo.getName() == null){
+        if (siteInfo.getName() == null) {
             renderFailJson("站点名称不能为空");
             return;
         }
@@ -87,7 +84,7 @@ public class _SiteController extends AdminControllerBase {
         }
 
         //如果用户填写了 二级目录 但是目录不以 / 开头 则不行
-        if(siteInfo.getBindPath() != null && !siteInfo.getBindPath().startsWith("/")){
+        if (siteInfo.getBindPath() != null && !siteInfo.getBindPath().startsWith("/")) {
             renderFailJson("绑定目录必须以/开头");
             return;
         }
@@ -95,7 +92,7 @@ public class _SiteController extends AdminControllerBase {
 
         //获取所有绑定的语言
         String[] bindLanguages = getParaValues("bindLang");
-        siteInfo.setBindLangs(ArrayUtil.toString(bindLanguages,","));
+        siteInfo.setBindLangs(ArrayUtil.toString(bindLanguages, ","));
 
 
         siteInfoService.saveOrUpdate(siteInfo);

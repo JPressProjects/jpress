@@ -104,6 +104,24 @@
                 })
             }
         })
+        var flag = false;
+        $("#checkallBtn").click(function() {
+            if (!flag) {//如果自己被选中
+                $("input[name=checkbox]").prop("checked", "true");
+                $(".attachment_item").each(function(i, element){
+                    $(this).addClass("checked")
+                })
+                flag = true;
+            } else {
+                $("input[name='checkbox']").each(function () {
+                    this.checked = false;
+                });
+                $(".attachment_item").each(function(i, element){
+                    $(this).removeClass("checked");
+                })
+                flag = false;
+            }
+        })
 
         // 单选按钮
         $(".attachment_item").click(function() {
@@ -178,7 +196,7 @@
                                 <div class="form-group col-lg-4">
                                         <button type="submit" class="btn btn-primary ">查询</button>
                                         <button type="reset" class="btn btn-default">重置</button>
-                                        <button type="reset" class="btn btn-default">批量选择</button>
+                                        <button type="reset"  class="btn btn-default" id="checkallBtn">批量选择</button>
 
                                 </div>
                             </div>
@@ -253,7 +271,7 @@
 
                                     <div class="form-group">
                                         <div class="form-check">
-                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >
+                                            <input class="form-check-input tableCheckAll" id="checkall" type="checkbox">
                                             <label class="form-check-label" for="checkall">全选</label>
                                         </div>
                                     </div>

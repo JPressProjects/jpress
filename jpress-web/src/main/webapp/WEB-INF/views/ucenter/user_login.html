@@ -3,9 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>登录到用户中心</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="#(CPATH)/static/front/jpressfront.css">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/fontawesome-free/css/all.min.css">
 
     <!--[if lt IE 9]>
     <script src="#(CPATH)/static/html5shiv/html5shiv.min.js"></script>
@@ -14,89 +17,107 @@
     <style>
         .login-page {
             background-image: url("#(CDN)#(CPATH)/static/commons/img/bg.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        .login-left{
+            background-image: url("#(CDN)#(CPATH)/static/commons/img/login-img.png");
             background-size: cover;
+            background-color:#409EFF;
         }
-
-        .login-box {
-            margin-top: 100px;
-        }
-
-        .form-group {
-            text-align: left;
-        }
-
-
     </style>
 </head>
 <body class="hold-transition login-page">
 
-<div class="wrapper">
+    <div class="login-content">
 
-    <div class="login-box">
-        <div class="login-logo" style="color: #FFF">
-            #option('web_name','JPress')
-        </div>
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-
-                <form action="doLogin" method="post" class="autoAjaxSubmit" data-ok-href="#para('goto',CPATH + '/ucenter')"
-                      data-fail-function="loginFail">
-
-                    <div class="form-group">
-                        <label>账号</label>
-                        <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>密码</label>
-                        <input type="password" class="form-control" placeholder="及密码..." name="pwd" required>
-                    </div>
-
-                    #if(option('login_captcha_enable','true'))
-                    <div class="form-group">
-                        <label style="display: block;">验证码</label>
-                        <div>
-                            <input type="text" id="captcha" class="form-control" autocomplete="off" style="float: left;width: 70%;"
-                                   placeholder="请输入验证码" name="captcha">
-                            <img src="#(CPATH)#(SPATH)/commons/captcha" id="captcha-img" style="float: right;height: 34px;margin-top: 2px;"
-                                 onclick="this.src='#(CPATH)#(SPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
-                        </div>
-                    </div>
-                    #end
-
-                    <div class="form-group" style="padding-top: 30px;">
-                        <div class="col-12" style="padding-top: 15px">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat"> 登 录</button>
-                            <p class="text-muted"> 还没有账号？点击 <a href="#(CPATH)/user/register">这里</a>
-                                注册。
-                            </p>
-                        </div>
-                    </div>
-
-
-                    #if(option('login_qq_enable') || option('login_wechat_enable'))
-                    <div class="form-group row">
-                        快速登录：
-                        #if(option('login_wechat_enable'))
-                        <a href="#(CPATH)/oauth/wechat"><i class="fa fa-fw fa-wechat"></i></a>
-                        #end
-
-                        #if(option('login_qq_enable'))
-                        <a href="#(CPATH)/oauth/qq"><i class="fa fa-fw fa-qq"></i></a>
-                        #end
-                    </div>
-                    #end
-
-                </form>
-
+        <div class="login-left">
+            <div class="login-logo2">登录<span></span></div>
+            <div class="login-bottom">
+                <p>专注企业门户建设</p>
+                <p>Focus on enterprise portal construction</p>
             </div>
-            <!-- /.login-card-body -->
+        </div>
+        <div class="login-right">
+
+            <div class="login-box">
+                <div class="login-logo" style="color: #333;font-size:2rem;font-weight:400;">
+                    #option('web_name','JPress')
+                </div>
+                <!-- /.login-logo -->
+                <div class="card">
+                    <div class="card-body login-card-body">
+
+                        <form action="doLogin" method="post" class="autoAjaxSubmit" data-ok-href="#para('goto',CPATH + '/ucenter')"
+                              data-fail-function="loginFail">
+
+                            <div class="form-group">
+                                <div class="login-input-content">
+                                    <input type="text" class="form-control" placeholder="请输入账号或邮箱" name="user" autocomplete="off"  required>
+                                    <span class="login-icon"><i class="fas fa-user"></i></span>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="login-input-content">
+                                    <input type="password" class="form-control" placeholder="及密码..." name="pwd" autocomplete="new-password" required>
+                                    <span class="login-icon"><i class="fas fa-key"></i></span>
+                                </div>
+                            </div>
+
+                            #if(option('login_captcha_enable','true'))
+                            <div class="form-group">
+                                <div style="display:flex;justify-content:space-between;">
+                                    <div class="login-input-content" style="width: 72%;">
+                                        <input type="text" id="captcha" class="form-control" autocomplete="off"
+                                           placeholder="请输入验证码" name="captcha" required>
+                                        <span class="login-icon"><i class="fab fa-black-tie"></i></span>
+                                    </div>
+                                    <img src="#(CPATH)/commons/captcha" id="captcha-img" style="height: 34px;margin-top: 2px;border-radius: 3px;margin-left: 3px;"
+                                         onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
+                                </div>
+
+                            </div>
+                            #end
+
+                            <div class="form-group" style="margin-top:15px;">
+                                <div class="col-12" style="padding: 0;">
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat"> 登 录</button>
+                                    <p class="text-muted"> 还没有账号？点击 <a href="#(CPATH)/user/register">这里</a>
+                                        注册。
+                                    </p>
+                                </div>
+                            </div>
+
+
+
+                            #if(option('login_qq_enable') || option('login_wechat_enable'))
+                            <div class="form-group row">
+                                快速登录：
+                                #if(option('login_wechat_enable'))
+                                <a href="#(CPATH)/oauth/wechat"><i class="fa fa-fw fa-wechat"></i></a>
+                                #end
+
+                                #if(option('login_qq_enable'))
+                                <a href="#(CPATH)/oauth/qq"><i class="fa fa-fw fa-qq"></i></a>
+                                #end
+                            </div>
+                            #end
+
+                        </form>
+
+                    </div>
+                    <!-- /.login-card-body -->
+                </div>
+            </div>
         </div>
     </div>
     <!-- /.login-box -->
 
-</div>
+
 
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
@@ -112,7 +133,7 @@
     function loginFail(result) {
         showErrorMessage(result.message);
         $('#captcha').val('');
-        $('#captcha-img').attr('src',"#(CPATH)#(SPATH)/commons/captcha?id="+Math.random())
+        $('#captcha-img').attr('src',"#(CPATH)/commons/captcha?id="+Math.random())
 
         if (result.errorCode == 11){
             $('input[name="account"]').val('')

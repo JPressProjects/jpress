@@ -663,3 +663,100 @@ a.product-btn-cart:hover {
 .btn-form-submit {
     margin-left: 110px;
 }
+/*login*/
+.login-content{
+    background-color:#fff;
+    width:50%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    border-radius:12px;
+    min-height:60vh;
+    overflow:hidden;
+}
+
+.login-logo2{
+    padding:20px 0 0 30px;
+    font-size:36px;
+    font-weight:500;
+}
+.login-logo2 span{
+    font-size:20px;
+    font-weight:400;
+    vertical-align:text-top;
+
+}
+.login-bottom{
+    text-align:center;
+    padding-bottom:20px;
+}
+.login-bottom p{
+    line-height:1.5em;
+    margin-bottom:0;
+    font-size:14px;
+
+}
+.login-left{
+    width:30%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
+    color:#fff;
+}
+.login-right{
+    width:70%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.login-box {
+    width: 60%;
+    margin: 0 auto;
+}
+.login-box .card{
+    box-shadow:none;
+}
+.form-group {
+    text-align: left;
+}
+.login-input-content{
+    position:relative;
+}
+.login-input-content .login-icon{
+    position:absolute;
+    left:12px;
+    top:7px;
+}
+.login-input-content .form-control{
+    text-indent:20px;
+}
+@media (max-width: 992px) {
+    .login-content{
+        width:70%;
+        }
+}
+@media (max-width: 768px) {
+    .login-content{
+        width:80%;
+        }
+}
+@media (max-width: 500px) {
+    .login-left{
+        display:none;
+        }
+    .login-right{
+        width:100%;
+        }
+}

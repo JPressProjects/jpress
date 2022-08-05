@@ -3,8 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
     <title>登录到JPress</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="#(CPATH)/static/front/jpressfront.css">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/fontawesome-free/css/all.min.css">
 
@@ -13,93 +16,18 @@
     <script src="#(CPATH)/static/respond/respond.min.js"></script>
     <![endif]-->
     <style>
-        .login-content{
-            background-color:#fff;
-            width:50%;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: flex;
-            border-radius:12px;
-            min-height:60vh;
-            overflow:hidden;
-        }
-        .login-left{
-            width:30%;
-            background-image: url("#(CDN)#(CPATH)/static/commons/img/login-img.png");
-            background-size: cover;
-            background-color:#409EFF;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: flex;
-            flex-direction:column;
-            justify-content:space-between;
-            color:#fff;
-        }
-        .login-logo2{
-            padding:20px 0 0 30px;
-            font-size:36px;
-            font-weight:500;
-        }
-        .login-logo2 span{
-            font-size:20px;
-            font-weight:400;
-            vertical-align:text-top;
-
-        }
-        .login-bottom{
-            text-align:center;
-            padding-bottom:20px;
-        }
-        .login-bottom p{
-            line-height:1.5em;
-            margin-bottom:0;
-            font-size:14px;
-
-        }
-        .login-right{
-            width:70%;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
         .login-page {
             background-image: url("#(CDN)#(CPATH)/static/commons/img/bg.png");
             background-size: 100% 100%;
             background-repeat: no-repeat;
         }
-
-        .login-box {
-            width: 60%;
-            margin: 0 auto;
+        .login-left{
+            background-image: url("#(CDN)#(CPATH)/static/commons/img/login-img.png");
+            background-size: cover;
+            background-color:#409EFF;
         }
-        .login-box .card{
-            box-shadow:none;
-        }
-        .form-group {
-            text-align: left;
-        }
-        .login-input-content{
-            position:relative;
-        }
-        .login-input-content .login-icon{
-            position:absolute;
-            left:12px;
-            top:7px;
-        }
-        .login-input-content .form-control{
-            text-indent:20px;
-        }
-
-
     </style>
+
 </head>
 <body class="hold-transition login-page">
 <div class="login-content">

@@ -109,6 +109,11 @@ public class _JobController extends AdminControllerBase {
             return;
         }
 
+        if(entry.getCategoryId() == null){
+            renderFailJson("请选择分类");
+            return;
+        }
+
         if (entry.getId() == null) {
             entry.setCreated(new Date());
         }

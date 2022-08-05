@@ -32,7 +32,6 @@ public class JobPageDirective extends JbootDirectiveBase {
 
         Columns columns = new Columns();
         columns.eq("category_id",controller.getPara("categoryId"));
-        columns.eq("dept_id", controller.getPara("deptId"));
         columns.eq("address_id", controller.getPara("addressId"));
         columns.eq("education", controller.getPara("education"));
         columns.eq("work_year", controller.getPara("workYear"));

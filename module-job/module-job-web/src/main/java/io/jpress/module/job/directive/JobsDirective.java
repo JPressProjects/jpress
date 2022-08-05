@@ -29,8 +29,6 @@ public class JobsDirective extends JbootDirectiveBase {
         //可以指定分类ID
         Long categoryId = getParaToLong("categoryId", scope);
         //可以指定部门ID
-        Long deptId = getParaToLong("deptId", scope);
-        //可以指定部门ID
         Long addressId = getParaToLong("addressId", scope);
         //可以指定查询数量
         Integer count = getParaToInt("count", scope);
@@ -47,7 +45,6 @@ public class JobsDirective extends JbootDirectiveBase {
 
         Columns columns = new Columns();
         columns.eq("category_id", categoryId);
-        columns.eq("dept_id", deptId);
         columns.eq("address_id", addressId);
         columns.eq("education", education);
         columns.eq("work_year", workYear);

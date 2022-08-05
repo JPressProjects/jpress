@@ -87,6 +87,10 @@ public class SiteManager implements JbootEventListener {
 
         //后台
         if (target.startsWith("/admin")) {
+            String loginedUserId = CookieUtil.get(request, JPressConsts.COOKIE_UID);
+            if (StrUtil.isBlank(loginedUserId)){
+                return null;
+            }
             String siteId = CookieUtil.get(request, JPressConsts.COOKIE_ADMIN_SITE_ID);
             for (SiteInfo site : allSites) {
                 if (siteId != null && siteId.equals(String.valueOf(site.getSiteId()))) {
@@ -161,8 +165,13 @@ public class SiteManager implements JbootEventListener {
 
 
             Enumeration<Locale> locales = request.getLocales();
-            while (locales.hasMoreElements()) {
+
+            //if 只匹配第一个，原因是：一般情况下，默认的浏览器都会自带好几个语言，比如中国的浏览器默认第一个是中文，第二个是英语，第三个是意大利..
+            if (locales.hasMoreElements()) {
                 Locale locale = locales.nextElement();
+//                String localeString = locale.toString();
+//                String language = locale.getLanguage();
+//                String country = locale.getCountry();
                 for (SiteInfo site : allSites) {
                     Set<String> bindLangs = site.getBindLangsAsSet();
                     if (bindLangs != null && bindLangs.contains(locale.toString())) {

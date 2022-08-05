@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>用户注册</title>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="stylesheet" href="#(CPATH)/static/front/jpressfront.css">
     <link rel="stylesheet" href="#(CPATH)/static/adminlte/css/adminlte.min.css">
+    <link rel="stylesheet" href="#(CPATH)/static/components/fontawesome-free/css/all.min.css">
 
     <!--[if lt IE 9]>
     <script src="#(CPATH)/static/html5shiv/html5shiv.min.js"></script>
@@ -14,15 +16,13 @@
     <style>
         .login-page {
             background-image: url("#(CDN)#(CPATH)/static/commons/img/bg.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+        .login-left{
+            background-image: url("#(CDN)#(CPATH)/static/commons/img/login-img.png");
             background-size: cover;
-        }
-
-        .login-box {
-            margin-top: 100px;
-        }
-
-        .form-group {
-            text-align: left;
+            background-color:#409EFF;
         }
         #email-error,#captcha-error{
             position: absolute !important;
@@ -55,71 +55,97 @@
 </head>
 <body class="hold-transition login-page">
 
-<div class="wrapper">
-
-    <div class="login-box">
-        <div class="login-logo" style="color: #FFF">
-            #option('web_name','JPress')
+<div class="login-content">
+    <div class="login-left">
+        <div class="login-logo2">注册<span></span></div>
+        <div class="login-bottom">
+            <p>人情练达即文章</p>
+            <p>—曹雪芹《红楼梦》</p>
         </div>
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-                <form action="#(CPATH)/user/doRegister" method="post" class="autoAjaxSubmit" data-ok-function="ok">
-                    <div class="form-group">
-                        <label>账号</label>
-                        <input type="text" class="form-control" placeholder="请输入账号" name="username" required>
-                    </div>
+    </div>
+    <div class="login-right">
+        <div class="login-box">
+            <div class="login-logo"  style="color: #333;font-size:2rem;font-weight:400;">
+                #option('web_name','JPress')
+            </div>
+            <!-- /.login-logo -->
+            <div class="card">
+                <div class="card-body login-card-body">
+                    <form action="#(CPATH)/user/doRegister" method="post" class="autoAjaxSubmit" data-ok-function="ok">
+                        <div class="form-group">
+                            <div class="login-input-content">
+                                <input type="text" class="form-control" placeholder="请输入账号" name="username" autocomplete="off" required>
+                                <span class="login-icon"><i class="fas fa-user"></i></span>
 
-                    <div class="form-group">
-                        <label>邮箱</label>
+                            </div>
 
-                        <div class="input-group jpress-tip mb-3">
-                                <input type="text" class="form-control" placeholder="请输入邮箱" name="email" id="email" required>
-                            <div class="input-group-append">
-<!--                                onclick="doGetEmailCode()"-->
+                        </div>
 
-                                <button type="button" id="getCode" data-type="pointsVerify" data-location="body"
-                                        data-value-id="email" data-path="/commons/getemailcode/sendEmailCode" required
-                                        data-url="" data-point="验证码发送成功，请注意查收！"
-                                        style="float: right;background: #DDDDDD;"
-                                        class="input-group-text jpress-captcha" >获取验证码</button>
+                        <div class="form-group">
+                            <div class="input-group jpress-tip mb-3 login-input-content">
+                                <input type="text" class="form-control" placeholder="请输入邮箱" name="email" id="email" autocomplete="off" required>
+                                <span class="login-icon"><i class="fas fa-envelope"></i></span>
+                                <div class="input-group-append">
+                                    <!--                                onclick="doGetEmailCode()"-->
+
+                                    <button type="button" id="getCode" data-type="pointsVerify" data-location="body"
+                                            data-value-id="email" data-path="/commons/getemailcode/sendEmailCode" required
+                                            data-url="" data-point="验证码发送成功，请注意查收！"
+                                            style="float: right;background: #DDDDDD;"
+                                            class="input-group-text jpress-captcha" >获取验证码</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="login-input-content">
+                                <input type="text" id="captcha" autocomplete="off" class="form-control"
+                                       placeholder="请输入验证码" name="captcha" autocomplete="off" required>
+                                <span class="login-icon"><i class="fab fa-black-tie"></i></span>
+
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="login-input-content">
+                                <input type="password" class="form-control" placeholder="密码..." name="pwd" autocomplete="new-password" required>
+                                <span class="login-icon"><i class="fas fa-key"></i></span>
+
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label style="display: block;">验证码</label>
-                        <div class="clearfix position-relative" >
-                            <input type="text" id="captcha" autocomplete="off" class="form-control " style="float: left;"
-                                   placeholder="请输入验证码" name="captcha" required>
+                        <div class="form-group">
+                            <div class="login-input-content">
+                                <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd" autocomplete="new-password" required>
+                                <span class="login-icon"><i class="fas fa-key"></i></span>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>密码</label>
-                        <input type="password" class="form-control" placeholder="密码..." name="pwd" required>
-                    </div>
-                    <div class="form-group">
-                        <label>确认密码</label>
-                        <input type="password" class="form-control" placeholder="及确认密码" name="confirmPwd" required>
-                    </div>
 
 
-                    <div class="form-group" style="padding-top: 30px;">
-                        <div class="col-sm-12" style="padding-top: 15px">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">注 册</button>
-                            <p class="text-muted" style="float: left;">
-                                已有账号？点击 <a href="#(CPATH)/user/login">这里</a> 登录。
-                            </p>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <div class="col-sm-12" style="padding:0;">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">注 册</button>
+                                <p class="text-muted" style="float: left;">
+                                    已有账号？点击 <a href="#(CPATH)/user/login">这里</a> 登录。
+                                </p>
+                            </div>
                         </div>
-                    </div>
 
 
-                </form>
+                    </form>
 
+                </div>
             </div>
         </div>
     </div>
+
+
 </div>
 
 <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>

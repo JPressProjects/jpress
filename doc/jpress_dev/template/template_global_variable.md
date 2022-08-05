@@ -14,10 +14,13 @@
 | SEO_KEYWORDS  |  字符串 | 网站SEO关键字 | 
 | SEO_DESCRIPTION  |  字符串 | 网站SEO描述 | 
 | MENUS  | 数据列表( list ) | 菜单数据 | 
-| USER  | 对象( object ) | 已经登录的用户对象 | 
+| USER  | 对象( object ) | 已经登录的用户对象，若用户未登录 USER 的值等于 null | 
 | CSRF_TOKEN  | 字符串 | 当进行数据操作的时候必须要传入这个参数 | 
 | C  | Controller 对象 | 可以通过 Controller 去读取 attribute、request、session、<br /> parameter 等信息，备注：只能用于读取，不能用于设置。 | 
 | VERSION  | 字符串 | JPress 当前的版本号。 | 
+| CPATH  | 字符串 | JPress 部署在 Tomcat 的二级目录时，目录的名称。 | 
+| APATH  | 字符串 | JPress 安装了插件，插件可能会释放一些静态资源，APATH 输出资源目录 | 
+| SPATH  | 字符串 | 当开启分站的时候，当前分站所在的目录（或者说是分站前缀） | 
 
 
 

@@ -88,7 +88,7 @@ public class SiteManager implements JbootEventListener {
         //后台
         if (target.startsWith("/admin")) {
             String loginedUserId = CookieUtil.get(request, JPressConsts.COOKIE_UID);
-            if (StrUtil.isBlank(loginedUserId)){
+            if (StrUtil.isBlank(loginedUserId)) {
                 return null;
             }
             String siteId = CookieUtil.get(request, JPressConsts.COOKIE_ADMIN_SITE_ID);
@@ -159,8 +159,7 @@ public class SiteManager implements JbootEventListener {
             //关闭语言匹配
             if ("0".equals(lang)) {
                 //设置 maxAgeInSeconds 为 -1，则意味着关闭浏览器后  cookies 失效
-//                CookieUtil.put(response, JPressConsts.COOKIE_SITE_LANG_CLOSE, "1", -1);
-                CookieUtil.put(response, JPressConsts.COOKIE_SITE_LANG_CLOSE, "1");
+                CookieUtil.put(response, JPressConsts.COOKIE_SITE_LANG_CLOSE, "1", -1);
                 return null;
             }
 

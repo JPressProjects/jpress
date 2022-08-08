@@ -8,8 +8,6 @@ import com.jfinal.kit.Ret;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
 import com.jfinal.template.source.FileSource;
-import com.jfinal.upload.UploadFile;
-import io.jboot.web.attachment.AttachmentManager;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jboot.web.validate.Regex;
@@ -66,24 +64,24 @@ public class JobApplyController extends TemplateControllerBase {
     }
 
 
-    public void uploadFile() {
-
-        UploadFile file = getFile();
-
-        if (file == null) {
-            renderFailJson("文件上传失败，请重新上传");
-            return;
-        }
-
-        Map<String, Object> map = new HashMap<>();
-
-        String path = AttachmentManager.me().saveFile(file.getFile());
-        map.put("state", true);
-        map.put("filePath", path);
-        map.put("fileName", file.getOriginalFileName());
-
-        renderJson(map);
-    }
+//    public void uploadFile() {
+//
+//        UploadFile file = getFile();
+//
+//        if (file == null) {
+//            renderFailJson("文件上传失败，请重新上传");
+//            return;
+//        }
+//
+//        Map<String, Object> map = new HashMap<>();
+//
+//        String path = AttachmentManager.me().saveFile(file.getFile());
+//        map.put("state", true);
+//        map.put("filePath", path);
+//        map.put("fileName", file.getOriginalFileName());
+//
+//        renderJson(map);
+//    }
 
 
     public void doSave() {

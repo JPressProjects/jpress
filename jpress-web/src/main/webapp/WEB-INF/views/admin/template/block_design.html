@@ -186,10 +186,10 @@
                         '        <div class="flex-auto">' +
                         '             <div class="btn-group ">' +
                         '             {{~ if($data.vid && $data.poster)}}' +
-                        '                 <a id="group-all" href="javascript:;" class="btn btn-default active"> <i class="bi bi-camera-video"></i> 已选择</a>' +
-                        '                 <a id="group-28d" href="javascript:;" class="btn btn-default">删除</a>' +
+                        '                 <a id="group-all" href="javascript:;" class="btn btn-default chooseVideo active"> <i class="bi bi-camera-video"></i> 已选择</a>' +
+                        '                 <a id="group-28d" href="javascript:;" class="btn btn-default deleteVideo">删除</a>' +
                         '             {{~ else}}' +
-                        '                 <a id="group-all" href="javascript:;" class="btn btn-default"> <i class="bi bi-camera-video"></i> 选择视频</a>' +
+                        '                 <a id="group-all" href="javascript:;" class="btn btn-default chooseVideo"> <i class="bi bi-camera-video"></i> 选择视频</a>' +
                         '             {{~ end}}' +
                         '              </div>' +
                         '        </div>' +
@@ -228,6 +228,37 @@
         $(".middleContent").on("click", "a", function (event) {
             // 防止 a 跳转到其他页面
             event.preventDefault();
+        })
+
+
+        //插入视频
+        $(".rightContent").on("click",".chooseVideo", function () {
+            var $this = $(this);
+            layer.open({
+                type: 2,
+                title: '选择视频',
+                anim: 2,
+                shadeClose: true,
+                shade: 0.3,
+                area: ['90%', '90%'],
+                content: jpress.cpath + '/admin/attachment/video/browse?uititle=视频',
+                end: function () {
+                    if (layer.data && layer.data.id){
+                        var builder = $('#builder').bsFormBuilder().data("bsFormBuilder");
+                        builder.updateDataAttr(builder.currentData,"vid",layer.data.id)
+                        builder.updateDataAttr(builder.currentData,"poster",layer.data.cover)
+                        builder.refreshPropsPanel();
+                    }
+                }
+            });
+        })
+
+        //删除视频
+        $(".rightContent").on("click",".deleteVideo", function () {
+            var builder = $('#builder').bsFormBuilder().data("bsFormBuilder");
+            builder.updateDataAttr(builder.currentData,"vid",'')
+            builder.updateDataAttr(builder.currentData,"poster",'')
+            builder.refreshPropsPanel();
         })
 
     });

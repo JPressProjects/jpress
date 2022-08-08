@@ -26,6 +26,7 @@ import io.jpress.web.base.TemplateControllerBase;
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/job/apply")
@@ -88,10 +89,6 @@ public class JobApplyController extends TemplateControllerBase {
 
         JobApply entry = getModel(JobApply.class, "jobApply");
 
-        String mobileCode = getPara("mobileCode");
-        String emailCode = getPara("emailCode");
-
-
         //如果提交为空 404
         if (entry == null) {
             renderError(404);
@@ -119,12 +116,14 @@ public class JobApplyController extends TemplateControllerBase {
         Boolean mobileEnable = optionService.findAsBoolByKey(JobApply.MOBILE_ENABLE);
         Boolean emailEnable = optionService.findAsBoolByKey(JobApply.EMAIL_ENABLE);
 
+
         //如果开启了手机验证 对验证码进行验证
         if (mobileEnable) {
 
-            boolean mobile = validationMobile(entry.getMobile(), mobileCode);
-            if (!mobile) {
-                renderFailJson("手机验证码不正确");
+            boolean matches = entry.getMobile().matches(Regex.MOBILE);
+
+            if (!matches) {
+                renderFailJson("请正确输入手机号");
                 return;
             }
 
@@ -133,13 +132,19 @@ public class JobApplyController extends TemplateControllerBase {
         //如果开启了邮箱验证 对邮箱进行验证
         if (emailEnable) {
 
-            boolean email = validationEmail(entry.getEmail(), emailCode);
-            if (!email) {
-                renderFailJson("邮箱验证码不正确");
+            boolean matches = entry.getEmail().matches(Regex.EMAIL);
+
+            if (!matches) {
+                renderFailJson("邮箱不正确");
                 return;
             }
 
         }
+
+
+        //文件上传 接收
+        List<UploadFile> files = getFiles("file");
+
 
 
         //通过job_id  mobile 来确定是否已经 申请
@@ -188,135 +193,6 @@ public class JobApplyController extends TemplateControllerBase {
         ses.send(email);
 
         Ret.ok();
-    }
-
-    //获取手机号验证码
-    public void getMobileCode(@JsonBody("mobile") String mobile) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        if (mobile == null) {
-            map.put("state", false);
-            map.put("message", "短信发送失败,请核对手机号码");
-            renderJson(map);
-            return;
-        }
-
-        //验证手机号 是否正确
-        boolean matches = mobile.matches(Regex.MOBILE);
-
-        if (!matches) {
-            map.put("state", false);
-            map.put("message", "短信发送失败,请核对手机号码");
-            renderJson(map);
-            return;
-        }
-
-        //获取模板和签名
-        String template = optionService.findByKey(JobApply.CONNECTION_SMS_TEMPLATE);
-        String sign = optionService.findByKey(JobApply.CONNECTION_SMS_SIGN);
-
-        //发送短信
-        if (template != null || sign != null) {
-
-            boolean sendCode = SmsKit.sendCode(mobile, SmsKit.generateCode(), template, sign);
-
-            //如果短信发送成功
-            if (sendCode) {
-                map.put("state", true);
-                map.put("message", "短信发送成功");
-            }
-
-        }
-
-        renderJson(map);
-    }
-
-    //手机验证码验证
-    public boolean validationMobile(String mobile, String code) {
-
-        if (code == null || mobile == null) {
-            return false;
-        }
-
-        return SmsKit.validateCode(mobile, code);
-
-    }
-
-    //获取邮箱验证码
-    public void getEmailCode(@JsonBody("email") String email, @JsonBody CaptchaVO captchaVO) {
-
-        Long id = getLong();
-
-        Job job = jobService.findById(id);
-
-        //进行前端滑块 参数验证
-        ResponseModel validResult = captchaService.verification(captchaVO);
-
-        Map<String, Object> map = new HashMap<>();
-
-        if (validResult == null || !validResult.isSuccess()) {
-            map.put("state", false);
-            map.put("message", "邮件发送失败,请核对邮箱");
-            renderJson(map);
-            return;
-        }
-
-        if (email == null || job == null) {
-            map.put("state", false);
-            map.put("message", "邮件发送失败,请核对邮箱");
-            renderJson(map);
-            return;
-        }
-
-        //验证邮箱 是否正确
-        boolean matches = email.matches(Regex.EMAIL);
-        if (!matches) {
-            map.put("state", false);
-            map.put("message", "邮件发送失败,请核对邮箱");
-            renderJson(map);
-            return;
-        }
-        //生成验证码
-        String code = EmailKit.generateCode();
-
-        //获取 发送邮件的 html 模板路劲
-        File absolutePathFile = TemplateManager.me().getCurrentTemplate().getAbsolutePathFile();
-        //获取渲染器对象
-        Engine engine = RenderManager.me().getEngine();
-        //获取到 html 文件
-        FileSource fileSource = new FileSource(absolutePathFile.getAbsolutePath(), "jobemail.html");
-        //将code 放入map中
-        HashMap<String, Object> htmlMap = new HashMap<>();
-        htmlMap.put("code", code);
-        //将html文件渲染为 为 string 格式 并传入参数
-        String renderResult = engine.getTemplate(fileSource).renderToString(htmlMap);
-
-        Email sendEmail = Email.create();
-        sendEmail.subject("邮件验证码");
-        sendEmail.content(renderResult);
-        sendEmail.to(email);
-
-        boolean sendEmailCode = EmailKit.sendEmailCode(email, code, sendEmail);
-
-        if (sendEmailCode) {
-            map.put("state", true);
-            map.put("message", "邮件发送成功");
-        }
-
-        renderJson(map);
-
-    }
-
-    //邮箱验证
-    public boolean validationEmail(String email, String code) {
-
-        if (code == null || email == null) {
-            return false;
-        }
-
-        return EmailKit.validateCode(email, code);
-
     }
 
 }

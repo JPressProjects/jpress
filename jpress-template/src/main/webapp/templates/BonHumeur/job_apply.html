@@ -2,9 +2,49 @@
 #@layout(true)
 
 #define css()
+<link rel="stylesheet" href="/static/components/aj-captcha/css/verify.css"/>
 #end
 
 #define script()
+<script type="text/javascript" src="/static/components/aj-captcha/js/verify.js"></script>
+
+<script>
+
+    var isRead = false;
+
+    $('body').slideVerify({
+        baseUrl:getContextPath() + '/commons',  //服务器请求地址, 默认地址为安吉服务器;
+        containerId:'btn_yzm',//pop模式 必填 被点击之后出现行为验证码的元素id
+        mode:'pop',     //展示模式
+        beforeCheck:function(){  //检验参数合法性的函数  mode ="pop"有效
+
+            if(!$("#username").val()){
+               alert("请填写用户名");
+               return false;
+            }else if(!$("#mobile").val() || !$("#email").val()){
+               alert("请填写手机号或邮箱");
+                return false;
+            }else if(!$("#work_years").val() || !$("#education").val()){
+                alert("请选择工作年限或经验");
+                return false;
+            }else {
+                return true;
+            }
+        },
+        ready : function() {
+            isRead = true;
+        },  //加载完毕的回调
+        success : function(params) { //成功的回调
+        },
+        error : function() {}        //失败的回调
+    });
+
+    //TODO
+
+
+</script>
+
+
 #end
 
 
@@ -52,7 +92,7 @@
         <div class="job-apply-detail">
             <div class="form-group">
                 <label for="username">姓名</label>
-                <input type="text" class="form-control" id="username" placeholder="输入姓名" name="jobApply.user_name" required>
+                <input type="text" class="form-control" id="username" placeholder="输入姓名" name="jobApply.user_name">
             </div>
 
             <div class="form-group">
@@ -69,41 +109,42 @@
                     <select style="width:26%;" class="form-control" id="mobile_area" name="jobApply.mobile_area">
                         <option value="+86">+86</option>
                     </select>
-                    <input style="width:73%;" type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile" required>
+                    <input style="width:73%;" type="text" class="form-control" id="mobile" placeholder="手机号" name="jobApply.mobile">
                 </div>
-                #if(option("job_mobile_enable"))
-                <div class="job-verification-code">
-                    <input style="width:70%;" type="code" class="form-control" placeholder="验证码" id="mobile_code"
-                           name="mobileCode" autocomplete="off">
 
-                    <input style="width:28%;" type="button" class="btn jpress-captcha" id="getCode" data-type="pointsVerify" data-location="body"
-                           data-value-id="mobile" data-path="/job/apply/getMobileCode"
-                           data-url="" data-point="手机验证码发送成功，请注意查收！"
-                           value="获取验证码"/>
+<!--                #if(option("job_mobile_enable"))-->
+<!--                <div class="job-verification-code">-->
+<!--                    <input style="width:70%;" type="code" class="form-control" placeholder="验证码" id="mobile_code"-->
+<!--                           name="mobileCode" autocomplete="off">-->
 
-                </div>
-                #end
+<!--                    <input style="width:28%;" type="button" class="btn jpress-captcha" id="getCode" data-type="pointsVerify" data-location="body"-->
+<!--                           data-value-id="mobile" data-path="/job/apply/getMobileCode"-->
+<!--                           data-url="" data-point="手机验证码发送成功，请注意查收！"-->
+<!--                           value="获取验证码"/>-->
+
+<!--                </div>-->
+<!--                #end-->
 
             </div>
 
             <div class="form-group">
                 <label for="email">邮箱</label>
 
-                <input type="email" class="form-control" id="email" placeholder="邮箱" name="jobApply.email" required>
+                <input type="email" class="form-control" id="email" placeholder="邮箱" name="jobApply.email">
 
-                #if(option("job_email_enable"))
-                <div class="job-verification-code">
-                    <input style="width:70%;" type="code" class="form-control" placeholder="验证码" id="email_code"
-                           name="emailCode" autocomplete="off">
+<!--                #if(option("job_email_enable"))-->
+<!--                <div class="job-verification-code">-->
+<!--                    <input style="width:70%;" type="code" class="form-control" placeholder="验证码" id="email_code"-->
+<!--                           name="emailCode" autocomplete="off">-->
 
 
-                    <input style="width:28%;" id="getEmailCode" type="button" data-type="slideVerify" data-location="html"
-                           class="btn jpress-captcha"  data-value-id="email" data-path="/job/apply/getEmailCode/#(job.id ??)"
-                           data-url="" data-point="邮箱验证码发送成功，请注意查收！"
-                           value="获取验证码"/>
+<!--                    <input style="width:28%;" id="getEmailCode" type="button" data-type="slideVerify" data-location="html"-->
+<!--                           class="btn jpress-captcha"  data-value-id="email" data-path="/job/apply/getEmailCode/#(job.id ??)"-->
+<!--                           data-url="" data-point="邮箱验证码发送成功，请注意查收！"-->
+<!--                           value="获取验证码"/>-->
 
-                </div>
-                #end
+<!--                </div>-->
+<!--                #end-->
             </div>
 
 
@@ -115,13 +156,12 @@
 
             <div class="form-group">
                 <label for="work_years">工作经验</label>
-                <input type="number" class="form-control" id="work_years" placeholder="工作经验" name="jobApply.work_years"
-                       required>
+                <input type="number" class="form-control" id="work_years" placeholder="工作经验" name="jobApply.work_years">
             </div>
 
             <div class="form-group">
                 <label for="education">最高学历</label>
-                <select class="form-control" id="education" name="jobApply.education" required>
+                <select class="form-control" id="education" name="jobApply.education">
                     <option value="">请选择学历</option>
                     <option value="0">其它</option>
                     <option value="1">初中及以下</option>
@@ -149,14 +189,14 @@
                 <label>简历上传</label>
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileResume" data-result-id="file-resume">
+                        <input type="file" name="file" class="custom-file-input chooseFile" id="inputUpdateFileResume" data-result-id="file-resume">
                         <label class="custom-file-label"  id="file-resume" for="inputUpdateFileResume">请选择文件</label>
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileResume" data-result-id="filePath">
-                            开始上传
-                        </button>
-                    </div>
+<!--                    <div class="input-group-append">-->
+<!--                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileResume" data-result-id="filePath">-->
+<!--                            开始上传-->
+<!--                        </button>-->
+<!--                    </div>-->
                 </div>
             </div>
 
@@ -164,19 +204,19 @@
                 <label>附件上传</label>
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input chooseFile" id="inputUpdateFileAttachment" data-result-id="file-attachment">
+                        <input type="file" name="file" class="custom-file-input chooseFile" id="inputUpdateFileAttachment" data-result-id="file-attachment">
                         <label class="custom-file-label"  id="file-attachment" for="inputUpdateFileAttachment">请选择文件</label>
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileAttachment" data-result-id="attachment">
-                            开始上传
-                        </button>
-                    </div>
+<!--                    <div class="input-group-append">-->
+<!--                        <button class="btn btn-outline-secondary uploadFile" type="button" data-file-id="inputUpdateFileAttachment" data-result-id="attachment">-->
+<!--                            开始上传-->
+<!--                        </button>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>
         <div class="form-group job-apply-button">
-            <input type="submit" id="btn_yzm" class="btn btn-primary" value="提交申请"/>
+            <input type="button" id="btn_yzm" class="btn btn-primary"  value="提交申请"/>
         </div>
 
     </form>

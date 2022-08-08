@@ -1,5 +1,6 @@
 # windows 通过 tomcat 部署项目
 
+## 部署环境准备
 ## JDK下载安装及配置
 
 ## 进入 Oracle官网 的 Java 界面
@@ -169,6 +170,23 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![](tomcat_img/img_17.png)
 
+    3.11 配置 tomcat 开机自启动
+        (1)进入 tomcat 文件的bin 目录
+![](mysql_img/img_16.png)
+
+        (2)输入 cmd
+![](mysql_img/img_17.png)
+
+        (3)进入命令页面
+        输入指令：service.bat install Tomcat
+![](mysql_img/img_15.png)
+
+![](mysql_img/img_18.png)
+
+        (4)找到 tomcat
+           单击鼠标右键，选择属性，把启动类型选择自动，点击确定，如下图所示： 
+![](mysql_img/img_19.png)
+
 ## MYSQL 下载安装及配置
 
 ### 1、MySQL 下载
@@ -193,6 +211,28 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![](mysql_img/img_3.png)
 
-    2.2 找到高级系统设置-环境变量
+    2.2 高级系统设置-环境变量
 
 ![](mysql_img/img_4.png)
+
+    2.3 系统变量->Path，双击打开->新建，
+        路径为 mysql 的安装路径，如下图所示：
+![](mysql_img/img_6.png)
+
+![](mysql_img/img_5.png)
+
+    2.4 mysql 安装（略）
+
+## 3、Windows 环境下 tomcat 部署项目
+
+    3.1 删除 tomcat 文件中 webapps 文件夹下所有文件，
+        再把项目的 war 包放进去，并修改名称为 ROOT，如下图所示：
+    
+![](mysql_img/img_14.png)
+
+    3.2 输入网站地址，按下回车键，如下图所示：
+
+![](mysql_img/img_20.png)
+        
+        部署成功
+![](mysql_img/img_21.png)

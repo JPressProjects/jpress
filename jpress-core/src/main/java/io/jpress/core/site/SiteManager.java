@@ -80,6 +80,10 @@ public class SiteManager implements JbootEventListener {
             return null;
         }
 
+        if (target.startsWith("/commons/")){
+            return null;
+        }
+
         List<SiteInfo> allSites = siteInfoService.findAll();
         if (allSites == null || allSites.isEmpty()) {
             return null;

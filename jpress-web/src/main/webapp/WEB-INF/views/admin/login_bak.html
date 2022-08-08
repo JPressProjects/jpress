@@ -57,8 +57,8 @@
                         <div>
                             <input type="text" id="captcha" class="form-control" autocomplete="off" style="float: left;width: 70%;"
                                    placeholder="请输入验证码" name="captcha" required>
-                            <img src="#(CPATH)#(SPATH)/commons/captcha" id="captcha-img" style="float: right;height: 34px;margin-top: 2px;"
-                                 onclick="this.src='#(CPATH)#(SPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
+                            <img src="#(CPATH)/commons/captcha" id="captcha-img" style="float: right;height: 34px;margin-top: 2px;"
+                                 onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
                         </div>
                     </div>
 
@@ -91,7 +91,7 @@
     function loginFail(result) {
         showErrorMessage(result.message);
         $('#captcha').val('');
-        $('#captcha-img').attr('src',"#(CPATH)#(SPATH)/commons/captcha?id="+Math.random())
+        $('#captcha-img').attr('src',"#(CPATH)/commons/captcha?id="+Math.random())
 
         if (result.errorCode == 11){
             $('input[name="account"]').val('')

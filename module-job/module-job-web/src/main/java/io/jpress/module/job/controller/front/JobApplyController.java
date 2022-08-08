@@ -68,7 +68,7 @@ public class JobApplyController extends TemplateControllerBase {
 
     public void uploadFile() {
 
-        UploadFile file = getFile("file");
+        UploadFile file = getFile();
 
         if (file == null) {
             renderFailJson("文件上传失败，请重新上传");

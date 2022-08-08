@@ -20,6 +20,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Table;
 import com.jfinal.plugin.activerecord.TableMapping;
+import com.jfinal.upload.UploadFile;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jpress.JPressConsts;
@@ -239,5 +240,12 @@ public abstract class ControllerBase extends JbootController {
         }
         renderJson(ret);
     }
+
+
+    @Override
+    public UploadFile getFile() {
+        return super.getFirstFileOnly();
+    }
+
 
 }

@@ -75,7 +75,7 @@ public class SiteManager implements JbootEventListener {
     }
 
 
-    public SiteInfo matchedSite(String target, HttpServletRequest request, HttpServletResponse response) {
+    public SiteInfo matchSite(String target, HttpServletRequest request, HttpServletResponse response) {
         if (siteInfoService == null) {
             return null;
         }

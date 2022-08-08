@@ -80,6 +80,8 @@ public class BsFormManager {
         //把每个 component 的数据放大 datas 里，这样，在 jfinal 里的指令里
         //可以通过 scope 去获取数据
         Map<String, Object> datas = new HashMap<>();
+        datas.put("withEdit",withEdit);
+
         for (String key : componentData.keySet()) {
             Object value = componentData.get(key);
             if (value instanceof String && StrUtil.isNumeric((String) value) && ((String) value).length() < 5) {

@@ -59,6 +59,14 @@ public class SiteInfo extends BaseSiteInfo<SiteInfo> {
         return bindDomain + StrUtil.defaultIfBlank(getBindPath(), "");
     }
 
+    public String getUrl(String scheme) {
+        String bindDomain = StrUtil.defaultIfBlank(getBindDomain(), "");
+        if (StrUtil.isNotBlank(bindDomain)) {
+            bindDomain = scheme + "://" + bindDomain;
+        }
+        return bindDomain + StrUtil.defaultIfBlank(getBindPath(), "");
+    }
+
     public boolean isSiteAction(String target, HttpServletRequest request) {
         String bindDomain = getBindDomain();
         String bindPath = getBindPath();

@@ -173,7 +173,28 @@
                         '            </div>' +
                         '        </div>' +
                         '    </div>';
-                }
+                },
+
+                video: function () {
+                    return '<div class="form-group clearfix">' +
+                        '       <div class="form-label-left">' +
+                        '             {{~ if(required)}}' +
+                        '             <span class="red required">*</span>' +
+                        '             {{~end}}' +
+                        '              <label for="{{id}}">{{label}}</label>' +
+                        '        </div>' +
+                        '        <div class="flex-auto">' +
+                        '             <div class="btn-group ">' +
+                        '             {{~ if($data.vid && $data.poster)}}' +
+                        '                 <a id="group-all" href="javascript:;" class="btn btn-default active"> <i class="bi bi-camera-video"></i> 已选择</a>' +
+                        '                 <a id="group-28d" href="javascript:;" class="btn btn-default">删除</a>' +
+                        '             {{~ else}}' +
+                        '                 <a id="group-all" href="javascript:;" class="btn btn-default"> <i class="bi bi-camera-video"></i> 选择视频</a>' +
+                        '             {{~ end}}' +
+                        '              </div>' +
+                        '        </div>' +
+                        '    </div>';
+                },
             },
 
             bsFormPropsItemAppended: function (builder, prop, data) {

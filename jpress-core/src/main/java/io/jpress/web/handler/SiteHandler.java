@@ -26,7 +26,7 @@ public class SiteHandler extends Handler {
         if (siteInfo != null) {
 
             if (!target.startsWith("/admin") && !siteInfo.isSiteAction(target, request)) {
-                HandlerKit.redirect(siteInfo.getUrl(), request, response, isHandled);
+                HandlerKit.redirect(siteInfo.getUrl(request.getScheme()), request, response, isHandled);
                 return;
             }
 

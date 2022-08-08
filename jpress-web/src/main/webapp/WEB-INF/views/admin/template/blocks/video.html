@@ -2,6 +2,12 @@
 <!--type:system -->
 <!--icon:bi bi-camera-video -->
 <!--index: 33 -->
+
+#blockOption('选择视频:video')
 <div class="#blockOption('Class样式')" style="#blockOption('Style样式:textarea')">
-    <div class="bsItemContainer">#(children?.get(0) ??)</div>
+    #if(withEdit)
+    <video style="height: 240px;width: 425px;" poster="#blockOption('poster:none')" controls></video>
+    #else
+    <video class="jpress-video" data-vid="#blockOption('vid:none')" poster="#blockOption('poster:none')"></video>
+    #end
 </div>

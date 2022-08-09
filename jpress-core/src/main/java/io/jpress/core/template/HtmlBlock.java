@@ -84,28 +84,34 @@ public class HtmlBlock {
 
         HtmlBlockOptionDef existOptionDef = null;
         for (HtmlBlockOptionDef def : optionDefs) {
-            if (Objects.equals(def.getName(),optionDef.getName())){
+            if (Objects.equals(def.getName(), optionDef.getName())) {
                 existOptionDef = def;
             }
         }
 
-        if (existOptionDef == null){
+        if (existOptionDef == null) {
             optionDefs.add(optionDef);
-        }else {
-            mergeOptionDef(optionDef,existOptionDef);
+        } else {
+            mergeOptionDef(optionDef, existOptionDef);
         }
     }
 
     /**
      * 合并新的 option 到已经存在的 options
+     *
      * @param newOptionDef
      * @param existOptionDef
      */
     private void mergeOptionDef(HtmlBlockOptionDef newOptionDef, HtmlBlockOptionDef existOptionDef) {
-        if (StrUtil.isNotBlank(newOptionDef.getType())){
+        if (StrUtil.isNotBlank(newOptionDef.getType())) {
             existOptionDef.setType(newOptionDef.getType());
         }
+
+        if (StrUtil.isNotBlank(newOptionDef.getDefaultValue())) {
+            existOptionDef.setDefaultValue(newOptionDef.getDefaultValue());
+        }
     }
+
 
     public String getIndex() {
         return index;
@@ -120,7 +126,7 @@ public class HtmlBlock {
     }
 
     public void setTemplate(String template) {
-        TemplateUtil.readAndFillHtmlBlock(template,this);
+        TemplateUtil.readAndFillHtmlBlock(template, this);
     }
 
     public void addTemplateLine(String line) {
@@ -129,7 +135,6 @@ public class HtmlBlock {
         }
         template += line;
     }
-
 
 
     public BsFormComponent toBsFormComponent() {

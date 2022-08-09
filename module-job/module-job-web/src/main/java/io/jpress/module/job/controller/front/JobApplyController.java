@@ -16,7 +16,6 @@ import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
-
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -78,13 +77,23 @@ public class JobApplyController extends TemplateControllerBase {
         //简历上传
         for (UploadFile file : files) {
 
-            String path = AttachmentManager.me().saveFile(file.getFile());
+            String fileParameterName = file.getParameterName();
 
-            if (file.getParameterName().equals(JobApply.FILE_RESUME)) {
+            //如果是简历
+            if (fileParameterName.equals(JobApply.FILE_RESUME)) {
+
+                String path = AttachmentManager.me().saveFile(file.getFile());
                 entry.setCvPath(path);
-            } else if (file.getParameterName().equals(JobApply.FILE_ATTACHMENT)) {
+            //如果是附件
+            } else if (fileParameterName.equals(JobApply.FILE_ATTACHMENT)) {
+
+                String path = AttachmentManager.me().saveFile(file.getFile());
                 entry.setAttachment(path);
+            //如果都不是
+            } else {
+                AttachmentManager.me().deleteFile(file.getUploadPath());
             }
+
 
         }
 
@@ -103,6 +112,11 @@ public class JobApplyController extends TemplateControllerBase {
         //填写必填信息
         if (entry.getJobId() == null || entry.getUserName() == null || entry.getWorkYears() == null || entry.getEducation() == null) {
             renderFailJson("请填写重要信息");
+            return;
+        }
+
+        if(entry.getMobile() == null || entry.getEmail() == null){
+            renderFailJson("请填写手机号或者邮箱");
             return;
         }
 

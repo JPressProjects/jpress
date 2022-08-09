@@ -513,7 +513,6 @@ function addProductToCart(productId, productSpec, ok, fail) {
 }
 
 
-
 function initProductSpec() {
     $(".product-specs li").click(function () {
         setProductSpec($(this).text());
@@ -524,7 +523,6 @@ function initProductSpec() {
     $(".product-specs li:first").addClass("active");
     setProductSpec($(".product-specs li:first").text());
 }
-
 
 
 function setProductSpec(spec) {
@@ -730,7 +728,6 @@ function initFormData() {
     })
 }
 
-
 function initJPressAJCaptcha() {
     $('.jpress-captcha').each(function () {
 
@@ -749,99 +746,41 @@ function initJPressAJCaptcha() {
         if (!location) {
             location = 'body';
         }
-        var valueId = $(this).attr("data-value-id");
-        if (!valueId) {
-            alert("请联系管理员，数据id未配置！")
-            return;
+
+        var validType = $(this).attr("data-valid-type");
+        if (!validType) {
+            validType = "ajax"
         }
 
-        var ajaxUrl = $(this).attr("data-path");
-        if (!ajaxUrl) {
-            alert("请联系管理员，请求路径未配置！")
-            return;
+        if (validType === "ajax") {
+            var checkInputId = $(this).attr("data-value-id");
+            if (!checkInputId) {
+                alert("请联系管理员，数据id未配置！")
+                return;
+            }
+
+            var ajaxUrl = $(this).attr("data-path");
+            if (!ajaxUrl) {
+                alert("请联系管理员，请求路径未配置！")
+                return;
+            }
         }
+
+        var validFormId = $(this).attr("data-form-id");
+
 
         var ajaxGetSuccessToUrl = $(this).attr("data-url");
         var ajaxGetSuccessPoint = $(this).attr("data-point");
 
         var val = null;
-        var option = {
-            baseUrl: getContextPath() + '/commons',  //服务器请求地址,
-            containerId: containerId,//pop模式 必填 被点击之后出现行为验证码的元素id
-            mode: 'pop',     //展示模式
-            beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
-
-                val = $("#" + valueId).val();
-
-                if (isRead && !val) {
-                    alert("数据不能为空");
-                    return false
-                }
-                return true;
-            },
-            //加载完毕的回调
-            ready: function () {
-                isRead = true;
-            },
-            //验证成功
-            success: function (params) {
-
-                var dataType = null;
-                var regx = /^1(3|4|5|6|7|8|9)\d{9}$/;
-                var isMobile = regx.test(val);
-                //判断是否是手机号
-                if (isMobile) {
-                    dataType = {mobile: val};
-                } else if (!isMobile) {
-                    dataType = {email: val};
-                }
-
-                var data = $.extend(dataType, params);
-                // var url = ajaxUrl;
-
-                $.ajax({
-                    url: ajaxUrl,
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success:
-                        function (result) {
-                            console.log(result);
-                            if (result.state == "ok") {
-                                if (ajaxGetSuccessToUrl == null || ajaxGetSuccessToUrl == '') {
-                                    var point = ajaxGetSuccessPoint == null || ajaxGetSuccessPoint == '' ? "验证成功" : ajaxGetSuccessPoint;
-                                    alert(point);
-                                } else {
-                                    window.location.href = ajaxGetSuccessToUrl;
-                                }
-
-                            } else {
-                                alert(result.message);
-                            }
-                        },
-                    error:
-                        function (arg) {
-                            console.log("error...", arg);
-                            if (arg.responseJSON) {
-                                alert(arg.responseJSON.message);
-                            }
-                        }
-                });
-
-            },
-
-            error: function () {
-                //失败的回调
-                console.log("pointsVerify error...");
-            }
-        };
+        var option = validType === "ajax" ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl) : getFormCaptachOption(containerId, validFormId);
 
         loadCss("/static/components/aj-captcha/css/verify.css");
         loadJs([
             "/static/components/aj-captcha/js/crypto-js.js",
             "/static/components/aj-captcha/js/ase.js",
-            "/static/components/aj-captcha/js/verify.js"
+            "/static/components/aj-captcha/js/verify.js",
+            "/static/components/jquery/jquery.form.min.js",
         ],
             function () {
 
@@ -859,6 +798,131 @@ function initJPressAJCaptcha() {
 
     })
 }
+
+function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl) {
+
+    return {
+        baseUrl: getContextPath() + '/commons',  //服务器请求地址,
+        containerId: containerId,//pop模式 必填 被点击之后出现行为验证码的元素id
+        mode: 'pop',     //展示模式
+        beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
+
+            val = $("#" + checkInputId).val();
+
+            if (isRead && !val) {
+                alert("数据不能为空");
+                return false
+            }
+            return true;
+        },
+        //加载完毕的回调
+        ready: function () {
+            isRead = true;
+        },
+        //验证成功
+        success: function (params) {
+
+            var dataType = null;
+            var regx = /^1(3|4|5|6|7|8|9)\d{9}$/;
+            var isMobile = regx.test(val);
+            //判断是否是手机号
+            if (isMobile) {
+                dataType = {mobile: val};
+            } else if (!isMobile) {
+                dataType = {email: val};
+            }
+
+            var data = $.extend(dataType, params);
+            // var url = ajaxUrl;
+
+            $.ajax({
+                url: ajaxUrl,
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success:
+                    function (result) {
+                        console.log(result);
+                        if (result.state == "ok") {
+                            if (ajaxGetSuccessToUrl == null || ajaxGetSuccessToUrl == '') {
+                                var point = ajaxGetSuccessPoint == null || ajaxGetSuccessPoint == '' ? "验证成功" : ajaxGetSuccessPoint;
+                                alert(point);
+                            } else {
+                                window.location.href = ajaxGetSuccessToUrl;
+                            }
+
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                error:
+                    function (arg) {
+                        console.log("error...", arg);
+                        if (arg.responseJSON) {
+                            alert(arg.responseJSON.message);
+                        }
+                    }
+            });
+
+        },
+
+        error: function () {
+            //失败的回调
+            console.log("pointsVerify error...");
+        }
+    };
+
+}
+
+function getFormCaptachOption(containerId, formID) {
+
+    return {
+        baseUrl: getContextPath() + '/commons',  //服务器请求地址,
+        containerId: containerId,//pop模式 必填 被点击之后出现行为验证码的元素id
+        mode: 'pop',     //展示模式
+        beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
+
+            if (!formID) {
+                alert("请设置表单ID");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        //加载完毕的回调
+        ready: function () {
+            isRead = true;
+        },
+        //验证成功
+        success: function (params) {
+
+            ajaxSubmit("#" + formID, function (result) {
+
+                if (result.state == 'ok') {
+                    alert("申请成功");
+
+                    let path = $("#" + containerId).attr("data-result-path");
+                    if (path) {
+                        location.href = path;
+                    }
+                }
+
+
+            }, function (result) {
+                alert(result.message);
+            })
+
+        },
+
+        error: function () {
+            //失败的回调
+            console.log("pointsVerify error...");
+        }
+    };
+
+}
+
 
 //job apply 页面 选择文件
 function jobFileChoose() {
@@ -881,56 +945,6 @@ function jobFileChoose() {
 
     })
 }
-
-//job apply 文件上传
-function jobUploadFile() {
-
-
-    $(".uploadFile").each(function () {
-
-        var $this = $(this);
-
-        let fileId = $this.attr("data-file-id");
-        let inputId = $this.attr("data-result-id");
-
-        if (fileId != null && inputId != null) {
-
-            $this.bind('click', function () {
-
-                let formData = new FormData()
-
-                formData.append("file", $("#" + fileId)[0].files[0]);
-
-                $.ajax({
-                    url: '/job/apply/uploadFile',
-                    type: 'post',
-                    cache: false,//关闭上传文件缓存
-                    data: formData,
-                    processData: false,//processData设置为false。因为data值是FormData对象，不需要对数据做处理
-                    contentType: false,
-                    success: function (result) {
-
-                        if (result.state == "fail") {
-                            alert(result.message);
-                        }
-
-                        if (result.state == true) {
-
-                            $("#" + inputId).val(result.filePath);
-
-                            //清空文件选择，否则会以 multipart 方式提交，后端必须调用 getFile 才能获取数据
-                            $('#' + fileId).val('');
-
-                            alert("上传成功");
-
-                        }
-                    }
-                })
-            })
-        }
-    })
-}
-
 
 $(document).ready(function () {
 

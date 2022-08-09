@@ -5,6 +5,7 @@ import com.anji.captcha.service.CaptchaService;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.upload.UploadFile;
+import io.jboot.web.attachment.AttachmentManager;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.Regex;
 import io.jpress.commons.email.Email;
@@ -15,6 +16,7 @@ import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -54,28 +56,15 @@ public class JobApplyController extends TemplateControllerBase {
         render("job_apply.html");
     }
 
-
-//    public void uploadFile() {
-//
-//        UploadFile file = getFile();
-//
-//        if (file == null) {
-//            renderFailJson("文件上传失败，请重新上传");
-//            return;
-//        }
-//
-//        Map<String, Object> map = new HashMap<>();
-//
-//        String path = AttachmentManager.me().saveFile(file.getFile());
-//        map.put("state", true);
-//        map.put("filePath", path);
-//        map.put("fileName", file.getOriginalFileName());
-//
-//        renderJson(map);
-//    }
-
-
     public void doSave() {
+
+        //文件上传 接收
+        List<UploadFile> files = getFiles();
+
+        if (files == null || files.size() == 0) {
+            renderFailJson("请上传简历或者附件");
+            return;
+        }
 
         JobApply entry = getModel(JobApply.class, "jobApply");
 
@@ -84,6 +73,21 @@ public class JobApplyController extends TemplateControllerBase {
             renderError(404);
             return;
         }
+
+
+        //简历上传
+        for (UploadFile file : files) {
+
+            String path = AttachmentManager.me().saveFile(file.getFile());
+
+            if (file.getParameterName().equals(JobApply.FILE_RESUME)) {
+                entry.setCvPath(path);
+            } else if (file.getParameterName().equals(JobApply.FILE_ATTACHMENT)) {
+                entry.setAttachment(path);
+            }
+
+        }
+
 
         //获取岗位信息
         Job job = jobService.findById(entry.getJobId());
@@ -97,44 +101,27 @@ public class JobApplyController extends TemplateControllerBase {
 
 
         //填写必填信息
-        if (entry.getMobile() == null || entry.getJobId() == null || entry.getUserName() == null) {
+        if (entry.getJobId() == null || entry.getUserName() == null || entry.getWorkYears() == null || entry.getEducation() == null) {
             renderFailJson("请填写重要信息");
             return;
         }
 
-        //确认是否开启了手机验证和邮箱验证
-        Boolean mobileEnable = optionService.findAsBoolByKey(JobApply.MOBILE_ENABLE);
-        Boolean emailEnable = optionService.findAsBoolByKey(JobApply.EMAIL_ENABLE);
+        //手机验证
+        boolean matchesByMobile = entry.getMobile().matches(Regex.MOBILE);
 
-
-        //如果开启了手机验证 对验证码进行验证
-        if (mobileEnable) {
-
-            boolean matches = entry.getMobile().matches(Regex.MOBILE);
-
-            if (!matches) {
-                renderFailJson("请正确输入手机号");
-                return;
-            }
-
-        }
-
-        //如果开启了邮箱验证 对邮箱进行验证
-        if (emailEnable) {
-
-            boolean matches = entry.getEmail().matches(Regex.EMAIL);
-
-            if (!matches) {
-                renderFailJson("邮箱不正确");
-                return;
-            }
-
+        if (!matchesByMobile) {
+            renderFailJson("请正确输入手机号");
+            return;
         }
 
 
-        //文件上传 接收
-        List<UploadFile> files = getFiles("file");
+        //邮箱验证
+        boolean matchesByEmail = entry.getEmail().matches(Regex.EMAIL);
 
+        if (!matchesByEmail) {
+            renderFailJson("邮箱不正确");
+            return;
+        }
 
 
         //通过job_id  mobile 来确定是否已经 申请

@@ -20,6 +20,10 @@ public class JobApply extends BaseJobApply<JobApply> {
     public static final String CONNECTION_SMS_SIGN = "connection_sms_sign";
 
 
+    public static final String FILE_RESUME = "file-resume";
+    public static final String FILE_ATTACHMENT = "file-attachment";
+
+
 
 }
 

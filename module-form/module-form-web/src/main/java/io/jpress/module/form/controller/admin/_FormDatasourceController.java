@@ -70,7 +70,6 @@ public class _FormDatasourceController extends AdminControllerBase {
 
         FormDatasource entry = entryId > 0 ? formDatasourceService.findById(entryId) : null;
         setAttr("datasource", entry);
-        set("now", new Date());
         render("form/form_datasource_edit.html");
     }
 

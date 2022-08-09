@@ -16,6 +16,8 @@
 package io.jpress.core.template;
 
 
+import io.jboot.utils.StrUtil;
+
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
@@ -38,6 +40,9 @@ public class BlockFunctions {
 
 
     public static String getRealKey(String keyDef) {
+        if (StrUtil.isBlank(keyDef)) {
+            throw new IllegalArgumentException("blockOption key can not be null or empty.");
+        }
         return keyDef.contains(":") ? keyDef.split(":")[0].trim() : keyDef.trim();
     }
 

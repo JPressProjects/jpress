@@ -71,7 +71,7 @@
 
     setSaveHotKeyFunction(doSubmit);
 
-    $(".choseImage").on("click", function () {
+    $(".chooseImage").on("click", function () {
         var html = $("#imageItem").html();
         layer.data.src = null;
         layer.open({
@@ -86,7 +86,7 @@
                 if (layer.data.src != null) {
                     var src = jpress.cpath + layer.data.src;
                     html = html.replace(/{{src}}/g, src);
-                    $(".choseImage").parent().before(html);
+                    $(".chooseImage").parent().before(html);
                 }
             }
         });
@@ -910,8 +910,8 @@
                                             #end
 
                                             <div class="img-wrapper img-hover" style="cursor: pointer">
-                                                <img src="#(CPATH)/static/commons/img/chose-image-btn.png"
-                                                     class="choseImage">
+                                                <img src="#(CPATH)/static/commons/img/choose-image-btn.png"
+                                                     class="chooseImage">
                                             </div>
                                         </div>
 

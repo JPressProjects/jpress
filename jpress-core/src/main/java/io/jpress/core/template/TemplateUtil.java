@@ -1,17 +1,17 @@
 package io.jpress.core.template;
 
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.LogKit;
+import com.jfinal.render.RenderManager;
+import com.jfinal.template.Engine;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -109,7 +109,7 @@ public class TemplateUtil {
                 block.setIcon(lineStr.substring(5));
             } else if (lineStr.startsWith("type:")) {
                 block.setType(lineStr.substring(5));
-            }else if (lineStr.startsWith("index:")) {
+            } else if (lineStr.startsWith("index:")) {
                 block.setIndex(lineStr.substring(6));
             }
         } else {
@@ -128,14 +128,10 @@ public class TemplateUtil {
                 int index = 0;
                 HtmlBlockOptionDef optionDef = new HtmlBlockOptionDef();
                 for (String para : paras) {
-                    para = para.trim();
-                    if (para.startsWith("\"") || para.startsWith("'")) {
-                        para = para.substring(1, para.length() - 1);
-                    }
                     if (index == 0) {
-                        optionDef.setName(para);
+                        optionDef.setName(evalOptionDefName(para));
                     } else if (index == 1) {
-                        optionDef.setDefaultValue(para);
+                        optionDef.setDefaultValue(evalDefaultValue(para));
                     }
                     index++;
                 }
@@ -144,6 +140,28 @@ public class TemplateUtil {
 
                 indexOf = lineStr.indexOf("blockOption", lastIndexOf);
             }
+        }
+    }
+
+
+    private static String evalOptionDefName(String para) {
+        para = para.trim();
+        if (para.startsWith("\"") || para.startsWith("'")) {
+            para = para.substring(1, para.length() - 1);
+        }
+        return para;
+    }
+
+
+    private static String evalDefaultValue(String text) {
+        try {
+            Engine engine = RenderManager.me().getEngine();
+            Map paras = new HashMap();
+            paras.put("CPATH", JFinal.me().getContextPath());
+            return engine.getTemplateByString("#(" + text + " ??)").renderToString(paras);
+        } catch (Exception e) {
+            LogKit.error(e.toString(), e);
+            return null;
         }
     }
 

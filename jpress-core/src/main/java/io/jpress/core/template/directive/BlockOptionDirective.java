@@ -48,8 +48,10 @@ public class BlockOptionDirective extends JbootDirectiveBase {
 
         String key = BlockFunctions.getRealKey(keyPara);
         Object obj = scope.get(key);
+
+        String defaultValue = getParaToString(1, scope, "");
         if (obj == null || (obj instanceof String && StrUtil.isBlank((String) obj))) {
-            renderText(writer, "");
+            renderText(writer, defaultValue);
             return;
         }
 

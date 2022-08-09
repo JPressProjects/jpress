@@ -89,7 +89,7 @@ public class _FormDatasourceController extends AdminControllerBase {
         formDatasourceService.saveOrUpdate(entry);
 
         //查询是否该 字典 对应的 item
-        FormDatasourceItem datasourceItem = itemService.findFirstByColumns(Columns.create().eq("dict_id", entry.getId()));
+        FormDatasourceItem datasourceItem = itemService.findFirstByColumns(Columns.create().eq("datasource_id", entry.getId()));
 
         //如果查询不为空 那么 删除然后新建
         if (datasourceItem != null) {

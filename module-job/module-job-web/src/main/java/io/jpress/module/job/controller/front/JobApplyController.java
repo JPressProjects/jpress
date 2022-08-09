@@ -3,8 +3,9 @@ package io.jpress.module.job.controller.front;
 
 import com.anji.captcha.service.CaptchaService;
 import com.jfinal.aop.Inject;
-import com.jfinal.kit.Ret;
+import com.jfinal.kit.LogKit;
 import com.jfinal.upload.UploadFile;
+import io.jboot.utils.FileUtil;
 import io.jboot.web.attachment.AttachmentManager;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.Regex;
@@ -16,6 +17,7 @@ import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -50,17 +52,18 @@ public class JobApplyController extends TemplateControllerBase {
         }
 
         setAttr("job", job);
-
-
         render("job_apply.html");
     }
+
+
+
 
     public void doSave() {
 
         //文件上传 接收
-        List<UploadFile> files = getFiles();
+        List<UploadFile> uploadFiles = getFiles();
 
-        if (files == null || files.size() == 0) {
+        if (uploadFiles == null || uploadFiles.size() == 0) {
             renderFailJson("请上传简历或者附件");
             return;
         }
@@ -75,26 +78,22 @@ public class JobApplyController extends TemplateControllerBase {
 
 
         //简历上传
-        for (UploadFile file : files) {
-
-            String fileParameterName = file.getParameterName();
-
+        for (UploadFile uploadFile : uploadFiles) {
+            String fileParameterName = uploadFile.getParameterName();
             //如果是简历
             if (fileParameterName.equals(JobApply.FILE_RESUME)) {
-
-                String path = AttachmentManager.me().saveFile(file.getFile());
+                String path = AttachmentManager.me().saveFile(uploadFile.getFile());
                 entry.setCvPath(path);
-            //如果是附件
-            } else if (fileParameterName.equals(JobApply.FILE_ATTACHMENT)) {
-
-                String path = AttachmentManager.me().saveFile(file.getFile());
-                entry.setAttachment(path);
-            //如果都不是
-            } else {
-                AttachmentManager.me().deleteFile(file.getUploadPath());
             }
-
-
+            //如果是附件
+            else if (fileParameterName.equals(JobApply.FILE_ATTACHMENT)) {
+                String path = AttachmentManager.me().saveFile(uploadFile.getFile());
+                entry.setAttachment(path);
+            }
+            //如果都不是
+            else {
+                FileUtil.delete(uploadFile.getFile());
+            }
         }
 
 
@@ -115,7 +114,7 @@ public class JobApplyController extends TemplateControllerBase {
             return;
         }
 
-        if(entry.getMobile() == null || entry.getEmail() == null){
+        if (entry.getMobile() == null || entry.getEmail() == null) {
             renderFailJson("请填写手机号或者邮箱");
             return;
         }
@@ -167,12 +166,11 @@ public class JobApplyController extends TemplateControllerBase {
         SimpleEmailSender ses = new SimpleEmailSender();
 
         if (!ses.isEnable()) {
-            Ret.fail().set("message", "您未开启邮件功能，无法发送。");
             return;
         }
 
         if (!ses.isConfigOk()) {
-            Ret.fail().set("message", "未配置正确，smtp 或 用户名 或 密码 为空。");
+            LogKit.error( "未配置正确，smtp 或 用户名 或 密码 为空。");
             return;
         }
 
@@ -182,8 +180,6 @@ public class JobApplyController extends TemplateControllerBase {
         email.to(job.getNotifyEmails());
 
         ses.send(email);
-
-        Ret.ok();
     }
 
 }

@@ -1,33 +1,23 @@
 package io.jpress.module.job.controller.front;
 
-import com.anji.captcha.model.common.ResponseModel;
-import com.anji.captcha.model.vo.CaptchaVO;
+
 import com.anji.captcha.service.CaptchaService;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
-import com.jfinal.render.RenderManager;
-import com.jfinal.template.Engine;
-import com.jfinal.template.source.FileSource;
+import com.jfinal.upload.UploadFile;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.json.JsonBody;
 import io.jboot.web.validate.Regex;
 import io.jpress.commons.email.Email;
-import io.jpress.commons.email.EmailKit;
 import io.jpress.commons.email.SimpleEmailSender;
-import io.jpress.commons.sms.SmsKit;
-import io.jpress.core.template.TemplateManager;
 import io.jpress.module.job.model.Job;
 import io.jpress.module.job.model.JobApply;
 import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
-
 import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @RequestMapping("/job/apply")
 public class JobApplyController extends TemplateControllerBase {

@@ -226,9 +226,15 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 ## 3、Windows 环境下 tomcat 部署项目
 
     3.1 删除 tomcat 文件中 webapps 文件夹下所有文件，
-        再把项目的 war 包放进去，并修改名称为 ROOT，如下图所示：
+        再把项目的 war 包放进去，并修改名称为 ROOT.war，注意是大写英文字母，
+        ROOT 文件夹生成的两个方案：
+        1、 你可以自己解压缩 ROOT.war ，就是一个 .zip 的压缩文件 
+        2、 启动 tomcat 后，tomcat 自动帮你解压缩。
+        如下图所示：
     
 ![](mysql_img/img_14.png)
+
+    启动 tomcat 请回看 tomcat 配置下的 3.2 或者 3.11
 
     3.2 输入网站地址，按下回车键，如下图所示：
 

@@ -5,11 +5,13 @@ import com.jfinal.kit.HashKit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.render.RenderManager;
 import com.jfinal.template.Engine;
+import io.jboot.utils.FileUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.commons.utils.CommonsUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -179,7 +181,7 @@ public class TemplateUtil {
         }
 
         String md5 = HashKit.md5(orignalId.trim());
-        return md5.substring(0, 6);
+        return md5.substring(0,8);
     }
 
 
@@ -190,15 +192,25 @@ public class TemplateUtil {
      * @return
      */
     public static String readTemplateId(File templateZipFile) {
+        try{
+            return readTemplateId(templateZipFile,"UTF-8");
+        }catch (IllegalArgumentException e){
+            return readTemplateId(templateZipFile,"GBK");
+        }
+
+    }
+
+
+    public static String readTemplateId(File templateZipFile,String charset) {
         ZipFile zipFile = null;
         try {
-            zipFile = new ZipFile(templateZipFile);
+            zipFile = new ZipFile(templateZipFile, Charset.forName(charset));
             Enumeration<?> entryEnum = zipFile.entries();
             while (entryEnum.hasMoreElements()) {
                 InputStream is = null;
                 try {
                     ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
-                    if (StringUtils.equalsAnyIgnoreCase(zipEntry.getName(), "template.properties")) {
+                    if (StringUtils.endsWith(zipEntry.getName(), "template.properties")) {
                         is = zipFile.getInputStream(zipEntry);
                         Properties properties = new Properties();
                         properties.load(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -215,4 +227,54 @@ public class TemplateUtil {
         }
         return null;
     }
+
+    public static void unzip(String zipFilePath, String targetPath,String charset) throws IOException {
+        targetPath = FileUtil.getCanonicalPath(new File(targetPath));
+        ZipFile zipFile = new ZipFile(zipFilePath,Charset.forName(charset));
+        try {
+            Enumeration<?> entryEnum = zipFile.entries();
+            while (entryEnum.hasMoreElements()) {
+                OutputStream os = null;
+                InputStream is = null;
+                try {
+                    ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
+                    if (!zipEntry.isDirectory()) {
+                        if ( isNotSafeFile(zipEntry.getName())) {
+                            //Unsafe
+                            continue;
+                        }
+
+                        File targetFile = new File(targetPath + File.separator + zipEntry.getName());
+                        if ( !FileUtil.getCanonicalPath(targetFile).startsWith(targetPath)) {
+                            //Unsafe
+                            continue;
+                        }
+
+                        if (!targetFile.getParentFile().exists()) {
+                            targetFile.getParentFile().mkdirs();
+                        }
+                        os = new BufferedOutputStream(new FileOutputStream(targetFile));
+                        is = zipFile.getInputStream(zipEntry);
+                        byte[] buffer = new byte[4096];
+                        int readLen = 0;
+                        while ((readLen = is.read(buffer, 0, 4096)) > 0) {
+                            os.write(buffer, 0, readLen);
+                        }
+                    }
+                } finally {
+                    FileUtil.close(is, os);
+                }
+            }
+        } finally {
+            FileUtil.close(zipFile);
+        }
+    }
+
+
+    private static boolean isNotSafeFile(String name) {
+        name = name.toLowerCase();
+        return name.endsWith(".jsp") || name.endsWith(".jspx") || name.contains("..");
+    }
+
+
 }

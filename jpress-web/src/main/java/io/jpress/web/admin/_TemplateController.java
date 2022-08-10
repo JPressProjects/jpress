@@ -42,6 +42,7 @@ import io.jpress.web.render.TemplateRender;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,12 +111,17 @@ public class _TemplateController extends AdminControllerBase {
 
         render404If(!isMultipartRequest());
 
+        //模板文件上传
         UploadFile uploadFile = getFile();
         if (uploadFile == null) {
             renderJson(Ret.fail().set("success", false));
             return;
         }
 
+        //获取安装方式
+        String type = getPara("type", "default");
+
+        //判断上传的 是否是 .zip 文件 目前只支持 .zip 文件
         if (!".zip".equalsIgnoreCase(FileUtil.getSuffix(uploadFile.getFileName()))) {
             renderJson(Ret.fail()
                     .set("success", false)
@@ -124,9 +130,9 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-
         //模板的短ID：md5(id).substring(0, 6)
         String templateShortId = TemplateUtil.readTemplateShortId(uploadFile.getFile());
+
         if (StrUtil.isBlank(templateShortId)) {
             renderJson(Ret.fail()
                     .set("success", false)
@@ -151,28 +157,71 @@ public class _TemplateController extends AdminControllerBase {
         templateInstallPath = new File(templateInstallPath, templateShortId);
 
 
-        if (templateInstallPath.exists()) {
-            renderJson(Ret.fail()
-                    .set("success", false)
-                    .set("message", "该模板可能已经存在，无法进行安装。"));
-            deleteFileQuietly(uploadFile.getFile());
-            return;
+        //如果为默认安装
+        if (type.equals("default")) {
+
+            //判断模板是否存在 如果存在删除上传模板 不存在继续
+            if (templateInstallPath.exists()) {
+                renderJson(Ret.fail()
+                        .set("success", false)
+                        .set("message", "该模板可能已经存在，无法进行安装。"));
+                deleteFileQuietly(uploadFile.getFile());
+
+            } else {
+                doInstall(uploadFile, templateInstallPath.getPath());
+            }
         }
 
+        //如果是覆盖安装
+        else if (type.equals("cover")) {
+            doInstall(uploadFile, templateInstallPath.getPath());
+        }
+
+        //如果是全新安装
+        else if (type.equals("new")) {
+
+            //判断模板是否存在 如果存在那么 删除原有模板
+            if (templateInstallPath.exists()) {
+                deleteFileQuietly(templateInstallPath);
+            }
+
+            doInstall(uploadFile, templateInstallPath.getPath());
+        }
+
+
+        if (getRender() == null) {
+            renderJson(Ret.ok().set("success", true));
+        }
+    }
+
+
+    private void doInstall(UploadFile uploadFile, String templatePath) {
+        //模板文件解压
         try {
-            FileUtil.unzip(uploadFile.getFile().getAbsolutePath(), templateInstallPath.getPath());
+            TemplateUtil.unzip(uploadFile.getFile().getAbsolutePath(), templatePath, "UTF-8");
+        } catch (IllegalArgumentException e) {
+            deleteFileQuietly(new File(templatePath));
+            try {
+                TemplateUtil.unzip(uploadFile.getFile().getAbsolutePath(), templatePath, "GBK");
+            } catch (IOException ex) {
+                deleteFileQuietly(new File(templatePath));
+                LogKit.error(e.toString(), e);
+                renderJson(Ret.fail()
+                        .set("success", false)
+                        .set("message", "模板文件解压缩失败"));
+            }
         } catch (Exception e) {
+            deleteFileQuietly(new File(templatePath));
             LogKit.error(e.toString(), e);
             renderJson(Ret.fail()
                     .set("success", false)
                     .set("message", "模板文件解压缩失败"));
-            return;
         } finally {
             //安装成功，无论是否成功，删除模板zip包
             deleteFileQuietly(uploadFile.getFile());
+
         }
 
-        renderJson(Ret.ok().set("success", true));
     }
 
 
@@ -420,7 +469,6 @@ public class _TemplateController extends AdminControllerBase {
 
         render("template/menu.html");
     }
-
 
 
     @EmptyValidate({

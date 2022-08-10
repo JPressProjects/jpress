@@ -630,27 +630,12 @@
 
                                             </div>
 
-
                                             <div class="form-group row">
-                                                <label class="col-sm-12">岗位有效时间</label>
                                                 <div class="col-sm-12">
-
-                                                    <input type="input" class="form-control datetime" placeholder="点击选择"
-                                                           name="job.expired_to"
-                                                           value="#date(job.expired_to ?? now,'yyyy-MM-dd')">
+                                                    #(fields.render())
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-12">岗位创建时间</label>
-                                                <div class="col-sm-12">
-
-                                                    <input type="input" class="form-control datetime" placeholder="点击选择"
-                                                           name="job.created"
-                                                           value="#date(job.created ??,'yyyy-MM-dd')"
-                                                           readonly="readonly">
-                                                </div>
-                                            </div>
 
 
                                         </div>
@@ -672,8 +657,8 @@
                                         <div class="card-body">
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">销售价格</label>
-                                                <div class="col-sm-6">
+                                                <label class="col-sm-12">销售价格</label>
+                                                <div class="col-sm-12">
                                                     <input type="text" class="form-control" id="price"
                                                            name="product.price" placeholder=""
                                                            value="#(product.price ??)">
@@ -682,8 +667,8 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">原价</label>
-                                                <div class="col-sm-6">
+                                                <label class="col-sm-12">原价</label>
+                                                <div class="col-sm-12">
                                                     <input type="text" class="form-control" id="origin_price"
                                                            name="product.origin_price" placeholder=""
                                                            value="#(product.origin_price ??)">
@@ -692,8 +677,8 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">限时价格</label>
-                                                <div class="col-sm-6">
+                                                <label class="col-sm-12">限时价格</label>
+                                                <div class="col-sm-12">
                                                     <input type="text" class="form-control" id="limited_price"
                                                            name="product.limited_price" placeholder=""
                                                            value="#(product.limited_price ??)">
@@ -916,29 +901,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <!--其他-->
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#seo-card">
-                                                其他
-                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="seo-card" class="collapse">
-                                        <div class="card-body">
-
-                                            <div class="form-group row">
-                                                <div class="col-sm-12">
-                                                    #(fields.render())
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
 

@@ -17,7 +17,6 @@ import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
-
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -46,7 +45,19 @@ public class JobApplyController extends TemplateControllerBase {
         //获取 招聘设置中  是否允许简历投递
         Boolean isApplyEnable = optionService.findAsBoolByKey(JobApply.JOB_APPLY_ENABLE);
 
-        if (id == null || job == null || !isApplyEnable || !job.getWithApply()) {
+        if (id == null || job == null) {
+            renderError(404);
+            return;
+        }
+
+        //如果招聘的全局设置中 设置了 不允许投递 则404
+        if (isApplyEnable != null && !isApplyEnable) {
+            renderError(404);
+            return;
+        }
+
+        //如果该岗位 设定了不予许 投递 那么 404
+        if (job.getWithApply() && !job.getWithApply()) {
             renderError(404);
             return;
         }
@@ -54,8 +65,6 @@ public class JobApplyController extends TemplateControllerBase {
         setAttr("job", job);
         render("job_apply.html");
     }
-
-
 
 
     public void doSave() {
@@ -102,7 +111,7 @@ public class JobApplyController extends TemplateControllerBase {
         //获取 招聘设置中  是否允许简历投递
         Boolean isApplyEnable = optionService.findAsBoolByKey(JobApply.JOB_APPLY_ENABLE);
         //如果此岗位已经关闭 在线投递 那么 404 如果招聘设置中 简历投递被关闭 那么 404
-        if (job == null || !job.getWithApply() || !isApplyEnable) {
+        if (job == null || (job.getWithApply() != null && !job.getWithApply()) || (isApplyEnable != null && !isApplyEnable)) {
             renderError(404);
             return;
         }
@@ -114,6 +123,7 @@ public class JobApplyController extends TemplateControllerBase {
             return;
         }
 
+        //手机号和邮箱填写判断
         if (entry.getMobile() == null || entry.getEmail() == null) {
             renderFailJson("请填写手机号或者邮箱");
             return;
@@ -170,7 +180,7 @@ public class JobApplyController extends TemplateControllerBase {
         }
 
         if (!ses.isConfigOk()) {
-            LogKit.error( "未配置正确，smtp 或 用户名 或 密码 为空。");
+            LogKit.error("未配置正确，smtp 或 用户名 或 密码 为空。");
             return;
         }
 

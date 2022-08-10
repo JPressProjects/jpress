@@ -61,7 +61,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
 
             if (StrUtil.isNotBlank(html)) {
                 String action = formInfo.getActionUrl();
-                String htmlStart = "<form id=\"form" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
+                String htmlStart = "<form id=\"" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
                 String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" + "</form>";
                 renderText(writer, htmlStart + html + htmlEnd);
             }

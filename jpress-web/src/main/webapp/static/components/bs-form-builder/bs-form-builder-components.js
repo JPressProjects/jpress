@@ -478,10 +478,11 @@ componentsDef.push(...[
         },
         props: [
             {
-                name: "url",
-                type: "input",
-                label: "上传 URL",
-                // defaultValue: 9,
+                name: "count",
+                type: "number",
+                label: "数量限制",
+                placeholder: "最多允许上传的图片数量",
+                defaultValue: 3,
                 disabled: false,
                 required: false,
             }

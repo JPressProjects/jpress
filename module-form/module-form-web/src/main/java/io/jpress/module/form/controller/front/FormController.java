@@ -4,10 +4,12 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
+import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
+import io.jpress.module.form.model.FieldInfo;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
@@ -103,37 +105,56 @@ public class FormController extends TemplateControllerBase {
             return;
         }
 
+
         UploadFile uploadFile = getFile();
         if (uploadFile == null) {
             renderJson(Ret.fail().set("message", "请选择要上传的文件"));
             return;
         }
 
+        FormInfo formInfo = formInfoService.findById(getParaToLong());
+        if (formInfo == null || !formInfo.isPublished()){
+            FileUtil.delete(uploadFile.getFile());
+            renderJson(Ret.fail().set("message", "数据错误，表单不存在或未发布！"));
+            return;
+        }
+
+        List<FieldInfo> fieldInfos = formInfo.getFieldInfos();
+        if (fieldInfos == null || fieldInfos.isEmpty()){
+            FileUtil.delete(uploadFile.getFile());
+            renderJson(Ret.fail().set("message", "表单数据错误，请联系管理员！"));
+            return;
+        }
+
+        //查看当前表单是否有上传组件
+        boolean hasImageUploadComponent = false;
+        for (FieldInfo fieldInfo : fieldInfos) {
+            if (fieldInfo.isSupportUpload()){
+                hasImageUploadComponent = true;
+                break;
+            }
+        }
+
+        if (!hasImageUploadComponent){
+            FileUtil.delete(uploadFile.getFile());
+            renderJson(Ret.fail().set("message", "当前表单不支持上传文件！"));
+            return;
+        }
+
 
         File file = uploadFile.getFile();
-//        if (!getLoginedUser().isStatusOk()) {
-//            file.delete();
-//            renderJson(Ret.of("error", Ret.of("message", "当前用户未激活，不允许上传任何文件。")));
-//            return;
-//        }
 
-        if (AttachmentUtils.isUnSafe(file)) {
-            file.delete();
+        if (!AttachmentUtils.isImage(file.getPath())) {
+            FileUtil.delete(uploadFile.getFile());
             renderJson(Ret.fail().set("message", "不支持此类文件上传"));
             return;
         }
 
-        String mineType = uploadFile.getContentType();
-        String fileType = mineType.split("/")[0];
 
-        int maxImgSize = JPressOptions.getAsInt("attachment_img_maxsize", 10);
-        int maxOtherSize = JPressOptions.getAsInt("attachment_other_maxsize", 100);
-
-        Integer maxSize = "image".equals(fileType) ? maxImgSize : maxOtherSize;
-
+        int maxSize = JPressOptions.getAsInt("attachment_img_maxsize", 10);
         int fileSize = Math.round(file.length() / 1024 * 100) / 100;
         if (maxSize > 0 && fileSize > maxSize * 1024) {
-            file.delete();
+            FileUtil.delete(uploadFile.getFile());
             renderJson(Ret.fail().set("message", "上传文件大小不能超过 " + maxSize + " MB"));
             return;
         }

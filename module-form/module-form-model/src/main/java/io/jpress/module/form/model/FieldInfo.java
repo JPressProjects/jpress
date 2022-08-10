@@ -112,7 +112,7 @@ public class FieldInfo {
 
 
     private String getTypeAndLen() {
-        if ("image-upload".equals(tag)) {
+        if (isSupportUpload()) {
             return "text";
         }
         switch (fieldType) {
@@ -144,7 +144,7 @@ public class FieldInfo {
      * @return
      */
     public boolean checkValueLen(String value) {
-        if ("image-upload".equals(tag)) {
+        if (isSupportUpload()) {
             return value.length() < 65535;
         }
 
@@ -174,7 +174,7 @@ public class FieldInfo {
             return null;
         }
 
-        if ("image-upload".equals(tag)) {
+        if (isSupportUpload()) {
             return ObjectUtil.convert(value, String.class);
         }
 
@@ -201,5 +201,9 @@ public class FieldInfo {
 
     public boolean isSupportSearch() {
         return withSearch != null && withSearch && showInList != null && showInList;
+    }
+
+    public boolean isSupportUpload(){
+        return "image-upload".equals(tag);
     }
 }

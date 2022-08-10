@@ -19,7 +19,7 @@ $(function(){
             return false;
         }
         $.ajax({
-            url:'/form/upload ',
+            url:'/form/upload/'+$(this).closest("form").attr("id"),
             type: "POST",
             data: fd,
             processData:false,
@@ -61,11 +61,10 @@ $(function(){
             success: function (result) {
                 uploading = false;
                 if (result.state == "ok") {
-                    console.log('上传成功');
                     //定义模板
                     let input = '<input type="hidden" name="'+name+'" value="' + result.src + '" />';
                     //添加模板
-                    $(this).parents(".uploadList").append(input);
+                    imageDiv.append(input);
                 } else {
 
                 }

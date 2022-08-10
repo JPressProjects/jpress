@@ -86,7 +86,7 @@ public abstract class BaseFormDatasource<M extends BaseFormDatasource<M>> extend
      * 是否级联
      */
 	public java.lang.Boolean getWithCascade() {
-		return get("with_cascade");
+		return getBoolean("with_cascade");
 	}
 
     /**
@@ -100,7 +100,7 @@ public abstract class BaseFormDatasource<M extends BaseFormDatasource<M>> extend
      * 是否是静态内容
      */
 	public java.lang.Boolean getWithStatic() {
-		return get("with_static");
+		return getBoolean("with_static");
 	}
 
     /**

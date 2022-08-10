@@ -156,7 +156,7 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
      * 有建立申请时，是否通知
      */
 	public java.lang.Boolean getWithNotify() {
-		return get("with_notify");
+		return getBoolean("with_notify");
 	}
 
     /**
@@ -212,7 +212,7 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
      * 是否属于远程工作
      */
 	public java.lang.Boolean getWithRemote() {
-		return get("with_remote");
+		return getBoolean("with_remote");
 	}
 
     /**
@@ -226,7 +226,7 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
      * 是否允许在线投递
      */
 	public java.lang.Boolean getWithApply() {
-		return get("with_apply");
+		return getBoolean("with_apply");
 	}
 
     /**
@@ -240,7 +240,7 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
      * 急招
      */
 	public java.lang.Boolean getWithHurry() {
-		return get("with_hurry");
+		return getBoolean("with_hurry");
 	}
 
     /**

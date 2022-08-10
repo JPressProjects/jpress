@@ -212,7 +212,7 @@ public abstract class BaseJobApply<M extends BaseJobApply<M>> extends JbootModel
      * 是否已经查看
      */
 	public java.lang.Boolean getWithViewed() {
-		return get("with_viewed");
+		return getBoolean("with_viewed");
 	}
 
     /**
@@ -226,7 +226,7 @@ public abstract class BaseJobApply<M extends BaseJobApply<M>> extends JbootModel
      * 是否已经处理
      */
 	public java.lang.Boolean getWithDisposed() {
-		return get("with_disposed");
+		return getBoolean("with_disposed");
 	}
 
     /**

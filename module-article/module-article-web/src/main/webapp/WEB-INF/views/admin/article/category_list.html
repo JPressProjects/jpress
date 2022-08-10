@@ -202,67 +202,79 @@ $(function(){
                                 </div>
                             </div>
 
-                            <h4 class="form-header">
-                                装饰
-                                <a  href="javascript:void(0)" class="float-right text-dark"><i class="fa fa-chevron-down js-collapse"  aria-hidden="true"></i></a>
-                            </h4>
-                            <div class="display-none collapse-content">
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">装饰图</label>
-                                    <div class="col-sm-9">
-                                        <div class="jpress-image-browser">
-                                            <input type="hidden" name="category.ornament" value="#(category.ornament ??)"/>
-                                            <img src="#(category.ornament ??'/static/commons/img/nothumbnail.jpg')">
-                                            <div class="image-action">
-                                                <a class="image-delete"> <i class="fa fa-trash"></i></a>
-                                                <a class="image-edit"> <i class="fa fa-edit"></i></a>
-                                            </div>
-                                        </div>
-                                        <p class="text-muted"> </p>
+                            <!--装饰-->
+                            <div class="card collapsed-card" style="box-shadow: none;">
+                                <div class="card-header">
+                                    <h3 class="card-title">装饰</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fa fa-chevron-down"  aria-hidden="true"></i>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">缩略图</label>
-                                    <div class="col-sm-9">
-                                        <div class="jpress-image-browser">
-                                            <input type="hidden" name="category.thumbnail" value="#(category.thumbnail ??)"/>
-                                            <img src="#(category.thumbnail ?? '/static/commons/img/nothumbnail.jpg')">
-                                            <div class="image-action">
-                                                <a class="image-delete"> <i class="fa fa-trash"></i></a>
-                                                <a class="image-edit"> <i class="fa fa-edit"></i></a>
+                                <div class="card-body p-4">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">装饰图</label>
+                                        <div class="col-sm-9">
+                                            <div class="jpress-image-browser">
+                                                <input type="hidden" name="category.ornament" value="#(category.ornament ??)"/>
+                                                <img src="#(category.ornament ??'/static/commons/img/nothumbnail.jpg')">
+                                                <div class="image-action">
+                                                    <a class="image-delete"> <i class="fa fa-trash"></i></a>
+                                                    <a class="image-edit"> <i class="fa fa-edit"></i></a>
+                                                </div>
                                             </div>
+                                            <p class="text-muted"> </p>
                                         </div>
-                                        <p class="text-muted"> </p>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">缩略图</label>
+                                        <div class="col-sm-9">
+                                            <div class="jpress-image-browser">
+                                                <input type="hidden" name="category.thumbnail" value="#(category.thumbnail ??)"/>
+                                                <img src="#(category.thumbnail ?? '/static/commons/img/nothumbnail.jpg')">
+                                                <div class="image-action">
+                                                    <a class="image-delete"> <i class="fa fa-trash"></i></a>
+                                                    <a class="image-edit"> <i class="fa fa-edit"></i></a>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted"> </p>
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- /.card-body -->
                             </div>
+                            <!--seo-->
+                            <div class="card collapsed-card" style="box-shadow: none;">
+                                <div class="card-header">
+                                    <h3 class="card-title">SEO</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fa fa-chevron-down"  aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">描述</label>
 
-
-
-                            <h4 class="form-header">SEO
-                                <a  href="javascript:void(0)" class="float-right text-dark"><i class="fa fa-chevron-down js-collapse" aria-hidden="true"></i></a>
-                            </h4>
-                            <div class="display-none collapse-content">
-                                 <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">描述</label>
-
-                                <div class="col-sm-9">
+                                        <div class="col-sm-9">
                                     <textarea rows="3" class="form-control"
                                               placeholder="此内容会显示在搜索引擎的列表描述上..."
                                               name="category.meta_description">#(category.meta_description ??)</textarea>
-                                </div>
-                            </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">关键字</label>
-                                    <div class="col-sm-9">
-                                        <input type="input" class="form-control" placeholder="多个关键字用逗号隔开"
-                                               name="category.meta_keywords"
-                                               value="#(category.meta_keywords ??)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">关键字</label>
+                                        <div class="col-sm-9">
+                                            <input type="input" class="form-control" placeholder="多个关键字用逗号隔开"
+                                                   name="category.meta_keywords"
+                                                   value="#(category.meta_keywords ??)">
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- /.card-body -->
                             </div>
-
-
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">

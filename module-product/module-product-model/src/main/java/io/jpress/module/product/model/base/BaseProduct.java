@@ -148,7 +148,7 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      * 商品价格
      */
 	public java.math.BigDecimal getPrice() {
-		return get("price");
+		return getBigDecimal("price");
 	}
 
     /**
@@ -162,7 +162,7 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      * 原始价格
      */
 	public java.math.BigDecimal getOriginPrice() {
-		return get("origin_price");
+		return getBigDecimal("origin_price");
 	}
 
     /**
@@ -176,7 +176,7 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      * 限时优惠价（早鸟价）
      */
 	public java.math.BigDecimal getLimitedPrice() {
-		return get("limited_price");
+		return getBigDecimal("limited_price");
 	}
 
     /**
@@ -204,7 +204,7 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
      * 评论状态，默认允许评论
      */
 	public java.lang.Boolean getCommentStatus() {
-		return get("comment_status");
+		return getBoolean("comment_status");
 	}
 
     /**

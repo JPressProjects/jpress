@@ -162,7 +162,7 @@ public abstract class BaseProductCategory<M extends BaseProductCategory<M>> exte
      * 是否推荐
      */
 	public java.lang.Boolean getWithRecommend() {
-		return get("with_recommend");
+		return getBoolean("with_recommend");
 	}
 
     /**
@@ -176,7 +176,7 @@ public abstract class BaseProductCategory<M extends BaseProductCategory<M>> exte
      * 是否置顶
      */
 	public java.lang.Boolean getWithTop() {
-		return get("with_top");
+		return getBoolean("with_top");
 	}
 
     /**

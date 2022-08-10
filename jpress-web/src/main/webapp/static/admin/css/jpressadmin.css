@@ -690,7 +690,7 @@ label:not(.form-check-label):not(.custom-file-label) {
     font-size:20px;
     background-color:rgba(0,0,0,0.4);
     cursor: pointer;
-
+    display:none;
 }
 .product-thumbnail-item:hover .image-reset{
     display:block;

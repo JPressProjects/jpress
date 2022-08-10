@@ -5,12 +5,14 @@
 <script src="#(CPATH)/static/components/editable/js/bootstrap-editable.min.js"></script>
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
+<script src="#(CPATH)/static/components/sortable/sortable.min.js"></script>
 
 <script src="#(CPATH)/static/admin/js/jpressadmin.js"></script>
 
 <!-- 腾讯云 超级播放器-->
 <script src="/static/components/qcloud-upload-sdk/player/hls.min.0.13.2m.js"></script>
 <script src="/static/components/qcloud-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
+
 
 <!--阿里云 点播-->
 <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
@@ -336,7 +338,7 @@
 </template>
 
 <script id="imageItem" type="text/tmpl">
-	<div class="img-wrapper img-hover" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
+	<div class="product-thumbnail-item" draggable="true" ondrop="drop(event,this)" ondragover="allowDrop(event)"  ondragstart="drag(event, this)">
         <img src="{{src}}">
         <input type="hidden" name="imageSrcs" value="{{src}}" />
         <input type="hidden" name="imageIds" value="0" />
@@ -897,24 +899,23 @@
                                     </div>
                                     <div id="image-thumbnail-card" class="collapse">
                                         <div class="card-body p-0">
-
-                                            #for(image : images)
-                                            <div class="img-wrapper img-hover" draggable="true"
-                                                 ondrop="drop(event,this)"
-                                                 ondragover="allowDrop(event)" ondragstart="drag(event, this)">
-                                                <img src="#(image.src ??)">
-                                                <input type="hidden" name="imageSrcs" value="#(image.src ??)"/>
-                                                <input type="hidden" name="imageIds" value="#(image.id ?? '0' )"/>
-                                                <i class="fas fa-trash-alt image-reset"></i>
-                                            </div>
-                                            #end
-
-                                            <div class="img-wrapper img-hover text-center" style="cursor: pointer;background-color:#F4F4F4 ">
-                                                <img src="#(CPATH)/static/commons/img/choose-image-btn.png"
-                                                     class="chooseImage">
+                                            <div class="d-flex thumbnail-list p-2">
+                                                #for(image : images)
+                                                <div class="product-thumbnail-item" draggable="true"
+                                                     ondrop="drop(event,this)"
+                                                     ondragover="allowDrop(event)" ondragstart="drag(event, this)">
+                                                    <img src="#(image.src ??)">
+                                                    <input type="hidden" name="imageSrcs" value="#(image.src ??)"/>
+                                                    <input type="hidden" name="imageIds" value="#(image.id ?? '0' )"/>
+                                                    <i class="fas fa-trash-alt image-reset"></i>
+                                                </div>
+                                                #end
+                                                <div class="product-thumbnail">
+                                                    <img src="#(CPATH)/static/commons/img/choose-image-btn.png"
+                                                         class="chooseImage">
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
 

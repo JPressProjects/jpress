@@ -26,20 +26,6 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JbootModel<M> 
 	}
 
     /**
-     * 站点ID
-     */
-	public void setSiteId(java.lang.Long siteId) {
-		set("site_id", siteId);
-	}
-
-    /**
-     * 站点ID
-     */
-	public java.lang.Long getSiteId() {
-		return getLong("site_id");
-	}
-
-    /**
      * 配置KEY
      */
 	public void setKey(java.lang.String key) {
@@ -65,6 +51,20 @@ public abstract class BaseOption<M extends BaseOption<M>> extends JbootModel<M> 
      */
 	public java.lang.String getValue() {
 		return getStr("value");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

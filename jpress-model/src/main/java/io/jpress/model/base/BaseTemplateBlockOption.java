@@ -11,26 +11,32 @@ public abstract class BaseTemplateBlockOption<M extends BaseTemplateBlockOption<
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 模板ID
+     */
 	public void setTemplateId(java.lang.String templateId) {
 		set("template_id", templateId);
 	}
 
+    /**
+     * 模板ID
+     */
 	public java.lang.String getTemplateId() {
 		return getStr("template_id");
 	}
 
     /**
-     * 站点
+     * 站点 ID
      */
-	public void setSite(java.lang.Integer site) {
-		set("site", site);
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
 	}
 
     /**
-     * 站点
+     * 站点 ID
      */
-	public java.lang.Integer getSite() {
-		return getInt("site");
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
     /**

@@ -176,7 +176,7 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JbootM
      * 是否可以被访问
      */
 	public java.lang.Boolean getAccessible() {
-		return get("accessible");
+		return getBoolean("accessible");
 	}
 
     /**

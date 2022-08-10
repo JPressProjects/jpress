@@ -204,7 +204,7 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
      * 评论状态，默认允许评论
      */
 	public java.lang.Boolean getCommentStatus() {
-		return get("comment_status");
+		return getBoolean("comment_status");
 	}
 
     /**
@@ -319,12 +319,18 @@ public abstract class BaseSinglePage<M extends BaseSinglePage<M>> extends JbootM
 		return getStr("remarks");
 	}
 
-	public void setSite(java.lang.Long site) {
-		set("site", site);
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
 	}
 
-	public java.lang.Long getSite() {
-		return getLong("site");
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

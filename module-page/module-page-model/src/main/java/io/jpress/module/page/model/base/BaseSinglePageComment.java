@@ -218,7 +218,22 @@ public abstract class BaseSinglePageComment<M extends BaseSinglePageComment<M>> 
      * 评论的时间
      */
 	public java.util.Date getCreated() {
-		return get("created");
+		return getDate("created");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }
+

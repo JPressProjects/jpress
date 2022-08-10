@@ -54,28 +54,28 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
 	}
 
     /**
-     * 模板样式
+     * 页面默认情况下使用的模板样式
      */
 	public void setStyle(java.lang.String style) {
 		set("style", style);
 	}
 
     /**
-     * 模板样式
+     * 页面默认情况下使用的模板样式
      */
 	public java.lang.String getStyle() {
 		return getStr("style");
 	}
 
     /**
-     * 图标
+     * 分类 icon
      */
 	public void setIcon(java.lang.String icon) {
 		set("icon", icon);
 	}
 
     /**
-     * 图标
+     * 分类 icon
      */
 	public java.lang.String getIcon() {
 		return getStr("icon");
@@ -165,12 +165,18 @@ public abstract class BaseSinglePageCategory<M extends BaseSinglePageCategory<M>
 		return getDate("modified");
 	}
 
-	public void setSite(java.lang.Integer site) {
-		set("site", site);
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
 	}
 
-	public java.lang.Integer getSite() {
-		return getInt("site");
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

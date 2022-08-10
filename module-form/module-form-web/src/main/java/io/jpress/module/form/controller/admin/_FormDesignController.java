@@ -18,9 +18,12 @@ package io.jpress.module.form.controller.admin;
 import com.jfinal.aop.Inject;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
+import io.jpress.module.form.model.FieldInfo;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
+
+import java.util.List;
 
 
 @RequestMapping(value = "/admin/form/design", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -31,22 +34,43 @@ public class _FormDesignController extends AdminControllerBase {
 
     public void index() {
         FormInfo formInfo = service.findById(getParaToLong());
-        setAttr("form",formInfo);
+        setAttr("form", formInfo);
         render("form/form_design.html");
     }
 
 
-    public void save(){
+    public void save() {
         FormInfo formInfo = service.findById(getParaToLong("id"));
 
-        if(formInfo.getStatus() != null && formInfo.getStatus().equals(FormInfo.FORMINFO_STATUS_PUBLISHED)){
-            renderFailJson("表单已发布 更新失败");
+        if (formInfo == null) {
+            renderFailJson("当前表单不存在，或已被删除！");
             return;
         }
 
-        formInfo.setBuilderJson(getRawData());
-        service.update(formInfo);
 
+        if (formInfo.isPublished()) {
+            renderFailJson("表单已发布，无法更新！");
+            return;
+        }
+
+
+        formInfo.setBuilderJson(getRawData());
+
+
+        List<FieldInfo> fieldInfos = formInfo.getFieldInfos();
+        if (fieldInfos == null || fieldInfos.isEmpty()) {
+            renderFailJson("保存失败，当前没有任何表单组件！");
+            return;
+        }
+
+        for (FieldInfo fieldInfo : fieldInfos) {
+            if (!fieldInfo.checkFieldStateOk()) {
+                renderFailJson("保存失败，组件 " + fieldInfo.getLabel() + " 的字段名为空，或格式不正确。");
+                return;
+            }
+        }
+
+        service.update(formInfo);
         renderOkJson();
     }
 

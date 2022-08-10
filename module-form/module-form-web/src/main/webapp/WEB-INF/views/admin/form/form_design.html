@@ -28,7 +28,6 @@
 <script src="#(CPATH)/static/components/bootstrap-slider/bootstrap-slider.js"></script>
 <script src="#(CPATH)/static/components/sortable/sortable.min.js"></script>
 <script src="#(CPATH)/static/components/fasty/fasty.min.js"></script>
-<!--<script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder.all.min.js"></script>-->
 <script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder-components.js"></script>
 <script src="#(CPATH)/static/components/bs-form-builder/bs-form-builder.js"></script>
 <script>
@@ -141,12 +140,18 @@
 
         });
 
-        $('.update').on('click', function () {
+
+        var saveFromDesignData = function (){
             var datas = $('#builder').bsFormBuilder().data("bsFormBuilder").exportToJson();
             ajaxPost('#(CPATH)/admin/form/design/save?id=#(form.id ??)', datas, function () {
                 showMessage("保存成功！")
             })
-        });
+        }
+
+        $('.update').on('click', saveFromDesignData);
+        setSaveHotKeyFunction(saveFromDesignData);
+
+
     });
 </script>
 #end
@@ -163,15 +168,9 @@
                 <!--                <span class="tool-btn"><i class="bi bi-list-nested"></i></span>-->
             </div>
             <div>
-                <button class="btn btn-primary btn-sm mr-3 update">更新</button>
+                #if(form.isPublished()) <span style="color: #666">(当前表单已发布，无法更新)</span> #end
+                <button class="btn btn-primary btn-sm mr-3 update" #if(form.isPublished()) disabled #end>更新（Ctrl+S）</button>
                 <span class="tool-btn right-switch"><i class="bi bi-gear"></i></span>
-                <span class="tool-btn js-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                        class="bi bi-three-dots-vertical"></i></span>
-                <div class="dropdown-menu mr-4 mt-4">
-                    <div class="jpress-morelist">
-
-                    </div>
-                </div>
             </div>
         </div>
         <!--***********************************-->

@@ -132,7 +132,7 @@ public class FieldInfo {
     }
 
 
-    public boolean checkStateOk() {
+    public boolean checkFieldStateOk() {
         return fieldName != null && !StrUtil.isNumeric(fieldName);
     }
 

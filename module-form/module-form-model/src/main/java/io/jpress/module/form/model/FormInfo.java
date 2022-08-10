@@ -82,6 +82,12 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
     }
 
 
+    @Override
+    public void setBuilderJson(String builderJson) {
+        super.setBuilderJson(builderJson);
+        fieldInfos = null;
+    }
+
     public boolean isField(String fieldName) {
         List<FieldInfo> fieldInfos = getFieldInfos();
         for (FieldInfo fieldInfo : fieldInfos) {
@@ -98,7 +104,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
 
         Set<String> errorLabels = new HashSet<>();
         for (FieldInfo dbFieldInfo : fieldInfos) {
-            if (!dbFieldInfo.checkStateOk()) {
+            if (!dbFieldInfo.checkFieldStateOk()) {
                 errorLabels.add(dbFieldInfo.getLabel());
             }
         }

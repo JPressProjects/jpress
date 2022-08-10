@@ -653,3 +653,7 @@ label:not(.form-check-label):not(.custom-file-label) {
     padding: 0 10px;
     color: #707070;
 }
+.chooseImage{
+    max-width: 60%;
+    margin:15px auto;
+}

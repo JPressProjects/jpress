@@ -2,8 +2,9 @@
 
 ## 1、安装宝塔
     
-    1.1 输入云服务器安装指令
+    1.1 xShell 连接云服务器，输入云服务器安装指令
         yum install -y wget && wget -O install.sh http://download.bt.cn/install/install_6.0.sh && sh install.sh
+        遇到问答输入 y：Do you want to install Bt-Panel to the /www directory now?(y/n): y
 
 ![](bt_img/img_31.png)
 
@@ -45,7 +46,7 @@
 
 ![](bt_img/img_38.png)
 
-    3.2 安装数据库，选择 mysql5.7 版本，如下图所示：
+    3.2 安装数据库，选择 mysql 5.7 版本，如下图所示：
 
 ![](bt_img/img_41.png)
 
@@ -53,21 +54,13 @@
 
 ![](bt_img/img_42.png)
 
-    3.3 宝塔放行端口，如下图所示：
-![](bt_img/img_43.png)
-![](bt_img/img_44.png)
-
-    3.4 云服务器有要放行端口，如下图所示：
-
-![](bt_img/img_45.png)
-
-    3.5 安装 Nginx
+    3.3 安装 Nginx
 
 ![](bt_img/img_46.png)
 
 ![](bt_img/img_50.png)
 
-    3.6 点击 tomcat 管理，安装 tomcat9，如下图所示：
+    3.4 安装 tomcat 9，如下图所示：
 
 ![](bt_img/img_39.png)
 
@@ -75,16 +68,50 @@
 
 ![](bt_img/img_40.png)
 
-    3.7 项目的 war 包，通过 xftp 上传到云服务器
+    3.5 项目的 war 包，通过 xftp 上传到云服务器
         找到宝塔安装的 tomcat 目录，把 war 包放在 webapps 文件夹下，
         修改 war 包的名称为 ROOT.war，注意 ROOT 是大写，如下图所示：
 ![](bt_img/img_48.png)
 
-    3.8 在宝塔中添加 Java 项目
+    3.6 打开宝塔页面，找到 tomcat 文件夹下的 webapps，删除 ROOT.war 包以外的所有文件
+        如下图所示：
 
 ![](bt_img/img_47.png)
 
-    3.9 选择内置项目
-        输入域名，找到 war 包所在目录，如下图所示：
+    3.7 添加本地数据库
 
 ![](bt_img/img_49.png)
+
+    3.8 宝塔放行端口，如下图所示：
+![](bt_img/img_43.png)
+![](bt_img/img_44.png)
+
+    3.9 云服务器有要放行端口，如下图所示：
+
+![](bt_img/img_45.png)
+
+    3.10 重启 tomcat，先停止，再重新启动，如下图所示：
+
+![](bt_img/img_51.png)
+
+![](bt_img/img_52.png)
+
+    3.11 网址输入：公网IP:tomcat端口号
+        部署成公
+
+![](bt_img/img_53.png)
+
+    3.12 填写数据库相关信息，数据库信息来源于 3.7，如下图所示：
+
+![](bt_img/img_49.png)
+
+![](bt_img/img_54.png)
+
+    3.13 自定义网站信息，超级管理员信息，填写完毕后点击完成，如下图所示：
+
+![](bt_img/img_55.png)
+![](bt_img/img_56.png)
+
+    3.14 登录，输入 3.13 中自定义的超级管理员的账号密码
+
+![](bt_img/img_57.png)

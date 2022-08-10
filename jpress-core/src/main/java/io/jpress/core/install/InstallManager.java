@@ -64,10 +64,18 @@ public class InstallManager {
         }
 
         //已经是最新版本
-        else if (tables.containsAll(Consts.LATEST_TABLES)) {
+        else if (tables.containsAll(Consts.V5_TABLES)) {
             dbExist = true;
             isJPressDb = true;
             isNeedUpgrade = false;
+        }
+
+        //3.x 或者 v4.x 版本
+        else if (tables.containsAll(Consts.V3_TABLES)) {
+            dbExist = true;
+            isJPressDb = true;
+            isNeedUpgrade = true;
+            upgradeSqlFileName = "v3_upgrade.sql";
         }
 
         //2.x 版本

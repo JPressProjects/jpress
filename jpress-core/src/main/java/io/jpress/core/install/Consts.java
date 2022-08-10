@@ -32,14 +32,25 @@ class Consts {
 
 
     /**
-     * 最新版本的数据库
+     * JPress V3 和 V4 版本数据库表
      */
-    public static List<String> LATEST_TABLES = Lists.newArrayList("article", "article_category", "article_category_mapping", "article_comment"
+    public static List<String> V3_TABLES = Lists.newArrayList("article", "article_category", "article_category_mapping", "article_comment"
             , "attachment", "coupon", "coupon_code", "coupon_product", "coupon_used_record", "member", "member_dist_amount"
             , "member_group", "member_joined_record", "member_price", "menu", "option", "payment_record", "permission", "product"
             , "product_category", "product_category_mapping", "product_comment", "product_image", "role", "role_permission_mapping"
             , "single_page", "single_page_comment"
             , "user", "user_address", "user_amount", "user_amount_payout", "user_amount_statement", "user_cart", "user_favorite", "user_openid"
             , "user_order", "user_order_delivery", "user_order_invoice", "user_order_item", "user_role_mapping", "user_tag", "user_tag_mapping"
+            , "utm", "wechat_menu", "wechat_reply");
+
+    /**
+     * JPress V5 版本数据库表
+     */
+    public static List<String> V5_TABLES = Lists.newArrayList("article", "article_category", "article_category_mapping", "article_comment"
+            , "attachment", "attachment_category", "attachment_video", "attachment_video_category", "form_datasource", "form_datasource_item", "form_info"
+            , "job", "job_apply", "job_category", "menu", "option", "permission"
+            , "product", "product_category", "product_category_mapping", "product_comment", "product_image", "role", "role_permission_mapping"
+            , "single_page", "single_page_category", "single_page_comment", "site_info", "template_block_option"
+            , "user", "user_openid", "user_role_mapping", "user_tag", "user_tag_mapping"
             , "utm", "wechat_menu", "wechat_reply");
 }

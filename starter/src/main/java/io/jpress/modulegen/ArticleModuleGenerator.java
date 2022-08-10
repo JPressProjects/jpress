@@ -25,7 +25,7 @@ import io.jpress.codegen.ModuleGenerator;
 public class ArticleModuleGenerator {
 
 
-    private static String dbUrl = "jdbc:mysql://127.0.0.1:3306/jpress3";
+    private static String dbUrl = "jdbc:mysql://192.168.3.2:3306/jpress";
     private static String dbUser = "root";
     private static String dbPassword = "";
 

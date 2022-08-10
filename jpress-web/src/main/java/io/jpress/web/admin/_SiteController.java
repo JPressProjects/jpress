@@ -2,8 +2,6 @@ package io.jpress.web.admin;
 
 
 import com.jfinal.aop.Inject;
-import com.jfinal.plugin.activerecord.Page;
-import io.jboot.db.model.Columns;
 import io.jboot.utils.ArrayUtil;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
@@ -16,6 +14,7 @@ import io.jpress.service.RoleService;
 import io.jpress.service.SiteInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
+import java.util.List;
 import java.util.Set;
 
 @RequestMapping(value = "/admin/site", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -31,12 +30,8 @@ public class _SiteController extends AdminControllerBase {
 
     @AdminMenu(text = "站点", groupId = JPressConsts.SYSTEM_MENU_SYSTEM, order = 7)
     public void list() {
-
-        Columns columns = new Columns();
-        Page<SiteInfo> page = siteInfoService.paginateByColumns(getPagePara(), getPageSizePara(), columns, "created desc");
-        setAttr("page", page);
-
-
+        List<SiteInfo> siteInfos = siteInfoService.findAll();
+        setAttr("siteInfos",siteInfos);
         render("site/site_list.html");
     }
 

@@ -3,12 +3,12 @@ $(function(){
     $("body .uploadList").on("change",".bsForm-upload-file", function(){
         //获取选择图片的对象
         let fileCodeId = $(this).attr("id");
-        let name = $(this).attr("name");
         let currentObj = $(this)[0];
-        let imageDiv= $(this).parents(".uploadList"); // 放置图片的容器
+
+        let uploadListDiv= $(this).parents(".uploadList"); // 放置图片的容器
+        let name = uploadListDiv.attr("data-name");
+
         let fileList = currentObj.files;  //得到所有的图片文件
-
-
 
         // 上传到后台
         let fd = new FormData();
@@ -36,7 +36,7 @@ $(function(){
                     imageHtml += "<p class='jpress-images-name'>" + fileList[i].name + "</p>";
                     imageHtml += "<div class='file-delete'><i class='bi bi-trash'></i></div>";
                     imageHtml += "</div>";
-                    imageDiv.prepend(imageHtml);
+                    uploadListDiv.prepend(imageHtml);
                     let imgObjPreview = document.getElementById("img" +fileCodeId + fileList[i].name);
                     if (fileList && fileList[i]) {
                         imgObjPreview.style.display = 'block';
@@ -64,7 +64,7 @@ $(function(){
                     //定义模板
                     let input = '<input type="hidden" name="'+name+'" value="' + result.src + '" />';
                     //添加模板
-                    imageDiv.append(input);
+                    uploadListDiv.append(input);
                 } else {
 
                 }

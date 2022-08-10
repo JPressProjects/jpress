@@ -30,7 +30,9 @@ import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
-import io.jpress.core.template.*;
+import io.jpress.core.template.Template;
+import io.jpress.core.template.TemplateManager;
+import io.jpress.core.template.TemplateUtil;
 import io.jpress.model.Menu;
 import io.jpress.service.MenuService;
 import io.jpress.service.OptionService;
@@ -42,7 +44,6 @@ import io.jpress.web.render.TemplateRender;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,8 +119,6 @@ public class _TemplateController extends AdminControllerBase {
             return;
         }
 
-        //获取安装方式
-        String type = getPara("type", "default");
 
         //判断上传的 是否是 .zip 文件 目前只支持 .zip 文件
         if (!".zip".equalsIgnoreCase(FileUtil.getSuffix(uploadFile.getFileName()))) {
@@ -157,8 +156,11 @@ public class _TemplateController extends AdminControllerBase {
         templateInstallPath = new File(templateInstallPath, templateShortId);
 
 
+        //获取安装方式
+        String type = getPara("type", "default");
+
         //如果为默认安装
-        if (type.equals("default")) {
+        if ("default".equals(type)) {
 
             //判断模板是否存在 如果存在删除上传模板 不存在继续
             if (templateInstallPath.exists()) {
@@ -173,13 +175,12 @@ public class _TemplateController extends AdminControllerBase {
         }
 
         //如果是覆盖安装
-        else if (type.equals("cover")) {
+        else if ("cover".equals(type)) {
             doInstall(uploadFile, templateInstallPath.getPath());
         }
 
         //如果是全新安装
-        else if (type.equals("new")) {
-
+        else if ("new".equals(type)) {
             //判断模板是否存在 如果存在那么 删除原有模板
             if (templateInstallPath.exists()) {
                 deleteFileQuietly(templateInstallPath);
@@ -199,29 +200,30 @@ public class _TemplateController extends AdminControllerBase {
         //模板文件解压
         try {
             TemplateUtil.unzip(uploadFile.getFile().getAbsolutePath(), templatePath, "UTF-8");
-        } catch (IllegalArgumentException e) {
+        }
+        // UTF-8 编码错误，尝试使用 GBK 编码解压缩
+        catch (IllegalArgumentException e) {
             deleteFileQuietly(new File(templatePath));
             try {
                 TemplateUtil.unzip(uploadFile.getFile().getAbsolutePath(), templatePath, "GBK");
-            } catch (IOException ex) {
-                deleteFileQuietly(new File(templatePath));
-                LogKit.error(e.toString(), e);
-                renderJson(Ret.fail()
-                        .set("success", false)
-                        .set("message", "模板文件解压缩失败"));
+            } catch (Exception ex) {
+                renderFailAndDeleteUnzipFiles(templatePath, e);
             }
         } catch (Exception e) {
-            deleteFileQuietly(new File(templatePath));
-            LogKit.error(e.toString(), e);
-            renderJson(Ret.fail()
-                    .set("success", false)
-                    .set("message", "模板文件解压缩失败"));
+            renderFailAndDeleteUnzipFiles(templatePath, e);
         } finally {
             //安装成功，无论是否成功，删除模板zip包
             deleteFileQuietly(uploadFile.getFile());
-
         }
 
+    }
+
+    private void renderFailAndDeleteUnzipFiles(String templatePath, Exception e) {
+        deleteFileQuietly(new File(templatePath));
+        LogKit.error(e.toString(), e);
+        renderJson(Ret.fail()
+                .set("success", false)
+                .set("message", "模板文件解压缩失败"));
     }
 
 

@@ -218,7 +218,7 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
      * 评论状态，默认允许评论
      */
 	public java.lang.Boolean getCommentStatus() {
-		return get("comment_status");
+		return getBoolean("comment_status");
 	}
 
     /**
@@ -344,7 +344,7 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
      * 是否推荐
      */
 	public java.lang.Boolean getWithRecommend() {
-		return get("with_recommend");
+		return getBoolean("with_recommend");
 	}
 
     /**
@@ -358,7 +358,7 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
      * 是否置顶
      */
 	public java.lang.Boolean getWithTop() {
-		return get("with_top");
+		return getBoolean("with_top");
 	}
 
     /**
@@ -372,7 +372,7 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
      * 是否热门
      */
 	public java.lang.Boolean getWithHot() {
-		return get("with_hot");
+		return getBoolean("with_hot");
 	}
 
     /**
@@ -386,7 +386,7 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
      * 是否是头条
      */
 	public java.lang.Boolean getWithLeadNews() {
-		return get("with_lead_news");
+		return getBoolean("with_lead_news");
 	}
 
     /**
@@ -400,21 +400,35 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
      * 是否允许被搜索
      */
 	public java.lang.Boolean getWithAllowSearch() {
-		return get("with_allow_search");
+		return getBoolean("with_allow_search");
 	}
 
     /**
-     * 备注信息
+     * json 扩展
      */
-	public void setRemarks(java.lang.String remarks) {
-		set("remarks", remarks);
+	public void setOptions(java.lang.String options) {
+		set("options", options);
 	}
 
     /**
-     * 备注信息
+     * json 扩展
      */
-	public java.lang.String getRemarks() {
-		return getStr("remarks");
+	public java.lang.String getOptions() {
+		return getStr("options");
+	}
+
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
+	}
+
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

@@ -162,7 +162,7 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
      * 是否推荐
      */
 	public java.lang.Boolean getWithRecommend() {
-		return get("with_recommend");
+		return getBoolean("with_recommend");
 	}
 
     /**
@@ -176,7 +176,7 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
      * 是否置顶
      */
 	public java.lang.Boolean getWithTop() {
-		return get("with_top");
+		return getBoolean("with_top");
 	}
 
     /**
@@ -305,12 +305,18 @@ public abstract class BaseArticleCategory<M extends BaseArticleCategory<M>> exte
 		return getDate("modified");
 	}
 
-	public void setSite(java.lang.Long site) {
-		set("site", site);
+    /**
+     * 站点ID
+     */
+	public void setSiteId(java.lang.Long siteId) {
+		set("site_id", siteId);
 	}
 
-	public java.lang.Long getSite() {
-		return getLong("site");
+    /**
+     * 站点ID
+     */
+	public java.lang.Long getSiteId() {
+		return getLong("site_id");
 	}
 
 }

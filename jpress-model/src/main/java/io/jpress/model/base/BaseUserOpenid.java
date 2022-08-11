@@ -11,67 +11,67 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
 
     private static final long serialVersionUID = 1L;
 
-	public void setId(java.lang.Long id) {
+	public void setId(Long id) {
 		set("id", id);
 	}
 
-	public java.lang.Long getId() {
+	public Long getId() {
 		return getLong("id");
 	}
 
     /**
      * 用户ID
      */
-	public void setUserId(java.lang.Long userId) {
+	public void setUserId(Long userId) {
 		set("user_id", userId);
 	}
 
     /**
      * 用户ID
      */
-	public java.lang.Long getUserId() {
+	public Long getUserId() {
 		return getLong("user_id");
 	}
 
     /**
      * 第三方类型：wechat，dingding，qq...
      */
-	public void setType(java.lang.String type) {
+	public void setType(String type) {
 		set("type", type);
 	}
 
     /**
      * 第三方类型：wechat，dingding，qq...
      */
-	public java.lang.String getType() {
+	public String getType() {
 		return getStr("type");
 	}
 
     /**
      * 第三方的openId的值
      */
-	public void setValue(java.lang.String value) {
+	public void setValue(String value) {
 		set("value", value);
 	}
 
     /**
      * 第三方的openId的值
      */
-	public java.lang.String getValue() {
+	public String getValue() {
 		return getStr("value");
 	}
 
     /**
      * 可能用不到
      */
-	public void setAccessToken(java.lang.String accessToken) {
+	public void setAccessToken(String accessToken) {
 		set("access_token", accessToken);
 	}
 
     /**
      * 可能用不到
      */
-	public java.lang.String getAccessToken() {
+	public String getAccessToken() {
 		return getStr("access_token");
 	}
 
@@ -92,36 +92,36 @@ public abstract class BaseUserOpenid<M extends BaseUserOpenid<M>> extends BaseOp
     /**
      * 昵称
      */
-	public void setNickname(java.lang.String nickname) {
+	public void setNickname(String nickname) {
 		set("nickname", nickname);
 	}
 
     /**
      * 昵称
      */
-	public java.lang.String getNickname() {
+	public String getNickname() {
 		return getStr("nickname");
 	}
 
     /**
      * 头像
      */
-	public void setAvatar(java.lang.String avatar) {
+	public void setAvatar(String avatar) {
 		set("avatar", avatar);
 	}
 
     /**
      * 头像
      */
-	public java.lang.String getAvatar() {
+	public String getAvatar() {
 		return getStr("avatar");
 	}
 
-	public void setOptions(java.lang.String options) {
+	public void setOptions(String options) {
 		set("options", options);
 	}
 
-	public java.lang.String getOptions() {
+	public String getOptions() {
 		return getStr("options");
 	}
 

@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.article.service.sitemap;
+package io.jpress.module.product.sitemap;
 
 
-import io.jpress.module.article.model.Article;
-import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.product.model.Product;
+import io.jpress.module.product.model.ProductCategory;
 import io.jpress.web.sitemap.Sitemap;
 
 class Util {
 
-    public static Sitemap toSitemap(Article article) {
+    public static Sitemap toSitemap(Product product) {
         Sitemap sitemap = new Sitemap();
         sitemap.setChangefreq(Sitemap.CHANGEFREQ_WEEKLY);
-        sitemap.setLoc(article.getUrl());
-        sitemap.setLastmod(article.getModified() != null ? article.getModified() : article.getCreated());
+        sitemap.setLoc(product.getUrl());
+        sitemap.setLastmod(product.getModified() != null ? product.getModified() : product.getCreated());
         sitemap.setPriority(0.5f);
         return sitemap;
     }
 
-    public static Sitemap toSitemap(ArticleCategory category) {
+    public static Sitemap toSitemap(ProductCategory category) {
         Sitemap sitemap = new Sitemap();
         sitemap.setChangefreq(Sitemap.CHANGEFREQ_DAILY);
         sitemap.setLoc(category.getUrl());

@@ -27,10 +27,14 @@ import java.util.Date;
 
 public class Sitemap implements Serializable {
 
+
+    public static final String CHANGEFREQ_ALWAYS = "always";
+    public static final String CHANGEFREQ_HOURLY = "hourly";
     public static final String CHANGEFREQ_DAILY = "daily";
     public static final String CHANGEFREQ_WEEKLY = "weekly";
     public static final String CHANGEFREQ_MONTHLY = "monthly";
-    public static final String CHANGEFREQ_ALWAYS = "always";
+    public static final String CHANGEFREQ_YEARLY = "yearly";
+    public static final String CHANGEFREQ_NEVER = "never";
 
     private String loc;
     private Date lastmod;

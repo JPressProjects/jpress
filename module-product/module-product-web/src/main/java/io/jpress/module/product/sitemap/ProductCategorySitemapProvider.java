@@ -13,47 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.page.sitemap;
+package io.jpress.module.product.sitemap;
 
 import com.jfinal.aop.Inject;
-import io.jpress.module.page.model.SinglePage;
-import io.jpress.module.page.service.SinglePageService;
+import io.jpress.module.product.model.ProductCategory;
+import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.web.sitemap.Sitemap;
 import io.jpress.web.sitemap.SitemapProvider;
-import org.apache.commons.lang3.time.DateUtils;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class NewstPageSitemapProvider implements SitemapProvider {
+public class ProductCategorySitemapProvider implements SitemapProvider {
 
     @Inject
-    private SinglePageService pageService;
+    private ProductCategoryService categoryService;
 
-
-//    @Override
-//    public String getName() {
-//        return null;
-//    }
-//
-//    @Override
-//    public Date getLastmod() {
-//        return null;
-//    }
 
     @Override
     public List<Sitemap> getSitemaps() {
-        List<SinglePage> pageList = pageService.findAll();
-        if (pageList == null || pageList.isEmpty()) {
+        List<ProductCategory> tagList = categoryService.findListByType(ProductCategory.TYPE_CATEGORY);
+        if (tagList == null || tagList.isEmpty()) {
             return null;
         }
-        return pageList.stream()
-                .filter(page -> page.getModified() != null
-                        && DateUtils.addDays(new Date(),-3).getTime() <= page.getModified().getTime())
+        return tagList.stream()
                 .map(Util::toSitemap)
                 .collect(Collectors.toList());
     }
-
 }

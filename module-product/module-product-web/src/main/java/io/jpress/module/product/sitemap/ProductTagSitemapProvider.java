@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.jpress.module.page.sitemap;
+package io.jpress.module.product.sitemap;
 
 import com.jfinal.aop.Inject;
-import io.jpress.module.page.model.SinglePage;
-import io.jpress.module.page.service.SinglePageService;
+import io.jpress.module.product.model.ProductCategory;
+import io.jpress.module.product.service.ProductCategoryService;
 import io.jpress.web.sitemap.Sitemap;
 import io.jpress.web.sitemap.SitemapProvider;
 
@@ -25,23 +25,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class PageSitemapProvider implements SitemapProvider {
+public class ProductTagSitemapProvider implements SitemapProvider {
 
     @Inject
-    private SinglePageService pageService;
-
+    private ProductCategoryService categoryService;
 
     @Override
     public List<Sitemap> getSitemaps() {
-        List<SinglePage> pageList = pageService.findAll();
-        if (pageList == null || pageList.isEmpty()) {
+        List<ProductCategory> tagList = categoryService.findListByType(ProductCategory.TYPE_TAG);
+        if (tagList == null || tagList.isEmpty()) {
             return null;
         }
-        return pageList.stream()
-                .filter(SinglePage::isNormal)
+        return tagList.stream()
                 .map(Util::toSitemap)
                 .collect(Collectors.toList());
     }
-
-
 }

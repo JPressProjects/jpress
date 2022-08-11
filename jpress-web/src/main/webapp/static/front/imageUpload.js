@@ -1,14 +1,25 @@
 $(function(){
     var userAgent = navigator.userAgent; //用于判断浏览器类型
+    var count =0;
+    var currentImgNumber = 0;
     $("body .uploadList").on("change",".bsForm-upload-file", function(){
         //获取选择图片的对象
         let fileCodeId = $(this).attr("id");
         let currentObj = $(this)[0];
+        let number = $(this).parents(".uploadList").data("count");
 
         let uploadListDiv= $(this).parents(".uploadList"); // 放置图片的容器
         let name = uploadListDiv.attr("data-name");
 
         let fileList = currentObj.files;  //得到所有的图片文件
+        for (let i = 0; i < fileList.length; i++) {
+            count ++;
+        }
+        if(count>number){
+            alert("最多只能上传"+number+"张");
+            count = currentImgNumber;
+            return false
+        }
 
         // 上传到后台
         let fd = new FormData();
@@ -56,7 +67,9 @@ $(function(){
                             }
                         }
                     }
+
                 }
+                currentImgNumber = $(".jpress-upload-item").length;
             },
             success: function (result) {
                 uploading = false;
@@ -79,12 +92,13 @@ $(function(){
     $("body .uploadList").on("click",".file-delete", function(){
         var _this = $(this);
         _this.parent(".jpress-upload-item").remove();
+        count = count -1;
+        currentImgNumber = currentImgNumber -1;
     });
     $(".btn-form-submit").attr("type","button");
     $("body .form-content").on("click",".btn-form-submit",function(){
         let url = $(".formInfo").attr("action");
         let formId = $(".formInfo").attr("id");
-        console.log(url,'sdsfdsdf')
         $.ajax({
             url: url,
             type: "post",

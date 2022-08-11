@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文章预览</title>
+    <title>预览页面</title>
     <link rel="shortcut icon" href="#(CPATH)/static/commons/img/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="#(CPATH)/static/components/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="#(CPATH)/static/components/bootstrap-font/bootstrap-icons.css">
@@ -44,20 +43,6 @@
 <div class="height-100 bg-grayer">
     <div class="preview-header">
         <div class="d-flex justify-content-between align-items-center">
-            <!--<div class="preview-logo clearfix">-->
-                <!--<img src="images/gslogo.png" alt="" class="pl-2">-->
-                <!--<div class="dropmenue">-->
-                    <!--<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"-->
-                            <!--data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                        <!--模板推荐-->
-                    <!--</button>-->
-                    <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
-                        <!--<a class="dropdown-item" href="#">模板一</a>-->
-                        <!--<a class="dropdown-item" href="#">模板二</a>-->
-                        <!--<a class="dropdown-item" href="#">模板三</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
             <ul class="preview-media mb-0 clearfix">
                 <li>
                     <a href="#" data-device="desktop" class="active" ><i class="bi bi-laptop"></i></a>
@@ -82,7 +67,7 @@
     <div id="iframe-container" class="bg-dark desktop">
         <div class="inner">
             <iframe width="100%" height="100%" class="iframe-link"
-                    src="http://www.jpress.cn" id="iframeId"></iframe>
+                    src="#para('url')" id="iframeId"></iframe>
         </div><!--/ inner -->
     </div><!--/ Iframe Container -->
 </div>

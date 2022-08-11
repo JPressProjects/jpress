@@ -6,7 +6,6 @@
 <script src="#(CPATH)/static/components/selectize/selectize.min.js"></script>
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
 
-
 <script>
 
     var $select = $('.article-tags').selectize({
@@ -489,9 +488,8 @@
             </div>
             <div class="d-flex align-items-center justify-content-between">
                 <button type="button" data-status="draft" class="btn btn-secondary mr-2 submitBtn">保存草稿</button>
-                <button type="button" class="btn btn-secondary mr-2">预览</button>
+                <a href="#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/#(article.id ??)" target="_blank" class="btn btn-secondary mr-2">预览</a>
                 <button type="button" data-status="normal" class="btn btn-primary mr-2 submitBtn">发布</button>
-                <!--<button type="button" class="btn btn-link mr-2" id="js-setting">设置</button>-->
                 <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
                 <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="pl-2"><i
                         class="bi bi-three-dots-vertical"></i></span>

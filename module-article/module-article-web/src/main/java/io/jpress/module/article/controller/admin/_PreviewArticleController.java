@@ -98,6 +98,9 @@ public class _PreviewArticleController extends TemplateControllerBase {
 
     private Article getArticle() {
         String idOrSlug = getIdOrSlug();
+        if (StrUtil.isBlank(idOrSlug)){
+            return null;
+        }
         return StrUtil.isNumeric(idOrSlug)
                 ? articleService.findById(idOrSlug)
                 : articleService.findFirstBySlug(StrUtil.urlDecode(idOrSlug));

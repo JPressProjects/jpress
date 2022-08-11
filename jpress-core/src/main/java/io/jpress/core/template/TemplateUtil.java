@@ -181,7 +181,7 @@ public class TemplateUtil {
         }
 
         String md5 = HashKit.md5(orignalId.trim());
-        return md5.substring(0,8);
+        return md5.substring(0, 8);
     }
 
 
@@ -192,16 +192,16 @@ public class TemplateUtil {
      * @return
      */
     public static String readTemplateId(File templateZipFile) {
-        try{
-            return readTemplateId(templateZipFile,"UTF-8");
-        }catch (IllegalArgumentException e){
-            return readTemplateId(templateZipFile,"GBK");
+        try {
+            return readTemplateId(templateZipFile, "UTF-8");
+        } catch (IllegalArgumentException e) {
+            return readTemplateId(templateZipFile, "GBK");
         }
 
     }
 
 
-    public static String readTemplateId(File templateZipFile,String charset) {
+    public static String readTemplateId(File templateZipFile, String charset) {
         ZipFile zipFile = null;
         try {
             zipFile = new ZipFile(templateZipFile, Charset.forName(charset));
@@ -228,9 +228,9 @@ public class TemplateUtil {
         return null;
     }
 
-    public static void unzip(String zipFilePath, String targetPath,String charset) throws IOException {
+    public static void unzip(String zipFilePath, String targetPath, String charset) throws IOException {
         targetPath = FileUtil.getCanonicalPath(new File(targetPath));
-        ZipFile zipFile = new ZipFile(zipFilePath,Charset.forName(charset));
+        ZipFile zipFile = new ZipFile(zipFilePath, Charset.forName(charset));
         try {
             Enumeration<?> entryEnum = zipFile.entries();
             while (entryEnum.hasMoreElements()) {
@@ -239,20 +239,22 @@ public class TemplateUtil {
                 try {
                     ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
                     if (!zipEntry.isDirectory()) {
-                        if ( isNotSafeFile(zipEntry.getName())) {
+                        if (isNotSafeFile(zipEntry.getName())) {
                             //Unsafe
                             continue;
                         }
 
                         File targetFile = new File(targetPath + File.separator + zipEntry.getName());
-                        if ( !FileUtil.getCanonicalPath(targetFile).startsWith(targetPath)) {
+                        if (!FileUtil.getCanonicalPath(targetFile).startsWith(targetPath)) {
                             //Unsafe
                             continue;
                         }
 
-                        if (!targetFile.getParentFile().exists()) {
-                            targetFile.getParentFile().mkdirs();
+                        if (!targetFile.getParentFile().exists() && !targetFile.getParentFile().mkdirs()) {
+                            LogKit.error("Can not mkdirs by: " + targetFile.getParentFile());
+                            continue;
                         }
+
                         os = new BufferedOutputStream(new FileOutputStream(targetFile));
                         is = zipFile.getInputStream(zipEntry);
                         byte[] buffer = new byte[4096];

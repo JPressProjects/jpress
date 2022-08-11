@@ -203,13 +203,14 @@ public class _TemplateController extends AdminControllerBase {
         }
         // UTF-8 编码错误，尝试使用 GBK 编码解压缩
         catch (IllegalArgumentException e) {
-            deleteFileQuietly(new File(templatePath));
             try {
                 TemplateUtil.unzip(uploadFile.getFile().getAbsolutePath(), templatePath, "GBK");
             } catch (Exception ex) {
+                deleteFileQuietly(new File(templatePath));
                 renderFailAndDeleteUnzipFiles(templatePath, e);
             }
         } catch (Exception e) {
+            deleteFileQuietly(new File(templatePath));
             renderFailAndDeleteUnzipFiles(templatePath, e);
         } finally {
             //安装成功，无论是否成功，删除模板zip包

@@ -23,6 +23,7 @@ import com.jfinal.template.stat.Scope;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.SiteContext;
 import io.jpress.core.template.BlockManager;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.TemplateBlockOption;
@@ -49,7 +50,7 @@ public class BlockContainerDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#blockContainer(...) argument must not be empty " + getLocation());
         }
 
-        TemplateBlockOption blockOption = blockOptionService.findById(templateId);
+        TemplateBlockOption blockOption = blockOptionService.findById(templateId, SiteContext.getSiteId());
         if (blockOption == null) {
             renderBody(env, scope, writer);
             return;
@@ -62,7 +63,7 @@ public class BlockContainerDirective extends JbootDirectiveBase {
             return;
         }
 
-        String html = BlockManager.me().renderAll(containerDatas, null,false);
+        String html = BlockManager.me().renderAll(containerDatas, null, false);
         renderText(writer, html);
     }
 

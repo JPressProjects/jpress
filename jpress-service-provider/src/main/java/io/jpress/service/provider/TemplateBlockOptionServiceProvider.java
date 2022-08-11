@@ -8,4 +8,8 @@ import io.jpress.service.TemplateBlockOptionService;
 @Bean
 public class TemplateBlockOptionServiceProvider extends JPressServiceBase<TemplateBlockOption> implements TemplateBlockOptionService {
 
+    @Override
+    public TemplateBlockOption findById(Object templateId, Long siteId) {
+        return DAO.findByIds(templateId, siteId);
+    }
 }

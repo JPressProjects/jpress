@@ -24,6 +24,7 @@ import io.jboot.db.model.Columns;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
 import io.jpress.JPressConsts;
+import io.jpress.SiteContext;
 import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.core.template.BlockContainerDef;
 import io.jpress.core.template.BlockManager;
@@ -108,21 +109,22 @@ public class _TemplateBlockController extends AdminControllerBase {
     public void save() {
         Template currentTemplate = TemplateManager.me().getCurrentTemplate();
         String rawData = getRawData();
-        TemplateBlockOption templateBlockOption = blockOptionService.findFirstByColumns(Columns.create("template_id", currentTemplate.getId()));
+        TemplateBlockOption templateBlockOption = blockOptionService.findById(currentTemplate.getId(), SiteContext.getSiteId());
         boolean needSave = false;
         if (templateBlockOption == null) {
             templateBlockOption = new TemplateBlockOption();
             templateBlockOption.setTemplateId(currentTemplate.getId());
+            templateBlockOption.setSiteId(SiteContext.getSiteId());
             needSave = true;
         }
 
         templateBlockOption.setOptions(rawData);
-
         if (needSave) {
             blockOptionService.save(templateBlockOption);
         } else {
             blockOptionService.update(templateBlockOption);
         }
+
         renderOkJson();
     }
 
@@ -133,7 +135,7 @@ public class _TemplateBlockController extends AdminControllerBase {
      * @param componentData
      */
     public void render(@JsonBody JSONObject componentData) {
-        String html = BlockManager.me().renderComponentDataToHtml(componentData,null,true);
+        String html = BlockManager.me().renderComponentDataToHtml(componentData, null, true);
         renderHtml(html);
     }
 

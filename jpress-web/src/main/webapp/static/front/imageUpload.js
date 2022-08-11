@@ -80,4 +80,29 @@ $(function(){
         var _this = $(this);
         _this.parent(".jpress-upload-item").remove();
     });
+    $(".btn-form-submit").attr("type","button");
+    $("body .form-content").on("click",".btn-form-submit",function(){
+        let url = $(".formInfo").attr("action");
+        let formId = $(".formInfo").attr("id");
+        console.log(url,'sdsfdsdf')
+        $.ajax({
+            url: url,
+            type: "post",
+            dataType: "json",
+            data: {
+                data : $('#'+formId).serialize()
+            },
+            success: function (result) {
+                if(result.state == "ok"){
+                    toastr.options = {
+                        positionClass: "toast-center-center",
+                        timeOut:1500 // 超时时间，即窗口显示的时间
+                    }
+                    toastr.success('保存成功!');
+                }
+            }
+        })
+    })
+
+
 })

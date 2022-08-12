@@ -13,12 +13,12 @@ import io.jpress.JPressOptions;
 import io.jpress.commons.email.Email;
 import io.jpress.commons.email.EmailKit;
 import io.jpress.commons.email.SimpleEmailSender;
-import io.jpress.web.base.AdminControllerBase;
+import io.jpress.web.base.ControllerBase;
 
 import javax.validation.constraints.Pattern;
 
 @RequestMapping("/commons/getemailcode")
-public class SendEmailCodeController  extends AdminControllerBase {
+public class SendEmailCodeController  extends ControllerBase {
 
     @Inject
     private CaptchaService captchaService;
@@ -62,7 +62,7 @@ public class SendEmailCodeController  extends AdminControllerBase {
 
         Email email = Email.create();
         email.subject(subject);
-        email.content("[JPress] 验证码为："+code+"，用于注册/登录，10分站内有效。");
+        email.content("验证码为："+code+"，用于注册/登录，10分站内有效。");
         email.to(emailAddr);
 
         //发送邮箱验证码
@@ -113,7 +113,7 @@ public class SendEmailCodeController  extends AdminControllerBase {
 
             Email email = Email.create();
             email.subject(subject);
-            email.content(" 验证码为："+code+"，用于注册/登录，10分站内有效。");
+            email.content(" 验证码："+code+"，用于注册/登录，10分站内有效。");
             email.to(emailAddr);
 
             //发送邮箱验证码

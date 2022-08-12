@@ -773,7 +773,7 @@ function initJPressAJCaptcha() {
         var ajaxGetSuccessPoint = $(this).attr("data-point");
 
         var val = null;
-        var option = validType === "ajax" ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl) : getFormCaptachOption(containerId, validFormId);
+        var option = validType === "ajax" ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl,ajaxGetSuccessToUrl,ajaxGetSuccessPoint) : getFormCaptachOption(containerId, validFormId);
 
         loadCss("/static/components/aj-captcha/css/verify.css");
         loadJs([
@@ -799,7 +799,7 @@ function initJPressAJCaptcha() {
     })
 }
 
-function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl) {
+function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl,ajaxGetSuccessToUrl,ajaxGetSuccessPoint) {
 
     return {
         baseUrl: getContextPath() + '/commons',  //服务器请求地址,

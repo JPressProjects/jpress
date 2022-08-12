@@ -246,3 +246,24 @@
 
 ![](linux_undertow_img/img_19.png)
 
+    4.17 后台启动 JPress 需要修改 jpress.sh 文件里的启动脚本。找到 start() 方法如下所示：
+    function start()
+    {
+        java -Djava.awt.headless=true -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} &
+    }
+
+    将其修改内容为如下所示：
+    function start()
+    {
+        nohup java -Djava.awt.headless=true -Xverify:none ${JAVA_OPTS} -cp ${CP} ${MAIN_CLASS} >/dev/null 2>&1 &
+    }
+
+![](linux_undertow_img/img_20.png)
+
+    4.18 后台启动
+
+![](linux_undertow_img/img_21.png)
+
+![](linux_undertow_img/img_22.png)
+
+    

@@ -563,14 +563,14 @@
             </div>
 
             <div class="d-flex align-items-center justify-content-between">
-                <button type="button" data-status="draft" class="btn btn-secondary mr-2 submitBtn">保存草稿</button>
+                <button type="button" data-status="2" class="btn btn-secondary mr-2 submitBtn">保存草稿</button>
                 <button type="button" class="btn btn-secondary mr-2">预览</button>
-                <button type="button" data-status="normal" class="btn btn-primary mr-2 submitBtn">发布</button>
+                <button type="button" data-status="1" class="btn btn-primary mr-2 submitBtn">上架</button>
                 <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
                 <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="pl-2"><i
                         class="bi bi-three-dots-vertical"></i></span>
                 <div class="dropdown-menu mr-2">
-                    <a class="dropdown-item submitBtn" data-status="trash" href="javascript:;">移至垃圾箱</a>
+                    <a class="dropdown-item submitBtn" data-status="3" href="javascript:;">移至垃圾箱</a>
                     <a class="dropdown-item" href="javascript:;" onclick="doChangeEditor()">切换编辑器</a>
                 </div>
             </div>
@@ -600,6 +600,11 @@
                             <a class="nav-link active" data-toggle="tab"
                                href="#main-tab" role="tab" aria-controls="component" aria-selected="true">岗位</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#extend-tab" role="tab"
+                               aria-controls="module" aria-selected="false">扩展</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="main-tab" role="tabpanel">
@@ -610,13 +615,13 @@
                                     <div class="card-header">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#fields-card">
+                                                    data-toggle="collapse" data-target="#fields-cards">
                                                 基础
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="fields-card" class="collapse">
+                                    <div id="fields-cards" class="collapse">
                                         <div class="card-body">
 
                                             <div class="form-group row">
@@ -630,14 +635,88 @@
 
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class="form-group">
+                                                <label class="col-sm-12">产品卖点</label>
                                                 <div class="col-sm-12">
-                                                    #(fields.render())
+                                                    <textarea class="form-control" id="usp"
+                                                              name="product.usp" placeholder="请输入产品卖点"
+                                                              rows="5">#(product.usp ??)</textarea>
+                                                    <p class="text-muted"></p>
                                                 </div>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label class="col-sm-12">摘要</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" id="summary"
+                                                              name="product.summary" placeholder="请输入摘要"
+                                                              rows="5">#(product.summary ??)</textarea>
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label class="col-sm-12">访问量</label>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control" id="view_count" name="product.view_count" value="#(product.view_count ??)" placeholder="请输入访问量">
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label class="col-sm-12">销量</label>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control" id="sales_count" name="product.sales_count" value="#(product.sales_count ??)" placeholder="请输入销量">
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-9" style="padding-top:7.5px;padding-left:15px">是否允许评论</label>
+                                                <div class="col-sm-3">
+
+                                                    <input type="checkbox" class="switchery" data-for="comment_status" #checkedIf(product.comment_status ??)>
+                                                    <input type="hidden" id="comment_status" name="product.comment_status">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--SEO-->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#seo-card">
+                                                SEO
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="seo-card" class="collapse">
+                                        <div class="card-body">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-12">SEO关键字</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" id="meta_keywords"
+                                                              name="product.meta_keywords" placeholder="请输入"
+                                                              rows="2">#(product.meta_keywords ??)</textarea>
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-12">SEO描述</label>
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control" id="meta_description"
+                                                              name="product.meta_description" placeholder="请输入"
+                                                              rows="2">#(product.meta_description ??)</textarea>
+                                                    <p class="text-muted"></p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -907,7 +986,40 @@
 
                             </div>
                         </div>
+
+
+                        <div class="tab-pane fade" id="extend-tab" role="tabpanel">
+                            <div class="accordion">
+
+                                <!--扩展-->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#fields-card">
+                                                扩展
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="fields-card" class="collapse">
+                                        <div class="card-body">
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    #(fields.render())
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
+
+
                 </div>
             </div>
         </div>

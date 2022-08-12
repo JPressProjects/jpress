@@ -46,12 +46,19 @@ public class ArticlesDirective extends JbootDirectiveBase {
         Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
         String orderBy = getPara("orderBy", scope, "id desc");
         int count = getParaToInt("count", scope, 10);
-
+        Boolean withRecommend = getParaToBool("withRecommend", scope);
+        Boolean withTop = getParaToBool("withTop", scope);
+        Boolean withHot = getParaToBool("withHot", scope);
+        Boolean withLeadNews = getParaToBool("withLeadNews", scope);
 
         Columns columns = Columns.create();
 
         columns.eq("flag", flag);
         columns.eq("style", style);
+        columns.eq("with_recommend", withRecommend);
+        columns.eq("with_top", withTop);
+        columns.eq("with_hot", withHot);
+        columns.eq("with_lead_news", withLeadNews);
         columns.eq("status", Article.STATUS_NORMAL);
 
         if (hasThumbnail != null) {

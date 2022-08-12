@@ -173,7 +173,7 @@
 ```html
 
 <div>
-    #articles(flag = "xxx",style = "xxx",hasThumbnail = false,orderBy = "id desc",count = 1)
+    #articles(flag = "xxx",style = "xxx",hasThumbnail = false,orderBy = "id desc",count = 1,withRecommend=,withTop=false,withHot=false,withLeadNews=false)
 
     #for(article :articles)
 
@@ -187,13 +187,17 @@
 
 > 此时 会根据提供的条件查询文章信息 并返回一个名为 articles 的 list 对象
 
-#### #article() 中支持的参数：
+#### #articles() 中支持的参数：
 
 * flag：文章 flag(标识)
 * style：文章 style(样式)
 * hasThumbnail：是否有缩略图 boolean类型
 * orderBy：根据属性进行排序 例如 "id desc"
 * count：需要查询的数量
+* withRecommend:是否推荐文章 boolean类型
+* withTop:是否置顶文章 boolean类型
+* withHot：是否热门文章 boolean类型
+* withLeadNews:是否是头条 boolean类型
 
 ------
 
@@ -220,7 +224,7 @@
 
 > 此时 会根据提供的条件查询文章信息 并返回一个名为 articles 的 list 对象
 
-#### #article() 中支持的参数：
+#### #tagArticles() 中支持的参数：
 
 * tag：文章分类的 slug
 * hasThumbnail：是否有缩略图 boolean类型
@@ -570,7 +574,7 @@
 ```html
 
 <div>
-    #userArticles(userId = 1,orderBy = "id desc",status ="normal",count = 5)
+    #userArticles(userId = 1,orderBy = "id desc",status ="normal",count = 5,withRecommend=,withTop=false,withHot=false,withLeadNews=false)
 
     #for(article : articles)
 
@@ -590,6 +594,10 @@
 * status：文章状态 例如 `status ="normal"`
 * orderBy：根据属性进行排序 例如 `created desc` 默认值为 `id des`
 * count：需要查询的数量 默认值为 10
+* withRecommend:是否推荐文章 boolean类型
+* withTop:是否置顶文章 boolean类型
+* withHot：是否热门文章 boolean类型
+* withLeadNews:是否是头条 boolean类型
 
 ------
 

@@ -57,10 +57,19 @@ public class UserArticlesDirective extends JbootDirectiveBase {
         String orderBy = getPara("orderBy", scope, "id desc");
         String status = getPara("status", scope, Article.STATUS_NORMAL);
         int count = getParaToInt("count", scope, 10);
+        Boolean withRecommend = getParaToBool("withRecommend", scope);
+        Boolean withTop = getParaToBool("withTop", scope);
+        Boolean withHot = getParaToBool("withHot", scope);
+        Boolean withLeadNews = getParaToBool("withLeadNews", scope);
+
 
 
         Columns columns = Columns.create("user_id", userId);
         columns.eq("status", status);
+        columns.eq("with_recommend", withRecommend);
+        columns.eq("with_top", withTop);
+        columns.eq("with_hot", withHot);
+        columns.eq("with_lead_news", withLeadNews);
 
         List<Article> articles = service.findListByColumns(columns, orderBy, count);
 

@@ -35,7 +35,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
         String formMethod = getParaToString("formMethod", scope, "POST");
 
         String submitText = getParaToString("submitText", scope, "提交");
-        String submitClass = getParaToString("submitClass", scope, "btn btn-primary btn-form-submit");
+        String submitClass = getParaToString("submitClass", scope, "btn btn-primary btn-form-submit jpress-captcha");
 
         Map values = getPara("values", scope);
 
@@ -62,7 +62,7 @@ public class FormInfoDirective extends JbootDirectiveBase {
             if (StrUtil.isNotBlank(html)) {
                 String action = formInfo.getActionUrl();
                 String htmlStart = "<form id=\"" + formInfo.getId() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
-                String htmlEnd = "<button class=\"" + submitClass + "\" type=\"submit\">" + submitText + "</button>" + "</form>";
+                String htmlEnd = "<button id=\"submitBtn\" data-type=\"slideVerify\" data-form-id=\""+formInfo.getId()+"\" data-valid-type=\"form\" type=\"button\" class=\"" + submitClass + "\" >" + submitText + "</button>" + "</form>";
                 renderText(writer, htmlStart + html + htmlEnd);
             }
         } else {

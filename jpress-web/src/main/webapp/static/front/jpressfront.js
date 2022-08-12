@@ -479,11 +479,11 @@ function initCommentComponent() {
     });
 
 
-    $('body').on('click', '.toReplyComment', function () {
-        $('#comment-pid').val($(this).attr('data-cid'));
-        $('.comment-textarea textarea').val('回复 @' + $(this).attr('data-author') + " ：");
-        $('.comment-textarea textarea').focus();
-    });
+    // $('body').on('click', '.toReplyComment', function () {
+    //     $('#comment-pid').val($(this).attr('data-cid'));
+    //     $('.comment-textarea textarea').val('回复 @' + $(this).attr('data-author') + " ：");
+    //     $('.comment-textarea textarea').focus();
+    // });
 
 }
 
@@ -900,11 +900,20 @@ function getFormCaptachOption(containerId, formID) {
             ajaxSubmit("#" + formID, function (result) {
 
                 if (result.state == 'ok') {
-                    alert("申请成功");
 
-                    let path = $("#" + containerId).attr("data-result-path");
+                    //如果返回值中 有 message 属性
+                    if(result.message){
+                       alert(result.message)
+                    }else {
+                        alert("提交成功");
+                    }
+
+                    //如果 在元素中 有设置 提价成功后需要跳转的 url
+                    let path = $("#" + containerId).attr("data-result-url");
                     if (path) {
                         location.href = path;
+                    }else {
+                        location.reload();
                     }
                 }
 
@@ -1035,31 +1044,31 @@ function initBsFromImageUpload() {
 
 }
 
-/*提交按钮*/
-function defineFormmSubmit() {
-    $(".btn-form-submit").attr("type", "button");
-    $("body .form-content").on("click", ".btn-form-submit", function () {
-        let url = $(".formInfo").attr("action");
-        let formId = $(".formInfo").attr("id");
-        $.ajax({
-            url: url,
-            type: "post",
-            dataType: "json",
-            data: {
-                data: $('#' + formId).serialize()
-            },
-            success: function (result) {
-                if (result.state == "ok") {
-                    toastr.options = {
-                        positionClass: "toast-center-center",
-                        timeOut: 1500 // 超时时间，即窗口显示的时间
-                    }
-                    toastr.success('保存成功!');
-                }
-            }
-        })
-    })
-}
+// /*提交按钮*/
+// function defineFormmSubmit() {
+//     $(".btn-form-submit").attr("type", "button");
+//     $("body .form-content").on("click", ".btn-form-submit", function () {
+//         let url = $(".formInfo").attr("action");
+//         let formId = $(".formInfo").attr("id");
+//         $.ajax({
+//             url: url,
+//             type: "post",
+//             dataType: "json",
+//             data: {
+//                 data: $('#' + formId).serialize()
+//             },
+//             success: function (result) {
+//                 if (result.state == "ok") {
+//                     toastr.options = {
+//                         positionClass: "toast-center-center",
+//                         timeOut: 1500 // 超时时间，即窗口显示的时间
+//                     }
+//                     toastr.success('保存成功!');
+//                 }
+//             }
+//         })
+//     })
+// }
 
 $(document).ready(function () {
 
@@ -1098,7 +1107,7 @@ $(document).ready(function () {
     initBsFromImageUpload()
 
     /*提交按钮*/
-    defineFormmSubmit()
+    // defineFormmSubmit()
 
 
 });

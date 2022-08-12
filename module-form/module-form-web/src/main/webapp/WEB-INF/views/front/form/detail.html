@@ -2,13 +2,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="...">
-    <meta name="kewords" content="...">
+    <meta name="description" content="#(form.summary ??)">
     <link rel="stylesheet" href="#(CPATH)/static/components/toastr/toastr.min.css">
     <link href="#(CPATH)/static/components/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="#(CPATH)/static/front/jpressfront.css">
-    <!--<link href="#(CPATH)/static/front/jpressform.css" rel="stylesheet">-->
-    <title>表单详情</title>
+    <title>#(form.title ??)</title>
 </head>
 <body style="background:#efefef url('#(form.bgImage)') center center no-repeat;background-size:cover;">
     <div  class="centerContent">
@@ -27,7 +25,6 @@
     </div>
     <script src="#(CPATH)/static/components/jquery/jquery.min.js"></script>
     <script  src="#(CPATH)/static/front/jpressfront.js"></script>
-    <!--<script src="#(CPATH)/static/front/imageUpload.js"></script>-->
     <script src="#(CPATH)/static/components/toastr/toastr.min.js"></script>
 </body>
 </html>

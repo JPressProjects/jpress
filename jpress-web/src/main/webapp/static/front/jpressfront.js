@@ -498,9 +498,9 @@ var productInfo = {
  */
 function addProductToCart(productId, productSpec, ok, fail) {
     ajaxPost(getContextPath() + '/product/doAddCart', {
-        id: productId,
-        spec: productSpec
-    },
+            id: productId,
+            spec: productSpec
+        },
         ok ? ok : function () {
             alert('成功添加到购物车。')
         },
@@ -596,23 +596,23 @@ function initJPressVideo() {
                                 //阿里云
                                 if (vid != "" && playAuth != "" && containerId != "") {
                                     var player = new Aliplayer({
-                                        "id": containerId,
-                                        "vid": vid,
-                                        "playauth": playAuth,
-                                        "videoWidth": "100%",
-                                        "videoHeight": "100%",
-                                        "autoplay": false,
-                                        "isLive": false,
-                                        // "cover": "缩略图",
-                                        "rePlay": false,
-                                        "playsinline": true,
-                                        "preload": false,
-                                        "controlBarVisibility": "hover",
-                                        "useH5Prism": true
-                                    }, function (player) {
-                                        console.log("The aliyun player is created");
-                                    }
-                                        );
+                                            "id": containerId,
+                                            "vid": vid,
+                                            "playauth": playAuth,
+                                            "videoWidth": "100%",
+                                            "videoHeight": "100%",
+                                            "autoplay": false,
+                                            "isLive": false,
+                                            // "cover": "缩略图",
+                                            "rePlay": false,
+                                            "playsinline": true,
+                                            "preload": false,
+                                            "controlBarVisibility": "hover",
+                                            "useH5Prism": true
+                                        }, function (player) {
+                                            console.log("The aliyun player is created");
+                                        }
+                                    );
                                     return player;
                                 }
                             })
@@ -625,7 +625,7 @@ function initJPressVideo() {
                         loadCss("https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.min.css")
 
                         loadJs(["https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/libs/hls.min.0.13.2m.js",
-                            "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js"],
+                                "https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.v4.5.2.min.js"],
                             function () {
                                 if (vid != "" && aid != "" && containerId != "") {
                                     new TCPlayer(containerId, {
@@ -777,11 +777,11 @@ function initJPressAJCaptcha() {
 
         loadCss("/static/components/aj-captcha/css/verify.css");
         loadJs([
-            "/static/components/aj-captcha/js/crypto-js.js",
-            "/static/components/aj-captcha/js/ase.js",
-            "/static/components/aj-captcha/js/verify.js",
-            "/static/components/jquery/jquery.form.min.js",
-        ],
+                "/static/components/aj-captcha/js/crypto-js.js",
+                "/static/components/aj-captcha/js/ase.js",
+                "/static/components/aj-captcha/js/verify.js",
+                "/static/components/jquery/jquery.form.min.js",
+            ],
             function () {
 
                 if (captchaType == 'pointsVerify') {
@@ -947,109 +947,98 @@ function jobFileChoose() {
 }
 
 //多图上传
-function initMultiplePicture(){
+function initBsFromImageUpload() {
     var userAgent = navigator.userAgent; //用于判断浏览器类型
-    var count =0;
-    var currentImgNumber = 0;
-    $("body .uploadList").on("change",".bsForm-upload-file", function(){
+
+    $("body .uploadList").on("change", ".bsForm-upload-file", function () {
         //获取选择图片的对象
         let fileCodeId = $(this).attr("id");
         let currentObj = $(this)[0];
-        let number = $(this).parents(".uploadList").data("count");
 
-        let uploadListDiv= $(this).parents(".uploadList"); // 放置图片的容器
-        let name = uploadListDiv.attr("data-name");
+        let uploadListDiv = $(this).parents(".uploadList"); // 放置图片的容器
+        let maxUploadLimit = uploadListDiv.data("count");
 
-        let fileList = currentObj.files;  //得到所有的图片文件
-        for (let i = 0; i < fileList.length; i++) {
-            count ++;
-        }
-        if(count>number){
-            alert("最多只能上传"+number+"张");
-            count = currentImgNumber;
-            return false
+        let inputFieldName = uploadListDiv.attr("data-name");
+
+        let file = currentObj.files[0];  //得到所有的图片文件
+        if (!file) {
+            return;
         }
 
         // 上传到后台
-        let fd = new FormData();
-        fd.append(name,currentObj.files[0]);
-        let uploading = false;
-        if (uploading) {
-            alert("文件正在上传中，请稍候!");
-            return false;
-        }
-        $.ajax({
-            url:'/form/upload/'+$(this).closest("form").attr("id"),
-            type: "POST",
-            data: fd,
-            processData:false,
-            // 不修改contentType属性，使用默认
-            contentType:false,
-            beforeSend: function () {
-                uploading = true;
-                // preview预览图片
-                for (let i = 0; i < fileList.length; i++) {
-                    //动态添加html元素
-                    var imageHtml = "";
-                    imageHtml += "<div class='jpress-upload-item'>"
-                    imageHtml += "<img id='img" + fileCodeId+fileList[i].name + "'/>";
-                    imageHtml += "<p class='jpress-images-name'>" + fileList[i].name + "</p>";
-                    imageHtml += "<div class='file-delete'><i class='bi bi-trash'></i></div>";
-                    imageHtml += "</div>";
-                    uploadListDiv.prepend(imageHtml);
-                    let imgObjPreview = document.getElementById("img" +fileCodeId + fileList[i].name);
-                    if (fileList && fileList[i]) {
-                        imgObjPreview.style.display = 'block';
-                        imgObjPreview.style.width = '126px';
-                        imgObjPreview.style.height = '126px';
-                        imgObjPreview.style.objectFit = 'cover';
-                        if (userAgent.indexOf('MSIE') == -1) {
-                            //IE以外浏览器
-                            imgObjPreview.src = window.URL.createObjectURL(currentObj.files[i]); //获取上传图片文件的物理路径;
-                        } else {
-                            //IE浏览器
-                            if (currentObj.value.indexOf(",") != -1) {
-                                var srcArr = currentObj.value.split(",");
-                                imgObjPreview.src = srcArr[i];
-                            } else {
-                                imgObjPreview.src = currentObj.value;
-                            }
-                        }
-                    }
+        let formData = new FormData();
+        formData.append(inputFieldName, file);
 
+        $.ajax({
+            url: '/form/upload/' + $(this).closest("form").attr("id"),
+            type: "POST",
+            data: formData,
+            processData: false,
+            // 不修改contentType属性，使用默认
+            contentType: false,
+            beforeSend: function () {
+                var imageHtml = "<div class='jpress-upload-item'>"
+                imageHtml += "<img id='img" + fileCodeId + file.name + "'/>";
+                imageHtml += "<p class='jpress-images-name'>" + file.name + "</p>";
+                imageHtml += "<div class='file-delete'><i class='bi bi-trash'></i></div>";
+                imageHtml += "</div>";
+                uploadListDiv.prepend(imageHtml);
+
+                let imgObjPreview = document.getElementById("img" + fileCodeId + file.name);
+                imgObjPreview.style.display = 'block';
+                imgObjPreview.style.width = '126px';
+                imgObjPreview.style.height = '126px';
+                imgObjPreview.style.objectFit = 'cover';
+                if (userAgent.indexOf('MSIE') == -1) {
+                    //IE以外浏览器
+                    imgObjPreview.src = window.URL.createObjectURL(file); //获取上传图片文件的物理路径;
+                } else {
+                    //IE浏览器
+                    if (currentObj.value.indexOf(",") != -1) {
+                        var srcArr = currentObj.value.split(",");
+                        imgObjPreview.src = srcArr[i];
+                    } else {
+                        imgObjPreview.src = currentObj.value;
+                    }
                 }
-                currentImgNumber = $(".jpress-upload-item").length;
+
+                if (uploadListDiv.find(".jpress-upload-item").length >= maxUploadLimit) {
+                    uploadListDiv.find(".jpress-upload-btn").hide();
+                }
             },
             success: function (result) {
-                uploading = false;
                 if (result.state == "ok") {
-                    //定义模板
-                    let input = '<input type="hidden" name="'+name+'" value="' + result.src + '" />';
-                    //添加模板
+                    let input = '<input type="hidden" name="' + inputFieldName + '" value="' + result.src + '" />';
                     uploadListDiv.append(input);
                 } else {
-
+                    alert("文件上传失败。")
                 }
             },
-            error:function(data){
+            error: function (data) {
                 console.log(data)
             }
         })
-
-
     });
-    $("body .uploadList").on("click",".file-delete", function(){
-        var _this = $(this);
-        _this.parent(".jpress-upload-item").remove();
-        count = count -1;
-        currentImgNumber = currentImgNumber -1;
+
+    $("body .uploadList").on("click", ".file-delete", function () {
+
+        let uploadListDiv = $(this).closest(".uploadList"); // 放置图片的容器
+        let maxUploadLimit = uploadListDiv.data("count");
+
+        if (uploadListDiv.find(".jpress-upload-item").length <= maxUploadLimit) {
+            uploadListDiv.find(".jpress-upload-btn").show();
+        }
+
+        $(this).parent(".jpress-upload-item").remove();
+
     });
 
 }
+
 /*提交按钮*/
-function defineFormmSubmit(){
-    $(".btn-form-submit").attr("type","button");
-    $("body .form-content").on("click",".btn-form-submit",function(){
+function defineFormmSubmit() {
+    $(".btn-form-submit").attr("type", "button");
+    $("body .form-content").on("click", ".btn-form-submit", function () {
         let url = $(".formInfo").attr("action");
         let formId = $(".formInfo").attr("id");
         $.ajax({
@@ -1057,13 +1046,13 @@ function defineFormmSubmit(){
             type: "post",
             dataType: "json",
             data: {
-                data : $('#'+formId).serialize()
+                data: $('#' + formId).serialize()
             },
             success: function (result) {
-                if(result.state == "ok"){
+                if (result.state == "ok") {
                     toastr.options = {
                         positionClass: "toast-center-center",
-                        timeOut:1500 // 超时时间，即窗口显示的时间
+                        timeOut: 1500 // 超时时间，即窗口显示的时间
                     }
                     toastr.success('保存成功!');
                 }
@@ -1106,13 +1095,10 @@ $(document).ready(function () {
     jobFileChoose();
 
     /*多图上传*/
-    initMultiplePicture()
+    initBsFromImageUpload()
 
     /*提交按钮*/
     defineFormmSubmit()
-
-    /*job apply 页面 文件上传*/
-    jobUploadFile();
 
 
 });

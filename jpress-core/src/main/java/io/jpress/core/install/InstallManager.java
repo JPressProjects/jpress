@@ -78,12 +78,14 @@ public class InstallManager {
             upgradeSqlFileName = "v3_upgrade.sql";
         }
 
-        //2.x 版本
+        // 2.x 版本
         else if (tables.containsAll(Consts.V2_TABLES)) {
             dbExist = true;
-            isJPressDb = true;
-            isNeedUpgrade = true;
-            upgradeSqlFileName = "v2_upgrade.sql";
+
+            // 不支持 v2.x 升级到 v5.x
+            isJPressDb = false;
+            isNeedUpgrade = false;
+//            upgradeSqlFileName = "v2_upgrade.sql";
         }
 
         //其他数据库

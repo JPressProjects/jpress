@@ -27,6 +27,16 @@ componentsDef.push(...[
             "index": 100,
             "icon": "bi bi-terminal"
         },
+        "props": [
+            {
+                name: "placeholder",
+                type: "input",
+                label: "占位符",
+                placeholder: "",
+                disabled: false,
+                required: false,
+            },
+        ],
         "template": '<div class="bsFormItem">' +
             '  <div class="form-group clearfix">' +
             '    <div class="form-label-left">' +
@@ -34,7 +44,7 @@ componentsDef.push(...[
             '    </div>' +
             '    <div class="flex-auto">' +
             '      <input type="text" class="form-control" name="{{name}}" id="{{id}}"' +
-            '        placeholder="{{placeholder}}" value="{{value}}" />' +
+            '        placeholder="{{placeholder}}" value="{{value}}"  {{required ? "required":""}}/>' +
             '    </div>' +
             '  </div>' +
             '</div>',
@@ -61,7 +71,15 @@ componentsDef.push(...[
                 defaultValue: 3,
                 disabled: false,
                 required: true,
-            }
+            },
+            {
+                name: "placeholder",
+                type: "input",
+                label: "占位符",
+                placeholder: "",
+                disabled: false,
+                required: false,
+            },
         ],
         "template": '<div class="bsFormItem">' +
             '  <div class="form-group clearfix">' +
@@ -70,7 +88,7 @@ componentsDef.push(...[
             '    </div>' +
             '    <div class="flex-auto">' +
             '      <textarea name="{{name}}" class="form-control" id="{{id}}" rows="{{rows}}"' +
-            '        placeholder="{{placeholder}}" >{{value}}</textarea>' +
+            '        placeholder="{{placeholder}}" {{required ? "required":""}}>{{value}}</textarea>' +
             '    </div>' +
             '  </div>' +
             '</div>',
@@ -199,7 +217,7 @@ componentsDef.push(...[
             '      <legend class="col-form-label pt-0">{{label}}</legend>' +
             '    </div>' +
             '    <div class="flex-auto">' +
-            '      <select class="custom-select" name="{{name}}" id="{{id}}">' +
+            '      <select class="custom-select" name="{{name}}" id="{{id}}" {{required ? "required":""}}>' +
             '        {{~for(let option of options)}}' +
             '        <option value="{{option.value}}">{{option.text}}</option>' +
             '        {{~end}}' +
@@ -248,7 +266,7 @@ componentsDef.push(...[
             '    </div>' +
             '    <div class="flex-auto">' +
             '      <input type="range" class="form-control" min="{{min}}" max="{{max}}" step="{{step}}" name="{{name}}" id="{{id}}"' +
-            '        placeholder="{{placeholder}}" value="{{value}}" />' +
+            '        placeholder="{{placeholder}}" value="{{value}}" {{required ? "required":""}}/>' +
             '    </div>' +
             '  </div>' +
             '</div>',
@@ -354,7 +372,7 @@ componentsDef.push(...[
             '    </div>' +
             '    <div class="flex-auto">' +
             '      <input type="time" class="form-control" name="{{name}}" id="{{id}}"' +
-            '        placeholder="{{placeholder}}" value="{{value}}" />' +
+            '        placeholder="{{placeholder}}" value="{{value}}" {{required ? "required":""}}/>' +
             '    </div>' +
             '  </div>' +
             '</div>',
@@ -377,7 +395,7 @@ componentsDef.push(...[
             '      <label for="label">{{label}}</label>' +
             '    </div>' +
             '    <div class="flex-auto">' +
-            '      <input type="date" class="form-control" name="{{name}}" id="{{id}}" value="{{value}}" />' +
+            '      <input type="date" class="form-control" name="{{name}}" id="{{id}}" value="{{value}}" {{required ? "required":""}}/>' +
             '    </div>' +
             '  </div>' +
             '</div>',
@@ -400,7 +418,7 @@ componentsDef.push(...[
             '      <label for="label">{{label}}</label>' +
             '    </div>' +
             '    <div class="flex-auto">' +
-            '      <input type="datetime-local" class="form-control" name="{{name}}" id="{{id}}" value="{{value}}" />' +
+            '      <input type="datetime-local" class="form-control" name="{{name}}" id="{{id}}" value="{{value}}" {{required ? "required":""}}/>' +
             '    </div>' +
             '  </div>' +
             '</div>',
@@ -460,7 +478,7 @@ componentsDef.push(...[
             '      <label for="label">{{label}}</label>' +
             '    </div>' +
             '    <div class="flex-auto">' +
-            '      <input type="file" class="custom-file-input" name="{{name}}" id="{{id}}" />' +
+            '      <input type="file" class="custom-file-input" name="{{name}}" id="{{id}}" {{required ? "required":""}}/>' +
             '      <label class="custom-file-label" for="{{id}}">{{placeholder}}</label>' +
             '    </div>' +
             '  </div>' +

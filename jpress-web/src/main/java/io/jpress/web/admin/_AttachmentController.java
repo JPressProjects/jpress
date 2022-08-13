@@ -70,7 +70,7 @@ public class _AttachmentController extends AdminControllerBase {
         Columns columns = Columns.create();
         columns.likeAppendPercent("title",getPara("title"));
         columns.eq("category_id",getPara("categoryId"));
-        Page<Attachment> page =service._paginateByColumns(getPagePara(),15, columns);
+        Page<Attachment> page =service._paginateByColumns(getPagePara(),getPageSizePara(), columns);
         setAttr("page", page);
 
         List<AttachmentCategory> categories = categoryService.findListByColumns(Columns.create(), "order_number asc,id desc");

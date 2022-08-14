@@ -433,7 +433,7 @@ public class _UserController extends AdminControllerBase {
      * 删除用户
      */
     @EmptyValidate(@Form(name = "ids"))
-    public void doUserDelByIds() {
+    public void doDelByIds() {
         Set<String> idsSet = getParaSet("ids");
         if (idsSet.contains(getLoginedUser().getId().toString())) {
             renderJson(Ret.fail().set("message", "删除的用户不能包含自己"));

@@ -49,6 +49,14 @@ public class AttachmentServiceProvider extends JPressServiceBase<Attachment> imp
         return DAO.paginateByColumns(page, pageSize, columns, "id desc");
     }
 
+    @Override
+    public boolean deleteByIds(Object... ids) {
+        for (Object id : ids) {
+            deleteById(id);
+        }
+        return true;
+    }
+
 
     @Override
     public Object save(Attachment model) {

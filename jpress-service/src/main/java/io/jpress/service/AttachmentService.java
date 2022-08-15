@@ -95,4 +95,6 @@ public interface AttachmentService {
      * @return
      */
     Page<Attachment> _paginateByColumns(int page, int pageSize, Columns columns);
+
+    boolean deleteByIds(Object... ids);
 }

@@ -25,6 +25,8 @@ import com.jfinal.upload.UploadFile;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.validate.EmptyValidate;
+import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
@@ -46,6 +48,7 @@ import java.nio.file.attribute.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -363,6 +366,12 @@ public class _AttachmentController extends AdminControllerBase {
         }
 
         renderOkJson();
+    }
+
+    @EmptyValidate(@Form(name = "ids"))
+    public void doDelByIds() {
+        Set<String> idsSet = getParaSet("ids");
+        render(service.deleteByIds(idsSet.toArray()) ? OK : FAIL);
     }
 
 

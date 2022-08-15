@@ -228,7 +228,7 @@
         var videoContainer = document.createElement('video');
         videoContainer.setAttribute("data-vid", id);
         videoContainer.setAttribute("poster", cover);
-        videoContainer.setAttribute("style", "height:240px;width:425px;");
+        videoContainer.setAttribute("style", "height:240px;width:100%;object-fit:fill;");
         videoContainer.setAttribute("class", "jpress-video");
         videoContainer.setAttribute('id', "video_player" + (Math.random()).toString().slice(5, 10));
 

@@ -93,15 +93,18 @@
                                    placeholder="例如：你的文章#('#(article.title ??)')中有人发布评论啦~~~"
                                    name="article_comment_email_notify_title"
                                    value="#option('article_comment_email_notify_title')">
+                            <p class="text-muted">文章标题占位符：#('#(article.title ??)')</p>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">邮件内容</label>
                         <div class="col-sm-6">
                                     <textarea rows="3" class="form-control"
-                                              placeholder="例如：评论的id是：#('#(comment.id)')，评论的内容是：#('#(comment.content)')"
+                                              placeholder="例如：文章的评论内容是：#('#(comment.content)')"
                                               name="article_comment_email_notify_template">#option('article_comment_email_notify_template')</textarea>
-                            <p class="text-muted"> 请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
+                            <p class="text-muted">
+                                请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。
+                                评论内容：#('#(comment.content ??)')
                             </p>
                         </div>
                     </div>

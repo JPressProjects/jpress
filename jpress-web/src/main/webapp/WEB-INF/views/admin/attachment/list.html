@@ -189,13 +189,22 @@
     function attachment_deleteByIds() {
         //获取已经勾选的复选框
         let checkedId=new Array();			//定义一个数组来保存已选中的value值
-        $('input[name="checkbox"]:checked').each(function(){
-            if(!isNaN($(this).val())){
-                checkedId.push($(this).val());
-            }else{
-                console.log("无法获取id");
+        // $('input[name="checkbox"]:checked').each(function(){
+        //     if(!isNaN($(this).val())){
+        //         checkedId.push($(this).val());
+        //     }else{
+        //         console.log("无法获取id");
+        //     }
+        // });
+
+        $('div[name="tableItem"]').each(function(){
+            var isChecked = $(this).hasClass("checked");
+            if(isChecked){
+                var dataId = $(this).find('img').attr('data-id');
+                checkedId.push(dataId);
             }
         });
+
         if(checkedId.length == 0){
             alert("请选择要删除的信息！");
             return false;

@@ -1,7 +1,6 @@
 package io.jpress.module.job.model;
 
 import io.jboot.db.annotation.Table;
-import io.jboot.utils.StrUtil;
 import io.jpress.module.job.model.base.BaseJobApply;
 
 /**
@@ -15,9 +14,6 @@ public class JobApply extends BaseJobApply<JobApply> {
     public static final String MOBILE_ENABLE = "job_mobile_enable";
     public static final String EMAIL_ENABLE = "job_email_enable";
     public static final String JOB_APPLY_ENABLE = "job_apply_enable";
-
-    public static final String CONNECTION_SMS_TEMPLATE = "connection_sms_template";
-    public static final String CONNECTION_SMS_SIGN = "connection_sms_sign";
 
 
     public static final String FILE_RESUME = "file-resume";

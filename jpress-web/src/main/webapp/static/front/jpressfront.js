@@ -706,7 +706,7 @@ function loadCss(links, callback) {
 //初始化表单 数据
 function initFormData() {
 
-    $(".jpress-form").each(function () {
+    $(".jpress-form-card").each(function () {
 
         var $this = $(this);
         $this.removeAttr('style')

@@ -32,9 +32,4 @@ public class JobListController extends TemplateControllerBase {
         setSeoDescription(StrUtil.isBlank(job.getMetaDescription()) ? CommonsUtils.maxLength(job.getContent(), 100) : job.getContent());
     }
 
-
-
-
-
-
 }

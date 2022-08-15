@@ -148,9 +148,6 @@ public class _JobController extends AdminControllerBase {
 
         //存放 需要更新count的 category 的id
         List<Long> categoryIds = new ArrayList<>();
-        //存放 需要更新count的 dept 的id
-        List<Long> deptIds = new ArrayList<>();
-
 
         //更新 分类下的岗位数量
         //如果是新建 那么只更新一个

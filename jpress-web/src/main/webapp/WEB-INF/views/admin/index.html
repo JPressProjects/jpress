@@ -3,15 +3,15 @@
 #define script()
 <script>
     var date = getPara("date");
-    if ("today" == date) {
+    if ("0" == date) {
         $("#group-today").addClass("active");
-    } else if ("yesterday" == date) {
+    } else if ("1" == date) {
         $("#group-yesterday").addClass("active");
-    } else if ("7d" == date) {
+    } else if ("7" == date) {
         $("#group-7d").addClass("active");
-    } else if ("14d" == date) {
+    } else if ("14" == date) {
         $("#group-14d").addClass("active");
-    } else if ("28d" == date) {
+    } else if ("28" == date) {
         $("#group-28d").addClass("active");
     } else {
         $("#group-all").addClass("active");
@@ -54,11 +54,11 @@
                             <div class="col-12">
                                 <div class="btn-group ">
                                     <a id="group-all" href="#(CPATH)/admin/index" class="btn btn-default">全部</a>
-                                    <a id="group-today" href="#(CPATH)/admin/index?date=today" class="btn btn-default">今天</a>
-                                    <a id="group-yesterday" href="#(CPATH)/admin/index?date=yesterday" class="btn btn-default">昨天</a>
-                                    <a id="group-7d" href="#(CPATH)/admin/index?date=7d" class="btn btn-default">7天</a>
-                                    <a id="group-14d" href="#(CPATH)/admin/index?date=14d" class="btn btn-default">14天</a>
-                                    <a id="group-28d" href="#(CPATH)/admin/index?date=28d" class="btn btn-default">28天</a>
+                                    <a id="group-today" href="#(CPATH)/admin/index?date=0" class="btn btn-default">今天</a>
+                                    <a id="group-yesterday" href="#(CPATH)/admin/index?date=1" class="btn btn-default">昨天</a>
+                                    <a id="group-7d" href="#(CPATH)/admin/index?date=7" class="btn btn-default">7天</a>
+                                    <a id="group-14d" href="#(CPATH)/admin/index?date=14" class="btn btn-default">14天</a>
+                                    <a id="group-28d" href="#(CPATH)/admin/index?date=28" class="btn btn-default">28天</a>
                                 </div>
                             </div>
                         </div>

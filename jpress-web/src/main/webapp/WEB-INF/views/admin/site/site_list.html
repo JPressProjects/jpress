@@ -62,12 +62,15 @@
 
 
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">是否自动根据浏览器语言，跳转到子站点</label>
+                        <label class="col-sm-2 col-form-label">跳转子站点</label>
                         <div class="col-sm-6">
                             <input type="checkbox" class="switchery" data-for="mainsite_redirect_by_browser_lang"
                                    #checkedIf(option("mainsite_redirect_by_browser_lang",false,0))>
                             <input type="hidden" id="mainsite_redirect_by_browser_lang"
                                    name="mainsite_redirect_by_browser_lang">
+                            <p class="text-muted">
+                                自动根据浏览器语言，跳转到子站点
+                            </p>
                         </div>
                     </div>
 

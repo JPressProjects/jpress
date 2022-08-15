@@ -131,10 +131,10 @@ public class _JobController extends AdminControllerBase {
         }
 
 
-        if (entry.getExpiredTo() != null && entry.getExpiredTo().before(entry.getCreated())) {
-            renderFailJson("请正确填写岗位有效时间");
-            return;
-        }
+//        if (entry.getExpiredTo() != null && entry.getExpiredTo().before(entry.getCreated())) {
+//            renderFailJson("请正确填写岗位有效时间");
+//            return;
+//        }
 
         //开始年龄 和 结束年龄
         // 如果结束年龄  < 开始年龄 不行

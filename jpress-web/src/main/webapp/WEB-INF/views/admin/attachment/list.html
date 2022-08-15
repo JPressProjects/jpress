@@ -150,7 +150,9 @@
             $("input[name='checkbox']").each(function () {
                 this.checked = false;
             });
-            // 取消选中内容
+            // 取消选中的全选按钮
+            $(".checkallbox input").prop("checked",false);
+
         })
         // 全选按钮
         $("#checkall").click(function() {
@@ -360,7 +362,7 @@
                                 <div class="checkAll_container">
                                     <div class="row ">
                                         <div class="form-group">
-                                            <div class="form-check">
+                                            <div class="form-check checkallbox">
                                                 <input class="form-check-input tableCheckAll" id="checkall" type="checkbox">
                                                 <label class="form-check-label" for="checkall">全选</label>
                                             </div>

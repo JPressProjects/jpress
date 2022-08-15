@@ -764,3 +764,6 @@ label:not(.form-check-label):not(.custom-file-label) {
     height:36px;
     line-height:36px;
 }
+.border-bottom-light{
+    border-bottom:1px solid #eee;
+}

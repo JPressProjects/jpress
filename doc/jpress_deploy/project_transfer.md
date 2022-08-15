@@ -1,4 +1,5 @@
 # 项目迁移
+Windows流程相同
 
 ## 1、云服务器 CentOS 7 上 undertow 部署的项目迁移到另一台云服务器
 
@@ -23,7 +24,7 @@
 
 ![](project_transfer_img/img_2.png)
 
-    1.5 上一台服务器配置的后台运行，不用重新配置，启动项目
+    1.5 启动项目，下图所示是配置了 jpress.sh 后台运行
 
 ![](project_transfer_img/img_3.png)
 

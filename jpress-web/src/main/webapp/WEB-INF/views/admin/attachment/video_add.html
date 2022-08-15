@@ -111,6 +111,24 @@
             $("#localLiveHide").hide();//云类型是本地视频时，隐藏选择直播按钮
 
         }
+
+        var container = document.getElementById("containerCloudType").value;
+        if(container == '1'){
+            $("#aliyunPlayerContainer").show();
+            $("#qcloudPlayerContainer").hide();
+            $("#localPlayerContainer").hide();
+        }
+        else if(container == '2'){
+            $("#aliyunPlayerContainer").hide();
+            $("#qcloudPlayerContainer").show();
+            $("#localPlayerContainer").hide();
+        }
+        else if(container == '4'){
+            $("#aliyunPlayerContainer").hide();
+            $("#qcloudPlayerContainer").hide();
+            $("#localPlayerContainer").show();
+        }
+
     }
 
     /**
@@ -125,6 +143,30 @@
         }
     }
 
+    /**
+     * 容器切换
+     */
+    function switchContiner(){
+        var container = document.getElementById("containerCloudType").value;
+        var cloudType = document.getElementById("cloudType").value;
+        if(cloudType != container && cloudType == '1'){
+            $("#aliyunPlayerContainer").show();
+            $("#qcloudPlayerContainer").hide();
+            $("#localPlayerContainer").hide();
+        }
+        else if(cloudType != container && cloudType == '2'){
+            $("#aliyunPlayerContainer").hide();
+            $("#qcloudPlayerContainer").show();
+            $("#localPlayerContainer").hide();
+
+        }
+        else if(cloudType != container && cloudType == '4'){
+            $("#aliyunPlayerContainer").hide();
+            $("#qcloudPlayerContainer").hide();
+            $("#localPlayerContainer").show();
+
+        }
+    }
 
 
 </script>
@@ -155,6 +197,7 @@
         uploader.addFile(file, null, null, null, userData);
         uploader.startUpload();
 
+        switchContiner();
 
     })
 
@@ -433,7 +476,7 @@
                     //清除文件选择
                     $('#tcentVideoInputFile').val('')
                     console.log("上传成功，返回的结果=="+result)
-
+                    switchContiner();
 
                 },
                 error : function(result) {
@@ -716,6 +759,7 @@
 
                             <div id="videos">
                                 <input type="hidden" name="cloudType" value="#(cloudType ??)" id="cloudType">
+                                <input type="hidden" name="containerCloudType" value="#(containerCloudType ??)" id="containerCloudType">
                                 <div id="aliyun">
                                     <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">选择视频文件</label>
@@ -732,14 +776,8 @@
                                         </p>
                                     </div>
                                 </div>
+                                </div>
 
-                                    <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label"> 视频</label>
-                                    <div class="col-sm-6">
-                                        <div class=" pr-0 bg-gray" id="player" style="height: 350px;"></div>
-                                    </div>
-                                </div>
-                                </div>
 
                                 <div id="qcloud">
                                     <div class="form-group row">
@@ -757,17 +795,9 @@
                                             </p>
                                         </div>
                                     </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label"> 视频</label>
-                                        <div class="col-sm-6">
-                                            <!--  腾讯云 视频播放容器  -->
-                                            <video id="player-container-id" width="800" height="350" preload="auto" playsinline webkit-playsinline>
-                                            </video>
-                                            <input type="hidden" name="" value=" " id="tcVod">
-                                        </div>
-                                    </div>
                                 </div>
+
+
 
                                 <div id="local">
                                     <div class="form-group row">
@@ -785,8 +815,30 @@
                                             </p>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="form-group row">
+                                    <div class="form-group row" id="aliyunPlayerContainer">
+                                        <label class="col-sm-2 col-form-label"> 视频</label>
+                                        <div class="col-sm-6">
+                                            <div class=" pr-0 bg-gray" id="player" style="height: 350px;"></div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row" id="qcloudPlayerContainer">
+                                        <label class="col-sm-2 col-form-label"> 视频</label>
+                                        <div class="col-sm-6">
+                                            <!--  腾讯云 视频播放容器  -->
+                                            <video id="player-container-id" width="800" height="350" preload="auto" playsinline webkit-playsinline>
+                                            </video>
+                                            <input type="hidden" name="" value=" " id="tcVod">
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row" id="localPlayerContainer">
 <!--                                        <input type="hidden" name="" value="#(cloudType ??)" id="cloudType">-->
                                         <label class="col-sm-2 col-form-label"> 视频</label>
 
@@ -795,7 +847,7 @@
                                             <video class=" pr-0 bg-gray" controls="controls" id="localPlay" src="#(options.local_video_url ??)" style="height: 350px;"></video>
                                         </div>
                                     </div>
-                                </div>
+
 
                             </div>
 

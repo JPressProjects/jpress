@@ -192,7 +192,7 @@ public class CloudWordFilterUtil {
 
                 if (200 == jsonObject.getInteger("status") && jsonObject.getBoolean("success")) {
                     JSONObject data = JSON.parseObject(jsonObject.getString("data"));
-                    System.out.println("data--->"+data);
+//                    System.out.println("data--->"+data);
 
                     JSONArray out = data.getJSONArray("out");
 
@@ -322,7 +322,6 @@ public class CloudWordFilterUtil {
 
         }
         else if(("ultrapower").equals(service)){//泰岳语义工厂
-            System.out.println("泰岳语义工厂-->"+ultrapowerTextScan(appCode,content));
             return ultrapowerTextScan(appCode,content);
 
         }

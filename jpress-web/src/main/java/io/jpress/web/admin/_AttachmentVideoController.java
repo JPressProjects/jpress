@@ -78,7 +78,19 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
         String id = getPara();
         AttachmentVideo video = attachmentVideoService.findById(id);
+
         //视频云类型
+        String containerCloudType =null;
+
+        if(video.getCloudType() != null &&  !("").equals(video.getCloudType())){
+            containerCloudType =video.getCloudType();
+        }
+        else{
+            containerCloudType = JPressOptions.get("attachment_cloud_type");
+        }
+
+        setAttr("containerCloudType",containerCloudType);
+
         String cloudType = JPressOptions.get("attachment_cloud_type");
         setAttr("cloudType",cloudType);
 
@@ -88,37 +100,31 @@ public class _AttachmentVideoController extends AdminControllerBase {
             setAttr("options",map);
         }
 
+        String playauth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
+        //阿里云
+        //点播视频
+        setAttr("cloudPlayAuth", playauth);
+        setAttr("cloudVid", video.getVodVid());
 
-        if(AttachmentVideo.CLOUD_TYPE_ALIYUN.equals(cloudType)){
+        //直播, m3u8 是延迟最高（延迟在 40s 左右）的，但是浏览器的兼容性是最好的
+        setAttr("livePlayUrl", AliyunLiveUtil.createPlayUrlForM3U8(video.getLiveStream()));
+        //直播回放
+        setAttr("liveCloudPlayAuth", playauth);
+        setAttr("liveCloudVid", video.getVodVid());
 
-            String playauth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
-            //阿里云
-            //点播视频
-            setAttr("cloudPlayAuth", playauth);
-            setAttr("cloudVid", video.getVodVid());
 
-            //直播, m3u8 是延迟最高（延迟在 40s 左右）的，但是浏览器的兼容性是最好的
-            setAttr("livePlayUrl", AliyunLiveUtil.createPlayUrlForM3U8(video.getLiveStream()));
-            //直播回放
-            setAttr("liveCloudPlayAuth", playauth);
-            setAttr("liveCloudVid", video.getVodVid());
+        //腾讯云
+        //腾讯云点播视频：appId
+        String appId = JPressOptions.get("attachment_qcloudvideo_appid");
+        setAttr("appId",appId);
 
-        }else{
+        String streamName = video.getLiveStream();
 
-            //腾讯云
-            //腾讯云点播视频：appId
-            String appId = JPressOptions.get("attachment_qcloudvideo_appid");
-            setAttr("appId",appId);
-
-            String streamName = video.getLiveStream();
-
-            //播放地址
-            String playUrl = QCloudLiveUtil.createPlayUrlForM3U8(streamName);
-            setAttr("playUrl",playUrl);
-            String playUrlFlv = QCloudLiveUtil.createPlayUrlForFlv(streamName);
-            setAttr("playUrlFlv",playUrlFlv);
-
-        }
+        //播放地址
+        String playUrl = QCloudLiveUtil.createPlayUrlForM3U8(streamName);
+        setAttr("playUrl",playUrl);
+        String playUrlFlv = QCloudLiveUtil.createPlayUrlForFlv(streamName);
+        setAttr("playUrlFlv",playUrlFlv);
 
         setAttr("video",video);
 

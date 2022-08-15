@@ -136,15 +136,21 @@
                                             <a href="#(CPATH)/admin/article/comment/reply/#(comment.id)">回复</a> |
                                             #if(comment.isNormal())
                                             <a href="javascript:;"
-                                               onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a> |
+                                               onclick="doChangeStatus('#(comment.id)','unaudited')">待审核</a>
                                             #else
                                             <a href="javascript:;"
-                                               onclick="doChangeStatus('#(comment.id)','normal')">审核</a> |
+                                               onclick="doChangeStatus('#(comment.id)','normal')">#if(comment.status != "trash") 审核 #else 还原 #end</a>
                                             #end
-                                            <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','trash')"
-                                               class="red-action">垃圾箱</a> |
-                                            <a href="javascript:;" onclick="doDelComment('#(comment.id)')"
+
+                                            #if(comment.status != "trash")
+                                            | <a href="javascript:;" onclick="doChangeStatus('#(comment.id)','trash')"
+                                               class="red-action">垃圾箱</a>
+                                            #end
+
+                                            #if(comment.status == "trash")
+                                            | <a href="javascript:;" onclick="doDelComment('#(comment.id)')"
                                                class="red-action">永久删除</a>
+                                            #end
                                         </div>
                                     </div>
                                 </td>

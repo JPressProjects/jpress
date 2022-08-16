@@ -760,7 +760,7 @@ label:not(.form-check-label):not(.custom-file-label) {
     color:#999;
     font-size:18px;
 }
-.dropdown-menu .dropdown-item{
+.video-desc .dropdown-menu .dropdown-item{
     height:36px;
     line-height:36px;
 }

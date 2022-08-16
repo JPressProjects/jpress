@@ -479,55 +479,8 @@ function initCommentComponent() {
     });
 
 
-    // $('body').on('click', '.toReplyComment', function () {
-    //     $('#comment-pid').val($(this).attr('data-cid'));
-    //     $('.comment-textarea textarea').val('回复 @' + $(this).attr('data-author') + " ：");
-    //     $('.comment-textarea textarea').focus();
-    // });
-
 }
 
-
-var productInfo = {
-    spec: null
-};
-
-
-/*
-添加到购物车
- */
-function addProductToCart(productId, productSpec, ok, fail) {
-    ajaxPost(getContextPath() + '/product/doAddCart', {
-            id: productId,
-            spec: productSpec
-        },
-        ok ? ok : function () {
-            alert('成功添加到购物车。')
-        },
-        fail ? fail : function (data) {
-            alert('添加到购物车失败：' + data.message)
-            if (data.gotoUrl) {
-                location.href = data.gotoUrl;
-            }
-        })
-}
-
-
-function initProductSpec() {
-    $(".product-specs li").click(function () {
-        setProductSpec($(this).text());
-        $(this).addClass("active");
-        $(this).siblings().removeClass("active");
-    });
-
-    $(".product-specs li:first").addClass("active");
-    setProductSpec($(".product-specs li:first").text());
-}
-
-
-function setProductSpec(spec) {
-    productInfo.spec = spec;
-}
 
 
 function initSwiperComponent() {
@@ -1044,31 +997,6 @@ function initBsFromImageUpload() {
 
 }
 
-// /*提交按钮*/
-// function defineFormmSubmit() {
-//     $(".btn-form-submit").attr("type", "button");
-//     $("body .form-content").on("click", ".btn-form-submit", function () {
-//         let url = $(".formInfo").attr("action");
-//         let formId = $(".formInfo").attr("id");
-//         $.ajax({
-//             url: url,
-//             type: "post",
-//             dataType: "json",
-//             data: {
-//                 data: $('#' + formId).serialize()
-//             },
-//             success: function (result) {
-//                 if (result.state == "ok") {
-//                     toastr.options = {
-//                         positionClass: "toast-center-center",
-//                         timeOut: 1500 // 超时时间，即窗口显示的时间
-//                     }
-//                     toastr.success('保存成功!');
-//                 }
-//             }
-//         })
-//     })
-// }
 
 $(document).ready(function () {
 
@@ -1084,10 +1012,9 @@ $(document).ready(function () {
     /*设置文章和产品评论*/
     initCommentComponent();
 
-    /*设置产品规格*/
-    initProductSpec();
     /*设置产品详情页的缩略图*/
     initSwiperComponent();
+
     /*设置产品粘贴板*/
     initClipboardJSComponent();
 

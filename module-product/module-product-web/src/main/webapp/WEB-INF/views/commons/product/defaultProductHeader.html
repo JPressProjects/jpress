@@ -46,18 +46,6 @@
             #(product.usp ??)
         </div>
 
-        #if(product.specs)
-        <div class="product-specs">
-            <ul>
-                #stringSplit(product.specs)
-                #for(str : strings)
-                <li >#(str)</li>
-                #end
-                #end
-            </ul>
-        </div>
-        #end
-
 
         <div class="product-btn">
             <a class="product-btn-cart" href="#(product.buyLink ??)" target="_blank"> <i class="fa fa-credit-card-alt"></i> 立即购买</a>

@@ -260,6 +260,45 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
     /**
+     * 批量删除视频
+     */
+    public void doDelByIds(){
+        Set<String> idsSet = getParaSet("ids");
+        Object[] array = idsSet.toArray();
+
+        if(array == null || array.length <= 0){
+            renderError(404);
+            return;
+        }
+
+        for (Object id : array) {
+            AttachmentVideo attachmentVideo = attachmentVideoService.findById(id);
+            if (attachmentVideo == null) {
+                renderError(404);
+                return;
+            }
+
+            if (attachmentVideoService.delete(attachmentVideo)) {
+                //删除本地的视频副本
+                String options = attachmentVideo.getOptions();
+                if (StrUtil.isNotBlank(options)){
+                    Map<String,String> map = JsonUtil.get(options,"", TypeDef.MAP_STRING);
+                    if(map != null){
+                        String path = map.get("local_video_url");
+                        File attachmentFile = AttachmentUtils.file(path);
+                        if (attachmentFile.exists() && attachmentFile.isFile()) {
+                            attachmentFile.delete();
+                            AliyunOssUtils.delete(new StringBuilder(path).delete(0, 1).toString());
+                        }
+                    }
+                }
+            }
+        }
+        renderOkJson();
+
+    }
+
+    /**
      * 获取视频上传凭证
      *
      * @param fileName

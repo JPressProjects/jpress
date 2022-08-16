@@ -33,7 +33,7 @@
         })
     });
 
-   var submitBtn =  $(".submitBtn").on("click", function () {
+    $(".submitBtn").on("click", function () {
         $("#articleStatus").val($(this).attr("data-status"));
         doSubmit()
 
@@ -54,11 +54,11 @@
             toastr.success('文章保存成功。')
 
             //设置预览路劲
-            $("#preview").attr("href","#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/"+data.id);
+            $("#preview").attr("href", "#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/" + data.id);
 
             //如果是通过预览按钮 来保存 那么打开预览窗口
-            if(openPreview === true){
-                window.open("#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/"+data.id);
+            if (openPreview === true) {
+                window.open("#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/" + data.id);
             }
 
         });
@@ -66,9 +66,9 @@
 
 
     //预览点击事件
-    function previewArticle($this){
+    function previewArticle($this) {
 
-        if(!$this.href){
+        if (!$this.href) {
             doSubmit(true)
         }
 
@@ -221,10 +221,10 @@
                     if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
 
                         var video = document.createElement('video')
-                        video.setAttribute("data-vid",id)
-                        video.setAttribute("poster",cover);
+                        video.setAttribute("data-vid", id)
+                        video.setAttribute("poster", cover);
                         video.setAttribute('style', "height:240px;width:425px;")
-                        video.setAttribute("class","jpress-video");
+                        video.setAttribute("class", "jpress-video");
 
                         //视频播放容器的id
                         var idStr = "video_player_container"+(Math.random()).toString().slice(5,10)
@@ -243,7 +243,7 @@
 
 
     //选择表单
-    $(".chooseForm").on("click",function (){
+    $(".chooseForm").on("click", function () {
         var $this = $(this);
 
         layer.open({
@@ -256,13 +256,13 @@
             content: jpress.cpath + '/admin/form/browse',
             end: function () {
 
-                if(layer.data.id != null){
+                if (layer.data.id != null) {
 
                     var formId = layer.data.id;
 
                     var formName = layer.data.name;
 
-                    let html = '<div><div class="jpress-form-card" contenteditable="false" data-form-id='+formId+'>'+formName+'（表单）</div></div><br />'
+                    let html = '<div><div class="jpress-form-card" contenteditable="false" data-form-id=' + formId + '>' + formName + '（表单）</div></div><br />'
 
                     insertHtmlToEditor(html);
 
@@ -487,7 +487,9 @@
             </div>
             <div class="d-flex align-items-center justify-content-between">
                 <button type="button" data-status="draft" class="btn btn-secondary mr-2 submitBtn">保存草稿</button>
-                <a target="_blank" #if(article.id ??) href="#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/#(article.id ??)" #else onclick="previewArticle(this)" #end
+                <a target="_blank" #if(article.id ??)
+                   href="#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/#(article.id ??)" #else
+                   onclick="previewArticle(this)" #end
                    id="preview" class="btn btn-secondary mr-2"><span>预览</span></a>
                 <button type="button" data-status="normal" class="btn btn-primary mr-2 submitBtn">发布</button>
                 <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
@@ -585,7 +587,7 @@
                                                     <input type="text" class="form-control"
                                                            id="order_number"
                                                            name="article.order_number"
-                                                           placeholder="请输入" value="0" />
+                                                           placeholder="请输入" value="0"/>
                                                     <p class="text-muted">文章列表会根据这个数值进行排序，越大越靠前。</p>
                                                 </div>
                                             </div>
@@ -597,7 +599,7 @@
                                                     <input type="text" class="form-control"
                                                            id="link_to"
                                                            name="article.link_to"
-                                                           placeholder="请输入" value="" />
+                                                           placeholder="请输入" value=""/>
                                                     <p class="text-muted">填写外链后，浏览文章将会跳转到此链接。</p>
                                                 </div>
                                             </div>
@@ -608,7 +610,7 @@
                                                     <input type="text" class="form-control datetime"
                                                            id="created"
                                                            name="article.created"
-                                                           placeholder="请输入" value="#date(article.created ??)" />
+                                                           placeholder="请输入" value="#date(article.created ??)"/>
                                                     <p class="text-muted"></p>
                                                 </div>
                                             </div>
@@ -818,7 +820,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否推荐</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox"  class="switchery"
+                                                    <input type="checkbox" class="switchery"
                                                            data-for="with_recommend" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_recommend"
@@ -829,7 +831,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否置顶</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox"  class="switchery"
+                                                    <input type="checkbox" class="switchery"
                                                            data-for="with_top" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_top" name="article.with_top">
@@ -839,7 +841,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否热门</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox"  class="switchery"
+                                                    <input type="checkbox" class="switchery"
                                                            data-for="with_hot" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_hot" name="article.with_hot">
@@ -849,7 +851,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否头条</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox"  class="switchery"
+                                                    <input type="checkbox" class="switchery"
                                                            data-for="with_lead_news" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_lead_news"
@@ -898,7 +900,8 @@
                                                 <select class="form-control" name="article.style">
                                                     <option value="">默认（article.html）</option>
                                                     #for(style : styles)
-                                                    <option value="#(style)" #selectedIf(article && article.style==style)>
+                                                    <option value="#(style)" #selectedIf(article &&
+                                                            article.style==style)>
                                                         article_#(style).html
                                                     </option>
                                                     #end
@@ -953,11 +956,6 @@
 
                             </div>
                         </div>
-
-
-
-
-
 
 
                     </div>

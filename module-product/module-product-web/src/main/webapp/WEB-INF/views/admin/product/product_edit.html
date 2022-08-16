@@ -670,11 +670,17 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#template-tab" role="tab"
+                               aria-controls="module" aria-selected="false">模板</a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#extend-tab" role="tab"
                                aria-controls="module" aria-selected="false">扩展</a>
                         </li>
                     </ul>
                     <div class="tab-content">
+
                         <div class="tab-pane fade show active" id="main-tab" role="tabpanel">
                             <div class="accordion">
 
@@ -921,58 +927,6 @@
                                     </div>
                                 </div>
 
-                                <!--模板-->
-                                <div class="card">
-                                    <div class="card-header" id="heading4">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
-                                                    data-toggle="collapse" data-target="#template-card">
-                                                模板
-                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="template-card" class="collapse">
-                                        <div class="card-body">
-
-                                            <div class="form-group row">
-
-                                                <label class="col-sm-12">模板</label>
-
-                                                <select class="form-control" name="product.style">
-                                                    <option value="">默认（product.html）</option>
-                                                    #for(style : styles)
-                                                    <option value="#(style)" #selectedIf(product &&
-                                                            product.style==style)>
-                                                        product_#(style).html
-                                                    </option>
-                                                    #end
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group row">
-
-                                                <label class="col-sm-12">模板展示标识</label>
-
-                                                <input type="text" class="form-control" name="product.flag"
-                                                       placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
-
-                                                #if(flags && flags.size() > 0)
-                                                <p class="text-muted">当前模板支持的展示标识有：</p>
-                                                <div class="tags">
-                                                    #for(flag : flags ??)
-                                                    <a href="javascript:;" class="tflag">#(flag)</a>
-                                                    #end
-                                                </div>
-                                                #end
-
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <!--产品封面-->
                                 <div class="card">
                                     <div class="card-header" id="heading5">
@@ -1062,6 +1016,66 @@
                                             </div>
                                         </div>
 
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <!--模板 tab -->
+                        <div class="tab-pane fade" id="template-tab" role="tabpanel">
+                            <div class="accordion">
+
+                                <!--模板-->
+                                <div class="card">
+                                    <div class="card-header" id="heading4">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#template-card">
+                                                模板
+                                                <span class="float-right"><i class="bi bi-chevron-down"></i></span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="template-card" class="collapse">
+                                        <div class="card-body">
+
+                                            <div class="form-group row">
+
+                                                <label class="col-sm-12">模板</label>
+
+                                                <select class="form-control" name="product.style">
+                                                    <option value="">默认（product.html）</option>
+                                                    #for(style : styles)
+                                                    <option value="#(style)" #selectedIf(product &&
+                                                            product.style==style)>
+                                                        product_#(style).html
+                                                    </option>
+                                                    #end
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                <label class="col-sm-12">模板展示标识</label>
+
+                                                <input type="text" class="form-control" name="product.flag"
+                                                       placeholder="展示标识" value="#(product.flag ??)" id="flag"/>
+
+                                                #if(flags && flags.size() > 0)
+                                                <p class="text-muted">当前模板支持的展示标识有：</p>
+                                                <div class="tags">
+                                                    #for(flag : flags ??)
+                                                    <a href="javascript:;" class="tflag">#(flag)</a>
+                                                    #end
+                                                </div>
+                                                #end
+
+                                            </div>
+
+
+                                        </div>
                                     </div>
                                 </div>
 

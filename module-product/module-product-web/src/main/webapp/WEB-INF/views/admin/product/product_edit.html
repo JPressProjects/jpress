@@ -80,7 +80,7 @@
     })
 
     //预览点击事件
-    function previewArticle($this){
+    function previewProduce($this){
 
         if(!$this.href){
             doSubmit(true)
@@ -630,7 +630,7 @@
 
             <div class="d-flex align-items-center justify-content-between">
                 <button type="button" data-status="2" class="btn btn-secondary mr-2 submitBtn">保存草稿</button>
-                <a target="_blank" #if(product.id ??) href="#(CPATH)/admin/preview?url=#(CPATH)/admin/product/preview/#(product.id ??)" #else onclick="previewArticle(this)" #end
+                <a target="_blank" #if(product.id ??) href="#(CPATH)/admin/preview?url=#(CPATH)/admin/product/preview/#(product.id ??)" #else onclick="previewProduce(this)" #end
                    id="preview" class="btn btn-secondary mr-2"><span>预览</span></a>
 <!--                <button type="button" class="btn btn-secondary mr-2">预览</button>-->
                 <button type="button" data-status="1" class="btn btn-primary mr-2 submitBtn">上架</button>

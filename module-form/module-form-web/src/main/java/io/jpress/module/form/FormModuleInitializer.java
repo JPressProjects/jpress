@@ -17,7 +17,6 @@ package io.jpress.module.form;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
-import io.jboot.Jboot;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.DateUtil;
@@ -72,7 +71,7 @@ public class FormModuleInitializer extends JbootAppListenerBase implements Modul
         List<FormInfo> formInfoList = Aop.get(FormInfoService.class).findListByColumns(columns, "id desc", 5);
         controller.setAttr("formInfoList",formInfoList);
 
-        return "/WEB-INF/views/admin/form/_dashboard_box.html";
+        return "form/_dashboard_box.html";
     }
 
     @Override

@@ -66,9 +66,17 @@
                     <!-- /.card-header -->
                     <div class="card-body row">
 
-                        #for(moduleHtml : moduleIncludes)
-                        #render(moduleHtml)
-                        #end
+                        <div class="col-md-6 col-sm-6 col-12">
+                            #for(path : leftBoxPaths)
+                                #render(path)
+                            #end
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-12">
+                            #for(path : rightBoxPaths)
+                                #render(path)
+                            #end
+                        </div>
 
                     </div>
                 </div>

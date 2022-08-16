@@ -81,7 +81,7 @@ public class ProductModuleInitializer extends ModuleBase {
         List<Product> productList = Aop.get(ProductService.class).findListByColumns(columns, "created desc", 5);
         controller.setAttr("productList", productList);
 
-        return "/WEB-INF/views/admin/product/_dashboard_box.html";
+        return "product/_dashboard_box.html";
     }
 
     @Override

@@ -15,34 +15,16 @@
  */
 package io.jpress.core.module;
 
-import com.jfinal.core.Controller;
 import io.jboot.core.listener.JbootAppListener;
 import io.jboot.core.listener.JbootAppListenerBase;
-import io.jpress.core.menu.MenuGroup;
-
-import java.util.List;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: JPress 监听器
+ * @Title: JPress 模块监听器，每个模块都应该至少有一个 ModuleBase 的子类
  * @Package io.jpress
  */
 public class ModuleBase extends JbootAppListenerBase implements ModuleListener, JbootAppListener {
 
 
-    @Override
-    public String onRenderDashboardBox(Controller controller) {
-        return null;
-    }
-
-    @Override
-    public String onRenderToolsBox(Controller controller) {
-        return null;
-    }
-
-    @Override
-    public void onConfigAdminMenu(List<MenuGroup> adminMenus) {
-
-    }
 }

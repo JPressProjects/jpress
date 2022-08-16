@@ -28,7 +28,6 @@ import io.jpress.module.article.model.ArticleComment;
 import io.jpress.module.article.service.ArticleCommentService;
 import io.jpress.module.article.service.ArticleService;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -80,7 +79,7 @@ public class ArticleModuleInitializer extends ModuleBase {
         List<ArticleComment> articleComments = commentService.findListByColumns(Columns.create().eq("status", Article.STATUS_NORMAL), "id desc", 10);
         controller.setAttr("articleComments", articleComments);
 
-        return "article/_dashboard_box.html";
+        return "article/_dashboard_box.html : right";
     }
 
     @Override

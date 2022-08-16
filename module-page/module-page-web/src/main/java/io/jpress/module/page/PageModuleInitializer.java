@@ -85,7 +85,7 @@ public class PageModuleInitializer extends ModuleBase {
         controller.setAttr("singlePages",singlePages);
 
 
-        return "/WEB-INF/views/admin/page/_dashboard_box.html";
+        return "page/_dashboard_box.html";
     }
 
     @Override

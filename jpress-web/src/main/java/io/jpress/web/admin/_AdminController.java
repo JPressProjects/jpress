@@ -36,7 +36,9 @@ import io.jpress.web.handler.JPressHandler;
 import io.jpress.web.interceptor.PermissionInterceptor;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -73,7 +75,7 @@ public class _AdminController extends AdminControllerBase {
     })
     public void doLogin(String user, String pwd) {
 
-        pwd  = getOriginalPara("pwd");
+        pwd = getOriginalPara("pwd");
 
         if (!JPressHandler.getCurrentTarget().equals(JPressConfig.me.getAdminLoginAction())) {
             renderError(404);
@@ -81,9 +83,9 @@ public class _AdminController extends AdminControllerBase {
         }
 
         //必须使用验证码进行验证
-        if (JPressConfig.me.isAdminLoginCaptchValidateEnable()){
+        if (JPressConfig.me.isAdminLoginCaptchValidateEnable()) {
             String captchaPara = getPara("captcha");
-            if (StrUtil.isBlank(captchaPara)){
+            if (StrUtil.isBlank(captchaPara)) {
                 renderFailJson("验证码不能为空");
                 return;
             }
@@ -128,22 +130,73 @@ public class _AdminController extends AdminControllerBase {
     }
 
     public void index() {
-        List<String> moduleIncludes = new ArrayList<>();
+        List<ModuleDashboardBoxInfo> leftBoxes = new ArrayList<>();
+        List<ModuleDashboardBoxInfo> rightBoxes = new ArrayList<>();
+
         List<ModuleListener> listeners = ModuleManager.me().getListeners();
         for (ModuleListener listener : listeners) {
             String path = listener.onRenderDashboardBox(this);
-            if (path == null) {
+            if (StrUtil.isBlank(path)) {
                 continue;
             }
 
-            if (path.startsWith("/")) {
-                moduleIncludes.add(path);
-            } else {
-                moduleIncludes.add("/WEB-INF/views/admin/" + path);
+           ModuleDashboardBoxInfo info = new ModuleDashboardBoxInfo(path);
+            if (info.isLeft()){
+                leftBoxes.add(info);
+            }else {
+                rightBoxes.add(info);
             }
         }
 
-        setAttr("moduleIncludes", moduleIncludes);
+        leftBoxes.sort(Comparator.comparingInt(o -> o.index));
+        rightBoxes.sort(Comparator.comparingInt(o -> o.index));
+
+        List<String> leftBoxPaths = leftBoxes.stream().map(moduleDashboardBoxInfo -> moduleDashboardBoxInfo.path).collect(Collectors.toList());
+        List<String> rightBoxPaths = rightBoxes.stream().map(moduleDashboardBoxInfo -> moduleDashboardBoxInfo.path).collect(Collectors.toList());
+
+        setAttr("leftBoxPaths", leftBoxPaths);
+        setAttr("rightBoxPaths", rightBoxPaths);
+
         render("index.html");
+    }
+
+
+    static class ModuleDashboardBoxInfo {
+        String path;
+        int position = 0; // 0 left 1 right
+        int index = 0;
+
+        public ModuleDashboardBoxInfo(String path) {
+            String[] pathStrings = path.split(":");
+            if (pathStrings.length == 1) {
+                setPath(pathStrings[0]);
+            } else if (pathStrings.length == 2) {
+                setPath(pathStrings[0]);
+                String positionOrIndex = pathStrings[1].trim();
+
+                if (StrUtil.isNumeric(positionOrIndex)) {
+                    this.index = Integer.valueOf(positionOrIndex);
+                } else {
+                    this.position = "left".equalsIgnoreCase(positionOrIndex) ? 0 : 1;
+                }
+            } else if (pathStrings.length == 3) {
+                setPath(pathStrings[0]);
+                this.position = "left".equalsIgnoreCase(pathStrings[1].trim()) ? 0 : 1;
+                this.index = Integer.valueOf(pathStrings[2].trim());
+            }
+        }
+
+        private void setPath(String path){
+            path = path.trim();
+            if (!path.startsWith("/")) {
+              path = "/WEB-INF/views/admin/" + path;
+            }
+            this.path = path;
+        }
+
+        public boolean isLeft() {
+            return position == 0;
+        }
+
     }
 }

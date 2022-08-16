@@ -3,29 +3,27 @@
         display: inline;
     }
 
-    table td a{
-        color:#007bff;
+    table td a {
+        color: #007bff;
     }
 
 </style>
 
-<div class="col-md-6 col-sm-6 col-12">
-    <div class="card card-outline card-dashboard">
-        <div class="card-header with-border">
-            <h3 class="card-title">最新岗位</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body p-0">
-            <table class="table table-striped">
-                <tbody>
-                #for(job : jobList)
-                <tr>
-                    <td style="width: 150px">#date(job.created ??)</td>
-                    <td><a href="/job/#(job.id ??)" target="_blank">#(job.title ??)</a></td>
-                </tr>
-                #end
-                </tbody>
-            </table>
-        </div>
+<div class="card card-outline card-dashboard">
+    <div class="card-header with-border">
+        <h3 class="card-title">最新岗位</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <table class="table table-striped">
+            <tbody>
+            #for(job : jobList)
+            <tr>
+                <td style="width: 150px">#date(job.created ??)</td>
+                <td><a href="/job/#(job.id ??)" target="_blank">#(job.title ??)</a></td>
+            </tr>
+            #end
+            </tbody>
+        </table>
     </div>
 </div>

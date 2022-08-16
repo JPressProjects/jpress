@@ -1,12 +1,12 @@
-# Linux 上 Tomcat 部署项目
+# 云服务器 CentOS7 操作系统上 Tomcat 部署项目
 
-## 1、Linux 下载安装，xShell 和 xftp 下载安装（略）
+## 1、xShell 和 xftp 下载安装（略）
 
-官网地址：[https://www.xshell.com/zh/free-for-home-school/](https://www.xshell.com/zh/free-for-home-school/)
+xShell 和 xftp 下载地址：[https://www.xshell.com/zh/free-for-home-school/](https://www.xshell.com/zh/free-for-home-school/)
 
 ## 2、xftp 连接云服务器
 
-    2.1 Xftp新建连接 
+    2.1 xftp 新建连接 
 
 ![](linux_tomcat_img/img.png)
     
@@ -41,22 +41,25 @@
 
 ## 3、JDK 压缩包下载
 
-    3.1 以 jdk 1.8 为例
+    3.1 下载 jdk1.8 
+        注：此处 CentOS7 是64位，所以下载的是：Linux x64， 文件类型为 tar.gz 的文件
+
+JDK 官网地址：[https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![](linux_tomcat_img/img_11.png)
 
-    3.2 在xftp 界面找到 Windows 桌面下载好的 jdk 压缩包，
+    3.2 xftp 界面，找到 Windows 桌面上下载好的 jdk1.8 的压缩包，
         把 jdk 压缩包拖动到云服务器界面，直接鼠标选中文件拖动即可
         如下图所示：
 
 ![](linux_tomcat_img/img_12.png)
 
-    3.3 xShell 连接云服务器
+    3.3 xShell 连接云服务器，找到 jdk1.8 所在的位置
         输入指令：tar -xvf jdk-8u202-linux-x64.tar.gz 解压 jdk 压缩包
 
 ![](linux_tomcat_img/img_13.png)
 
-    3.4 配置jdk环境
+    3.4 配置 jdk 环境
     输入指令：vim /etc/profile，进入编辑页面，输入 i 开始编辑
 
 ![](linux_tomcat_img/img_15.png)

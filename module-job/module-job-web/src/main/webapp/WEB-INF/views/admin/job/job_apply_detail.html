@@ -120,8 +120,7 @@
         <form action="/admin/job/applyResult/#(jobApply.id ??)" method="post" class="ajaxSubmit" id="form1">
 
           <div class="form-group" style="width: 40%;margin-left: 20px">
-
-            <textarea rows="10" name="disposedContent" class="form-control" placeholder="请给出处理意见">#(jobApply.disposed_content ??)</textarea>
+            <textarea rows="3" name="disposedContent" class="form-control" placeholder="给出该建立的处理意见...">#(jobApply.disposed_content ??)</textarea>
           </div>
 
           <div class="card-footer row">
@@ -138,7 +137,7 @@
                    class="btn btn-outline-primary btn-sm" style="margin-left: 10px">
                   <i class="fa fa-fw fa-plus"></i>查看附件
                 </a>
-                <input type="button"  value="提交结果" style="margin-left: 10px" class="btn btn-primary btn-sm submitBtn">
+                <input type="button"  value="提交处理意见" style="margin-left: 10px" class="btn btn-primary btn-sm submitBtn">
               </div>
 
             </div>

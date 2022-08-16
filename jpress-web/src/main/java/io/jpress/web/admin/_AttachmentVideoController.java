@@ -31,10 +31,7 @@ import io.jpress.service.AttachmentVideoService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @RequestMapping(value = "/admin/attachment/video", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _AttachmentVideoController extends AdminControllerBase {
@@ -139,6 +136,9 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
     public void add(){
+        //视频播放容器
+        String containerCloudType =JPressOptions.get("attachment_cloud_type");
+        setAttr("containerCloudType",containerCloudType);
         //视频云类型
         String cloudType = JPressOptions.get("attachment_cloud_type");
         setAttr("cloudType",cloudType);

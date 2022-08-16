@@ -215,7 +215,7 @@
                         <label class="col-sm-2 col-form-label">视频云类型</label>
                         <div class="col-sm-6">
                             <select class="form-control" name="attachment_cloud_type" id="cloudType"
-                                    onclick="selectCloudType()"> 
+                                    onchange="selectCloudType()">
                                 <option value="1" #selectedIf(option('attachment_cloud_type') == '1')>阿里云</option>
                                 <option value="2" #selectedIf(option('attachment_cloud_type') == '2')>腾讯云</option>
 

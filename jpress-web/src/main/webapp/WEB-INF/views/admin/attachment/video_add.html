@@ -741,15 +741,15 @@
                                 <div class="col-sm-6" style="top: 7.5px;">
                                     <input type="hidden"  name="videoType" id="videoType" value="#(video.videoType ?? 'vod')">
                                     <label>
-                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="vod"
+                                        <input type="radio" onchange="videoContentTypeChange(this.value)" name="video.video_type" value="vod"
                                                   checked #checkedIf(video && video.video_type == 'vod') > 视频</input>
                                     </label>
                                     <label id="localLiveHide">
-                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="live"
+                                        <input type="radio" onchange="videoContentTypeChange(this.value)" name="video.video_type" value="live"
                                                #checkedIf(video && video.video_type == 'live') > 直播</input>
                                     </label>
                                     <label>
-                                        <input type="radio" onclick="videoContentTypeChange(this.value)" name="video.video_type" value="code"
+                                        <input type="radio" onchange="videoContentTypeChange(this.value)" name="video.video_type" value="code"
                                                #checkedIf(video && video.video_type == 'code')  > 代码</input>
                                     </label>
                                 </div>

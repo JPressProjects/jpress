@@ -1,9 +1,9 @@
-# windows 通过 tomcat 部署项目
+# Windows 通过 Tomcat 部署项目
 
-## 部署环境准备
+## 部署环境：JDK1.8，Tomcat9
 ## JDK下载安装及配置
 
-## 进入 Oracle官网 的 Java 界面
+## 进入 Oracle 官网 的 Java 界面
 Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ### 1、JDK下载
@@ -12,11 +12,11 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![jdk_1](jdk_image/jdk_1.png)
 
-    1.2 选择 Java archive，再滚动鼠标下拉，选择 Java SE 8 (8u202 and earlier)
+    1.2 选择 Java archive，再滚动鼠标下拉页面，选择 Java SE 8 (8u202 and earlier)
 
 ![jdk_2](jdk_image/jdk_2.png)
 
-    1.3 选择你需要下载的 jdk-8u202-windows-x64.exe
+    1.3 下载 jdk-8u202-windows-x64.exe
 
 ![jdk_3](jdk_image/jdk_3.png)
 
@@ -25,38 +25,39 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 ### 2、JDK 安装
 
 
-    2.1 下载完 JDK 到本地后，找到该文件，双击运行 JDK 安装程序
+    2.1 下载 JDK 到本地，找到该文件，鼠标双击 .exe 应用程序，运行 JDK 进行安装
 
 ![](jdk_image/jdk_4.png)
 
-    2.2 等待一会，进入 JDK 安装界面，点击下一步
+    2.2 进入 JDK 安装界面，点击下一步
 
 ![](jdk_image/jdk_5.png)
 
 
-    2.3 安装位置可以默认，也可以选择自己想要存放的位置，然后一直点击下一步直到完成即可。
+    2.3 安装位置可以默认，也可以自定义，然后一直点击下一步直到完成即可。
 
 ![](jdk_image/jdk_6.png)
 
-### 3、配置环境变量
+### 3、配置 jdk1.8 的环境变量
 
-    3.1 首先在电脑左下角搜索框搜索控制面板并打开。
+    3.1 在电脑左下角搜索框输入：控制面板
 
 ![](jdk_image/jdk_8.png)
 
-    3.2 之后打开系统与安全面板下面的系统菜单。
+    3.2 控制面板 -> 系统与安全 -> 系统
 
 ![](jdk_image/jdk_9.png)
 
-    3.3 接着打开高级系统设置弹窗里面的高级-环境变量即可。
+    3.3 高级系统设置 -> 高级 -> 环境变量
 
 ![](jdk_image/jdk_10.png)
 
-    3.4 新建环境变量，变量名为 JAVA_HOME，变量值为刚刚 JDK 安装的路径，点击确定
+    3.4 新建环境变量，变量名为 JAVA_HOME，变量值为 JDK 安装的路径
 
 ![](jdk_image/jdk_11.png)
 
-    3.5  双击 path，进入界面后，点击编辑文本
+    3.5  鼠标双击 Path，已安装过 JDK 的点击编辑，第一次安装的点击新建，
+         编辑环境变量 -> 编辑，
 
 ![](jdk_image/jdk_12.png)
 
@@ -74,15 +75,15 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ## Tomcat 下载安装及配置
 
-### 1、Tomcat 下载
+### 1、Tomcat9 下载
 
     1.1 官网下载 apache-tomcat-9.0.65
-官网地址[https://tomcat.apache.org/](https://tomcat.apache.org/)
+官网地址：[https://tomcat.apache.org/](https://tomcat.apache.org/)
         
 
 ![](tomcat_img/img.png)
 
-    1.2 点击选择 tomcat 9 进入下载页面，再点击下载 64-Bit Windows zip（Win64）
+    1.2 点击 tomcat 9 进入下载页面，再点击下载 64-Bit Windows zip（Win64）
 
 ![](tomcat_img/img_1.png)
 
@@ -93,27 +94,27 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ### 2、Tomcat 配置环境变量
 
-    2.1 首先在电脑左下角搜索框搜索控制面板并打开。
+    2.1 首先在电脑左下角搜索框输入：控制面板
 
 ![](jdk_image/jdk_8.png)
 
-    2.2 之后打开系统与安全面板下面的系统菜单。
+    2.2 控制面板 -> 系统与安全 -> 系统。
 
 ![](jdk_image/jdk_9.png)
 
-    2.3 接着打开高级系统设置弹窗里面的高级-环境变量即可。
+    2.3 高级系统设置 -> 高级 -> 环境变量
 
 ![](jdk_image/jdk_10.png)
 
-    2.4 新建环境变量，变量名为 TOMCAT_HOME，变量值为 tomcat 解压后所在的路径，点击确定
+    2.4 新建环境变量，变量名为 TOMCAT_HOME，变量值为 tomcat 解压后所在的路径
 
 ![](tomcat_img/img_4.png)
 
-    2.5 双击 path，进入界面后，点击编辑文本
+    2.5 双击 Path，编辑环境变量，点击新建
 
 ![](tomcat_img/img_5.png)
 
-### 3、验证是否配置成功
+### 3、验证 tomcat9 是否配置成功
 
     3.1 按 win+r 快捷键，打开命令窗口，输入 cmd 指令，点击确定
 
@@ -124,11 +125,11 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 ![](tomcat_img/img_6.png)
 
     3.3  上图启动 tomcat 后乱码的问题
-        打开解压后的文件 apache-tomcat-9.0.65->conf->logging.properties
+        打开解压后的文件 apache-tomcat-9.0.65 -> conf -> logging.properties
 
 ![](tomcat_img/img_7.png)
 
-    3.4 打开 logging.properties
+    3.4 编辑 logging.properties
         找到这一行代码：java.util.logging.ConsoleHandler.encoding = UTF-8
 
 ![](tomcat_img/img_8.png)
@@ -149,12 +150,12 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![](tomcat_img/img_12.png)
 
-    3.8 tomcat 默认端口号为 8080，若 8080 被占用或者你想换一个端口号
-        找到 apache-tomcat-9.0.65->conf->server.xml
+    3.8 tomcat 默认端口号为 8080，若 8080 被占用或更换端口号
+        编辑 apache-tomcat-9.0.65 -> conf -> server.xml
 
 ![](tomcat_img/img_13.png)
 
-    3.9 打开 server.xml，找到 Connector 标签所在位置，如下图所示
+    3.9 编辑 server.xml，找到 Connector 标签所在位置，如下图所示
 
 ![](tomcat_img/img_14.png)
 
@@ -166,12 +167,12 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![](tomcat_img/img_16.png)
 
-    测试
+    网页测试
 
 ![](tomcat_img/img_17.png)
 
     3.11 配置 tomcat 开机自启动
-        (1)进入 tomcat 文件的bin 目录
+        (1)找到 tomcat 文件的bin 目录
 ![](mysql_img/img_16.png)
 
         (2)输入 cmd
@@ -189,7 +190,7 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ## MYSQL 下载安装及配置
 
-### 1、MySQL 下载
+### 1、mysql5.7 下载
 
 官网下载地址:[https://dev.mysql.com/downloads/mysql/](https://dev.mysql.com/downloads/mysql/)
 
@@ -205,18 +206,19 @@ Oracle官网地址 [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![](mysql_img/img_2.png)
 
-### 2、配置环境变量
+### 2、配置 mysql 环境变量
 
     2.1 鼠标右键单击此电脑，选择属性，弹出设置页面
 
 ![](mysql_img/img_3.png)
 
-    2.2 高级系统设置-环境变量
+    2.2 高级系统设置 -> 环境变量
 
 ![](mysql_img/img_4.png)
 
-    2.3 系统变量->Path，双击打开->新建，
+    2.3 系统变量 -> Path，双击打开点击新建，
         路径为 mysql 的安装路径，如下图所示：
+
 ![](mysql_img/img_6.png)
 
 ![](mysql_img/img_5.png)

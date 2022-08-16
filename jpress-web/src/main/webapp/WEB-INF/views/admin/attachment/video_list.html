@@ -1,4 +1,8 @@
 #@layout()
+#define css()
+<style>
+</style>
+#end
 
 #define script()
 
@@ -10,7 +14,71 @@
             ajaxGet("#(CPATH)/admin/attachment/video/doDel/" + id);
         }
     });
+$(function(){
+    // 单选按钮
+    $(".attachment_container").on("click",'.choose-video', function () {
+        var currentActive = $(this).hasClass("checked");
+        if(currentActive){
+            $(this).removeClass("checked");
+            $(this).find(".item-checkbox").attr('checked', 'true')
+        }else{
+            $(this).addClass("checked");
+            $(this).find(".item-checkbox").attr('checked', 'false')
+        }
+    })
 
+    // 批量选择
+    $("#checkallBtn").click(function() {
+        $("#deleteGroup").show(); // 展示批量删除模式
+        $("#normalMode").hide();// 隐藏正常模式下的按钮
+        $(".video-card").addClass("choose-video"); // 添加选中class
+
+    })
+    // 取消选择
+    $("#cancelChoose").click(function() {
+        $("#deleteGroup").hide(); // 隐藏批量删除模式
+        $("#normalMode").show();// 展示正常模式下的按钮
+        $(".video-card").removeClass("choose-video"); // 移除选中class
+        $(".video-card").each(function(i, element){
+            $(this).removeClass("checked");
+        })
+        $("input[name='checkbox']").each(function () {
+            this.checked = false;
+        });
+        // 取消选中的全选按钮
+        $(".checkallbox input").prop("checked",false);
+
+    })
+    // 全选按钮
+    $("#checkall").click(function() {
+        if (this.checked) {//如果自己被选中
+            $("#deleteGroup").show(); // 展示批量删除模式
+            $("#normalMode").hide();// 隐藏正常模式下的按钮
+            $(".video-card").addClass("choose-video"); // 添加选中class
+
+            $("input[name=checkbox]").prop("checked", "true");
+            $(".video-card").each(function(i, element){
+                $(this).addClass("checked")
+            })
+        } else {
+            $("#normalMode").show();// 隐藏正常模式下的按钮
+            $("#deleteGroup").hide(); // 展示批量删除模式
+            $(".video-card").removeClass("choose-video"); // 添加选中class
+
+            $("input[name='checkbox']").each(function () {
+                this.checked = false;
+            });
+            $(".video-card").each(function(i, element){
+                $(this).removeClass("checked");
+            })
+        }
+    })
+
+    // 永久删除
+    $("#deleteItem").click(function(){
+        attachment_deleteByIds();
+    })
+})
 </script>
 
 #end
@@ -53,7 +121,7 @@
             <div class="card card-outline card-primary">
                 <div class="card-header">
                     <form class=" admin-search-panel" action="" method="get">
-                        <div class="row">
+                        <div class="row"  id="normalMode">
                             <div class="form-group col-lg-2">
                                 <input type="text" class="form-control" placeholder="请输入标题" name="title" value="#para('title')">
                             </div>
@@ -78,13 +146,18 @@
                                 </select>
                             </div>
 
-                            <div class="form-group col-lg-2">
+                            <div class="form-group col-lg-6">
                                 <button type="submit" class="btn btn-primary ">查询</button>
                                 <button type="reset" class="btn btn-default">重置</button>
+                                <button type="reset"  class="btn btn-default" id="checkallBtn">批量选择</button>
                             </div>
 
                         </div>
-
+                        <!--批量删除模式-->
+                        <div class="row" id="deleteGroup">
+                            <button type="button" class="btn btn-warning mr-3 ml-2" id="deleteItem">永久删除</button>
+                            <button type="button" class="btn btn-default" id="cancelChoose">取 消</button>
+                        </div>
                         <!-- /.card-body -->
                     </form>
                 </div> <!-- /.card-body -->
@@ -94,7 +167,7 @@
 
                     <!---->
                     <div class="p-3">
-                        <div class="row">
+                        <div class="row attachment_container">
                             #for(item : page.list ??)
                             <div class="col-md-3">
                                 <div class="video-card"  name="tableItem">
@@ -123,6 +196,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <span class="checkbox"><i class="bi bi-check2"></i></span>
+                                    <input type="checkbox" class="item-checkbox" name="checkbox" value="#(item.id ??)">
                                 </div>
                             </div>
                             #end
@@ -133,7 +208,6 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="row">
-
                                     <div class="form-group">
                                         <div class="form-check">
                                             <input class="form-check-input tableCheckAll" id="checkall" type="checkbox" >

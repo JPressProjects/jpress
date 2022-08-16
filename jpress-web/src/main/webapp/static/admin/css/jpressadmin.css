@@ -702,6 +702,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 /*视频列表和选择视频*/
 .video-card{
+    position: relative;
     width:100%;
     margin:0 auto 16px;
     border-radius:4px;
@@ -766,4 +767,76 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 .border-bottom-light{
     border-bottom:1px solid #eee;
+}
+
+/*附件列表*/
+.attachment_item {
+    position: relative;
+    height: 220px;
+    width: 18%;
+    padding: 0;
+    border: 1px solid #ddd;
+    margin: 10px 1% 10px 10px;
+    float: left;
+    cursor: pointer;
+}
+
+.attachment_item:hover {
+    border: 1px solid #3c8dbc;
+}
+
+.attachment_item img {
+    height: 90%;
+    min-height: 90%;
+    width: 100%;
+}
+
+.attachment_item_title {
+    height: 10%;
+    background-color: #ecf0f5;
+    text-align: center;
+    padding: 0 5px;
+    overflow: hidden;
+}
+
+.attachment_item_title p {
+    overflow: hidden;
+}
+.checkbox {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #0069d9;
+    background-color: #fff;
+    position: absolute;
+    top: 3px;
+    right: 4px;
+}
+.checkbox i{
+    position: relative;
+    font-size:18px;
+    top:-3px;
+    font-weight: bold;
+}
+.attachment_item input[type="checkbox"],video-card input[type="checkbox"] {
+    visibility: hidden;
+}
+/*.attachment_item:hover .checkbox*/
+.attachment_item.checked .checkbox,.video-card.checked .checkbox{
+    display: block;
+}
+.attachment_item.checked .checkbox i,.attachment_item:hover .checkbox i,
+.video-card.checked .checkbox i,.video-card:hover .checkbox i{
+    color:#0069d9;
+}
+#deleteGroup{
+    display: none;
+}
+.item-checkbox {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
 }

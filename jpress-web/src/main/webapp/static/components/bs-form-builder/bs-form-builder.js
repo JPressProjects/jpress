@@ -50,7 +50,9 @@
         customBuilderStructure: false, // 自定义容器面板
         onDataChange: null, //数据更新的监听器
         onDataChanged: null, //数据更新的监听器
+        renderEmptyDrags: null,//当左边的拖动按钮分类找不到任何组件时，调用该方法
         components: [], //初始化时自定义的组件
+        componentIdPrefix: "",// "id_" 组件的 id 前缀
         useComponents: [], //使用的组件 use components
         unUseComponents: [], //不使用的组件
         customRender: null, //自定义渲染方法，支持后端 url，同步方法 和 异步方法
@@ -1148,6 +1150,8 @@
                 dragArray.sort((a, b) => a.index - b.index);
             }
 
+            var bsFormBuilder = this;
+
             $('.bsFormDrags').each(function (index, element) {
                 var $group = $(element);
                 var type = $group.data('type');
@@ -1168,6 +1172,12 @@
                             $group.append('<ol data-tag="' + drag.tag + '"><div class="item-icon"><i class="'
                                 + drag.icon + '"></i></div><div class="item-title">' + drag.title + '</div></ol>');
                         }
+                    }
+                }
+                //没有找到该类型的任何组件
+                else {
+                    if (bsFormBuilder.options.renderEmptyDrags && typeof bsFormBuilder.options.renderEmptyDrags === "function") {
+                        bsFormBuilder.options.renderEmptyDrags(bsFormBuilder, $group, type)
                     }
                 }
             })
@@ -1330,6 +1340,7 @@
                             pull: 'clone',
                             put: false
                         },
+                        filter: '.filtered,.placeholder', // 'filtered' class is not draggable
                         animation: 150,
                         sort: false,
                         onStart: function (evt) {
@@ -1702,7 +1713,7 @@
             for (var i = 0; i < 10; i++) {
                 id[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
             }
-            return id.join("");
+            return this.options.componentIdPrefix + id.join("");
         },
 
 

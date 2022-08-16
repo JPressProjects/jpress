@@ -20,7 +20,7 @@
                 <tbody>
                 #for(form : formInfoList)
                 <tr>
-                    <td style="width: 150px">#date(form.data_created ??)</td>
+                    <td style="width: 150px">#date(form.created ??)</td>
                     <td><a href="/form/#(form.id ??)" target="_blank">#(form.name ??)</a></td>
                 </tr>
                 #end

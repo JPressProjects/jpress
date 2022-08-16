@@ -19,12 +19,15 @@ import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
 import com.jfinal.template.Engine;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.DateUtil;
 import io.jpress.commons.url.FlatUrlHandler;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleBase;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,7 +51,34 @@ public class ProductModuleInitializer extends ModuleBase {
     @Override
     public String onRenderDashboardBox(Controller controller) {
 
-        List<Product> productList = Aop.get(ProductService.class).findListByColumns(Columns.create(), "created desc", 5);
+        Integer date = controller.getParaToInt("date");
+
+        Columns columns = new Columns();
+        columns.eq("status",Product.STATUS_NORMAL);
+
+        //如果是今天
+        if(date !=null && date == 0){
+
+            columns.between("created", DateUtil.getStartOfDay(new Date()), DateUtil.getEndOfDay(new Date()));
+        }
+
+        //最多就让查 28 天
+        else if (date != null && date > 0 && date < 29) {
+
+            //创建日历类对象
+            Calendar calendar = Calendar.getInstance();
+
+            //设置当前时间
+            calendar.setTime(new Date());
+
+            //设置当前时间 加 几天
+            calendar.add(Calendar.DATE, -date);
+
+            columns.between("created", DateUtil.getStartOfDay(calendar.getTime()), DateUtil.getStartOfDay(new Date()));
+
+        }
+
+        List<Product> productList = Aop.get(ProductService.class).findListByColumns(columns, "created desc", 5);
         controller.setAttr("productList", productList);
 
         return "/WEB-INF/views/admin/product/_dashboard_box.html";

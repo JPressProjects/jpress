@@ -73,8 +73,6 @@ public class ArticleModuleInitializer extends ModuleBase {
 
         }
 
-       //TODO
-
         List<Article> articles = Aop.get(ArticleService.class).findListByColumns(columns, "id desc", 10);
         controller.setAttr("articles", articles);
 

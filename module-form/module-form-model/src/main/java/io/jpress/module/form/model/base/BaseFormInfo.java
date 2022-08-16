@@ -188,6 +188,20 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
+     * 创建时间
+     */
+	public void setCreated(java.util.Date created) {
+		set("created", created);
+	}
+
+    /**
+     * 创建时间
+     */
+	public java.util.Date getCreated() {
+		return getDate("created");
+	}
+
+    /**
      * 站点ID
      */
 	public void setSiteId(java.lang.Long siteId) {

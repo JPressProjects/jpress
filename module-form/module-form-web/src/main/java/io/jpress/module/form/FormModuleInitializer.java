@@ -20,11 +20,14 @@ import com.jfinal.core.Controller;
 import io.jboot.Jboot;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.DateUtil;
 import io.jpress.core.menu.MenuGroup;
 import io.jpress.core.module.ModuleListener;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,7 +42,34 @@ public class FormModuleInitializer extends JbootAppListenerBase implements Modul
     @Override
     public String onRenderDashboardBox(Controller controller) {
 
-        List<FormInfo> formInfoList = Aop.get(FormInfoService.class).findListByColumns(Columns.create(), "id desc", 5);
+        Integer date = controller.getParaToInt("date");
+
+        Columns columns = new Columns();
+        columns.eq("status", FormInfo.FORMINFO_STATUS_PUBLISHED);
+
+        //如果是今天
+        if(date !=null && date == 0){
+
+            columns.between("created", DateUtil.getStartOfDay(new Date()), DateUtil.getEndOfDay(new Date()));
+        }
+
+        //最多就让查 28 天
+        else if (date != null && date > 0 && date < 29) {
+
+            //创建日历类对象
+            Calendar calendar = Calendar.getInstance();
+
+            //设置当前时间
+            calendar.setTime(new Date());
+
+            //设置当前时间 加 几天
+            calendar.add(Calendar.DATE, -date);
+
+            columns.between("created", DateUtil.getStartOfDay(calendar.getTime()), DateUtil.getStartOfDay(new Date()));
+
+        }
+
+        List<FormInfo> formInfoList = Aop.get(FormInfoService.class).findListByColumns(columns, "id desc", 5);
         controller.setAttr("formInfoList",formInfoList);
 
         return "/WEB-INF/views/admin/form/_dashboard_box.html";

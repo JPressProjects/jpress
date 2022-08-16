@@ -21,6 +21,7 @@ import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.page.model.SinglePage;
+import io.jpress.module.page.model.SinglePageCategory;
 import io.jpress.module.page.service.SinglePageCategoryService;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.base.TemplateControllerBase;
@@ -52,6 +53,9 @@ public class _PreviewPageController extends TemplateControllerBase {
         //设置页面的seo信息
         setSeoInfos(page);
 
+        //设置菜单高亮
+        doFlagMenuActive(page);
+
         //记录当前浏览量
         pageService.doIncViewCount(page.getId());
 
@@ -79,5 +83,25 @@ public class _PreviewPageController extends TemplateControllerBase {
                 : pageService.findFirstBySlug(StrUtil.urlDecode(idOrSlug));
     }
 
+
+    private void doFlagMenuActive(SinglePage page) {
+
+        setMenuActive(menu -> menu.isUrlStartWidth(page.getUrl()));
+
+        SinglePageCategory pageCategory = categoryService.findById(page.getCategoryId());
+        if(pageCategory == null){
+            return;
+        }
+
+        setMenuActive(menu -> {
+            if ("single_page_category".equals(menu.getRelativeTable())) {
+                if (pageCategory.getId().equals(menu.getRelativeId())) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+    }
 
 }

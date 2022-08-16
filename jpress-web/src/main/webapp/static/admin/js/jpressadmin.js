@@ -894,6 +894,7 @@ function initCkEdtior(selector) {
                     'bulletedList',
                     'numberedList',
                     '|',
+                    'fontSize',
                     'fontColor',
                     'fontBackgroundColor',
                     'outdent',

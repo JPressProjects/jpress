@@ -23,8 +23,6 @@ import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.service.SinglePageCategoryService;
 import io.jpress.module.page.service.SinglePageService;
-import io.jpress.service.OptionService;
-import io.jpress.service.UserService;
 import io.jpress.web.base.TemplateControllerBase;
 import io.jpress.web.interceptor.AdminInterceptor;
 import io.jpress.web.interceptor.TemplateInterceptor;
@@ -37,38 +35,22 @@ import io.jpress.web.interceptor.UserInterceptor;
         UserInterceptor.class,})
 public class _PreviewPageController extends TemplateControllerBase {
 
-//    @Inject
-//    private ArticleService articleService;
-
     @Inject
     private SinglePageService pageService;
 
     @Inject
-    private UserService userService;
-
-//    @Inject
-//    private ArticleCategoryService categoryService;
-    @Inject
     private SinglePageCategoryService categoryService;
-
-    @Inject
-    private OptionService optionService;
 
 
     public void index() {
         SinglePage page =getSinglePage();
 
-        //当文章处于审核中、草稿、或者未到发布时间时候，显示404
         render404If(page == null );
 
         page.setTitle("（预览中...）" + page.getTitle());
 
         //设置页面的seo信息
         setSeoInfos(page);
-
-
-        //设置菜单高亮
-//        doFlagMenuActive(page);
 
         //记录当前浏览量
         pageService.doIncViewCount(page.getId());
@@ -96,31 +78,6 @@ public class _PreviewPageController extends TemplateControllerBase {
                 ? pageService.findById(idOrSlug)
                 : pageService.findFirstBySlug(StrUtil.urlDecode(idOrSlug));
     }
-
-
-//    private void doFlagMenuActive(SinglePage page) {
-//
-//        setMenuActive(menu -> menu.isUrlStartWidth(page.getUrl()));
-//
-//        List<ArticleCategory> articleCategories = categoryService.findListByArticleId(article.getId());
-//        if (articleCategories == null || articleCategories.isEmpty()) {
-//            return;
-//        }
-//
-//        setMenuActive(menu -> {
-//            if ("article_category".equals(menu.getRelativeTable())) {
-//                for (ArticleCategory category : articleCategories) {
-//                    if (category.getId().equals(menu.getRelativeId())) {
-//                        return true;
-//                    }
-//                }
-//            }
-//            return false;
-//        });
-//
-//    }
-
-
 
 
 }

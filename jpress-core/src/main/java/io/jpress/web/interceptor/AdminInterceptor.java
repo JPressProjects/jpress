@@ -51,6 +51,8 @@ public class AdminInterceptor implements Interceptor {
     @Inject
     private SiteInfoService siteInfoService;
 
+    public static final String ATTR_PAGINATE_SPACING = "_PAGINATE_SPACING";
+
 
     @Override
     public void intercept(Invocation inv) {
@@ -97,6 +99,9 @@ public class AdminInterceptor implements Interceptor {
 
         List<SiteInfo> userSites = siteInfoService.findListByUserId(user.getId());
         inv.getController().setAttr("SITES",userSites);
+
+        //设置分页下拉菜单的间隔数据
+        inv.getController().setAttr(ATTR_PAGINATE_SPACING,10);
 
         inv.invoke();
     }

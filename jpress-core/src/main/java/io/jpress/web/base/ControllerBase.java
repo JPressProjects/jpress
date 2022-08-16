@@ -27,6 +27,7 @@ import io.jpress.JPressConsts;
 import io.jpress.SiteContext;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.model.User;
+import io.jpress.web.interceptor.AdminInterceptor;
 
 import java.util.Map;
 import java.util.Set;
@@ -127,11 +128,14 @@ public abstract class ControllerBase extends JbootController {
             } catch (Exception ex) {
             }
         }
+
+        Integer spacing = getAttr(AdminInterceptor.ATTR_PAGINATE_SPACING,10);
         if (pagesize <= 0 || pagesize > 100) {
-            pagesize = 10;
+            pagesize = spacing;
         }
-        if (pagesize > 10 && pagesize % 10 != 0) {
-            pagesize = 10;
+
+        if (pagesize > spacing && pagesize % spacing != 0) {
+            pagesize = spacing;
         }
         return pagesize;
     }

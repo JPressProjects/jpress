@@ -8,16 +8,11 @@
         #end
 
         <select class="form-control pagination-pagesize">
-            <option value="10" #selectedIf(pageData && pageData.pageSize ==10)>10条/页</option>
-            <option value="20" #selectedIf(pageData && pageData.pageSize ==20)>20条/页</option>
-            <option value="30" #selectedIf(pageData && pageData.pageSize ==30)>30条/页</option>
-            <option value="40" #selectedIf(pageData && pageData.pageSize ==40)>40条/页</option>
-            <option value="50" #selectedIf(pageData && pageData.pageSize ==50)>50条/页</option>
-            <option value="60" #selectedIf(pageData && pageData.pageSize ==60)>60条/页</option>
-            <option value="70" #selectedIf(pageData && pageData.pageSize ==70)>70条/页</option>
-            <option value="80" #selectedIf(pageData && pageData.pageSize ==80)>80条/页</option>
-            <option value="90" #selectedIf(pageData && pageData.pageSize ==90)>90条/页</option>
-            <option value="100" #selectedIf(pageData && pageData.pageSize ==100)>100条/页</option>
+            #for(i = 1; i < 20; i++)
+            #set(count = _PAGINATE_SPACING * i)
+            #if(count > 100) #break #end
+            <option value="#(count)" #selectedIf(pageData && pageData.pageSize == count)>#(count)条/页</option>
+            #end
         </select>
         #end
     </ul>

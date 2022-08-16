@@ -51,7 +51,7 @@ public abstract class AdminControllerBase extends ControllerBase {
         }
 
         //不能是纯数字
-        if (StrUtil.isNumeric(slug)){
+        if (StrUtil.isNumeric(slug)) {
             return false;
         }
 
@@ -82,6 +82,11 @@ public abstract class AdminControllerBase extends ControllerBase {
         } else {
             renderError(errorCode, "/WEB-INF/views/admin/error/500.html");
         }
+    }
+
+
+    public void setPaginateSizeSpacing(int spacing) {
+        setAttr(AdminInterceptor.ATTR_PAGINATE_SPACING, spacing);
     }
 
 

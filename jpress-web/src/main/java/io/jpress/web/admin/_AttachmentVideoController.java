@@ -50,12 +50,16 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
     @AdminMenu(text = "视频", groupId = JPressConsts.SYSTEM_MENU_ATTACHMENT, order = 29)
     public void list() {
+
+        //设置分页数量
+        setPaginateSizeSpacing(8);
+
         Columns columns = Columns.create();
         //条件查询
         columns.likeAppendPercent("vod_name",getPara("title"));
         columns.eq("video_type",getPara("type"));
         columns.eq("category_id",getPara("categoryId"));
-        Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), 12, columns, "id desc");
+        Page<AttachmentVideo> page = attachmentVideoService.paginateByColumns(getPagePara(), getPageSizePara(), columns, "id desc");
         if(page != null){
             for (AttachmentVideo attachmentVideo : page.getList()) {
                 if(attachmentVideo.getCategoryId() != null){

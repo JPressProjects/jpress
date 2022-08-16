@@ -55,8 +55,7 @@ module.exports = {
                     {text: 'Gitee', link: 'https://gitee.com/JPressProjects/jpress'},
                     {text: 'Github', link: 'https://github.com/JPressProjects/jpress'}
                 ]
-            },
-            {text: 'JPress VIP', link: '/vip'},
+            }
         ],
 
         sidebar: {
@@ -110,18 +109,13 @@ module.exports = {
                     title: '模板开发',
                     collapsable: true,
                     children: [
-                        {title: '模板简介', path: '/development/template/start'},
-                        {title: '目录结构', path: '/development/template/structure'},
-                        {title: '模板语法', path: '/development/template/grammar'},
-                        {title: '全局变量', path: '/development/template/global_variable'},
-                        {title: '模板指令', path: '/development/template/directive'},
-                        {title: '共享方法', path: '/development/template/share_functions'},
-                        {title: '网站首页', path: '/development/template/html_index'},
-                        {title: '文章相关', path: '/development/template/html_article'},
-                        {title: '产品相关', path: '/development/template/html_product'},
-                        {title: '页面相关', path: '/development/template/html_page'},
-                        {title: '用户相关', path: '/development/template/html_user'},
-                        {title: '设置页面', path: '/development/template/html_setting'},
+                        {title: '模板简介', path: '/development/template/template_introduce'},
+                        {title: '目录结构', path: '/development/template/template_directory'},
+                        {title: '模板语法', path: '/development/template/template_grammar'},
+                        {title: '全局变量', path: '/development/template/template_global_variable'},
+                        {title: '模板指令', path: '/development/template/template_command'},
+                        {title: '共享方法', path: '/development/template/template_global_method'},
+                        {title: '设置页面', path: '/development/template/template_setting'},
 
                     ],
                 },
@@ -140,16 +134,15 @@ module.exports = {
                     ],
                 },
                 {
-                    title: '二次开发',
+                    title: '模块开发',
                     collapsable: true,
                     children: [
-                        {title: '下载并运行JPress', path: '/development/dev/start'},
-                        {title: '开始前注意事项', path: '/development/dev/note'},
-                        {title: 'JPress架构', path: '/development/dev/structure'},
-                        {title: '使用代码生成器', path: '/development/dev/codegen'},
-                        {title: 'ModuleBase', path: '/development/dev/modulebase'},
-                        {title: '菜单管理', path: '/development/dev/menu'},
-                        {title: '前端组件', path: '/development/dev/front'},
+                        {title: 'JPress源码获取', path: '/commons/jpress_download_source'},
+                        {title: '导入JPress源码到编辑器', path: '/commons/jpress_open_compiler'},
+                        {title: '编译并运行JPress', path: '/commons/jpress_compile_with_run'},
+                        {title: '开始前注意事项', path: '/development/module/note'},
+                        {title: 'JPress架构', path: '/development/module/structure'},
+                        {title: '模块开发', path: '/development/module/jpress_modules_secondary_development'},
                     ],
                 },
                 {

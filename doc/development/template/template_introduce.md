@@ -20,7 +20,7 @@ newtemplate
 └── template.properties
 ```
 
-其中 `index.html` 、 `screenshot.png` 、`template.properties` 是模板的必须文件，一个模板最少由着三个文件组成。如下所示：
+其中 `index.html` 、 `screenshot.png` 、`template.properties` 是模板的必须文件，一个模板最少由这三个文件组成。如下所示：
 ![img.png](../image/template/template_1.png)
 > 更多文件请参考: [模板的目录结构](template_directory.md)
 
@@ -29,7 +29,9 @@ newtemplate
 - template.properties 模板的配置信息
 
 ::: tip 提示
-当我们开始开发一个新的模板的时候，可以先用这个三个文件，打包成 zip 包之后，通过 JPress 后台进行安装，看一下效果。同时可以把 `NewTemplate` 文件夹直接复制到 JPress 的 `templates` 目录下也等同于安装。
+当我们开始开发一个新的模板的时候，可以先用这三个文件，打包成 zip 包之后，通过 JPress 后台进行上传安装，看一下效果。
+
+或者可以把 `NewTemplate` 文件夹直接复制到 JPress 的 `templates` 目录下也等同于安装。
 :::
 
 模板的配置文件 `template.properties` 内容如下

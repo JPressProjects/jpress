@@ -442,6 +442,7 @@ function initAjaxSubmitForms() {
 function initResetBtn() {
     $('[type="reset"]').on('click', function (e) {
         $(this).closest('form').find('[type="text"]').val("").trigger('propertychange');
+        $(this).closest('form').find('.clear').val("").trigger('propertychange');
         $(this).closest('form').find('textarea').val("").trigger('propertychange');
         $(this).closest('form').find('select').val("").trigger('propertychange');
         e.preventDefault();

@@ -59,6 +59,7 @@ module.exports = {
         ],
 
         sidebar: {
+
             '/manual/': [{
                     title: '快速入门',
                     collapsable: false,
@@ -71,13 +72,18 @@ module.exports = {
                     title: '安装启动',
                     collapsable: false,
                     children: [
-                        {title: '在 Linux 上安装', path: '/manual/install_linux'},
-                        {title: '在 Windows 上安装', path: '/manual/install_windows'},
-                        {title: '在 Mac 上安装', path: '/manual/install_mac'},
+                        {title: 'JPress源码获取', path: '/development/jpress_download_source'},
+                        {title: '导入JPress源码到编辑器', path: '/development/jpress_open_compiler'},
+                        {title: '编译并运行JPress', path: '/development/jpress_compile_with_run'},
+                        {title: '在 Windows 上安装(tomcat)', path: '/manual/windows-tomcat-deploy'},
+                        {title: '在 Windows 上安装(undertow)', path: '/manual/windows_undertow_deploy'},
+                        {title: '在 Linux 上安装(tomcat)', path: '/manual/linux-tomcat-deploy'},
+                        {title: '在 Linux 上安装(undertow)', path: '/manual/linux_undertow_deploy'},
+                        {title: '在宝塔上安装', path: '/manual/ces_bt_config'},
                         {title: '在 Docker 上安装', path: '/manual/install_docker'},
-                        {title: '在宝塔上安装', path: '/manual/install_baota'},
                         {title: '一键安装', path: '/manual/install_oneclick'},
-                        {title: '如何升级', path: '/manual/upgrade'},
+                        {title: '如何迁移', path: '/manual/project_transfer'},
+                        {title: '如何升级', path: '/manual/project_upgrade'}
                     ],
                 },
                 {
@@ -137,9 +143,9 @@ module.exports = {
                     title: '模块开发',
                     collapsable: true,
                     children: [
-                        {title: 'JPress源码获取', path: '/commons/jpress_download_source'},
-                        {title: '导入JPress源码到编辑器', path: '/commons/jpress_open_compiler'},
-                        {title: '编译并运行JPress', path: '/commons/jpress_compile_with_run'},
+                        {title: 'JPress源码获取', path: '/development/jpress_download_source'},
+                        {title: '导入JPress源码到编辑器', path: '/development/jpress_open_compiler'},
+                        {title: '编译并运行JPress', path: '/development/jpress_compile_with_run'},
                         {title: '开始前注意事项', path: '/development/module/note'},
                         {title: 'JPress架构', path: '/development/module/structure'},
                         {title: '模块开发', path: '/development/module/jpress_modules_secondary_development'},

@@ -673,7 +673,7 @@ a.product-btn-cart:hover {
     display: -ms-flexbox;
     display: flex;
     border-radius:12px;
-    min-height:60vh;
+    min-height:450px;
     overflow:hidden;
 }
 

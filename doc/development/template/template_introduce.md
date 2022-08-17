@@ -2,11 +2,11 @@
 
 在开发JPress模板之前，先做好JPress的环境搭建，前端开发人员建议用 Docker 的方式，可以免除 Java 等环境的安装和配置。
 
-通过 Docker 安装 JPress 请参考：[《Docker下安装启动》](/manual/install_docker.md)，其他请参考：
-- [《Windows下安装启动(tomcat)》](/manual/windows-tomcat-deploy.md)
-- [《Windows下安装启动(undertow)》](/manual/windows_undertow_deploy.md)
-- [《Linux下安装启动(tomcat)》](/manual/linux-tomcat-deploy.md)
-- [《Linux下安装启动(undertow)》](/manual/linux_undertow_deploy.md)
+通过 Docker 安装 JPress 请参考：[《Docker下安装启动JPress》](/manual/install_docker.md)，其他请参考：
+- [《Windows下安装启动JPress(tomcat部署)》](/manual/windows-tomcat-deploy.md)
+- [《Windows下安装启动JPress(undertow部署)》](/manual/windows_undertow_deploy.md)
+- [《Linux下安装启动JPress(tomcat部署)》](/manual/linux-tomcat-deploy.md)
+- [《Linux下安装启动JPress(undertow部署)》](/manual/linux_undertow_deploy.md)
 - [《宝塔下安装启动》](/manual/ces_bt_config.md)
 
 ## 模板的组成

@@ -42,23 +42,42 @@
 
 ## 模块设置
 
->  下图中 注释中 name 和 icon 属性 可设置功能模块的 标题以及图标
-> 
->  而 `#blockOption("key","value")` 有多种功能：
-> 
->  1、放在元素的 class 属性中 可以指定其为不同的元素 不同的样式等 例如：`class="right-card #blockOption('主class:textarea')"`
-> 
->  2、放在元素中 可以在功能模块中添加新的配置 例如：`<div class="right-card-title">#blockOption("标题","最新岗位")</div>`
-> 
->  3、放在其它指令中 可以使指令中的参数与功能模块的配置所绑定 前提是此指令 支持绑定的参数
+* 1、模块名称和图标设置
 
-![img.png](../image/template/template_20.png)
+>  下图中 注释中 name 和 icon 属性 可设置功能模块的 标题以及图标
+
+![img.png](../image/template/template_24.png)
+
+* 后台对应设置
+
+![img.png](../image/template/template_25.png)
 
 ----
 
+* 2、 `#blockOption("key","value")` 得多种功能
 
+>  1、放在元素的 class 属性中 可以指定其为不同的元素 不同的样式等 例如：`class="right-card #blockOption('主class:textarea')"`
 
+![img.png](../image/template/template_26.png)
 
+* 比如 `class="right-card #blockOption('主class:textarea')"` 后台对应的元素就为 textarea
 
+----
 
+>  2、放在元素中 可以在功能模块中添加新的配置 例如：` <div class="right-card-title">#blockOption("标题","最新文章")</div>`
 
+![img.png](../image/template/template_27.png)
+
+* 后台对应设置
+
+![img.png](../image/template/template_28.png)
+
+----
+
+>  3、放在其它指令中 可以使指令中的参数与功能模块的配置所绑定 前提是此指令 支持绑定的参数
+
+![img.png](../image/template/template_29.png)
+
+* 后台对应设置
+
+![img.png](../image/template/template_30.png)

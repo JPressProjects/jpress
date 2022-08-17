@@ -12,10 +12,6 @@ import io.jpress.module.form.service.FormInfoService;
 
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -71,16 +67,25 @@ public class FormInfoServiceProvider extends JPressServiceBase<FormInfo> impleme
 
 
     private void copyOldData(FormInfo formInfo) {
-        Db.each(record -> {
-            Record newRecord = formInfo.newRecord(record);
-            Db.save(formInfo.getCurrentTableName(), newRecord);
-            return true;
-        }, "select * from " + formInfo.getPrevTableName());
+        try {
+            Db.each(record -> {
+                Record newRecord = formInfo.newRecord(record);
+                Db.save(formInfo.getCurrentTableName(), newRecord);
+                return true;
+            }, "select * from " + formInfo.getPrevTableName());
+        } catch (Exception e) {
+            LogKit.error("Copy form data error. {}", e.getMessage());
+        }
+
     }
 
 
     private void deleteOldTable(FormInfo formInfo) {
-        Db.update("DROP TABLE " + formInfo.getPrevTableName());
+        try {
+            Db.update("DROP TABLE " + formInfo.getPrevTableName());
+        } catch (Exception e) {
+            LogKit.error("Delete form table error. {}", e.getMessage());
+        }
     }
 
 

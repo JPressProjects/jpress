@@ -52,6 +52,7 @@ public abstract class ControllerBase extends JbootController {
     }
 
 
+    @NotAction
     public Long getSiteId() {
         return getAttr(JPressConsts.ATTR_SITE_ID, 0L);
     }
@@ -247,6 +248,7 @@ public abstract class ControllerBase extends JbootController {
 
 
     @Override
+    @NotAction
     public UploadFile getFile() {
         return super.getFirstFileOnly();
     }

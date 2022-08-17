@@ -80,7 +80,7 @@ public class FormController extends TemplateControllerBase {
             //更新表单 的 数据数量 和 最后数据时间
             List<Record> list = formDataService.findAll(formInfo.getCurrentTableName());
 
-            if(list.size() > 0){
+            if (list.size() > 0) {
                 formInfo.setDataCount(list.size());
 
                 formInfo.setDataCreated(list.get(list.size() - 1).getDate("user_submit_time"));
@@ -99,7 +99,7 @@ public class FormController extends TemplateControllerBase {
     }
 
 
-    public void upload(){
+    public void upload() {
         if (!isMultipartRequest()) {
             renderError(404);
             return;
@@ -113,14 +113,14 @@ public class FormController extends TemplateControllerBase {
         }
 
         FormInfo formInfo = formInfoService.findById(getParaToLong());
-        if (formInfo == null || !formInfo.isPublished()){
+        if (formInfo == null || !formInfo.isPublished()) {
             FileUtil.delete(uploadFile.getFile());
             renderJson(Ret.fail().set("message", "数据错误，表单不存在或未发布！"));
             return;
         }
 
         List<FieldInfo> fieldInfos = formInfo.getFieldInfos();
-        if (fieldInfos == null || fieldInfos.isEmpty()){
+        if (fieldInfos == null || fieldInfos.isEmpty()) {
             FileUtil.delete(uploadFile.getFile());
             renderJson(Ret.fail().set("message", "表单数据错误，请联系管理员！"));
             return;
@@ -129,13 +129,13 @@ public class FormController extends TemplateControllerBase {
         //查看当前表单是否有上传组件
         boolean hasImageUploadComponent = false;
         for (FieldInfo fieldInfo : fieldInfos) {
-            if (fieldInfo.isSupportUpload()){
+            if (fieldInfo.isSupportUpload()) {
                 hasImageUploadComponent = true;
                 break;
             }
         }
 
-        if (!hasImageUploadComponent){
+        if (!hasImageUploadComponent) {
             FileUtil.delete(uploadFile.getFile());
             renderJson(Ret.fail().set("message", "当前表单不支持上传文件！"));
             return;
@@ -188,27 +188,22 @@ public class FormController extends TemplateControllerBase {
      * 获取表单数据
      */
     public void detail() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", true);
 
+        String resultHtml = "";
         Long formId = getParaToLong();
 
-        FormInfo formInfo = formInfoService.findById(formId);
-
-        if (formId == null || formInfo == null) {
-            renderError(404);
-            return;
+        if (formId != null) {
+            FormInfo formInfo = formInfoService.findById(formId);
+            if (formInfo != null && formInfo.isPublished()) {
+                setAttr("form", formInfo);
+                resultHtml = renderToString(DEFAULT_FORM_DETAIL_ARTICLE, map);
+            }
         }
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("formId", formId);
-
-
-        String resultHtml = renderToString(DEFAULT_FORM_DETAIL_ARTICLE, map);
-
-        map.put("state", true);
         map.put("html", resultHtml);
-
         renderJson(map);
-
     }
 
 

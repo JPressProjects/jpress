@@ -72,9 +72,9 @@ module.exports = {
                     title: '安装启动',
                     collapsable: false,
                     children: [
-                        {title: 'JPress源码获取', path: '/development/jpress_download_source'},
-                        {title: '导入JPress源码到编辑器', path: '/development/jpress_open_compiler'},
-                        {title: '编译并运行JPress', path: '/development/jpress_compile_with_run'},
+                        {title: 'JPress源码获取', path: '/manual/jpress_download_source'},
+                        {title: '导入JPress源码到编辑器', path: '/manual/jpress_open_compiler'},
+                        {title: '编译并运行JPress', path: '/manual/jpress_compile_with_run'},
                         {title: '在 Windows 上安装(tomcat)', path: '/manual/windows-tomcat-deploy'},
                         {title: '在 Windows 上安装(undertow)', path: '/manual/windows_undertow_deploy'},
                         {title: '在 Linux 上安装(tomcat)', path: '/manual/linux-tomcat-deploy'},
@@ -119,8 +119,9 @@ module.exports = {
                         {title: '目录结构', path: '/development/template/template_directory'},
                         {title: '模板语法', path: '/development/template/template_grammar'},
                         {title: '全局变量', path: '/development/template/template_global_variable'},
-                        {title: '模板指令', path: '/development/template/template_command'},
                         {title: '共享方法', path: '/development/template/template_global_method'},
+                        {title: '模板指令', path: '/development/template/template_command'},
+                        {title: '拖拽设计', path: '/development/template/template_block'},
                         {title: '设置页面', path: '/development/template/template_setting'},
 
                     ],

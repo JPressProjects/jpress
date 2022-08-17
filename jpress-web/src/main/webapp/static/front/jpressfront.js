@@ -674,6 +674,9 @@ function initFormData() {
                 success: function (result) {
                     if (result.state == true) {
                         $this.html(result.html);
+
+                        initJPressAJCaptcha();
+
                     }
                 }
             })
@@ -682,6 +685,7 @@ function initFormData() {
 }
 
 function initJPressAJCaptcha() {
+
     $('.jpress-captcha').each(function () {
 
         var containerId = $(this).attr("id");

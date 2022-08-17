@@ -74,6 +74,7 @@ module.exports = {
                     children: [
                         {title: 'JAVA环境配置', path: '/manual/jdk_config'},
                         {title: 'Maven环境配置', path: '/manual/maven_config'},
+                        {title: 'IDEA开发环境准备', path: '/manual/idea_environment_config'},
                         {title: 'JPress源码获取', path: '/manual/jpress_download_source'},
                         {title: '导入JPress源码到编辑器', path: '/manual/jpress_open_compiler'},
                         {title: '编译并运行JPress', path: '/manual/jpress_compile_with_run'},

@@ -59,7 +59,7 @@
      * @param id
      */
     function doChangeEditor(id) {
-        if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题。')) {
+        if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题，且只对未发布岗位有效')) {
             var changeMode = editMode == "html" ? "markdown" : "html";
             if (id && id !== '0') {
                 ajaxGet('#(CPATH)/admin/article/doChangeEditMode?id=' + id + "&mode=" + changeMode);

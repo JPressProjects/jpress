@@ -292,6 +292,7 @@ CREATE TABLE `form_info` (
                              `status` varchar(32) DEFAULT NULL COMMENT '状态',
                              `data_count` int(11) NOT NULL DEFAULT '0' COMMENT '数据量',
                              `data_created` datetime DEFAULT NULL COMMENT '数据最后添加时间',
+                             `created` datetime DEFAULT NULL COMMENT '创建时间',
                              `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
                              PRIMARY KEY (`id`),
                              KEY `site_id` (`site_id`)

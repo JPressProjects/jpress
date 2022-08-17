@@ -141,6 +141,7 @@ CREATE TABLE `form_info`  (
   `version` int(11) NULL DEFAULT NULL COMMENT '版本号',
   `status` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '状态',
   `data_count` int(11) NOT NULL DEFAULT 0 COMMENT '数据量',
+  `created` datetime DEFAULT NULL COMMENT '创建时间',
   `data_created` datetime(0) NULL DEFAULT NULL COMMENT '数据最后添加时间',
   `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID',
   PRIMARY KEY (`id`) USING BTREE,

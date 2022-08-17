@@ -25,6 +25,7 @@ import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 import io.jpress.JPressOptions;
+import io.jpress.SiteContext;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import org.jsoup.Jsoup;
@@ -171,6 +172,9 @@ public class TemplateRender extends Render {
         Document doc = Jsoup.parse(content, charSet, "");
         if (doc.head().childNodeSize() == 0) {
             return doc.body().html();
+        } else {
+            String script = "    <script>var jpress = {cpath:'" + JFinal.me().getContextPath() + "',spath:'" + SiteContext.getSitePath() + "'}</script>\n";
+            doc.head().append(script);
         }
 
         doc.outputSettings().prettyPrint(false);

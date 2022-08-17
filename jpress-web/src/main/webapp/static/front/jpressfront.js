@@ -129,6 +129,14 @@ function getContextPath() {
     }
 }
 
+function getSitePath() {
+    if (typeof jpress == 'undefined') {
+        return ""
+    } else {
+        return jpress.spath;
+    }
+}
+
 
 function isMobileBrowser() {
     if (window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)) {
@@ -528,7 +536,7 @@ function initJPressVideo() {
         var id = $(this).attr("data-vid");
 
         $.ajax({
-            url: getContextPath() + "/admin/attachment/video/getVideoInfo",
+            url: getContextPath() + getSitePath() + "/admin/attachment/video/getVideoInfo",
             type: "post",
             data: {id: id},
 
@@ -542,7 +550,6 @@ function initJPressVideo() {
                         var playAuth = result.playAuth
 
                         loadCss("https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css")
-
                         loadJs("https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js",
                             function () {
                                 //阿里云
@@ -758,7 +765,7 @@ function initJPressAJCaptcha() {
 function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccessToUrl, ajaxGetSuccessPoint) {
 
     return {
-        baseUrl: getContextPath() + '/commons',  //服务器请求地址,
+        baseUrl: getContextPath() + getSitePath() + '/commons',  //服务器请求地址,
         containerId: containerId, //pop模式 必填 被点击之后出现行为验证码的元素id
         mode: 'pop',     //展示模式
         beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
@@ -833,7 +840,7 @@ function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccess
 function getFormCaptachOption(containerId, formID) {
 
     return {
-        baseUrl: getContextPath() + '/commons',  //服务器请求地址,
+        baseUrl: getContextPath() + getSitePath() + '/commons',  //服务器请求地址,
         containerId: containerId,//pop模式 必填 被点击之后出现行为验证码的元素id
         mode: 'pop',     //展示模式
         beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
@@ -910,8 +917,8 @@ function jobFileChoose() {
     })
 }
 
-//多图上传
-function initBsFromImageUpload() {
+//图片组件
+function initBsFormImageComponent() {
     var userAgent = navigator.userAgent; //用于判断浏览器类型
 
     $("body .uploadList").on("change", ".bsForm-upload-file", function () {
@@ -934,7 +941,7 @@ function initBsFromImageUpload() {
         formData.append(inputFieldName, file);
 
         $.ajax({
-            url: getContextPath() + '/form/upload/' + $(this).closest("form").attr("id"),
+            url: getContextPath() + getSitePath() + '/form/upload/' + $(this).closest("form").attr("id"),
             type: "POST",
             data: formData,
             processData: false,
@@ -1032,8 +1039,8 @@ $(document).ready(function () {
     /*job apply 页面 文件选择*/
     jobFileChoose();
 
-    /*多图上传*/
-    initBsFromImageUpload()
+    /*图片组件*/
+    initBsFormImageComponent()
 
 
 });

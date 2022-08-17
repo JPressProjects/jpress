@@ -25,19 +25,8 @@
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-<!--            <div  id="navbarSupportedContent">-->
-<!--                <ul class="navbar-nav mr-auto">-->
-<!--                    #for(menu : MENUS)-->
-<!--                    <li class="nav-item #(menu.isActive ? 'active' : '')">-->
-<!--                        <a href="#(menu.url ??)" target="#(menu.target ??)">#(menu.text ??)</a>-->
-<!--                    </li>-->
-<!--                    #end-->
-<!--                </ul>-->
 
-                #@defaultMenu("collapse navbar-collapse","navbar-nav","nav-item","nav-link")
-<!--            </div>-->
-
-
+            #@defaultMenu("collapse navbar-collapse","navbar-nav","nav-item","nav-link")
 
             #if(option('jpressportal_download_btn_enable'))
             <a href="#option('jpressportal_download_url')" class="btn btn-outline-light " target="_blank">下载源码</a>

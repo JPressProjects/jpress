@@ -1020,7 +1020,7 @@ function initVdtior(id, height) {
         }]
 
     window.currentVditor = new Vditor(id, {
-        "cdn": jpress.cpath + "/static/components/vditor",
+        "cdn": getContextPath()+ + "/static/components/vditor",
         "height": height,
         "toolbar": toolbar,
         "upload": {
@@ -1101,7 +1101,7 @@ function initJPressVideo() {
         var id = $(this).attr("data-vid");
 
         $.ajax({
-            url: "/admin/attachment/video/getVideoInfo",
+            url:getContextPath()+ "/admin/attachment/video/getVideoInfo",
             type: "post",
             data: {id:id},
 

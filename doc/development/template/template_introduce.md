@@ -7,7 +7,7 @@
 - [《Windows下安装启动JPress(undertow部署)》](/manual/windows_undertow_deploy.md)
 - [《Linux下安装启动JPress(tomcat部署)》](/manual/linux-tomcat-deploy.md)
 - [《Linux下安装启动JPress(undertow部署)》](/manual/linux_undertow_deploy.md)
-- [《宝塔下安装启动》](/manual/ces_bt_config.md)
+- [《宝塔下安装启动JPress》](/manual/ces_bt_config.md)
 
 ## 模板的组成
 

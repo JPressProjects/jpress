@@ -181,35 +181,25 @@ tomcat 默认端口号为 8080，若 8080 被占用或想更换访问端口号
 
 配置 tomcat 开机自启动
 
-(1)找到 tomcat 文件的 bin 目录
-![](mysql_img/img_16.png)
-    3.11 配置 tomcat 开机自启动
-        (1)找到 tomcat 文件的bin 目录
+找到 tomcat 文件的 bin 目录
 ![](./mysql_img/img_16.png)
 
-        (2)输入 cmd
+输入 cmd
 ![](./mysql_img/img_17.png)
-(2)输入 cmd
 
-![](mysql_img/img_17.png)
+进入命令页面，输入指令：
 
-        (3)进入命令页面
-        输入指令：service.bat install Tomcat
+    service.bat install Tomcat
+
 ![](./mysql_img/img_15.png)
-(3)进入命令页面
 
-    输入指令：service.bat install Tomcat
-
-![](mysql_img/img_15.png)
+在电脑左下角搜索框输入：服务
 
 ![](./mysql_img/img_18.png)
 
-        (4)找到 tomcat
-           单击鼠标右键，选择属性，把启动类型选择自动，点击确定，如下图所示： 
-![](./mysql_img/img_19.png)
-(4)找到 Apache Tomcat 9.0，单击鼠标右键，选择属性，把启动类型选择自动，点击确定，如下图所示：
+找到 Apache Tomcat 9.0，单击鼠标右键，选择属性，把启动类型选择自动，点击确定，如下图所示：
 
-![](mysql_img/img_19.png)
+![](./mysql_img/img_19.png)
 
 ## MYSQL 下载安装及配置
 
@@ -251,14 +241,6 @@ mysql 安装（略）
 
 删除 tomcat 文件中 webapps 文件夹下所有文件；
 
-    3.1 删除 tomcat 文件中 webapps 文件夹下所有文件，
-        再把项目的 war 包放进去，并修改名称为 ROOT.war，注意是大写英文字母，
-        ROOT 文件夹生成的两个方案：
-        1、 你可以自己解压缩 ROOT.war ，就是一个 .zip 的压缩文件 
-        2、 启动 tomcat 后，tomcat 自动帮你解压缩。
-        如下图所示：
-    
-![](./mysql_img/img_14.png)
 再把项目的 war 包放进去，并修改名称为 ROOT.war，注意是大写英文字母；
 
 ROOT 文件夹生成的两个方案：
@@ -266,16 +248,12 @@ ROOT 文件夹生成的两个方案：
 （2）启动 tomcat 后，tomcat 自动帮你解压缩。
 如下图所示：
 
-![](mysql_img/img_14.png)
+![](./mysql_img/img_14.png)
 
 启动 tomcat，输入网站地址，按下回车键，如下图所示：
 
 ![](./mysql_img/img_20.png)
         
-        部署成功
-![](./mysql_img/img_21.png)
-![](mysql_img/img_20.png)
-
 部署成功
 
-![](mysql_img/img_21.png)
+![](./mysql_img/img_21.png)

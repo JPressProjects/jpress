@@ -11,13 +11,13 @@
 
 下图图注1、图注2，可以上传附件：
 
-![](admin-doc/attachment.jpg)
+![](./admin-doc/attachment.jpg)
 
 点击图注3可以查看附件详情：
 
 附件详情里面可以找到附件链接、附件大小等，并可以删除该附件。如下图：
 
-![](admin-doc/attachment2.jpg)
+![](./admin-doc/attachment2.jpg)
 
 
 
@@ -25,7 +25,7 @@
 
 > 附件-设置
 
-![](admin-doc/attachment3.jpg)
+![](./admin-doc/attachment3.jpg)
 
 #### 附件大小限制
 

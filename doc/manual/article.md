@@ -1,7 +1,7 @@
 # 文章板块
 
 如下图所示，是一个用JPress搭建的网站，里面的文章，都是通过JPress后台发布：
-![](admin-doc/article.jpg)
+![](./admin-doc/article.jpg)
 
 [[toc]]
 
@@ -15,7 +15,7 @@
 
 图注2、图注3：新建文章；
 
-![](admin-doc/article2.png)
+![](./admin-doc/article2.png)
 
 新建文章的页面如下图：
 
@@ -23,7 +23,7 @@
 
 每篇文章支持SEO设置
 
-![](admin-doc/article3.jpg)
+![](./admin-doc/article3.jpg)
 
 
 
@@ -36,7 +36,7 @@
 
 也可以将该分类放在导航上，如下图:
 
-![](admin-doc/article4.jpg)
+![](./admin-doc/article4.jpg)
 
 标签与分类的设置方法类似。
 
@@ -45,7 +45,7 @@
 
 这里是用户的评论列表，将鼠标移到评论上，就会出现一系列操作按钮，可以对这条评论进行回复、编辑、删除，或者将这条评论进入到待审核的状态、放入垃圾箱，或者永久删除。
 如下图：
-![](admin-doc/article5.png)
+![](./admin-doc/article5.png)
 
 ## 如何开启、关闭文章评论
 > 文章-设置
@@ -60,7 +60,7 @@
 
 > 小提示：使用评论功能的前提是确保使用的模板支持评论功能。
 
-![](admin-doc/article6.jpg)
+![](./admin-doc/article6.jpg)
 
 
 ## 如何设置评论通知管理员
@@ -89,4 +89,4 @@ JPress支持的4种搜索方式各有利弊：
 > 小提示：如果JPress是4.x以前的版本，那么当你切换到Lucene搜索了之后，
 只能搜索出来切换以后新发布的文章。如果是4.x版本，则不存在这个问题。
 
-![](admin-doc/article7.jpg)
+![](./admin-doc/article7.jpg)

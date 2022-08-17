@@ -11,26 +11,26 @@ Windows流程相同
         starter-4.0 ：要打包的文件
         如下图所示 ：
 
-![](project_transfer_img/img.png)
+![](./project_transfer_img/img.png)
 
     1.3 数据备份
 
-![](project_transfer_img/img_1.png)
+![](./project_transfer_img/img_1.png)
 
     1.4 数据迁移
         连接新的服务器，并创建数据库，数据库名称要和旧的相同
         运行SQL文件，选择你备份的 .sql 文件
         如下图所示：
 
-![](project_transfer_img/img_2.png)
+![](./project_transfer_img/img_2.png)
 
     1.5 启动项目，下图所示是配置了 jpress.sh 后台运行
 
-![](project_transfer_img/img_3.png)
+![](./project_transfer_img/img_3.png)
 
     1.6 迁移成功
 
-![](project_transfer_img/img_4.png)
+![](./project_transfer_img/img_4.png)
 
 
 

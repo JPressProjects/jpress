@@ -14,7 +14,7 @@
 
 同时也可以设置网站备案号和版权信息，这部分需要模板支持才会到网站底部。
 
-![](admin-doc/setting1.jpg)
+![](./admin-doc/setting1.jpg)
 
 ## 通信设置
 
@@ -22,7 +22,7 @@
 
 这部分是用来给网站用户发消息所做的配置，根据网站提示来即可。
 
-![](admin-doc/setting2.jpg)
+![](./admin-doc/setting2.jpg)
 
 
 ## 接口设置
@@ -31,7 +31,7 @@
 
 可以通过开发接口来获取JPress的数据，这部分是给开发者使用。
 
-![](admin-doc/setting3.jpg)
+![](./admin-doc/setting3.jpg)
 
 
 ## 登录注册设置
@@ -41,7 +41,7 @@
 可以设置用户登录注册时的信息，比如登录是否启用验证码，是否启用微信、QQ、微博、
 Github、码云、钉钉登录等，如果启用，正确配置即可。
 
-![](admin-doc/setting4.jpg)
+![](./admin-doc/setting4.jpg)
 
 ## 网站加速设置
 
@@ -49,7 +49,7 @@ Github、码云、钉钉登录等，如果启用，正确配置即可。
 
 本功能，可以让网页速度飞起来！
 
-![](admin-doc/setting5.jpg)
+![](./admin-doc/setting5.jpg)
 
 
 ## 垃圾过滤
@@ -61,7 +61,7 @@ Github、码云、钉钉登录等，如果启用，正确配置即可。
 
 也可以直接调用云端的过滤，此功能云端收费，做好相应配置。
 
-![](admin-doc/setting6.jpg)
+![](./admin-doc/setting6.jpg)
 
 
 ## 网站搜索引擎设置
@@ -71,4 +71,4 @@ Github、码云、钉钉登录等，如果启用，正确配置即可。
 此功能是优化网站SEO，便于抓取排名等，包括SEO关键字，标题，描述，以及百度实时推送，
 Ping 与 Sitemap 以及伪静态等。
 
-![](admin-doc/setting7.jpg)
+![](./admin-doc/setting7.jpg)

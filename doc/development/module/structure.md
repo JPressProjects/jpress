@@ -20,6 +20,9 @@
 | jpress-template | JPress的html模板   |
 | jpress-web | JPress非业务的web处理代码，包含了 Controller、指令等 |
 | module-article | 文章模块代码   |
+| module-form | 表单模块代码   |
+| module-job | 招聘模块代码   |
 | module-page | 页面模块代码  |
+| module-product | 商品模块代码  |
 | starter | undertow启动模块，开发的时候可以运行里面的 Starter.java 的main方法，编译的时候会生成 jpress 可执行程序 |
 | starter-tomcat | tomcat 启动模块，编译的时候会生成 war 包，用于放在tomcat部署 |

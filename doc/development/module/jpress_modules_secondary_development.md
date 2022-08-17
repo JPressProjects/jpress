@@ -2,9 +2,9 @@
 
 在开发开发之前，我们需要做好如下的准备：
 
-- 1、下载源码。（文档地址：[jpress_download_source](/commons/jpress_download_source.md)）
-- 2、导入源码到编辑器。（文档地址：[jpress_open_compiler](/commons/jpress_open_compiler.md)）
-- 3、了解 JPress 如何编译并运行。（文档地址：[jpress_compile_with_run](/commons/jpress_compile_with_run.md)）
+- 1、下载源码。（文档地址：[jpress_download_source](/manual/jpress_download_source.md)）
+- 2、导入源码到编辑器。（文档地址：[jpress_open_compiler](/manual/jpress_open_compiler.md)）
+- 3、了解 JPress 如何编译并运行。（文档地址：[jpress_compile_with_run](/manual/jpress_compile_with_run.md)）
 
 
 >为了方便文档讲解清楚模块开发，这里会有一个模拟模块开发的场景案例

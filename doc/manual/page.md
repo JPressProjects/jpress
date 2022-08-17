@@ -2,7 +2,7 @@
 
 > 页面-新建
 
-![](admin-doc/page.jpg)
+![](./admin-doc/page.jpg)
 
 [[toc]]
 

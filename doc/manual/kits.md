@@ -7,4 +7,4 @@
 公众号文章一键导入到 JPress 网站的功能。
                          
 
-![](admin-doc/tools.jpg)
+![](./admin-doc/tools.jpg)

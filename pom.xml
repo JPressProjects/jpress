@@ -29,8 +29,6 @@
 
         <module>starter</module>
         <module>starter-tomcat</module>
-<!--        <module>starter-dev</module>-->
-<!--        <module>starter-ent</module>-->
     </modules>
 
     <properties>

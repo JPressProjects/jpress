@@ -1,20 +1,12 @@
-![](./doc/images/screenshot.png)
+![](./doc/assets/images/commons/screenshot.png)
 
 
 <h1 align="center"><a href="http://www.jpress.cn" target="_blank"> JPress </a></h1>
 
 <p align="center">
-一个使用 Java 开发的、类似 WordPress 的产品。（JPress 始于2014 年）
+一个使用 Java 开发的、类似 WordPress 的产品。（JPress 始于2015 年）
 </p>
 
-
-<p align="center">
-<img alt="release" src="https://img.shields.io/github/release/JpressProjects/jpress.svg?style=flat-square"/>
-<img alt="release" src="https://img.shields.io/github/release-date/JpressProjects/jpress.svg?style=flat-square"/>
-<img alt="commit" src="https://img.shields.io/github/last-commit/JpressProjects/jpress.svg?style=flat-square"/>
-<img alt="issues" src="https://img.shields.io/github/issues-closed/JpressProjects/jpress.svg?style=flat-square"/>
-<img alt="license" src="https://img.shields.io/github/license/JpressProjects/jpress.svg?style=flat-square"/>
-</p>
 
 ## 功能
 

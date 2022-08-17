@@ -74,7 +74,7 @@
 
 输出： `<div> jpress.cn </div>`
 
-### option支持的参数：
+**option支持的参数：**
 
 - 参数一：key
 - 参数二：默认值，当通过key查询不到数据时，使用默认值
@@ -98,7 +98,7 @@
 
 输出： `<div> [jpress.cn] </div>`
 
-### linesOption支持的参数：
+**linesOption支持的参数：**
 
 - 参数一：key
 - 参数二：分隔符 可以指定分隔符 返回分割后的 list
@@ -137,7 +137,7 @@
 
 输出： `<div> value </div>`
 
-### para支持的参数：
+**para支持的参数：**
 
 - 参数一：key
 - 参数二：默认值，当通过 key 查询不到数据时，使用默认值
@@ -160,7 +160,7 @@
 
 输出： `<div> 5 </div>`
 
-### numberPara支持的参数：
+**numberPara支持的参数：**
 
 - 参数一：key
 - 参数二：默认值，当通过 key 查询不到数据时，使用默认值
@@ -182,7 +182,7 @@
 
 输出： `<div> false </div>`
 
-### contains支持的参数：
+**contains支持的参数：**
 
 - 参数一：需要判断的集合
 - 参数二：需要判断的元素
@@ -211,7 +211,7 @@
 
 输出： `<div> false </div>`
 
-### hasPermission支持的参数：
+**hasPermission支持的参数：**
 
 - 参数一：可传入 role 对象 或者 user 对象 或者直接传入 actionKey
 - 参数二：permissionId 当参数一为 actionKey 时 参数二为空
@@ -241,7 +241,7 @@
 ```
 输出： `<div> false </div>`
 
-### hasRole支持的参数：
+**hasRole支持的参数：**
 
 - 参数一：可传入 roleId  或者 userId 或者 roleFlag
 - 参数二：当参数一为 userId 时 需要传入参数二 参数二为 roleId

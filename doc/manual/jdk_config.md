@@ -69,21 +69,3 @@ jdk 官网地址： [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![](./jdk_image/img_1.png)
 
-### 5、在 IDEA 中配置 jdk
-
-
-setting 是 idea 配置，Project Structure 是项目配置
-
-![](./jdk_image/img_2.png)
-
-点击 Project Structure 进入项目配置，选择你安装的 jdk,再点击 apply 应用
-
-![](./jdk_image/img_3.png)
-
-点击 Modules,选择安装的 jdk,再点击应用
-
-![](./jdk_image/img_4.png)
-
-SDKs 的配置，选择你安装的 jdk
-
-![](./jdk_image/img_5.png)

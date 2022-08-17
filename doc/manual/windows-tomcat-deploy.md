@@ -8,7 +8,7 @@ jdk 官网地址： [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ### 1、jdk 下载
 
-进入官网，定位到：Java -> Java SE -> Oracle jdk 点击进入，如下图所示：
+进入官网，定位到：Java -> Java SE -> Oracle JDK 点击进入，如下图所示：
 
 ![jdk_1](./jdk_image/jdk_1.png)
 
@@ -65,7 +65,11 @@ jdk 官网地址： [https://www.oracle.com/java/](https://www.oracle.com/java/)
 
 ![](./jdk_image/img.png)
 
-输入指令：java -version，若能查看到安装的 jdk 版本，则配置成功
+输入指令：
+
+    java -version
+
+若能查看到安装的 jdk 版本，则配置成功
 
 ![](./jdk_image/img_1.png)
 
@@ -113,7 +117,11 @@ Tomcat 官网地址：[https://tomcat.apache.org/](https://tomcat.apache.org/)
 
 ![](./jdk_image/img.png)
 
-输入指令：startup.bat，看能否正常启动
+输入指令：
+
+    startup.bat
+
+看能否正常启动
 
 ![](./tomcat_img/img_6.png)
 
@@ -125,11 +133,15 @@ Tomcat 官网地址：[https://tomcat.apache.org/](https://tomcat.apache.org/)
 
 编辑文件：logging.properties
 
-找到这一行代码：java.util.logging.ConsoleHandler.encoding = UTF-8
+找到一行代码，如下所示：
+
+    java.util.logging.ConsoleHandler.encoding = UTF-8
 
 ![](./tomcat_img/img_8.png)
 
-修改为：java.util.logging.ConsoleHandler.encoding = GBK
+修改为：
+
+    java.util.logging.ConsoleHandler.encoding = GBK
 
 ![](./tomcat_img/img_9.png)
 

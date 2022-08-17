@@ -45,6 +45,9 @@ public class _FormInfoController extends AdminControllerBase {
     @AdminMenu(text = "表单", groupId = "form", order = 1)
     public void list() {
 
+        //设置分页数量
+        setPaginateSizeSpacing(8);
+
         String name = getPara("name");
 
         Columns columns = new Columns();

@@ -5,6 +5,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
+import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.form.service.FormDataService;
 
 import java.util.List;
@@ -13,10 +14,9 @@ import java.util.List;
 public class FormDataServiceProvider implements FormDataService {
 
 
-
     @Override
     public Record findById(String tableName, Long dataId) {
-        if (tableName == null || dataId == null){
+        if (tableName == null || dataId == null) {
             return null;
         }
 
@@ -25,11 +25,11 @@ public class FormDataServiceProvider implements FormDataService {
 
     @Override
     public void deleteById(String tableName, Long dataId) {
-        if (tableName == null || dataId == null){
+        if (tableName == null || dataId == null) {
             return;
         }
 
-        Db.deleteById(tableName,dataId);
+        Db.deleteById(tableName, dataId);
     }
 
     @Override
@@ -79,21 +79,33 @@ public class FormDataServiceProvider implements FormDataService {
 
 
     /**
-     * 根据filed
+     * 根据 field 查询数据量
      *
      * @param tableName
-     * @param filedName
+     * @param fieldName
      * @param value
      * @return int
      */
     @Override
-    public int findCountByValue(String tableName, String filedName,String value) {
+    public Long findCountByValue(String tableName, String fieldName, String value) {
+        if (SqlUtils.hasSqlInject(tableName) || SqlUtils.hasSqlInject(fieldName) || SqlUtils.hasSqlInject(value)){
+            return 0L;
+        }
 
-        String sql = "select count(*) as count from "+tableName+" where "+filedName+" = ?";
+        String sql = "select count(*) from " + tableName + " where `" + fieldName + "` = ?";
+        return Db.queryLong(sql,value);
+    }
 
-        Record record = Db.findFirst(sql,value);
 
-        return record.getInt("count");
+
+    @Override
+    public Integer findCountByTable(String tableName) {
+        if (SqlUtils.hasSqlInject(tableName)){
+            return 0;
+        }
+
+        String sql = "select count(*)  from " + tableName;
+        return Db.queryInt(sql);
     }
 
 

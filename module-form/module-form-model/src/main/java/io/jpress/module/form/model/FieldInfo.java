@@ -2,6 +2,7 @@ package io.jpress.module.form.model;
 
 import io.jboot.utils.ObjectUtil;
 import io.jboot.utils.StrUtil;
+import io.jpress.commons.utils.SqlUtils;
 
 import java.util.Date;
 import java.util.Objects;
@@ -18,6 +19,7 @@ public class FieldInfo {
     private String fieldName;
     private String fieldType;
     private Integer fieldTypeLen;
+    private Boolean required;
 
 
     public String getTag() {
@@ -84,6 +86,18 @@ public class FieldInfo {
         this.fieldTypeLen = fieldTypeLen;
     }
 
+    public Boolean getRequired() {
+        return required;
+    }
+
+    public void setRequired(Boolean required) {
+        this.required = required;
+    }
+
+    public boolean isRequired(){
+        return required != null && required;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -133,8 +147,11 @@ public class FieldInfo {
 
 
     public boolean checkFieldStateOk() {
-        return fieldName != null && !StrUtil.isNumeric(fieldName);
+        return StrUtil.isNotBlank(fieldName) && !StrUtil.isNumeric(fieldName) && !SqlUtils.hasSqlInject(fieldName);
     }
+
+
+
 
 
     /**

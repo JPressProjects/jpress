@@ -206,7 +206,7 @@ public class _FormDataController extends AdminControllerBase {
 
                     JSONObject jsonObject = options.getJSONObject(i);
 
-                    int count = formDataService.findCountByValue(formInfo.getCurrentTableName(), getPara("field"), jsonObject.getString("value"));
+                    Long count = formDataService.findCountByValue(formInfo.getCurrentTableName(), getPara("field"), jsonObject.getString("value"));
 
                     formChartsInfo.setName(jsonObject.getString("text") + "(" + count +")");
 

@@ -57,12 +57,12 @@ public class SqlUtils {
     }
 
 
-    private static final String stringsToCheck[] = {"select", "drop", "truncate", "from",
+    private static final String[] stringsToCheck = {"select", "drop", "truncate", "from",
             "exec", "exists", "update", "delete", "insert", "cast", "http", "order", "union",
             "sql", "null", "like", "mysql", "information_schema",
             "sleep", "version", "join", "declare", "having", "signed", "alter",
             "union", "where", "create", "shutdown", "grant", "privileges",
-            "--", ";", "#", "*", "%", "(", ")"};
+            "`", "--", ";", "#", "*", "%", "(", ")"};
 
     public static boolean hasSqlInject(String str) {
 

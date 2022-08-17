@@ -161,19 +161,22 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         for (FieldInfo fieldInfo : fieldInfos) {
             String[] values = parameters.get(fieldInfo.getParaName());
             if (values != null && values.length > 0) {
-                String string = ArrayUtil.toString(values, ",");
-                if (StrUtil.isBlank(string)) {
+                String paraValue = ArrayUtil.toString(values, ",");
+                if (StrUtil.isBlank(paraValue)) {
+                    if (fieldInfo.isRequired()) {
+                        throw new IllegalArgumentException(fieldInfo.getLabel() + "数据不能为空！");
+                    }
                     continue;
                 }
 
                 //检查数据长度
-                if (!fieldInfo.checkValueLen(string)) {
-                    throw new IllegalArgumentException(fieldInfo.getLabel() + "的数据长度过长！");
+                if (!fieldInfo.checkValueLen(paraValue)) {
+                    throw new IllegalArgumentException(fieldInfo.getLabel() + "数据长度过长！");
                 }
 
                 Object value;
                 try {
-                    value = fieldInfo.convertValueData(string);
+                    value = fieldInfo.convertValueData(paraValue);
                 } catch (Exception e) {
                     throw new IllegalArgumentException(e.getMessage(), e);
                 }
@@ -249,6 +252,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
                 fieldInfo.setFieldTypeLen(fieldLenth);
                 fieldInfo.setLabel(data.getString("label"));
                 fieldInfo.setTag(data.getString("tag"));
+                fieldInfo.setRequired(data.getBoolean("required"));
 
                 fieldInfos.add(fieldInfo);
             }

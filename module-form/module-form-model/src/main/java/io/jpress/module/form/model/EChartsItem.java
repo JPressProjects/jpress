@@ -4,12 +4,12 @@ public class EChartsItem {
 
 
     private String name;
-    private int value;
+    private Long value;
 
     public EChartsItem() {
     }
 
-    public EChartsItem(String name, int value) {
+    public EChartsItem(String name, Long value) {
         this.name = name;
         this.value = value;
     }
@@ -22,11 +22,11 @@ public class EChartsItem {
         this.name = name;
     }
 
-    public int getValue() {
-        return value;
+    public Long getValue() {
+        return value != null ? value : 0L;
     }
 
-    public void setValue(int value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 

@@ -89,15 +89,18 @@ public interface FormDataService {
     public List<Record> findAll(String tableName);
     
     /**
-    * 根据filed
+    * 根据 field 数据查询数据
     *
     * @param tableName
     * @param filedName
     * @param value
     * @return int
     */
-    public int findCountByValue(String tableName,String filedName,String value);
-    
+    public Long findCountByValue(String tableName,String filedName,String value);
+
+
+    public Integer findCountByTable(String tableName);
+
     
 
 

@@ -16,6 +16,7 @@ import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.TemplateControllerBase;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,15 +79,10 @@ public class FormController extends TemplateControllerBase {
             formDataService.save(formInfo.getCurrentTableName(), record);
 
             //更新表单 的 数据数量 和 最后数据时间
-            List<Record> list = formDataService.findAll(formInfo.getCurrentTableName());
-
-            if (list.size() > 0) {
-                formInfo.setDataCount(list.size());
-
-                formInfo.setDataCreated(list.get(list.size() - 1).getDate("user_submit_time"));
-
-                formInfo.update();
-            }
+            Integer dataCount = formDataService.findCountByTable(formInfo.getCurrentTableName());
+            formInfo.setDataCount(dataCount);
+            formInfo.setDataCreated(new Date());
+            formInfo.update();
 
         } catch (Exception e) {
             e.printStackTrace();

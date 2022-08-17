@@ -482,7 +482,6 @@ function initCommentComponent() {
 }
 
 
-
 function initSwiperComponent() {
 
     if (typeof Swiper == "undefined") {
@@ -529,7 +528,7 @@ function initJPressVideo() {
         var id = $(this).attr("data-vid");
 
         $.ajax({
-            url: "/admin/attachment/video/getVideoInfo",
+            url: getContextPath() + "/admin/attachment/video/getVideoInfo",
             type: "post",
             data: {id: id},
 
@@ -668,7 +667,7 @@ function initFormData() {
 
         if (formId != null) {
             $.ajax({
-                url: '/form/detail/' + formId,
+                url: getContextPath() + '/form/detail/' + formId,
                 type: 'get',
                 data: {},
                 success: function (result) {
@@ -730,23 +729,23 @@ function initJPressAJCaptcha() {
         var ajaxGetSuccessPoint = $(this).attr("data-point");
 
         var val = null;
-        var option = validType === "ajax" ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl,ajaxGetSuccessToUrl,ajaxGetSuccessPoint) : getFormCaptachOption(containerId, validFormId);
+        var option = validType === "ajax" ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccessToUrl, ajaxGetSuccessPoint) : getFormCaptachOption(containerId, validFormId);
 
-        loadCss("/static/components/aj-captcha/css/verify.css");
+        loadCss(getContextPath() + "/static/components/aj-captcha/css/verify.css");
         loadJs([
-                "/static/components/aj-captcha/js/crypto-js.js",
-                "/static/components/aj-captcha/js/ase.js",
-                "/static/components/aj-captcha/js/verify.js",
-                "/static/components/jquery/jquery.form.min.js",
+                getContextPath() + "/static/components/aj-captcha/js/crypto-js.js",
+                getContextPath() + "/static/components/aj-captcha/js/ase.js",
+                getContextPath() + "/static/components/aj-captcha/js/verify.js",
+                getContextPath() + "/static/components/jquery/jquery.form.min.js",
             ],
             function () {
 
-                if (captchaType == 'pointsVerify') {
+                if (captchaType === 'pointsVerify') {
 
                     var isRead = false;
                     $(location).pointsVerify(option);
 
-                } else if (captchaType == 'slideVerify') {
+                } else if (captchaType === 'slideVerify') {
 
                     var isRead = false;
                     $(location).slideVerify(option);
@@ -756,11 +755,11 @@ function initJPressAJCaptcha() {
     })
 }
 
-function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl,ajaxGetSuccessToUrl,ajaxGetSuccessPoint) {
+function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccessToUrl, ajaxGetSuccessPoint) {
 
     return {
         baseUrl: getContextPath() + '/commons',  //服务器请求地址,
-        containerId: containerId,//pop模式 必填 被点击之后出现行为验证码的元素id
+        containerId: containerId, //pop模式 必填 被点击之后出现行为验证码的元素id
         mode: 'pop',     //展示模式
         beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
 
@@ -790,7 +789,6 @@ function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl,ajaxGetSuccessT
             }
 
             var data = $.extend(dataType, params);
-            // var url = ajaxUrl;
 
             $.ajax({
                 url: ajaxUrl,
@@ -801,7 +799,7 @@ function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl,ajaxGetSuccessT
                 success:
                     function (result) {
                         console.log(result);
-                        if (result.state == "ok") {
+                        if (result.state === "ok") {
                             if (ajaxGetSuccessToUrl == null || ajaxGetSuccessToUrl == '') {
                                 var point = ajaxGetSuccessPoint == null || ajaxGetSuccessPoint == '' ? "验证成功" : ajaxGetSuccessPoint;
                                 alert(point);
@@ -859,9 +857,9 @@ function getFormCaptachOption(containerId, formID) {
                 if (result.state == 'ok') {
 
                     //如果返回值中 有 message 属性
-                    if(result.message){
-                       alert(result.message)
-                    }else {
+                    if (result.message) {
+                        alert(result.message)
+                    } else {
                         alert("提交成功");
                     }
 
@@ -869,7 +867,7 @@ function getFormCaptachOption(containerId, formID) {
                     let path = $("#" + containerId).attr("data-result-url");
                     if (path) {
                         location.href = path;
-                    }else {
+                    } else {
                         location.reload();
                     }
                 }
@@ -936,7 +934,7 @@ function initBsFromImageUpload() {
         formData.append(inputFieldName, file);
 
         $.ajax({
-            url: '/form/upload/' + $(this).closest("form").attr("id"),
+            url: getContextPath() + '/form/upload/' + $(this).closest("form").attr("id"),
             type: "POST",
             data: formData,
             processData: false,
@@ -986,6 +984,7 @@ function initBsFromImageUpload() {
         })
     });
 
+
     $("body .uploadList").on("click", ".file-delete", function () {
 
         let uploadListDiv = $(this).closest(".uploadList"); // 放置图片的容器
@@ -996,7 +995,6 @@ function initBsFromImageUpload() {
         }
 
         $(this).parent(".jpress-upload-item").remove();
-
     });
 
 }
@@ -1036,9 +1034,6 @@ $(document).ready(function () {
 
     /*多图上传*/
     initBsFromImageUpload()
-
-    /*提交按钮*/
-    // defineFormmSubmit()
 
 
 });

@@ -84,12 +84,14 @@ public class FormController extends TemplateControllerBase {
             formInfo.setDataCreated(new Date());
             formInfo.update();
 
+        } catch (IllegalArgumentException iae) {
+            renderJson(Ret.fail().set("message", iae.getMessage()));
+            return;
         } catch (Exception e) {
             e.printStackTrace();
-            renderJson(Ret.fail().set("message", e.getMessage()));
+            renderJson(Ret.fail().set("message", "数据提交失败，请联系管理员"));
             return;
         }
-
 
         renderOkJson();
     }

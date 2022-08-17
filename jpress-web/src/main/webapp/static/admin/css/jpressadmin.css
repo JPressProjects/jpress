@@ -831,6 +831,7 @@ label:not(.form-check-label):not(.custom-file-label) {
 }
 #deleteGroup{
     display: none;
+    padding-bottom: 1.2rem;
 }
 .item-checkbox {
     width: 24px;

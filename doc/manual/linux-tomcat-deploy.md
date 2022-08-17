@@ -16,11 +16,11 @@ xftp 新建连接
 
 上图中的用户名和密码，在两种地方可以设置
 
-（1）更换操作系统时，如下图所属：
+（1）更换操作系统时，如下图所示：
 
 ![](./linux_tomcat_img/img_4.png)
 
-（2）对云服务器的实例操作：管理-> 重置实例密码
+（2）对云服务器的实例操作：管理 -> 重置实例密码
 
 如下图所示：
 
@@ -30,7 +30,7 @@ xftp 新建连接
 
 ![](./linux_tomcat_img/img_3.png)
 
-（3）数据填写完毕，最后点击确定，弹出会话列表
+数据填写完毕，最后点击确定，弹出会话列表
 
 选择你添加的会话，点击连接，如下图所示：
 
@@ -58,9 +58,9 @@ xftp 界面，找到 Windows 桌面上下载好的 jdk1.8 的压缩包
 
 ![](./linux_tomcat_img/img_12.png)
 
-xShell 连接云服务器，找到 jdk1.8 所在的位置，输入指令：
+xShell 连接云服务器，找到 jdk1.8 所在的位置，输入解压指令：
 
-    tar -xvf jdk-8u202-linux-x64.tar.gz 解压 jdk 压缩包
+    tar -xvf jdk-8u202-linux-x64.tar.gz  
 
 ![](./linux_tomcat_img/img_13.png)
 
@@ -80,7 +80,11 @@ xShell 连接云服务器，找到 jdk1.8 所在的位置，输入指令：
     PATH=$JAVA_HOME/bin:$PATH
     export JAVA_HOME CLASSPATH PATH
     
-JAVA_HOME= jdk 的安装路径，编辑完毕，按下键盘的 Esc 退出编辑模式，再输入 ：wq 保存并退出
+JAVA_HOME= jdk 的安装路径，编辑完毕，按下键盘的 Esc 退出编辑模式，再输入指令：
+
+    :wq
+
+保存并退出
 
 如下图所示：
 
@@ -100,7 +104,8 @@ JAVA_HOME= jdk 的安装路径，编辑完毕，按下键盘的 Esc 退出编辑
 
 ## 4、Tomcat 压缩包下载
 
-下载 apache-tomcat-9.0.65.tar 
+下载 apache-tomcat-9.0.65.tar
+
 下载地址：[https://tomcat.apache.org/download-90.cgi](https://tomcat.apache.org/download-90.cgi)
 
 ![](./linux_tomcat_img/img_8.png)
@@ -124,9 +129,9 @@ xShell 连接云服务器，输入解压指令：
     
 ![](./linux_tomcat_img/img_17.png)
 
-启动tomcat，进入 tomcat 的 bin 目录，输入指令：
+启动tomcat，进入 tomcat 的 bin 目录，输入启动指令：
 
-    ./startup.sh 启动
+    ./startup.sh 
 
 ![](./linux_tomcat_img/img_18.png)
 
@@ -164,7 +169,7 @@ xShell 连接云服务器，输入解压指令：
 
 ![](./linux_tomcat_img/img_24.png)
 
-安装 mysql，输入指令：
+安装 mysql，输入安装指令：
 
     yum install mysql-server 
 
@@ -172,7 +177,7 @@ xShell 连接云服务器，输入解压指令：
 
 安装 mysql 遇到问题：
 
-1）报错：
+安装报错：
         
     Failing package is: mysql-community-libs-compat-5.7.39-1.el7.x86_64
           GPG Keys are configured as: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql

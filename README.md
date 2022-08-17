@@ -4,7 +4,7 @@
 <h1 align="center"><a href="http://www.jpress.cn" target="_blank"> JPress </a></h1>
 
 <p align="center">
-一个使用 Java 开发的类似 WordPress 的产品。
+一个使用 Java 开发的、类似 WordPress 的产品。（JPress 始于2014 年）
 </p>
 
 
@@ -145,10 +145,9 @@
 
 ## 交流
 
-- 官网：[http://www.jpress.io](http://www.jpress.io)
-- 论坛社区：[点击这里](http://www.jpress.io/club)
-- 插件列表：[点击这里](http://www.jpress.io/article/category/plugin)
-- 模板列表：[点击这里](http://www.jpress.io/article/category/template)
+- 官网：[http://www.jpress.cn](http://www.jpress.cn)
+- 插件列表：[点击这里](http://www.jpress.cn/article/category/plugin)
+- 模板列表：[点击这里](http://www.jpress.cn/article/category/template)
 - QQ群：591396171 ，288397536
 
 
@@ -161,7 +160,7 @@
 - [二次开发](hhttp://doc.jpress.cn/development/dev/start.html)
 - [API 接口](http://doc.jpress.cn/development/api/start.html)
 - [视频教程](http://www.ketang8.com/course/5)
-- [JPress-VIP 会员](http://www.jpress.io/article/vip)
+- [JPress-VIP 会员](http://www.jpress.cn/article/vip)
 
 
 ## 广告

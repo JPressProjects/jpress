@@ -61,10 +61,10 @@ public class BaiduSeoProcesser {
 
 
     public static void main(String[] args) {
-        String site = "www.jpress.io";
+        String site = "www.jpress.cn";
         String token = "avsegfd8WTAVOo7Iv";
 
-        boolean success = push(site, token, "http://www.jpress.io/club");
+        boolean success = push(site, token, "http://www.jpress.cn/club");
         System.out.println("success : " + success);
 
     }

@@ -44,6 +44,21 @@ public class FormInfoServiceProvider extends JPressServiceBase<FormInfo> impleme
         deleteOldTable(formInfo);
     }
 
+
+    /**
+     * 根据uuid 查询model
+     *
+     * @param uuid
+     * @return
+     */
+    @Override
+    public FormInfo findByUUID(@NotNull String uuid) {
+
+        String sql = "select * from form_info where uuid = ?";
+
+        return DAO.findFirst(sql, uuid);
+    }
+
     /**
      * 分页查询 并添加信息
      *

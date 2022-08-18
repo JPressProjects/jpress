@@ -26,6 +26,15 @@ public interface FormInfoService {
 
 
     /**
+     * 根据uuid 查询model
+     *
+     * @param uuid
+     * @return
+     */
+    public FormInfo findByUUID(String uuid);
+
+
+    /**
      * 根据 Columns 查找单条数据
      *
      * @param columns
@@ -191,6 +200,5 @@ public interface FormInfoService {
      * @return com.jfinal.plugin.activerecord.Page<io.jpress.module.form.model.FormInfo>
      */
     public Page<FormInfo> paginateByColumnsWithInfo(int page, int pageSize, Columns columns, String orderBy);
-
 
 }

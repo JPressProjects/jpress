@@ -20,6 +20,20 @@ public abstract class BaseFormInfo<M extends BaseFormInfo<M>> extends JbootModel
 	}
 
     /**
+     * UUID
+     */
+	public void setUuid(java.lang.String uuid) {
+		set("uuid", uuid);
+	}
+
+    /**
+     * UUID
+     */
+	public java.lang.String getUuid() {
+		return getStr("uuid");
+	}
+
+    /**
      * 表单名称
      */
 	public void setName(java.lang.String name) {

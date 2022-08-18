@@ -8,6 +8,7 @@ COPY ./docker/files/jpress.sh /opt/jpress/jpress.sh
 COPY ./docker/files/jboot.properties /opt/jpress/config/jboot.properties
 
 
+
 RUN chmod +x /opt/jpress/jpress.sh &&  \
     rm -rf /opt/jpress/jpress.bat && \
     rm -rf /opt/jpress/config/undertow.txt && \

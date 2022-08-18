@@ -88,24 +88,6 @@ public class JobApplyController extends TemplateControllerBase {
         }
 
 
-        //简历上传
-        for (UploadFile uploadFile : uploadFiles) {
-            String fileParameterName = uploadFile.getParameterName();
-            //如果是简历
-            if (fileParameterName.equals(JobApply.FILE_RESUME)) {
-                String path = AttachmentManager.me().saveFile(uploadFile.getFile());
-                apply.setCvPath(path);
-            }
-            //如果是附件
-            else if (fileParameterName.equals(JobApply.FILE_ATTACHMENT)) {
-                String path = AttachmentManager.me().saveFile(uploadFile.getFile());
-                apply.setAttachment(path);
-            }
-            //如果都不是
-            else {
-                FileUtil.delete(uploadFile.getFile());
-            }
-        }
 
 
         //获取岗位信息
@@ -154,6 +136,26 @@ public class JobApplyController extends TemplateControllerBase {
         }
 
 
+
+        //简历上传
+        for (UploadFile uploadFile : uploadFiles) {
+            String fileParameterName = uploadFile.getParameterName();
+            //如果是简历
+            if (fileParameterName.equals(JobApply.FILE_RESUME)) {
+                String path = AttachmentManager.me().saveFile(uploadFile.getFile());
+                apply.setCvPath(path);
+            }
+            //如果是附件
+            else if (fileParameterName.equals(JobApply.FILE_ATTACHMENT)) {
+                String path = AttachmentManager.me().saveFile(uploadFile.getFile());
+                apply.setAttachment(path);
+            }
+            //如果都不是
+            else {
+                FileUtil.delete(uploadFile.getFile());
+            }
+        }
+
         apply.remove("id");
         apply.setWithViewed(false);
         apply.setWithDisposed(false);
@@ -174,12 +176,11 @@ public class JobApplyController extends TemplateControllerBase {
         if (files != null && !files.isEmpty()){
             files.forEach(uploadFile -> FileUtil.delete(uploadFile.getFile()));
         }
-
     }
 
 
     //发送邮件
-    public void sendEmail(@NotNull Job job) {
+    private void sendEmail(@NotNull Job job) {
 
         SimpleEmailSender ses = new SimpleEmailSender();
 

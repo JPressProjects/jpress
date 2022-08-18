@@ -57,7 +57,7 @@ public class JobApplyController extends TemplateControllerBase {
         }
 
         //如果该岗位 设定了不予许 投递 那么 404
-        if (job.getWithApply() && !job.getWithApply()) {
+        if (job.getWithApply() != null && !job.getWithApply()) {
             renderError(404);
             return;
         }

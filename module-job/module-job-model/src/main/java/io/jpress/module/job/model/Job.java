@@ -23,6 +23,10 @@ public class Job extends BaseJob<Job> {
         return UrlUtils.getUrl("/job/",getId());
     }
 
-	
+
+    public boolean isAllowApply() {
+        Boolean withApply = getWithApply();
+        return withApply  != null && withApply;
+    }
 }
 

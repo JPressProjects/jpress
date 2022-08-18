@@ -20,7 +20,7 @@
             #for(page : singlePages)
             <tr>
                 <td style="width: 150px">#date(page.created ??)</td>
-                <td><a href="/#(page.id ??)" target="_blank">#(page.title ??)</a></td>
+                <td><a href="#(page.url ??)" target="_blank">#(page.title ??)</a></td>
             </tr>
             #end
             </tbody>

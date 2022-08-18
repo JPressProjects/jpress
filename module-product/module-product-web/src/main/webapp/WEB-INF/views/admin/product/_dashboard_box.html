@@ -20,7 +20,7 @@
             #for(product : productList)
             <tr>
                 <td style="width: 150px">#date(product.created ??)</td>
-                <td><a href="/product/#(product.id ??)" target="_blank">#(product.title ??)</a></td>
+                <td><a href="#(product.url ??)" target="_blank">#(product.title ??)</a></td>
             </tr>
             #end
             </tbody>

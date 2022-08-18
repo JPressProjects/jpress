@@ -880,7 +880,7 @@
     #jobPage(pageSize = 1)
 
     #for(job : jobPage.list)
-    <a href="/job/#(job.id ??)">
+    <a href="#(job.url ??)">
         岗位标题是：#(job.name ??)
     </a>
 

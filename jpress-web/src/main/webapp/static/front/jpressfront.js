@@ -536,7 +536,7 @@ function initJPressVideo() {
         var id = $(this).attr("data-vid");
 
         $.ajax({
-            url: getContextPath() + getSitePath() + "/admin/attachment/video/getVideoInfo",
+            url: getContextPath() + getSitePath() + "/article/getVideoInfo",
             type: "post",
             data: {id: id},
 

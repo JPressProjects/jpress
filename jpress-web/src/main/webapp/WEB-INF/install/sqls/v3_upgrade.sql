@@ -63,6 +63,7 @@ CREATE TABLE `attachment_category`  (
 DROP TABLE IF EXISTS `attachment_video`;
 CREATE TABLE `attachment_video`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(32) DEFAULT NULL COMMENT '视频uuid',
   `video_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'vod、live、code',
   `cloud_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频云',
   `category_id` int(11) NULL DEFAULT NULL COMMENT '分类ID',
@@ -82,7 +83,8 @@ CREATE TABLE `attachment_video`  (
   `options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '其他配置',
   `created` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `modified` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uuid` (`uuid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '视频附件' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `attachment_video_category`;
@@ -130,6 +132,7 @@ CREATE TABLE `form_datasource_item`  (
 DROP TABLE IF EXISTS `form_info`;
 CREATE TABLE `form_info`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(32) DEFAULT NULL COMMENT 'UUID',
   `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '表单名称',
   `title` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '表单标题（前台）',
   `summary` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '表单描述（前台）',
@@ -145,6 +148,7 @@ CREATE TABLE `form_info`  (
   `data_created` datetime(0) NULL DEFAULT NULL COMMENT '数据最后添加时间',
   `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID',
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uuid` (`uuid`) USING BTREE,
   INDEX `site_id`(`site_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '自定义表单' ROW_FORMAT = Dynamic;
 

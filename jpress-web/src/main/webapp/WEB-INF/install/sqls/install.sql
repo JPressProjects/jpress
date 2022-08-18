@@ -189,6 +189,7 @@ DROP TABLE IF EXISTS `attachment_video`;
 
 CREATE TABLE `attachment_video` (
                                     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                                    `uuid` varchar(32) DEFAULT NULL COMMENT '视频uuid',
                                     `video_type` varchar(32) DEFAULT NULL COMMENT 'vod、live、code',
                                     `cloud_type` varchar(32) DEFAULT NULL COMMENT '视频云',
                                     `category_id` int(11) DEFAULT NULL COMMENT '分类ID',
@@ -208,7 +209,8 @@ CREATE TABLE `attachment_video` (
                                     `options` text COMMENT '其他配置',
                                     `created` datetime DEFAULT NULL COMMENT '创建时间',
                                     `modified` datetime DEFAULT NULL COMMENT '修改时间',
-                                    PRIMARY KEY (`id`)
+                                    PRIMARY KEY (`id`),
+                                    UNIQUE KEY `uuid` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='视频附件';
 
 
@@ -280,6 +282,7 @@ DROP TABLE IF EXISTS `form_info`;
 
 CREATE TABLE `form_info` (
                              `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                             `uuid` varchar(32) DEFAULT NULL COMMENT 'UUID',
                              `name` varchar(128) DEFAULT NULL COMMENT '表单名称',
                              `title` varchar(256) DEFAULT NULL COMMENT '表单标题（前台）',
                              `summary` text COMMENT '表单描述（前台）',
@@ -295,6 +298,7 @@ CREATE TABLE `form_info` (
                              `created` datetime DEFAULT NULL COMMENT '创建时间',
                              `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
                              PRIMARY KEY (`id`),
+                             UNIQUE KEY `uuid` (`uuid`),
                              KEY `site_id` (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自定义表单';
 

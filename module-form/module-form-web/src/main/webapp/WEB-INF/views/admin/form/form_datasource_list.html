@@ -46,7 +46,7 @@
         <div class="col-12">
             <div class="card card-outline card-primary">
                 <div class="card-header with-border">
-                    <form class=" admin-search-panel" action="/admin/form/datasource/list" method="get">
+                    <form class=" admin-search-panel" action="#(CPATH)/admin/form/datasource/list" method="get">
                         <div class="row">
 
                             <div class="form-group col-lg-2">
@@ -84,8 +84,8 @@
                                 <div class="jp-action-card">
                                     <div class="jp-action-body">
                                         <a href="#">导入数据</a> |
-                                        <a href="/admin/form/datasource/item/#(entry.id ??)">数据管理</a> |
-                                        <a href="/admin/form/datasource/edit/#(entry.id ??)">编辑</a> |
+                                        <a href="#(CPATH)/admin/form/datasource/item/#(entry.id ??)">数据管理</a> |
+                                        <a href="#(CPATH)/admin/form/datasource/edit/#(entry.id ??)">编辑</a> |
                                         <a href="javascript:;" class="red-action"
                                            onclick="doDel('#(entry.id)')">删除</a>
                                     </div>

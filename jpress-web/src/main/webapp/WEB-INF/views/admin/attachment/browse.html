@@ -139,13 +139,13 @@
         <ul class="nav nav-tabs">
 
             <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">上传#para("uititle","图片")</a></li>
-            <li class="nav-item"><a class="nav-link active" id="uititle" href="/admin/attachment/browse?uititle=附件">#para("uititle","图片")库</a>
+            <li class="nav-item"><a class="nav-link active" id="uititle" href="#(CPATH)/admin/attachment/browse?uititle=附件">#para("uititle","图片")库</a>
             </li>
 <!--            <span style="position: relative;left: 10px;top:10px;font-weight: bold;">附件分类:</span>-->
             #for(item : categories ??)
             <li class="nav-item">
                 <a class="nav-link" id="category#(item.id ??)" onclick="addCategoryActive('#(item.id ??)')"
-                    href="/admin/attachment/browse?categoryId=#(item.id ??)&uititle=附件"> #(item.title ??)
+                    href="#(CPATH)/admin/attachment/browse?categoryId=#(item.id ??)&uititle=附件"> #(item.title ??)
                 </a>
             </li>
             #end

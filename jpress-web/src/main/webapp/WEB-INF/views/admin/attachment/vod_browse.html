@@ -83,12 +83,12 @@
         <input type="hidden" id="videoId" value="#(video.id ??)">
         <ul class="nav nav-tabs">
 
-            <li class="nav-item"><a class="nav-link active" id="uititle" href="/admin/attachment/video/browse?uititle=视频">#para("uititle")库</a>
+            <li class="nav-item"><a class="nav-link active" id="uititle" href="#(CPATH)/admin/attachment/video/browse?uititle=视频">#para("uititle")库</a>
             </li>
             #for(item : categories ??)
             <li class="nav-item">
                 <a class="nav-link" id="category#(item.id ??)" onclick="addCategoryActive('#(item.id ??)')"
-                   href="/admin/attachment/video/browse?categoryId=#(item.id ??)&uititle=视频"> #(item.title ??)
+                   href="#(CPATH)/admin/attachment/video/browse?categoryId=#(item.id ??)&uititle=视频"> #(item.title ??)
                 </a>
             </li>
             #end

@@ -117,7 +117,7 @@
 
       <!-- /.card-body -->
       <div class="card-body p-0">
-        <form action="/admin/job/applyResult/#(jobApply.id ??)" method="post" class="ajaxSubmit" id="form1">
+        <form action="#(CPATH)/admin/job/applyResult/#(jobApply.id ??)" method="post" class="ajaxSubmit" id="form1">
 
           <div class="form-group" style="width: 40%;margin-left: 20px">
             <textarea rows="3" name="disposedContent" class="form-control" placeholder="给出该建立的处理意见...">#(jobApply.disposed_content ??)</textarea>

@@ -67,7 +67,7 @@ public class JobApplyController extends TemplateControllerBase {
     }
 
 
-    public void doSave() {
+    public void postApply() {
 
         //文件上传 接收
         List<UploadFile> uploadFiles = getFiles();

@@ -48,7 +48,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
 
 
     public String getActionUrl() {
-        return UrlUtils.getUrl("/form/postData/", getId());
+        return UrlUtils.getUrl("/form/postData/", getUuid());
     }
 
 

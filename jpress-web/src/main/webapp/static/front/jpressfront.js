@@ -670,11 +670,11 @@ function initFormData() {
         var $this = $(this);
         $this.removeAttr('style')
 
-        var formId = $this.attr('data-form-id');
+        var formUUID = $this.attr('data-form-id');
 
-        if (formId != null) {
+        if (formUUID != null) {
             $.ajax({
-                url: getContextPath() + '/form/detail/' + formId,
+                url: getContextPath() + '/form/detail/' + formUUID,
                 type: 'get',
                 data: {},
                 success: function (result) {
@@ -729,14 +729,14 @@ function initJPressAJCaptcha() {
             }
         }
 
-        var validFormId = $(this).attr("data-form-id");
+        var validFormUUID = $(this).attr("data-form-id");
 
 
         var ajaxGetSuccessToUrl = $(this).attr("data-url");
         var ajaxGetSuccessPoint = $(this).attr("data-point");
 
         var val = null;
-        var option = validType === "ajax" ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccessToUrl, ajaxGetSuccessPoint) : getFormCaptachOption(containerId, validFormId);
+        var option = validType === "ajax" ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccessToUrl, ajaxGetSuccessPoint) : getFormCaptachOption(containerId, validFormUUID);
 
         loadCss(getContextPath() + "/static/components/aj-captcha/css/verify.css");
         loadJs([
@@ -837,7 +837,7 @@ function getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccess
 
 }
 
-function getFormCaptachOption(containerId, formID) {
+function getFormCaptachOption(containerId, formUUID) {
 
     return {
         baseUrl: getContextPath() + getSitePath() + '/commons',  //服务器请求地址,
@@ -845,7 +845,7 @@ function getFormCaptachOption(containerId, formID) {
         mode: 'pop',     //展示模式
         beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
 
-            if (!formID) {
+            if (!formUUID) {
                 alert("请设置表单ID");
                 return false;
             } else {
@@ -859,7 +859,7 @@ function getFormCaptachOption(containerId, formID) {
         //验证成功
         success: function (params) {
 
-            ajaxSubmit("#" + formID, function (result) {
+            ajaxSubmit("#" + formUUID, function (result) {
 
                 if (result.state == 'ok') {
 

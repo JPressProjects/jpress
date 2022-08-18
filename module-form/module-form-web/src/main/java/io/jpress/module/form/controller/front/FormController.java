@@ -37,18 +37,20 @@ public class FormController extends TemplateControllerBase {
 
 
     public void index() {
-        Long formId = getParaToLong();
-        if (formId == null) {
+
+        String uuid = getPara();
+
+        if (uuid == null) {
             renderError(404);
             return;
         }
 
-        FormInfo formInfo = formInfoService.findById(formId);
+        FormInfo formInfo = formInfoService.findByUUID(uuid);
+
         if (formInfo == null) {
             renderError(404);
             return;
         }
-
 
         setAttr("form", formInfo);
 
@@ -60,13 +62,14 @@ public class FormController extends TemplateControllerBase {
      * 提交数据到 form
      */
     public void postData() {
-        Long formId = getParaToLong();
-        if (formId == null) {
+        String uuid = getPara();
+
+        if (uuid == null) {
             renderError(404);
             return;
         }
 
-        FormInfo formInfo = formInfoService.findById(formId);
+        FormInfo formInfo = formInfoService.findByUUID(uuid);
         if (formInfo == null || !formInfo.isPublished()) {
             renderError(404);
             return;
@@ -190,10 +193,12 @@ public class FormController extends TemplateControllerBase {
         map.put("state", true);
 
         String resultHtml = "";
-        Long formId = getParaToLong();
 
-        if (formId != null) {
-            FormInfo formInfo = formInfoService.findById(formId);
+        String uuid = getPara();
+
+
+        if (uuid != null) {
+            FormInfo formInfo = formInfoService.findByUUID(uuid);
             if (formInfo != null && formInfo.isPublished()) {
                 setAttr("form", formInfo);
                 resultHtml = renderToString(DEFAULT_FORM_DETAIL_ARTICLE, map);

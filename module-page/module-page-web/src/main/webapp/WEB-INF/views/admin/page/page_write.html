@@ -248,7 +248,7 @@
 
 
     //选择表单
-    $("#chooseForm").on("click",function (){
+    $("#chooseForm").on("click", function () {
         var $this = $(this);
 
         layer.open({
@@ -261,18 +261,18 @@
             content: jpress.cpath + '/admin/form/browse',
             end: function () {
 
-                if(layer.data.id != null){
+                if (layer.data.uid) {
 
-                    var formId = layer.data.id;
+                    var formUUID = layer.data.uid;
 
                     var formName = layer.data.name;
 
-                    let html = '<div><div class="jpress-form-card" contenteditable="false" data-form-id='+formId+'>'+formName+'（表单）</div></div><br />'
+                    let html = '<div><div class="jpress-form-card" contenteditable="false" data-form-id=' + formUUID + '>' + formName + '（表单）</div></div><br />'
 
                     insertHtmlToEditor(html);
 
-                } else if (currentVditor) {
-                    alert("此编辑器暂不支持插入视频！")
+                } else  {
+                    alert("请检查表单")
                 }
 
             }

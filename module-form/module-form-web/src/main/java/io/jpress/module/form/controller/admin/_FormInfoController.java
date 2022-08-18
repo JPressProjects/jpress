@@ -19,6 +19,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
 import io.jboot.web.validate.Form;
@@ -30,6 +31,7 @@ import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.Date;
+import java.util.UUID;
 
 
 @RequestMapping(value = "/admin/form", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -80,6 +82,8 @@ public class _FormInfoController extends AdminControllerBase {
 
         if (entry.getId() == null) {
             entry.setStatus(FormInfo.FORMINFO_STATUS_INIT);
+
+            entry.setUuid(StrUtil.uuid());
         }
 
         formInfoService.saveOrUpdate(entry);

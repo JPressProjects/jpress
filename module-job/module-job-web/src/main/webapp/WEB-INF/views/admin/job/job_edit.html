@@ -78,7 +78,7 @@
     }
 
 
-    $(".chooseAttachment").on("click", function () {
+    $("#chooseAttachment").on("click", function () {
         var $this = $(this);
         layer.open({
             type: 2,
@@ -169,7 +169,7 @@
 <!-- 选择视频-->
 <script>
     //插入视频
-    $(".chooseVideo").on("click", function () {
+    $("#chooseVideo").on("click", function () {
         var $this = $(this);
         layer.open({
             type: 2,
@@ -232,7 +232,7 @@
     })
 
     //选择表单
-    $("#chooseForm").on("click",function (){
+    $("#chooseForm").on("click", function () {
         var $this = $(this);
 
         layer.open({
@@ -245,18 +245,18 @@
             content: jpress.cpath + '/admin/form/browse',
             end: function () {
 
-                if(layer.data.id != null){
+                if (layer.data.uid) {
 
-                    var formId = layer.data.id;
+                    var formUUID = layer.data.uid;
 
                     var formName = layer.data.name;
 
-                    let html = '<div><div class="jpress-form-card" contenteditable="false" data-form-id='+formId+'>'+formName+'（表单）</div></div><br />'
+                    let html = '<div><div class="jpress-form-card" contenteditable="false" data-form-id=' + formUUID + '>' + formName + '（表单）</div></div><br />'
 
                     insertHtmlToEditor(html);
 
-                } else if (currentVditor) {
-                    alert("此编辑器暂不支持插入视频！")
+                } else  {
+                    alert("请检查表单")
                 }
 
             }
@@ -470,8 +470,8 @@
                         插入附件
                     </button>
                     <div class="dropdown-menu" aria-labelledby="insertFile">
-                        <a class="dropdown-item" href="#">插入附件</a>
-                        <a class="dropdown-item" href="#">插入视频</a>
+                        <a class="dropdown-item" id="chooseAttachment">插入附件</a>
+                        <a class="dropdown-item" id="chooseVideo">插入视频</a>
                         <a class="dropdown-item" id="chooseForm">插入表单</a>
                     </div>
                 </div>

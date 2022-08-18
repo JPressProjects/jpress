@@ -278,6 +278,14 @@
                                     </directory>
                                 </resource>
                                 <resource>
+                                    <directory>${basedir}/../module-job/module-job-web/src/main/webapp
+                                    </directory>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../module-form/module-form-web/src/main/webapp
+                                    </directory>
+                                </resource>
+                                <resource>
                                     <directory>${basedir}/../module-product/module-product-web/src/main/webapp</directory>
                                 </resource>
                             </resources>

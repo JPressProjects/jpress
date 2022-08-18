@@ -495,4 +495,75 @@ public class _AttachmentVideoController extends AdminControllerBase {
     }
 
 
+    /**
+     * 获取视频信息
+     */
+    public void getVideoInfo(){
+        String uuid = getPara("id");
+
+        if(uuid == null || ("").equals(uuid)){
+            renderJson(Ret.fail().set("message", "传入的视频uuid为空！"));
+            return;
+        }
+
+        AttachmentVideo video = attachmentVideoService.findByUuid(uuid);
+        if(video == null){
+            renderJson(Ret.fail().set("message", "视频信息为空！"));
+            return;
+        }
+
+
+        if(AttachmentVideo.CLOUD_TYPE_ALIYUN.equals(video.getCloudType())){//阿里云
+
+            //视频云端id
+            if(video.getVodVid() == null || ("").equals(video.getVodVid())){
+                renderJson(Ret.fail().set("message", "阿里云 视频云端id为空！"));
+                return;
+            }
+            //阿里云视频播放凭证
+            String playAuth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
+            if(playAuth == null || ("").equals(playAuth)){
+                renderJson(Ret.fail().set("message", "阿里云视频播放凭证为空！"));
+                return;
+            }
+
+            renderJson(Ret.ok().set("success", true).set("vid", video.getVodVid() ).set("playAuth", playAuth ).set("cloudType",video.getCloudType()));
+
+
+        }
+        else if(AttachmentVideo.CLOUD_TYPE_QCLOUD.equals(video.getCloudType())){//腾讯云
+
+            String appId = JPressOptions.get("attachment_qcloudvideo_appid");
+            if(appId == null || ("").equals(appId)){
+                renderJson(Ret.fail().set("message", "请配置腾讯云的账号id"));
+                return;
+            }
+
+            //视频云端id
+            if(video.getVodVid() == null || ("").equals(video.getVodVid())){
+                renderJson(Ret.fail().set("message", "腾讯云 视频云端id为空！"));
+                return;
+            }
+
+            renderJson(Ret.ok().set("success", true).set("vid", video.getVodVid() ).set("aid", appId ).set("cloudType",video.getCloudType()));
+
+        }
+        else if(AttachmentVideo.CLOUD_TYPE_LOCAL.equals(video.getCloudType())){//本地视频
+
+            String options = video.getOptions();
+            if (StrUtil.isNotBlank(options)){
+                Map<String,String> map = JsonUtil.get(options,"", TypeDef.MAP_STRING);
+                if(map == null){
+                    renderJson(Ret.fail().set("message", "该视频类型是本地视频，请先上传本地视频！"));
+                    return;
+                }
+                String src = map.get("local_video_url");
+                renderJson(Ret.ok().set("success", true).set("src", src ).set("cloudType",video.getCloudType()));
+
+            }
+
+        }
+
+    }
+
 }

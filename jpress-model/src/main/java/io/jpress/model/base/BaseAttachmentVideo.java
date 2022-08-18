@@ -20,6 +20,20 @@ public abstract class BaseAttachmentVideo<M extends BaseAttachmentVideo<M>> exte
 	}
 
     /**
+     * 视频uuid
+     */
+	public void setUuid(java.lang.String uuid) {
+		set("uuid", uuid);
+	}
+
+    /**
+     * 视频uuid
+     */
+	public java.lang.String getUuid() {
+		return getStr("uuid");
+	}
+
+    /**
      * vod、live、code
      */
 	public void setVideoType(java.lang.String videoType) {

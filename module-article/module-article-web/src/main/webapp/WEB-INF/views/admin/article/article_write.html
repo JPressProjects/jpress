@@ -212,16 +212,16 @@
             content: jpress.cpath + '/admin/attachment/video/browse?uititle=视频',
             end: function () {
 
-                if (layer.data.id != null) {
+                if (layer.data.uid != null) {
 
-                    var id = layer.data.id;
+                    var uid = layer.data.uid;
                     // var cloudType = layer.data.type;
                     var cover = layer.data.cover;
 
                     if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
 
                         var video = document.createElement('video')
-                        video.setAttribute("data-vid", id)
+                        video.setAttribute("data-vid", uid)
                         video.setAttribute("poster", cover);
                         video.setAttribute('style', "height:240px;width:425px;")
                         video.setAttribute("class", "jpress-video");

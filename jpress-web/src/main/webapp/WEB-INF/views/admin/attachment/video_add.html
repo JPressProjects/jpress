@@ -46,6 +46,7 @@
     function videoContentTypeChange(value) {
 
         var cloudType = $("#cloudType").val();
+        $("#videoType").attr("value",value);
         if (value == 'vod') {
             $("#videos").show();
             $("#live").hide();

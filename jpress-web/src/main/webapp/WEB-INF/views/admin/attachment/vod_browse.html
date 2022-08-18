@@ -40,14 +40,14 @@
     parent.layer.data = {};
 
     $(".attachment-item").click(function () {
-        //视频id
-        var id = $(this).children().attr("data-id");
+        //视频uuid
+        var uid = $(this).children().attr("data-uid");
         //视频云类型(阿里云/腾讯云/本地视频)
         var cloudType = $(this).children().attr("data-type");
         //封面
         var cover = $(this).children().attr("data-cid");
 
-        parent.layer.data.id = id;
+        parent.layer.data.uid = uid;
         parent.layer.data.type = cloudType;
         parent.layer.data.cover = cover;
         parent.layer.closeAll();
@@ -105,7 +105,7 @@
                     #for(video : page.list)
                     <div class="col-md-3">
                         <div   class="attachment-item video-card" data-aid="#(video.id ??)">
-                            <div class="video-img text-center"  data-cid="#(video.cover ??)"   data-id="#(video.id ??)"  data-type="#(video.cloud_type ??)" >
+                            <div class="video-img text-center"  data-cid="#(video.cover ??)"   data-uid="#(video.uuid ??)"  data-type="#(video.cloud_type ??)" >
                                 <img src="#(CPATH)#(video.cover ?? '/static/commons/img/suffix/video.png')"  class="choose-video-poster" alt="#(video.vod_name ??)">
                                 <span class="video-tag">#(video.category.title ?? "未分类")</span>
                             </div>

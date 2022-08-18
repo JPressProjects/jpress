@@ -287,14 +287,14 @@ public class ArticleController extends TemplateControllerBase {
      * 获取视频信息
      */
     public void getVideoInfo(){
-        String videoId = getPara("id");
+        String uuid = getPara("id");
 
-        if(videoId == null || ("").equals(videoId)){
-            renderJson(Ret.fail().set("message", "传入视频id为空！"));
+        if(uuid == null || ("").equals(uuid)){
+            renderJson(Ret.fail().set("message", "传入的视频uuid为空！"));
             return;
         }
 
-        AttachmentVideo video = attachmentVideoService.findById(videoId);
+        AttachmentVideo video = attachmentVideoService.findByUuid(uuid);
         if(video == null){
             renderJson(Ret.fail().set("message", "视频信息为空！"));
             return;

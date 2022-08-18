@@ -175,4 +175,6 @@ public interface AttachmentVideoService  {
     public Page<AttachmentVideo> paginateByColumns(int page, int pageSize, Columns columns, String orderBy);
 
 
+    AttachmentVideo findByUuid(String uuid);
+
 }

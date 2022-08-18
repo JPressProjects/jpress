@@ -156,6 +156,12 @@ public class _AttachmentVideoController extends AdminControllerBase {
     public void doSave(){
         AttachmentVideo video = getModel(AttachmentVideo.class, "video");
 
+        //新增
+        if(video.getId() == null){
+            //uuid只设置一次
+            video.setUuid(StrUtil.uuid());
+        }
+
         String cloudType = JPressOptions.get("attachment_cloud_type");
         video.setCloudType(cloudType);
 

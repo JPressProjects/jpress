@@ -8,4 +8,8 @@ import io.jpress.service.AttachmentVideoService;
 @Bean
 public class AttachmentVideoServiceProvider extends JPressServiceBase<AttachmentVideo> implements AttachmentVideoService {
 
+    @Override
+    public AttachmentVideo findByUuid(String uuid) {
+        return DAO.findFirstByColumn("uuid",uuid);
+    }
 }

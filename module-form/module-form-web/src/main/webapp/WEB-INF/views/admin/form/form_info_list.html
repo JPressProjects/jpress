@@ -87,7 +87,6 @@
                     #for(entry : page.list)
                     <div class="col-md-3">
                         <div class="jpress-form-item">
-                            <a href="#(CPATH)/admin/form/data/#(entry.id ??)">
                                 <div class="jpress-form-item-header">
                                     <i class="bi bi-bar-chart-fill"></i>
                                      #(entry.name ??)
@@ -102,15 +101,15 @@
                                     <span>#(entry.data_count ??)份数据</span>
                                     <span class="float-right">#if(entry.timeDifference ??) #(entry.timeDifference ??)前 #end</span>
                                 </div>
-                            </a>
                             <div class="form-operate-bar">
                                 <div class="d-flex justify-content-between">
-                                    <a href="#(CPATH)/admin/form/design/#(entry.id ??)"><i class="bi bi-file-earmark-text pr-1"></i>表单设计</a>
-                                    <a href="#(CPATH)/admin/form/edit/#(entry.id ??)"><i class="bi bi-pencil-square pr-1"></i>编辑</a>
-
                                     #if(entry.isPublished())
+                                    <a href="#(CPATH)/admin/form/data/#(entry.id ??)"><i class="bi bi-file-earmark-text-fill pr-1"></i>查看数据</a>
+                                    <a href="#(CPATH)/admin/form/edit/#(entry.id ??)"><i class="bi bi-pencil-fill pr-1"></i>编辑</a>
                                     <a href="javascript:;" onclick="unPublished('#(entry.id)')"><i class="bi bi-lightning-fill pr-1" aria-hidden="true"></i>下线</a>
                                     #else
+                                    <a href="#(CPATH)/admin/form/design/#(entry.id ??)"><i class="bi bi-back pr-1"></i>表单设计</a>
+                                    <a href="#(CPATH)/admin/form/edit/#(entry.id ??)"><i class="bi bi-pencil-fill pr-1"></i>编辑</a>
                                     <a href="javascript:;" onclick="published('#(entry.id)')"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i> 发布</a>
                                     #end
                                     <div class="d-inline-block dropdown show">

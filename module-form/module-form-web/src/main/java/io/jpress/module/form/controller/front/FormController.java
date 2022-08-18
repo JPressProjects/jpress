@@ -1,11 +1,15 @@
 package io.jpress.module.form.controller.front;
 
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
 import io.jpress.JPressOptions;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
@@ -34,6 +38,10 @@ public class FormController extends TemplateControllerBase {
 
     @Inject
     private FormDataService formDataService;
+
+
+    @Inject
+    private CaptchaService captchaService;
 
 
     public void index() {
@@ -65,6 +73,22 @@ public class FormController extends TemplateControllerBase {
 
         if (uuid == null) {
             renderError(404);
+            return;
+        }
+
+
+        CaptchaVO captchaVO  = getBean(CaptchaVO.class);
+
+        //进行前端滑块 参数验证
+        if (captchaVO == null || captchaVO.getCaptchaVerification() == null) {
+            renderFailJson("验证失败");
+            return;
+        }
+
+        ResponseModel validResult = captchaService.verification(captchaVO);
+
+        if (validResult == null || !validResult.isSuccess()) {
+            renderFailJson("验证失败");
             return;
         }
 

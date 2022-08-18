@@ -858,6 +858,10 @@ function getFormCaptachOption(containerId, formUUID) {
         //验证成功
         success: function (params) {
 
+            let input = '<input type="hidden" id="captchaVO" name="captchaVO.captchaVerification" value="'+params.captchaVerification+'">'
+
+            $("#"+formUUID).append(input);
+
             ajaxSubmit("#" + formUUID, function (result) {
 
                 if (result.state == 'ok') {
@@ -880,9 +884,9 @@ function getFormCaptachOption(containerId, formUUID) {
 
 
             }, function (result) {
+                $("#captchaVO").remove();
                 alert(result.message);
             })
-
         },
 
         error: function () {

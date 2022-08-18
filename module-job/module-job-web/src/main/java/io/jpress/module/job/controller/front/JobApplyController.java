@@ -1,6 +1,8 @@
 package io.jpress.module.job.controller.front;
 
 
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.LogKit;
@@ -8,6 +10,7 @@ import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
 import io.jboot.web.attachment.AttachmentManager;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.jboot.web.json.JsonBody;
 import io.jboot.web.validate.Regex;
 import io.jpress.commons.email.Email;
 import io.jpress.commons.email.SimpleEmailSender;
@@ -78,6 +81,24 @@ public class JobApplyController extends TemplateControllerBase {
             return;
         }
 
+        CaptchaVO captchaVO = getBean(CaptchaVO.class);
+
+        //进行前端滑块 参数验证
+        if (captchaVO == null || captchaVO.getCaptchaVerification() == null) {
+            deleteFiles(uploadFiles);
+            renderFailJson("验证失败");
+            return;
+        }
+
+        //进行前端滑块 参数验证
+        ResponseModel validResult = captchaService.verification(captchaVO);
+
+        if (validResult == null || !validResult.isSuccess()) {
+            deleteFiles(uploadFiles);
+            renderFailJson("验证失败");
+            return;
+        }
+
         JobApply apply = getModel(JobApply.class, "jobApply");
 
         //如果提交为空 404
@@ -86,8 +107,6 @@ public class JobApplyController extends TemplateControllerBase {
             renderError(404);
             return;
         }
-
-
 
 
         //获取岗位信息
@@ -142,11 +161,25 @@ public class JobApplyController extends TemplateControllerBase {
             String fileParameterName = uploadFile.getParameterName();
             //如果是简历
             if (fileParameterName.equals(JobApply.FILE_RESUME)) {
+
+                if(!JobApply.fileResumeType(uploadFile)){
+                   FileUtil.delete(uploadFile.getFile());
+                   renderFailJson("简历请上传图片或者文档");
+                    return;
+                }
+
                 String path = AttachmentManager.me().saveFile(uploadFile.getFile());
                 apply.setCvPath(path);
             }
             //如果是附件
             else if (fileParameterName.equals(JobApply.FILE_ATTACHMENT)) {
+
+                if(!JobApply.fileAttachmentType(uploadFile)){
+                    FileUtil.delete(uploadFile.getFile());
+                    renderFailJson("附件只支持压缩包格式");
+                    return;
+                }
+
                 String path = AttachmentManager.me().saveFile(uploadFile.getFile());
                 apply.setAttachment(path);
             }

@@ -217,7 +217,7 @@
         //进行批量删除操作
         $.ajax({
             type:"POST",
-            url:"/admin/attachment/doDelByIds",
+            url: jpress.cpath+"/admin/attachment/doDelByIds",
             data:{"ids":checkedId.toString()},
             success:function (data) {
                 console.log("批量删除成功！");

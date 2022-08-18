@@ -102,7 +102,7 @@ $(function(){
         //进行批量删除操作
         $.ajax({
             type:"POST",
-            url:"/admin/attachment/video/doDelByIds",
+            url:jpress.cpath+"/admin/attachment/video/doDelByIds",
             data:{"ids":checkedId.toString()},
             success:function (data) {
                 console.log("批量删除成功！");
@@ -207,7 +207,7 @@ $(function(){
                             <div class="col-md-3">
                                 <div class="video-card"  name="tableItem">
                                     <div class="video-img">
-                                        <img src="#(item.cover ??)" alt="" class="video-poster">
+                                        <img src="#(CPATH)#(item.cover ??)" alt="" class="video-poster">
                                         <span class="video-tag">#(item.category.title ?? "未分类")</span>
                                     </div>
                                     <div class="video-content">

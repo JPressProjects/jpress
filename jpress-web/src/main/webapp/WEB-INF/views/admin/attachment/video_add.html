@@ -236,7 +236,7 @@
 
                 if (uploadInfo.videoId) {
                     //需要刷新上传凭证
-                    $.get('/admin/attachment/video/doRefreshVideoAuth?videoId=' + uploadInfo.videoId, function (data) {
+                    $.get(jpress.cpath+'/admin/attachment/video/doRefreshVideoAuth?videoId=' + uploadInfo.videoId, function (data) {
                         var uploadAuth = data.UploadAuth
                         var uploadAddress = data.UploadAddress
                         var videoId = data.VideoId
@@ -244,7 +244,7 @@
                     }, 'json')
                 } else {
                     //获取上传凭证
-                    $.get('/admin/attachment/video/doGetUploadVideoAuth?fileName=' + fileName + '&title=' + title, function (data) {
+                    $.get(jpress.cpath+'/admin/attachment/video/doGetUploadVideoAuth?fileName=' + fileName + '&title=' + title, function (data) {
                         var uploadAuth = data.UploadAuth
                         var uploadAddress = data.UploadAddress
                         var videoId = data.VideoId
@@ -262,7 +262,7 @@
             'onUploadSucceed': function (uploadInfo) {
                 console.log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" + uploadInfo.bucket + ", object:" + uploadInfo.object);
 
-                ajaxGet("/admin/attachment/video/doGetVideoInfo?&videoId=" + uploadInfo.videoId, function (data) {
+                ajaxGet(jpress.cpath+"/admin/attachment/video/doGetVideoInfo?&videoId=" + uploadInfo.videoId, function (data) {
                     //设置视频属性
                     $('#vodVid').val(data.videoId);
                     $('#vodSize').val(data.size);
@@ -292,7 +292,7 @@
             //上传凭证超时，需要刷新上传凭证
             'onUploadTokenExpired': function (uploadInfo) {
                 console.log("onUploadTokenExpired");
-                $.get('/admin/attachment/video/doRefreshVideoAuth?videoId=' + uploadInfo.videoId, function (data) {
+                $.get(jpress.cpath+'/admin/attachment/video/doRefreshVideoAuth?videoId=' + uploadInfo.videoId, function (data) {
                     var uploadAuth = data.UploadAuth;
                     uploader.resumeUploadWithAuth(uploadAuth)
                 }, 'json')
@@ -353,7 +353,7 @@
     $('#createLive').on('click', function () {
 
         //创建直播流地址
-        ajaxGet("/admin/attachment/video/doGetLiveInfo", function (data) {
+        ajaxGet(jpress.cpath+"/admin/attachment/video/doGetLiveInfo", function (data) {
 
             $('#livePushUrl').val(data.pushUrl);
             $('#contentLivePushUrl').val(data.pushUrl);
@@ -439,7 +439,7 @@
 
         var getSignature = function(callback) {
             $.ajax({
-                url : "/admin/attachment/video/getSign", //服务器获取客户端上传签名的URL
+                url : jpress.cpath+"/admin/attachment/video/getSign", //服务器获取客户端上传签名的URL
                 type : "POST",
                 success : function(result) {
                     mysign=result;
@@ -510,7 +510,7 @@
 
                     $.ajax({
                         //通过任务流设置自适应码流
-                        url : "/admin/attachment/video/setTaskStream?"+"fileId="+result.fileId,
+                        url : jpress.cpath+"/admin/attachment/video/setTaskStream?"+"fileId="+result.fileId,
                         type : "POST",
                         success : function(result) {
                             console.log("设置自适应码流："+result);
@@ -540,7 +540,7 @@
     $('#createLiveQCloud').on('click', function () {
 
         //创建直播流地址
-        ajaxGet("/admin/attachment/video/doQCloudCreateLive", function (data) {
+        ajaxGet(jpress.cpath+"/admin/attachment/video/doQCloudCreateLive", function (data) {
 
             $('#livePushUrl').val(data.pushUrl);
             $('#contentLivePushUrl').val(data.pushUrl);
@@ -593,7 +593,7 @@
 
         $('#localVideoInputFile').fileupload({
             dropZone: $('#uploader'),
-            url: '/admin/attachment/video/uploadLocalVideo',
+            url:jpress.cpath+ '/admin/attachment/video/uploadLocalVideo',
             sequentialUploads: true,
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -727,7 +727,7 @@
                                 <div class="col-sm-9">
                                     <div class="jpress-image-browser">
                                         <input type="hidden" name="video.cover" value="#(video.cover ??)"/>
-                                        <img src="#(video.cover ??'/static/commons/img/nothumbnail.jpg')">
+                                        <img src="#(CPATH)#(video.cover ??'/static/commons/img/nothumbnail.jpg')">
                                         <div class="image-action">
                                             <a class="image-delete"> <i class="fa fa-trash"></i></a>
                                             <a class="image-edit"> <i class="fa fa-edit"></i></a>

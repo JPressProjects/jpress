@@ -101,18 +101,19 @@ public class _AttachmentVideoController extends AdminControllerBase {
             setAttr("options",map);
         }
 
-        String playauth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
-        //阿里云
-        //点播视频
-        setAttr("cloudPlayAuth", playauth);
-        setAttr("cloudVid", video.getVodVid());
+        if(AttachmentVideo.CLOUD_TYPE_ALIYUN.equals(video.getCloudType())){
+            String playauth =AliyunVideoUtil.getPlayAuth(video.getVodVid());
+            //阿里云
+            //点播视频
+            setAttr("cloudPlayAuth", playauth);
+            setAttr("cloudVid", video.getVodVid());
+            //直播回放
+            setAttr("liveCloudPlayAuth", playauth);
+        }
+            //直播, m3u8 是延迟最高（延迟在 40s 左右）的，但是浏览器的兼容性是最好的
+            setAttr("livePlayUrl", AliyunLiveUtil.createPlayUrlForM3U8(video.getLiveStream()));
 
-        //直播, m3u8 是延迟最高（延迟在 40s 左右）的，但是浏览器的兼容性是最好的
-        setAttr("livePlayUrl", AliyunLiveUtil.createPlayUrlForM3U8(video.getLiveStream()));
-        //直播回放
-        setAttr("liveCloudPlayAuth", playauth);
-        setAttr("liveCloudVid", video.getVodVid());
-
+            setAttr("liveCloudVid", video.getVodVid());
 
         //腾讯云
         //腾讯云点播视频：appId

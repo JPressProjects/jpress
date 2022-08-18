@@ -7,13 +7,6 @@
 <script src="#(CPATH)/static/components/highlight/highlight.pack.js"></script>
 <script src="#(CPATH)/static/components/sortable/sortable.min.js"></script>
 
-<!-- 腾讯云 超级播放器-->
-<script src="/static/components/qcloud-upload-sdk/player/hls.min.0.13.2m.js"></script>
-<script src="/static/components/qcloud-upload-sdk/player/tcplayer.v4.2.1.min.js"></script>
-
-
-<!--阿里云 点播-->
-<script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.9.3/aliplayer-min.js"></script>
 
 <script>
 
@@ -399,7 +392,7 @@
 
 <template id="videoTemplate">
     <div class="card-body p-0 video">
-        <img src="/static/commons/img/nothumbnail.jpg" style="width: 100%;max-height: 500px">
+        <img src="#(CPATH)/static/commons/img/nothumbnail.jpg" style="width: 100%;max-height: 500px">
     </div>
 </template>
 
@@ -424,8 +417,6 @@
 <link href="#(CPATH)/static/components/selectize/css/selectize.bootstrap4.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/highlight/styles/github.css" rel="stylesheet">
 <link href="#(CPATH)/static/components/vditor/dist/index.css" rel="stylesheet">
-<link href="https://g.alicdn.com/de/prismplayer/2.9.3/skins/default/aliplayer-min.css"/>
-<link href="/static/components/qcloud-upload-sdk/player/css/tcplayer.min.css" rel="stylesheet">
 <style>
     .main-footer.text-sm, .main-footer {
         display: none !important;
@@ -972,7 +963,7 @@
                                     <div id="video-card" class="collapse">
                                         <div id="changeVideo">
                                             <div class="card-body p-0 video">
-                                                <img src="/static/commons/img/nothumbnail.jpg"
+                                                <img src="#(CPATH)/static/commons/img/nothumbnail.jpg"
                                                      style="width: 100%;max-height: 500px">
                                             </div>
                                         </div>

@@ -91,7 +91,7 @@
                             <td>#maxLength(entry.text,10)</td>
                             <td>#(entry.pid)</td>
                             <td>
-                                <img #if(entry.image ??) src="#(entry.image ??)" #else src="/static/commons/img/nothumbnail.jpg" #end style="height: 20%;width: 20%">
+                                <img #if(entry.image ??) src="#(entry.image ??)" #else src="#(CPATH)/static/commons/img/nothumbnail.jpg" #end style="height: 20%;width: 20%">
                             </td>
                         </tr>
                         #end

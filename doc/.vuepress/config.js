@@ -148,6 +148,9 @@ module.exports = {
                     collapsable: true,
                     children: [
                         {title: 'JPress源码获取', path: '/development/jpress_download_source'},
+                        {title: 'JAVA环境配置', path: '/development/jdk_config'},
+                        {title: 'Maven环境配置', path: '/development/maven_config'},
+                        {title: 'IDEA开发环境准备', path: '/development/idea_environment_config'},
                         {title: '导入JPress源码到编辑器', path: '/development/jpress_open_compiler'},
                         {title: '编译并运行JPress', path: '/development/jpress_compile_with_run'},
                         {title: '开始前注意事项', path: '/development/module/note'},

@@ -30,7 +30,7 @@
             </div>
             <hr/>
 
-            <form action="/job/apply/doSave" class="ajaxSubmit" data-ok-message="申请成功" data-ok-href="/job/list" method="post">
+            <form action="#(CPATH)#(SPATH)/job/apply/doSave" class="ajaxSubmit" data-ok-message="申请成功" data-ok-href="#(CPATH)#(SPATH)/job/list" method="post">
 
                 <input type="hidden" id="filePath" name="jobApply.cv_path">
                 <input type="hidden" id="attachment" name="jobApply.attachment">
@@ -79,7 +79,7 @@
                                    name="mobileCode" autocomplete="off">
 
                             <input style="width:28%;" type="button" class="btn jpress-captcha" id="getCode" data-type="pointsVerify" data-location="body"
-                                   data-value-id="mobile" data-path="/job/apply/getMobileCode"
+                                   data-value-id="mobile" data-path="#(CPATH)#(SPATH)/job/apply/getMobileCode"
                                    data-url="" data-point="手机验证码发送成功，请注意查收！"
                                    value="获取验证码"/>
 
@@ -100,7 +100,7 @@
 
 
                             <input style="width:28%;" id="getEmailCode" type="button" data-type="slideVerify" data-location="html"
-                                   class="btn jpress-captcha"  data-value-id="email" data-path="/job/apply/getEmailCode/#(job.id ??)"
+                                   class="btn jpress-captcha"  data-value-id="email" data-path="#(CPATH)#(SPATH)/job/apply/getEmailCode/#(job.id ??)"
                                    data-url="" data-point="邮箱验证码发送成功，请注意查收！"
                                    value="获取验证码"/>
 

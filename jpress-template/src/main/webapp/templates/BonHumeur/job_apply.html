@@ -28,7 +28,7 @@
         </div>
         <hr/>
 
-        <form action="/job/apply/doSave" id="form1" class="ajaxSubmit" data-ok-message="申请成功" data-ok-href="/job/list" enctype="multipart/form-data"
+        <form action="#(CPATH)#(SPATH)/job/apply/doSave" id="form1" class="ajaxSubmit" data-ok-message="申请成功" data-ok-href="#(CPATH)#(SPATH)/job/list" enctype="multipart/form-data"
               method="post">
 
             <input type="hidden" id="filePath" name="jobApply.cv_path">
@@ -81,7 +81,7 @@
                     <!--                           name="mobileCode" autocomplete="off">-->
 
                     <!--                    <input style="width:28%;" type="button" class="btn jpress-captcha" id="getCode" data-type="pointsVerify" data-location="body"-->
-                    <!--                           data-value-id="mobile" data-path="/job/apply/getMobileCode"-->
+                    <!--                           data-value-id="mobile" data-path="#(CPATH)#(SPATH)/job/apply/getMobileCode"-->
                     <!--                           data-url="" data-point="手机验证码发送成功，请注意查收！"-->
                     <!--                           value="获取验证码"/>-->
 
@@ -102,7 +102,7 @@
 
 
                     <!--                    <input style="width:28%;" id="getEmailCode" type="button" data-type="slideVerify" data-location="html"-->
-                    <!--                           class="btn jpress-captcha"  data-value-id="email" data-path="/job/apply/getEmailCode/#(job.id ??)"-->
+                    <!--                           class="btn jpress-captcha"  data-value-id="email" data-path="#(CPATH)#(SPATH)/job/apply/getEmailCode/#(job.id ??)"-->
                     <!--                           data-url="" data-point="邮箱验证码发送成功，请注意查收！"-->
                     <!--                           value="获取验证码"/>-->
 
@@ -184,7 +184,7 @@
                 </div>
             </div>
             <div class="form-group job-apply-button">
-                <input type="button" id="btn_yzm" class="btn btn-primary jpress-captcha" data-result-url="/job/list" data-type="slideVerify" data-form-id="form1" data-valid-type="form" value="提交申请"/>
+                <input type="button" id="btn_yzm" class="btn btn-primary jpress-captcha" data-result-url="#(CPATH)#(SPATH)/job/list" data-type="slideVerify" data-form-id="form1" data-valid-type="form" value="提交申请"/>
             </div>
 
         </form>

@@ -20,7 +20,7 @@
             #for(job : jobList)
             <tr>
                 <td style="width: 150px">#date(job.created ??)</td>
-                <td><a href="/job/#(job.id ??)" target="_blank">#(job.title ??)</a></td>
+                <td><a href="#(job.url ??)" target="_blank">#(job.title ??)</a></td>
             </tr>
             #end
             </tbody>

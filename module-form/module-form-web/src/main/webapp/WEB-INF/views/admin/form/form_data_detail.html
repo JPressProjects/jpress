@@ -1,6 +1,16 @@
 #@layout()
 
 
+#define css()
+<link rel="stylesheet" href="#(CPATH)/static/front/jpressfront.css">
+<style>
+    .jpress-form-item{
+        min-height:100px;
+        height:auto;
+    }
+</style>
+#end
+
 
 #define content()
 
@@ -69,4 +79,7 @@
     </div>
 
 </section>
+#end
+#define script()
+<script  src="#(CPATH)/static/front/jpressfront.js"></script>
 #end

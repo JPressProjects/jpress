@@ -17,6 +17,7 @@ import io.jpress.module.job.service.JobApplyService;
 import io.jpress.module.job.service.JobService;
 import io.jpress.service.OptionService;
 import io.jpress.web.base.TemplateControllerBase;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -77,10 +78,11 @@ public class JobApplyController extends TemplateControllerBase {
             return;
         }
 
-        JobApply entry = getModel(JobApply.class, "jobApply");
+        JobApply apply = getModel(JobApply.class, "jobApply");
 
         //如果提交为空 404
-        if (entry == null) {
+        if (apply == null || apply.size() == 0) {
+            deleteFiles(uploadFiles);
             renderError(404);
             return;
         }
@@ -92,12 +94,12 @@ public class JobApplyController extends TemplateControllerBase {
             //如果是简历
             if (fileParameterName.equals(JobApply.FILE_RESUME)) {
                 String path = AttachmentManager.me().saveFile(uploadFile.getFile());
-                entry.setCvPath(path);
+                apply.setCvPath(path);
             }
             //如果是附件
             else if (fileParameterName.equals(JobApply.FILE_ATTACHMENT)) {
                 String path = AttachmentManager.me().saveFile(uploadFile.getFile());
-                entry.setAttachment(path);
+                apply.setAttachment(path);
             }
             //如果都不是
             else {
@@ -107,57 +109,56 @@ public class JobApplyController extends TemplateControllerBase {
 
 
         //获取岗位信息
-        Job job = jobService.findById(entry.getJobId());
+        Job job = jobService.findById(apply.getJobId());
         //获取 招聘设置中  是否允许简历投递
         Boolean isApplyEnable = optionService.findAsBoolByKey(JobApply.JOB_APPLY_ENABLE);
         //如果此岗位已经关闭 在线投递 那么 404 如果招聘设置中 简历投递被关闭 那么 404
         if (job == null || (job.getWithApply() != null && !job.getWithApply()) || (isApplyEnable != null && !isApplyEnable)) {
+            deleteFiles(uploadFiles);
             renderError(404);
             return;
         }
 
 
         //填写必填信息
-        if (entry.getJobId() == null || entry.getUserName() == null || entry.getWorkYears() == null || entry.getEducation() == null) {
+        if (apply.getUserName() == null || apply.getWorkYears() == null || apply.getEducation() == null) {
+            deleteFiles(uploadFiles);
             renderFailJson("请填写重要信息");
             return;
         }
 
         //手机号和邮箱填写判断
-        if (entry.getMobile() == null || entry.getEmail() == null) {
+        if (apply.getMobile() == null || apply.getEmail() == null) {
+            deleteFiles(uploadFiles);
             renderFailJson("请填写手机号或者邮箱");
             return;
         }
 
         //手机验证
-        boolean matchesByMobile = entry.getMobile().matches(Regex.MOBILE);
+        boolean matchesByMobile = apply.getMobile().matches(Regex.MOBILE);
 
         if (!matchesByMobile) {
+            deleteFiles(uploadFiles);
             renderFailJson("请正确输入手机号");
             return;
         }
 
 
         //邮箱验证
-        boolean matchesByEmail = entry.getEmail().matches(Regex.EMAIL);
+        boolean matchesByEmail = apply.getEmail().matches(Regex.EMAIL);
 
         if (!matchesByEmail) {
+            deleteFiles(uploadFiles);
             renderFailJson("邮箱不正确");
             return;
         }
 
 
-        //通过job_id  mobile 来确定是否已经 申请
-        JobApply jobApply = jobApplyService.findFirstByJobIdWhitMobile(entry.getJobId(), entry.getMobile());
-        if (jobApply != null) {
-            renderFailJson("您已经申请过了,请勿重复申请");
-            return;
-        }
+        apply.remove("id");
+        apply.setWithViewed(false);
+        apply.setWithDisposed(false);
 
-        entry.setWithViewed(false);
-        entry.setWithDisposed(false);
-
-        jobApplyService.saveOrUpdate(entry);
+        jobApplyService.save(apply);
 
 
         //job 如果设置了 有新申请 通知之后发送邮件
@@ -166,6 +167,13 @@ public class JobApplyController extends TemplateControllerBase {
         }
 
         renderOkJson();
+
+    }
+
+    private void deleteFiles(List<UploadFile> files){
+        if (files != null && !files.isEmpty()){
+            files.forEach(uploadFile -> FileUtil.delete(uploadFile.getFile()));
+        }
 
     }
 

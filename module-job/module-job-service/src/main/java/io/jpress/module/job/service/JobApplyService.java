@@ -185,13 +185,4 @@ public interface JobApplyService  {
     * @return com.jfinal.plugin.activerecord.Page<io.jpress.module.job.model.JobApply>
     */
     Page<JobApply> paginateByColumnsWithInfo(int pagePara, int pageSizePara, Columns columns, String orderBy);
-
-    /**
-    * 根据手机号 和 jobId 来确定是否已经申请
-    *
-    * @param jobId
-    * @param mobile
-    * @return io.jpress.module.job.model.JobApply
-    */
-    JobApply findFirstByJobIdWhitMobile(Long jobId,String mobile);
 }

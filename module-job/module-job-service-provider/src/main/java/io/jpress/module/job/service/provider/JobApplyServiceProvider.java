@@ -42,21 +42,6 @@ public class JobApplyServiceProvider extends JPressServiceBase<JobApply> impleme
     }
 
 
-    /**
-     * 根据手机号 和 jobId 来确定是否已经申请
-     *
-     * @param jobId
-     * @param mobile
-     * @return io.jpress.module.job.model.JobApply
-     */
-    @Override
-    public JobApply findFirstByJobIdWhitMobile(@NotNull Long jobId, @NotNull String mobile) {
-
-        String sql = "select * from job_apply where job_id = ? and mobile = ?";
-
-        return DAO.findFirst(sql,jobId,mobile);
-    }
-
 
     public JobApply appendInfo(@NotNull JobApply jobApply){
 

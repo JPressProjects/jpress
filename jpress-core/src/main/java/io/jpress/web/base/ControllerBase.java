@@ -68,11 +68,8 @@ public abstract class ControllerBase extends JbootController {
     @NotAction
     @Override
     public <T> T getModel(Class<T> modelClass, String modelName) {
-        Model model = (Model) removeOptionsAttr(super.getModel(modelClass, modelName));
-        putSiteIdIfNecessary((Class<? extends Model>) modelClass, model);
-        return (T) model;
+        return getModel(modelClass, modelName, true);
     }
-
 
 
     @NotAction
@@ -95,7 +92,7 @@ public abstract class ControllerBase extends JbootController {
 
     private <T> void putSiteIdIfNecessary(Class<? extends Model> modelClass, Model model) {
         Table table = TableMapping.me().getTable(modelClass);
-        if (table != null && table.hasColumnLabel("site_id")){
+        if (table != null && table.hasColumnLabel("site_id")) {
             model.setOrPut("site_id", SiteContext.getSiteId());
         }
     }
@@ -130,7 +127,7 @@ public abstract class ControllerBase extends JbootController {
             }
         }
 
-        Integer spacing = getAttr(AdminInterceptor.ATTR_PAGINATE_SPACING,10);
+        Integer spacing = getAttr(AdminInterceptor.ATTR_PAGINATE_SPACING, 10);
         if (pagesize <= 0 || pagesize > 100) {
             pagesize = spacing;
         }

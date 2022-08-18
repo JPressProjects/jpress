@@ -43,7 +43,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
 
 
     public String getUrl() {
-        return UrlUtils.getUrl("/form/", getId());
+        return UrlUtils.getUrl("/form/", getUuid());
     }
 
 

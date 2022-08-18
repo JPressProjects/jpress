@@ -31,7 +31,6 @@ import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.AdminControllerBase;
 
 import java.util.Date;
-import java.util.UUID;
 
 
 @RequestMapping(value = "/admin/form", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
@@ -54,7 +53,7 @@ public class _FormInfoController extends AdminControllerBase {
 
         Columns columns = new Columns();
         columns.likeAppendPercent("name", name);
-        Page<FormInfo> entries = formInfoService.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(), columns,"");
+        Page<FormInfo> entries = formInfoService.paginateByColumnsWithInfo(getPagePara(), getPageSizePara(), columns,"id desc");
         setAttr("page", entries);
 
         render("form/form_info_list.html");

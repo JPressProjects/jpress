@@ -37,7 +37,6 @@ public class FormController extends TemplateControllerBase {
 
 
     public void index() {
-
         String uuid = getPara();
 
         if (uuid == null) {
@@ -47,7 +46,7 @@ public class FormController extends TemplateControllerBase {
 
         FormInfo formInfo = formInfoService.findByUUID(uuid);
 
-        if (formInfo == null) {
+        if (formInfo == null || !formInfo.isPublished()) {
             renderError(404);
             return;
         }
@@ -113,7 +112,7 @@ public class FormController extends TemplateControllerBase {
             return;
         }
 
-        FormInfo formInfo = formInfoService.findById(getParaToLong());
+        FormInfo formInfo = formInfoService.findByUUID(getPara());
         if (formInfo == null || !formInfo.isPublished()) {
             FileUtil.delete(uploadFile.getFile());
             renderJson(Ret.fail().set("message", "数据错误，表单不存在或未发布！"));

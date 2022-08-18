@@ -1326,11 +1326,17 @@ hr{
     margin: 0;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
 button:focus{
     outline:none;
 }
+
 .toast-center-center {
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
+}
+
+.jpress-form-card {
+    display: none;
 }

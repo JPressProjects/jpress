@@ -663,7 +663,7 @@ function loadCss(links, callback) {
 }
 
 //初始化表单 数据
-function initFormData() {
+function initFormCard() {
 
     $(".jpress-form-card").each(function () {
 
@@ -674,15 +674,14 @@ function initFormData() {
 
         if (formUUID != null) {
             $.ajax({
-                url: getContextPath() + '/form/detail/' + formUUID,
+                url: getContextPath() + getSitePath() + '/form/detail/' + formUUID,
                 type: 'get',
                 data: {},
                 success: function (result) {
-                    if (result.state == true) {
+                    if (result.state == true && result.html) {
                         $this.html(result.html);
-
+                        $this.show();
                         initJPressAJCaptcha();
-
                     }
                 }
             })
@@ -1031,7 +1030,7 @@ $(document).ready(function () {
     initJPressVideo();
 
     /*初始化表单数据*/
-    initFormData();
+    initFormCard();
 
     /*初始化行为验证码容器*/
     initJPressAJCaptcha();

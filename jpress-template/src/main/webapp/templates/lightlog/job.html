@@ -30,11 +30,14 @@
                 </div>
             </div>
 
+            #if(job.with_apply ?? && option("job_apply_enable"))
             <div class="form-group job-apply-button">
                 <a href="/job/apply/#(job.id ??)">
                 <input type="submit" id="btn_yzm" class="btn btn-primary" value="申请岗位" />
                 </a>
             </div>
+            #end
+
         </div>
     </div>
 </div>

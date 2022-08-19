@@ -182,7 +182,7 @@
             end: function () {
                 if (layer.data.src != null) {
 
-                    var src = layer.data.src;
+                    var src = jpress.cpath + layer.data.src;
                     //video ".mp4", ".avi", ".wmv", ".mpeg", ".mov", ".mkv", ".flv", ".rmvb", ".rm", ".3gp", ".ts", ".vob", ".m3u8"
                     if (src.endsWith(".mp4") || src.endsWith(".avi") || src.endsWith(".wmv") || src.endsWith(".mpeg") || src.endsWith(".mov")
                         || src.endsWith(".mkv") || src.endsWith(".flv") || src.endsWith(".rmvb") || src.endsWith(".rm") || src.endsWith(".3gp") ||
@@ -362,7 +362,7 @@
 
                     var uid = layer.data.uid;
                     // var cloudType = layer.data.type;
-                    var cover = layer.data.cover;
+                    var cover = jpress.cpath + layer.data.cover;
 
                     if (typeof currentCKEditor != 'undefined' && currentCKEditor) {
 

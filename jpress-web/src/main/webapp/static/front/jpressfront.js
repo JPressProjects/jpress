@@ -595,7 +595,7 @@ function initJPressVideo() {
                             })
                     } else if (cloudType != null && cloudType != '' && cloudType == '4') {//本地视频
 
-                        $("#" + containerId).attr("src", result.src);
+                        $("#" + containerId).attr("src", getContextPath() + getSitePath() + result.src);
                         $("#" + containerId).attr("controls", "controls");
                     }
 

@@ -842,7 +842,7 @@
 
                                         <div class="col-sm-6">
                                             <input type="hidden" name="option.local_video_url" value="#(options.local_video_url ??)" id="videoContent">
-                                            <video class=" pr-0 bg-gray" controls="controls" id="localPlay" src="#(options.local_video_url ??)" style="height: 350px;width: 700px;"></video>
+                                            <video class=" pr-0 bg-gray" controls="controls" id="localPlay" src="#(CPATH)#(options.local_video_url ??)" style="height: 350px;width: 700px;"></video>
                                         </div>
                                     </div>
 
@@ -935,7 +935,7 @@
                         <div class="card-footer">
                             <div class="row">
                                 <div class="offset-sm-2 col-sm-10">
-                                    <button type="submit" class="btn btn-primary " onclick="save()">
+                                    <button type="submit" class="btn btn-primary ">
                                         <i class="fa fa-fw fa-check"></i> 保存
                                     </button>
                                     <button type="button" class="btn btn-outline-secondary back">

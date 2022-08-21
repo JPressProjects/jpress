@@ -33,7 +33,7 @@ CREATE TABLE `article` (
                            `view_count` int(11) unsigned DEFAULT '0' COMMENT '访问量',
                            `created` datetime DEFAULT NULL COMMENT '创建日期',
                            `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-                           `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询',
+                           `flag` varchar(64) DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询',
                            `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
                            `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
                            `with_recommend` tinyint(1) DEFAULT NULL COMMENT '是否推荐',
@@ -50,7 +50,7 @@ CREATE TABLE `article` (
                            KEY `view_count` (`view_count`) USING BTREE,
                            KEY `order_number` (`order_number`) USING BTREE,
                            KEY `status` (`status`) USING BTREE,
-                           KEY `flag` (`flag`(191)) USING BTREE,
+                           KEY `flag` (`flag`) USING BTREE,
                            KEY `site_id` (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='文章表';
 
@@ -65,7 +65,7 @@ CREATE TABLE `article_category` (
                                     `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                     `pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父级分类的ID',
                                     `user_id` int(11) unsigned DEFAULT NULL COMMENT '分类创建的用户ID',
-                                    `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
+                                    `slug` varchar(64) DEFAULT NULL COMMENT 'slug',
                                     `title` varchar(512) DEFAULT NULL COMMENT '标题',
                                     `content` text COMMENT '内容描述',
                                     `summary` text COMMENT '摘要',
@@ -151,7 +151,7 @@ CREATE TABLE `attachment` (
                               `mime_type` varchar(128) DEFAULT NULL COMMENT 'mime',
                               `suffix` varchar(32) DEFAULT NULL COMMENT '附件的后缀',
                               `type` varchar(32) DEFAULT NULL COMMENT '类型',
-                              `flag` varchar(256) DEFAULT NULL COMMENT '标示',
+                              `flag` varchar(64) DEFAULT NULL COMMENT '标示',
                               `order_number` int(11) DEFAULT '0' COMMENT '排序字段',
                               `accessible` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否可以被访问',
                               `created` datetime DEFAULT NULL COMMENT '上传时间',
@@ -202,7 +202,7 @@ CREATE TABLE `attachment_video` (
                                     `live_domain` varchar(64) DEFAULT NULL COMMENT '直播播放域名',
                                     `live_app` varchar(64) DEFAULT NULL COMMENT '直播应用名称',
                                     `live_stream` varchar(64) DEFAULT NULL COMMENT '直接流名称',
-                                    `live_push_url` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '直播推流地址',
+                                    `live_push_url` varchar(256) DEFAULT NULL COMMENT '直播推流地址',
                                     `live_start_time` datetime DEFAULT NULL COMMENT '开始直播时间',
                                     `live_end_time` datetime DEFAULT NULL COMMENT '结束直播时间',
                                     `content` text COMMENT 'iframe 代码',
@@ -286,7 +286,7 @@ CREATE TABLE `form_info` (
                              `name` varchar(128) DEFAULT NULL COMMENT '表单名称',
                              `title` varchar(256) DEFAULT NULL COMMENT '表单标题（前台）',
                              `summary` text COMMENT '表单描述（前台）',
-                             `flag` varchar(32) DEFAULT NULL COMMENT '表单标识',
+                             `flag` varchar(64) DEFAULT NULL COMMENT '表单标识',
                              `bg_image` varchar(512) DEFAULT NULL COMMENT '表单背景图',
                              `header_image` varchar(512) DEFAULT NULL COMMENT '表单头图',
                              `builder_json` text COMMENT '表单构建 JSON',
@@ -411,7 +411,7 @@ CREATE TABLE `menu` (
                         `url` varchar(512) DEFAULT NULL COMMENT '链接的url',
                         `target` varchar(32) DEFAULT NULL COMMENT '打开的方式',
                         `icon` varchar(64) DEFAULT NULL COMMENT '菜单的icon',
-                        `flag` varchar(32) DEFAULT NULL COMMENT '菜单标识',
+                        `flag` varchar(64) DEFAULT NULL COMMENT '菜单标识',
                         `type` varchar(32) DEFAULT '' COMMENT '菜单类型：主菜单、顶部菜单、底部菜单',
                         `order_number` int(11) DEFAULT '0' COMMENT '排序字段',
                         `relative_table` varchar(32) DEFAULT NULL COMMENT '该菜单是否和其他表关联',
@@ -489,7 +489,7 @@ CREATE TABLE `product` (
                            `video_id` varchar(64) DEFAULT NULL COMMENT '视频ID',
                            `created` datetime DEFAULT NULL COMMENT '创建日期',
                            `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-                           `flag` varchar(256) DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询',
+                           `flag` varchar(64) DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询',
                            `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
                            `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
                            `remarks` text COMMENT '备注信息',
@@ -502,7 +502,7 @@ CREATE TABLE `product` (
                            KEY `order_number` (`order_number`) USING BTREE,
                            KEY `sales_count` (`sales_count`) USING BTREE,
                            KEY `status` (`status`) USING BTREE,
-                           KEY `flag` (`flag`(191)) USING BTREE,
+                           KEY `flag` (`flag`) USING BTREE,
                            KEY `site_id` (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品表';
 
@@ -530,7 +530,7 @@ CREATE TABLE `product_category` (
                                     `thumbnail` varchar(512) DEFAULT NULL COMMENT '缩略图',
                                     `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的内容数量',
                                     `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
-                                    `flag` varchar(256) DEFAULT NULL COMMENT '标识',
+                                    `flag` varchar(64) DEFAULT NULL COMMENT '标识',
                                     `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
                                     `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述内容',
                                     `options` text,
@@ -541,7 +541,7 @@ CREATE TABLE `product_category` (
                                     KEY `typeslug` (`type`,`slug`) USING BTREE,
                                     KEY `order_number` (`order_number`) USING BTREE,
                                     KEY `pid` (`pid`) USING BTREE,
-                                    KEY `flag` (`flag`(191)) USING BTREE,
+                                    KEY `flag` (`flag`) USING BTREE,
                                     KEY `site_id` (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品分类表。标签、专题、类别等都属于category。';
 
@@ -597,12 +597,12 @@ DROP TABLE IF EXISTS `product_image`;
 CREATE TABLE `product_image` (
                                  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                                  `product_id` int(11) unsigned NOT NULL,
-                                 `src` varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                                 `src` varchar(512) NOT NULL,
                                  `order_number` int(11) DEFAULT NULL,
                                  `created` datetime DEFAULT NULL,
                                  PRIMARY KEY (`id`) USING BTREE,
                                  KEY `productid` (`product_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT COMMENT='产品图片表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='产品图片表';
 
 
 
@@ -653,7 +653,7 @@ CREATE TABLE `single_page` (
                                `thumbnail` varchar(128) DEFAULT NULL COMMENT '缩略图',
                                `ornament` varchar(512) DEFAULT NULL COMMENT '装饰图',
                                `style` varchar(32) DEFAULT NULL COMMENT '样式',
-                               `flag` varchar(32) DEFAULT NULL COMMENT '标识',
+                               `flag` varchar(64) DEFAULT NULL COMMENT '标识',
                                `status` varchar(32) NOT NULL DEFAULT '0' COMMENT '状态',
                                `comment_status` tinyint(1) DEFAULT '1' COMMENT '评论状态，默认允许评论',
                                `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论总数',
@@ -679,20 +679,20 @@ DROP TABLE IF EXISTS `single_page_category`;
 
 CREATE TABLE `single_page_category` (
                                         `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-                                        `title` varchar(512) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '标题',
-                                        `content` text CHARACTER SET utf8mb4 COMMENT '描述',
-                                        `style` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '页面默认情况下使用的模板样式',
-                                        `icon` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '分类 icon',
-                                        `ornament` varchar(512) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '装饰图',
+                                        `title` varchar(512) DEFAULT NULL COMMENT '标题',
+                                        `content` text COMMENT '描述',
+                                        `style` varchar(32) DEFAULT NULL COMMENT '页面默认情况下使用的模板样式',
+                                        `icon` varchar(128) DEFAULT NULL COMMENT '分类 icon',
+                                        `ornament` varchar(512) DEFAULT NULL COMMENT '装饰图',
                                         `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的内容数量',
                                         `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
-                                        `flag` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '标识',
+                                        `flag` varchar(64) DEFAULT NULL COMMENT '标识',
                                         `created` datetime DEFAULT NULL COMMENT '创建日期',
                                         `modified` datetime DEFAULT NULL COMMENT '修改日期',
                                         `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
                                         PRIMARY KEY (`id`) USING BTREE,
                                         KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 
 
 
@@ -814,19 +814,19 @@ DROP TABLE IF EXISTS `user_openid`;
 CREATE TABLE `user_openid` (
                                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                                `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
-                               `type` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方类型：wechat，dingding，qq...',
-                               `value` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '第三方的openId的值',
-                               `access_token` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '可能用不到',
+                               `type` varchar(32) DEFAULT NULL COMMENT '第三方类型：wechat，dingding，qq...',
+                               `value` varchar(128) DEFAULT NULL COMMENT '第三方的openId的值',
+                               `access_token` varchar(128) DEFAULT NULL COMMENT '可能用不到',
                                `expired_time` datetime DEFAULT NULL COMMENT 'access_token的过期时间',
-                               `nickname` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '昵称',
-                               `avatar` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
-                               `options` text COLLATE utf8mb4_unicode_ci,
+                               `nickname` varchar(128) DEFAULT NULL COMMENT '昵称',
+                               `avatar` varchar(512) DEFAULT NULL COMMENT '头像',
+                               `options` text,
                                `created` datetime DEFAULT NULL,
                                `modified` datetime DEFAULT NULL,
                                PRIMARY KEY (`id`) USING BTREE,
                                KEY `user_id` (`user_id`) USING BTREE,
                                KEY `type_value` (`type`,`value`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT COMMENT='账号绑定信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='账号绑定信息表';
 
 
 

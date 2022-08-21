@@ -114,7 +114,7 @@ public class JsoupUtils {
      *
      * @author michael
      */
-    public static class MyWhitelist extends org.jsoup.safety.Whitelist {
+    public static class MyWhitelist extends org.jsoup.safety.Safelist {
 
         public MyWhitelist() {
 

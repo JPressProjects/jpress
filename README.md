@@ -198,6 +198,12 @@ wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash insta
 
 
 
-## 微信交流群
+## JPress 交流群
+
+- QQ 群1：591396171
+- QQ 群2：288397536
+
+
+微信交流群：
 
 ![](./doc/assets/images/commons/wechat-group.png)

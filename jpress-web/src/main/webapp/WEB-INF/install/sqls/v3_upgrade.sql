@@ -275,9 +275,13 @@ CREATE TABLE `template_block_option`  (
 
 ALTER TABLE `article` DROP COLUMN `remarks`;
 
+ALTER TABLE `article` DROP INDEX `flag`;
+
 ALTER TABLE `article` ROW_FORMAT = Compact;
 
 ALTER TABLE `article` ADD COLUMN `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '作者' AFTER `title`;
+
+ALTER TABLE `article` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询' AFTER `modified`;
 
 ALTER TABLE `article` ADD COLUMN `with_recommend` tinyint(1) NULL DEFAULT NULL COMMENT '是否推荐' AFTER `meta_description`;
 
@@ -293,9 +297,13 @@ ALTER TABLE `article` ADD COLUMN `options` text CHARACTER SET utf8mb4 COLLATE ut
 
 ALTER TABLE `article` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `options`;
 
+ALTER TABLE `article` ADD INDEX `flag`(`flag`) USING BTREE;
+
 ALTER TABLE `article` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `article_category` ROW_FORMAT = Compact;
+
+ALTER TABLE `article_category` MODIFY COLUMN `slug` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'slug' AFTER `user_id`;
 
 ALTER TABLE `article_category` ADD COLUMN `with_recommend` tinyint(1) NULL DEFAULT NULL COMMENT '是否推荐' AFTER `icon`;
 
@@ -321,7 +329,11 @@ ALTER TABLE `attachment` ROW_FORMAT = Compact;
 
 ALTER TABLE `attachment` ADD COLUMN `category_id` int(11) NULL DEFAULT NULL COMMENT '分类ID' AFTER `user_id`;
 
+ALTER TABLE `attachment` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标示' AFTER `type`;
+
 ALTER TABLE `menu` ROW_FORMAT = Compact;
+
+ALTER TABLE `menu` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单标识' AFTER `icon`;
 
 ALTER TABLE `menu` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `modified`;
 
@@ -336,6 +348,10 @@ ALTER TABLE `option` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COM
 ALTER TABLE `option` ADD UNIQUE INDEX `site`(`site_id`, `key`) USING BTREE;
 
 ALTER TABLE `permission` ROW_FORMAT = Compact;
+
+ALTER TABLE `product` DROP INDEX `flag`;
+
+ALTER TABLE `product` DROP INDEX `user_id`;
 
 ALTER TABLE `product` DROP COLUMN `specs`;
 
@@ -367,11 +383,17 @@ ALTER TABLE `product` ADD COLUMN `buy_link` varchar(255) CHARACTER SET utf8mb4 C
 
 ALTER TABLE `product` ADD COLUMN `video_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频ID' AFTER `buy_link`;
 
+ALTER TABLE `product` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询' AFTER `modified`;
+
 ALTER TABLE `product` MODIFY COLUMN `options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'json 扩展' AFTER `remarks`;
 
 ALTER TABLE `product` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `options`;
 
+ALTER TABLE `product` ADD INDEX `flag`(`flag`) USING BTREE;
+
 ALTER TABLE `product` ADD INDEX `site_id`(`site_id`) USING BTREE;
+
+ALTER TABLE `product_category` DROP INDEX `flag`;
 
 ALTER TABLE `product_category` ROW_FORMAT = Compact;
 
@@ -383,7 +405,11 @@ ALTER TABLE `product_category` ADD COLUMN `ornament` varchar(512) CHARACTER SET 
 
 ALTER TABLE `product_category` ADD COLUMN `thumbnail` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '缩略图' AFTER `ornament`;
 
+ALTER TABLE `product_category` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识' AFTER `order_number`;
+
 ALTER TABLE `product_category` ADD COLUMN `site_id` int(10) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `modified`;
+
+ALTER TABLE `product_category` ADD INDEX `flag`(`flag`) USING BTREE;
 
 ALTER TABLE `product_category` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
@@ -395,9 +421,13 @@ ALTER TABLE `product_comment` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT
 
 ALTER TABLE `product_comment` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `product_image` ROW_FORMAT = Compact;
+ALTER TABLE `product_image` COLLATE = utf8mb4_general_ci, ROW_FORMAT = Compact;
+
+ALTER TABLE `product_image` MODIFY COLUMN `src` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL AFTER `product_id`;
 
 ALTER TABLE `role` ROW_FORMAT = Compact;
+
+ALTER TABLE `role` MODIFY COLUMN `created` datetime(0) NULL AFTER `flag`;
 
 ALTER TABLE `role_permission_mapping` ROW_FORMAT = Compact;
 
@@ -406,6 +436,8 @@ ALTER TABLE `single_page` ROW_FORMAT = Compact;
 ALTER TABLE `single_page` ADD COLUMN `category_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '分类ID' AFTER `id`;
 
 ALTER TABLE `single_page` ADD COLUMN `ornament` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '装饰图' AFTER `thumbnail`;
+
+ALTER TABLE `single_page` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识' AFTER `style`;
 
 ALTER TABLE `single_page` ADD COLUMN `comment_status` tinyint(1) NULL DEFAULT 1 COMMENT '评论状态，默认允许评论' AFTER `status`;
 
@@ -425,7 +457,19 @@ ALTER TABLE `single_page_comment` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `user` ROW_FORMAT = Compact;
 
-ALTER TABLE `user_openid` ROW_FORMAT = Compact;
+ALTER TABLE `user_openid` COLLATE = utf8mb4_general_ci, ROW_FORMAT = Compact;
+
+ALTER TABLE `user_openid` MODIFY COLUMN `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方类型：wechat，dingding，qq...' AFTER `user_id`;
+
+ALTER TABLE `user_openid` MODIFY COLUMN `value` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方的openId的值' AFTER `type`;
+
+ALTER TABLE `user_openid` MODIFY COLUMN `access_token` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '可能用不到' AFTER `value`;
+
+ALTER TABLE `user_openid` MODIFY COLUMN `nickname` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称' AFTER `expired_time`;
+
+ALTER TABLE `user_openid` MODIFY COLUMN `avatar` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像' AFTER `nickname`;
+
+ALTER TABLE `user_openid` MODIFY COLUMN `options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL AFTER `avatar`;
 
 ALTER TABLE `user_role_mapping` ROW_FORMAT = Compact;
 

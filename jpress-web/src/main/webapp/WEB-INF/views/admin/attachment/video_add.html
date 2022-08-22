@@ -57,7 +57,14 @@
             $("#live").show();
             $("#code").hide();
 
-        } else if (value == 'code') {
+        }
+        else if (value == 'live' && cloudType == '4') {
+            $("#videos").hide();
+            $("#live").show();
+            $("#code").hide();
+
+        }
+        else if (value == 'code') {
             $("#videos").hide();
             $("#live").hide();
             $("#code").show()
@@ -67,45 +74,69 @@
 
 
     /**
-     *  根据 云类型 选择的显示和隐藏
+     *  根据配置的和本地的云类型（选择性的显示和隐藏）
      */
     cloudTypeChange(document.getElementById("cloudType").value);
 
     function cloudTypeChange(cloudType) {
-
+        var container = document.getElementById("containerCloudType").value;
         //根据云类型，隐藏和显示对应的容器
         // var cloudType = $("#cloudType").val();
-        if(cloudType == '1'){
-            $("#aliyun").show();
-            $("#qcloud").hide();
-            $("#local").hide();
+        if(cloudType == '1' && container == '1' ){
 
             $("#livePlayer").show();
-            $("#id_test_video").hide();
+            $("#id_test_qcloud_live").hide();
 
             $("#createLive").show();
             $("#createLiveQCloud").hide();
 
-        }else if(cloudType == '2'){
-            $("#aliyun").hide();
-            $("#qcloud").show();
-            $("#local").hide();
+        }else if(cloudType == '2' && container == '2'){
 
             $("#livePlayer").hide();
-            $("#id_test_video").show();
+            $("#id_test_qcloud_live").show();
 
             $("#createLive").hide();
             $("#createLiveQCloud").show();
 
         }
-        else if(cloudType == '4'){
-            $("#aliyun").hide();
-            $("#live").hide();
-            $("#qcloud").hide();
-            $("#local").show();
+        else if(cloudType == '1' && container == '2' ){
 
             $("#livePlayer").hide();
-            $("#id_test_video").hide();
+            $("#id_test_qcloud_live").show();
+
+            $("#createLive").show();
+            $("#createLiveQCloud").hide();
+
+        }else if(cloudType == '2' && container == '1'){
+
+            $("#livePlayer").show();
+            $("#id_test_qcloud_live").hide();
+
+            $("#createLive").hide();
+            $("#createLiveQCloud").show();
+
+        }
+
+        else if(cloudType == '4' && container == '1'){
+            $("#id_test_qcloud_live").hide();
+
+            $("#createLive").hide();
+            $("#createLiveQCloud").hide()
+            $("#localLiveHide").hide();//云类型是本地视频时，隐藏选择直播按钮
+
+        }else if(cloudType == '4' && container == '2'){
+
+            $("#livePlayer").hide();
+
+            $("#createLive").hide();
+            $("#createLiveQCloud").hide()
+            $("#localLiveHide").hide();//云类型是本地视频时，隐藏选择直播按钮
+
+        }else if(cloudType == '4'){
+            $("#live").hide();
+
+            $("#livePlayer").hide();
+            $("#id_test_qcloud_live").hide();
 
             $("#createLive").hide();
             $("#createLiveQCloud").hide()
@@ -113,7 +144,7 @@
 
         }
 
-        var container = document.getElementById("containerCloudType").value;
+
         if(container == '1'){
             $("#aliyunPlayerContainer").show();
             $("#qcloudPlayerContainer").hide();
@@ -144,31 +175,6 @@
         }
     }
 
-    /**
-     * 容器切换
-     */
-    function switchContiner(){
-        var container = document.getElementById("containerCloudType").value;
-        var cloudType = document.getElementById("cloudType").value;
-        if(cloudType != container && cloudType == '1'){
-            $("#aliyunPlayerContainer").show();
-            $("#qcloudPlayerContainer").hide();
-            $("#localPlayerContainer").hide();
-        }
-        else if(cloudType != container && cloudType == '2'){
-            $("#aliyunPlayerContainer").hide();
-            $("#qcloudPlayerContainer").show();
-            $("#localPlayerContainer").hide();
-
-        }
-        else if(cloudType != container && cloudType == '4'){
-            $("#aliyunPlayerContainer").hide();
-            $("#qcloudPlayerContainer").hide();
-            $("#localPlayerContainer").show();
-
-        }
-    }
-
 
 </script>
 
@@ -191,14 +197,15 @@
         if (uploader) {
             uploader.stopUpload()
         }
+
         var title = $('#videoTitle').val();
 
-        uploader = createVideoUploader(fileName, title);
-
-        uploader.addFile(file, null, null, null, userData);
-        uploader.startUpload();
-
-        switchContiner();
+        var cloudType = document.getElementById("cloudType").value;
+        if(cloudType == '1'){
+            uploader = createVideoUploader(fileName, title);
+            uploader.addFile(file, null, null, null, userData);
+            uploader.startUpload();
+        }
 
     })
 
@@ -283,9 +290,9 @@
             'onUploadProgress': function (uploadInfo, totalSize, loadedPercent) {
                 console.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(loadedPercent * 100) + "%");
                 if (loadedPercent >= 1) {
-                    $("#videoInputFileLable").text("文件上传成功！ （总大小：" + (totalSize / 1024 / 1024).toFixed(2) + "MB）");
+                    $("#videoInputFileLable").text("阿里云-上传成功！ （总大小：" + (totalSize / 1024 / 1024).toFixed(2) + "MB）");
                 } else {
-                    $("#videoInputFileLable").text("视频上传中...." + Math.ceil(loadedPercent * 100) + "% （总大小：" + (totalSize / 1024 / 1024).toFixed(2) + "MB）");
+                    $("#videoInputFileLable").text("阿里云-视频上传中...." + Math.ceil(loadedPercent * 100) + "% （总大小：" + (totalSize / 1024 / 1024).toFixed(2) + "MB）");
                 }
             },
 
@@ -416,6 +423,21 @@
 
     window.onload = function() {
 
+        var cloudType = document.getElementById("cloudType").value;
+        if(cloudType == '1'){
+            $(".chooseVideoFile").attr("id","videoInputFile");
+            $(".chooseVideoFileLable").attr("for","videoInputFile");
+
+        }
+        else if(cloudType == '2'){
+            $(".chooseVideoFile").attr("id","tcentVideoInputFile");
+            $(".chooseVideoFileLable").attr("for","tcentVideoInputFile");
+
+        }
+        else if(cloudType == '4'){
+            document.getElementById("uploader").setAttribute("onclick","uploadLocalVideo()");
+        }
+
         //初始化
         //视频
         var aid = $("#appId").val();
@@ -423,14 +445,14 @@
         var player =null;
         if((aid != null && aid != "") && (vid != null && vid != "") ){
             //编辑
-             player = TCPlayer('player-container-id', {
+            player = TCPlayer('player-container-id', {
                 fileID:  vid,
                 appID: aid,
                 autoplay: false //是否自动播放
             });
         }else{
             //新增
-             player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
+            player = TCPlayer('player-container-id', {}); // player-container-id 为播放器容器 ID，必须与 html 中一致
         }
 
 
@@ -477,7 +499,6 @@
                     //清除文件选择
                     $('#tcentVideoInputFile').val('')
                     console.log("上传成功，返回的结果=="+result)
-                    switchContiner();
 
                 },
                 error : function(result) {
@@ -489,11 +510,11 @@
                 },
                 progress : function(result) {
                     if(result.curr < 1){
-                        $("#tcentVideoInputFileLable").text("视频上传中...." + Math.ceil(result.curr * 100)
+                        $("#videoInputFileLable").text("腾讯云-视频上传中...." + Math.ceil(result.curr * 100)
                             + "% （总大小：" + (videoFile.size / 1024 / 1024).toFixed(2) + "MB）");
 
                     }else if(result.curr == 1){
-                        $("#tcentVideoInputFileLable").text("视频上传成功！（总大小：" + (videoFile.size / 1024 / 1024).toFixed(2) + "MB）");
+                        $("#videoInputFileLable").text("腾讯云-视频上传成功！（总大小：" + (videoFile.size / 1024 / 1024).toFixed(2) + "MB）");
                     }
                     appId = result.cos.appid;
                     // console.log("上传进度：" + result.curr);
@@ -528,14 +549,17 @@
     };
 
 
+
 </script>
 
 <!-- 直播-->
 <script>
 
     //播放地址
-    var playUrl = $('#contentLivePlayUrl').val()
-    var playUrlFlv = $('#contentLivePlayFlvUrl').val()
+    var playUrl = $('#contentLivePlayUrl').val();
+    var playUrlFlv = $('#contentLivePlayFlvUrl').val();
+    console.log("直播："+playUrl)
+    console.log("直播："+playUrlFlv)
 
     $('#createLiveQCloud').on('click', function () {
 
@@ -551,16 +575,16 @@
             $('#liveStream').val(data.streamName);
 
             //播放地址
-             playUrl = $('#contentLivePlayUrl').val()
-             playUrlFlv = $('#contentLivePlayFlvUrl').val()
+            playUrl = $('#contentLivePlayUrl').val()
+            playUrlFlv = $('#contentLivePlayFlvUrl').val()
 
             //清除初始化的播放器
-            $('#id_test_video').html("");
-             playerLive = new TcPlayer('id_test_video', {
+            $('#id_test_qcloud_live').html("");
+            playerLive = new TcPlayer('id_test_qcloud_live', {
                 "m3u8": playUrl,
                 "flv": playUrlFlv, //增加了一个 flv 的播放地址，用于PC平台的播放 请替换成实际可用的播放地址
                 "autoplay": false,      //iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
-                "width": '800',//视频的显示宽度，请尽量使用视频分辨率宽度
+                "width": '700',//视频的显示宽度，请尽量使用视频分辨率宽度
                 "height": '350'//视频的显示高度，请尽量使用视频分辨率高度
             });
 
@@ -570,11 +594,11 @@
     });
 
     //初始化播放器
-    var playerLive = new TcPlayer('id_test_video', {
+    var playerLive = new TcPlayer('id_test_qcloud_live', {
         "m3u8": playUrl,
         "flv": playUrlFlv, //增加了一个 flv 的播放地址，用于PC平台的播放
         "autoplay": false,      //iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
-        "width": '800',//视频的显示宽度，请尽量使用视频分辨率宽度
+        "width": '700',//视频的显示宽度，请尽量使用视频分辨率宽度
         "height": '350'//视频的显示高度，请尽量使用视频分辨率高度
     });
 
@@ -591,18 +615,18 @@
 
         var title = $('#videoTitle').val();
 
-        $('#localVideoInputFile').fileupload({
+        $('#videoInputFile').fileupload({
             dropZone: $('#uploader'),
             url:jpress.cpath+ '/admin/attachment/video/uploadLocalVideo',
             sequentialUploads: true,
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
-                $("#localVideoInputFileLable").text("上传进度：" + progress + "%")
+                $("#videoInputFileLable").text("本地-视频上传进度：" + progress + "%")
             },
             done: function (e, data) {
 
                 if(data.result.state == "ok"){
-                    toastr.success("文件上传成功...")
+                    toastr.success("本地-视频上传成功...")
                     $("#localPlay").attr("src",data.result.src);
                     // $("#videoPlayUrl").attr("value",data.result.src);
                     $("#videoContent").attr("value",data.result.src);
@@ -658,11 +682,11 @@
 
 
             <div class=" col-lg-12" >
-                    <form class="form-horizontal autoAjaxSubmit" autocomplete="off" id="form"
-                          action="#(CPATH)/admin/attachment/video/doSave"
-                          data-ok-href="#(CPATH)/admin/attachment/video/list"
-                          data-ok-message="视频保存成功"
-                          method="post">
+                <form class="form-horizontal autoAjaxSubmit" autocomplete="off" id="form"
+                      action="#(CPATH)/admin/attachment/video/doSave"
+                      data-ok-href="#(CPATH)/admin/attachment/video/list"
+                      data-ok-message="视频保存成功"
+                      method="post">
 
                     <input type="hidden" name="video.id" value="#(video.id ??)" id="videoId">
 
@@ -743,7 +767,7 @@
                                     <input type="hidden"  name="videoType" id="videoType" value="#(video.videoType ?? 'vod')">
                                     <label>
                                         <input type="radio" onchange="videoContentTypeChange(this.value)" name="video.video_type" value="vod"
-                                                  checked #checkedIf(video && video.video_type == 'vod') > 视频</input>
+                                               checked #checkedIf(video && video.video_type == 'vod') > 视频</input>
                                     </label>
                                     <label id="localLiveHide">
                                         <input type="radio" onchange="videoContentTypeChange(this.value)" name="video.video_type" value="live"
@@ -761,91 +785,49 @@
                             <div id="videos">
                                 <input type="hidden" name="cloudType" value="#(cloudType ??)" id="cloudType">
                                 <input type="hidden" name="containerCloudType" value="#(containerCloudType ??)" id="containerCloudType">
-                                <div id="aliyun">
-                                    <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">选择视频文件</label>
-                                    <div class="col-sm-6">
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" accept="video/*" id="videoInputFile">
-                                                <label class="custom-file-label" for="videoInputFile"
-                                                       id="videoInputFileLable">点击选择上传视频</label>
-                                            </div>
-                                        </div>
-                                        <p class="text-muted">
-                                            要上传视频，请先在 <a href="#(CPATH)/admin/attachment/setting">[设置]</a> 中进行阿里云点播视频配置。
-                                        </p>
-                                    </div>
-                                </div>
-                                </div>
-
-
-                                <div id="qcloud">
+                                <div >
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">选择视频文件</label>
                                         <div class="col-sm-6">
                                             <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input"  accept="video/*" id="tcentVideoInputFile">
-                                                    <label class="custom-file-label" for="tcentVideoInputFile"
-                                                           id="tcentVideoInputFileLable">点击选择上传视频</label>
+                                                <div class="custom-file"  id="uploader" >
+                                                    <input type="file" class="custom-file-input chooseVideoFile" name="files[]" accept="video/*" id="videoInputFile">
+                                                    <label class="custom-file-label chooseVideoFileLable" for="videoInputFile"
+                                                           id="videoInputFileLable">点击选择上传视频</label>
                                                 </div>
                                             </div>
                                             <p class="text-muted">
-                                                要上传视频，请先在 <a href="#(CPATH)/admin/attachment/setting">[设置]</a> 中进行腾讯云点播视频配置。
+                                                上传视频，请先在 <a href="#(CPATH)/admin/attachment/setting">[设置]</a> 中完成视频云类型的配置。
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
 
+                                <div class="form-group row" >
+                                    <label class="col-sm-2 col-form-label"> 视频云</label>
+                                    <div class="col-sm-6">
 
-                                <div id="local">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">选择视频文件</label>
-                                        <div class="col-sm-6">
-                                            <div class="input-group">
-                                                <div class="custom-file" id="uploader"  onclick="uploadLocalVideo()">
-                                                    <input  id="localVideoInputFile" type="file" name="files[]"  accept="video/*" multiple>
-                                                    <label class="custom-file-label" for="localVideoInputFile"
-                                                           id="localVideoInputFileLable">点击选择上传视频</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                    <div class="form-group row" id="aliyunPlayerContainer">
-                                        <label class="col-sm-2 col-form-label"> 视频</label>
-                                        <div class="col-sm-6">
+                                        <!--  阿里云视频播放容器  -->
+                                        <div id="aliyunPlayerContainer">
                                             <div class=" pr-0 bg-gray" id="player" style="height: 350px;"></div>
                                         </div>
-                                    </div>
 
-
-
-                                    <div class="form-group row" id="qcloudPlayerContainer">
-                                        <label class="col-sm-2 col-form-label"> 视频</label>
-                                        <div class="col-sm-6">
-                                            <!--  腾讯云 视频播放容器  -->
+                                        <!--  腾讯云视频播放容器  -->
+                                        <div id="qcloudPlayerContainer">
                                             <video id="player-container-id" width="700" height="350" preload="auto" playsinline webkit-playsinline>
                                             </video>
                                             <input type="hidden" name="" value=" " id="tcVod">
                                         </div>
-                                    </div>
 
-
-
-                                    <div class="form-group row" id="localPlayerContainer">
-<!--                                        <input type="hidden" name="" value="#(cloudType ??)" id="cloudType">-->
-                                        <label class="col-sm-2 col-form-label"> 视频</label>
-
-                                        <div class="col-sm-6">
+                                        <!--  本地视频播放容器  -->
+                                        <div id="localPlayerContainer">
                                             <input type="hidden" name="option.local_video_url" value="#(options.local_video_url ??)" id="videoContent">
                                             <video class=" pr-0 bg-gray" controls="controls" id="localPlay" src="#(CPATH)#(options.local_video_url ??)" style="height: 350px;width: 700px;"></video>
                                         </div>
-                                    </div>
 
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -862,7 +844,7 @@
                                     <label class="col-sm-2 col-form-label"> 直播推流地址 </label>
                                     <div class="col-sm-6">
                                         <div class="input-group ">
-<!--                                           disabled readonly-->
+                                            <!--                                           disabled readonly-->
                                             <input type="text" class="form-control" name="video.live_stream" disabled readonly
                                                    value="#(video.livePushUrl ??)" id="livePushUrl">
                                             <span class="input-group-append">
@@ -880,7 +862,7 @@
 
 
                                 <div class="form-group row">
-<!--                                    <span class="text-danger mr-2">*</span>-->
+                                    <!--                                    <span class="text-danger mr-2">*</span>-->
                                     <label class="col-sm-2 col-form-label"> 开播时间</label>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control datetime"  placeholder="请选择开播时间"
@@ -905,7 +887,7 @@
                                     <label class="col-sm-2 col-form-label"> 直播 / 回放</label>
                                     <div class="col-sm-6">
                                         <div class=" pr-0 bg-gray" id="livePlayer" style="height: 350px;"> 阿里云</div>
-                                        <div id="id_test_video"  style="width:100%; height:350px;"> 腾讯云</div>
+                                        <div id="id_test_qcloud_live"  style="width:700px; height:350px;"> 腾讯云</div>
                                     </div>
                                 </div>
 

@@ -1,44 +1,27 @@
 # 模板模块拖拽
 
 在开始 JPress 模板的模块开发之前，需要了解 3 个定义：
-- 1、模块容器：就是可以拖动来存放的地方
-- 2、模块：一段 html 片段，html 片段所在的 html 文件以 `block_` 开头
+
+- 1、模块：一段 html 片段，在模板里是以 `block_` 开头的 html 文件。
+- 2、模块容器：一个可以存放 "模块" 的 html 位置，通常是一个 div。
 - 3、模块设置：对模块里的 html 内容进行动态设置。
 
-## 模块容器 
 
-在模板的 html 中，`模块容器` 是通过代码 `#blockContainer('容器名称') 默认显示内容 #end` 来定义。例如：
 
-在任意的 html 中，添加如下内容 
+## 模块
 
-```html
-<div class="div1">#blockContainer('容器1')  #end</div>
-<div class="div2">#blockContainer('容器2')  #end</div>
-```
-
-此时，表示我们在模板中定义了两个容器，容器的名称分别为：容器1、容器2。后台显示如下：
-
-> 在后台 模板->版块 中就会出现相同的俩个容器 我们可以对容器进行设计 在左边已经存在系统自带的几种功能模块
-
-![img.png](../image/template/template_16.png)
-
-> 可以通过拖动的方式来将这些功能模块放入到模块容器中
-> 
-> 那么怎么添加自己需要的功能模块呢 ?
-
-![img.png](../image/template/template_17.png)
-
-----
-
-## 功能模块
-
-* 1、创建一个 html 文件 ，文件以 `block_` 开头，例如：`block_newjobs.html`
+* 1、在模板目录中，创建一个以 `block_` 开头的 html 文件，例如：`block_newjobs.html`
 
 ![img.png](../image/template/template_18.png)
 
-* 2、此时重启项目，进入后台就可以看到此功能模块已经加入版块设置中
+- 使用 `<!--name: 模块名称-->` 来定义一个模块的名称
+- 使用 `<!--icon: 模块 ICON-->` 来定义个模块在后台显示的 icon，支持 https://icons.getbootstrap.com 对应的类名
+
+* 2、此时重启项目，进入后台，就可以看到此功能模块已经加入版块设置中。
 
 ![img.png](../image/template/template_19.png)
+
+
 
 ## 模块设置
 
@@ -48,36 +31,70 @@
 
 ![img.png](../image/template/template_24.png)
 
-* 后台对应设置
+后台模块显示如下：
 
 ![img.png](../image/template/template_25.png)
 
 ----
 
-* 2、 `#blockOption("key","value")` 得多种功能
+* 2、 通过 `#blockOption("属性名称","默认值")` 定义模块属性
 
->  1、放在元素的 class 属性中 可以指定其为不同的元素 不同的样式等 例如：`class="right-card #blockOption('主class:textarea')"`
-
-![img.png](../image/template/template_26.png)
-
-* 比如 `class="right-card #blockOption('主class:textarea')"` 后台对应的元素就为 textarea
-
-----
-
->  2、放在元素中 可以在功能模块中添加新的配置 例如：` <div class="right-card-title">#blockOption("标题","最新文章")</div>`
+示例1：
 
 ![img.png](../image/template/template_27.png)
 
-* 后台对应设置
+后台显示如下：
 
 ![img.png](../image/template/template_28.png)
 
-----
 
->  3、放在其它指令中 可以使指令中的参数与功能模块的配置所绑定 前提是此指令 支持绑定的参数
+示例2：
 
 ![img.png](../image/template/template_29.png)
 
-* 后台对应设置
+后台显示如下：
 
 ![img.png](../image/template/template_30.png)
+
+**注意**
+
+`#blockOption("属性名称","默认值")` 的完整支持应该是 `#blockOption("属性名称:后台输入框类型","默认值")`
+
+例如：
+
+- `#blockOption("count:textarea","10")` 后台的属性面板 textarea 来设置
+- `#blockOption("count:image","10")` 后台的属性面板 图片选择 来设置
+
+后台输入框类型支持的类型如下：
+
+- input，输入框，也是默认值
+- number，数字输入框
+- textarea，多行输入框
+- image，图片选择器
+- video，视频选择器
+
+例如：`#blockOption('选择图片:image','/static/commons/img/nothumbnail.jpg')` 后台显示如下：
+
+![img.png](../image/template/template_block_image.png)
+
+## 模块容器
+
+在模板的 html 中，`模块容器` 是通过代码 `#blockContainer('容器名称') 默认显示内容 #end` 来定义。例如：
+
+在任意的 html 中，添加如下内容
+
+```html
+<div class="div1">#blockContainer('容器1')  #end</div>
+<div class="div2">#blockContainer('容器2')  #end</div>
+```
+
+此时，表示我们在模板中定义了两个容器，容器的名称分别为：容器1、容器2。
+
+后台如下图所示：
+
+![img.png](../image/template/template_16.png)
+
+此时，我们可以拖动左侧的模块放入到模块容器中。
+
+![img.png](../image/template/template_17.png)
+

@@ -698,7 +698,7 @@ CREATE TABLE `single_page_category` (
                                         `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
                                         PRIMARY KEY (`id`) USING BTREE,
                                         KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='页面分类';
 
 
 
@@ -748,7 +748,7 @@ CREATE TABLE `site_info` (
                              `created` datetime DEFAULT NULL COMMENT '创建时间',
                              `modified` datetime DEFAULT NULL COMMENT '修改时间',
                              PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='站点信息';
 
 
 
@@ -762,7 +762,7 @@ CREATE TABLE `template_block_option` (
                                          `site_id` int(11) unsigned NOT NULL COMMENT '站点 ID',
                                          `options` mediumtext COMMENT '配置内容',
                                          PRIMARY KEY (`template_id`,`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='模块配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='模块配置';
 
 
 

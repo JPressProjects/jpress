@@ -246,7 +246,7 @@ CREATE TABLE `single_page_category`  (
   `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `site_id`(`site_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '页面分类' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `site_info`;
 CREATE TABLE `site_info`  (
@@ -260,7 +260,7 @@ CREATE TABLE `site_info`  (
   `created` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `modified` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '站点信息' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `template_block_option`;
 CREATE TABLE `template_block_option`  (

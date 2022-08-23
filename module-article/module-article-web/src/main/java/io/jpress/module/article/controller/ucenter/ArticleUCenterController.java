@@ -163,7 +163,7 @@ public class ArticleUCenterController extends UcenterControllerBase {
     public void doWriteSave() {
 
         Article article = getModel(Article.class, "article");
-        article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_keywords", "meta_description");
+        article.keep("id", "title", "content", "slug", "edit_mode", "summary", "thumbnail", "meta_title", "meta_keywords", "meta_description");
         article.setContent(getCleanedOriginalPara("article.content"));
 
         article.setUserId(getLoginedUser().getId());

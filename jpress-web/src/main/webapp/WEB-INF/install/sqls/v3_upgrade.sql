@@ -66,7 +66,7 @@ CREATE TABLE `attachment_video`  (
   `uuid` varchar(32) DEFAULT NULL COMMENT '视频uuid',
   `video_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'vod、live、code',
   `cloud_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频云',
-  `category_id` int(11) NULL DEFAULT NULL COMMENT '分类ID',
+  `category_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '分类ID',
   `cover` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频封面',
   `vod_vid` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频云端ID',
   `vod_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '视频名称',
@@ -327,7 +327,7 @@ ALTER TABLE `article_comment` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `attachment` ROW_FORMAT = Compact;
 
-ALTER TABLE `attachment` ADD COLUMN `category_id` int(11) NULL DEFAULT NULL COMMENT '分类ID' AFTER `user_id`;
+ALTER TABLE `attachment` ADD COLUMN `category_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '分类ID' AFTER `user_id`;
 
 ALTER TABLE `attachment` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标示' AFTER `type`;
 

@@ -371,7 +371,32 @@ public class _AttachmentController extends AdminControllerBase {
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {
         Set<String> idsSet = getParaSet("ids");
-        render(service.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+        Object[] ids = idsSet.toArray();
+        if(ids != null && ids.length >0){
+            for (Object id : ids) {
+                Attachment attachment = service.findById(id);
+                if (attachment == null) {
+                    renderError(404);
+                    return;
+                }
+                Integer nowCategoryId = attachment.getCategoryId();
+
+                if (service.delete(attachment)) {
+                    File attachmentFile = AttachmentUtils.file(attachment.getPath());
+                    if (attachmentFile.exists() && attachmentFile.isFile()) {
+                        attachmentFile.delete();
+                        AliyunOssUtils.delete(new StringBuilder(attachment.getPath()).delete(0, 1).toString());
+                    }
+                }
+                //更新分类下的内容数量
+                if(nowCategoryId != null){
+                    categoryService.doUpdateAttachmentCategoryCount(nowCategoryId.longValue());
+                }
+            }
+        }
+
+//        render(service.deleteByIds(idsSet.toArray()) ? OK : FAIL);
+        renderOkJson();
     }
 
 

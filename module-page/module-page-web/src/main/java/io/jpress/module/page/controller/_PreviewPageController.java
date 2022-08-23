@@ -65,7 +65,7 @@ public class _PreviewPageController extends TemplateControllerBase {
     }
 
     private void setSeoInfos(SinglePage page) {
-        setSeoTitle(page.getTitle());
+        setSeoTitle(StrUtil.isBlank(page.getMetaTitle()) ? page.getTitle() : page.getMetaTitle());
         setSeoKeywords(page.getMetaKeywords());
         setSeoDescription(StrUtil.isBlank(page.getMetaDescription())
                 ? CommonsUtils.maxLength(page.getText(), 100)

@@ -299,6 +299,20 @@ public abstract class BaseJob<M extends BaseJob<M>> extends BaseOptionsModel<M> 
 		return getDate("expired_to");
 	}
 
+	/**
+	 * SEO标题
+	 */
+	public void setMetaTitle(java.lang.String metaTitle) {
+		set("meta_title", metaTitle);
+	}
+
+	/**
+	 * SEO标题
+	 */
+	public java.lang.String getMetaTitle() {
+		return getStr("meta_title");
+	}
+
     /**
      * SEO关键字
      */

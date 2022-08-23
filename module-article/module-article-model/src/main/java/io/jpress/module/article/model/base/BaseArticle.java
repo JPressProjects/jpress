@@ -305,6 +305,20 @@ public abstract class BaseArticle<M extends BaseArticle<M>> extends JbootModel<M
 		return getStr("flag");
 	}
 
+	/**
+	 * SEO标题
+	 */
+	public void setMetaTitle(java.lang.String metaTitle) {
+		set("meta_title", metaTitle);
+	}
+
+	/**
+	 * SEO标题
+	 */
+	public java.lang.String getMetaTitle() {
+		return getStr("meta_title");
+	}
+
     /**
      * SEO关键字
      */

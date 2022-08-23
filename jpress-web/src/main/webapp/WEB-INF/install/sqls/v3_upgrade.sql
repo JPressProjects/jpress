@@ -175,6 +175,7 @@ CREATE TABLE `job`  (
   `recruit_type` tinyint(2) NULL DEFAULT NULL COMMENT '招聘类型',
   `recruit_numbers` int(11) NULL DEFAULT NULL COMMENT '岗位招聘人数',
   `expired_to` datetime(0) NULL DEFAULT NULL COMMENT '岗位有效时间',
+  `meta_title` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO标题',
   `meta_keywords` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO关键字',
   `meta_description` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO描述信息',
   `created` datetime(0) NULL DEFAULT NULL COMMENT '创建日期',

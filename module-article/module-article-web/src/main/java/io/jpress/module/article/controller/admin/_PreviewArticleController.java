@@ -88,7 +88,7 @@ public class _PreviewArticleController extends TemplateControllerBase {
     }
 
     private void setSeoInfos(Article article) {
-        setSeoTitle(article.getTitle());
+        setSeoTitle(StrUtil.isBlank(article.getMetaTitle()) ? article.getTitle() : article.getMetaTitle());
         setSeoKeywords(article.getMetaKeywords());
         setSeoDescription(StrUtil.isBlank(article.getMetaDescription())
                 ? CommonsUtils.maxLength(article.getText(), 100)

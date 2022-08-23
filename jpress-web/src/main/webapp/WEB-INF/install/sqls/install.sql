@@ -34,6 +34,7 @@ CREATE TABLE `article` (
                            `created` datetime DEFAULT NULL COMMENT '创建日期',
                            `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
                            `flag` varchar(64) DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询',
+                           `meta_title` varchar(512) DEFAULT NULL COMMENT 'SEO标题',
                            `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
                            `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
                            `with_recommend` tinyint(1) DEFAULT NULL COMMENT '是否推荐',
@@ -79,6 +80,7 @@ CREATE TABLE `article_category` (
                                     `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的内容数量',
                                     `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
                                     `flag` varchar(256) DEFAULT NULL COMMENT '标识',
+                                    `meta_title` varchar(256) DEFAULT NULL COMMENT 'SEO标题',
                                     `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
                                     `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述内容',
                                     `created` datetime DEFAULT NULL COMMENT '创建日期',
@@ -331,6 +333,7 @@ CREATE TABLE `job` (
                        `recruit_type` tinyint(2) DEFAULT NULL COMMENT '招聘类型',
                        `recruit_numbers` int(11) DEFAULT NULL COMMENT '岗位招聘人数',
                        `expired_to` datetime DEFAULT NULL COMMENT '岗位有效时间',
+                       `meta_title` varchar(512) DEFAULT NULL COMMENT 'SEO标题',
                        `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
                        `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
                        `created` datetime DEFAULT NULL COMMENT '创建日期',
@@ -490,6 +493,7 @@ CREATE TABLE `product` (
                            `created` datetime DEFAULT NULL COMMENT '创建日期',
                            `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
                            `flag` varchar(64) DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询',
+                           `meta_title` varchar(512) DEFAULT NULL COMMENT 'SEO标题',
                            `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
                            `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
                            `remarks` text COMMENT '备注信息',
@@ -531,6 +535,7 @@ CREATE TABLE `product_category` (
                                     `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的内容数量',
                                     `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
                                     `flag` varchar(64) DEFAULT NULL COMMENT '标识',
+                                    `meta_title` varchar(256) DEFAULT NULL COMMENT 'SEO标题',
                                     `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
                                     `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述内容',
                                     `options` text,
@@ -661,6 +666,7 @@ CREATE TABLE `single_page` (
                                `view_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '访问量',
                                `created` datetime DEFAULT NULL COMMENT '创建日期',
                                `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
+                               `meta_title` varchar(256) DEFAULT NULL COMMENT 'SEO标题',
                                `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
                                `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述信息',
                                `remarks` text COMMENT '备注信息',
@@ -952,9 +958,9 @@ CREATE TABLE `wechat_reply` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户自定义关键字回复表';
 
 
-INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `author`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `with_recommend`, `with_top`, `with_hot`, `with_lead_news`, `with_allow_search`, `options`, `site_id`)
+INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `author`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_title`, `meta_keywords`, `meta_description`, `with_recommend`, `with_top`, `with_hot`, `with_lead_news`, `with_allow_search`, `options`, `site_id`)
 VALUES
-    (1, NULL, NULL, '欢迎使用JPress', NULL, '<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>', 'html', NULL, NULL, NULL, NULL, 1, 0, 'normal', 1, 0, NULL, 0, '2022-08-18 12:00:00', '2022-08-18 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+    (1, NULL, NULL, '欢迎使用JPress', NULL, '<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>', 'html', NULL, NULL, NULL, NULL, 1, 0, 'normal', 1, 0, NULL, 0, '2022-08-18 12:00:00', '2022-08-18 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

@@ -117,7 +117,7 @@ public class ProductController extends TemplateControllerBase {
     }
 
     private void setSeoInfos(Product product) {
-        setSeoTitle(product.getTitle());
+        setSeoTitle(StrUtil.isBlank(product.getMetaTitle()) ? product.getTitle() : product.getMetaTitle());
         setSeoKeywords(product.getMetaKeywords());
         setSeoDescription(StrUtil.isBlank(product.getMetaDescription())
                 ? CommonsUtils.maxLength(product.getText(), 100)

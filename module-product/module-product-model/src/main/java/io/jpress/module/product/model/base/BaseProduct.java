@@ -333,7 +333,21 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends BaseOptionsM
 		return getStr("flag");
 	}
 
-    /**
+	/**
+	 * SEO标题
+	 */
+	public void setMetaTitle(java.lang.String metaTitle) {
+		set("meta_title", metaTitle);
+	}
+
+	/**
+	 * SEO标题
+	 */
+	public java.lang.String getMetaTitle() {
+		return getStr("meta_title");
+	}
+
+	/**
      * SEO关键字
      */
 	public void setMetaKeywords(java.lang.String metaKeywords) {

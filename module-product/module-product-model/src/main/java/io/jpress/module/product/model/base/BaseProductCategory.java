@@ -249,6 +249,20 @@ public abstract class BaseProductCategory<M extends BaseProductCategory<M>> exte
 		return getStr("flag");
 	}
 
+	/**
+	 * SEO标题
+	 */
+	public void setMetaTitle(java.lang.String metaTitle) {
+		set("meta_title", metaTitle);
+	}
+
+	/**
+	 * SEO标题
+	 */
+	public java.lang.String getMetaTitle() {
+		return getStr("meta_title");
+	}
+
     /**
      * SEO关键字
      */

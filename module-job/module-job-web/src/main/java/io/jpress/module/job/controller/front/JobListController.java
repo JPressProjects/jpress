@@ -27,7 +27,7 @@ public class JobListController extends TemplateControllerBase {
 
 
     private void setSeoInfos(Job job) {
-        setSeoTitle(job.getTitle());
+        setSeoTitle(StrUtil.isBlank(job.getMetaTitle()) ? job.getTitle() : job.getMetaTitle());
         setSeoKeywords(job.getMetaKeywords());
         setSeoDescription(StrUtil.isBlank(job.getMetaDescription()) ? CommonsUtils.maxLength(job.getContent(), 100) : job.getContent());
     }

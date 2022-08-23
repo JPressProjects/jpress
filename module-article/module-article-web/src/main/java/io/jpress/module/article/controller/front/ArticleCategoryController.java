@@ -83,7 +83,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
             return;
         }
 
-        setSeoTitle(category.getTitle());
+        setSeoTitle(StrUtil.isBlank(category.getMetaTitle()) ? category.getTitle() : category.getMetaTitle());
         setSeoKeywords(category.getMetaKeywords());
         setSeoDescription(StrUtil.isBlank(category.getMetaDescription())
                 ? CommonsUtils.maxLength(category.getContent(), 100)

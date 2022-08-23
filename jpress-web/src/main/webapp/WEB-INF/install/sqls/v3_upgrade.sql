@@ -57,7 +57,7 @@ CREATE TABLE `attachment_category`  (
   `created` datetime(0) NULL DEFAULT NULL COMMENT '创建日期',
   `modified` datetime(0) NULL DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '附件分类表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '附件分类表' ROW_FORMAT = Dynamic;
 
 
 DROP TABLE IF EXISTS `attachment_video`;
@@ -96,7 +96,7 @@ CREATE TABLE `attachment_video_category`  (
   `created` datetime(0) NULL DEFAULT NULL COMMENT '创建日期',
   `modified` datetime(0) NULL DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '附件分类表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '附件分类表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `form_datasource`;
 CREATE TABLE `form_datasource`  (
@@ -245,7 +245,7 @@ CREATE TABLE `single_page_category`  (
   `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `site_id`(`site_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `site_info`;
 CREATE TABLE `site_info`  (
@@ -277,7 +277,7 @@ ALTER TABLE `article` DROP COLUMN `remarks`;
 
 ALTER TABLE `article` DROP INDEX `flag`;
 
-ALTER TABLE `article` ROW_FORMAT = Compact;
+ALTER TABLE `article` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `article` ADD COLUMN `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '作者' AFTER `title`;
 
@@ -301,7 +301,7 @@ ALTER TABLE `article` ADD INDEX `flag`(`flag`) USING BTREE;
 
 ALTER TABLE `article` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `article_category` ROW_FORMAT = Compact;
+ALTER TABLE `article_category` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `article_category` MODIFY COLUMN `slug` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'slug' AFTER `user_id`;
 
@@ -317,21 +317,21 @@ ALTER TABLE `article_category` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAUL
 
 ALTER TABLE `article_category` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `article_category_mapping` ROW_FORMAT = Compact;
+ALTER TABLE `article_category_mapping` ROW_FORMAT = Dynamic;
 
-ALTER TABLE `article_comment` ROW_FORMAT = Compact;
+ALTER TABLE `article_comment` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `article_comment` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `created`;
 
 ALTER TABLE `article_comment` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `attachment` ROW_FORMAT = Compact;
+ALTER TABLE `attachment` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `attachment` ADD COLUMN `category_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '分类ID' AFTER `user_id`;
 
 ALTER TABLE `attachment` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标示' AFTER `type`;
 
-ALTER TABLE `menu` ROW_FORMAT = Compact;
+ALTER TABLE `menu` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `menu` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单标识' AFTER `icon`;
 
@@ -341,13 +341,13 @@ ALTER TABLE `menu` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `option` DROP INDEX `unique_key`;
 
-ALTER TABLE `option` ROW_FORMAT = Compact;
+ALTER TABLE `option` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `option` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `value`;
 
 ALTER TABLE `option` ADD UNIQUE INDEX `site`(`site_id`, `key`) USING BTREE;
 
-ALTER TABLE `permission` ROW_FORMAT = Compact;
+ALTER TABLE `permission` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `product` DROP INDEX `flag`;
 
@@ -377,7 +377,7 @@ ALTER TABLE `product` DROP COLUMN `real_sales_count`;
 
 ALTER TABLE `product` DROP COLUMN `stock`;
 
-ALTER TABLE `product` ROW_FORMAT = Compact;
+ALTER TABLE `product` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `product` ADD COLUMN `buy_link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '购买链接' AFTER `sales_count`;
 
@@ -395,7 +395,7 @@ ALTER TABLE `product` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `product_category` DROP INDEX `flag`;
 
-ALTER TABLE `product_category` ROW_FORMAT = Compact;
+ALTER TABLE `product_category` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `product_category` ADD COLUMN `with_recommend` tinyint(1) NULL DEFAULT NULL COMMENT '是否推荐' AFTER `icon`;
 
@@ -413,25 +413,25 @@ ALTER TABLE `product_category` ADD INDEX `flag`(`flag`) USING BTREE;
 
 ALTER TABLE `product_category` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `product_category_mapping` ROW_FORMAT = Compact;
+ALTER TABLE `product_category_mapping` ROW_FORMAT = Dynamic;
 
-ALTER TABLE `product_comment` ROW_FORMAT = Compact;
+ALTER TABLE `product_comment` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `product_comment` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `created`;
 
 ALTER TABLE `product_comment` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `product_image` COLLATE = utf8mb4_general_ci, ROW_FORMAT = Compact;
+ALTER TABLE `product_image` COLLATE = utf8mb4_general_ci, ROW_FORMAT = Dynamic;
 
 ALTER TABLE `product_image` MODIFY COLUMN `src` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL AFTER `product_id`;
 
-ALTER TABLE `role` ROW_FORMAT = Compact;
+ALTER TABLE `role` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `role` MODIFY COLUMN `created` datetime(0) NULL AFTER `flag`;
 
-ALTER TABLE `role_permission_mapping` ROW_FORMAT = Compact;
+ALTER TABLE `role_permission_mapping` ROW_FORMAT = Dynamic;
 
-ALTER TABLE `single_page` ROW_FORMAT = Compact;
+ALTER TABLE `single_page` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `single_page` ADD COLUMN `category_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '分类ID' AFTER `id`;
 
@@ -449,15 +449,15 @@ ALTER TABLE `single_page` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NUL
 
 ALTER TABLE `single_page` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `single_page_comment` ROW_FORMAT = Compact;
+ALTER TABLE `single_page_comment` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `single_page_comment` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `created`;
 
 ALTER TABLE `single_page_comment` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `user` ROW_FORMAT = Compact;
+ALTER TABLE `user` ROW_FORMAT = Dynamic;
 
-ALTER TABLE `user_openid` COLLATE = utf8mb4_general_ci, ROW_FORMAT = Compact;
+ALTER TABLE `user_openid` COLLATE = utf8mb4_general_ci, ROW_FORMAT = Dynamic;
 
 ALTER TABLE `user_openid` MODIFY COLUMN `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方类型：wechat，dingding，qq...' AFTER `user_id`;
 
@@ -471,21 +471,21 @@ ALTER TABLE `user_openid` MODIFY COLUMN `avatar` varchar(512) CHARACTER SET utf8
 
 ALTER TABLE `user_openid` MODIFY COLUMN `options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL AFTER `avatar`;
 
-ALTER TABLE `user_role_mapping` ROW_FORMAT = Compact;
+ALTER TABLE `user_role_mapping` ROW_FORMAT = Dynamic;
 
-ALTER TABLE `user_tag` ROW_FORMAT = Compact;
+ALTER TABLE `user_tag` ROW_FORMAT = Dynamic;
 
-ALTER TABLE `user_tag_mapping` ROW_FORMAT = Compact;
+ALTER TABLE `user_tag_mapping` ROW_FORMAT = Dynamic;
 
-ALTER TABLE `utm` ROW_FORMAT = Compact;
+ALTER TABLE `utm` ROW_FORMAT = Dynamic;
 
-ALTER TABLE `wechat_menu` ROW_FORMAT = Compact;
+ALTER TABLE `wechat_menu` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `wechat_menu` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `modified`;
 
 ALTER TABLE `wechat_menu` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
-ALTER TABLE `wechat_reply` ROW_FORMAT = Compact;
+ALTER TABLE `wechat_reply` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `wechat_reply` ADD COLUMN `site_id` int(11) NULL DEFAULT NULL COMMENT '站点ID' AFTER `modified`;
 

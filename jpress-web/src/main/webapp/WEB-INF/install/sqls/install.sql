@@ -52,7 +52,7 @@ CREATE TABLE `article` (
                            KEY `status` (`status`) USING BTREE,
                            KEY `flag` (`flag`) USING BTREE,
                            KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='文章表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='文章表';
 
 
 
@@ -89,7 +89,7 @@ CREATE TABLE `article_category` (
                                     KEY `order_number` (`order_number`) USING BTREE,
                                     KEY `type` (`type`) USING BTREE,
                                     KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='文章分类表。标签、专题、类别等都属于category。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='文章分类表。标签、专题、类别等都属于category。';
 
 
 
@@ -102,7 +102,7 @@ CREATE TABLE `article_category_mapping` (
                                             `article_id` int(11) unsigned NOT NULL COMMENT '文章ID',
                                             `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
                                             PRIMARY KEY (`article_id`,`category_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='文章和分类的多对多关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='文章和分类的多对多关系表';
 
 
 
@@ -132,7 +132,7 @@ CREATE TABLE `article_comment` (
                                    KEY `content_id` (`article_id`) USING BTREE,
                                    KEY `user_id` (`user_id`) USING BTREE,
                                    KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='文章评论表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='文章评论表';
 
 
 
@@ -161,7 +161,7 @@ CREATE TABLE `attachment` (
                               KEY `created` (`created`) USING BTREE,
                               KEY `suffix` (`suffix`) USING BTREE,
                               KEY `mime_type` (`mime_type`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='附件表，用于保存用户上传的附件内容。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='附件表，用于保存用户上传的附件内容。';
 
 
 
@@ -178,7 +178,7 @@ CREATE TABLE `attachment_category` (
                                        `created` datetime DEFAULT NULL COMMENT '创建日期',
                                        `modified` datetime DEFAULT NULL COMMENT '修改日期',
                                        PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='附件分类表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='附件分类表';
 
 
 
@@ -228,7 +228,7 @@ CREATE TABLE `attachment_video_category` (
                                              `created` datetime DEFAULT NULL COMMENT '创建日期',
                                              `modified` datetime DEFAULT NULL COMMENT '修改日期',
                                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='附件分类表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='附件分类表';
 
 
 
@@ -422,7 +422,7 @@ CREATE TABLE `menu` (
                         PRIMARY KEY (`id`) USING BTREE,
                         KEY `order_number` (`order_number`) USING BTREE,
                         KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='菜单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='菜单表';
 
 
 
@@ -438,7 +438,7 @@ CREATE TABLE `option` (
                           `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
                           PRIMARY KEY (`id`) USING BTREE,
                           UNIQUE KEY `site` (`site_id`,`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='配置信息表，用来保存网站的所有配置信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='配置信息表，用来保存网站的所有配置信息。';
 
 
 
@@ -457,7 +457,7 @@ CREATE TABLE `permission` (
                               `modified` datetime DEFAULT NULL,
                               PRIMARY KEY (`id`) USING BTREE,
                               KEY `node_actionKey` (`node`(191),`action_key`(191)) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限表';
 
 
 
@@ -504,7 +504,7 @@ CREATE TABLE `product` (
                            KEY `status` (`status`) USING BTREE,
                            KEY `flag` (`flag`) USING BTREE,
                            KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品表';
 
 
 
@@ -543,7 +543,7 @@ CREATE TABLE `product_category` (
                                     KEY `pid` (`pid`) USING BTREE,
                                     KEY `flag` (`flag`) USING BTREE,
                                     KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品分类表。标签、专题、类别等都属于category。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品分类表。标签、专题、类别等都属于category。';
 
 
 
@@ -556,7 +556,7 @@ CREATE TABLE `product_category_mapping` (
                                             `product_id` int(11) unsigned NOT NULL COMMENT '商品ID',
                                             `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
                                             PRIMARY KEY (`product_id`,`category_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品和分类的多对多关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品和分类的多对多关系表';
 
 
 
@@ -585,7 +585,7 @@ CREATE TABLE `product_comment` (
                                    KEY `status` (`status`) USING BTREE,
                                    KEY `pid` (`pid`) USING BTREE,
                                    KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品评论表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品评论表';
 
 
 
@@ -602,7 +602,7 @@ CREATE TABLE `product_image` (
                                  `created` datetime DEFAULT NULL,
                                  PRIMARY KEY (`id`) USING BTREE,
                                  KEY `productid` (`product_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='产品图片表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='产品图片表';
 
 
 
@@ -619,7 +619,7 @@ CREATE TABLE `role` (
                         `created` datetime NOT NULL,
                         `modified` datetime DEFAULT NULL,
                         PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='角色表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色表';
 
 
 
@@ -632,7 +632,7 @@ CREATE TABLE `role_permission_mapping` (
                                            `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
                                            `permission_id` int(11) unsigned NOT NULL COMMENT '权限ID',
                                            PRIMARY KEY (`role_id`,`permission_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='角色和权限的多对多映射表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色和权限的多对多映射表';
 
 
 
@@ -668,7 +668,7 @@ CREATE TABLE `single_page` (
                                PRIMARY KEY (`id`) USING BTREE,
                                UNIQUE KEY `slug` (`slug`) USING BTREE,
                                KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='单页表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='单页表';
 
 
 
@@ -692,7 +692,7 @@ CREATE TABLE `single_page_category` (
                                         `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
                                         PRIMARY KEY (`id`) USING BTREE,
                                         KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 
 
@@ -722,7 +722,7 @@ CREATE TABLE `single_page_comment` (
                                        KEY `page_id` (`page_id`) USING BTREE,
                                        KEY `user_id` (`user_id`) USING BTREE,
                                        KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='页面评论表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='页面评论表';
 
 
 
@@ -802,7 +802,7 @@ CREATE TABLE `user` (
                         UNIQUE KEY `email` (`email`) USING BTREE,
                         UNIQUE KEY `mobile` (`mobile`) USING BTREE,
                         KEY `created` (`created`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户信息表，保存用户信息。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户信息表，保存用户信息。';
 
 
 
@@ -826,7 +826,7 @@ CREATE TABLE `user_openid` (
                                PRIMARY KEY (`id`) USING BTREE,
                                KEY `user_id` (`user_id`) USING BTREE,
                                KEY `type_value` (`type`,`value`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='账号绑定信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='账号绑定信息表';
 
 
 
@@ -839,7 +839,7 @@ CREATE TABLE `user_role_mapping` (
                                      `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
                                      `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
                                      PRIMARY KEY (`user_id`,`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户和角色的多对多映射表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户和角色的多对多映射表';
 
 
 
@@ -860,7 +860,7 @@ CREATE TABLE `user_tag` (
                             `created` datetime DEFAULT NULL COMMENT '创建日期',
                             `modified` datetime DEFAULT NULL COMMENT '修改日期',
                             PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户标签。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户标签。';
 
 
 
@@ -873,7 +873,7 @@ CREATE TABLE `user_tag_mapping` (
                                     `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
                                     `tag_id` int(11) unsigned NOT NULL COMMENT '标签ID',
                                     PRIMARY KEY (`user_id`,`tag_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户和标签的多对多关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户和标签的多对多关系表';
 
 
 
@@ -909,7 +909,7 @@ CREATE TABLE `utm` (
                        PRIMARY KEY (`id`) USING BTREE,
                        KEY `user_id` (`user_id`) USING BTREE,
                        KEY `created` (`created`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户行为记录表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户行为记录表';
 
 
 
@@ -930,7 +930,7 @@ CREATE TABLE `wechat_menu` (
                                `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
                                PRIMARY KEY (`id`) USING BTREE,
                                KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='微信公众号菜单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='微信公众号菜单表';
 
 
 
@@ -949,7 +949,7 @@ CREATE TABLE `wechat_reply` (
                                 PRIMARY KEY (`id`) USING BTREE,
                                 UNIQUE KEY `keyword` (`keyword`) USING BTREE,
                                 KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户自定义关键字回复表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户自定义关键字回复表';
 
 
 INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `author`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_keywords`, `meta_description`, `with_recommend`, `with_top`, `with_hot`, `with_lead_news`, `with_allow_search`, `options`, `site_id`)

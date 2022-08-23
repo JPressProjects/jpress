@@ -190,7 +190,7 @@ public class InstallController extends ControllerBase {
         }
 
         try {
-            dbExecuter.executeSql("CREATE DATABASE IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+            dbExecuter.executeSql("CREATE DATABASE IF NOT EXISTS " + dbName + " DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;");
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

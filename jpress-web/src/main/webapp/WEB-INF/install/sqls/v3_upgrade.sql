@@ -76,7 +76,7 @@ CREATE TABLE `attachment_video`  (
   `live_domain` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '直播播放域名',
   `live_app` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '直播应用名称',
   `live_stream` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '直接流名称',
-  `live_push_url` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '直播推流地址',
+  `live_push_url` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '直播推流地址',
   `live_start_time` datetime(0) NULL DEFAULT NULL COMMENT '开始直播时间',
   `live_end_time` datetime(0) NULL DEFAULT NULL COMMENT '结束直播时间',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'iframe 代码',
@@ -235,7 +235,7 @@ CREATE TABLE `single_page_category`  (
   `title` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标题',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '描述',
   `style` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '页面默认情况下使用的模板样式',
-  `icon` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '分类 icon',
+  `icon` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '分类 icon',
   `ornament` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '装饰图',
   `count` int(11) UNSIGNED NULL DEFAULT 0 COMMENT '该分类的内容数量',
   `order_number` int(11) NULL DEFAULT 0 COMMENT '排序编码',
@@ -245,7 +245,7 @@ CREATE TABLE `single_page_category`  (
   `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `site_id`(`site_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 DROP TABLE IF EXISTS `site_info`;
 CREATE TABLE `site_info`  (

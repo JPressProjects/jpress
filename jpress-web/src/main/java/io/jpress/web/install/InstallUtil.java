@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Set;
 
 public class InstallUtil {
 
@@ -54,6 +55,14 @@ public class InstallUtil {
                 ? PropKit.use("jboot.properties").getProperties()
                 : new Properties();
 
+
+        //remove old datasource
+        Set<Object> exitsKeys = p.keySet();
+        for (Object exitsKey : exitsKeys) {
+            if (exitsKey != null && exitsKey.toString().startsWith("jboot.datasource.")){
+                p.remove(exitsKey);
+            }
+        }
 
         //jboot.app.mode
         putPropertie(p, "jboot.app.mode", "product");

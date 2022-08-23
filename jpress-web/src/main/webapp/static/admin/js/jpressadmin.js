@@ -704,21 +704,21 @@ function initImageBrowserButton() {
     })
 
 
-    $(".jpress-image-browser").each(function (){
+    $(".jpress-image-browser").each(function () {
         var imgsrc = $(this).children("img").attr('src');
-        if (imgsrc.endsWith("nothumbnail.jpg")){
-            $(this).find('.image-delete').css("display","none");
-        }else {
-            $(this).find('.image-delete').css("display","block");
+        if (imgsrc.endsWith("nothumbnail.jpg")) {
+            $(this).find('.image-delete').css("display", "none");
+        } else {
+            $(this).find('.image-delete').css("display", "block");
         }
     });
 
 
-    $(".jpress-image-browser img").off("srcChanged").on("srcChanged", function (e,imgsrc) {
-        if (imgsrc.endsWith("nothumbnail.jpg")){
-            $(this).parent().find('.image-delete').css("display","none");
-        }else {
-            $(this).parent().find('.image-delete').css("display","block");
+    $(".jpress-image-browser img").off("srcChanged").on("srcChanged", function (e, imgsrc) {
+        if (imgsrc.endsWith("nothumbnail.jpg")) {
+            $(this).parent().find('.image-delete').css("display", "none");
+        } else {
+            $(this).parent().find('.image-delete').css("display", "block");
         }
     })
 
@@ -1020,7 +1020,7 @@ function initVdtior(id, height) {
         }]
 
     window.currentVditor = new Vditor(id, {
-        "cdn": getContextPath()+ + "/static/components/vditor",
+        "cdn": getContextPath() + "/static/components/vditor",
         "height": height,
         "toolbar": toolbar,
         "upload": {
@@ -1101,9 +1101,9 @@ function initJPressVideo() {
         var id = $(this).attr("data-vid");
 
         $.ajax({
-            url:getContextPath()+ "/admin/attachment/video/getVideoInfo",
+            url: getContextPath() + "/admin/attachment/video/getVideoInfo",
             type: "post",
-            data: {id:id},
+            data: {id: id},
 
             success: function (result) {
                 if (result.state == "ok") {
@@ -1144,8 +1144,8 @@ function initJPressVideo() {
 
                     } else if (cloudType != null && cloudType != '' && cloudType == '2') {//腾讯云
 
-                        var vid =result.vid;
-                        var aid =result.aid;
+                        var vid = result.vid;
+                        var aid = result.aid;
 
                         loadCss("https://web.sdk.qcloud.com/player/tcplayer/release/v4.5.2/tcplayer.min.css")
 
@@ -1159,11 +1159,10 @@ function initJPressVideo() {
                                     });
                                 }
                             })
-                    }
-                    else if (cloudType != null && cloudType != '' && cloudType == '4') {//本地视频
+                    } else if (cloudType != null && cloudType != '' && cloudType == '4') {//本地视频
 
-                        $("#"+containerId).attr("src",result.src);
-                        $("#"+containerId).attr("controls","controls");
+                        $("#" + containerId).attr("src", result.src);
+                        $("#" + containerId).attr("controls", "controls");
                     }
 
                 }
@@ -1201,7 +1200,6 @@ function loadJs(scripts, callback) {
         loadScript(script);
     }
 }
-
 
 
 function loadCss(links, callback) {

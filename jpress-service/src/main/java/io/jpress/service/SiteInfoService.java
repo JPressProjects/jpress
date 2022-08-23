@@ -177,12 +177,4 @@ public interface SiteInfoService  {
 
 
 
-    /**
-     * 根据用户的 ID 查询可切换的站点列表
-     * @param userId
-     * @return
-     */
-    List<SiteInfo> findListByUserId(Long userId);
-
-
 }

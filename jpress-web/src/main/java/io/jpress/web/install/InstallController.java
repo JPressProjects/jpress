@@ -29,6 +29,7 @@ import io.jboot.db.ArpManager;
 import io.jboot.db.TableInfo;
 import io.jboot.db.TableInfoManager;
 import io.jboot.db.datasource.DataSourceConfig;
+import io.jboot.db.datasource.DataSourceConfigManager;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.handler.JbootActionReporter;
@@ -455,6 +456,7 @@ public class InstallController extends ControllerBase {
             dataSourceConfig.setName(StrUtil.uuid());
         }
 
+        DataSourceConfigManager.me().addConfig(dataSourceConfig);
         ActiveRecordPlugin arPlugin = ArpManager.me().createRecordPlugin(dataSourceConfig);
 
         TableInfoManager.me().initConfigMappingTables(dataSourceConfig);

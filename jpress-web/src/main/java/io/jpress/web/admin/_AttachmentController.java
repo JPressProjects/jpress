@@ -351,7 +351,7 @@ public class _AttachmentController extends AdminControllerBase {
             renderError(404);
             return;
         }
-        Integer nowCategoryId = attachment.getCategoryId();
+        Long nowCategoryId = attachment.getCategoryId();
 
         if (service.delete(attachment)) {
             File attachmentFile = AttachmentUtils.file(attachment.getPath());
@@ -362,7 +362,7 @@ public class _AttachmentController extends AdminControllerBase {
         }
         //更新分类下的内容数量
         if(nowCategoryId != null){
-            categoryService.doUpdateAttachmentCategoryCount(nowCategoryId.longValue());
+            categoryService.doUpdateAttachmentCategoryCount(nowCategoryId);
         }
 
         renderOkJson();
@@ -379,7 +379,7 @@ public class _AttachmentController extends AdminControllerBase {
                     renderError(404);
                     return;
                 }
-                Integer nowCategoryId = attachment.getCategoryId();
+                Long nowCategoryId = attachment.getCategoryId();
 
                 if (service.delete(attachment)) {
                     File attachmentFile = AttachmentUtils.file(attachment.getPath());
@@ -390,7 +390,7 @@ public class _AttachmentController extends AdminControllerBase {
                 }
                 //更新分类下的内容数量
                 if(nowCategoryId != null){
-                    categoryService.doUpdateAttachmentCategoryCount(nowCategoryId.longValue());
+                    categoryService.doUpdateAttachmentCategoryCount(nowCategoryId);
                 }
             }
         }

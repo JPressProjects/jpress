@@ -42,15 +42,15 @@ public abstract class BaseAttachment<M extends BaseAttachment<M>> extends JbootM
     /**
      * 分类ID
      */
-	public void setCategoryId(java.lang.Integer categoryId) {
+	public void setCategoryId(java.lang.Long categoryId) {
 		set("category_id", categoryId);
 	}
 
     /**
      * 分类ID
      */
-	public java.lang.Integer getCategoryId() {
-		return getInt("category_id");
+	public java.lang.Long getCategoryId() {
+		return getLong("category_id");
 	}
 
     /**

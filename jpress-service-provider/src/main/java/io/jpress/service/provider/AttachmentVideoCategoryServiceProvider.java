@@ -10,7 +10,7 @@ import io.jpress.service.AttachmentVideoCategoryService;
 public class AttachmentVideoCategoryServiceProvider extends JPressServiceBase<AttachmentVideoCategory> implements AttachmentVideoCategoryService {
 
     @Override
-    public void doUpdateVideoCategoryCount(Integer categoryId) {
+    public void doUpdateVideoCategoryCount(Long categoryId) {
         long count = Db.queryLong("select count(*) from attachment_video where category_id = ? ", categoryId);
         AttachmentVideoCategory category = findById(categoryId);
         if (category != null) {

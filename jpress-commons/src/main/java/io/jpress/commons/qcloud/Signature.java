@@ -1,6 +1,6 @@
 package io.jpress.commons.qcloud;
 
-import sun.misc.BASE64Encoder;
+import com.jfinal.kit.Base64Kit;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -40,7 +40,8 @@ public class Signature {
             mac.init(secretKey);
             byte[] hash = mac.doFinal(contextStr.getBytes("UTF-8"));
             byte[] sigBuf = byteMerger(hash, contextStr.getBytes("utf8"));
-            strSign = new String(new BASE64Encoder().encode(sigBuf).getBytes());
+//            strSign = new String(new BASE64Encoder().encode(sigBuf).getBytes());
+            strSign = Base64Kit.encode(sigBuf);
             strSign = strSign.replace(" ", "").replace("\n", "").replace("\r", "");
         }
         catch (Exception e)

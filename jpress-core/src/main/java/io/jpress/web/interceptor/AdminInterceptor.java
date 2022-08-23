@@ -97,8 +97,8 @@ public class AdminInterceptor implements Interceptor {
         inv.getController().setAttr(JPressConsts.ATTR_LOGINED_USER, user);
 
 
-        List<SiteInfo> userSites = siteInfoService.findListByUserId(user.getId());
-        inv.getController().setAttr("SITES",userSites);
+        List<SiteInfo> allSites = siteInfoService.findAll();
+        inv.getController().setAttr("SITES",allSites);
 
         //设置分页下拉菜单的间隔数据
         inv.getController().setAttr(ATTR_PAGINATE_SPACING,10);

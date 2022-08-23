@@ -1,5 +1,6 @@
 package io.jpress.commons.qcloud;
 
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 import java.io.UnsupportedEncodingException;
@@ -14,16 +15,33 @@ public class QCloudLiveUtil {
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     public static String getAppName() {
-        return JPressOptions.get("attachment_qcloudlive_appname") == null
-                || ("").equals(JPressOptions.get("attachment_qcloudlive_appname")) ?
-                "": JPressOptions.get("attachment_qcloudlive_appname");
+        return JPressOptions.get("attachment_qcloudlive_appname","");
     }
 
 
     public static String getPlayDomain() {
-        return JPressOptions.get("attachment_qcloudlive_playdomain") == null
-                || ("").equals(JPressOptions.get("attachment_qcloudlive_playdomain")) ?
-                "": JPressOptions.get("attachment_qcloudlive_playdomain");
+        return JPressOptions.get("attachment_qcloudlive_playdomain","");
+    }
+
+    public static String getPushDomain() {
+        return JPressOptions.get("attachment_qcloudlive_pushdomain","");
+    }
+
+
+    public static String getPlayKey() {
+        return JPressOptions.get("attachment_qcloudlive_play_key","");
+    }
+
+    public static String getPlayTxTime() {
+        return JPressOptions.get("attachment_qcloudlive_play_txtime","");
+    }
+
+    public static String getPushKey() {
+        return JPressOptions.get("attachment_qcloudlive_push_key","");
+    }
+
+    public static String getPushTxTime() {
+        return JPressOptions.get("attachment_qcloudlive_txtime","");
     }
 
 
@@ -34,21 +52,20 @@ public class QCloudLiveUtil {
      * @throws Exception
      */
     public static String createPushUrl(String streamName) {
-        String appName = JPressOptions.get("attachment_qcloudlive_appname");
-        String pushDomain = JPressOptions.get("attachment_qcloudlive_pushdomain");
+
+        if(StrUtil.isAnyBlank(getPushDomain(),getAppName())){
+            return "";
+        }
 
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String key = JPressOptions.get("attachment_qcloudlive_push_key");
-        String txtime = JPressOptions.get("attachment_qcloudlive_txtime");
-
-        if(appName == null){return "";}
-        if(pushDomain == null){return "";}
+        String key = getPushKey();
+        String txtime = getPushTxTime();
 
         StringBuilder sb = new StringBuilder("rtmp://");
-        sb.append(pushDomain).append("/").append(appName).append("/").append(streamName);
+        sb.append(getPushDomain()).append("/").append(getAppName()).append("/").append(streamName);
 
-        if(key != null && !("").equals(key)){
-            if(txtime != null && !("").equals(txtime)) {
+        if(StrUtil.isNotBlank(key)){
+            if(StrUtil.isNotBlank(txtime)) {
                 try {
                     long txTime = df.parse(txtime).getTime()/1000;
                     //播放域名的 Key鉴权 开启的情况
@@ -68,21 +85,20 @@ public class QCloudLiveUtil {
      * @return
      */
     public static String createPlayUrlForM3U8(String streamName) {
-        String appName = JPressOptions.get("attachment_qcloudlive_appname");
-        String playDomain = JPressOptions.get("attachment_qcloudlive_playdomain");
+
+        if(StrUtil.isAnyBlank(getPlayDomain(),getAppName())){
+            return "";
+        }
 
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String key = JPressOptions.get("attachment_qcloudlive_play_key");
-        String txtime = JPressOptions.get("attachment_qcloudlive_play_txtime");
-
-        if(appName == null){return "";}
-        if(playDomain == null){return "";}
+        String key = getPlayKey();
+        String txtime = getPlayTxTime();
 
         StringBuilder sb = new StringBuilder("http://");
 
-        sb.append(playDomain).append("/").append(appName).append("/").append(streamName).append(".m3u8");
-        if(key != null && !("").equals(key)){
-            if(txtime != null && !("").equals(txtime)) {
+        sb.append(getPlayDomain()).append("/").append(getAppName()).append("/").append(streamName).append(".m3u8");
+        if(StrUtil.isNotBlank(key)){
+            if(StrUtil.isNotBlank(txtime)) {
                 try {
                     long txTime = df.parse(txtime).getTime()/1000;
                     //播放域名的 Key鉴权 开启的情况
@@ -103,21 +119,20 @@ public class QCloudLiveUtil {
      * @return
      */
     public static String createPlayUrlForFlv(String streamName) {
-        String appName = JPressOptions.get("attachment_qcloudlive_appname");
-        String playDomain = JPressOptions.get("attachment_qcloudlive_playdomain");
+
+        if(StrUtil.isAnyBlank(getPlayDomain(),getAppName())){
+            return "";
+        }
 
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String key = JPressOptions.get("attachment_qcloudlive_play_key");
-        String txtime = JPressOptions.get("attachment_qcloudlive_play_txtime");
-
-        if(appName == null){return "";}
-        if(playDomain == null){return "";}
+        String key = getPlayKey();
+        String txtime = getPlayTxTime();
 
         StringBuilder sb = new StringBuilder("http://");
-        sb.append(playDomain).append("/").append(appName).append("/").append(streamName).append(".flv");
+        sb.append(getPlayDomain()).append("/").append(getAppName()).append("/").append(streamName).append(".flv");
 
-        if(key != null && !("").equals(key)){
-            if(txtime != null && !("").equals(txtime)) {
+        if(StrUtil.isNotBlank(key)){
+            if(StrUtil.isNotBlank(txtime)) {
                 try {
                     long txTime = df.parse(txtime).getTime()/1000;
                     //播放域名的 Key鉴权 开启的情况
@@ -137,21 +152,20 @@ public class QCloudLiveUtil {
      * @return
      */
     public static String createPlayUrlForRTMP(String streamName) {
-        String appName = JPressOptions.get("attachment_qcloudlive_appname");
-        String playDomain = JPressOptions.get("attachment_qcloudlive_playdomain");
+
+        if(StrUtil.isAnyBlank(getPlayDomain(),getAppName())){
+            return "";
+        }
 
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String key = JPressOptions.get("attachment_qcloudlive_play_key");
-        String txtime = JPressOptions.get("attachment_qcloudlive_play_txtime");
-
-        if(appName == null){return "";}
-        if(playDomain == null){return "";}
+        String key = getPlayKey();
+        String txtime = getPlayTxTime();
 
         StringBuilder sb = new StringBuilder("rtmp://");
-        sb.append(playDomain).append("/").append(appName).append("/").append(streamName);
+        sb.append(getPlayDomain()).append("/").append(getAppName()).append("/").append(streamName);
 
-        if(key != null && !("").equals(key)){
-            if(txtime != null && !("").equals(txtime)) {
+        if(StrUtil.isNotBlank(key)){
+            if(StrUtil.isNotBlank(txtime)) {
                 try {
                     long txTime = df.parse(txtime).getTime()/1000;
                     //播放域名的 Key鉴权 开启的情况
@@ -171,21 +185,20 @@ public class QCloudLiveUtil {
      * @return
      */
     public static String createPlayUrlForUDP(String streamName) {
-        String appName = JPressOptions.get("attachment_qcloudlive_appname");
-        String playDomain = JPressOptions.get("attachment_qcloudlive_playdomain");
+
+        if(StrUtil.isAnyBlank(getPlayDomain(),getAppName())){
+            return "";
+        }
 
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String key = JPressOptions.get("attachment_qcloudlive_play_key");
-        String txtime = JPressOptions.get("attachment_qcloudlive_play_txtime");
-
-        if(appName == null){return "";}
-        if(playDomain == null){return "";}
+        String key = getPlayKey();
+        String txtime = getPlayTxTime();
 
         StringBuilder sb = new StringBuilder("webrtc://");
-        sb.append(playDomain).append("/").append(appName).append("/").append(streamName);
+        sb.append(getPlayDomain()).append("/").append(getAppName()).append("/").append(streamName);
 
-        if(key != null && !("").equals(key)){
-            if(txtime != null && !("").equals(txtime)) {
+        if(StrUtil.isNotBlank(key)){
+            if(StrUtil.isNotBlank(txtime)) {
                 try {
                     long txTime = df.parse(txtime).getTime()/1000;
                     //播放域名的 Key鉴权 开启的情况

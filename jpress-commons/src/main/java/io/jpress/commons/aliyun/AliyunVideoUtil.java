@@ -156,9 +156,9 @@ public class AliyunVideoUtil {
 
 
     private static com.aliyun.vod20170321.Client createClient() throws Exception {
-        String accessKeyId = JPressOptions.get("attachment_aliyunvideo_accesskeyid");
-        String accessKeySecret = JPressOptions.get("attachment_aliyunvideo_accesskeysecret");
-        String endpoint = JPressOptions.get("attachment_aliyunvideo_endpoint");
+        String accessKeyId = JPressOptions.get("attachment_aliyunvideo_accesskeyid","");
+        String accessKeySecret = JPressOptions.get("attachment_aliyunvideo_accesskeysecret","");
+        String endpoint = JPressOptions.get("attachment_aliyunvideo_endpoint","vod.cn-shanghai.aliyuncs.com");
 //        String endpoint = Jboot.configValue("jboot.aliyun.vod.endpoint", "vod.cn-shanghai.aliyuncs.com");
 
         if(accessKeyId == null || accessKeySecret == null){

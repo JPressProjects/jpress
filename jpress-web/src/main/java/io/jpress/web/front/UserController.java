@@ -534,16 +534,18 @@ public class UserController extends TemplateControllerBase {
 //            String url = "http://test.jpress.cn:8080/user/resetPwd?token=" + token+"&isEmail=true";
 
             String webName = JPressOptions.get(JPressConsts.ATTR_WEB_NAME);
-            if (webName == null) {
-                webName = "";
+            if (StrUtil.isNotBlank(webName)) {
+                webName = webName+"：";
+            }else{
+                webName ="";
             }
 
-            String title = webName +"："+ JPressOptions.get("reg_email_reset_pwd_title");
+            String title = webName + JPressOptions.get("reg_email_reset_pwd_title");
             String content = "<a href=\"" + url + "\">" + url + "</a>";
             String template = JPressOptions.get("reg_email_reset_pwd_template");
 
             String contentLink = null;
-            if(!("").equals(template)){
+            if(StrUtil.isNotBlank(template)){
                 contentLink = template.replace("{url}", content);
             }else{
                 contentLink = "重置密码地址：<a href=\"" + url + "\">" + url + "</a>";
@@ -621,7 +623,7 @@ public class UserController extends TemplateControllerBase {
             renderJson(Ret.fail().set("message", "token不能为空，请重新发送").set("errorCode", 2));
             return;
         }
-        if(isEmail && !("").equals(emailToken) && !token.equals(emailToken)){
+        if(isEmail && StrUtil.isNotBlank(emailToken) && !token.equals(emailToken)){
             renderJson(Ret.fail().set("message", "token是无效的，请重新发送！").set("errorCode", 5));
             return;
         }
@@ -633,7 +635,7 @@ public class UserController extends TemplateControllerBase {
             email = email.toLowerCase();
         }
 
-        if(!isEmail&& !("").equals(mobileToken)  && !mobileToken.equals(token)){
+        if(!isEmail&& StrUtil.isNotBlank(mobileToken)  && !mobileToken.equals(token)){
             renderJson(Ret.fail().set("message", "token是无效的，请重新发送！").set("errorCode", 5));
             return;
         }

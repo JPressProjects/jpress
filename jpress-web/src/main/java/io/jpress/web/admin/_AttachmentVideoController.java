@@ -83,7 +83,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
         //视频云类型
         String containerCloudType =null;
 
-        if(video.getCloudType() != null &&  !("").equals(video.getCloudType())){
+        if(StrUtil.isNotBlank(video.getCloudType())){
             containerCloudType =video.getCloudType();
         }
         else{
@@ -502,7 +502,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
     public void getVideoInfo(){
         String uuid = getPara("id");
 
-        if(uuid == null || ("").equals(uuid)){
+        if(StrUtil.isBlank(uuid)){
             renderJson(Ret.fail().set("message", "传入的视频uuid为空！"));
             return;
         }
@@ -517,13 +517,13 @@ public class _AttachmentVideoController extends AdminControllerBase {
         if(AttachmentVideo.CLOUD_TYPE_ALIYUN.equals(video.getCloudType())){//阿里云
 
             //视频云端id
-            if(video.getVodVid() == null || ("").equals(video.getVodVid())){
+            if(StrUtil.isBlank(video.getVodVid())){
                 renderJson(Ret.fail().set("message", "阿里云 视频云端id为空！"));
                 return;
             }
             //阿里云视频播放凭证
             String playAuth = AliyunVideoUtil.getPlayAuth(video.getVodVid());
-            if(playAuth == null || ("").equals(playAuth)){
+            if(StrUtil.isBlank(playAuth)){
                 renderJson(Ret.fail().set("message", "阿里云视频播放凭证为空！"));
                 return;
             }
@@ -535,13 +535,13 @@ public class _AttachmentVideoController extends AdminControllerBase {
         else if(AttachmentVideo.CLOUD_TYPE_QCLOUD.equals(video.getCloudType())){//腾讯云
 
             String appId = JPressOptions.get("attachment_qcloudvideo_appid");
-            if(appId == null || ("").equals(appId)){
+            if(StrUtil.isBlank(appId)){
                 renderJson(Ret.fail().set("message", "请配置腾讯云的账号id"));
                 return;
             }
 
             //视频云端id
-            if(video.getVodVid() == null || ("").equals(video.getVodVid())){
+            if(StrUtil.isBlank(video.getVodVid())){
                 renderJson(Ret.fail().set("message", "腾讯云 视频云端id为空！"));
                 return;
             }

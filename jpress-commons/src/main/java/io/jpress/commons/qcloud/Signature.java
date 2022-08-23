@@ -1,6 +1,7 @@
 package io.jpress.commons.qcloud;
 
 import com.jfinal.kit.Base64Kit;
+import io.jboot.utils.StrUtil;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,6 +26,10 @@ public class Signature {
     public String getUploadSignature() throws Exception {
         String strSign = "";
         String contextStr = "";
+
+        if (StrUtil.isAnyBlank(this.secretId,this.secretKey)) {
+            return "";
+        }
 
         long endTime = this.currentTime + this.signValidDuration;
         contextStr = contextStr + "secretId=" + URLEncoder.encode(this.secretId, "utf8");

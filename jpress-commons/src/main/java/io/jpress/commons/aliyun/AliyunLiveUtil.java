@@ -4,6 +4,7 @@ import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
 
 import java.math.BigInteger;
@@ -16,18 +17,37 @@ import java.util.regex.Pattern;
 public class AliyunLiveUtil {
 
     public static String getAppName() {
-        return JPressOptions.get("attachment_aliyunlive_appname") == null
-                || ("").equals(JPressOptions.get("attachment_aliyunlive_appname")) ?
-                "": JPressOptions.get("attachment_aliyunlive_appname");
+        return JPressOptions.get("attachment_aliyunlive_appname","");
     }
 
 
     public static String getPlayDomain() {
-        return JPressOptions.get("attachment_aliyunlive_playdomain") == null
-                || ("").equals(JPressOptions.get("attachment_aliyunlive_playdomain")) ?
-                "": JPressOptions.get("attachment_aliyunlive_playdomain");
+        return JPressOptions.get("attachment_aliyunlive_playdomain","");
     }
 
+    public static String getPlayAuth() {
+        return JPressOptions.get("attachment_aliyunlive_playauthstring","");
+    }
+
+    public static String getPushDomain() {
+        return JPressOptions.get("attachment_aliyunlive_pushdomain","");
+    }
+
+    public static String getPushAuth() {
+        return JPressOptions.get("attachment_aliyunlive_pushauthstring","");
+    }
+
+    public static String getAccessKeyId() {
+        return JPressOptions.get("attachment_aliyunlive_accesskeyid","");
+    }
+
+    public static String getAccessKeySecret() {
+        return JPressOptions.get("attachment_aliyunlive_accesskeysecret","");
+    }
+
+    public static String getRegionId() {
+        return JPressOptions.get("attachment_aliyunlive_regionid","");
+    }
 
     /**
      * 创建 M3U8 的播放地址
@@ -36,18 +56,15 @@ public class AliyunLiveUtil {
      * @return
      */
     public static String createPlayUrlForM3U8(String streamName) {
-        String appName = JPressOptions.get("attachment_aliyunlive_appname");
-        String playDomain = JPressOptions.get("attachment_aliyunlive_playdomain");
-        String playAuthString = JPressOptions.get("attachment_aliyunlive_playauthstring");
 
-        if(appName == null){return "";}
-        if(playDomain == null){return "";}
-        if(playAuthString == null){return "";}
+        if(StrUtil.isAnyBlank(getPlayDomain(),getAppName(),getPlayAuth())){
+            return "";
+        }
 
-        StringBuilder sb = new StringBuilder(playDomain);
-        sb.append("/").append(appName).append("/").append(streamName).append(".m3u8");
+        StringBuilder sb = new StringBuilder(getPlayDomain());
+        sb.append("/").append(getAppName()).append("/").append(streamName).append(".m3u8");
 
-        String key = playAuthString;                       // private key of authorization
+        String key = getPlayAuth();                       // private key of authorization
         long exp = System.currentTimeMillis() / 1000 + 2 * 3600;  // expiration time: 2 hour after current time
         return appendAuthSign(sb.toString(), key, exp);                    // auth type:
     }
@@ -59,18 +76,14 @@ public class AliyunLiveUtil {
      * @return
      */
     public static String createPlayUrlForFLV(String streamName) {
-        String appName = JPressOptions.get("attachment_aliyunlive_appname");
-        String playDomain = JPressOptions.get("attachment_aliyunlive_playdomain");
-        String playAuthString = JPressOptions.get("attachment_aliyunlive_playauthstring");
+        if(StrUtil.isAnyBlank(getPlayDomain(),getAppName(),getPlayAuth())){
+            return "";
+        }
 
-        if(appName == null){return "";}
-        if(playDomain == null){return "";}
-        if(playAuthString == null){return "";}
+        StringBuilder sb = new StringBuilder(getPlayDomain());
+        sb.append("/").append(getAppName()).append("/").append(streamName).append(".flv");
 
-        StringBuilder sb = new StringBuilder(playDomain);
-        sb.append("/").append(appName).append("/").append(streamName).append(".flv");
-
-        String key = playAuthString;                       // private key of authorization
+        String key = getPlayAuth();                       // private key of authorization
         long exp = System.currentTimeMillis() / 1000 + 2 * 3600;  // expiration time: 2 hour after current time
         return appendAuthSign(sb.toString(), key, exp);                    // auth type:
     }
@@ -83,18 +96,14 @@ public class AliyunLiveUtil {
      * @return
      */
     public static String createPlayUrlForRTMP(String streamName) {
-        String appName = JPressOptions.get("attachment_aliyunlive_appname");
-        String playDomain = JPressOptions.get("attachment_aliyunlive_playdomain");
-        String playAuthString = JPressOptions.get("attachment_aliyunlive_playauthstring");
-
-        if(appName == null){return "";}
-        if(playDomain == null){return "";}
-        if(playAuthString == null){return "";}
+        if(StrUtil.isAnyBlank(getPlayDomain(),getAppName(),getPlayAuth())){
+            return "";
+        }
 
         StringBuilder sb = new StringBuilder("rtmp://");
-        sb.append(playDomain).append("/").append(appName).append("/").append(streamName);
+        sb.append(getPlayDomain()).append("/").append(getAppName()).append("/").append(streamName);
 
-        String key = playAuthString;                       // private key of authorization
+        String key = getPlayAuth();                       // private key of authorization
         long exp = System.currentTimeMillis() / 1000 + 2 * 3600;  // expiration time: 2 hour after current time
         return appendAuthSign(sb.toString(), key, exp);                    // auth type:
     }
@@ -107,18 +116,14 @@ public class AliyunLiveUtil {
      * @return
      */
     public static String createPushUrl(String streamName) {
-        String appName = JPressOptions.get("attachment_aliyunlive_appname");
-        String pushDomain = JPressOptions.get("attachment_aliyunlive_pushdomain");
-        String pushAuthString = JPressOptions.get("attachment_aliyunlive_pushauthstring");
-
-        if(appName == null){return "";}
-        if(pushDomain == null){return "";}
-        if(pushAuthString == null){return "";}
+        if(StrUtil.isAnyBlank(getPushDomain(),getAppName(),getPushAuth())){
+            return "";
+        }
 
         StringBuilder sb = new StringBuilder("rtmp://");
-        sb.append(pushDomain).append("/").append(appName).append("/").append(streamName);
+        sb.append(getPushDomain()).append("/").append(getAppName()).append("/").append(streamName);
 
-        String key = pushAuthString;                       // private key of authorization
+        String key = getPushAuth();                       // private key of authorization
         long exp = System.currentTimeMillis() / 1000 + 2 * 3600;  // expiration time: 2 hour after current time
         return appendAuthSign(sb.toString(), key, exp);                    // auth type:
     }
@@ -172,11 +177,8 @@ public class AliyunLiveUtil {
 
 
     private static IAcsClient createClient() throws Exception {
-        String accessKeyId = JPressOptions.get("attachment_aliyunlive_accesskeyid");
-        String accessKeySecret = JPressOptions.get("attachment_aliyunlive_accesskeysecret");
-        String regionId = JPressOptions.get("attachment_aliyunlive_regionid");
 
-        IClientProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
+        IClientProfile profile = DefaultProfile.getProfile(getRegionId(), getAccessKeyId(), getAccessKeySecret());
         //DefaultProfile.addEndpoint("cn-shanghai", "cn-shanghai", "live", "live.aliyuncs.com"); //添加自定义endpoint
 //        IAcsClient client = new DefaultAcsClient(profile);
         //System.setProperty("http.proxyHost", "127.0.0.1"); //用于设置代理，可用fiddler拦截查看HTTP请求，便于调试

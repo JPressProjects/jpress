@@ -258,7 +258,7 @@ public class CloudWordFilterUtil {
             TextModerationRequest req = new TextModerationRequest();
 
             String encodeToString =null;
-            if(content != null && !("").equals(content)){
+            if(StrUtil.isNotBlank(content)){
                 //Content表示待检测对象的文本内容，文本需要按utf-8格式编码，长度不能超过10000个字符（按unicode编码计算），并进行 Base64加密
                 encodeToString = Base64.getEncoder().encodeToString(content.getBytes(StandardCharsets.UTF_8));
             }

@@ -25,6 +25,7 @@ import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.CacheUtil;
 import io.jboot.utils.CookieUtil;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.json.JsonBody;
@@ -526,6 +527,9 @@ public class UserController extends TemplateControllerBase {
             CacheUtil.put("email_token",emailAddr,token,60 * 60);
 
             String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
+            if (StrUtil.isBlank(webDomain)){
+                webDomain = RequestUtil.getBaseUrl();
+            }
             String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=true";
 //            String url = "http://test.jpress.cn:8080/user/resetPwd?token=" + token+"&isEmail=true";
 
@@ -534,7 +538,7 @@ public class UserController extends TemplateControllerBase {
                 webName = "";
             }
 
-            String title = webName + JPressOptions.get("reg_email_reset_pwd_title");
+            String title = webName +"："+ JPressOptions.get("reg_email_reset_pwd_title");
             String content = "<a href=\"" + url + "\">" + url + "</a>";
             String template = JPressOptions.get("reg_email_reset_pwd_template");
 

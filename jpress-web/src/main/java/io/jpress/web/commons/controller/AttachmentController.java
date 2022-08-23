@@ -91,7 +91,7 @@ public class AttachmentController extends UserControllerBase {
         AliyunOssUtils.upload(path, AttachmentUtils.file(path));
 
         //附件分类id
-        Integer categoryId = getParaToInt("categoryId");
+        Long categoryId = getParaToLong("categoryId");
 
         Attachment attachment = new Attachment();
         attachment.setUserId(getLoginedUser().getId());

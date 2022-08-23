@@ -223,7 +223,7 @@ public class _AttachmentVideoController extends AdminControllerBase {
 
         videoCategoryService.saveOrUpdate(category);
         //更新视频分类下的内容数量
-        videoCategoryService.doUpdateVideoCategoryCount(category.getId().intValue());
+        videoCategoryService.doUpdateVideoCategoryCount(category.getId());
         renderOkJson();
     }
 

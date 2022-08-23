@@ -178,5 +178,5 @@ public interface AttachmentVideoCategoryService  {
      * 根据category_id 更新model
      * @param categoryId
      */
-    void doUpdateVideoCategoryCount(Integer categoryId);
+    void doUpdateVideoCategoryCount(Long categoryId);
 }

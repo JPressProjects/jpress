@@ -166,13 +166,15 @@
 **在 Docker 上运行**
 
 ```
-curl -O https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml && docker-compose up -d
+curl -O https://gitee.com/JPressProjects/jpress/raw/master/docker-compose.yml && \
+docker-compose up -d
 ```
 
 **在阿里云（或腾讯云）一键通过 80 端口安装运行**
 
 ```
-wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash install.sh 80
+wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && \
+bash install.sh 80
 ```
 
 > 一键安装的视频教程：[http://www.ketang8.com/course/study?chapterId=184](http://www.ketang8.com/course/study?chapterId=184)
@@ -189,9 +191,7 @@ wget https://gitee.com/JPressProjects/jpress/raw/master/install.sh && bash insta
 > JPress下载、导入、运行视频教程，链接: https://pan.baidu.com/s/1bqbQ9_HjF95EW4qrQvOSag 提取码: 5jw8 
 
 
-**注意！**
-**注意！**
-**注意！JPress 首次运行后，若执行 `mvn clean package` 命令，再次运行，JPress会重新走安装流程。**
+**注意！注意！注意！JPress 首次运行后，若再执行 `mvn clean package` 命令，JPress会重新走安装流程。**
 >
 > 解决方案： JPress 在安装过程中，会在 `starter/target/classes` 目录下生成的 `jboot.properties` 和 `install.lock` 两个文件，
 > 我们需要把这两个文件复制到 `starter/src/main/resource` 目录。 

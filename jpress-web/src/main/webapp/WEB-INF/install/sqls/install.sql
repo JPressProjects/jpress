@@ -144,7 +144,7 @@ DROP TABLE IF EXISTS `attachment`;
 CREATE TABLE `attachment` (
                               `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID主键',
                               `user_id` int(11) unsigned DEFAULT NULL COMMENT '上传附件的用户ID',
-                              `category_id` int(11) DEFAULT NULL COMMENT '分类ID',
+                              `category_id` int(11) unsigned DEFAULT NULL COMMENT '分类ID',
                               `title` text COMMENT '标题',
                               `description` text COMMENT '附件描述',
                               `path` varchar(512) DEFAULT NULL COMMENT '路径',
@@ -192,7 +192,7 @@ CREATE TABLE `attachment_video` (
                                     `uuid` varchar(32) DEFAULT NULL COMMENT '视频uuid',
                                     `video_type` varchar(32) DEFAULT NULL COMMENT 'vod、live、code',
                                     `cloud_type` varchar(32) DEFAULT NULL COMMENT '视频云',
-                                    `category_id` int(11) DEFAULT NULL COMMENT '分类ID',
+                                    `category_id` int(11) unsigned DEFAULT NULL COMMENT '分类ID',
                                     `cover` varchar(512) DEFAULT NULL COMMENT '视频封面',
                                     `vod_vid` varchar(64) DEFAULT NULL COMMENT '视频云端ID',
                                     `vod_name` varchar(256) DEFAULT NULL COMMENT '视频名称',

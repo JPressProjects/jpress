@@ -191,13 +191,6 @@
     function attachment_deleteByIds() {
         //获取已经勾选的复选框
         let checkedId=new Array();			//定义一个数组来保存已选中的value值
-        // $('input[name="checkbox"]:checked').each(function(){
-        //     if(!isNaN($(this).val())){
-        //         checkedId.push($(this).val());
-        //     }else{
-        //         console.log("无法获取id");
-        //     }
-        // });
 
         $('div[name="tableItem"]').each(function(){
             var isChecked = $(this).hasClass("checked");
@@ -211,7 +204,7 @@
             alert("请选择要删除的信息！");
             return false;
         }else {
-            alert("确定要删除这些附件吗？删除后不可恢复！");
+            confirm("确定要删除这些附件吗？删除后不可恢复！");
         }
         console.log("删除的id数组为："+checkedId);
         //进行批量删除操作

@@ -804,57 +804,36 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">允许评论</label>
                                                 <div class="col-sm-3">
-<!--                                                    <input type="checkbox" checked class="switchery"-->
-<!--                                                           for="commentStatus">-->
-<!--                                                    <p class="text-muted"></p>-->
-<!--                                                    <input type="hidden" id="commentStatus"-->
-<!--                                                           name="article.commentStatus" value="#(article.commentStatus ??)">-->
-                                                    <input type="checkbox" class="switchery"
-                                                           #if(article == null) checked
-                                                           #elseif(article && article.comment_status ?? == true)checked
-                                                           #elseif(article && article.comment_status ?? == false)unchecked
-                                                           #end
-                                                           data-for="comment_status">
-                                                    <input type="hidden" id="comment_status" name="article.comment_status" value="true">
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.comment_status ?? true)
+                                                           data-for="comment_status" value="true">
+                                                    <input type="hidden" id="comment_status" name="article.comment_status">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否推荐</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
-                                                           #if(article == null) checked
-                                                           #elseif(article && article.with_recommend ?? == true)checked
-                                                           #elseif(article && article.with_recommend ?? == false)unchecked
-                                                           #end
-                                                           data-for="with_recommend">
-                                                    <input type="hidden" id="with_recommend" name="article.with_recommend" value="true">
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_recommend ??)
+                                                           data-for="with_recommend" value="true">
+                                                    <input type="hidden" id="with_recommend" name="article.with_recommend">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否置顶</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
-                                                           #if(article == null) checked
-                                                           #elseif(article && article.with_top ?? == true)checked
-                                                           #elseif(article && article.with_top ?? == false)unchecked
-                                                           #end
-                                                           data-for="with_top">
-                                                    <input type="hidden" id="with_top" name="article.with_top" value="true">
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_top ??)
+                                                           data-for="with_top" value="true">
+                                                    <input type="hidden" id="with_top" name="article.with_top">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否热门</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
-                                                           #if(article == null) checked
-                                                           #elseif(article && article.with_hot ?? == true)checked
-                                                           #elseif(article && article.with_hot ?? == false)unchecked
-                                                           #end
-                                                           data-for="with_hot">
-                                                    <input type="hidden" id="with_hot" name="article.with_hot" value="true">
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_hot ??)
+                                                           data-for="with_hot" value="true">
+                                                    <input type="hidden" id="with_hot" name="article.with_hot">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -862,25 +841,17 @@
                                                        style="padding-top:7.5px;padding-left:15px">是否头条</label>
                                                 <div class="col-sm-3">
 
-                                                    <input type="checkbox" class="switchery"
-                                                           #if(article == null) checked
-                                                           #elseif(article && article.with_lead_news ?? == true)checked
-                                                           #elseif(article && article.with_lead_news ?? == false)unchecked
-                                                           #end
-                                                           data-for="with_lead_news">
-                                                    <input type="hidden" id="with_lead_news" name="article.with_lead_news" value="true">
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_lead_news ??)
+                                                           data-for="with_lead_news" value="true">
+                                                    <input type="hidden" id="with_lead_news" name="article.with_lead_news">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-9" style="padding-top:7.5px;padding-left:15px">是否允许被搜索</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
-                                                           #if(article == null) checked
-                                                           #elseif(article && article.with_allow_search ?? == true)checked
-                                                           #elseif(article && article.with_allow_search ?? == false)unchecked
-                                                           #end
-                                                           data-for="with_allow_search">
-                                                    <input type="hidden" id="with_allow_search" name="article.with_allow_search" value="true">
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_allow_search ?? true)
+                                                           data-for="with_allow_search" value="true">
+                                                    <input type="hidden" id="with_allow_search" name="article.with_allow_search">
                                                 </div>
                                             </div>
 

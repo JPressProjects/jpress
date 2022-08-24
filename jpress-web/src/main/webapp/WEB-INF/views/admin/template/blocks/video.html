@@ -7,7 +7,7 @@
 <div class="#blockOption('Class样式')" style="#blockOption('Style样式:textarea')">
     #if(withEdit)
     <video style="height: 240px;width: 425px;" data-vid="#blockOption('vid:none')"
-           poster="#blockOption('poster:none', CPATH + '/static/commons/img/novideo.png')" #(blockOption('vid') ? 'controls' : '')></video>
+           poster="#blockOption('poster:none', CPATH + '/static/commons/img/novideo.jpg')" #(blockOption('vid') ? 'controls' : '')></video>
     #else
     <video class="jpress-video" data-vid="#blockOption('vid:none')" poster="#blockOption('poster:none')"></video>
     #end

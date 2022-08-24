@@ -284,6 +284,8 @@ ALTER TABLE `article` ADD COLUMN `author` varchar(255) CHARACTER SET utf8mb4 COL
 
 ALTER TABLE `article` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识，通常用于对某几篇文章进行标识，从而实现单独查询' AFTER `modified`;
 
+ALTER TABLE `article` ADD COLUMN `meta_title` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO标题' AFTER `flag`;
+
 ALTER TABLE `article` ADD COLUMN `with_recommend` tinyint(1) NULL DEFAULT NULL COMMENT '是否推荐' AFTER `meta_description`;
 
 ALTER TABLE `article` ADD COLUMN `with_top` tinyint(1) NULL DEFAULT NULL COMMENT '是否置顶' AFTER `with_recommend`;
@@ -305,6 +307,8 @@ ALTER TABLE `article` ADD INDEX `site_id`(`site_id`) USING BTREE;
 ALTER TABLE `article_category` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `article_category` MODIFY COLUMN `slug` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'slug' AFTER `user_id`;
+
+ALTER TABLE `article_category` ADD COLUMN `meta_title` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO标题' AFTER `flag`;
 
 ALTER TABLE `article_category` ADD COLUMN `with_recommend` tinyint(1) NULL DEFAULT NULL COMMENT '是否推荐' AFTER `icon`;
 
@@ -386,6 +390,8 @@ ALTER TABLE `product` ADD COLUMN `video_id` varchar(64) CHARACTER SET utf8mb4 CO
 
 ALTER TABLE `product` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询' AFTER `modified`;
 
+ALTER TABLE `product` ADD COLUMN `meta_title` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO标题' AFTER `flag`;
+
 ALTER TABLE `product` MODIFY COLUMN `options` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'json 扩展' AFTER `remarks`;
 
 ALTER TABLE `product` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `options`;
@@ -397,6 +403,8 @@ ALTER TABLE `product` ADD INDEX `site_id`(`site_id`) USING BTREE;
 ALTER TABLE `product_category` DROP INDEX `flag`;
 
 ALTER TABLE `product_category` ROW_FORMAT = Dynamic;
+
+ALTER TABLE `product_category` ADD COLUMN `meta_title` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO标题' AFTER `flag`;
 
 ALTER TABLE `product_category` ADD COLUMN `with_recommend` tinyint(1) NULL DEFAULT NULL COMMENT '是否推荐' AFTER `icon`;
 
@@ -439,6 +447,8 @@ ALTER TABLE `single_page` ADD COLUMN `category_id` int(11) UNSIGNED NULL DEFAULT
 ALTER TABLE `single_page` ADD COLUMN `ornament` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '装饰图' AFTER `thumbnail`;
 
 ALTER TABLE `single_page` MODIFY COLUMN `flag` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识' AFTER `style`;
+
+ALTER TABLE `single_page` ADD COLUMN `meta_title` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO标题' AFTER `flag`;
 
 ALTER TABLE `single_page` ADD COLUMN `comment_status` tinyint(1) NULL DEFAULT 1 COMMENT '评论状态，默认允许评论' AFTER `status`;
 

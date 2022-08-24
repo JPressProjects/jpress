@@ -576,7 +576,7 @@
                                                     <textarea class="form-control"
                                                               id="summary"
                                                               name="article.summary"
-                                                              placeholder="请输入" rows="4">相遇</textarea>
+                                                              placeholder="请输入" rows="4">#(article.summary ??)</textarea>
                                                     <p class="text-muted"></p>
                                                 </div>
                                             </div>
@@ -587,7 +587,7 @@
                                                     <input type="text" class="form-control"
                                                            id="order_number"
                                                            name="article.order_number"
-                                                           placeholder="请输入" value="0"/>
+                                                           placeholder="请输入" value="#(article.order_number ??0)"/>
                                                     <p class="text-muted">文章列表会根据这个数值进行排序，越大越靠前。</p>
                                                 </div>
                                             </div>
@@ -599,7 +599,7 @@
                                                     <input type="text" class="form-control"
                                                            id="link_to"
                                                            name="article.link_to"
-                                                           placeholder="请输入" value=""/>
+                                                           placeholder="请输入" value="#(article.link_to ??)"/>
                                                     <p class="text-muted">填写外链后，浏览文章将会跳转到此链接。</p>
                                                 </div>
                                             </div>
@@ -771,7 +771,8 @@
                                                 <label class="col-sm-12">SEO标题</label>
                                                 <div class="col-sm-12">
                                                     <input type="input" class="form-control" placeholder="请输入"
-                                                           id="meta_title" name="article.meta_title">
+                                                           id="meta_title" name="article.meta_title"
+                                                            value="#(article.meta_title ??)">
                                                     <p class="text-muted"></p>
                                                 </div>
                                             </div>
@@ -781,7 +782,7 @@
                                                 <div class="col-sm-12">
                                                     <textarea class="form-control" id="meta_keywords"
                                                               name="article.meta_keywords" placeholder="请输入"
-                                                              rows="2"></textarea>
+                                                              rows="2">#(article.meta_keywords ??)</textarea>
                                                     <p class="text-muted"></p>
                                                 </div>
                                             </div>
@@ -791,7 +792,7 @@
                                                 <div class="col-sm-12">
                                                     <textarea class="form-control" id="meta_description"
                                                               name="article.meta_description" placeholder="请输入"
-                                                              rows="2"></textarea>
+                                                              rows="2">#(article.meta_description ??)</textarea>
                                                     <p class="text-muted"></p>
                                                 </div>
                                             </div>
@@ -813,12 +814,11 @@
                                     </div>
                                     <div id="status-card" class="collapse">
                                         <div class="card-body">
-
                                             <div class="form-group row">
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">允许评论</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" checked class="switchery"
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.comment_status ?? true)
                                                            data-for="comment_status" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="comment_status"
@@ -829,7 +829,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否推荐</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_recommend ??)
                                                            data-for="with_recommend" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_recommend"
@@ -840,7 +840,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否置顶</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_top ??)
                                                            data-for="with_top" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_top" name="article.with_top">
@@ -850,7 +850,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否热门</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_hot ??)
                                                            data-for="with_hot" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_hot" name="article.with_hot">
@@ -860,7 +860,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">是否头条</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_lead_news ??)
                                                            data-for="with_lead_news" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_lead_news"
@@ -870,7 +870,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-9" style="padding-top:7.5px;padding-left:15px">是否允许被搜索</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" checked class="switchery"
+                                                    <input type="checkbox" class="switchery" #checkedIf(article.with_allow_search ?? true)
                                                            data-for="with_allow_search" value="true">
                                                     <p class="text-muted"></p>
                                                     <input type="hidden" id="with_allow_search"

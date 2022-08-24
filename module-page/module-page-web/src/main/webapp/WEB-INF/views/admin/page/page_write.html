@@ -496,8 +496,8 @@
                 <div class="dropdown-menu mr-2">
                     <a class="dropdown-item" href="javascript:;" onclick="doChangeEditor()">切换编辑器</a>
                     <a class="dropdown-item submitBtn" data-status="trash" href="javascript:;">移至垃圾箱</a>
-                    <a class="dropdown-item" href="#">项目三</a>
-                    <a class="dropdown-item" href="#">项目二四</a>
+<!--                    <a class="dropdown-item" href="#">项目三</a>-->
+<!--                    <a class="dropdown-item" href="#">项目二四</a>-->
                 </div>
             </div>
         </section>
@@ -580,7 +580,7 @@
                                                     <input type="text" class="form-control datetime"
                                                            id="created"
                                                            name="page.created"
-                                                           placeholder="请选择发布时间" value="#(page.created ??)" />
+                                                           placeholder="请选择发布时间" value="#date(page.created ??)" />
                                                     <p class="text-muted"></p>
                                                 </div>
                                             </div>
@@ -748,11 +748,7 @@
                                                 <label class="col-sm-9"
                                                        style="padding-top:7.5px;padding-left:15px">允许评论</label>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" class="switchery"
-                                                           #if(page == null) checked
-                                                           #elseif(page && page.comment_status ?? == true)checked
-                                                           #elseif(page && page.comment_status ?? == false)unchecked
-                                                           #end
+                                                    <input type="checkbox" class="switchery" #checkedIf(page.comment_status ?? true)
                                                            data-for="comment_status">
                                                     <input type="hidden" id="comment_status" name="page.comment_status" value="true">
                                                 </div>

@@ -753,7 +753,7 @@
                                                 <label class="col-sm-9" style="padding-top:7.5px;padding-left:15px">是否允许评论</label>
                                                 <div class="col-sm-3">
 
-                                                    <input type="checkbox" class="switchery" data-for="comment_status" #checkedIf(product.comment_status ??)>
+                                                    <input type="checkbox" class="switchery" data-for="comment_status" #checkedIf(product.comment_status ??true)>
                                                     <input type="hidden" id="comment_status" name="product.comment_status">
                                                 </div>
                                             </div>
@@ -973,7 +973,7 @@
                                     <div id="video-card" class="collapse">
                                         <div id="changeVideo">
                                             <div class="card-body p-0 video">
-                                                <img src="#(CPATH)/static/commons/img/nothumbnail.jpg"
+                                                <img src="#(CPATH)/static/commons/img/novideo.png"
                                                      style="width: 100%;max-height: 500px">
                                             </div>
                                         </div>

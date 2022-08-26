@@ -158,7 +158,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">邮件模板</label>
                                 <div class="col-sm-6">
-                                    <textarea rows="3" class="form-control" placeholder="例如：先生/女士您好，您如果忘记了登录密码，请点击链接 {url} 进行密码重置..."
+                                    <textarea rows="3" class="form-control" placeholder="例如：#('#(user.nickname ??)') 先生/女士你好，如果忘记了密码，请点击链接#('#(url)') 进行密码重置..."
                                               name="reg_email_reset_pwd_template">#option("reg_email_reset_pwd_template")</textarea>
                                     <p class="text-muted">
                                         请先在 <a href="#(CPATH)/admin/setting/connection">[通信]</a> 开启邮件功能后才能使用。

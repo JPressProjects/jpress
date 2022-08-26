@@ -23,6 +23,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.LogKit;
 import com.jfinal.kit.Ret;
+import com.jfinal.template.Engine;
 import io.jboot.utils.CacheUtil;
 import io.jboot.utils.CookieUtil;
 import io.jboot.utils.RequestUtil;
@@ -48,6 +49,8 @@ import io.jpress.web.commons.email.EmailSender;
 
 import javax.validation.constraints.Pattern;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -509,6 +512,12 @@ public class UserController extends TemplateControllerBase {
                 return;
             }
 
+            User user = userService.findFirstByEmail(emailAddr);
+            if(user == null){
+                renderJson(Ret.fail().set("message", "该邮箱未注册或已被删除").set("errorCode", 11));
+                return;
+            }
+
             SimpleEmailSender ses = new SimpleEmailSender();
             if (!ses.isEnable()) {
                 renderFailJson("您未开启邮件功能，无法发送。");
@@ -531,7 +540,6 @@ public class UserController extends TemplateControllerBase {
                 webDomain = RequestUtil.getBaseUrl();
             }
             String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=true";
-//            String url = "http://test.jpress.cn:8080/user/resetPwd?token=" + token+"&isEmail=true";
 
             String webName = JPressOptions.get(JPressConsts.ATTR_WEB_NAME);
             if (StrUtil.isNotBlank(webName)) {
@@ -541,16 +549,17 @@ public class UserController extends TemplateControllerBase {
             }
 
             String title = webName + JPressOptions.get("reg_email_reset_pwd_title");
-            String content = "<a href=\"" + url + "\">" + url + "</a>";
             String template = JPressOptions.get("reg_email_reset_pwd_template");
 
             String contentLink = null;
             if(StrUtil.isNotBlank(template)){
-                contentLink = template.replace("{url}", content);
+                Map<String, Object> paras = new HashMap();
+                paras.put("user", user);
+                paras.put("url", url);
+                contentLink = Engine.use().getTemplateByString(template).renderToString(paras);
             }else{
                 contentLink = "重置密码地址：<a href=\"" + url + "\">" + url + "</a>";
             }
-
 
             //获取关于邮箱的配置内容
             Email email = Email.create();

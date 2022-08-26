@@ -66,7 +66,7 @@
             <div class="card card-outline card-primary">
                 <div class="card-header with-border">
 
-                    <form class=" admin-search-panel" action="#(CPATH)/admin/form/list" method="get">
+                    <form class=" admin-search-panel ajaxSubmit" action="#(CPATH)/admin/form/list" method="get">
                         <div class="row">
 
                             <div class="form-group col-lg-2">
@@ -116,7 +116,7 @@
                                         <a href="javascript:void(0);" class="video-operation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-three-dots"></i></a>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                             <a class="dropdown-item" href="#(entry.url ??)" target="_blank"> 查看预览</a>
-                                            <a href="" class="dropdown-item" href="javascript:void(0);" >删除</a>
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="doDel('#(entry.id ??)')">删除</a>
                                         </div>
                                     </div>
                                 </div>

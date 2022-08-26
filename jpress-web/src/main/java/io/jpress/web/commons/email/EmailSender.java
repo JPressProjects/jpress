@@ -17,6 +17,7 @@ package io.jpress.web.commons.email;
 
 import com.jfinal.template.Engine;
 import io.jboot.utils.NamedThreadPools;
+import io.jboot.utils.RequestUtil;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressConsts;
 import io.jpress.JPressOptions;
@@ -53,6 +54,9 @@ public class EmailSender {
         AuthCodeKit.save(authCode);
 
         String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
+        if (StrUtil.isBlank(webDomain)){
+            webDomain = RequestUtil.getBaseUrl();
+        }
         String url = webDomain + "/user/activate?id=" + authCode.getId();
 
 

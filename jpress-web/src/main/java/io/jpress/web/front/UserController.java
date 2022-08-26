@@ -732,8 +732,10 @@ public class UserController extends TemplateControllerBase {
         }else{
 
             String webDomain = JPressOptions.get(JPressConsts.OPTION_WEB_DOMAIN);
+            if (StrUtil.isBlank(webDomain)){
+                webDomain = RequestUtil.getBaseUrl();
+            }
             String url = webDomain + "/user/resetPwd?token=" + token+"&isEmail=false";
-//            redirect(url);
             renderJson(Ret.ok().set("message","校验正确，可以进行密码重置！").set("url",url));
         }
 

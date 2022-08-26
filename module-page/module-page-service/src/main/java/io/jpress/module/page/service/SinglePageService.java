@@ -111,6 +111,8 @@ public interface SinglePageService extends JbootServiceJoiner {
 
     List<SinglePage> findListByFlag(String flag);
 
+    List<SinglePage> findListByCategoryId(long categoryId);
+
     void doIncViewCount(long id);
 
     Page<SinglePage> paginateInNormal(int page, int pageSize, String orderBy);
@@ -124,7 +126,7 @@ public interface SinglePageService extends JbootServiceJoiner {
      * @param columns
      * @return
      */
-    Page<SinglePage> _paginateWithoutTrashAndCol(int page, int pageSize, Columns columns);
+    Page<SinglePage> _paginateWithoutTrashAndColumns(int page, int pageSize, Columns columns);
 
     /**
      * 根据 col 查询

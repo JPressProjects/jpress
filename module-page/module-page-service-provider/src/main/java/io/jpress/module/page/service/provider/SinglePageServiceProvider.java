@@ -118,6 +118,11 @@ public class SinglePageServiceProvider extends JPressServiceBase<SinglePage> imp
     }
 
     @Override
+    public List<SinglePage> findListByCategoryId(long categoryId) {
+        return DAO.findListByColumn(Column.create("category_id", categoryId));
+    }
+
+    @Override
     public void doIncViewCount(long id) {
         PageViewsCountUpdateTask.recordCount(id);
     }
@@ -151,7 +156,7 @@ public class SinglePageServiceProvider extends JPressServiceBase<SinglePage> imp
      * @return
      */
     @Override
-    public Page<SinglePage> _paginateWithoutTrashAndCol(int page, int pageSize, Columns columns) {
+    public Page<SinglePage> _paginateWithoutTrashAndColumns(int page, int pageSize, Columns columns) {
 
         return DAO.paginateByColumns(page,
                 pageSize,

@@ -12,7 +12,7 @@ public class SinglePageCategoryServiceProvider extends JPressServiceBase<SingleP
 
     @Override
     public void doUpdatePageCategoryCount(Long categoryId) {
-        long count = Db.queryLong("select count(*) from single_page where category_id = ? ", categoryId);
+        Long count = Db.queryLong("select count(*) from single_page where category_id = ? ", categoryId);
         SinglePageCategory category = findById(categoryId);
         if (category != null) {
             category.setCount(count);

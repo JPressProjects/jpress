@@ -71,7 +71,7 @@ public class _PageController extends AdminControllerBase {
 
         Page<SinglePage> page =
                 StrUtil.isBlank(status)
-                        ? sps._paginateWithoutTrashAndCol(getPagePara(), 10, col)
+                        ? sps._paginateWithoutTrashAndColumns(getPagePara(), 10, col)
                         : sps._paginateByColumns(getPagePara(), 10, col.eq("status",status));
 
         if(page != null){

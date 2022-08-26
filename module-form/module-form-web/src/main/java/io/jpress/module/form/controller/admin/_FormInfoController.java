@@ -17,6 +17,7 @@ package io.jpress.module.form.controller.admin;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
@@ -151,6 +152,17 @@ public class _FormInfoController extends AdminControllerBase {
 
     public void doDel() {
         Long id = getIdPara();
+
+        //如果表单不存在 那么删除失败
+        FormInfo formInfo = formInfoService.findById(id);
+        if(formInfo == null){
+            renderFailJson("删除失败");
+            return;
+        }
+
+        //删除表数据
+        formDataService.deleteTable(formInfo.getCurrentTableName());
+
         render(formInfoService.deleteById(id) ? Ret.ok() : Ret.fail());
     }
 

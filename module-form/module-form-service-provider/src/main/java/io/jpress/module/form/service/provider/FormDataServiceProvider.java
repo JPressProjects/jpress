@@ -8,6 +8,7 @@ import io.jboot.db.model.Columns;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.form.service.FormDataService;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Bean
@@ -106,6 +107,21 @@ public class FormDataServiceProvider implements FormDataService {
 
         String sql = "select count(*)  from " + tableName;
         return Db.queryInt(sql);
+    }
+
+    /**
+     * 删除数据表
+     *
+     * @param tableName
+     * @return boolean
+     */
+    @Override
+    public void deleteTable(@NotNull String tableName) {
+
+        String sql = "DROP TABLE IF EXISTS "+tableName;
+
+        Db.delete(sql);
+
     }
 
 

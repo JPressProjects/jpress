@@ -4,7 +4,9 @@
 <script>
 
     function doDel(id) {
-        ajaxGet("/admin/form/doDel/" + id);
+        if (confirm('确定要删除该表单吗？删除后该表单的数据也一并删除并不可恢复')) {
+            ajaxGet("/admin/form/doDel/" + id);
+        }
     }
 
     function published(id) {

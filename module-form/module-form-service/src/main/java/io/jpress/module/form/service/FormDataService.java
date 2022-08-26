@@ -101,7 +101,12 @@ public interface FormDataService {
 
     public Integer findCountByTable(String tableName);
 
-    
-
+    /**
+    * 删除数据表
+    *
+    * @param tableName
+    * @return boolean
+    */
+    public void deleteTable(String tableName);
 
 }

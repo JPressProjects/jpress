@@ -187,17 +187,16 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
             }
         }
 
-        String userAgentString = RequestUtil.getUserAgent(request);
-        Map<String, String> userAgent = UserAgentUtil.getUserAgent(userAgentString);
+        Map<String, String> userAgentMap = UserAgentUtil.getUserAgentMap(request);
 
         record.set("user_ip", RequestUtil.getIpAddress(request));
-        record.set("user_agent", userAgentString);
-        record.set("user_browser", UserAgentUtil.getBrowserName(userAgent));
-        record.set("user_browser_version", UserAgentUtil.getBrowserVersion(userAgent));
-        record.set("user_os", UserAgentUtil.getOsName(userAgent));
-        record.set("user_device", UserAgentUtil.getDeviceName(userAgent));
-        record.set("user_device_brand", UserAgentUtil.getDeviceBrand(userAgent));
-        record.set("user_network", UserAgentUtil.getNetworkType(userAgent));
+        record.set("user_agent", RequestUtil.getUserAgent(request));
+        record.set("user_browser", UserAgentUtil.getBrowserName(userAgentMap));
+        record.set("user_browser_version", UserAgentUtil.getBrowserVersion(userAgentMap));
+        record.set("user_os", UserAgentUtil.getOsName(userAgentMap));
+        record.set("user_device", UserAgentUtil.getDeviceName(userAgentMap));
+        record.set("user_device_brand", UserAgentUtil.getDeviceBrand(userAgentMap));
+        record.set("user_network", UserAgentUtil.getNetworkType(userAgentMap));
         record.set("user_with_mobile", RequestUtil.isMobileBrowser(request));
 
         String userStartTime = request.getParameter("user_start_time");

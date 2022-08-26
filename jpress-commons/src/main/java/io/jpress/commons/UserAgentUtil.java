@@ -1,8 +1,10 @@
 package io.jpress.commons;
 
-import io.jboot.utils.StrUtil;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserAgentUtil {
@@ -12,11 +14,14 @@ public class UserAgentUtil {
             .build();
 
 
-    public static Map<String, String> getUserAgent(String userAgentString) {
-        if (StrUtil.isBlank(userAgentString)) {
-            return null;
+    public static Map<String, String> getUserAgentMap(HttpServletRequest request) {
+        Map<String, String> requestHeaders = new HashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames != null && headerNames.hasMoreElements()) {
+            String name = headerNames.nextElement();
+            requestHeaders.put(name, request.getHeader(name));
         }
-        return uaa.parse(userAgentString).toMap();
+        return uaa.parse(requestHeaders).toMap();
     }
 
 

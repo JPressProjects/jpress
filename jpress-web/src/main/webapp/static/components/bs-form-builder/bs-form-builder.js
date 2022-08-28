@@ -2389,8 +2389,12 @@
          * 导出 html
          */
         exportToHtml: function () {
+            var exportData = this.deepCopy(this.datas, false);
+            //根据 index 对 dataArray 进行升序排序，越小越靠前
+            exportData.sort((a, b) => a.index - b.index);
+
             var html = "";
-            for (let data of this.datas) {
+            for (let data of exportData) {
                 html += this.render(data, false).outerHTML;
             }
             return html;

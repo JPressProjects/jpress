@@ -29,7 +29,7 @@ public class JPressConsts {
     //v3.x  VERSION_CODE < 40
     //v4.x  VERSION_CODE >= 40
     //v5.x  VERSION_CODE >= 80
-    public static final String VERSION_CODE = "80";
+    public static final String VERSION_CODE = "81";
 
     /**
      * 后台系统菜单的 ID

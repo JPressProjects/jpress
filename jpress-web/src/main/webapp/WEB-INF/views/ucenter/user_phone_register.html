@@ -45,7 +45,7 @@
         <!-- /.login-logo -->
         <div class="card" id="content">
             <div class="card-body login-card-body">
-                <form action="#(CPATH)/user/doPhoneRegister" method="post" class="autoAjaxSubmit"  data-ok-function="ok">
+                <form action="#(CPATH)#(SPATH)/user/doPhoneRegister" method="post" class="autoAjaxSubmit"  data-ok-function="ok">
 
                     <div class="form-group">
                         <label>账号</label>
@@ -59,7 +59,7 @@
                             <div class="input-group-append">
 
                                 <button type="button" id="getCode" data-type="pointsVerify" data-location="body"
-                                        data-value-id="phone" data-path="#(CPATH)/user/doSendLoginCode" required
+                                        data-value-id="phone" data-path="#(CPATH)#(SPATH)/user/doSendLoginCode" required
                                         data-url="" data-point="验证码发送成功，请注意查收！"
                                         style="float: right;background: #DDDDDD;"
                                         class="input-group-text jpress-captcha" >获取验证码</button>
@@ -88,7 +88,7 @@
                         <div class="col-sm-12" style="padding-top: 15px">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">注 册</button>
                             <p class="text-muted" style="float: left;">
-                                已有账号？点击 <a href="#(CPATH)/user/login">这里</a> 登录。
+                                已有账号？点击 <a href="#(CPATH)#(SPATH)/user/login">这里</a> 登录。
                             </p>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
 <script>
     function ok() {
         alert("注册成功，点击确定进行登录。")
-        location.href = "#(CPATH)/user/login";
+        location.href = "#(CPATH)#(SPATH)/user/login";
     }
 </script>
 

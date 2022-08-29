@@ -72,6 +72,11 @@ public class _SiteController extends AdminControllerBase {
             return;
         }
 
+        if(siteInfo.getSiteId() == null || siteInfo.getSiteId() <= 0){
+            renderFailJson("自定义站点ID不能为空且必须大于等于零");
+            return;
+        }
+
         //如果填写了 域名 但是 域名以 http:// 或者 https:// 开头的 则不行
         if (siteInfo.getBindDomain() != null && (siteInfo.getBindDomain().startsWith("http://") || siteInfo.getBindDomain().startsWith("https://"))) {
             renderFailJson("域名不能以http://或者https://开头");

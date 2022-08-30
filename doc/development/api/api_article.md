@@ -31,6 +31,7 @@ Article
 | pid | `Integer` | 子版本的文章id |  
 | slug | `String` | slug |  
 | title | `String` | 标题 |  
+| author | `String` | 作者 |  
 | content | `String` | 内容 |  
 | editMode | `String` | 编辑模式，默认为html，其他可选项包括html，markdown .. |  
 | summary | `String` | 摘要 |  
@@ -47,9 +48,16 @@ Article
 | created | `Date` | 创建日期 |  
 | modified | `Date` | 最后更新日期 |  
 | flag | `String` | 标识，通常用于对某几篇文章进行标识，从而实现单独查询 |  
+| metaTitle | `String` | SEO标题 |  
 | metaKeywords | `String` | SEO关键字 |  
 | metaDescription | `String` | SEO描述信息 |  
-| remarks | `String` | 备注信息 |  
+| withRecommend | `Boolean` | 是否推荐 |  
+| withTop | `Boolean` | 是否置顶 |  
+| withHot | `Boolean` | 是否热门 |  
+| withLeadNews | `Boolean` | 是否是头条 |  
+| withAllowSearch | `Boolean` | 是否允许被搜索 |  
+| options | `String` | json 扩展 |  
+| siteId | `Long` | 站点ID |  
 
 **JSON 示例：**
 ```json
@@ -60,6 +68,7 @@ Article
 		"pid":100,
 		"slug":"slug",
 		"title":"标题",
+		"author":"作者",
 		"content":"内容",
 		"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 		"summary":"摘要",
@@ -71,14 +80,21 @@ Article
 		"status":"状态",
 		"commentStatus":true,
 		"commentCount":100,
-		"commentTime":"2021-07-03 10:04:53",
+		"commentTime":"2022-08-30 09:20:32",
 		"viewCount":100,
-		"created":"2021-07-03 10:04:53",
-		"modified":"2021-07-03 10:04:53",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
 		"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+		"metaTitle":"SEO标题",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述信息",
-		"remarks":"备注信息"
+		"withRecommend":true,
+		"withTop":true,
+		"withHot":true,
+		"withLeadNews":true,
+		"withAllowSearch":true,
+		"options":"json 扩展",
+		"siteId":100
 	}
 }
 ```
@@ -198,6 +214,7 @@ Ret
 			"pid":100,
 			"slug":"slug",
 			"title":"标题",
+			"author":"作者",
 			"content":"内容",
 			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 			"summary":"摘要",
@@ -209,20 +226,28 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-03 10:04:53",
+			"commentTime":"2022-08-30 09:20:32",
 			"viewCount":100,
-			"created":"2021-07-03 10:04:53",
-			"modified":"2021-07-03 10:04:53",
+			"created":"2022-08-30 09:20:32",
+			"modified":"2022-08-30 09:20:32",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaTitle":"SEO标题",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
-			"remarks":"备注信息"
+			"withRecommend":true,
+			"withTop":true,
+			"withHot":true,
+			"withLeadNews":true,
+			"withAllowSearch":true,
+			"options":"json 扩展",
+			"siteId":100
 		},
 		{
 			"id":100,
 			"pid":100,
 			"slug":"slug",
 			"title":"标题",
+			"author":"作者",
 			"content":"内容",
 			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 			"summary":"摘要",
@@ -234,14 +259,21 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-03 10:04:53",
+			"commentTime":"2022-08-30 09:20:32",
 			"viewCount":100,
-			"created":"2021-07-03 10:04:53",
-			"modified":"2021-07-03 10:04:53",
+			"created":"2022-08-30 09:20:32",
+			"modified":"2022-08-30 09:20:32",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaTitle":"SEO标题",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
-			"remarks":"备注信息"
+			"withRecommend":true,
+			"withTop":true,
+			"withHot":true,
+			"withLeadNews":true,
+			"withAllowSearch":true,
+			"options":"json 扩展",
+			"siteId":100
 		}
 	]
 }
@@ -279,6 +311,7 @@ Ret
 			"pid":100,
 			"slug":"slug",
 			"title":"标题",
+			"author":"作者",
 			"content":"内容",
 			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 			"summary":"摘要",
@@ -290,20 +323,28 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-03 10:04:53",
+			"commentTime":"2022-08-30 09:20:32",
 			"viewCount":100,
-			"created":"2021-07-03 10:04:53",
-			"modified":"2021-07-03 10:04:53",
+			"created":"2022-08-30 09:20:32",
+			"modified":"2022-08-30 09:20:32",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaTitle":"SEO标题",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
-			"remarks":"备注信息"
+			"withRecommend":true,
+			"withTop":true,
+			"withHot":true,
+			"withLeadNews":true,
+			"withAllowSearch":true,
+			"options":"json 扩展",
+			"siteId":100
 		},
 		{
 			"id":100,
 			"pid":100,
 			"slug":"slug",
 			"title":"标题",
+			"author":"作者",
 			"content":"内容",
 			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 			"summary":"摘要",
@@ -315,14 +356,21 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-03 10:04:53",
+			"commentTime":"2022-08-30 09:20:32",
 			"viewCount":100,
-			"created":"2021-07-03 10:04:53",
-			"modified":"2021-07-03 10:04:53",
+			"created":"2022-08-30 09:20:32",
+			"modified":"2022-08-30 09:20:32",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaTitle":"SEO标题",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
-			"remarks":"备注信息"
+			"withRecommend":true,
+			"withTop":true,
+			"withHot":true,
+			"withLeadNews":true,
+			"withAllowSearch":true,
+			"options":"json 扩展",
+			"siteId":100
 		}
 	]
 }
@@ -362,6 +410,7 @@ Ret
 			"pid":100,
 			"slug":"slug",
 			"title":"标题",
+			"author":"作者",
 			"content":"内容",
 			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 			"summary":"摘要",
@@ -373,20 +422,28 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-03 10:04:53",
+			"commentTime":"2022-08-30 09:20:32",
 			"viewCount":100,
-			"created":"2021-07-03 10:04:53",
-			"modified":"2021-07-03 10:04:53",
+			"created":"2022-08-30 09:20:32",
+			"modified":"2022-08-30 09:20:32",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaTitle":"SEO标题",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
-			"remarks":"备注信息"
+			"withRecommend":true,
+			"withTop":true,
+			"withHot":true,
+			"withLeadNews":true,
+			"withAllowSearch":true,
+			"options":"json 扩展",
+			"siteId":100
 		},
 		{
 			"id":100,
 			"pid":100,
 			"slug":"slug",
 			"title":"标题",
+			"author":"作者",
 			"content":"内容",
 			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 			"summary":"摘要",
@@ -398,14 +455,21 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-03 10:04:53",
+			"commentTime":"2022-08-30 09:20:32",
 			"viewCount":100,
-			"created":"2021-07-03 10:04:53",
-			"modified":"2021-07-03 10:04:53",
+			"created":"2022-08-30 09:20:32",
+			"modified":"2022-08-30 09:20:32",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaTitle":"SEO标题",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
-			"remarks":"备注信息"
+			"withRecommend":true,
+			"withTop":true,
+			"withHot":true,
+			"withLeadNews":true,
+			"withAllowSearch":true,
+			"options":"json 扩展",
+			"siteId":100
 		}
 	]
 }
@@ -443,6 +507,7 @@ Ret
 			"pid":100,
 			"slug":"slug",
 			"title":"标题",
+			"author":"作者",
 			"content":"内容",
 			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 			"summary":"摘要",
@@ -454,20 +519,28 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-03 10:04:53",
+			"commentTime":"2022-08-30 09:20:32",
 			"viewCount":100,
-			"created":"2021-07-03 10:04:53",
-			"modified":"2021-07-03 10:04:53",
+			"created":"2022-08-30 09:20:32",
+			"modified":"2022-08-30 09:20:32",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaTitle":"SEO标题",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
-			"remarks":"备注信息"
+			"withRecommend":true,
+			"withTop":true,
+			"withHot":true,
+			"withLeadNews":true,
+			"withAllowSearch":true,
+			"options":"json 扩展",
+			"siteId":100
 		},
 		{
 			"id":100,
 			"pid":100,
 			"slug":"slug",
 			"title":"标题",
+			"author":"作者",
 			"content":"内容",
 			"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 			"summary":"摘要",
@@ -479,14 +552,21 @@ Ret
 			"status":"状态",
 			"commentStatus":true,
 			"commentCount":100,
-			"commentTime":"2021-07-03 10:04:53",
+			"commentTime":"2022-08-30 09:20:32",
 			"viewCount":100,
-			"created":"2021-07-03 10:04:53",
-			"modified":"2021-07-03 10:04:53",
+			"created":"2022-08-30 09:20:32",
+			"modified":"2022-08-30 09:20:32",
 			"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+			"metaTitle":"SEO标题",
 			"metaKeywords":"SEO关键字",
 			"metaDescription":"SEO描述信息",
-			"remarks":"备注信息"
+			"withRecommend":true,
+			"withTop":true,
+			"withHot":true,
+			"withLeadNews":true,
+			"withAllowSearch":true,
+			"options":"json 扩展",
+			"siteId":100
 		}
 	]
 }
@@ -539,6 +619,7 @@ Page
 				"pid":100,
 				"slug":"slug",
 				"title":"标题",
+				"author":"作者",
 				"content":"内容",
 				"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 				"summary":"摘要",
@@ -550,20 +631,28 @@ Page
 				"status":"状态",
 				"commentStatus":true,
 				"commentCount":100,
-				"commentTime":"2021-07-03 10:04:53",
+				"commentTime":"2022-08-30 09:20:32",
 				"viewCount":100,
-				"created":"2021-07-03 10:04:53",
-				"modified":"2021-07-03 10:04:53",
+				"created":"2022-08-30 09:20:32",
+				"modified":"2022-08-30 09:20:32",
 				"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+				"metaTitle":"SEO标题",
 				"metaKeywords":"SEO关键字",
 				"metaDescription":"SEO描述信息",
-				"remarks":"备注信息"
+				"withRecommend":true,
+				"withTop":true,
+				"withHot":true,
+				"withLeadNews":true,
+				"withAllowSearch":true,
+				"options":"json 扩展",
+				"siteId":100
 			},
 			{
 				"id":100,
 				"pid":100,
 				"slug":"slug",
 				"title":"标题",
+				"author":"作者",
 				"content":"内容",
 				"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 				"summary":"摘要",
@@ -575,14 +664,21 @@ Page
 				"status":"状态",
 				"commentStatus":true,
 				"commentCount":100,
-				"commentTime":"2021-07-03 10:04:53",
+				"commentTime":"2022-08-30 09:20:32",
 				"viewCount":100,
-				"created":"2021-07-03 10:04:53",
-				"modified":"2021-07-03 10:04:53",
+				"created":"2022-08-30 09:20:32",
+				"modified":"2022-08-30 09:20:32",
 				"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+				"metaTitle":"SEO标题",
 				"metaKeywords":"SEO关键字",
 				"metaDescription":"SEO描述信息",
-				"remarks":"备注信息"
+				"withRecommend":true,
+				"withTop":true,
+				"withHot":true,
+				"withLeadNews":true,
+				"withAllowSearch":true,
+				"options":"json 扩展",
+				"siteId":100
 			}
 		],
 		"pageNumber":1,
@@ -641,6 +737,7 @@ Page
 				"pid":100,
 				"slug":"slug",
 				"title":"标题",
+				"author":"作者",
 				"content":"内容",
 				"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 				"summary":"摘要",
@@ -652,20 +749,28 @@ Page
 				"status":"状态",
 				"commentStatus":true,
 				"commentCount":100,
-				"commentTime":"2021-07-03 10:04:53",
+				"commentTime":"2022-08-30 09:20:32",
 				"viewCount":100,
-				"created":"2021-07-03 10:04:53",
-				"modified":"2021-07-03 10:04:53",
+				"created":"2022-08-30 09:20:32",
+				"modified":"2022-08-30 09:20:32",
 				"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+				"metaTitle":"SEO标题",
 				"metaKeywords":"SEO关键字",
 				"metaDescription":"SEO描述信息",
-				"remarks":"备注信息"
+				"withRecommend":true,
+				"withTop":true,
+				"withHot":true,
+				"withLeadNews":true,
+				"withAllowSearch":true,
+				"options":"json 扩展",
+				"siteId":100
 			},
 			{
 				"id":100,
 				"pid":100,
 				"slug":"slug",
 				"title":"标题",
+				"author":"作者",
 				"content":"内容",
 				"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 				"summary":"摘要",
@@ -677,14 +782,21 @@ Page
 				"status":"状态",
 				"commentStatus":true,
 				"commentCount":100,
-				"commentTime":"2021-07-03 10:04:53",
+				"commentTime":"2022-08-30 09:20:32",
 				"viewCount":100,
-				"created":"2021-07-03 10:04:53",
-				"modified":"2021-07-03 10:04:53",
+				"created":"2022-08-30 09:20:32",
+				"modified":"2022-08-30 09:20:32",
 				"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+				"metaTitle":"SEO标题",
 				"metaKeywords":"SEO关键字",
 				"metaDescription":"SEO描述信息",
-				"remarks":"备注信息"
+				"withRecommend":true,
+				"withTop":true,
+				"withHot":true,
+				"withLeadNews":true,
+				"withAllowSearch":true,
+				"options":"json 扩展",
+				"siteId":100
 			}
 		],
 		"pageNumber":1,

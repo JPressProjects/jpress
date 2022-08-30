@@ -106,7 +106,7 @@ User
 		"mobileStatus":"手机状态（是否认证等）",
 		"gender":"性别",
 		"signature":"签名",
-		"birthday":"2021-07-03 10:04:53",
+		"birthday":"2022-08-30 09:20:32",
 		"company":"公司",
 		"occupation":"职位、职业",
 		"address":"地址",
@@ -119,10 +119,10 @@ User
 		"idcard":"证件号码",
 		"remark":"备注",
 		"status":"状态",
-		"created":"2021-07-03 10:04:53",
+		"created":"2022-08-30 09:20:32",
 		"createSource":"用户来源（可能来之oauth第三方）",
-		"logged":"2021-07-03 10:04:53",
-		"activated":"2021-07-03 10:04:53"
+		"logged":"2022-08-30 09:20:32",
+		"activated":"2022-08-30 09:20:32"
 	}
 }
 ```

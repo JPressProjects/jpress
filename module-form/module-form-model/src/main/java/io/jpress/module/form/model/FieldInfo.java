@@ -94,7 +94,7 @@ public class FieldInfo {
         this.required = required;
     }
 
-    public boolean isRequired(){
+    public boolean isRequired() {
         return required != null && required;
     }
 
@@ -147,11 +147,11 @@ public class FieldInfo {
 
 
     public boolean checkFieldStateOk() {
-        return StrUtil.isNotBlank(fieldName) && !StrUtil.isNumeric(fieldName) && !SqlUtils.hasSqlInject(fieldName);
+        return StrUtil.isNotBlank(fieldName)
+                && !StrUtil.isNumeric(fieldName)
+                && !SqlUtils.hasSqlInject(fieldName)
+                && !SqlUtils.hasSqlInject(label);
     }
-
-
-
 
 
     /**
@@ -187,7 +187,7 @@ public class FieldInfo {
      * @return
      */
     public Object convertValueData(Object value) {
-        if (value == null){
+        if (value == null) {
             return null;
         }
 
@@ -198,9 +198,9 @@ public class FieldInfo {
         switch (fieldType) {
             case "varchar":
             case "text":
-                return ObjectUtil.convert(value,String.class);
+                return ObjectUtil.convert(value, String.class);
             case "int":
-                return ObjectUtil.convert(value,Long.class);
+                return ObjectUtil.convert(value, Long.class);
             case "boolean":
                 return ObjectUtil.convert(value, boolean.class);
             case "datetime":
@@ -211,8 +211,7 @@ public class FieldInfo {
     }
 
 
-
-    public boolean isSupportChat(){
+    public boolean isSupportChat() {
         return "checkbox".equals(tag) || "radio".equals(tag) || "select".equals(tag);
     }
 
@@ -220,7 +219,7 @@ public class FieldInfo {
         return withSearch != null && withSearch && showInList != null && showInList;
     }
 
-    public boolean isSupportUpload(){
+    public boolean isSupportUpload() {
         return "image-upload".equals(tag);
     }
 }

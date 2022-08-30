@@ -13,9 +13,20 @@
 | html | html内容 | `String` | 否 | POST |  |  
 
 
-#### 数据响应：`void`
+#### 数据响应：`Ret`
 
+Ret
 
+| 字段  | 数据类型 | 描述 |  
+| --- | --- | --- | 
+| state | `String` | 状态，成功 ok，失败 fail |  
+
+**JSON 示例：**
+```json
+{
+	"state":"ok"
+}
+```
 
 
 ## 微信小程序登录
@@ -29,9 +40,20 @@
 | code |  | `String` | 是 | * |  |  
 
 
-#### 数据响应：`void`
+#### 数据响应：`Ret`
 
+Ret
 
+| 字段  | 数据类型 | 描述 |  
+| --- | --- | --- | 
+| state | `String` | 状态，成功 ok，失败 fail |  
+
+**JSON 示例：**
+```json
+{
+	"state":"ok"
+}
+```
 
 
 ## 获取当前用户手机号
@@ -45,9 +67,20 @@
 | json |  | `Map<String,String>` | 是 | POST |  |  
 
 
-#### 数据响应：`void`
+#### 数据响应：`Ret`
 
+Ret
 
+| 字段  | 数据类型 | 描述 |  
+| --- | --- | --- | 
+| state | `String` | 状态，成功 ok，失败 fail |  
+
+**JSON 示例：**
+```json
+{
+	"state":"ok"
+}
+```
 
 
 ## 微信小程序注册当前用户
@@ -63,6 +96,17 @@
 | json |  | `Map<String,String>` | 是 | POST |  |  
 
 
-#### 数据响应：`void`
+#### 数据响应：`Ret`
 
+Ret
 
+| 字段  | 数据类型 | 描述 |  
+| --- | --- | --- | 
+| state | `String` | 状态，成功 ok，失败 fail |  
+
+**JSON 示例：**
+```json
+{
+	"state":"ok"
+}
+```

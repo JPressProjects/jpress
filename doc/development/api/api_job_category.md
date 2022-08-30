@@ -1,19 +1,18 @@
-# 文章分类相关API文档
+# 岗位分类相关API文档
 
 
 
-## 文章分类详情
+## 岗位分类详情
 #### 接口信息：
-- 访问路径： `/api/article/category/detail`
+- 访问路径： `/api/job/category/detail`
 - 数据类型： `application/x-www-form-urlencoded`
 #### 请求参数：
 
 | 参数 | 名称 | 数据类型 | 是否必须 | 提交方式 | 描述 |  
 | --- | --- | --- | --- | --- | --- |
-| id | 分类ID | `Long` | 否 | * |  |  
-| slug | 分类固定连接 | `String` | 否 | * |  |  
+| id | 岗位分类ID | `Long` | 否 | * |  |  
 
-> id 或者 slug 必须有一个不能为空
+> id不能为空
 #### 数据响应：`Ret`
 
 Ret
@@ -21,32 +20,19 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
-| detail | `ArticleCategory` | 文章分类详情 |  
+| detail | `JobCategory` | 岗位分类详情 |  
 
-ArticleCategory
+JobCategory
 
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
-| id | `Long` | 主键ID |  
-| pid | `Long` | 父级分类的ID |  
-| userId | `Long` | 分类创建的用户ID |  
-| slug | `String` | slug |  
-| title | `String` | 标题 |  
-| content | `String` | 内容描述 |  
+| type | `String` | 分类的类型：category、address |  
+| pid | `Long` | 父id |  
+| title | `String` | 分类名称 |  
 | summary | `String` | 摘要 |  
-| style | `String` | 模板样式 |  
-| type | `String` | 类型，比如：分类、tag、专题 |  
-| icon | `String` | 图标 |  
-| withRecommend | `Boolean` | 是否推荐 |  
-| withTop | `Boolean` | 是否置顶 |  
-| ornament | `String` | 装饰图 |  
-| thumbnail | `String` | 缩略图 |  
-| count | `Long` | 该分类的内容数量 |  
+| count | `Long` | 该分类下的岗位数量 |  
 | orderNumber | `Integer` | 排序编码 |  
 | flag | `String` | 标识 |  
-| metaTitle | `String` | SEO标题 |  
-| metaKeywords | `String` | SEO关键字 |  
-| metaDescription | `String` | SEO描述内容 |  
 | created | `Date` | 创建日期 |  
 | modified | `Date` | 修改日期 |  
 | siteId | `Long` | 站点ID |  
@@ -57,25 +43,13 @@ ArticleCategory
 	"state":"ok",
 	"detail":{
 		"id":100,
+		"type":"分类的类型：category、address",
 		"pid":100,
-		"userId":100,
-		"slug":"slug",
-		"title":"标题",
-		"content":"内容描述",
+		"title":"分类名称",
 		"summary":"摘要",
-		"style":"模板样式",
-		"type":"类型，比如：分类、tag、专题",
-		"icon":"图标",
-		"withRecommend":true,
-		"withTop":true,
-		"ornament":"装饰图",
-		"thumbnail":"缩略图",
 		"count":100,
 		"orderNumber":100,
 		"flag":"标识",
-		"metaTitle":"SEO标题",
-		"metaKeywords":"SEO关键字",
-		"metaDescription":"SEO描述内容",
 		"created":"2022-08-30 09:20:32",
 		"modified":"2022-08-30 09:20:32",
 		"siteId":100
@@ -84,15 +58,15 @@ ArticleCategory
 ```
 
 
-## 创建新的文章分类
+## 创建新的岗位分类
 #### 接口信息：
-- 访问路径： `/api/article/category/doCreate`
+- 访问路径： `/api/job/category/doCreate`
 - 数据类型： `application/json`
 #### 请求参数：
 
 | 参数 | 名称 | 数据类型 | 是否必须 | 提交方式 | 描述 |  
 | --- | --- | --- | --- | --- | --- |
-| articleCategory | 文章分类json | `ArticleCategory` | 否 | POST |  |  
+| jobCategory | 岗位分类json | `JobCategory` | 否 | POST |  |  
 
 
 #### 数据响应：`Ret`
@@ -102,7 +76,7 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
-| id | `Long` | 文章分类D |  
+| id | `Long` | 岗位分类ID |  
 
 **JSON 示例：**
 ```json
@@ -113,15 +87,15 @@ Ret
 ```
 
 
-## 删除文章分类（Tag）
+## 删除岗位分类
 #### 接口信息：
-- 访问路径： `/api/article/category/doDelete`
+- 访问路径： `/api/job/category/doDelete`
 - 数据类型： `application/x-www-form-urlencoded`
 #### 请求参数：
 
 | 参数 | 名称 | 数据类型 | 是否必须 | 提交方式 | 描述 |  
 | --- | --- | --- | --- | --- | --- |
-| id | 分类ID | `Long` | 是 | * |  |  
+| id | 岗位分类ID | `Long` | 是 | * |  |  
 
 
 #### 数据响应：`Ret`
@@ -140,15 +114,15 @@ Ret
 ```
 
 
-## 更新文章分类
+## 更新岗位分类
 #### 接口信息：
-- 访问路径： `/api/article/category/doUpdate`
+- 访问路径： `/api/job/category/doUpdate`
 - 数据类型： `application/json`
 #### 请求参数：
 
 | 参数 | 名称 | 数据类型 | 是否必须 | 提交方式 | 描述 |  
 | --- | --- | --- | --- | --- | --- |
-| articleCategory | 文章分类json | `ArticleCategory` | 否 | POST |  |  
+| jobCategory | 岗位分类json | `JobCategory` | 否 | POST |  |  
 
 
 #### 数据响应：`Ret`
@@ -167,16 +141,17 @@ Ret
 ```
 
 
-## 根据文章分类的type查询文章分类
+## 根据自定义条件查找岗位分类列表
 #### 接口信息：
-- 访问路径： `/api/article/category/listByType`
+- 访问路径： `/api/job/category/listByColumns`
 - 数据类型： `application/x-www-form-urlencoded`
 #### 请求参数：
 
 | 参数 | 名称 | 数据类型 | 是否必须 | 提交方式 | 描述 |  
 | --- | --- | --- | --- | --- | --- |
-| type | 分类type | `String` | 是 | * |  |  
-| pid | 上级分类ID | `Long` | 否 | * |  |  
+| pid | 分类父ID | `Long` | 否 | * |  |  
+| userId | 分类创建用户ID | `Long` | 否 | * |  |  
+| orderBy | 排序属性 | `String` | 否 | * | 默认值：order_number asc |  
 
 
 #### 数据响应：`Ret`
@@ -186,7 +161,7 @@ Ret
 | 字段  | 数据类型 | 描述 |  
 | --- | --- | --- | 
 | state | `String` | 状态，成功 ok，失败 fail |  
-| list | `List<ArticleCategory>` | 文章分类列表 |  
+| list | `List<JobCategory>` | 岗位分类列表 |  
 
 **JSON 示例：**
 ```json
@@ -195,50 +170,26 @@ Ret
 	"list":[
 		{
 			"id":100,
+			"type":"分类的类型：category、address",
 			"pid":100,
-			"userId":100,
-			"slug":"slug",
-			"title":"标题",
-			"content":"内容描述",
+			"title":"分类名称",
 			"summary":"摘要",
-			"style":"模板样式",
-			"type":"类型，比如：分类、tag、专题",
-			"icon":"图标",
-			"withRecommend":true,
-			"withTop":true,
-			"ornament":"装饰图",
-			"thumbnail":"缩略图",
 			"count":100,
 			"orderNumber":100,
 			"flag":"标识",
-			"metaTitle":"SEO标题",
-			"metaKeywords":"SEO关键字",
-			"metaDescription":"SEO描述内容",
 			"created":"2022-08-30 09:20:32",
 			"modified":"2022-08-30 09:20:32",
 			"siteId":100
 		},
 		{
 			"id":100,
+			"type":"分类的类型：category、address",
 			"pid":100,
-			"userId":100,
-			"slug":"slug",
-			"title":"标题",
-			"content":"内容描述",
+			"title":"分类名称",
 			"summary":"摘要",
-			"style":"模板样式",
-			"type":"类型，比如：分类、tag、专题",
-			"icon":"图标",
-			"withRecommend":true,
-			"withTop":true,
-			"ornament":"装饰图",
-			"thumbnail":"缩略图",
 			"count":100,
 			"orderNumber":100,
 			"flag":"标识",
-			"metaTitle":"SEO标题",
-			"metaKeywords":"SEO关键字",
-			"metaDescription":"SEO描述内容",
 			"created":"2022-08-30 09:20:32",
 			"modified":"2022-08-30 09:20:32",
 			"siteId":100

@@ -29,6 +29,7 @@ import io.jpress.core.addon.AddonManager;
 import io.jpress.core.addon.controller.AddonControllerProcesser;
 import io.jpress.core.addon.handler.AddonHandlerProcesser;
 import io.jpress.core.install.InstallHandler;
+import io.jpress.core.install.Installer;
 import io.jpress.core.menu.MenuManager;
 import io.jpress.core.site.SiteManager;
 import io.jpress.core.template.BlockFunctions;
@@ -67,7 +68,10 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
     @Override
     public void onHandlerConfig(JfinalHandlers handlers) {
 
-        handlers.add(new InstallHandler());
+        if (!Installer.isInstalled()) {
+            handlers.add(new InstallHandler());
+        }
+
         handlers.add(new SitemapHandler());
         handlers.add(new JPressHandler());
         handlers.add(new SiteHandler());

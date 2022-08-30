@@ -9,6 +9,7 @@ public class ApiDocGenerator {
 
         ApiDocConfig config = new ApiDocConfig();
         config.setBasePath("../doc/development/api");
+        
 
         ApiDocManager.me().genDocs(config);
     }

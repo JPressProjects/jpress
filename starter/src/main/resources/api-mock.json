@@ -4,6 +4,7 @@
 		"pid":100,
 		"slug":"slug",
 		"title":"标题",
+		"author":"作者",
 		"content":"内容",
 		"editMode":"编辑模式，默认为html，其他可选项包括html，markdown ..",
 		"summary":"摘要",
@@ -15,14 +16,21 @@
 		"status":"状态",
 		"commentStatus":true,
 		"commentCount":100,
-		"commentTime":"2021-07-04 10:07:01",
+		"commentTime":"2022-08-30 09:20:32",
 		"viewCount":100,
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
 		"flag":"标识，通常用于对某几篇文章进行标识，从而实现单独查询",
+		"metaTitle":"SEO标题",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述信息",
-		"remarks":"备注信息"
+		"withRecommend":true,
+		"withTop":true,
+		"withHot":true,
+		"withLeadNews":true,
+		"withAllowSearch":true,
+		"options":"json 扩展",
+		"siteId":100
 	},
 	"articleCategory":{
 		"id":100,
@@ -35,13 +43,19 @@
 		"style":"模板样式",
 		"type":"类型，比如：分类、tag、专题",
 		"icon":"图标",
+		"withRecommend":true,
+		"withTop":true,
+		"ornament":"装饰图",
+		"thumbnail":"缩略图",
 		"count":100,
 		"orderNumber":100,
 		"flag":"标识",
+		"metaTitle":"SEO标题",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述内容",
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"siteId":100
 	},
 	"articleCategoryMapping":{
 		"articleId":100,
@@ -62,7 +76,8 @@
 		"voteUp":100,
 		"voteDown":100,
 		"status":"评论的状态",
-		"created":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"siteId":100
 	},
 	"articleMetaInfo":{
 		"id":100,
@@ -76,6 +91,7 @@
 	"attachment":{
 		"id":100,
 		"userId":100,
+		"categoryId":100,
 		"title":"标题",
 		"description":"附件描述",
 		"path":"路径",
@@ -85,8 +101,8 @@
 		"flag":"标示",
 		"orderNumber":100,
 		"accessible":true,
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
 	},
 	"clubCategory":{
 		"id":100,
@@ -272,13 +288,15 @@
 		"orderNumber":100,
 		"relativeTable":"该菜单是否和其他表关联",
 		"relativeId":100,
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"siteId":100
 	},
 	"option":{
 		"id":100,
 		"key":"配置KEY",
-		"value":"配置内容"
+		"value":"配置内容",
+		"siteId":100
 	},
 	"paymentRecord":{
 		"id":100,
@@ -323,8 +341,8 @@
 		"node":"属于大的分类，可能是Controller、大的DIV、或菜单组",
 		"type":"权限的类型：url、页面元素、菜单",
 		"text":"菜单描述",
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
 	},
 	"product":{
 		"id":100,
@@ -334,34 +352,28 @@
 		"summary":"摘要",
 		"usp":"产品卖点",
 		"thumbnail":"缩略图",
-		"specs":"产品规格",
-		"video":"视频",
 		"style":"样式",
 		"orderNumber":100,
-		"userId":100,
-		"userDivideType":100,
-		"userDivideRatio":100,
 		"price":1,
 		"originPrice":1,
 		"limitedPrice":1,
-		"limitedTime":"2021-07-04 10:07:01",
-		"distEnable":true,
-		"distAmount":1,
 		"status":100,
 		"commentStatus":true,
 		"commentCount":100,
-		"commentTime":"2021-07-04 10:07:01",
+		"commentTime":"2022-08-30 09:20:32",
 		"viewCount":100,
-		"realViewCount":100,
 		"salesCount":100,
-		"realSalesCount":100,
-		"stock":100,
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01",
+		"buyLink":"购买链接",
+		"videoId":"视频ID",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
 		"flag":"标识，通常用于对某几个商品进行标识，从而实现单独查询",
+		"metaTitle":"SEO标题",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述信息",
-		"remarks":"备注信息"
+		"remarks":"备注信息",
+		"options":"json 扩展",
+		"siteId":100
 	},
 	"productCategory":{
 		"id":100,
@@ -374,13 +386,19 @@
 		"style":"模板样式",
 		"type":"类型，比如：分类、tag、专题",
 		"icon":"图标",
+		"withRecommend":true,
+		"withTop":true,
+		"ornament":"装饰图",
+		"thumbnail":"缩略图",
 		"count":100,
 		"orderNumber":100,
 		"flag":"标识",
+		"metaTitle":"SEO标题",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述内容",
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"siteId":100
 	},
 	"productCategoryMapping":{
 		"productId":100,
@@ -398,21 +416,22 @@
 		"voteUp":100,
 		"voteDown":100,
 		"status":100,
-		"created":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"siteId":100
 	},
 	"productImage":{
 		"id":100,
 		"productId":100,
 		"orderNumber":100,
-		"created":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32"
 	},
 	"role":{
 		"id":100,
 		"name":"角色名称",
 		"description":"角色的描述",
 		"flag":"角色标识，全局唯一，jpsa 为超级管理员",
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
 	},
 	"rolePermissionMapping":{
 		"roleId":100,
@@ -420,6 +439,7 @@
 	},
 	"singlePage":{
 		"id":100,
+		"categoryId":100,
 		"slug":"slug",
 		"title":"标题",
 		"content":"内容",
@@ -427,15 +447,21 @@
 		"linkTo":"链接",
 		"summary":"摘要",
 		"thumbnail":"缩略图",
+		"ornament":"装饰图",
 		"style":"样式",
 		"flag":"标识",
 		"status":"状态",
+		"commentStatus":true,
+		"commentCount":100,
+		"commentTime":"2022-08-30 09:20:32",
 		"viewCount":100,
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"metaTitle":"SEO标题",
 		"metaKeywords":"SEO关键字",
 		"metaDescription":"SEO描述信息",
-		"remarks":"备注信息"
+		"remarks":"备注信息",
+		"siteId":100
 	},
 	"singlePageComment":{
 		"id":100,
@@ -452,7 +478,8 @@
 		"voteUp":100,
 		"voteDown":100,
 		"status":"评论的状态",
-		"created":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"siteId":100
 	},
 	"user":{
 		"id":100,
@@ -469,7 +496,7 @@
 		"mobileStatus":"手机状态（是否认证等）",
 		"gender":"性别",
 		"signature":"签名",
-		"birthday":"2021-07-04 10:07:01",
+		"birthday":"2022-08-30 09:20:32",
 		"company":"公司",
 		"occupation":"职位、职业",
 		"address":"地址",
@@ -482,10 +509,10 @@
 		"idcard":"证件号码",
 		"remark":"备注",
 		"status":"状态",
-		"created":"2021-07-04 10:07:01",
+		"created":"2022-08-30 09:20:32",
 		"createSource":"用户来源（可能来之oauth第三方）",
-		"logged":"2021-07-04 10:07:01",
-		"activated":"2021-07-04 10:07:01"
+		"logged":"2022-08-30 09:20:32",
+		"activated":"2022-08-30 09:20:32"
 	},
 	"userAddress":{
 		"id":100,
@@ -577,11 +604,11 @@
 		"type":"第三方类型：wechat，dingding，qq...",
 		"value":"第三方的openId的值",
 		"accessToken":"可能用不到",
-		"expiredTime":"2021-07-04 10:07:01",
+		"expiredTime":"2022-08-30 09:20:32",
 		"nickname":"昵称",
 		"avatar":"头像",
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
 	},
 	"userOrder":{
 		"id":100,
@@ -704,8 +731,8 @@
 		"type":"tag类别，用于以后扩展",
 		"count":100,
 		"orderNumber":100,
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
 	},
 	"userTagMapping":{
 		"userId":100,
@@ -732,7 +759,7 @@
 		"brand":"硬件平台",
 		"model":"硬件型号",
 		"network":"网络情况",
-		"created":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32"
 	},
 	"wechatMenu":{
 		"id":100,
@@ -741,14 +768,214 @@
 		"keyword":"关键字",
 		"type":"菜单类型",
 		"orderNumber":100,
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"siteId":100
 	},
 	"wechatReply":{
 		"id":100,
 		"keyword":"关键字",
 		"content":"回复内容",
-		"created":"2021-07-04 10:07:01",
-		"modified":"2021-07-04 10:07:01"
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"siteId":100
+	},
+	"attachmentCategory":{
+		"id":100,
+		"title":"标题",
+		"count":100,
+		"orderNumber":100,
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
+	},
+	"attachmentVideo":{
+		"id":100,
+		"uuid":"视频uuid",
+		"videoType":"vod、live、code",
+		"cloudType":"视频云",
+		"categoryId":100,
+		"cover":"视频封面",
+		"vodVid":"视频云端ID",
+		"vodName":"视频名称",
+		"vodSize":100,
+		"vodStatus":"视频状态",
+		"vodDuration":100,
+		"liveDomain":"直播播放域名",
+		"liveApp":"直播应用名称",
+		"liveStream":"直接流名称",
+		"livePushUrl":"直播推流地址",
+		"liveStartTime":"2022-08-30 09:20:32",
+		"liveEndTime":"2022-08-30 09:20:32",
+		"content":"iframe 代码",
+		"options":"其他配置",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
+	},
+	"attachmentVideoCategory":{
+		"id":100,
+		"title":"标题",
+		"count":100,
+		"orderNumber":100,
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
+	},
+	"formData11":{
+		"id":100,
+		"userIp":"用户IP",
+		"userAgent":"用户浏览器agent",
+		"userBrowser":"用户浏览器",
+		"userBrowserVersion":"用户浏览器版本",
+		"userOs":"用户操作系统",
+		"userDevice":"用户设备",
+		"userDeviceBrand":"用户设备品牌",
+		"userNetwork":"用户网络类型",
+		"userWithMobile":true,
+		"userStartTime":"2022-08-30 09:20:32",
+		"userSubmitTime":"2022-08-30 09:20:32"
+	},
+	"formDatasource":{
+		"id":100,
+		"name":"数据源名称",
+		"importType":100,
+		"importText":"导入内容",
+		"headers":"动态导入时，配置的 headers",
+		"withCascade":true,
+		"withStatic":true,
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"options":"json 扩展",
+		"siteId":100
+	},
+	"formDatasourceItem":{
+		"id":100,
+		"pid":100,
+		"datasourceId":100,
+		"value":"value 值",
+		"text":"文本内容",
+		"image":"图片 URL 地址",
+		"siteId":100
+	},
+	"formInfo":{
+		"id":100,
+		"uuid":"UUID",
+		"name":"表单名称",
+		"title":"表单标题（前台）",
+		"summary":"表单描述（前台）",
+		"flag":"表单标识",
+		"bgImage":"表单背景图",
+		"headerImage":"表单头图",
+		"builderJson":"表单构建 JSON",
+		"options":"json扩展配置",
+		"version":100,
+		"status":"状态",
+		"dataCount":100,
+		"dataCreated":"2022-08-30 09:20:32",
+		"created":"2022-08-30 09:20:32",
+		"siteId":100
+	},
+	"job":{
+		"id":100,
+		"title":"职位名称或者标题",
+		"content":"描述",
+		"department":"对应部门",
+		"categoryId":100,
+		"addressId":100,
+		"ageLimitStart":100,
+		"ageLimitEnd":100,
+		"education":100,
+		"yearsLimitType":100,
+		"withNotify":true,
+		"notifyEmails":"通知的邮箱",
+		"notifyTitle":"通知的邮件标题",
+		"notifyContent":"通知的邮件内容",
+		"withRemote":true,
+		"withApply":true,
+		"withHurry":true,
+		"workType":100,
+		"recruitType":100,
+		"recruitNumbers":100,
+		"expiredTo":"2022-08-30 09:20:32",
+		"metaTitle":"SEO标题",
+		"metaKeywords":"SEO关键字",
+		"metaDescription":"SEO描述信息",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"siteId":100
+	},
+	"jobApply":{
+		"id":100,
+		"jobId":100,
+		"userName":"用户名称",
+		"mobile":"手机号",
+		"mobileArea":"手机区号，中国 +86",
+		"email":"邮箱",
+		"gender":100,
+		"birthday":"2022-08-30 09:20:32",
+		"workYears":100,
+		"education":100,
+		"lastCompany":"最近工作的公司",
+		"cvPath":"上传的简历",
+		"attachment":"上传的其他附件",
+		"referralCode":"推荐码",
+		"withViewed":true,
+		"withDisposed":true,
+		"disposedContent":"处理意见，处理内容",
+		"disposedTime":"2022-08-30 09:20:32",
+		"created":"2022-08-30 09:20:32",
+		"siteId":100
+	},
+	"jobCategory":{
+		"id":100,
+		"type":"分类的类型：category、address",
+		"pid":100,
+		"title":"分类名称",
+		"summary":"摘要",
+		"count":100,
+		"orderNumber":100,
+		"flag":"标识",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"siteId":100
+	},
+	"singlePageCategory":{
+		"id":100,
+		"title":"标题",
+		"content":"描述",
+		"style":"页面默认情况下使用的模板样式",
+		"icon":"分类 icon",
+		"ornament":"装饰图",
+		"count":100,
+		"orderNumber":100,
+		"flag":"标识",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32",
+		"siteId":100
+	},
+	"siteInfo":{
+		"id":100,
+		"siteId":100,
+		"name":"站点名称",
+		"bindDomain":"绑定域名",
+		"bindPath":"绑定二级目录",
+		"bindLangs":"绑定语言",
+		"options":"其他扩展字段",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
+	},
+	"siteInfoCopy1":{
+		"id":100,
+		"siteId":100,
+		"name":"站点名称",
+		"bindDomain":"绑定域名",
+		"bindPath":"绑定二级目录",
+		"bindLangs":"绑定语言",
+		"options":"其他扩展字段",
+		"created":"2022-08-30 09:20:32",
+		"modified":"2022-08-30 09:20:32"
+	},
+	"templateBlockOption":{
+		"templateId":"模板ID",
+		"siteId":100,
+		"options":"配置内容"
 	}
 }

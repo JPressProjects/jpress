@@ -60,13 +60,13 @@
        <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-job-web</artifactId>
-            <version>4.0</version>
+            <version>5.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-job-service-provider</artifactId>
-            <version>4.0</version>
+            <version>5.0</version>
         </dependency>
 ```
 

@@ -61,7 +61,7 @@ public abstract class ControllerBase extends JbootController {
     @NotAction
     @Override
     public <T> T getModel(Class<T> modelClass) {
-        return removeOptionsAttr(super.getModel(modelClass));
+        return getModel(modelClass,true);
     }
 
 
@@ -113,7 +113,6 @@ public abstract class ControllerBase extends JbootController {
      *
      * @return
      */
-    @NotAction
     protected int getPagePara() {
         return getParaToInt("page", 1);
     }

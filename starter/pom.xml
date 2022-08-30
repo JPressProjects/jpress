@@ -199,12 +199,6 @@
             <scope>test</scope>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.jpress</groupId>-->
-<!--            <artifactId>jpress-addon-wtask</artifactId>-->
-<!--            <version>4.0</version>-->
-<!--        </dependency>-->
-
     </dependencies>
 
     <build>

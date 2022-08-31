@@ -613,6 +613,12 @@ Page
 {
 	"state":"ok",
 	"page":{
+		"pageSize":10,
+		"totalPage":1,
+		"totalRow":2,
+		"firstPage":true,
+		"lastPage":true,
+		"pageNumber":1,
 		"list":[
 			{
 				"id":100,
@@ -680,13 +686,7 @@ Page
 				"options":"json 扩展",
 				"siteId":100
 			}
-		],
-		"pageNumber":1,
-		"pageSize":10,
-		"totalPage":1,
-		"totalRow":2,
-		"firstPage":true,
-		"lastPage":true
+		]
 	}
 }
 ```
@@ -731,6 +731,12 @@ Page
 {
 	"state":"ok",
 	"page":{
+		"pageSize":10,
+		"totalPage":1,
+		"totalRow":2,
+		"firstPage":true,
+		"lastPage":true,
+		"pageNumber":1,
 		"list":[
 			{
 				"id":100,
@@ -798,13 +804,7 @@ Page
 				"options":"json 扩展",
 				"siteId":100
 			}
-		],
-		"pageNumber":1,
-		"pageSize":10,
-		"totalPage":1,
-		"totalRow":2,
-		"firstPage":true,
-		"lastPage":true
+		]
 	}
 }
 ```

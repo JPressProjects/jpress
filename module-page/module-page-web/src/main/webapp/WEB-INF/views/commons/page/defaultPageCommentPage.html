@@ -2,7 +2,7 @@
 <div class="comment-default-block">
 
     #if(option("page_comment_enable","true"))
-    <form class="comment-form" action="#(CPATH)/page/postComment" id="jpress-comment-form" method="post" autocomplete="off">
+    <form class="comment-form" action="#(CPATH)#(SPATH)/page/postComment" id="jpress-comment-form" method="post" autocomplete="off">
         <input type="hidden" name="pageId" value="#(page.id ??)">
         <input type="hidden" name="render" value="default">
         <input type="hidden" name="pid" id="comment-pid">

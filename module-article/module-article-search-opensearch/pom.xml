@@ -30,6 +30,12 @@
             <groupId>com.aliyun.opensearch</groupId>
             <artifactId>aliyun-sdk-opensearch</artifactId>
             <version>3.3.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

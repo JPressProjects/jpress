@@ -85,6 +85,7 @@ public abstract class AdminControllerBase extends ControllerBase {
     }
 
 
+    @NotAction
     public void setPaginateSizeSpacing(int spacing) {
         setAttr(AdminInterceptor.ATTR_PAGINATE_SPACING, spacing);
     }

@@ -19,79 +19,6 @@
         <dependency>
             <groupId>io.jboot</groupId>
             <artifactId>jboot</artifactId>
-            <exclusions>
-
-                <exclusion>
-                    <groupId>com.netflix.hystrix</groupId>
-                    <artifactId>hystrix-metrics-event-stream</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>com.netflix.hystrix</groupId>
-                    <artifactId>hystrix-codahale-metrics-publisher</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.dropwizard.metrics</groupId>
-                    <artifactId>metrics-servlets</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>dubbo</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>org.apache.curator</groupId>
-                    <artifactId>curator-framework</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-core</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>org.apache.curator</groupId>
-                    <artifactId>curator-framework</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.seata</groupId>
-                    <artifactId>seata-tm</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.seata</groupId>
-                    <artifactId>seata-rm-datasource</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.seata</groupId>
-                    <artifactId>seata-config-core</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.seata</groupId>
-                    <artifactId>seata-codec-seata</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.seata</groupId>
-                    <artifactId>seata-core</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.seata</groupId>
-                    <artifactId>seata-common</artifactId>
-                </exclusion>
-
-                <exclusion>
-                    <groupId>io.shardingsphere</groupId>
-                    <artifactId>sharding-jdbc-core</artifactId>
-                </exclusion>
-
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -179,15 +106,18 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-web</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
@@ -198,6 +128,13 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+
+<!--        <dependency>-->
+<!--            <groupId>io.jpress</groupId>-->
+<!--            <artifactId>jpress-addon-keygen</artifactId>-->
+<!--            <version>5.0</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 
@@ -262,9 +199,9 @@
                                 <resource>
                                     <directory>${basedir}/../module-form/module-form-web/src/main/webapp</directory>
                                 </resource>
-                                <resource>
-                                    <directory>${basedir}/../jpress-addons/jpress-addon-wtask/src/main/webapp</directory>
-                                </resource>
+<!--                                <resource>-->
+<!--                                    <directory>${basedir}/../jpress-addons/jpress-addon-keygen/src/main/webapp</directory>-->
+<!--                                </resource>-->
                             </resources>
                         </configuration>
                     </execution>

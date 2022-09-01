@@ -19,6 +19,12 @@
         <dependency>
             <groupId>com.github.liaochong</groupId>
             <artifactId>myexcel</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jsoup</groupId>
+                    <artifactId>jsoup</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

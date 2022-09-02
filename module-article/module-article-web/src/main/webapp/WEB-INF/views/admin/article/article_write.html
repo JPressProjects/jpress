@@ -314,12 +314,6 @@
         outline: none;
         background-color: #fff;
     }
-
-    .ck-editor__editable_inline, .ck-source-editing-area {
-        /*min-height: 500px;*/
-        height: calc(100vh - 180px);
-    }
-
     .article-header i {
         font-size: 22px;
         cursor: pointer;
@@ -392,7 +386,7 @@
         border-radius: 0;
     }
 
-    .ck-editor__editable_inline, .ck-source-editing-area {
+    .ck-editor__editable_inline{
         height: calc(100vh - 158px);
     }
 
@@ -453,6 +447,10 @@
 
     .vditor-hint:before {
         border-bottom-color: #f6f6f6;
+    }
+    .ck-source-editing-area{
+        min-height:100vh;
+        height:auto;
     }
 </style>
 #end

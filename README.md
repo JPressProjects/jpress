@@ -164,7 +164,7 @@
 
 - [用户手册](http://doc.jpress.cn/manual/)
 - [开发文档](http://doc.jpress.cn/development/)
-- [模板开发](http://doc.jpress.cn/development/template/start.html)
+- [模板开发](http://doc.jpress.cn/development/template/template_introduce.html)
 - [插件开发](http://doc.jpress.cn/development/addon/start.html)
 - [二次开发](hhttp://doc.jpress.cn/development/dev/start.html)
 - [API 接口](http://doc.jpress.cn/development/api/start.html)

@@ -28,7 +28,7 @@ public class TemplateUtil {
      */
     public static Set<BlockContainerDef> readContainerDefs(File templateFile) {
         Set<BlockContainerDef> containerDefs = new HashSet<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(templateFile))) {
+        try (BufferedReader in = getFileBufferedReader(templateFile)) {
             String str;
             while ((str = in.readLine()) != null) {
                 int indexOf = str.indexOf("#blockContainer");
@@ -88,7 +88,7 @@ public class TemplateUtil {
      * @param block
      */
     public static void readAndFillHtmlBlock(File file, HtmlBlock block) {
-        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader in = getFileBufferedReader(file)) {
             String lineStr;
             while ((lineStr = in.readLine()) != null) {
                 parseLineString(block, lineStr);
@@ -97,6 +97,12 @@ public class TemplateUtil {
             LogKit.error(e.toString(), e);
         }
 
+    }
+
+
+    private static BufferedReader getFileBufferedReader(File file) throws IOException {
+        return new BufferedReader(
+                new InputStreamReader(new FileInputStream(file), "UTF-8"));
     }
 
 
@@ -227,6 +233,7 @@ public class TemplateUtil {
         }
         return null;
     }
+
 
     public static void unzip(String zipFilePath, String targetPath, String charset) throws IOException {
         targetPath = FileUtil.getCanonicalPath(new File(targetPath));

@@ -1,0 +1,34 @@
+# 一、修改缩进为首行缩进
+
+1、修改：
+
+```
+t.config.define("indentBlock",{offset:40,unit:"px"})
+```
+为
+
+```
+t.config.define("indentBlock",{offset:2,unit:"em"})
+```
+
+2、修改：
+
+```
+this.editor.locale.contentLanguageDirection?"margin-right":"margin-left"
+```
+为
+
+```
+this.editor.locale.contentLanguageDirection?"text-indent":"text-indent"
+```
+# 二、修改 wps 粘贴的问题
+
+找到 ckeditor.js 里的 span[style*=spacerun]，在后面的 forEach 里添加 if(t.innerText.trim().length === 0){} 的判断
+
+参考：
+- https://github.com/ckeditor/ckeditor5/pull/10533/files
+- https://github.com/ckeditor/ckeditor5/pull/10471/files
+
+其他注意事项：
+1、不能选择 watchdoc 插件，其对编辑器的初始化方式和当前不同
+2、不能现在 title 插件，因为其在内容编辑器出会添加输入标题的输入框

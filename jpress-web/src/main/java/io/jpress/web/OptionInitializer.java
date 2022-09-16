@@ -29,8 +29,6 @@ import io.jpress.core.install.Installer;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Option;
 import io.jpress.service.OptionService;
-import io.jpress.web.interceptor.ApiInterceptor;
-import io.jpress.web.interceptor.WechatInterceptor;
 
 import java.util.List;
 
@@ -72,10 +70,6 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
         //初始化模板配置
         TemplateManager.me().init();
 
-        //初始化 API 配置
-        ApiInterceptor.init();
-
-
         // 初始化 微信公众号 的配置
         initWechatOption();
 
@@ -110,8 +104,6 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
 
             ApiConfigKit.putApiConfig(ac);
         }
-
-        WechatInterceptor.init();
 
     }
 

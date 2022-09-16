@@ -33,32 +33,14 @@ import javax.servlet.http.HttpServletRequest;
  * @Title: 微信获取用户相关的拦截器
  */
 
-public class WechatInterceptor implements Interceptor, JPressOptions.OptionChangeListener {
+public class WechatInterceptor implements Interceptor{
 
-    /**
-     * 是否启用微信拦截
-     */
-    private static boolean enable = false;
-
-    public static void init() {
-        enable = JPressOptions.getAsBool(JPressConsts.OPTION_WECHAT_WEB_AUTHORIZE_ENABLE);
-    }
-
-    public WechatInterceptor() {
-        JPressOptions.addListener(this);
-    }
-
-
-    @Override
-    public void onChanged(String key, String newValue, String oldValue) {
-
-        if (JPressConsts.OPTION_WECHAT_WEB_AUTHORIZE_ENABLE.equals(key)) {
-            init();
-        }
-    }
 
     @Override
     public void intercept(Invocation inv) {
+
+        boolean enable = JPressOptions.getAsBool(JPressConsts.OPTION_WECHAT_WEB_AUTHORIZE_ENABLE);
+
         if (!enable) {
             inv.invoke();
             return;

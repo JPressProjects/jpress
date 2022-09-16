@@ -28,6 +28,7 @@ import io.jpress.web.base.ApiControllerBase;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -36,28 +37,14 @@ import java.util.Map;
  * @Title: Api的拦截器
  * @Package io.jpress.web
  */
-public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeListener {
+public class ApiInterceptor implements Interceptor {
 
-    private static boolean apiEnable = false;
-
-    private static String apiAppId = null;
-    private static String apiSecret = null;
 
     /**
      * api 的有效时间，默认为 10 分钟
      */
     private static final long TIMEOUT = 10 * 60 * 1000;
 
-    public ApiInterceptor() {
-        JPressOptions.addListener(this);
-    }
-
-
-    public static void init() {
-        apiEnable = JPressOptions.getAsBool(JPressConsts.OPTION_API_ENABLE);
-        apiAppId = JPressOptions.get(JPressConsts.OPTION_API_APPID);
-        apiSecret = JPressOptions.get(JPressConsts.OPTION_API_SECRET);
-    }
 
     @Inject
     private UserService userService;
@@ -65,6 +52,10 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
 
     @Override
     public void intercept(Invocation inv) {
+
+        boolean apiEnable = JPressOptions.getAsBool(JPressConsts.OPTION_API_ENABLE);
+        String apiAppId = JPressOptions.get(JPressConsts.OPTION_API_APPID);
+        String apiSecret = JPressOptions.get(JPressConsts.OPTION_API_SECRET);
 
         // API 功能未启用
         if (apiEnable == false) {
@@ -89,7 +80,7 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        Map<String, String> parasMap = StrUtil.queryStringToMap(queryString);
+        Map<String, String> parasMap = queryStringToMap(queryString);
         String appId = parasMap.get("jpressAppId");
         if (StrUtil.isBlank(appId)) {
             inv.getController().renderJson(Ret.fail().set("message", "在 Url 中未获取到 jpressAppId 内容，请注意 Url 是否正确。"));
@@ -123,13 +114,13 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
             return;
         }
 
-        String localSign = createLocalSign(controller.getRequest());
+        String localSign = createLocalSign(controller.getRequest(), apiSecret);
         if (!sign.equals(localSign)) {
             inv.getController().renderJson(Ret.fail().set("message", "数据签名错误。"));
             return;
         }
 
-        Object userId = controller.getJwtPara(JPressConsts.JWT_USERID,false);
+        Object userId = controller.getJwtPara(JPressConsts.JWT_USERID, false);
         if (userId != null) {
             controller.setAttr(JPressConsts.ATTR_LOGINED_USER, userService.findById(userId));
         }
@@ -138,15 +129,16 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
     }
 
 
-    public static String createLocalSign(HttpServletRequest request) {
+    public static String createLocalSign(HttpServletRequest request, String apiSecret) {
         String queryString = request.getQueryString();
-        Map<String,String> queryParas = StrUtil.queryStringToMap(queryString);
-        String[] keys = queryParas.keySet().toArray(new String[0]);;
+        Map<String, String> queryParas = StrUtil.queryStringToMap(queryString);
+        String[] keys = queryParas.keySet().toArray(new String[0]);
+        ;
         Arrays.sort(keys);
 
         StringBuilder sb = new StringBuilder();
-        for (String key : keys){
-            if ("sign".equals(key)){
+        for (String key : keys) {
+            if ("sign".equals(key)) {
                 continue;
             }
 
@@ -158,19 +150,23 @@ public class ApiInterceptor implements Interceptor, JPressOptions.OptionChangeLi
     }
 
 
-    @Override
-    public void onChanged(String key, String newValue, String oldValue) {
-
-        switch (key) {
-            case JPressConsts.OPTION_API_ENABLE:
-                apiEnable = JPressOptions.getAsBool(JPressConsts.OPTION_API_ENABLE);
-                break;
-            case JPressConsts.OPTION_API_APPID:
-                apiAppId = newValue;
-                break;
-            case JPressConsts.OPTION_API_SECRET:
-                apiSecret = newValue;
-                break;
+    private static Map<String, String> queryStringToMap(String queryString) {
+        if (StrUtil.isBlank(queryString)) {
+            return new HashMap<>();
         }
+
+        Map<String, String> map = new HashMap<>();
+        String[] params = queryString.split("&");
+        for (String paramPair : params) {
+            String[] keyAndValue = paramPair.split("=");
+            if (keyAndValue.length == 2) {
+                map.put(keyAndValue[0], StrUtil.urlDecode(keyAndValue[1]));
+            } else if (keyAndValue.length == 1) {
+                map.put(keyAndValue[0], "");
+            }
+        }
+        return map;
     }
+
+
 }

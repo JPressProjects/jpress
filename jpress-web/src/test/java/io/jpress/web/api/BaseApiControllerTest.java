@@ -31,7 +31,7 @@ public class BaseApiControllerTest {
         mvc.setRequestStartListener(request -> {
             request.addQueryParameter("jpressAppId", "myAppId");
             request.addQueryParameter("ct", String.valueOf(System.currentTimeMillis()));
-            request.addQueryParameter("sign", ApiInterceptor.createLocalSign(request));
+            request.addQueryParameter("sign", ApiInterceptor.createLocalSign(request,"mySecret"));
         });
     }
 

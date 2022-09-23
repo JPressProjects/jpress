@@ -46,6 +46,10 @@
     <div class="container-fluid">
         <div class="card card-outline card-primary">
             <form class=" form-setting" autocomplete="off" id="optionForm" method="post">
+
+                <!--指定保存到 siteId = 0 的数据-->
+                <input type="hidden" name="__siteId" value="0">
+
                 <div class="card-body">
 
                     <h4 class="form-header">主站点设置</h4>
@@ -64,10 +68,10 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">跳转子站点</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" class="switchery" data-for="mainsite_redirect_by_browser_lang"
-                                   #checkedIf(option("mainsite_redirect_by_browser_lang",false,0))>
-                            <input type="hidden" id="mainsite_redirect_by_browser_lang"
-                                   name="mainsite_redirect_by_browser_lang">
+                            <input type="checkbox" class="switchery" data-for="site_redirect_by_browser_lang"
+                                   #checkedIf(option("site_redirect_by_browser_lang",false))>
+                            <input type="hidden" id="site_redirect_by_browser_lang"
+                                   name="site_redirect_by_browser_lang">
                             <p class="text-muted">
                                 自动根据浏览器语言，跳转到子站点
                             </p>

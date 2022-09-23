@@ -86,7 +86,7 @@ public class JPressCoreFunctions {
     }
 
 
-    public static Object option(String key, Object defaulValue,Number siteId) {
+    public static Object option(String key, Object defaulValue, Number siteId) {
 
         String value = JPressOptions.getBySiteId(key,siteId.longValue());
 

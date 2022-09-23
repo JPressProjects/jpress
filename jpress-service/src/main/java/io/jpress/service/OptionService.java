@@ -52,4 +52,7 @@ public interface OptionService {
     Object saveOrUpdate(String key, String value);
 
 
+    Object saveOrUpdate(String key, String value, Long siteId);
+
+
 }

@@ -57,6 +57,10 @@ public class JPressOptions {
 
 
     public static void set(String key, String value, Long siteId) {
+        set(key, value, siteId, true);
+    }
+
+    public static void set(String key, String value, Long siteId, boolean withNotice) {
         if (StrUtil.isBlank(key)) {
             return;
         }
@@ -75,14 +79,14 @@ public class JPressOptions {
 
         for (OptionChangeListener listener : listeners) {
             try {
-                listener.onChanged(key, value, oldValue);
+                listener.onChanged(siteId, key, value, oldValue);
             } catch (Throwable ex) {
                 LOG.error(ex.toString(), ex);
             }
         }
 
-        if (notifier != null) {
-            notifier.notifyOptionSet(key, value);
+        if (withNotice && notifier != null) {
+            notifier.notifyOptionSet(siteId, key, value);
         }
 
         doFinishedChanged(key, value, oldValue);
@@ -90,10 +94,10 @@ public class JPressOptions {
 
 
     public static String get(String key) {
-        return getBySiteId(key,SiteContext.getSiteId());
+        return getBySiteId(key, SiteContext.getSiteId());
     }
 
-    public static String getBySiteId(String key,Long siteId) {
+    public static String getBySiteId(String key, Long siteId) {
         return stores.get(siteId).get(key.toLowerCase());
     }
 
@@ -109,6 +113,15 @@ public class JPressOptions {
 
     public static boolean getAsBool(String key, boolean defaultValue) {
         String value = get(key);
+        return StrUtil.isBlank(value) ? defaultValue : Boolean.parseBoolean(value);
+    }
+
+    public static boolean getAsBoolBySiteId(String key, Long siteId) {
+        return getAsBoolBySiteId(key, false, siteId);
+    }
+
+    public static boolean getAsBoolBySiteId(String key, boolean defaultValue, Long siteId) {
+        String value = getBySiteId(key, siteId);
         return StrUtil.isBlank(value) ? defaultValue : Boolean.parseBoolean(value);
     }
 
@@ -185,7 +198,7 @@ public class JPressOptions {
     }
 
     public interface OptionChangeListener {
-        void onChanged(String key, String newValue, String oldValue);
+        void onChanged(Long siteId, String key, String newValue, String oldValue);
     }
 
 
@@ -310,7 +323,7 @@ public class JPressOptions {
 
 
     public interface OptionNotifier {
-        void notifyOptionSet(String key, String value);
+        void notifyOptionSet(Long siteId, String key, String value);
     }
 
 

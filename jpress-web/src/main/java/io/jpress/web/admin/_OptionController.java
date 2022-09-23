@@ -17,6 +17,7 @@ package io.jpress.web.admin;
 
 import com.google.common.collect.Sets;
 import com.jfinal.aop.Inject;
+import com.jfinal.kit.Func;
 import com.jfinal.kit.Ret;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
@@ -34,25 +35,36 @@ import java.util.Set;
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
- * @Title: 首页
+ * @Title: 后台选项配置
  * @Package io.jpress.web.admin
  */
 @RequestMapping(value = "/admin/option", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
 public class _OptionController extends AdminControllerBase {
 
+
     private static final Set<String> ignoreKeys = Sets.newHashSet("csrf_token");
+    private static final String siteIdParaName = "__siteId";
 
     @Inject
-    private OptionService service;
+    private OptionService optionService;
 
+
+    /**
+     * 保存（更新）配置信息
+     */
     public void doSave() {
+
+        Long siteId = getParaToLong(siteIdParaName);
+        if (siteId == null) {
+            siteId = SiteContext.getSiteId();
+        }
+
 
         Enumeration<String> paraNames = getParaNames();
         if (paraNames == null || !paraNames.hasMoreElements()) {
-            renderJson(Ret.fail("para is empty"));
+            renderJson(Ret.fail("msg", "para is empty"));
             return;
         }
-
 
         HashMap<String, String> datasMap = new HashMap<>();
         while (paraNames.hasMoreElements()) {
@@ -64,27 +76,19 @@ public class _OptionController extends AdminControllerBase {
             datasMap.put(key, value);
         }
 
+        //remove siteIdName
+        datasMap.remove(siteIdParaName);
 
-        for (Map.Entry<String, String> entry : datasMap.entrySet()) {
-            //Mysql 对于字符串不区分大小写，所以保持统一
-            String key = entry.getKey().trim();
-
-
-            //以 mainsite_ 开头的 key，都会保存到主站点
-            if (key.startsWith("mainsite_")) {
-                Long currentSiteId = SiteContext.getSiteId();
-                try {
-                    SiteContext.setSiteId(0L);
-                    service.saveOrUpdate(key, entry.getValue());
-                    JPressOptions.set(key, entry.getValue());
-                }finally {
-                    SiteContext.setSiteId(currentSiteId);
-                }
-            } else {
-                service.saveOrUpdate(key, entry.getValue());
-                JPressOptions.set(key, entry.getValue());
+        Long finalSiteId = siteId;
+        SiteContext.execInSite((Func.F00) () -> {
+            for (Map.Entry<String, String> entry : datasMap.entrySet()) {
+                //Mysql 对于字符串不区分大小写，所以保持统一
+                String key = entry.getKey().trim();
+                optionService.saveOrUpdate(key, entry.getValue(), finalSiteId);
+                JPressOptions.set(key, entry.getValue(), finalSiteId);
             }
-        }
+        },siteId);
+
 
         renderOkJson();
     }
@@ -96,7 +100,7 @@ public class _OptionController extends AdminControllerBase {
      * @CreateDate: 2019/4/28
      */
     public void doDeleteByKey(String key) {
-        if (service.deleteByKey(key)) {
+        if (optionService.deleteByKey(key)) {
             JPressOptions.set(key, null);
             renderOkJson();
         } else {
@@ -111,7 +115,7 @@ public class _OptionController extends AdminControllerBase {
      * @CreateDate: 2019/4/28
      */
     public void doSaveOrUpdate(String key, String value) {
-        service.saveOrUpdate(key, value);
+        optionService.saveOrUpdate(key, value);
         JPressOptions.set(key, value);
         renderOkJson();
     }

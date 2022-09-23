@@ -42,14 +42,22 @@ public class SiteContext {
 
 
     public static void execInMainSite(Func.F00 callable) {
+        execInSite(callable, 0L);
+    }
+
+    public static <T> T execInMainSite(Func.F01<T> callable) {
+        return execInSite(callable, 0L);
+    }
+
+    public static void execInSite(Func.F00 callable, Long siteId) {
         Long currentSiteId = getSiteId();
-        if (currentSiteId == 0) {
+        if (currentSiteId.equals(siteId)) {
             callable.call();
         } else {
             JbootCache cache = JbootCacheManager.me().getCache();
             try {
-                setSiteId(0L);
-                cache.setCurrentCacheNamePrefix("site0:");
+                setSiteId(siteId);
+                cache.setCurrentCacheNamePrefix("site" + siteId + ":");
                 callable.call();
             } finally {
                 setSiteId(currentSiteId);
@@ -58,15 +66,15 @@ public class SiteContext {
         }
     }
 
-    public static <T> T execInMainSite(Func.F01<T> callable) {
+    public static <T> T execInSite(Func.F01<T> callable, Long siteId) {
         Long currentSiteId = getSiteId();
-        if (currentSiteId == 0) {
+        if (currentSiteId.equals(siteId)) {
             return callable.call();
         } else {
             JbootCache cache = JbootCacheManager.me().getCache();
             try {
-                setSiteId(0L);
-                cache.setCurrentCacheNamePrefix("site0:");
+                setSiteId(siteId);
+                cache.setCurrentCacheNamePrefix("site" + siteId + ":");
                 return callable.call();
             } finally {
                 setSiteId(currentSiteId);

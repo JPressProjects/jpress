@@ -18,6 +18,7 @@ package io.jpress.service.provider;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.CacheEvict;
 import io.jboot.components.cache.annotation.Cacheable;
+import io.jboot.db.model.Columns;
 import io.jpress.SiteContext;
 import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.model.Option;
@@ -51,6 +52,23 @@ public class OptionServiceProvider extends JPressServiceBase<Option> implements 
             option = new Option();
             option.setKey(key);
             option.setSiteId(SiteContext.getSiteId());
+        }
+
+        option.setValue(value);
+
+        return saveOrUpdate(option);
+    }
+
+
+    @Override
+    @CacheEvict(name = "option", key = "#(key)")
+    public Object saveOrUpdate(String key, String value, Long siteId) {
+        Option option = DAO.findFirstByColumns(Columns.create("key", key).eq("site_id",siteId));
+
+        if (option == null) {
+            option = new Option();
+            option.setKey(key);
+            option.setSiteId(siteId);
         }
 
         option.setValue(value);

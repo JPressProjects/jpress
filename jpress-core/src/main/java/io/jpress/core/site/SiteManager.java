@@ -145,7 +145,7 @@ public class SiteManager implements JbootEventListener {
                 }
             }
 
-            String redirectByBrowserLang = JPressOptions.getBySiteId("mainsite_redirect_by_browser_lang", 0L);
+            String redirectByBrowserLang = JPressOptions.getBySiteId("site_redirect_by_browser_lang", 0L);
             if (!"true".equalsIgnoreCase(redirectByBrowserLang)) {
                 return null;
             }

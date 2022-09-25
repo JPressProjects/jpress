@@ -45,7 +45,7 @@ public class JPressHandler extends Handler {
     }
 
     public static void setCurrentTarget(String target) {
-         targetContext.set(target);
+        targetContext.set(target);
     }
 
     public static HttpServletRequest getCurrentRequest() {
@@ -68,7 +68,7 @@ public class JPressHandler extends Handler {
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
         try {
-            targetContext.set(target);
+            setCurrentTarget(target);
             requestContext.set(request);
             request.setAttribute("VERSION", JPressConsts.VERSION);
             request.setAttribute("CPATH", request.getContextPath());
@@ -129,6 +129,7 @@ public class JPressHandler extends Handler {
             //如果是访问 .html ，直接去除后缀
             if (target.endsWith(".html")) {
                 target = target.substring(0, target.length() - 5);
+                setCurrentTarget(target);
             }else {
                 return;
             }

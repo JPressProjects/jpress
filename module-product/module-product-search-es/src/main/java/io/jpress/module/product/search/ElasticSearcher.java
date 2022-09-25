@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ElasticSearcher implements ProductSearcher,JPressOptions.OptionChangeListener {
+public class ElasticSearcher implements ProductSearcher, JPressOptions.OptionChangeListener {
 
     private static final Log LOG = Log.getLog(ElasticSearcher.class);
 
@@ -68,8 +68,8 @@ public class ElasticSearcher implements ProductSearcher,JPressOptions.OptionChan
     }
 
     @Override
-    public void onChanged(String key, String newValue, String oldValue) {
-        if ("product_search_es_host".equals(key) || "product_search_es_port".equals(key)){
+    public void onChanged(Long siteId, String key, String newValue, String oldValue) {
+        if ("product_search_es_host".equals(key) || "product_search_es_port".equals(key)) {
             this.client = null;
             this.restClient = null;
         }
@@ -77,7 +77,7 @@ public class ElasticSearcher implements ProductSearcher,JPressOptions.OptionChan
 
 
     public RestHighLevelClient getClient() {
-        if (client == null){
+        if (client == null) {
 
             String host = JPressOptions.get("product_search_es_host");
             int port = JPressOptions.getAsInt("product_search_es_port", 9200);
@@ -93,9 +93,8 @@ public class ElasticSearcher implements ProductSearcher,JPressOptions.OptionChan
     }
 
 
-
     public RestClient getRestClient() {
-        if (restClient == null){
+        if (restClient == null) {
 
             String host = JPressOptions.get("product_search_es_host");
             int port = JPressOptions.getAsInt("product_search_es_port", 9200);
@@ -106,7 +105,6 @@ public class ElasticSearcher implements ProductSearcher,JPressOptions.OptionChan
         }
         return restClient;
     }
-
 
 
     private void configUserNameAndPassowrd(RestClientBuilder builder) {

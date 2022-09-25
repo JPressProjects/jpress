@@ -85,7 +85,7 @@ public class JPressOptions {
             }
         }
 
-        if (withNotice && notifier != null) {
+        if (notifier != null && withNotice) {
             notifier.notifyOptionSet(siteId, key, value);
         }
 

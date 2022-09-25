@@ -36,7 +36,7 @@ public class ProductSearchEngineIndexRebuildTask implements JPressOptions.Option
 
 
     @Override
-    public void onChanged(String key, String newValue, String oldValue) {
+    public void onChanged(Long siteId, String key, String newValue, String oldValue) {
         if ("product_search_engine".equals(key)) {
             fixedThreadPool.execute(() -> {
                 ProductService articleService = Aop.get(ProductService.class);
@@ -48,7 +48,7 @@ public class ProductSearchEngineIndexRebuildTask implements JPressOptions.Option
                         ProductSearcherFactory.getSearcher().updateProduct(product);
                     }
                     page++;
-                }while (!productPage.isLastPage());
+                } while (!productPage.isLastPage());
             });
         }
     }

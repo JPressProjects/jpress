@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChangeListener {
+public class ElasticSearcher implements ArticleSearcher, JPressOptions.OptionChangeListener {
 
     private static final Log LOG = Log.getLog(ElasticSearcher.class);
 
@@ -66,8 +66,8 @@ public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChan
     }
 
     @Override
-    public void onChanged(String key, String newValue, String oldValue) {
-        if ("article_search_es_host".equals(key) || "article_search_es_port".equals(key)){
+    public void onChanged(Long siteId, String key, String newValue, String oldValue) {
+        if ("article_search_es_host".equals(key) || "article_search_es_port".equals(key)) {
             this.client = null;
             this.restClient = null;
         }
@@ -75,7 +75,7 @@ public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChan
 
 
     public RestHighLevelClient getClient() {
-        if (client == null){
+        if (client == null) {
 
             String host = JPressOptions.get("article_search_es_host");
             int port = JPressOptions.getAsInt("article_search_es_port", 9200);
@@ -91,9 +91,8 @@ public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChan
     }
 
 
-
     public RestClient getRestClient() {
-        if (restClient == null){
+        if (restClient == null) {
 
             String host = JPressOptions.get("article_search_es_host");
             int port = JPressOptions.getAsInt("article_search_es_port", 9200);
@@ -183,7 +182,7 @@ public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChan
     public void updateArticle(Article article) {
         UpdateRequest updateRequest = new UpdateRequest(index, type, article.getId().toString());
         Map<String, Object> map = new HashMap<>();
-        map.putAll(CPI.getAttrs(article.keep("id","title","content")));
+        map.putAll(CPI.getAttrs(article.keep("id", "title", "content")));
         updateRequest.doc(map);
 
         try {
@@ -217,7 +216,7 @@ public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChan
 
         try {
             SearchResponse response = getClient().search(searchRequest, RequestOptions.DEFAULT);
-            if (response ==null || response.getHits() == null || response.getHits().getTotalHits().value <= 0){
+            if (response == null || response.getHits() == null || response.getHits().getTotalHits().value <= 0) {
                 return null;
             }
 
@@ -237,7 +236,6 @@ public class ElasticSearcher implements ArticleSearcher,JPressOptions.OptionChan
         }
         return null;
     }
-
 
 
 }

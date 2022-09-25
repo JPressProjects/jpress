@@ -36,7 +36,7 @@ public class ArticleSearchEngineIndexRebuildTask implements JPressOptions.Option
 
 
     @Override
-    public void onChanged(String key, String newValue, String oldValue) {
+    public void onChanged(Long siteId, String key, String newValue, String oldValue) {
         if ("article_search_engine".equals(key)) {
             fixedThreadPool.execute(() -> {
                 ArticleService articleService = Aop.get(ArticleService.class);
@@ -48,7 +48,7 @@ public class ArticleSearchEngineIndexRebuildTask implements JPressOptions.Option
                         ArticleSearcherFactory.getSearcher().updateArticle(article);
                     }
                     page++;
-                }while (!articlePage.isLastPage());
+                } while (!articlePage.isLastPage());
             });
         }
     }

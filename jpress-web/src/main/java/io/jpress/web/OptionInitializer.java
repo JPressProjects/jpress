@@ -127,7 +127,7 @@ public class OptionInitializer implements JPressOptions.OptionChangeListener, Jb
 
 
     @Override
-    public void onChanged(String key, String newValue, String oldValue) {
+    public void onChanged(Long siteId, String key, String newValue, String oldValue) {
         switch (key) {
             case JPressConsts.OPTION_WECHAT_APPID:
             case JPressConsts.OPTION_WECHAT_APPSECRET:

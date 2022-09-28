@@ -953,8 +953,7 @@ CREATE TABLE `wechat_reply` (
                                 `modified` datetime DEFAULT NULL COMMENT '修改时间',
                                 `site_id` int(11) DEFAULT NULL COMMENT '站点ID',
                                 PRIMARY KEY (`id`) USING BTREE,
-                                UNIQUE KEY `keyword` (`keyword`) USING BTREE,
-                                KEY `site_id` (`site_id`)
+                                UNIQUE KEY `keyword` (`keyword`,`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户自定义关键字回复表';
 
 

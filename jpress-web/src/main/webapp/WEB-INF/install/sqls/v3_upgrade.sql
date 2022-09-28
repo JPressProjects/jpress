@@ -300,9 +300,9 @@ ALTER TABLE `article` ADD COLUMN `options` text CHARACTER SET utf8mb4 COLLATE ut
 
 ALTER TABLE `article` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `options`;
 
-ALTER TABLE `article` ADD INDEX `flag`(`flag`) USING BTREE;
+ALTER TABLE `article` ADD flag`(`flag`) USING BTREE;
 
-ALTER TABLE `article` ADD INDEX `site_id`(`site_id`) USING BTREE;
+ALTER TABLE `article` ADD site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `article_category` ROW_FORMAT = Dynamic;
 
@@ -320,7 +320,7 @@ ALTER TABLE `article_category` ADD COLUMN `thumbnail` varchar(512) CHARACTER SET
 
 ALTER TABLE `article_category` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `modified`;
 
-ALTER TABLE `article_category` ADD INDEX `site_id`(`site_id`) USING BTREE;
+ALTER TABLE `article_category` ADD site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `article_category_mapping` ROW_FORMAT = Dynamic;
 
@@ -328,7 +328,7 @@ ALTER TABLE `article_comment` ROW_FORMAT = Dynamic;
 
 ALTER TABLE `article_comment` ADD COLUMN `site_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '站点ID' AFTER `created`;
 
-ALTER TABLE `article_comment` ADD INDEX `site_id`(`site_id`) USING BTREE;
+ALTER TABLE `article_comment` ADD site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `attachment` ROW_FORMAT = Dynamic;
 
@@ -498,9 +498,12 @@ ALTER TABLE `wechat_menu` ADD INDEX `site_id`(`site_id`) USING BTREE;
 
 ALTER TABLE `wechat_reply` ROW_FORMAT = Dynamic;
 
+ALTER TABLE `wechat_reply` DROP INDEX `keyword`;
+
 ALTER TABLE `wechat_reply` ADD COLUMN `site_id` int(11) NULL DEFAULT NULL COMMENT '站点ID' AFTER `modified`;
 
-ALTER TABLE `wechat_reply` ADD INDEX `site_id`(`site_id`) USING BTREE;
+ALTER TABLE `wechat_reply` ADD UNIQUE INDEX `keyword` (`keyword`,`site_id`) USING BTREE;
+
 
 /*table update end*/
 

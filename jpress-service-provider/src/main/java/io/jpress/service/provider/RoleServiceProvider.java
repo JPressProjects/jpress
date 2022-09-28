@@ -30,7 +30,6 @@ import io.jpress.model.Role;
 import io.jpress.service.PermissionService;
 import io.jpress.service.RoleService;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -307,38 +306,6 @@ public class RoleServiceProvider extends JPressServiceBase<Role> implements Role
             return true;
         });
     }
-
-
-    /**
-     * 查询全部 并且确定是否与站点有关联
-     *
-     * @param siteId
-     * @return java.util.List<io.jpress.model.Role>
-     */
-
-//    @Override
-//    public List<Role> findListBySiteId(@NotNull Long siteId) {
-//
-//        //所有Role
-//        List<Role> roleList = DAO.findAll();
-//        //中间表信息
-//        String sql = "select * from site_role_mapping where site_id = ?";
-//        List<Record> recordList = Db.find(sql, siteId);
-//
-//        //做出对比
-//        if(!roleList.isEmpty() && !recordList.isEmpty()){
-//            for (Role role : roleList) {
-//                for (Record record : recordList) {
-//                    if(role.getId().equals(record.getLong("role_id"))){
-//                        role.put("isSelected",true);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return roleList;
-//    }
 
 
 

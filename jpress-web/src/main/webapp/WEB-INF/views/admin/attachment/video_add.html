@@ -68,6 +68,10 @@
             $("#live").hide();
             $("#code").show()
 
+        }else{
+            $("#videos").show();
+            $("#live").hide();
+            $("#code").hide()
         }
     }
 
@@ -141,6 +145,12 @@
             $("#createLiveQCloud").hide()
             $("#localLiveHide").hide();//云类型是本地视频时，隐藏选择直播按钮
 
+        }else{
+            $("#livePlayer").show();
+            $("#id_test_qcloud_live").hide();
+
+            $("#createLive").show();
+            $("#createLiveQCloud").hide();
         }
 
 
@@ -158,6 +168,10 @@
             $("#aliyunPlayerContainer").hide();
             $("#qcloudPlayerContainer").hide();
             $("#localPlayerContainer").show();
+        }else{
+            $("#aliyunPlayerContainer").show();
+            $("#qcloudPlayerContainer").hide();
+            $("#localPlayerContainer").hide();
         }
 
     }

@@ -88,7 +88,7 @@
         if(cloudType == '1' && container == '1' ){
 
             $("#livePlayer").show();
-            $("#id_test_qcloud_live").hide();
+            $("#id_qcloud_live").hide();
 
             $("#createLive").show();
             $("#createLiveQCloud").hide();
@@ -96,7 +96,7 @@
         }else if(cloudType == '2' && container == '2'){
 
             $("#livePlayer").hide();
-            $("#id_test_qcloud_live").show();
+            $("#id_qcloud_live").show();
 
             $("#createLive").hide();
             $("#createLiveQCloud").show();
@@ -105,7 +105,7 @@
         else if(cloudType == '1' && container == '2' ){
 
             $("#livePlayer").hide();
-            $("#id_test_qcloud_live").show();
+            $("#id_qcloud_live").show();
 
             $("#createLive").show();
             $("#createLiveQCloud").hide();
@@ -113,7 +113,7 @@
         }else if(cloudType == '2' && container == '1'){
 
             $("#livePlayer").show();
-            $("#id_test_qcloud_live").hide();
+            $("#id_qcloud_live").hide();
 
             $("#createLive").hide();
             $("#createLiveQCloud").show();
@@ -121,7 +121,7 @@
         }
 
         else if(cloudType == '4' && container == '1'){
-            $("#id_test_qcloud_live").hide();
+            $("#id_qcloud_live").hide();
 
             $("#createLive").hide();
             $("#createLiveQCloud").hide()
@@ -139,7 +139,7 @@
             $("#live").hide();
 
             $("#livePlayer").hide();
-            $("#id_test_qcloud_live").hide();
+            $("#id_qcloud_live").hide();
 
             $("#createLive").hide();
             $("#createLiveQCloud").hide()
@@ -147,7 +147,7 @@
 
         }else{
             $("#livePlayer").show();
-            $("#id_test_qcloud_live").hide();
+            $("#id_qcloud_live").hide();
 
             $("#createLive").show();
             $("#createLiveQCloud").hide();
@@ -571,8 +571,6 @@
     //播放地址
     var playUrl = $('#contentLivePlayUrl').val();
     var playUrlFlv = $('#contentLivePlayFlvUrl').val();
-    console.log("直播："+playUrl)
-    console.log("直播："+playUrlFlv)
 
     $('#createLiveQCloud').on('click', function () {
 
@@ -592,8 +590,8 @@
             playUrlFlv = $('#contentLivePlayFlvUrl').val()
 
             //清除初始化的播放器
-            $('#id_test_qcloud_live').html("");
-            playerLive = new TcPlayer('id_test_qcloud_live', {
+            $('#id_qcloud_live').html("");
+            var playerLive = new TcPlayer('id_qcloud_live', {
                 "m3u8": playUrl,
                 "flv": playUrlFlv, //增加了一个 flv 的播放地址，用于PC平台的播放 请替换成实际可用的播放地址
                 "autoplay": false,      //iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
@@ -604,15 +602,6 @@
         });
 
 
-    });
-
-    //初始化播放器
-    var playerLive = new TcPlayer('id_test_qcloud_live', {
-        "m3u8": playUrl,
-        "flv": playUrlFlv, //增加了一个 flv 的播放地址，用于PC平台的播放
-        "autoplay": false,      //iOS 下 safari 浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
-        "width": '700',//视频的显示宽度，请尽量使用视频分辨率宽度
-        "height": '350'//视频的显示高度，请尽量使用视频分辨率高度
     });
 
 
@@ -900,7 +889,7 @@
                                     <label class="col-sm-2 col-form-label"> 直播 / 回放</label>
                                     <div class="col-sm-6">
                                         <div class=" pr-0 bg-gray" id="livePlayer" style="height: 350px;"> 阿里云</div>
-                                        <div id="id_test_qcloud_live"  style="width:700px; height:350px;"> 腾讯云</div>
+                                        <div id="id_qcloud_live"  style="width:700px; height:350px;"> 腾讯云</div>
                                     </div>
                                 </div>
 

@@ -31,14 +31,21 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class JPressRenderFactory extends JbootRenderFactory {
 
+
+    @Override
+    public Render getRedirectRender(String url) {
+        return new JPressRedirectRender(url);
+    }
+
+    @Override
+    public Render getRedirectRender(String url, boolean withQueryString) {
+        return new JPressRedirectRender(url, withQueryString);
+    }
+
     @Override
     public Render getErrorRender(int errorCode) {
         if (JPressHandler.getCurrentTarget() != null && JPressHandler.getCurrentTarget().startsWith("/admin/")) {
-            if (errorCode == 404) {
-                return getErrorRender(errorCode, "/WEB-INF/views/admin/error/404.html");
-            } else {
-                return getErrorRender(errorCode, "/WEB-INF/views/admin/error/500.html");
-            }
+            return getDefaultErrorRender(errorCode);
         }
         return getTemplateRender(errorCode);
     }
@@ -47,7 +54,7 @@ public class JPressRenderFactory extends JbootRenderFactory {
     private Render getTemplateRender(int errorCode) {
         Template template = TemplateManager.me().getCurrentTemplate();
         if (template == null) {
-            return super.getErrorRender(errorCode);
+            return getDefaultErrorRender(errorCode);
         }
 
         String errorView = "error_" + errorCode + ".html";
@@ -56,9 +63,18 @@ public class JPressRenderFactory extends JbootRenderFactory {
         boolean withMobile = currentRequest != null && RequestUtil.isMobileBrowser(currentRequest);
         String view = template.matchView(errorView, withMobile);
 
-        return view == null ? super.getErrorRender(errorCode) :
+        return view == null ? getDefaultErrorRender(errorCode) :
                 (currentRequest == null ? new GlobalErrorRender(template.buildRelativePath(view), errorCode)
                         : new TemplateRender(template.buildRelativePath(view), errorCode));
+    }
+
+
+    private Render getDefaultErrorRender(int errorCode){
+        if (errorCode == 404) {
+            return getErrorRender(errorCode, "/WEB-INF/views/commons/error/404.html");
+        } else {
+            return getErrorRender(errorCode, "/WEB-INF/views/commons/error/500.html");
+        }
     }
 
 

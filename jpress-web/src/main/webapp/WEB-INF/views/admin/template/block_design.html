@@ -220,7 +220,7 @@
 
         $('.update').on('click', function () {
             var datas = $('#builder').bsFormBuilder().data("bsFormBuilder").exportToJson();
-            ajaxPost('#(CPATH)/admin/template/block/save', datas, function () {
+            jsonPost('#(CPATH)/admin/template/block/save', datas, function () {
                 showMessage("保存成功！")
             })
         });

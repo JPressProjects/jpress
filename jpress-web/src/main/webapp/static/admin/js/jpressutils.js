@@ -129,6 +129,7 @@ function ajaxGet(url, okFunction, failFunction) {
 
 }
 
+
 /**
  * 进行 ajax 请求
  * @param url
@@ -137,6 +138,41 @@ function ajaxGet(url, okFunction, failFunction) {
  * @param failFunction
  */
 function ajaxPost(url, data, okFunction, failFunction) {
+
+    if (url == null || "" == url) {
+        alert("url 不能为空 ");
+        return
+    }
+
+    okFunction = okFunction || function (result) {
+        location.reload();
+    };
+
+    failFunction = failFunction || function (result) {
+        toastr.error(result.message, '操作失败');
+    };
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        success: function (result) {
+            if (result.state == 'ok') {
+                okFunction(result);
+            } else {
+                failFunction(result);
+            }
+        },
+        error: function (arg1) {
+            showErrorMessage("系统发生错误...");
+        }
+    });
+}
+
+
+function jsonPost(url, data, okFunction, failFunction) {
+
     if (url == null || "" == url) {
         alert("url 不能为空 ");
         return

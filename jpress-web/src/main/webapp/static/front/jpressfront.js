@@ -192,6 +192,7 @@ function ajaxGet(url, okFunction, failFunction) {
  * @param failFunction
  */
 function ajaxPost(url, data, okFunction, failFunction) {
+
     if (url == null || "" == url) {
         alert("url 不能为空 ");
         return
@@ -209,7 +210,7 @@ function ajaxPost(url, data, okFunction, failFunction) {
         url: url,
         type: 'POST',
         data: data,
-        dataType: 'json',
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: function (result) {
             if (result.state == 'ok') {
                 okFunction(result);
@@ -222,6 +223,42 @@ function ajaxPost(url, data, okFunction, failFunction) {
         }
     });
 }
+
+
+function jsonPost(url, data, okFunction, failFunction) {
+
+    if (url == null || "" == url) {
+        alert("url 不能为空 ");
+        return
+    }
+
+    okFunction = okFunction || function (result) {
+        location.reload();
+    };
+
+    failFunction = failFunction || function (result) {
+        toastr.error(result.message, '操作失败');
+    };
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: typeof data === "string" ? data : JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
+            if (result.state == 'ok') {
+                okFunction(result);
+            } else {
+                failFunction(result);
+            }
+        },
+        error: function (arg1) {
+            showErrorMessage("系统发生错误...");
+        }
+    });
+}
+
+
 
 /**
  * 对某个 form 进行 ajax 提交

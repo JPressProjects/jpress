@@ -161,7 +161,8 @@ public class ArticleCategoryServiceProvider extends JPressServiceBase<ArticleCat
                 articleCategory.setTitle(tag);
                 articleCategory.setSlug(slug);
                 articleCategory.setType(ArticleCategory.TYPE_TAG);
-                articleCategory.save();
+
+                save(articleCategory);
 
                 needClearCache = true;
             }

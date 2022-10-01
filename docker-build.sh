@@ -12,7 +12,7 @@ fi
 mvn clean package
 
 echo "exec : docker build . -t fuhai/jpress:"${version}
-docker build . -t fuhai/jpress:${version}
+docker build . -t fuhai/jpress:${version} -f ./Dockerfile.build
 
 
 echo "exec : docker push fuhai/jpress:"${version}

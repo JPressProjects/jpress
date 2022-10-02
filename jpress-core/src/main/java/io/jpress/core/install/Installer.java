@@ -16,6 +16,7 @@
 package io.jpress.core.install;
 
 import com.jfinal.kit.PathKit;
+import io.jboot.Jboot;
 import io.jboot.components.event.JbootEvent;
 import io.jboot.components.event.JbootEventListener;
 import io.jboot.components.event.JbootEventManager;
@@ -34,19 +35,25 @@ public class Installer {
 
     public static boolean isInstalled() {
         if (installed == null) {
-            init();
+            installed = checkInstallLockFile();
         }
         return installed;
     }
 
-    private static void init() {
+    private static boolean checkInstallLockFile() {
+        //方便 docker、k8s 等直接通过启动参数配置不让其进行安装
+        String installedString = Jboot.configValue("jpress.installed", "false");
+        if ("true".equalsIgnoreCase(installedString)) {
+            return true;
+        }
+
         File lockFile = new File(PathKit.getRootClassPath(), "install.lock");
         boolean lockFileOk = lockFile.exists() && lockFile.isFile();
 
         File propertieFile = new File(PathKit.getRootClassPath(), "jboot.properties");
         boolean propertieFileOk = propertieFile.exists() && propertieFile.isFile();
 
-        installed = lockFileOk && propertieFileOk;
+        return lockFileOk && propertieFileOk;
     }
 
     public static void setInstalled(boolean installed) {

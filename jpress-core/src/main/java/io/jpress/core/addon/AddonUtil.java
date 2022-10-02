@@ -123,14 +123,16 @@ public class AddonUtil {
                 try {
                     ZipEntry zipEntry = (ZipEntry) entryEnum.nextElement();
                     if (!zipEntry.isDirectory() && isResource(zipEntry.getName())) {
+
                         File targetFile = new File(basePath, zipEntry.getName());
-                 if (!targetFile.toPath().normalize().startsWith(basePath)) {
-              throw new IOException("Bad zip entry");
-                 }
-                        if (!targetFile.getParentFile().exists()) {
-                            targetFile.getParentFile().mkdirs();
+
+                        if (!targetFile.toPath().normalize().startsWith(basePath)) {
+                            throw new IOException("Bad zip entry");
                         }
-                        if (targetFile.exists()){
+
+                        FileUtil.ensuresParentExists(targetFile);
+
+                        if (targetFile.exists()) {
                             forceDelete(targetFile);
                         }
                         os = new BufferedOutputStream(new FileOutputStream(targetFile));

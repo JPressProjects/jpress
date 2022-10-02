@@ -253,18 +253,11 @@ public class TemplateUtil {
 
                         File targetFile = new File(targetPath, zipEntry.getName());
 
-                 if (!targetFile.toPath().normalize().startsWith(targetPath)) {
-              throw new IOException("Bad zip entry");
-                 }
-                        if (!FileUtil.getCanonicalPath(targetFile).startsWith(targetPath)) {
-                            //Unsafe
-                            continue;
+                        if (!targetFile.toPath().normalize().startsWith(targetPath)) {
+                            throw new IOException("Bad zip entry");
                         }
 
-                        if (!targetFile.getParentFile().exists() && !targetFile.getParentFile().mkdirs()) {
-                            LogKit.error("Can not mkdirs by: " + targetFile.getParentFile());
-                            continue;
-                        }
+                        FileUtil.ensuresParentExists(targetFile);
 
                         os = new BufferedOutputStream(new FileOutputStream(targetFile));
                         is = zipFile.getInputStream(zipEntry);

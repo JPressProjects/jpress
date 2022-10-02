@@ -251,7 +251,11 @@ public class TemplateUtil {
                             continue;
                         }
 
-                        File targetFile = new File(targetPath + File.separator + zipEntry.getName());
+                        File targetFile = new File(targetPath, zipEntry.getName());
+
+                 if (!targetFile.toPath().normalize().startsWith(targetPath)) {
+              throw new IOException("Bad zip entry");
+                 }
                         if (!FileUtil.getCanonicalPath(targetFile).startsWith(targetPath)) {
                             //Unsafe
                             continue;

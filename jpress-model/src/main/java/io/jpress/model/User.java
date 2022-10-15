@@ -84,6 +84,13 @@ public class User extends BaseUser<User> {
                 (StrUtil.isNotBlank(avatar) ? avatar : DEFAULT_AVATAR);
     }
 
+
+    public String getShowName() {
+        String nickname = getNickname();
+        return StrUtil.isNotBlank(nickname) ? nickname : getUsername();
+    }
+
+
     public String getOriginalAvatar() {
         return super.getAvatar();
     }

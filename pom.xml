@@ -42,7 +42,7 @@
         <commonmark.version>0.17.0</commonmark.version>
         <aliyunoss.version>3.15.0</aliyunoss.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <jackson.version>2.13.3</jackson.version>
+        <jackson.version>2.13.4</jackson.version>
         <guava.version>31.1-jre</guava.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-logging.version>1.2</commons-logging.version>

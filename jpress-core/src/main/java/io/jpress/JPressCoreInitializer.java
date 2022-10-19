@@ -20,6 +20,8 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.Routes;
 import com.jfinal.template.Engine;
 import io.jboot.aop.jfinal.JfinalHandlers;
+import io.jboot.components.cache.JbootCache;
+import io.jboot.components.cache.JbootCacheManager;
 import io.jboot.components.cache.support.JbootCaptchaCache;
 import io.jboot.core.listener.JbootAppListenerBase;
 import io.jboot.core.weight.Weight;
@@ -57,6 +59,10 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
     public void onConstantConfig(Constants constants) {
         constants.setRenderFactory(new JPressRenderFactory());
         constants.setCaptchaCache(new JbootCaptchaCache());
+
+        JbootCache cache = JbootCacheManager.me().getCache();
+        cache.addThreadCacheNamePrefixIngores("user_sessions","user_permission","user_role","useropenid","site_info");
+
     }
 
     @Override

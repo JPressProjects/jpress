@@ -57,11 +57,11 @@ public class SiteContext {
             JbootCache cache = JbootCacheManager.me().getCache();
             try {
                 setSiteId(siteId);
-                cache.setCurrentCacheNamePrefix("site" + siteId + ":");
+                cache.setThreadCacheNamePrefix("site" + siteId + ":");
                 callable.call();
             } finally {
                 setSiteId(currentSiteId);
-                cache.setCurrentCacheNamePrefix("site" + currentSiteId + ":");
+                cache.setThreadCacheNamePrefix("site" + currentSiteId + ":");
             }
         }
     }
@@ -74,11 +74,11 @@ public class SiteContext {
             JbootCache cache = JbootCacheManager.me().getCache();
             try {
                 setSiteId(siteId);
-                cache.setCurrentCacheNamePrefix("site" + siteId + ":");
+                cache.setThreadCacheNamePrefix("site" + siteId + ":");
                 return callable.call();
             } finally {
                 setSiteId(currentSiteId);
-                cache.setCurrentCacheNamePrefix("site" + currentSiteId + ":");
+                cache.setThreadCacheNamePrefix("site" + currentSiteId + ":");
             }
         }
     }

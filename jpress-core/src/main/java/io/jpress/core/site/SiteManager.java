@@ -115,7 +115,7 @@ public class SiteManager implements JbootEventListener {
             //开始 域名匹配
             if (!isIgnoreDomain) {
                 for (SiteInfo site : allSites) {
-                    if (requestDomain.equals(site.getBindDomain())) {
+                    if (StrUtil.isNotBlank(site.getBindDomain()) && requestDomain.equals(site.getBindDomain())) {
                         matchedSites.add(site);
                     }
                 }
@@ -124,7 +124,7 @@ public class SiteManager implements JbootEventListener {
             //若域名匹配不到，则开始 二级目录匹配
             if (matchedSites.isEmpty()) {
                 for (SiteInfo site : allSites) {
-                    if (target.startsWith(site.getBindPath())) {
+                    if (StrUtil.isNotBlank(site.getBindPath()) && target.startsWith(site.getBindPath())) {
                         return site;
                     }
                 }
@@ -132,7 +132,7 @@ public class SiteManager implements JbootEventListener {
             //若域名匹配到了，则再次对已经匹配到的进行目录匹配
             else {
                 for (SiteInfo matchedSite : matchedSites) {
-                    if (target.startsWith(matchedSite.getBindPath())) {
+                    if (StrUtil.isNotBlank(matchedSite.getBindPath()) && target.startsWith(matchedSite.getBindPath())) {
                         return matchedSite;
                     }
                 }

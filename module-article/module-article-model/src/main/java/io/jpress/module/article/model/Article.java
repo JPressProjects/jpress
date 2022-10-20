@@ -216,15 +216,15 @@ public class Article extends BaseArticle<Article> {
 
     @Override
     public boolean save() {
-        CommonsUtils.escapeModel(this, "content", "summary");
-        JsoupUtils.clean(this, "content", "summary");
+        CommonsUtils.escapeModel(this, "content", "summary", "link_to");
+        JsoupUtils.clean(this, "content", "summary", "link_to");
         return super.save();
     }
 
     @Override
     public boolean update() {
-        CommonsUtils.escapeModel(this, "content", "summary");
-        JsoupUtils.clean(this, "content", "summary");
+        CommonsUtils.escapeModel(this, "content", "summary", "link_to");
+        JsoupUtils.clean(this, "content", "summary", "link_to");
         return super.update();
     }
 

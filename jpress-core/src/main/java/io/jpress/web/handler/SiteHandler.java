@@ -51,10 +51,10 @@ public class SiteHandler extends Handler {
         //设置缓存前缀
         JbootCache cache = JbootCacheManager.me().getCache();
         try {
-            cache.setCurrentCacheNamePrefix("site" + SiteContext.getSiteId() + ":");
+            cache.setThreadCacheNamePrefix("site" + SiteContext.getSiteId() + ":");
             next.handle(target, request, response, isHandled);
         } finally {
-            cache.removeCurrentCacheNamePrefix();
+            cache.clearThreadCacheNamePrefix();
             SiteContext.removeSiteId();
         }
     }

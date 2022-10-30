@@ -21,7 +21,7 @@ public class JPressServiceBase<M extends JbootModel<M>> extends JbootServiceBase
             Class<M> modelClass = (Class<M>) ((ParameterizedType) type).getActualTypeArguments()[0];
             Table table = TableMapping.me().getTable(modelClass);
             if (table != null && table.hasColumnLabel("site_id")) {
-                return ModelProxy.get(modelClass);
+                return SiteModelProxy.get(modelClass);
             }
             return ClassUtil.newInstance(modelClass, false);
         }

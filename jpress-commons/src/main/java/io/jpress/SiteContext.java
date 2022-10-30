@@ -8,6 +8,8 @@ import io.jboot.components.cache.JbootCacheManager;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.JbootControllerContext;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class SiteContext {
 
     private static ThreadLocal<Long> TL = new ThreadLocal<>();
@@ -36,8 +38,22 @@ public class SiteContext {
             return "";
         }
 
+        String domain = site.getStr("bind_domain");
+        if (StrUtil.isNotBlank(domain)) {
+            HttpServletRequest request = controller.getRequest();
+            domain = request.getScheme() + "://" + domain.trim();
+        } else {
+            domain = "";
+        }
+
         String path = site.getStr("bind_path");
-        return StrUtil.isNotBlank(path) ? path : "";
+        if (path != null) {
+            path = path.trim();
+        } else {
+            path = "";
+        }
+
+        return domain + path;
     }
 
 

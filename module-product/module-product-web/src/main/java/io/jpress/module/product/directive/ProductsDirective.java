@@ -20,8 +20,10 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.commons.service.SiteModelProxy;
 import io.jpress.module.product.model.Product;
 import io.jpress.module.product.service.ProductService;
 
@@ -47,6 +49,10 @@ public class ProductsDirective extends JbootDirectiveBase {
         String orderBy = getPara("orderBy", scope, "id desc");
         int count = getParaToInt("count", scope, 10);
 
+        //查询哪些站点，传入 * 或者 all，查询所有站点
+        //或者传入站点的id，多个id用英文逗号隔开
+        String withSite = getParaToString("withSite", scope);
+
 
         Columns columns = Columns.create("flag", flag);
         columns.eq("style", style);
@@ -61,7 +67,30 @@ public class ProductsDirective extends JbootDirectiveBase {
             }
         }
 
-        List<Product> products = service.findListByColumns(columns, orderBy, count);
+        List<Product> products = null;
+        if (StrUtil.isNotBlank(withSite)) {
+            withSite = withSite.trim().toLowerCase();
+            if (withSite.equals("*") || withSite.equals("all")) {
+                try {
+                    SiteModelProxy.setUserAllSite();
+                    products = service.findListByColumns(columns, orderBy, count);
+                } finally {
+                    SiteModelProxy.clearSiteIds();
+                }
+            } else {
+                long[] siteIds = StrUtil.splitToSet(withSite, ",").stream()
+                        .mapToLong(Long::parseLong).toArray();
+                try {
+                    SiteModelProxy.setUseSites(siteIds);
+                    products = service.findListByColumns(columns, orderBy, count);
+                } finally {
+                    SiteModelProxy.clearSiteIds();
+                }
+            }
+        } else {
+            products = service.findListByColumns(columns, orderBy, count);
+        }
+
 
         if (products == null || products.isEmpty()) {
             return;

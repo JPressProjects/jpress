@@ -25,6 +25,7 @@ public class SiteHandler extends Handler {
         SiteInfo siteInfo = SiteManager.me().matchSite(target, request, response);
         if (siteInfo != null) {
 
+            //非后台路径，如果通过语言等匹配到了站点，跳转到相应站点
             if (!target.startsWith("/admin") && !siteInfo.isSiteAction(target, request)) {
                 HandlerKit.redirect(siteInfo.getUrl(request.getScheme()), request, response, isHandled);
                 return;

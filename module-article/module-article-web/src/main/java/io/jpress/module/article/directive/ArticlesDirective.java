@@ -20,8 +20,10 @@ import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
 import io.jboot.db.model.Columns;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.commons.service.SiteModelProxy;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.service.ArticleService;
 
@@ -51,6 +53,10 @@ public class ArticlesDirective extends JbootDirectiveBase {
         Boolean withHot = getParaToBool("withHot", scope);
         Boolean withLeadNews = getParaToBool("withLeadNews", scope);
 
+        //查询哪些站点，传入 * 或者 all，查询所有站点
+        //或者传入站点的id，多个id用英文逗号隔开
+        String withSite = getParaToString("withSite", scope);
+
         Columns columns = Columns.create();
 
         columns.eq("flag", flag);
@@ -69,7 +75,31 @@ public class ArticlesDirective extends JbootDirectiveBase {
             }
         }
 
-        List<Article> articles = service.findListByColumns(columns, orderBy, count);
+
+        List<Article> articles = null;
+        if (StrUtil.isNotBlank(withSite)) {
+            withSite = withSite.trim().toLowerCase();
+            if (withSite.equals("*") || withSite.equals("all")) {
+                try {
+                    SiteModelProxy.setUserAllSite();
+                    articles = service.findListByColumns(columns, orderBy, count);
+                } finally {
+                    SiteModelProxy.clearSiteIds();
+                }
+            } else {
+                long[] siteIds = StrUtil.splitToSet(withSite, ",").stream()
+                        .mapToLong(Long::parseLong).toArray();
+                try {
+                    SiteModelProxy.setUseSites(siteIds);
+                    articles = service.findListByColumns(columns, orderBy, count);
+                } finally {
+                    SiteModelProxy.clearSiteIds();
+                }
+            }
+        } else {
+            articles = service.findListByColumns(columns, orderBy, count);
+        }
+
 
         if (articles == null || articles.isEmpty()) {
             return;

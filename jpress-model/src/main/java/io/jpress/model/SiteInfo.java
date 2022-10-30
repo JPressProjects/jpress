@@ -49,6 +49,7 @@ public class SiteInfo extends BaseSiteInfo<SiteInfo> {
         return set;
     }
 
+
     public String getUrl() {
         String bindDomain = StrUtil.defaultIfBlank(getBindDomain(), "");
         if (StrUtil.isNotBlank(bindDomain)) {
@@ -59,6 +60,7 @@ public class SiteInfo extends BaseSiteInfo<SiteInfo> {
         return bindDomain + StrUtil.defaultIfBlank(getBindPath(), "");
     }
 
+
     public String getUrl(String scheme) {
         String bindDomain = StrUtil.defaultIfBlank(getBindDomain(), "");
         if (StrUtil.isNotBlank(bindDomain)) {
@@ -67,24 +69,48 @@ public class SiteInfo extends BaseSiteInfo<SiteInfo> {
         return bindDomain + StrUtil.defaultIfBlank(getBindPath(), "");
     }
 
+    /**
+     * 获取真实的域名，排除端口号
+     *
+     * @return
+     */
+    public String getRealDomain() {
+        String bindDomain = getBindDomain();
+        if (bindDomain != null) {
+            int indexOf = bindDomain.indexOf(":");
+            if (indexOf > 0) {
+                return bindDomain.substring(0, indexOf);
+            }
+        }
+        return bindDomain;
+    }
+
+
+    /**
+     * 判断当前的 target 路径，是否是当前站点的路径
+     *
+     * @param target
+     * @param request
+     * @return
+     */
     public boolean isSiteAction(String target, HttpServletRequest request) {
         String bindDomain = getBindDomain();
         String bindPath = getBindPath();
 
-        if (StrUtil.areNotEmpty(bindDomain,bindPath)){
-            if (bindDomain.equals(request.getServerName()) && target.startsWith(bindPath)){
+        if (StrUtil.areNotEmpty(bindDomain, bindPath)) {
+            if (getRealDomain().equals(request.getServerName()) && target.startsWith(bindPath)) {
                 return true;
             }
         }
 
-        if (StrUtil.isNotBlank(bindDomain) && StrUtil.isBlank(bindPath)){
-            if (bindDomain.equals(request.getServerName())){
+        if (StrUtil.isNotBlank(bindDomain) && StrUtil.isBlank(bindPath)) {
+            if (getRealDomain().equals(request.getServerName())) {
                 return true;
             }
         }
 
-        if (StrUtil.isNotBlank(bindPath) && StrUtil.isBlank(bindDomain)){
-            if (target.startsWith(bindPath)){
+        if (StrUtil.isNotBlank(bindPath) && StrUtil.isBlank(bindDomain)) {
+            if (target.startsWith(bindPath)) {
                 return true;
             }
         }

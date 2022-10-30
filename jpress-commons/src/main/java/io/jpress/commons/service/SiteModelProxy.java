@@ -27,9 +27,43 @@ import javassist.util.proxy.ProxyObject;
 
 import java.lang.reflect.Method;
 
-public class ModelProxy {
+public class SiteModelProxy {
 
-    public static <T> T get(Class<T> target) {
+    private static ThreadLocal<long[]> hintSiteIds = new ThreadLocal<>();
+
+    /**
+     * 忽略站点条件，查询所有站点
+     */
+    public static void setUserAllSite() {
+        hintSiteIds.set(new long[]{-1L});
+    }
+
+    /**
+     * 查找主站点
+     */
+    public static void setUseMainSite() {
+        hintSiteIds.set(new long[]{0L});
+    }
+
+
+    /**
+     * 查询指定站点
+     *
+     * @param siteIds
+     */
+    public static void setUseSites(long[] siteIds) {
+        hintSiteIds.set(siteIds);
+    }
+
+    /**
+     * 清除站点查询
+     */
+    public static void clearSiteIds() {
+        hintSiteIds.remove();
+    }
+
+
+    static <T> T get(Class<T> target) {
         javassist.util.proxy.ProxyFactory factory = new javassist.util.proxy.ProxyFactory();
         factory.setSuperclass(target);
         final Class<?> proxyClass = factory.createClass();
@@ -57,7 +91,17 @@ public class ModelProxy {
 
             if (processColumns.equals(originalMethod.getName())) {
                 Columns columns = (Columns) args[0];
-                columns.addToFirst(Column.create("site_id", SiteContext.getSiteId()));
+
+                long[] siteIds = hintSiteIds.get();
+                if (siteIds != null && siteIds.length > 0) {
+                    if (siteIds.length == 1 && siteIds[0] < 0) {
+                        //忽略站点条件，查询所有站点
+                    } else {
+                        columns.addToFirst(Column.create("site_id", siteIds, Column.LOGIC_IN));
+                    }
+                } else {
+                    columns.addToFirst(Column.create("site_id", SiteContext.getSiteId()));
+                }
             }
 
             //copy

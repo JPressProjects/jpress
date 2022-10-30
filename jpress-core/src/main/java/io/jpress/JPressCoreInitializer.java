@@ -61,7 +61,8 @@ public class JPressCoreInitializer extends JbootAppListenerBase {
         constants.setCaptchaCache(new JbootCaptchaCache());
 
         JbootCache cache = JbootCacheManager.me().getCache();
-        cache.addThreadCacheNamePrefixIngores("user_sessions","user_permission","user_role","useropenid","site_info");
+        cache.addThreadCacheNamePrefixIngores("user_sessions", "user_permission", "user_role", "useropenid", "site_info"
+                , "jboot_captchas", "jboot_tokens", "wechat_access_tokens");
 
     }
 

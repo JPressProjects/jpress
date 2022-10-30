@@ -1,9 +1,15 @@
 #include("./layout.html")
 #@layout()
+
+#define css()
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
+#end
+
+
 #define content()
 <div class="container bl-container">
     <h2 class="bl-title-center">#(page.title ??)</h2>
-    <div class="bl-artical">
+    <div class="bl-article ck-content">
         #(page.content ??)
     </div>
 </div>

@@ -3,6 +3,7 @@
 
 #define css()
 <link href="highlight/styles/railscasts.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
 #end
 
 #define script()
@@ -14,15 +15,15 @@
 #end
 
 #define content()
-<div class="container ll-cantainer">
-    <div class="ll-artical-content">
-        <h2 class="ll-artical-title">#(article.title ??)</h2>
+<div class="container ll-container">
+    <div class="ll-article-content">
+        <h2 class="ll-article-title">#(article.title ??)</h2>
         <div class="ll-card-tag">
             <div><i class="fa fa-clock-o"></i>#date(article.created)</div>
             <div><i class="fa fa-eye"></i> #(article.view_count ?? 0)</div>
             <div><i class="fa fa-commenting-o"></i> #(article.comment_count ?? 0)</div>
         </div>
-        <div class="ll-artical">
+        <div class="ll-article ck-content">
             #(article.content ??)
         </div>
 

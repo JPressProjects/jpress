@@ -74,7 +74,7 @@ a:hover{
 .bl-md-size{
     font-size:16px;
 }
-/*artical list*/
+/*article list*/
 .bl-card-content{
     position: relative;
 }
@@ -635,63 +635,63 @@ a.nav-prand:hover{
         color: rgba(255,255,255,.5);
     }
 }
-/*artical*/
-.bl-artical-title{
+/*article*/
+.bl-article-title{
     margin: 3rem 0 0 0;
     font-size: 1.2rem;
     font-weight: 400;
     color: #27282d;
     line-height: 1.4em;
 }
-.artical-label-item{
+.article-label-item{
     color:#999;
     margin-right:20px;
     margin-top:10px;
     font-weight: 300;
     margin-left:5px;
 }
-.bl-artical-label{
+.bl-article-label{
     display: flex;
 }
-.bl-artical h1,.bl-artical h2,.bl-artical h3,.bl-artical h4,.bl-artical h5{
+.bl-article h1,.bl-article h2,.bl-article h3,.bl-article h4,.bl-article h5{
     padding:1.5rem 0 0.5rem 0;
 }
-.bl-artical h1{
+.bl-article h1{
     font-size:1.6rem;
     color:#c7254e;
 }
-.bl-artical h2{
+.bl-article h2{
     font-size:1.4rem;
 }
-.bl-artical h3{
+.bl-article h3{
     font-size:1.2rem;
 }
-.bl-artical h4{
+.bl-article h4{
     font-size:1rem;
 }
-.bl-artical h5{
+.bl-article h5{
     font-size:1rem;
 }
-.bl-artical{
+.bl-article{
     padding:2.5rem 0 2.5rem 0;
 }
-.bl-artical blockquote{
+.bl-article blockquote{
     padding:1rem 1rem 1rem 2rem;
     border-left:4px solid #dfdfdf;
     background-color: #f3f3f3;
     /*font-style: italic;*/
     font-weight: bold;
 }
-.bl-artical blockquote span{
+.bl-article blockquote span{
     font-size:36px
 }
-.bl-artical img{
+.bl-article img{
     vertical-align: middle;
     width: 100%;
     max-width: 100%;
     height: auto;
 }
-.bl-artical p{
+.bl-article p{
     padding: 0.5rem 0 0.5rem 0;
     line-height: 1.4rem;
     font-weight: 300;
@@ -842,7 +842,7 @@ a.nav-prand:hover{
     background-color:#ff6b6b;
     margin-right:5px;
 }
-.job-title-group .cl-artical-title{
+.job-title-group .cl-article-title{
     padding:0;
     margin:0;
 }

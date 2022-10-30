@@ -3,6 +3,7 @@
 
 #define css()
 <link href="highlight/styles/railscasts.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
 #end
 #define script()
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
@@ -19,19 +20,19 @@
 <div class="container bl-container">
     <div class="row">
         <div class="col-md-9 col-sm-12">
-            <h3 class="bl-artical-title">
+            <h3 class="bl-article-title">
                 #(article.title ??)
             </h3>
 
-            <div class="bl-artical-label">
-                <div class="artical-label-item">
+            <div class="bl-article-label">
+                <div class="article-label-item">
                     <img src="#(article.user.avatar ??)" class="img-fluid rounded-circle bl-img-size" alt="">
                     <span class="text-surmary">#(article.user.nickname ??)</span>
                 </div>
 
-                <div class="artical-label-item">#date(article.created)</div>
+                <div class="article-label-item">#date(article.created)</div>
             </div>
-            <div class="bl-artical">
+            <div class="bl-article ck-content">
                 #(article.content ??)
             </div>
 

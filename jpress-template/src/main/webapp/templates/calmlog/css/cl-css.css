@@ -3,7 +3,7 @@ body {
     background-color: #f4f4f4;
 }
 
-.cl-cantainer {
+.cl-container {
     min-height: 80vh;
 }
 
@@ -142,7 +142,7 @@ a:hover {
     background-image: linear-gradient(-180deg, transparent, rgba(0, 0, 0, .65) 97%);
 }
 
-.cl-artical-content, .recommend-panel {
+.cl-article-content, .recommend-panel {
     background-color: #fff;
     padding: 0 20px 20px 20px;
 }
@@ -338,8 +338,8 @@ a.card-link:hover .cl-card-main-title {
     margin-bottom: 0.2rem;
 }
 
-/*artical*/
-.cl-artical-title {
+/*article*/
+.cl-article-title {
     padding: 20px 0 0 0;
     font-size: 1.2rem;
     font-weight: 400;
@@ -353,36 +353,36 @@ a.card-link:hover .cl-card-main-title {
     font-weight: 300;
 }
 
-.cl-artical h1, .cl-artical h2, .cl-artical h3, .cl-artical h4, .cl-artical h5 {
+.cl-article h1, .cl-article h2, .cl-article h3, .cl-article h4, .cl-article h5 {
     padding: 1.5rem 0 0.5rem 0;
 }
 
-.cl-artical h1 {
+.cl-article h1 {
     font-size: 1.4rem;
 }
 
-.cl-artical h2 {
+.cl-article h2 {
     font-size: 1.2rem;
 }
 
-.cl-artical h3 {
+.cl-article h3 {
     font-size: 1rem;
 }
 
-.cl-artical h4 {
+.cl-article h4 {
     font-size: 1rem;
 }
 
-.cl-artical h5 {
+.cl-article h5 {
     font-size: 1rem;
 }
 
-.cl-artical {
+.cl-article {
     padding: 2.5rem 0 0 0;
     color: #666;
 }
 
-.cl-artical blockquote {
+.cl-article blockquote {
     font-size: 18px;
     padding: 2rem 1rem 2rem 2rem;
     border-left: 4px solid #FF9400;
@@ -392,30 +392,30 @@ a.card-link:hover .cl-card-main-title {
     line-height: 1.8em;
 }
 
-.cl-artical blockquote:before {
+.cl-article blockquote:before {
     content: " “ ";
     font-size: 60px;
     vertical-align: bottom;
     color: #FF9400;
 }
 
-.cl-artical ul, .cl-artical ol, .cl-artical li {
+.cl-article ul, .cl-article ol, .cl-article li {
     font-size: 1rem;
     color: #27282d;
 }
 
-.cl-artical blockquote span {
+.cl-article blockquote span {
     font-size: 36px
 }
 
-.cl-artical img {
+.cl-article img {
     vertical-align: middle;
     width: 100%;
     max-width: 100%;
     height: auto;
 }
 
-.cl-artical p {
+.cl-article p {
     padding: 0.5rem 0;
     line-height: 1.8rem;
     font-size: 1rem;
@@ -742,7 +742,7 @@ a.card-link:hover .cl-card-main-title {
     background-color:#ff6b6b;
     margin-right:5px;
 }
-.job-title-group .cl-artical-title{
+.job-title-group .cl-article-title{
     padding:0;
     margin:0;
 }

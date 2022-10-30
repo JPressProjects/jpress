@@ -9,6 +9,7 @@
 
 #define css()
 <link href="#(CPATH)/static/components/swiper/swiper.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
 #end
 
 
@@ -19,7 +20,7 @@
 
             #@defaultProductHeader()
 
-            <div class="bl-artical">
+            <div class="bl-article ck-content">
                 #(product.content ??)
             </div>
 

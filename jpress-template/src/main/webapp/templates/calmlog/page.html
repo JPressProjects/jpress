@@ -5,15 +5,19 @@
 <script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
 #end
 
+#define css()
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
+#end
+
 #define content()
 <div class="col-md-12 cl-left">
 
-    <div class="cl-artical-content">
-        <h2 class="cl-artical-title">#(page.title)</h2>
+    <div class="cl-article-content">
+        <h2 class="cl-article-title">#(page.title)</h2>
         <div class="cl-card-tag">
             <div><span>#(page.view_count)</span>人浏览</div>
         </div>
-        <div class="cl-artical">
+        <div class="cl-article ck-content">
             #(page.content)
         </div>
     </div>

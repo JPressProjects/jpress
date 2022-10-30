@@ -1,5 +1,5 @@
 /*global*/
-.ll-cantainer{
+.ll-container{
     min-height: 80vh;
 }
 a{
@@ -256,45 +256,45 @@ body{
     line-height: 1rem;
     margin-bottom: 0.2rem;
 }
-/*artical*/
-.ll-artical-title{
+/*article*/
+.ll-article-title{
     margin:3rem 0 0.5rem 0;
     font-size: 1.4rem;
     color: #333;
     font-weight: 400;
     line-height: 1.4em;
 }
-.ll-artical h1,.ll-artical h2,.ll-artical h3,.ll-artical h4,.ll-artical h5{
+.ll-article h1,.ll-article h2,.ll-article h3,.ll-article h4,.ll-article h5{
     padding:1.5rem 0 0.5rem 0;
     font-weight: 600;
 }
-.ll-artical h1{
+.ll-article h1{
     font-size:1.6rem;
     color:#c7254e;
 }
-.ll-artical h2{
+.ll-article h2{
     font-size:1.4rem;
 }
-.ll-artical h3{
+.ll-article h3{
     font-size:1.2rem;
 }
-.ll-artical h4{
+.ll-article h4{
     font-size:1rem;
 }
-.ll-artical h5{
+.ll-article h5{
     font-size:0.8rem;
 }
-.ll-artical h6{
+.ll-article h6{
     font-size:0.8rem;
 }
-.ll-artical ul,.ll-artical ol,.ll-artical li{
+.ll-article ul,.ll-article ol,.ll-article li{
     font-size:1.2rem;
     color:#666;
 }
-.ll-artical{
+.ll-article{
     padding:2.5rem 0 0 0;
 }
-.ll-artical blockquote{
+.ll-article blockquote{
     font-size:1.2rem;
     padding:2rem 1rem 2rem 2rem;
     border-left:4px solid #3F6600;
@@ -303,24 +303,24 @@ body{
     font-weight: bold;
     line-height: 1.8em;
 }
-.ll-artical blockquote:before{
+.ll-article blockquote:before{
     content: " “ ";
     font-size:60px;
     vertical-align: bottom;
     color:#3F6600;
 }
 
-.ll-artical blockquote span{
+.ll-article blockquote span{
     font-size:36px
 }
 
-.ll-artical p img{
+.ll-article p img{
     vertical-align: middle;
     width: 100%;
     max-width: 100%;
     height: auto;
 }
-.ll-artical p{
+.ll-article p{
     padding: 0.5rem 0;
     line-height: 1.6rem;
     font-size: 1rem;
@@ -331,7 +331,7 @@ body{
 .ll-content-info{
     color:#999;
 }
-.ll-artical-content{
+.ll-article-content{
     margin-top: 40px;
 }
 .comment-page-title{
@@ -509,7 +509,7 @@ body{
     background-color:#ff6b6b;
     margin-right:5px;
 }
-.job-title-group .cl-artical-title{
+.job-title-group .cl-article-title{
     padding:0;
     margin:0;
 }

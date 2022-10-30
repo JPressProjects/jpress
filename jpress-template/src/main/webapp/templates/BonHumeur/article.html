@@ -16,6 +16,7 @@
 
 #define css()
 <link href="highlight/styles/railscasts.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
 #end
 
 
@@ -23,9 +24,9 @@
 <div class="container">
 
     #include("header.html")
-    <div class="bh-artical-content">
+    <div class="bh-article-content">
 
-        <h2 class="bh-artical-title">
+        <h2 class="bh-article-title">
             #(article.title ??)
         </h2>
         <div class="bh-card-tag">
@@ -33,7 +34,7 @@
             <div><i class="fa fa-eye"></i> #(article.view_count)</div>
             <div><i class="fa fa-commenting-o"></i> #(article.comment_count)</div>
         </div>
-        <div class="bh-artical">
+        <div class="bh-article ck-content">
             #(article.content ??)
         </div>
 

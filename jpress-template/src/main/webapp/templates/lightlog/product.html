@@ -9,15 +9,16 @@
 
 #define css()
 <link href="#(CPATH)/static/components/swiper/swiper.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
 #end
 
 #define content()
-<div class="container ll-cantainer">
-    <div class="ll-artical-content">
+<div class="container ll-container">
+    <div class="ll-article-content">
 
         #@defaultProductHeader()
 
-        <div class="ll-artical">
+        <div class="ll-article ck-content">
             #(product.content)
         </div>
 

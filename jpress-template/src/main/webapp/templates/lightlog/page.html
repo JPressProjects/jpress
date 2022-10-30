@@ -1,0 +1,33 @@
+#include("./layout.html")
+#@layout()
+
+#define css()
+<link href="highlight/styles/railscasts.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
+#end
+
+#define script()
+<script src="#(CPATH)/static/components/jquery/jquery.form.min.js"></script>
+<script src="highlight/highlight.pack.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+#end
+
+#define content()
+<div class="container ll-container">
+    <div class="ll-article-content">
+        <h2 class="ll-article-title">#(page.title ??)</h2>
+        <div class="ll-card-tag">
+            <div><i class="fa fa-clock-o"></i>#date(page.created)</div>
+            <div><i class="fa fa-eye"></i> #(page.view_count ?? 0)</div>
+            <div><i class="fa fa-commenting-o"></i> #(page.comment_count ?? 0)</div>
+        </div>
+        <div class="ll-article ck-content">
+            #(page.content ??)
+        </div>
+        
+
+    </div>
+</div>
+#end

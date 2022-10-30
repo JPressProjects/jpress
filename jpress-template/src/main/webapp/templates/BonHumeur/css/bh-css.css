@@ -178,52 +178,52 @@ a:hover{
 .bh-header a.active{
     color: #107AB1;
 }
-/*artical*/
+/*article*/
 .comment-page-title{
     font-size: 1rem;
 }
-.bh-artical-content{
+.bh-article-content{
     padding:0 60px;
 }
-.bh-artical-title{
+.bh-article-title{
     margin:3rem 0 1rem 0;
     font-size: 1.4rem;
     color: #27282d;
     font-weight: 400;
     line-height: 1.4em;
 }
-.bh-artical h1,.bh-artical h2,.bh-artical h3,.bh-artical h4,.bh-artical h5{
+.bh-article h1,.bh-article h2,.bh-article h3,.bh-article h4,.bh-article h5{
     padding:1.5rem 0 0.5rem 0;
     font-weight: 600;
 }
 
-.bh-artical h1{
+.bh-article h1{
     font-size:1.4rem;
     color:#c7254e;
 }
-.bh-artical h2{
+.bh-article h2{
     font-size:1.2rem;
 }
-.bh-artical h3{
+.bh-article h3{
     font-size:1rem;
 }
-.bh-artical h4{
+.bh-article h4{
     font-size:1rem;
 }
-.bh-artical h5{
+.bh-article h5{
     font-size:1rem;
 }
-.bh-artical h6{
+.bh-article h6{
     font-size:1rem;
 }
-.bh-artical ul,.bh-artical ol,.bh-artical li{
+.bh-article ul,.bh-article ol,.bh-article li{
     font-size:1.2rem;
     color:#666;
 }
-.bh-artical{
+.bh-article{
     padding:2.5rem 0 0 0;
 }
-.bh-artical blockquote{
+.bh-article blockquote{
     font-size:18px;
     padding:2rem 1rem 2rem 2rem;
     border-left:4px solid #107AB1;
@@ -232,23 +232,23 @@ a:hover{
     font-weight: bold;
     line-height: 1.8em;
 }
-.bh-artical blockquote:before{
+.bh-article blockquote:before{
     content: " “ ";
     font-size:60px;
     vertical-align: bottom;
     color:#107AB1;
 }
 
-.bh-artical blockquote span{
+.bh-article blockquote span{
     font-size:36px
 }
-.bh-artical p img{
+.bh-article p img{
     vertical-align: middle;
     width: 100%;
     max-width: 100%;
     height: auto;
 }
-.bh-artical p{
+.bh-article p{
     padding:0.5rem 0;
     line-height: 1.4rem;
     font-size: 1rem;
@@ -336,7 +336,7 @@ a:hover{
     .bh-content{
         height: auto;
     }
-    .bh-artical-content {
+    .bh-article-content {
         padding: 0 20px;
     }
 }
@@ -475,7 +475,7 @@ a:hover{
     background-color:#ff6b6b;
     margin-right:5px;
 }
-.job-title-group .cl-artical-title{
+.job-title-group .cl-article-title{
     padding:0;
     margin:0;
 }

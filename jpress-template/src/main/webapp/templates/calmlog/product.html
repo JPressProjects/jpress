@@ -9,6 +9,7 @@
 
 #define css()
 <link href="#(CPATH)/static/components/swiper/swiper.min.css" rel="stylesheet">
+<link href="#(CPATH)/static/components/ckeditor5/ck-content.css" rel="stylesheet">
 #end
 
 #define content()
@@ -22,9 +23,8 @@
 
 <!---->
 <div class="col-md-9 cl-left">
-    <div class="cl-artical-content">
-
-        <div class="cl-artical">
+    <div class="cl-article-content">
+        <div class="cl-article ck-content">
             #(product.content)
         </div>
     </div>

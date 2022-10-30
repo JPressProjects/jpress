@@ -72,6 +72,21 @@ public class SinglePage extends BaseSinglePage<SinglePage> {
         return cs != null && cs;
     }
 
+
+    /**
+     * 前台获取支持换行的title
+     * @return
+     */
+    @JsonIgnore
+    public String getTitleWarp() {
+        String titleWarp = super.getTitle();
+        if (StrUtil.isNotBlank(titleWarp)){
+            titleWarp = titleWarp.replace("\n","<br />");
+        }
+        return titleWarp;
+    }
+
+
     public String getText() {
         return JsoupUtils.getText(getContent());
     }

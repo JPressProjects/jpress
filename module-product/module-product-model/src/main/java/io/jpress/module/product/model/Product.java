@@ -2,6 +2,7 @@ package io.jpress.module.product.model;
 
 import io.jboot.db.annotation.Table;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.json.JsonIgnore;
 import io.jpress.commons.utils.CommonsUtils;
 import io.jpress.commons.utils.JsoupUtils;
 import io.jpress.commons.utils.UrlUtils;
@@ -51,6 +52,21 @@ public class Product extends BaseProduct<Product> {
     public String getHtmlView() {
         return StrUtil.isBlank(getStyle()) ? "product.html" : "product_" + getStyle().trim() + ".html";
     }
+
+
+    /**
+     * 前台获取支持换行的title
+     * @return
+     */
+    @JsonIgnore
+    public String getTitleWarp() {
+        String titleWarp = super.getTitle();
+        if (StrUtil.isNotBlank(titleWarp)){
+            titleWarp = titleWarp.replace("\n","<br />");
+        }
+        return titleWarp;
+    }
+
 
     public String getText() {
         return JsoupUtils.getText(getContent());

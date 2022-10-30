@@ -195,6 +195,14 @@
         })
     })
 
+
+    $("#article-title").each(function () {
+        this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+    }).on("input", function () {
+        this.style.height = 0;
+        this.style.height = (this.scrollHeight) + "px";
+    });
+
 </script>
 
 <!-- 选择视频-->
@@ -465,10 +473,9 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">标题</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="请输入文章标题..." name="article.title"
+                    <textarea rows="1" type="text" class="form-control" placeholder="请输入文章标题..." name="article.title"
                            autocomplete="off"
-                           id="article-title"
-                           value="#(article.title ??)">
+                           id="article-title">#(article.title ??)</textarea>
                 </div>
 
                 <div class="dropdown">

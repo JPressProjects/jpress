@@ -111,6 +111,22 @@ public class Article extends BaseArticle<Article> {
         return cs != null && cs;
     }
 
+
+    /**
+     * 前台获取支持换行的title
+     * @return
+     */
+    @JsonIgnore
+    public String getTitleWarp() {
+        String titleWarp = super.getTitle();
+        if (StrUtil.isNotBlank(titleWarp)){
+            titleWarp = titleWarp.replace("\n","<br />");
+        }
+        return titleWarp;
+    }
+
+
+
     @JsonIgnore
     public String getText() {
         return JsoupUtils.getText(getContent());

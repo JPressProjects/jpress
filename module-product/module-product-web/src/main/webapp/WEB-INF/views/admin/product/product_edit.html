@@ -339,6 +339,13 @@
     })
 
 
+    $("#product-title").each(function () {
+        this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+    }).on("input", function () {
+        this.style.height = 0;
+        this.style.height = (this.scrollHeight) + "px";
+    });
+
 </script>
 
 
@@ -403,12 +410,6 @@
         <input type="hidden" name="imageIds" value="0" />
         <i class="fas fa-trash-alt image-reset" ></i>
     </div>
-
-
-
-
-
-
 </script>
 #end
 #define css()
@@ -599,10 +600,9 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">标题</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="请输入商品标题..." name="product.title"
+                    <textarea rows="1" type="text" class="form-control" placeholder="请输入商品标题..." name="product.title"
                            autocomplete="off"
-                           id="product-title"
-                           value="#(product.title ??)">
+                           id="product-title">#(product.title ??)</textarea>
                 </div>
 
                 <div class="dropdown">

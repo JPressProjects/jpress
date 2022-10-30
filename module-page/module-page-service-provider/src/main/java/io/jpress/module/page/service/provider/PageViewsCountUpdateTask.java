@@ -62,4 +62,9 @@ public class PageViewsCountUpdateTask implements Runnable {
             Aop.get(SinglePageService.class).deleteCacheById(entry.getKey());
         }
     }
+
+
+    public static void refreshCount(){
+        new PageViewsCountUpdateTask().run();
+    }
 }

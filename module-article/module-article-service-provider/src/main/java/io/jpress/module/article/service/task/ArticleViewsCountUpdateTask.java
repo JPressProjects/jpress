@@ -62,4 +62,10 @@ public class ArticleViewsCountUpdateTask implements Runnable {
             Aop.get(ArticleService.class).removeCacheById(entry.getKey());
         }
     }
+
+
+
+    public static void refreshCount(){
+        new ArticleViewsCountUpdateTask().run();
+    }
 }

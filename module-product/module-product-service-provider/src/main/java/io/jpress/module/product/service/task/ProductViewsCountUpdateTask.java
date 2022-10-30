@@ -56,10 +56,18 @@ public class ProductViewsCountUpdateTask implements Runnable {
         countsMap.clear();
 
         for (Map.Entry<Long, AtomicLong> entry : articleViews.entrySet()) {
+            Db.update("update product set real_view_count = real_view_count + "
+                    + entry.getValue().get()
+                    + " where id = ? ", entry.getKey());
             Db.update("update product set view_count = view_count + "
                     + entry.getValue().get()
                     + " where id = ? ", entry.getKey());
             Aop.get(ProductService.class).removeCacheById(entry.getKey());
         }
+    }
+
+
+    public static void refreshCount(){
+        new ProductViewsCountUpdateTask().run();
     }
 }

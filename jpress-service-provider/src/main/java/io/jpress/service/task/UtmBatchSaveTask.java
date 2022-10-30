@@ -44,7 +44,12 @@ public class UtmBatchSaveTask implements Runnable {
         utmList.clear();
 
         Db.batchSave(tempUtmList, 1000);
+    }
 
+
+
+    public static void refreshRecord(){
+        new UtmBatchSaveTask().run();
     }
 
 }

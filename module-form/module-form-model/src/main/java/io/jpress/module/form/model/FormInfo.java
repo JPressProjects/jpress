@@ -161,7 +161,7 @@ public class FormInfo extends BaseFormInfo<FormInfo> {
         for (FieldInfo fieldInfo : fieldInfos) {
             String[] values = parameters.get(fieldInfo.getParaName());
             if (values != null && values.length > 0) {
-                String paraValue = ArrayUtil.toString(values, ",");
+                String paraValue = ArrayUtil.toString(values, ";");
                 if (StrUtil.isBlank(paraValue)) {
                     if (fieldInfo.isRequired()) {
                         throw new IllegalArgumentException(fieldInfo.getLabel() + "数据不能为空！");

@@ -12,10 +12,12 @@ import io.jboot.web.controller.JbootControllerContext;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
 import io.jpress.module.form.FormManager;
+import io.jpress.module.form.model.FieldInfo;
 import io.jpress.module.form.model.FormInfo;
 import io.jpress.module.form.service.FormInfoService;
 
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 @JFinalDirective("formInfo")
@@ -53,15 +55,30 @@ public class FormInfoDirective extends JbootDirectiveBase {
             throw new IllegalArgumentException("#formInfo() id or flag must not be null.");
         }
 
+        String contentType = "application/x-www-form-urlencoded";
+        List<FieldInfo> fieldInfos = formInfo.getFieldInfos();
+        if (fieldInfos != null && fieldInfos.size() > 0){
+            for (FieldInfo fieldInfo : fieldInfos) {
+                //有文件上传的场景
+                if (fieldInfo.isSupportUpload()){
+                    contentType = "multipart/form-data";
+                    break;
+                }
+            }
+        }
+
 
         JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
         if (withForm) {
-
             String html = FormManager.me().renderAll(datas, values, false);
-
             if (StrUtil.isNotBlank(html)) {
                 String action = formInfo.getActionUrl();
-                String htmlStart = "<form id=\"" + formInfo.getUuid() + "\" class=\"" + formClass + "\" method=\"" + formMethod + "\" action=\"" + action + "\">";
+                String htmlStart = "<form " +
+                        "id=\"" + formInfo.getUuid() + "\" " +
+                        "class=\"" + formClass + "\" " +
+                        "method=\"" + formMethod + "\" " +
+                        "enctype=\"" + contentType + "\" " +
+                        "action=\"" + action + "\">";
                 String htmlEnd = "<button id=\"submitBtn\" data-type=\"slideVerify\" data-form-id=\""+formInfo.getUuid()+"\" data-valid-type=\"form\" type=\"button\" class=\"" + submitClass + "\" >" + submitText + "</button>" + "</form>";
                 renderText(writer, htmlStart + html + htmlEnd);
             }

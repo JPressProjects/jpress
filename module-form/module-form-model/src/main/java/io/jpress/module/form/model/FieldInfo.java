@@ -211,6 +211,7 @@ public class FieldInfo {
     }
 
 
+
     public boolean isSupportChat() {
         return "checkbox".equals(tag) || "radio".equals(tag) || "select".equals(tag);
     }
@@ -220,6 +221,6 @@ public class FieldInfo {
     }
 
     public boolean isSupportUpload() {
-        return "image-upload".equals(tag);
+        return "image-upload".equals(tag) || "file-upload".equals(tag);
     }
 }

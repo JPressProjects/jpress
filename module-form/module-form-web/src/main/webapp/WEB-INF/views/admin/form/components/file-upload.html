@@ -5,10 +5,14 @@
             <legend class="col-form-label pt-0">#(label ??)</legend>
         </div>
         <div class="jpress-input-block">
+            #if(!value)
             <div class="jpress-custom-file">
-                <input type="file" class="jpress-file-input" id="#(id ??)"  name="#(name ??)">
+                <input type="file" class="jpress-file-input" id="#(id ??)" name="#(name ??)">
                 <label class="jpress-file-label" for="#(id ??)"></label>
             </div>
+            #else
+            <a href="#(value)" target="_blank"> 点击查看 </a>
+            #end
         </div>
 
     </div>

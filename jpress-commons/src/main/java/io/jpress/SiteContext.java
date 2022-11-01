@@ -1,6 +1,7 @@
 package io.jpress;
 
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.Func;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.components.cache.JbootCache;
@@ -27,7 +28,7 @@ public class SiteContext {
         TL.remove();
     }
 
-    public static String getSitePath() {
+    public static String getSiteURL() {
         Controller controller = JbootControllerContext.get();
         if (controller == null) {
             return "";
@@ -53,7 +54,30 @@ public class SiteContext {
             path = "";
         }
 
-        return domain + path;
+        return domain + JFinal.me().getContextPath() + path;
+    }
+
+
+
+    public static String getSitePath() {
+        Controller controller = JbootControllerContext.get();
+        if (controller == null) {
+            return "";
+        }
+
+        Model site = controller.getAttr("SITE");
+        if (site == null) {
+            return "";
+        }
+
+        String path = site.getStr("bind_path");
+        if (path != null) {
+            path = path.trim();
+        } else {
+            path = "";
+        }
+
+        return path;
     }
 
 

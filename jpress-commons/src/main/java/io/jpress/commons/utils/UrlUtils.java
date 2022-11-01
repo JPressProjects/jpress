@@ -1,7 +1,6 @@
 package io.jpress.commons.utils;
 
 
-import com.jfinal.core.JFinal;
 import io.jpress.JPressOptions;
 import io.jpress.SiteContext;
 
@@ -16,10 +15,7 @@ public class UrlUtils {
     private static String buildUrl(Object... paths) {
         boolean isWebFlatUrlEnable = JPressOptions.isFlatUrlEnable();
 
-        StringBuilder url = new StringBuilder(JFinal.me().getContextPath())
-                .append(SiteContext.getSitePath());
-
-
+        StringBuilder url = new StringBuilder(SiteContext.getSiteURL());
         for (int i = 0; i < paths.length; i++) {
             Object path = paths[i];
             if (path == null){

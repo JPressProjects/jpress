@@ -113,7 +113,7 @@ public class BsFormManager {
 
             //复选框
             if (value != null && isArrayValueComponent(datas.get("tag"))) {
-                value = value.toString().split(",");
+                value = value.toString().split(";");
             }
 
             datas.put("value", value);

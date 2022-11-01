@@ -4,6 +4,15 @@
             <label>#(label ??)</label>
         </div>
         <div class="jpress-input-block">
+            #if(value)
+            #for(v : value)
+            <div class="jpress-upload-item">
+                <img id="#(v)" src="#(v)"
+                     style="display: block; width: 126px; height: 126px; object-fit: cover;">
+            </div>
+            #end
+
+            #else
             <div class="uploadList" data-url="#(url ??)" data-name="#(name ??)" data-count="#(count ?? 3)">
                 <button type="button" class="jpress-upload-btn">
                     <i class="bi bi-plus-lg  jpress-icon"></i>
@@ -13,6 +22,7 @@
                            accept="image/gif,image/jpeg,image/jpg,image/png,image/svg,image/webp,image/bmp">
                 </button>
             </div>
+            #end
         </div>
     </div>
 </div>

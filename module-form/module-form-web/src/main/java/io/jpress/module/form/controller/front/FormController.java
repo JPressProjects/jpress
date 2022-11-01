@@ -8,9 +8,9 @@ import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import io.jboot.utils.FileUtil;
+import io.jboot.utils.RequestUtil;
+import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
-import io.jboot.web.json.JsonBody;
-import io.jpress.JPressOptions;
 import io.jpress.commons.utils.AliyunOssUtils;
 import io.jpress.commons.utils.AttachmentUtils;
 import io.jpress.module.form.model.FieldInfo;
@@ -19,11 +19,7 @@ import io.jpress.module.form.service.FormDataService;
 import io.jpress.module.form.service.FormInfoService;
 import io.jpress.web.base.TemplateControllerBase;
 
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping("/form")
 public class FormController extends TemplateControllerBase {
@@ -60,7 +56,6 @@ public class FormController extends TemplateControllerBase {
         }
 
         setAttr("form", formInfo);
-
         render("form.html", DEFAULT_FORM_DETAIL_TEMPLATE);
     }
 
@@ -77,17 +72,28 @@ public class FormController extends TemplateControllerBase {
         }
 
 
-        CaptchaVO captchaVO  = getBean(CaptchaVO.class);
+        List<UploadFile> files = null;
+        if (RequestUtil.isMultipartRequest(getRequest())){
+            files = getFiles();
+        }
+
+        CaptchaVO captchaVO = getBean(CaptchaVO.class);
 
         //进行前端滑块 参数验证
         if (captchaVO == null || captchaVO.getCaptchaVerification() == null) {
+            if (files != null) {
+                files.forEach(FileUtil::delete);
+            }
             renderFailJson("验证失败");
             return;
         }
 
-        ResponseModel validResult = captchaService.verification(captchaVO);
 
+        ResponseModel validResult = captchaService.verification(captchaVO);
         if (validResult == null || !validResult.isSuccess()) {
+            if (files != null) {
+                files.forEach(FileUtil::delete);
+            }
             renderFailJson("验证失败");
             return;
         }
@@ -98,9 +104,27 @@ public class FormController extends TemplateControllerBase {
             return;
         }
 
+
+        Set<String> uploadFileNames = new HashSet<>();
+        List<FieldInfo> fieldInfos = formInfo.getFieldInfos();
+        if (fieldInfos != null) {
+            for (FieldInfo fieldInfo : fieldInfos) {
+                if (fieldInfo.isSupportUpload()) {
+                    uploadFileNames.add(fieldInfo.getParaName());
+                }
+            }
+        }
+
+
         try {
             // parseRequestToRecord 可能会出现数据转换异常，需要告知前端
             Record record = formInfo.parseRequestToRecord(getRequest());
+            Map<String, String> uploadFilePaths = getFilePaths(uploadFileNames);
+            for (FieldInfo fieldInfo : fieldInfos) {
+                if (fieldInfo.isSupportUpload()) {
+                    record.set(fieldInfo.getFieldName(),uploadFilePaths.get(fieldInfo.getParaName()));
+                }
+            }
 
             formDataService.save(formInfo.getCurrentTableName(), record);
 
@@ -122,91 +146,63 @@ public class FormController extends TemplateControllerBase {
         renderOkJson();
     }
 
-
-    public void upload() {
-        if (!isMultipartRequest()) {
-            renderError(404);
-            return;
+    private Map<String, String> getFilePaths(Set<String> names) {
+        if (names == null || names.isEmpty()) {
+            throw new IllegalArgumentException("names can not be null or empty.");
         }
 
-
-        UploadFile uploadFile = getFile();
-        if (uploadFile == null) {
-            renderJson(Ret.fail().set("message", "请选择要上传的文件"));
-            return;
+        Map<String, String> filesMap = new HashMap<>();
+        List<UploadFile> uploadFiles = getFiles();
+        if (uploadFiles == null || uploadFiles.isEmpty()) {
+            return filesMap;
         }
 
-        FormInfo formInfo = formInfoService.findByUUID(getPara());
-        if (formInfo == null || !formInfo.isPublished()) {
-            FileUtil.delete(uploadFile.getFile());
-            renderJson(Ret.fail().set("message", "数据错误，表单不存在或未发布！"));
-            return;
-        }
+        for (UploadFile uploadFile : uploadFiles) {
+            String parameterName = uploadFile.getParameterName();
+            if (StrUtil.isBlank(parameterName)) {
+                FileUtil.delete(uploadFile);
+                continue;
+            }
 
-        List<FieldInfo> fieldInfos = formInfo.getFieldInfos();
-        if (fieldInfos == null || fieldInfos.isEmpty()) {
-            FileUtil.delete(uploadFile.getFile());
-            renderJson(Ret.fail().set("message", "表单数据错误，请联系管理员！"));
-            return;
-        }
+            parameterName = matchedParameterName(parameterName.trim(),names);
 
-        //查看当前表单是否有上传组件
-        boolean hasImageUploadComponent = false;
-        for (FieldInfo fieldInfo : fieldInfos) {
-            if (fieldInfo.isSupportUpload()) {
-                hasImageUploadComponent = true;
-                break;
+            if (StrUtil.isNotBlank(parameterName)) {
+                String path = AttachmentUtils.moveFile(uploadFile);
+                AliyunOssUtils.upload(path, AttachmentUtils.file(path));
+
+                String orignalPath = filesMap.get(parameterName);
+                if (orignalPath == null){
+                    orignalPath = path;
+                }else {
+                    orignalPath = orignalPath+";"+path;
+                }
+                filesMap.put(parameterName, orignalPath);
+            } else {
+                FileUtil.delete(uploadFile);
             }
         }
 
-        if (!hasImageUploadComponent) {
-            FileUtil.delete(uploadFile.getFile());
-            renderJson(Ret.fail().set("message", "当前表单不支持上传文件！"));
-            return;
-        }
-
-
-        File file = uploadFile.getFile();
-
-        if (!AttachmentUtils.isImage(file.getPath())) {
-            FileUtil.delete(uploadFile.getFile());
-            renderJson(Ret.fail().set("message", "不支持此类文件上传"));
-            return;
-        }
-
-
-        int maxSize = JPressOptions.getAsInt("attachment_img_maxsize", 10);
-        int fileSize = Math.round(file.length() / 1024 * 100) / 100;
-        if (maxSize > 0 && fileSize > maxSize * 1024) {
-            FileUtil.delete(uploadFile.getFile());
-            renderJson(Ret.fail().set("message", "上传文件大小不能超过 " + maxSize + " MB"));
-            return;
-        }
-
-        String path = AttachmentUtils.moveFile(uploadFile);
-        AliyunOssUtils.upload(path, AttachmentUtils.file(path));
-
-//        //附件分类id
-//        Integer categoryId = getParaToInt("categoryId");
-//
-//        Attachment attachment = new Attachment();
-//        attachment.setUserId(getLoginedUser().getId());
-//        attachment.setCategoryId(categoryId);
-//        attachment.setTitle(uploadFile.getOriginalFileName());
-//        attachment.setPath(path.replace("\\", "/"));
-//        attachment.setSuffix(FileUtil.getSuffix(uploadFile.getFileName()));
-//        attachment.setMimeType(uploadFile.getContentType());
-//
-//        Object attachmentId = service.save(attachment);
-//        //更新分类下的内容数量
-//        if(attachment.getCategoryId() != null){
-//            categoryService.doUpdateAttachmentCategoryCount(attachment.getCategoryId().longValue());
-//        }
-
-        renderJson(Ret.ok().set("success", true)
-                .set("src", path.replace("\\", "/"))
-        );
+        return filesMap;
     }
+
+
+    private String matchedParameterName(String paraName,Set<String> names){
+        if (names.contains(paraName)){
+            return paraName;
+        }
+
+        int indexOf = paraName.lastIndexOf("_");
+        if (indexOf > 0 && StrUtil.isNumeric(paraName.substring(indexOf + 1))){
+            paraName = paraName.substring(0,indexOf);
+            if (names.contains(paraName)){
+                return paraName;
+            }
+        }
+
+        return null;
+    }
+
+
 
     /**
      * 获取表单数据

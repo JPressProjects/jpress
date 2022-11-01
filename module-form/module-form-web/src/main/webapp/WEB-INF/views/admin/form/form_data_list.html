@@ -102,7 +102,35 @@
                                 <td><input name="tableItem" type="checkbox" value="#(record.id)" /></td>
                                 #for(field : form.fieldInfos)
                                 #if(field.showInList)
-                                    <td>#(record.get(field.fieldName) ??)</td>
+                                    <td>
+                                        #if(field.tag == 'datetime')
+                                        #date(record.get(field.fieldName) ??)
+
+                                        #else if(field.tag == 'date')
+                                        #date(record.get(field.fieldName),'yyyy-MM-dd')
+
+                                        #else if(field.tag == 'image-upload')
+                                        #for(src : record.get(field.fieldName)?.split(';'))
+                                        <a href="#(src)" target="_blank">
+                                        <img src="#(src)" style="width: 50px;height: 50px">
+                                        </a>
+                                        #end
+
+                                        #else if(field.tag == 'file-upload')
+                                        #if(record.get(field.fieldName))
+                                        <a href="#(record.get(field.fieldName))" target="_blank">
+                                            点击查看
+                                        </a>
+                                        #else
+                                        --
+                                        #end
+
+                                        #else
+
+                                        #(record.get(field.fieldName) ??)
+                                        #end
+
+                                    </td>
                                 #end
                                 #end
                                 <td>

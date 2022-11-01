@@ -259,7 +259,6 @@ function jsonPost(url, data, okFunction, failFunction) {
 }
 
 
-
 /**
  * 对某个 form 进行 ajax 提交
  * @param form
@@ -772,7 +771,9 @@ function initJPressAJCaptcha() {
         var ajaxGetSuccessPoint = $(this).attr("data-point");
 
         var val = null;
-        var option = validType === "ajax" ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccessToUrl, ajaxGetSuccessPoint) : getFormCaptachOption(containerId, validFormUUID);
+        var option = validType === "ajax"
+            ? getAjaxCaptachOption(containerId, checkInputId, ajaxUrl, ajaxGetSuccessToUrl, ajaxGetSuccessPoint)
+            : getFormCaptachOption(containerId, validFormUUID);
 
         loadCss(getContextPath() + "/static/components/aj-captcha/css/verify.css");
         loadJs([
@@ -882,7 +883,7 @@ function getFormCaptachOption(containerId, formUUID) {
         beforeCheck: function () {  //检验参数合法性的函数  mode ="pop" 有效
 
             if (!formUUID) {
-                alert("请设置表单ID");
+                alert("未设置表单ID");
                 return false;
             } else {
                 return true;
@@ -895,9 +896,9 @@ function getFormCaptachOption(containerId, formUUID) {
         //验证成功
         success: function (params) {
 
-            let input = '<input type="hidden" id="captchaVO" name="captchaVO.captchaVerification" value="'+params.captchaVerification+'">'
+            let input = '<input type="hidden" id="captchaVO" name="captchaVO.captchaVerification" value="' + params.captchaVerification + '">'
 
-            $("#"+formUUID).append(input);
+            $("#" + formUUID).append(input);
 
             ajaxSubmit("#" + formUUID, function (result) {
 
@@ -961,6 +962,18 @@ function jobFileChoose() {
 function initBsFormImageComponent() {
     var userAgent = navigator.userAgent; //用于判断浏览器类型
 
+    function genUuid() {
+        var s = [];
+        var hexDigits = "0123456789abcdef";
+        for (var i = 0; i < 32; i++) {
+            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23];
+        return s.join("");
+    }
+
     $("body .uploadList").on("change", ".bsForm-upload-file", function () {
         //获取选择图片的对象
         let fileCodeId = $(this).attr("id");
@@ -969,79 +982,77 @@ function initBsFormImageComponent() {
         let uploadListDiv = $(this).parents(".uploadList"); // 放置图片的容器
         let maxUploadLimit = uploadListDiv.data("count");
 
-        let inputFieldName = uploadListDiv.attr("data-name");
+
 
         let file = currentObj.files[0];  //得到所有的图片文件
         if (!file) {
             return;
         }
 
-        // 上传到后台
-        let formData = new FormData();
-        formData.append(inputFieldName, file);
+        let inputFieldName = uploadListDiv.attr("data-name");
+        $(this).attr('name',inputFieldName);
 
-        $.ajax({
-            url: getContextPath() + getSitePath() + '/form/upload/' + $(this).closest("form").attr("id"),
-            type: "POST",
-            data: formData,
-            processData: false,
-            // 不修改contentType属性，使用默认
-            contentType: false,
-            beforeSend: function () {
-                var imageHtml = "<div class='jpress-upload-item'>"
-                imageHtml += "<img id='img" + fileCodeId + file.name + "'/>";
-                imageHtml += "<p class='jpress-images-name'>" + file.name + "</p>";
-                imageHtml += "<div class='file-delete'><i class='bi bi-trash'></i></div>";
-                imageHtml += "</div>";
-                uploadListDiv.prepend(imageHtml);
+        var uuid = genUuid();
+        var imageHtml = "<div class='jpress-upload-item' id='" + uuid + "'>"
+        imageHtml += "<img id='img" + fileCodeId + file.name + "'/>";
+        imageHtml += "<p class='jpress-images-name'>" + file.name + "</p>";
+        imageHtml += "<div class='file-delete'><i class='bi bi-trash'></i></div>";
+        imageHtml += "</div>";
+        uploadListDiv.prepend(imageHtml);
 
-                let imgObjPreview = document.getElementById("img" + fileCodeId + file.name);
-                imgObjPreview.style.display = 'block';
-                imgObjPreview.style.width = '126px';
-                imgObjPreview.style.height = '126px';
-                imgObjPreview.style.objectFit = 'cover';
-                if (userAgent.indexOf('MSIE') == -1) {
-                    //IE以外浏览器
-                    imgObjPreview.src = window.URL.createObjectURL(file); //获取上传图片文件的物理路径;
-                } else {
-                    //IE浏览器
-                    if (currentObj.value.indexOf(",") != -1) {
-                        var srcArr = currentObj.value.split(",");
-                        imgObjPreview.src = srcArr[i];
-                    } else {
-                        imgObjPreview.src = currentObj.value;
-                    }
-                }
-
-                if (uploadListDiv.find(".jpress-upload-item").length >= maxUploadLimit) {
-                    uploadListDiv.find(".jpress-upload-btn").hide();
-                }
-            },
-            success: function (result) {
-                if (result.state == "ok") {
-                    let input = '<input type="hidden" name="' + inputFieldName + '" value="' + result.src + '" />';
-                    uploadListDiv.append(input);
-                } else {
-                    alert("文件上传失败。")
-                }
-            },
-            error: function (data) {
-                console.log(data)
+        let imgObjPreview = document.getElementById("img" + fileCodeId + file.name);
+        imgObjPreview.style.display = 'block';
+        imgObjPreview.style.width = '126px';
+        imgObjPreview.style.height = '126px';
+        imgObjPreview.style.objectFit = 'cover';
+        if (userAgent.indexOf('MSIE') == -1) {
+            //IE以外浏览器
+            imgObjPreview.src = window.URL.createObjectURL(file); //获取上传图片文件的物理路径;
+        } else {
+            //IE浏览器
+            if (currentObj.value.indexOf(",") != -1) {
+                var srcArr = currentObj.value.split(",");
+                imgObjPreview.src = srcArr[i];
+            } else {
+                imgObjPreview.src = currentObj.value;
             }
-        })
+        }
+
+        var uploadButton = $(this).closest('button');
+        var outerHTML = uploadButton[0].outerHTML;
+
+        uploadButton.addClass(uuid).hide();
+
+        var currentUploadItemCount = uploadListDiv.find(".jpress-upload-item").length;
+
+        if (currentUploadItemCount < maxUploadLimit) {
+            uploadButton.after(outerHTML);
+            // console.log(">>>",aa)
+        }
+
     });
 
 
     $("body .uploadList").on("click", ".file-delete", function () {
 
-        let uploadListDiv = $(this).closest(".uploadList"); // 放置图片的容器
-        let maxUploadLimit = uploadListDiv.data("count");
+        var uploadListDiv = $(this).closest(".uploadList"); // 放置图片的容器
+        var maxUploadLimit = uploadListDiv.data("count");
 
-        if (uploadListDiv.find(".jpress-upload-item").length <= maxUploadLimit) {
-            uploadListDiv.find(".jpress-upload-btn").show();
+        var deleteImage = $(this).parent(".jpress-upload-item");
+        var deleteHideFileInput = $('.' + deleteImage.attr('id'));
+
+        deleteHideFileInput.show().removeClass(deleteImage.attr('id'));
+        var outerHtml = deleteHideFileInput[0].outerHTML;
+
+        deleteImage.remove();
+        deleteHideFileInput.remove();
+
+        var currentItemCount = uploadListDiv.find(".jpress-upload-item").length;
+        if (currentItemCount <= maxUploadLimit) {
+            if (uploadListDiv.find(".jpress-upload-btn:last").attr('class') !== 'jpress-upload-btn'){
+                uploadListDiv.append(outerHtml);
+            }
         }
-
-        $(this).parent(".jpress-upload-item").remove();
     });
 
 }

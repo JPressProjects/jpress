@@ -956,6 +956,13 @@ function jobFileChoose() {
 
     })
 }
+// 上传文件回显
+function initBsFormFileComponent(){
+    $("body .jpress-custom-file").on("change",'.jpress-file-input',function () {
+        var fileName = $(this).val();
+        $(this).next('.jpress-file-label').html(fileName)
+    })
+}
 
 //图片组件
 function initBsFormImageComponent() {
@@ -1079,6 +1086,8 @@ $(document).ready(function () {
     /*job apply 页面 文件选择*/
     jobFileChoose();
 
+    // 文件回显
+    initBsFormFileComponent();
     /*图片组件*/
     initBsFormImageComponent()
 

@@ -957,15 +957,21 @@ function jobFileChoose() {
 
     })
 }
-// 上传文件回显
+
+
+//表单文件选择回显
 function initBsFormFileComponent(){
     $("body .jpress-custom-file").on("change",'.jpress-file-input',function () {
         var fileName = $(this).val();
+        if (fileName && fileName.lastIndexOf("\\") > 0){
+            fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+        }
         $(this).next('.jpress-file-label').html(fileName)
     })
 }
 
-//图片组件
+
+//表单图片上传组件
 function initBsFormImageComponent() {
     var userAgent = navigator.userAgent; //用于判断浏览器类型
 
@@ -1034,7 +1040,6 @@ function initBsFormImageComponent() {
 
         if (currentUploadItemCount < maxUploadLimit) {
             uploadButton.after(outerHTML);
-            // console.log(">>>",aa)
         }
 
     });
@@ -1097,8 +1102,9 @@ $(document).ready(function () {
     /*job apply 页面 文件选择*/
     jobFileChoose();
 
-    // 文件回显
+    //表单文件选择回显
     initBsFormFileComponent();
+
     /*图片组件*/
     initBsFormImageComponent()
 

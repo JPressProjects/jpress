@@ -22,7 +22,7 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.model.User;
 import io.jpress.service.UserService;
-import io.jpress.web.base.UserControllerBase;
+import io.jpress.web.base.AdminControllerBase;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -31,7 +31,7 @@ import io.jpress.web.base.UserControllerBase;
  * @Package io.jpress.web.admin
  */
 @RequestMapping(value = "/commons/select/user", viewPath = JPressConsts.DEFAULT_ADMIN_VIEW)
-public class SelectUserController extends UserControllerBase {
+public class SelectUserController extends AdminControllerBase {
 
 
     @Inject

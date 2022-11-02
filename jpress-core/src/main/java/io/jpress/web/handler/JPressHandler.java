@@ -74,7 +74,7 @@ public class JPressHandler extends Handler {
             request.setAttribute("CPATH", request.getContextPath());
 
             // SPATH 默认值为 "" 空字符串
-            request.setAttribute("SPATH","");
+            request.setAttribute("SPATH", "");
             doHandle(target, request, response, isHandled);
         } finally {
             targetContext.remove();
@@ -125,14 +125,10 @@ public class JPressHandler extends Handler {
             return;
         }
 
-        if (target.contains(".")){
-            //如果是访问 .html ，直接去除后缀
-            if (target.endsWith(".html")) {
-                target = target.substring(0, target.length() - 5);
-                setCurrentTarget(target);
-            }else {
-                return;
-            }
+        //如果是访问 .html ，直接去除后缀
+        if (target.contains(".") && target.endsWith(".html")) {
+            target = target.substring(0, target.length() - 5);
+            setCurrentTarget(target);
         }
 
 
@@ -146,6 +142,7 @@ public class JPressHandler extends Handler {
         //启用伪静态
         if (StrUtil.isNotBlank(suffix) && target.endsWith(suffix)) {
             target = target.substring(0, target.length() - suffix.length());
+            setCurrentTarget(target);
         }
 
         next.handle(target, request, response, isHandled);

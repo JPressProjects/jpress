@@ -136,10 +136,16 @@ public class FormController extends TemplateControllerBase {
 
         } catch (IllegalArgumentException iae) {
             renderJson(Ret.fail().set("message", iae.getMessage()));
+            if (files != null) {
+                files.forEach(FileUtil::delete);
+            }
             return;
         } catch (Exception e) {
             e.printStackTrace();
             renderJson(Ret.fail().set("message", "数据提交失败，请联系管理员"));
+            if (files != null) {
+                files.forEach(FileUtil::delete);
+            }
             return;
         }
 
@@ -186,6 +192,13 @@ public class FormController extends TemplateControllerBase {
     }
 
 
+    /**
+     * JFinal 有一个 bug，相同 name 属性的文件选择框，第二个 name 会添加索引 _0,_1....
+     * 这个方法用来匹配到真正的 name
+     * @param paraName
+     * @param names
+     * @return
+     */
     private String matchedParameterName(String paraName,Set<String> names){
         if (names.contains(paraName)){
             return paraName;

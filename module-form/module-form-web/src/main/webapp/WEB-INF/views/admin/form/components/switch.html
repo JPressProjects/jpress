@@ -6,7 +6,8 @@
         <div class="jpress-input-block">
             <div class="jpress-custom-switch">
                 <input type="checkbox" class="jpress-custom-input" id="#(id ??)" name="#(name ??)" value="true"
-                       #if(value == "true" || value==true || value == 1) checked #end />
+                       #if(value == "true" || value==true || value == 1) checked #end
+                        #if(!withEdit) disabled #end/>
                 <label class="jpress-custom-label" for="#(id ??)"></label>
             </div>
         </div>

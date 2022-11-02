@@ -10,7 +10,8 @@
                     id="#(id ??)"
                     name="#(name ??)"
                     placeholder="#(placeholder ??)"
-                    value="#(value ??)"
+                    value="#date(value ??)"
+                    #if(!withEdit) disabled #end
             />
         </div>
     </div>

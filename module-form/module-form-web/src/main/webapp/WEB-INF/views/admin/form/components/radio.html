@@ -13,6 +13,7 @@
                         name="#(name ??)"
                         value="#(option.value ??)"
                         #if(value == option.value) checked #end
+                        #if(!withEdit) disabled #end
                 />
                 <label class="jpress-check-label" for="#(option.value ??)-#(id ??)">#(option.text ??)</label>
             </div>

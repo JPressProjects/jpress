@@ -5,7 +5,7 @@
         </div>
         <div class="jpress-input-block">
           <textarea name="#(name ??)" class="jpress-form-control" id="#(id ??)" rows="#(rows ??8)"
-                    placeholder="#(placeholder ??)">#(value ??)</textarea>
+                    placeholder="#(placeholder ??)" #if(!withEdit) disabled #end>#(value ??)</textarea>
         </div>
     </div>
 </div>

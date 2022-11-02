@@ -4,7 +4,7 @@
             <label class="pt-0">#(label ??)</label>
         </div>
         <div class="jpress-input-block">
-            <select class="jpress-custom-select" name="#(name ??)">
+            <select class="jpress-custom-select" name="#(name ??)" #if(!withEdit) disabled #end>
                 #for(option : options)
                 <option value="#(option.value ??)" #if(value == option.value) selected #end>#(option.text ??)</option>
                 #end

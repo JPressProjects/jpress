@@ -68,7 +68,7 @@ public class ImageUtils {
         return false;
     }
 
-    public static final boolean notImageExtName(String fileName) {
+    public static boolean notImageExtName(String fileName) {
         return !isImageExtName(fileName);
     }
 
@@ -137,6 +137,7 @@ public class ImageUtils {
 
         graphics.dispose();
         srcBuffered.flush();
+
         save(targetBuffered, dest);
         targetBuffered.flush();
     }
@@ -158,8 +159,8 @@ public class ImageUtils {
             rect = new Rectangle((srcWidth - w) / 2, 0, w, h);
         }
         param.setSourceRegion(rect);
-        BufferedImage srcBuffered = reader.read(0, param);
-        return srcBuffered;
+
+        return reader.read(0, param);
     }
 
     public final static void pressImage(String watermarkImg, String srcImageFile) {
@@ -187,11 +188,11 @@ public class ImageUtils {
      */
     public final static void pressImage(String watermarkImg, String srcImageFile, String destImageFile, int position,
                                         int xOffset, int yOffset, float radio, float alpha) {
-
         if (notImageExtName(srcImageFile)) {
             throw new IllegalArgumentException("只支持如下几种图片格式：jpg、jpeg、png、bmp");
         }
 
+        Graphics2D graphics = null;
         try {
             File img = new File(srcImageFile);
             Image src = ImageIO.read(img);
@@ -199,7 +200,7 @@ public class ImageUtils {
             int srcHeight = src.getHeight(null);
 
             BufferedImage image = new BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB);
-            Graphics2D graphics = image.createGraphics();
+            graphics = image.createGraphics();
             graphics.drawImage(src, 0, 0, srcWidth, srcHeight, null);
 
             // 水印文件
@@ -246,13 +247,15 @@ public class ImageUtils {
 
             graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
             graphics.drawImage(wmImage, xPostion, yPostion, newWidth, newHeight, null);
-            // 水印文件结束
-            graphics.dispose();
 
             save(image, destImageFile);
 
         } catch (Exception e) {
             log.warn("ImageUtils pressImage error", e);
+        }finally {
+            if (graphics != null){
+                graphics.dispose();
+            }
         }
     }
 
@@ -324,18 +327,18 @@ public class ImageUtils {
      * 高保真缩放
      */
     private static BufferedImage resize(BufferedImage bi, int toWidth, int toHeight) {
-        Graphics g = null;
+        Graphics graphics = null;
         try {
             Image scaledImage = bi.getScaledInstance(toWidth, toHeight, Image.SCALE_SMOOTH);
-            BufferedImage ret = new BufferedImage(toWidth, toHeight, BufferedImage.TYPE_INT_RGB);
-            g = ret.getGraphics();
-            g.drawImage(scaledImage, 0, 0, null);
-            return ret;
+            BufferedImage bufferedImage = new BufferedImage(toWidth, toHeight, BufferedImage.TYPE_INT_RGB);
+            graphics = bufferedImage.getGraphics();
+            graphics.drawImage(scaledImage, 0, 0, null);
+            return bufferedImage;
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if (g != null) {
-                g.dispose();
+            if (graphics != null) {
+                graphics.dispose();
             }
         }
     }

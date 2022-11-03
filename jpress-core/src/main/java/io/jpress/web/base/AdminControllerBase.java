@@ -44,22 +44,30 @@ public abstract class AdminControllerBase extends ControllerBase {
     }
 
 
-    protected boolean validateSlug(Model<?> model) {
+    protected Ret validateSlug(Model<?> model) {
         String slug = model.get("slug");
         if (slug == null) {
-            return true;
+            return Ret.ok();
         }
 
         //不能是纯数字
         if (StrUtil.isNumeric(slug)) {
-            return false;
+            return Ret.fail("固定链接不能是纯数字");
+        }
+
+        if (slug.contains("/")){
+            return Ret.fail("固定链接不能包含字符 / ");
         }
 
         if (!slug.contains("-")) {
-            return true;
+            return Ret.ok();
         }
 
-        return !StrUtil.isNumeric(slug.substring(slug.lastIndexOf("-") + 1));
+        if (StrUtil.isNumeric(slug.substring(slug.lastIndexOf("-") + 1))){
+            return Ret.fail("固定链接不能纯数字结尾");
+        }
+
+        return Ret.ok();
     }
 
 

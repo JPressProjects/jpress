@@ -182,8 +182,9 @@ public class _ProductController extends AdminControllerBase {
             product.setContent(getCleanedOriginalPara("product.content"));
         }
 
-        if (!validateSlug(product)) {
-            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
+        Ret validRet = validateSlug(product);
+        if (validRet.isFail()) {
+            renderJson(validRet);
             return;
         }
 

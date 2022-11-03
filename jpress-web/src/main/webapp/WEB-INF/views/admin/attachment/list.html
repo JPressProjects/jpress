@@ -266,8 +266,7 @@
                             <select class="form-control" name="categoryId">
                                 <option value="">全部分类</option>
                                 #for(category : categories)
-                                <option value="#(category.id ??)" #selectedIf(category.id== numberPara(
-                                'categoryId'))>#(category.title ??)</option>
+                                <option value="#(category.id ??)" #selectedIf(category.id== numberPara('categoryId'))>#(category.title ??)</option>
                                 #end
                             </select>
                         </div>

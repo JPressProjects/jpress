@@ -175,8 +175,9 @@ public class _ArticleController extends AdminControllerBase {
         //默认情况下，请求会被 escape，通过 getOriginalPara 获得非 escape 的数据
         article.setContent(getCleanedOriginalPara("article.content"));
 
-        if (!validateSlug(article)) {
-            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
+        Ret validRet = validateSlug(article);
+        if (validRet.isFail()) {
+            renderJson(validRet);
             return;
         }
 
@@ -304,8 +305,10 @@ public class _ArticleController extends AdminControllerBase {
     }
 
     private void saveCategory(ArticleCategory category) {
-        if (!validateSlug(category)) {
-            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
+
+        Ret validRet = validateSlug(category);
+        if (validRet.isFail()) {
+            renderJson(validRet);
             return;
         }
 

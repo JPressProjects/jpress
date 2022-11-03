@@ -163,8 +163,9 @@ public class _PageController extends AdminControllerBase {
         //默认情况下，请求会被 escape，通过 getOriginalPara 获得非 escape 的数据
         page.setContent(getCleanedOriginalPara("page.content"));
 
-        if (!validateSlug(page)) {
-            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
+        Ret validRet = validateSlug(page);
+        if (validRet.isFail()) {
+            renderJson(validRet);
             return;
         }
 

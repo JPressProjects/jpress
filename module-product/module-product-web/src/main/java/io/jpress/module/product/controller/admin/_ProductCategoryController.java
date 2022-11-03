@@ -80,8 +80,10 @@ public class _ProductCategoryController extends AdminControllerBase {
 
 
     private void saveCategory(ProductCategory category) {
-        if (!validateSlug(category)) {
-            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
+
+        Ret validRet = validateSlug(category);
+        if (validRet.isFail()) {
+            renderJson(validRet);
             return;
         }
 

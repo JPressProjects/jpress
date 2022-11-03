@@ -80,6 +80,8 @@ public class LuceneSearcher implements ProductSearcher {
         try {
             writer = createIndexWriter();
             writer.deleteDocuments(new Term("aid", id.toString()));
+            writer.commit();
+            writer.flush();
         } catch (Exception e) {
             LOG.error(e.toString(), e);
         } finally {

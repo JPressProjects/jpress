@@ -635,7 +635,7 @@ function initOptionFormSubmit() {
                 }
             },
             error: function () {
-                alert("信息提交错误");
+                alert("网络错误，请稍后重试");
             }
         });
         return false;

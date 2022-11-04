@@ -83,7 +83,7 @@ public class LuceneSearcher implements ArticleSearcher {
             writer.commit();
             writer.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.toString(), e);
         } finally {
             CommonsUtils.quietlyClose(writer);
         }

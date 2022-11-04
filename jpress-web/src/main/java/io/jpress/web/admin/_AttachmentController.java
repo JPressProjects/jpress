@@ -156,7 +156,7 @@ public class _AttachmentController extends AdminControllerBase {
     }
 
     public void doBatchDelRootFile() {
-        String fileNames = getPara("names");
+        String fileNames = getPara("ids");
         if (StrUtil.isBlank(fileNames) || fileNames.contains("..") || fileNames.contains("/") || fileNames.contains("\\")) {
             renderFailJson();
             return;

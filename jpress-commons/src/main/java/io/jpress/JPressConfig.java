@@ -36,7 +36,7 @@ public class JPressConfig {
     private String attachmentRoot; // attachment 目录，在未配置的情况下，在 webapp 目录下
     private String adminLoginPage = DEFAULT_LOGIN_PAGE;         //登录的页面
     private String adminLoginAction = "/admin/doLogin";     //登录的方法
-    private boolean adminLoginCaptchValidateEnable = true; //后台登录是否使用验证码进行验证
+    private boolean adminLoginCaptchaValidateEnable = true; //后台登录是否使用验证码进行验证
 
 
     private String addonRoot; //插件安装的目录，方便在插件安装后，进行 clear 无效重新安装
@@ -83,12 +83,12 @@ public class JPressConfig {
         this.adminLoginAction = adminLoginAction;
     }
 
-    public boolean isAdminLoginCaptchValidateEnable() {
-        return adminLoginCaptchValidateEnable;
+    public boolean isAdminLoginCaptchaValidateEnable() {
+        return adminLoginCaptchaValidateEnable;
     }
 
-    public void setAdminLoginCaptchValidateEnable(boolean adminLoginCaptchValidateEnable) {
-        this.adminLoginCaptchValidateEnable = adminLoginCaptchValidateEnable;
+    public void setAdminLoginCaptchaValidateEnable(boolean adminLoginCaptchaValidateEnable) {
+        this.adminLoginCaptchaValidateEnable = adminLoginCaptchaValidateEnable;
     }
 
     public String getAttachmentRootOrWebRoot() {

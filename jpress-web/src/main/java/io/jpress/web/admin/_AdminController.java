@@ -63,6 +63,7 @@ public class _AdminController extends AdminControllerBase {
             return;
         }
 
+        setAttr("captchaEnable", JPressConfig.me.isAdminLoginCaptchaValidateEnable());
         setAttr("action", JPressConfig.me.getAdminLoginAction());
         render("login.html");
     }
@@ -83,7 +84,7 @@ public class _AdminController extends AdminControllerBase {
         }
 
         //必须使用验证码进行验证
-        if (JPressConfig.me.isAdminLoginCaptchValidateEnable()) {
+        if (JPressConfig.me.isAdminLoginCaptchaValidateEnable()) {
             String captchaPara = getPara("captcha");
             if (StrUtil.isBlank(captchaPara)) {
                 renderFailJson("验证码不能为空");

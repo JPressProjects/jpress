@@ -68,8 +68,8 @@
 
                         </div>
 
+                        #if(captchaEnable)
                         <div class="form-group">
-
                             <div style="display:flex;justify-content:space-between;">
                                 <div class="login-input-content" style="width: 72%;">
                                 <input type="text" id="captcha" class="form-control" autocomplete="off"
@@ -80,6 +80,9 @@
                                      onclick="this.src='#(CPATH)/commons/captcha?d='+Math.random();" cdn-exclude>
                             </div>
                         </div>
+                        #end
+
+
                         <div style="margin-top:30px;">
                             <div class="form-group">
                                 <div class="col-12" style="padding: 0;">

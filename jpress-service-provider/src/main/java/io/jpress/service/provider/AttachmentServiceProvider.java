@@ -15,12 +15,12 @@
  */
 package io.jpress.service.provider;
 
-import com.jfinal.kit.PathKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
+import io.jboot.web.attachment.AttachmentManager;
 import io.jpress.JPressOptions;
 import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.ImageUtils;
@@ -68,11 +68,11 @@ public class AttachmentServiceProvider extends JPressServiceBase<Attachment> imp
     /**
      * 处理水印的问题
      *
-     * @param model
+     * @param attachment
      */
-    private void tryToProcessWatermark(Attachment model) {
+    private void tryToProcessWatermark(Attachment attachment) {
         //不是图片，不用处理水印的问题
-        if (ImageUtils.isImageExtName(model.getPath()) == false) {
+        if (ImageUtils.isImageExtName(attachment.getPath()) == false) {
             return;
         }
 
@@ -87,7 +87,8 @@ public class AttachmentServiceProvider extends JPressServiceBase<Attachment> imp
             return;
         }
 
-        File waterImageFile = new File(PathKit.getWebRootPath(), waterImage);
+
+        File waterImageFile = AttachmentManager.me().getFile(waterImage);
         if (!waterImageFile.exists()) {
             LOG.warn("水印功能已经启用，但是水印图片不存在。");
             return;
@@ -101,12 +102,12 @@ public class AttachmentServiceProvider extends JPressServiceBase<Attachment> imp
 
         try {
             ImageUtils.pressImage(waterImageFile.getAbsolutePath(),
-                    PathKit.getWebRootPath() + model.getPath(),
-                    PathKit.getWebRootPath() + model.getPath(),
+                    AttachmentManager.me().getFile(attachment.getPath()).getAbsolutePath(),
+                    AttachmentManager.me().getFile(attachment.getPath()).getAbsolutePath(),
                     waterMarkPosition,
                     alpha);
         } catch (Exception ex) {
-            LOG.error("水印处理失败：" + model.getPath());
+            LOG.error("水印处理失败：" + attachment.getPath());
             LOG.error(ex.toString(), ex);
         }
     }

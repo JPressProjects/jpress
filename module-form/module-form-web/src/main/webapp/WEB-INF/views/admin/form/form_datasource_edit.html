@@ -1,40 +1,34 @@
 #@layout()
 #define script()
 <script>
+    $("input[name='datasource.with_static']").click(function () {
 
-        let isStatic = $("input[name='datasource.with_static']")
+        let isStatic = $("input[name='datasource.with_static']:checked").val();
 
+        if (isStatic == "true") {
+            $("#importType").css("display", "");
+            $("#importText").css("display", "");
+            $("#importUrl").css("display", "none");
+            $("#headers").css("display", "none");
 
-        isStatic.click(function () {
+            $("#importTextTextarea").prop("name", "datasource.import_text");
 
-            let isStatic = $("input[name='datasource.with_static']:checked").val();
+            $("#importUrlInput").removeAttr("name")
+        } else {
+            $("#importType").css("display", "none");
+            $("#importText").css("display", "none");
+            $("#importUrl").css("display", "");
+            $("#headers").css("display", "");
 
+            $('input:radio[name="datasource.import_type"][value="0"]').prop("checked", false);
+            $('input:radio[name="datasource.import_type"][value="1"]').prop("checked", false);
+            $('input:radio[name="datasource.import_type"][value="2"]').prop("checked", true);
 
-            if (isStatic == "true") {
-                $("#importType").css("display", "");
-                $("#importText").css("display", "");
-                $("#importUrl").css("display", "none");
-                $("#headers").css("display", "none");
+            $("#importUrlInput").prop("name", "datasource.import_text");
 
-                $("#importTextTextarea").prop("name", "datasource.import_text");
-
-                $("#importUrlInput").removeAttr("name")
-            } else {
-                $("#importType").css("display", "none");
-                $("#importText").css("display", "none");
-                $("#importUrl").css("display", "");
-                $("#headers").css("display", "");
-
-                $('input:radio[name="datasource.import_type"][value="0"]').prop("checked", false);
-                $('input:radio[name="datasource.import_type"][value="1"]').prop("checked", false);
-                $('input:radio[name="datasource.import_type"][value="2"]').prop("checked", true);
-
-                $("#importUrlInput").prop("name", "datasource.import_text");
-
-                $("#importTextTextarea").removeAttr("name")
-            }
-
-        })
+            $("#importTextTextarea").removeAttr("name")
+        }
+    })
 
 </script>
 #end
@@ -52,7 +46,7 @@
                             #if(datasource.id ??) 编辑数据源 #else 新增数据源 #end
                             <small data-toggle="tooltip" title="" data-placement="right"
                                    data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
-                            <small> 首页 / 表单 / 数据源 /  #if(datasource.id ??) 编辑 #else 新增 #end </small>
+                            <small> 首页 / 表单 / 数据源 / #if(datasource.id ??) 编辑 #else 新增 #end </small>
                         </h1>
                     </div>
                 </div>
@@ -66,9 +60,11 @@
     <div class="row">
         <div class="col-12">
             <div class="card card-outline card-primary">
-                <form class="ajaxSubmit" autocomplete="off"
+                <form class="autoAjaxSubmit" autocomplete="off"
                       action="#(CPATH)/admin/form/datasource/doSave"
-                      method="POST" id="form1">
+                      data-ok-href="#(CPATH)/admin/form/datasource/list"
+                      data-ok-message="数据源保存成功"
+                      method="POST">
 
                     <div class="card-body ">
                         <input type="hidden" id="entryId" name="datasource.id" value="#(datasource.id ??)">
@@ -90,33 +86,40 @@
                             <div class="col-sm-6" style="margin-top: 10px">
 
                                 <label for="datasource.with_static1">
-                                    <input type="radio" id="datasource.with_static1" name="datasource.with_static" value=true #if(!datasource || datasource.with_static ?? == true) checked #end>静态内容
+                                    <input type="radio" id="datasource.with_static1" name="datasource.with_static"
+                                           value=true #if(!datasource || datasource.with_static ??== true) checked #end>静态内容
                                 </label>
 
                                 <label for="datasource.with_static2">
-                                    <input id="datasource.with_static2" style="margin-left: 10px" type="radio" name="datasource.with_static" value=false #if(datasource && datasource.with_static ?? == false ) checked #end>动态内容
+                                    <input id="datasource.with_static2" style="margin-left: 10px" type="radio"
+                                           name="datasource.with_static" value=false #if(datasource &&
+                                           datasource.with_static ??== false ) checked #end>动态内容
                                 </label>
 
                             </div>
                         </div>
 
-                        <div class="form-group row" #if(!datasource.with_static ??) style="display: none" #end id="importType">
+                        <div class="form-group row" #if(!datasource.with_static ??) style="display: none" #end
+                             id="importType">
                             <div class="col-sm-6" style="margin-top: 10px">
                                 <div style="margin-left: 20px;display: none">
-                                    <input type="radio" name="datasource.import_type" value="2" #if(!datasource.with_static ??) checked #end>动态URL
+                                    <input type="radio" name="datasource.import_type" value="2"
+                                           #if(!datasource.with_static ??) checked #end>动态URL
                                 </div>
 
                             </div>
                         </div>
 
-                        <div class="form-group row"  id="importText" #if(datasource.with_static ?? == false) style="display: none" #else #end>
+                        <div class="form-group row" id="importText" #if(datasource.with_static ??== false)
+                             style="display: none" #else #end>
                             <label class="col-sm-2 col-form-label">说明：</label>
                             <div class="col-sm-6 text-muted" style="padding-top: 7.5px;">
                                 静态内容只能在创建完数据源后，手动为该数据源添加内容数据。
                             </div>
                         </div>
 
-                        <div class="form-group row" #if(datasource.with_static ?? == true || !datasource) style="display: none" #end id="importUrl">
+                        <div class="form-group row" #if(datasource.with_static ??== true || !datasource)
+                             style="display: none" #end id="importUrl">
                             <label class="col-sm-2 col-form-label">动态URL</label>
                             <div class="col-sm-6">
 
@@ -141,11 +144,13 @@
                             </div>
                         </div>
 
-                        <div class="form-group row" #if(datasource.with_static ?? == true || !datasource) style="display: none" #end id="headers">
+                        <div class="form-group row" #if(datasource.with_static ??== true || !datasource)
+                             style="display: none" #end id="headers">
                             <label class="col-sm-2 col-form-label">headers</label>
                             <div class="col-sm-6">
 
-                                <textarea placeholder="请输入导入数据的headers信息" rows="5" class="form-control" name="datasource.headers">#(datasource.headers ??)</textarea>
+                                <textarea placeholder="请输入导入数据的headers信息" rows="5" class="form-control"
+                                          name="datasource.headers">#(datasource.headers ??)</textarea>
 
                             </div>
                         </div>

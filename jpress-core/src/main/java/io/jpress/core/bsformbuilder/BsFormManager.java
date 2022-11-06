@@ -54,16 +54,16 @@ public class BsFormManager {
     }
 
 
-    public String renderAll(JSONArray datas, Map values, boolean withEdit) {
-        if (datas == null || datas.isEmpty()) {
+    public String renderAll(JSONArray componentBuilderJsonArray, Map values, boolean withEdit) {
+        if (componentBuilderJsonArray == null || componentBuilderJsonArray.isEmpty()) {
             return null;
         }
 
-        datas.sort(Comparator.comparingInt(o -> ((JSONObject) o).getInteger("index")));
+        componentBuilderJsonArray.sort(Comparator.comparingInt(o -> ((JSONObject) o).getInteger("index")));
 
         StringBuilder html = new StringBuilder();
-        for (int i = 0; i < datas.size(); i++) {
-            JSONObject componentData = datas.getJSONObject(i);
+        for (int i = 0; i < componentBuilderJsonArray.size(); i++) {
+            JSONObject componentData = componentBuilderJsonArray.getJSONObject(i);
             html.append(renderComponentDataToHtml(componentData, values, withEdit));
         }
 

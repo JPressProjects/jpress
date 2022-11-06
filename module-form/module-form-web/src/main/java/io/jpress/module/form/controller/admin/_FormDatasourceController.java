@@ -59,7 +59,7 @@ public class _FormDatasourceController extends AdminControllerBase {
         String name = getPara("name");
         Columns columns = new Columns();
         columns.likeAppendPercent("name", name);
-        Page<FormDatasource> entries = formDatasourceService.paginateByColumns(getPagePara(), getPageSizePara(), columns);
+        Page<FormDatasource> entries = formDatasourceService.paginateByColumns(getPagePara(), getPageSizePara(), columns,"id desc");
         setAttr("page", entries);
 
         render("form/form_datasource_list.html");

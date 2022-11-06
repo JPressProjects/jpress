@@ -68,9 +68,9 @@ public class FormInfoDirective extends JbootDirectiveBase {
         }
 
 
-        JSONArray datas = JSONArray.parseArray(formInfo.getBuilderJson());
+        JSONArray componentBuilderJsonArray = JSONArray.parseArray(formInfo.getBuilderJson());
         if (withForm) {
-            String html = FormManager.me().renderAll(datas, values, false);
+            String html = FormManager.me().renderAll(componentBuilderJsonArray, values, true);
             if (StrUtil.isNotBlank(html)) {
                 String action = formInfo.getActionUrl();
                 String htmlStart = "<form " +
@@ -79,12 +79,13 @@ public class FormInfoDirective extends JbootDirectiveBase {
                         "method=\"" + formMethod + "\" " +
                         "enctype=\"" + contentType + "\" " +
                         "action=\"" + action + "\">";
-                String htmlEnd = "<button id=\"submitBtn\" data-type=\"slideVerify\" data-form-id=\""+formInfo.getUuid()+"\" data-valid-type=\"form\" type=\"button\" class=\"" + submitClass + "\" >" + submitText + "</button>" + "</form>";
+                String htmlEnd = "<button id=\"submitBtn\" data-type=\"slideVerify\" " +
+                        "data-form-id=\""+formInfo.getUuid()+"\" data-valid-type=\"form\" " +
+                        "type=\"button\" class=\"" + submitClass + "\" >" + submitText + "</button>" + "</form>";
                 renderText(writer, htmlStart + html + htmlEnd);
             }
         } else {
-            String html = FormManager.me().renderAll(datas, values, false);
-
+            String html = FormManager.me().renderAll(componentBuilderJsonArray, values, false);
             if (StrUtil.isNotBlank(html)) {
                 renderText(writer, html);
             }

@@ -24,9 +24,7 @@ import java.util.*;
 @RequestMapping("/form")
 public class FormController extends TemplateControllerBase {
 
-    private static final String DEFAULT_FORM_DETAIL_TEMPLATE = "/WEB-INF/views/front/form/detail.html";
-    private static final String DEFAULT_FORM_DETAIL_ARTICLE = "/WEB-INF/views/front/form/form_article_detail.html";
-
+    private static final String DEFAULT_FORM_SUBMIT_TEMPLATE = "/WEB-INF/views/front/form/form_submit.html";
 
     @Inject
     private FormInfoService formInfoService;
@@ -56,7 +54,7 @@ public class FormController extends TemplateControllerBase {
         }
 
         setAttr("form", formInfo);
-        render("form.html", DEFAULT_FORM_DETAIL_TEMPLATE);
+        render("form.html", DEFAULT_FORM_SUBMIT_TEMPLATE);
     }
 
 
@@ -213,32 +211,6 @@ public class FormController extends TemplateControllerBase {
         }
 
         return null;
-    }
-
-
-
-    /**
-     * 获取表单数据
-     */
-    public void detail() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", true);
-
-        String resultHtml = "";
-
-        String uuid = getPara();
-
-
-        if (uuid != null) {
-            FormInfo formInfo = formInfoService.findByUUID(uuid);
-            if (formInfo != null && formInfo.isPublished()) {
-                setAttr("form", formInfo);
-                resultHtml = renderToString(DEFAULT_FORM_DETAIL_ARTICLE, map);
-            }
-        }
-
-        map.put("html", resultHtml);
-        renderJson(map);
     }
 
 

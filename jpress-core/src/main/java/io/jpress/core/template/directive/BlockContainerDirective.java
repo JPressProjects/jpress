@@ -57,13 +57,13 @@ public class BlockContainerDirective extends JbootDirectiveBase {
         }
 
         //每个 container 容器的数据
-        JSONArray containerDatas = blockOption.getJsonArrayByContainerId(containerId);
-        if (containerDatas == null || containerDatas.isEmpty()) {
+        JSONArray componentBuilderJsonArray = blockOption.getJsonArrayByContainerId(containerId);
+        if (componentBuilderJsonArray == null || componentBuilderJsonArray.isEmpty()) {
             renderBody(env, scope, writer);
             return;
         }
 
-        String html = BlockManager.me().renderAll(containerDatas, null, false);
+        String html = BlockManager.me().renderAll(componentBuilderJsonArray, null, false);
         renderText(writer, html);
     }
 

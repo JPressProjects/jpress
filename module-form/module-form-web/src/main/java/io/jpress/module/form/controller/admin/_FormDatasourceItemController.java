@@ -43,7 +43,6 @@ public class _FormDatasourceItemController extends AdminControllerBase {
 
 
     public void index() {
-
         Long id = getParaToLong();
 
         if (id == null) {
@@ -64,7 +63,6 @@ public class _FormDatasourceItemController extends AdminControllerBase {
 
 
     public void edit() {
-
         int entryId = getParaToInt(0, 0);
 
         FormDatasourceItem entry = entryId > 0 ? service.findById(entryId) : null;
@@ -87,6 +85,7 @@ public class _FormDatasourceItemController extends AdminControllerBase {
         render("form/form_datasource_item_edit.html");
     }
 
+
     public void doSave() {
         FormDatasourceItem entry = getModel(FormDatasourceItem.class, "datasourceItem");
 
@@ -99,10 +98,12 @@ public class _FormDatasourceItemController extends AdminControllerBase {
     }
 
 
+
     public void doDel() {
         Long id = getIdPara();
         render(service.deleteById(id) ? Ret.ok() : Ret.fail());
     }
+
 
     @EmptyValidate(@Form(name = "ids"))
     public void doDelByIds() {

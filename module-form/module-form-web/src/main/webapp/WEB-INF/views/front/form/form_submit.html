@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="#(CPATH)/static/components/toastr/toastr.min.css">
     <link href="#(CPATH)/static/components/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="#(CPATH)/static/front/jpressfront.css">
-    <title>#(form.title ??)</title>
+    <title>#(form.title ?? 'JPress 表单')</title>
 </head>
 <body style="background:#efefef url('#(form.bgImage)') center center no-repeat;background-size:cover;">
     <div  class="centerContent">
@@ -15,7 +15,7 @@
         #end
         <div class="bg-white pd-30">
             <div class="jpress-form-header">
-                <h5 class="jpress-form-title">#(form.title ??) </h5>
+                <h5 class="jpress-form-title">#(form.title ?? 'JPress 表单') </h5>
                 <p class="jpress-form-desc"> #(form.summary ??)</p>
             </div>
             <div class="form-content pt-30 pb-30">

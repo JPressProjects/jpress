@@ -717,7 +717,15 @@ function initFormCard() {
                     if (result.state == true && result.html) {
                         $this.html(result.html);
                         $this.show();
+
                         initJPressAJCaptcha();
+
+                        /*图片组件*/
+                        initBsFormImageComponent()
+
+                        //表单文件选择回显
+                        initBsFormFileComponent();
+
                     }
                 }
             })

@@ -24,6 +24,7 @@ import java.util.*;
 @RequestMapping("/form")
 public class FormController extends TemplateControllerBase {
 
+    private static final String DEFAULT_FORM_INSERT_TEMPLATE = "/WEB-INF/views/front/form/form_insert.html";
     private static final String DEFAULT_FORM_SUBMIT_TEMPLATE = "/WEB-INF/views/front/form/form_submit.html";
 
     @Inject
@@ -211,6 +212,32 @@ public class FormController extends TemplateControllerBase {
         }
 
         return null;
+    }
+
+
+    /**
+     * 获取表单数据
+     * 用于插入表单到文章和页面等
+     */
+    public void detail() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", true);
+
+        String resultHtml = "";
+
+        String uuid = getPara();
+
+
+        if (uuid != null) {
+            FormInfo formInfo = formInfoService.findByUUID(uuid);
+            if (formInfo != null && formInfo.isPublished()) {
+                setAttr("form", formInfo);
+                resultHtml = renderToString(DEFAULT_FORM_INSERT_TEMPLATE, map);
+            }
+        }
+
+        map.put("html", resultHtml);
+        renderJson(map);
     }
 
 

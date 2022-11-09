@@ -1283,6 +1283,8 @@ hr{
 
 .jpress-upload-btn .jpress-icon {
     font-size: 42px;
+    font-style: normal;
+    font-weight: 200;
     vertical-align: middle;
     cursor: pointer;
 }

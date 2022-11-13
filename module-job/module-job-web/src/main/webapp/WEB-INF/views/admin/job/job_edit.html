@@ -46,7 +46,7 @@
             $("#content").val(window.currentVditor.getHTML());
         }
         ajaxSubmit("#form", function (data) {
-            $("#articleId").attr("value", data.id);
+            $("#jobId").attr("value", data.id);
             window.history.replaceState({}, '', `#(CPATH)/admin/job/doSave/` + data.id)
             toastr.success('岗位保存成功。');
         });
@@ -117,6 +117,14 @@
             }
         });
     })
+
+    //通过编辑模式来决定初始化不同的编辑器
+    var editMode = "#(editMode ?? 'html')";
+    if (editMode === 'html') {
+        initCkEdtior('#editor');
+    } else {
+        initVdtior('editor');
+    }
 
 
     function insertHtmlToEditor(html) {
@@ -212,7 +220,7 @@
                     insertHtmlToEditor(html);
 
                 } else  {
-                    alert("请检查表单")
+                    // alert("请检查表单")
                 }
 
             }
@@ -438,10 +446,12 @@
         </section>
 
 
-        <input type="hidden" id="appId" name="appId" value="#(appId ??)">
-        <input type="hidden" id="entryId" name="job.id" value="#(job.id ??)">
+<!--        <input type="hidden" id="appId" name="appId" value="#(appId ??)">-->
+        <input type="hidden" id="jobId" name="job.id" value="#(job.id ??)">
+
         <div class="row panelContainer">
             <div class="col-lg-9  leftPanel pr-0">
+
                 <div class="pannel-inner">
                     <div class="form-group mb-0">
                         <div class="">

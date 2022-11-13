@@ -54,29 +54,6 @@
 
     setSaveHotKeyFunction(doSubmit);
 
-    /**
-     * 切换编辑器的按钮功能
-     * @param id
-     */
-    function doChangeEditor(id) {
-        if (confirm('确定要切换编辑器吗？切换可能出现前台渲染内容缺失的问题，且只对未发布岗位有效')) {
-            var changeMode = editMode == "html" ? "markdown" : "html";
-            if (id && id !== '0') {
-                ajaxGet('#(CPATH)/admin/article/doChangeEditMode?id=' + id + "&mode=" + changeMode);
-            } else {
-                ajaxGet('#(CPATH)/commons/changeEditor/' + changeMode);
-            }
-        }
-    }
-
-    //通过编辑模式来决定初始化不同的编辑器
-    var editMode = "#(editMode ?? 'html')";
-    if (editMode === 'html') {
-        initCkEdtior('#editor');
-    } else {
-        initVdtior('editor');
-    }
-
 
     $("#chooseAttachment").on("click", function () {
         var $this = $(this);

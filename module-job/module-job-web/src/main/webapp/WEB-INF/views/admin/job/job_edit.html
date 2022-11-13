@@ -9,36 +9,11 @@
 
 <script>
 
-    var $select = $('.article-tags').selectize({
-        plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        addPrecedence: true,
-        create: true,
-        render: {
-            option_create: function (data, escape) {
-                return '<div class="create" style="padding-left: 5px"> 添加标签：<strong style="color: #DD1144">' + escape(data.input) + '</strong></div>';
-            }
-        }
-    });
-
-    $(".newTag").each(function () {
-        $(this).on('click', function () {
-            $select[0].selectize.createItem($(this).text());
-        })
-    });
-
-    $(".tflag").each(function () {
-        $(this).on('click', function () {
-            $("#flag").val($(this).text());
-        })
-    });
-
     $(".submitBtn").on("click", function () {
         doSubmit();
     });
 
-    // 全局函数,在CKEditor ctrl + s 快捷键处用到,保留article的status
+
     window.doSubmit = function () {
         if (window.currentCKEditor) {
             $("#content").val(window.currentCKEditor.getData());

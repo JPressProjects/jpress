@@ -96,10 +96,10 @@ public class SiteModelProxy {
                 if (siteIds != null && siteIds.length > 0) {
                     if (siteIds.length == 1 && siteIds[0] < 0) {
                         //忽略站点条件，查询所有站点
-                    } else {
+                    } else if (!columns.containsName("site_id")) {
                         columns.addToFirst(Column.create("site_id", siteIds, Column.LOGIC_IN));
                     }
-                } else {
+                } else if (!columns.containsName("site_id")) {
                     columns.addToFirst(Column.create("site_id", SiteContext.getSiteId()));
                 }
             }

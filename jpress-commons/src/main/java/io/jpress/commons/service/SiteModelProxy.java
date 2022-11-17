@@ -34,14 +34,14 @@ public class SiteModelProxy {
     /**
      * 忽略站点条件，查询所有站点
      */
-    public static void setUserAllSite() {
+    public static void useAllSites() {
         hintSiteIds.set(new long[]{-1L});
     }
 
     /**
      * 查找主站点
      */
-    public static void setUseMainSite() {
+    public static void useMainSite() {
         hintSiteIds.set(new long[]{0L});
     }
 
@@ -51,14 +51,14 @@ public class SiteModelProxy {
      *
      * @param siteIds
      */
-    public static void setUseSites(long[] siteIds) {
+    public static void useSites(long[] siteIds) {
         hintSiteIds.set(siteIds);
     }
 
     /**
      * 清除站点查询
      */
-    public static void clearSiteIds() {
+    public static void clearUsed() {
         hintSiteIds.remove();
     }
 

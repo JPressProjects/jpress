@@ -72,19 +72,19 @@ public class ProductsDirective extends JbootDirectiveBase {
             withSite = withSite.trim().toLowerCase();
             if (withSite.equals("*") || withSite.equals("all")) {
                 try {
-                    SiteModelProxy.setUserAllSite();
+                    SiteModelProxy.useAllSites();
                     products = service.findListByColumns(columns, orderBy, count);
                 } finally {
-                    SiteModelProxy.clearSiteIds();
+                    SiteModelProxy.clearUsed();
                 }
             } else {
                 long[] siteIds = StrUtil.splitToSet(withSite, ",").stream()
                         .mapToLong(Long::parseLong).toArray();
                 try {
-                    SiteModelProxy.setUseSites(siteIds);
+                    SiteModelProxy.useSites(siteIds);
                     products = service.findListByColumns(columns, orderBy, count);
                 } finally {
-                    SiteModelProxy.clearSiteIds();
+                    SiteModelProxy.clearUsed();
                 }
             }
         } else {

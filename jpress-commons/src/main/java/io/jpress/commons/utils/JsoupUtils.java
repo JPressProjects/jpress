@@ -119,7 +119,7 @@ public class JsoupUtils {
         public MyWhitelist() {
 
             addTags("a", "b", "blockquote", "br", "caption", "cite", "code", "col", "colgroup", "dd", "div", "span", "embed", "object", "dl", "dt",
-                    "em", "h1", "h2", "h3", "h4", "h5", "h6", "i", "img", "li", "ol", "p", "pre", "q", "small","figure",
+                    "em", "h1", "h2", "h3", "h4", "h5", "h6", "i", "img", "li", "ol", "p", "pre", "q", "small", "figure", "style", "section",
                     "strike", "strong", "sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul");
 
             addAttributes("div", "data-form-id");
@@ -133,12 +133,12 @@ public class JsoupUtils {
             addAttributes("table", "summary");
             addAttributes("td", "abbr", "axis", "colspan", "rowspan", "width");
             addAttributes("th", "abbr", "axis", "colspan", "rowspan", "scope", "width");
-            addAttributes("video", "src", "autoplay", "controls", "loop", "muted", "poster", "preload","data-vid","data-cloud","data-play-auth","data-app-id");
+            addAttributes("video", "src", "autoplay", "controls", "loop", "muted", "poster", "preload", "data-vid", "data-cloud", "data-play-auth", "data-app-id");
             addAttributes("object", "width", "height", "classid", "codebase");
             addAttributes("param", "name", "value");
             addAttributes("embed", "src", "quality", "width", "height", "allowFullScreen", "allowScriptAccess", "flashvars", "name", "type", "pluginspage");
 
-            addAttributes(":all", "class", "style", "height", "width", "type", "id", "name");
+            addAttributes(":all", "class", "style", "height", "width", "type", "id", "name", "data-id", "data-role", "data-width", "data-height");
 
 //
             addProtocols("blockquote", "cite", "http", "https");
@@ -166,7 +166,7 @@ public class JsoupUtils {
 
 
             //允许 base64 的图片内容
-            if ("img".equals(tagName) && "src".equals(attr.getKey()) && attr.getValue().startsWith("data:;base64")){
+            if ("img".equals(tagName) && "src".equals(attr.getKey()) && attr.getValue().startsWith("data:") && attr.getValue().contains("base64")) {
                 return true;
             }
 

@@ -19,7 +19,7 @@ services:
       - db
     links:
       - db
-    image: fuhai/jpress:v5.0.5
+    image: fuhai/jpress:v5.0.6
     ports:
       - "8080:8080"
     restart: always

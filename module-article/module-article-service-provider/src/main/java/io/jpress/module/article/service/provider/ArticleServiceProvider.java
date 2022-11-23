@@ -247,13 +247,13 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
     }
 
     @Override
-    @Cacheable(name = "articles", key = "#(columns.cacheKey)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
+    @Cacheable(name = "articles", key = "#(columns.cacheKey)-#(orderBy)-#(count)")
     public List<Article> findListByColumns(Columns columns, String orderBy, Integer count) {
         return joinUserInfo(DAO.findListByColumns(columns, orderBy, count));
     }
 
     @Override
-    @Cacheable(name = "articles", key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)", liveSeconds = 60 * 60)
+    @Cacheable(name = "articles", key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)")
     public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
 
         Columns columns = Columns

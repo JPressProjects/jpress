@@ -16,6 +16,7 @@ starter-ent/
 .project
 .settings
 starter/**/jboot.properties
+starter-tomcat/**/jboot.properties
 install.lock
 *.jar
 *.log

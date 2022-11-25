@@ -28,15 +28,14 @@ import java.io.IOException;
 public class AttachmentHandlerKit {
 
 
-    public static void handle(String baseRoot,String target
+    public static void handle(String baseRoot, String target
             , HttpServletRequest request
             , HttpServletResponse response
             , boolean[] isHandled) {
 
 
-
         //不处理默认情况，由 web 容器去处理
-        if (StrUtil.isBlank(baseRoot)){
+        if (StrUtil.isBlank(baseRoot)) {
             return;
         }
 
@@ -44,13 +43,13 @@ public class AttachmentHandlerKit {
 
             isHandled[0] = true;
 
-            if (target.endsWith("/") || !target.contains(".")) {
+            if (target.endsWith("/") || !target.contains(".") || target.toLowerCase().contains(".jsp")) {
                 response.sendError(404);
                 return;
             }
 
-            File file = new File(baseRoot,target);
-            if (!file.exists()){
+            File file = new File(baseRoot, target);
+            if (!file.exists()) {
                 response.sendError(404);
                 return;
             }
@@ -65,9 +64,6 @@ public class AttachmentHandlerKit {
         }
 
     }
-
-
-
 
 
 }

@@ -121,7 +121,11 @@ public class JPressHandler extends Handler {
 
         //附件目录
         if (target.startsWith(ATTACHMENT_TARGET_PREFIX)) {
-            AttachmentHandlerKit.handle(JPressConfig.me.getAttachmentRoot(), target, request, response, isHandled);
+            if (target.toLowerCase().contains(".jsp")) {
+                HandlerKit.renderError404(request, response, isHandled);
+            } else {
+                AttachmentHandlerKit.handle(JPressConfig.me.getAttachmentRoot(), target, request, response, isHandled);
+            }
             return;
         }
 
@@ -136,6 +140,9 @@ public class JPressHandler extends Handler {
 
         //若不启用伪静态，让 undertow 处理静态资源 css js 等
         if (StrUtil.isBlank(suffix) && target.indexOf('.') != -1) {
+            if (target.toLowerCase().contains(".jsp")) {
+                HandlerKit.renderError404(request, response, isHandled);
+            }
             return;
         }
 

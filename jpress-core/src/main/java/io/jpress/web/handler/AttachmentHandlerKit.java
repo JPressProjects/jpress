@@ -40,7 +40,6 @@ public class AttachmentHandlerKit {
         }
 
         try {
-
             isHandled[0] = true;
 
             if (target.endsWith("/") || !target.contains(".") || target.toLowerCase().contains(".jsp")) {

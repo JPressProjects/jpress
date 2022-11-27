@@ -33,7 +33,7 @@
 
     <properties>
         <jdk.version>1.8</jdk.version>
-        <jboot.version>3.16.8</jboot.version>
+        <jboot.version>4.0.0</jboot.version>
         <jfinal-weixin.version>3.4</jfinal-weixin.version>
         <jjwt.version>0.9.1</jjwt.version>
         <logback.version>1.2.3</logback.version>

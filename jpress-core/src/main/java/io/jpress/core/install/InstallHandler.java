@@ -33,9 +33,6 @@ public class InstallHandler extends Handler {
         }
 
         if (target.indexOf('.') != -1) {
-            if (target.toLowerCase().contains(".jsp")) {
-                HandlerKit.renderError404(request, response, isHandled);
-            }
             return;
         }
 

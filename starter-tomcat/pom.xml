@@ -141,10 +141,10 @@
                 <includes>
                     <include>**/*.*</include>
                 </includes>
-<!--                <excludes>-->
-<!--                    <exclude>jboot.properties</exclude>-->
-<!--                    <exclude>install.lock</exclude>-->
-<!--                </excludes>-->
+                <excludes>
+                    <exclude>jboot.properties</exclude>
+                    <exclude>install.lock</exclude>
+                </excludes>
             </resource>
         </resources>
 

@@ -12,7 +12,7 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">数据库名</label>
         <div class="col-sm-9">
-            <input type="input" class="form-control" placeholder="您要将JPress安装到哪个数据库？"
+            <input type="text" class="form-control" placeholder="您要将JPress安装到哪个数据库？"
                    name="dbName" value="#(JPRESS_DB_NAME ??)">
             <p class="text-muted"> 注意：目前暂时只支持 mysql 5.6 或 5.7 版本。 </p>
         </div>
@@ -21,7 +21,7 @@
         <label class="col-sm-2 col-form-label">用户名</label>
 
         <div class="col-sm-9">
-            <input type="input" class="form-control" placeholder="数据库用户名"
+            <input type="text" class="form-control" placeholder="数据库用户名"
                    name="dbUser" value="#(JPRESS_DB_USER ??)">
         </div>
     </div>
@@ -30,7 +30,7 @@
         <label class="col-sm-2 col-form-label">密码</label>
 
         <div class="col-sm-9">
-            <input type="input" class="form-control" placeholder="... 及密码"
+            <input type="text" class="form-control" placeholder="... 及密码"
                    name="dbPwd" value="#(JPRESS_DB_PASSWORD ??)">
         </div>
     </div>
@@ -49,7 +49,7 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">主机</label>
         <div class="col-sm-9">
-            <input type="input" class="form-control" placeholder="主机或IP地址"
+            <input type="text" class="form-control" placeholder="主机或IP地址"
                    name="dbHost" value="#(JPRESS_DB_HOST ?? '127.0.0.1')">
             <p class="text-muted">如果 127.0.0.1 不能用，您通常可以从网站服务商得到正确的信息。</p>
         </div>

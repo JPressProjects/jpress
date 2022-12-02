@@ -34,7 +34,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">公众号 AppId</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="登录微信公众号平台获取...."
+                                    <input type="text" class="form-control" placeholder="登录微信公众号平台获取...."
                                            name="wechat_appid" value="#option('wechat_appid')">
                                     <p class="text-muted"> 微信公众号后台填写的 URL 为：
                                         <span >#option('web_domain')#(CPATH)/wechat/msg?appId=您的公众号的AppId</span>
@@ -44,7 +44,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">公众号 AppSecret</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="同上..."
+                                    <input type="text" class="form-control" placeholder="同上..."
                                            name="wechat_appsecret" value="#option('wechat_appsecret')">
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">公众号 Token</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="随意设置... 但是确保和微信后台设置一样。"
+                                    <input type="text" class="form-control" placeholder="随意设置... 但是确保和微信后台设置一样。"
                                            name="wechat_token" value="#option('wechat_token')">
                                     <p class="text-muted"> 请确保和微信公众号后台设置一样，否则无法正常工作。 </p>
                                 </div>
@@ -93,7 +93,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">触发关键字</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="输入此关键字将会进入多客服."
+                                    <input type="text" class="form-control" placeholder="输入此关键字将会进入多客服."
                                            name="wechat_chat_key" value="#option('wechat_chat_key')">
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">退出关键字</label>
                                 <div class="col-sm-6">
-                                    <input type="input" class="form-control" placeholder="出入此关键字退出多客服."
+                                    <input type="text" class="form-control" placeholder="出入此关键字退出多客服."
                                            name="wechat_unchat_key" value="#option('wechat_unchat_key')">
                                 </div>
                             </div>

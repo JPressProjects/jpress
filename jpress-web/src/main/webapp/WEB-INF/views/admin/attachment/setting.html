@@ -77,7 +77,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">图片限制</label>
                         <div class="col-sm-6">
-                            <input type="input" class="form-control" placeholder="图片最大值"
+                            <input type="text" class="form-control" placeholder="图片最大值"
                                    name="attachment_img_maxsize" value="#option('attachment_img_maxsize')">
                             <p class="text-muted"> 单位兆（M），默认为 10M，填写0允许任何大小。</p>
 
@@ -86,7 +86,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">其他文件</label>
                         <div class="col-sm-6">
-                            <input type="input" class="form-control" placeholder="视频、文档等最大值"
+                            <input type="text" class="form-control" placeholder="视频、文档等最大值"
                                    name="attachment_other_maxsize" value="#option('attachment_other_maxsize')">
                             <p class="text-muted"> 单位兆（M），默认为 100M，填写0允许任何大小。</p>
                         </div>
@@ -120,7 +120,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">API访问域名</label>
                         <div class="col-sm-6">
-                            <input type="input" class="form-control" placeholder="阿里云oss的 endPoint"
+                            <input type="text" class="form-control" placeholder="阿里云oss的 endPoint"
                                    name="attachment_aliyunoss_endpoint"
                                    value="#option('attachment_aliyunoss_endpoint')">
                             <p class="text-muted"> 阿里云API域名详情：<a target="_blank"
@@ -133,7 +133,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">AccessKeyId</label>
                         <div class="col-sm-6">
-                            <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
+                            <input type="text" class="form-control" placeholder="通过阿里云安全令牌生成..."
                                    name="attachment_aliyunoss_accesskeyid"
                                    value="#option('attachment_aliyunoss_accesskeyid')">
                         </div>
@@ -142,7 +142,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">AccessKeySecret</label>
                         <div class="col-sm-6">
-                            <input type="input" class="form-control" placeholder="通过阿里云安全令牌生成..."
+                            <input type="text" class="form-control" placeholder="通过阿里云安全令牌生成..."
                                    name="attachment_aliyunoss_accesskeysecret"
                                    value="#option('attachment_aliyunoss_accesskeysecret')">
                         </div>
@@ -151,7 +151,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">存储空间</label>
                         <div class="col-sm-6">
-                            <input type="input" class="form-control" placeholder="阿里云oss的 bucketName"
+                            <input type="text" class="form-control" placeholder="阿里云oss的 bucketName"
                                    name="attachment_aliyunoss_bucketname"
                                    value="#option('attachment_aliyunoss_bucketname')">
                         </div>
@@ -190,7 +190,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">透明度</label>
                         <div class="col-sm-6">
-                            <input type="input" class="form-control" placeholder="..."
+                            <input type="text" class="form-control" placeholder="..."
                                    name="attachment_watermark_transparency"
                                    value="#option('attachment_watermark_transparency')">
                             <p class="text-muted"> 请填写0~1的数字，默认为1不透明 </p>
@@ -230,7 +230,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">访问密钥Id</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入访问密钥的AccessKeyId"
+                                <input type="text" class="form-control" placeholder="请输入访问密钥的AccessKeyId"
                                        name="attachment_aliyunvideo_accesskeyid"
                                        value="#option('attachment_aliyunvideo_accesskeyid')">
                             </div>
@@ -239,7 +239,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">访问密钥Secret</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入访问密钥的AccessKeySecret"
+                                <input type="text" class="form-control" placeholder="请输入访问密钥的AccessKeySecret"
                                        name="attachment_aliyunvideo_accesskeysecret"
                                        value="#option('attachment_aliyunvideo_accesskeysecret')">
                                 <p class="text-muted">
@@ -257,7 +257,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">接入地址</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入接入地址（访问域名）"
+                                <input type="text" class="form-control" placeholder="请输入接入地址（访问域名）"
                                        name="attachment_aliyunvideo_endpoint"
                                        value="#option('attachment_aliyunvideo_endpoint')">
                                 <p class="text-muted">
@@ -272,7 +272,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">访问密钥Id</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入访问密钥的AccessKeyId"
+                                <input type="text" class="form-control" placeholder="请输入访问密钥的AccessKeyId"
                                        name="attachment_aliyunlive_accesskeyid"
                                        value="#option('attachment_aliyunlive_accesskeyid')">
                             </div>
@@ -281,7 +281,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">访问密钥Secret</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入访问密钥的AccessKeySecret"
+                                <input type="text" class="form-control" placeholder="请输入访问密钥的AccessKeySecret"
                                        name="attachment_aliyunlive_accesskeysecret"
                                        value="#option('attachment_aliyunlive_accesskeysecret')">
                                 <p class="text-muted">直播、点播的访问密钥是通用的，但在此处也需填写 </p>
@@ -291,7 +291,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">直播中心</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入直播中心地域对应的regionId"
+                                <input type="text" class="form-control" placeholder="请输入直播中心地域对应的regionId"
                                        name="attachment_aliyunlive_regionid"
                                        value="#option('attachment_aliyunlive_regionid')">
                                 <p class="text-muted">
@@ -304,7 +304,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">应用名称</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入应用名称AppName"
+                                <input type="text" class="form-control" placeholder="请输入应用名称AppName"
                                        name="attachment_aliyunlive_appname"
                                        value="#option('attachment_aliyunlive_appname')">
                                 <p class="text-muted">
@@ -317,7 +317,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">播放域名</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入播放域名PlayDomain"
+                                <input type="text" class="form-control" placeholder="请输入播放域名PlayDomain"
                                        name="attachment_aliyunlive_playdomain"
                                        value="#option('attachment_aliyunlive_playdomain')">
                                 <p class="text-muted">
@@ -331,7 +331,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">播放鉴权key</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入播放鉴权key"
+                                <input type="text" class="form-control" placeholder="请输入播放鉴权key"
                                        name="attachment_aliyunlive_playauthstring"
                                        value="#option('attachment_aliyunlive_playauthstring')">
                                 <p class="text-muted">
@@ -343,7 +343,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">推流域名</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入推流域名PushDomain"
+                                <input type="text" class="form-control" placeholder="请输入推流域名PushDomain"
                                        name="attachment_aliyunlive_pushdomain"
                                        value="#option('attachment_aliyunlive_pushdomain')">
                                 <p class="text-muted">添加域名时选择“业务类型”（推流域名）</p>
@@ -353,7 +353,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">推流鉴权key</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入推流鉴权key"
+                                <input type="text" class="form-control" placeholder="请输入推流鉴权key"
                                        name="attachment_aliyunlive_pushauthstring"
                                        value="#option('attachment_aliyunlive_pushauthstring')">
                                 <p class="text-muted"></p>
@@ -367,7 +367,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">密钥ID</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入云API密钥SecretId"
+                                <input type="text" class="form-control" placeholder="请输入云API密钥SecretId"
                                        name="attachment_qcloudvideo_secretid"
                                        value="#option('attachment_qcloudvideo_secretid')">
                             </div>
@@ -376,7 +376,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">密钥key</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入云API密钥SecretKey"
+                                <input type="text" class="form-control" placeholder="请输入云API密钥SecretKey"
                                        name="attachment_qcloudvideo_secretkey"
                                        value="#option('attachment_qcloudvideo_secretkey')">
                                 <p class="text-muted">
@@ -390,7 +390,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">账号ID</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入账号 appId"
+                                <input type="text" class="form-control" placeholder="请输入账号 appId"
                                        name="attachment_qcloudvideo_appid"
                                        value="#option('attachment_qcloudvideo_appid')">
                             </div>
@@ -402,7 +402,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">应用名称</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入应用名称appName"
+                                <input type="text" class="form-control" placeholder="请输入应用名称appName"
                                        name="attachment_qcloudlive_appname"
                                        value="#option('attachment_qcloudlive_appname')">
                                 <p class="text-muted">
@@ -414,7 +414,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">播放域名</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入播放域名PlayDomain"
+                                <input type="text" class="form-control" placeholder="请输入播放域名PlayDomain"
                                        name="attachment_qcloudlive_playdomain"
                                        value="#option('attachment_qcloudlive_playdomain')">
                                 <p class="text-muted"><a href="https://cloud.tencent.com/document/product/267/32831" target="_blank">播放配置</a>文档说明</p>
@@ -424,7 +424,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">播放鉴权key</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入播放鉴权key"
+                                <input type="text" class="form-control" placeholder="请输入播放鉴权key"
                                        name="attachment_qcloudlive_play_key"
                                        value="#option('attachment_qcloudlive_play_key')">
                                 <p class="text-muted">
@@ -438,7 +438,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">播放地址有效时间</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入播放地址有效时间playTxTime"
+                                <input type="text" class="form-control" placeholder="请输入播放地址有效时间playTxTime"
                                        name="attachment_qcloudlive_play_txtime"
                                        value="#option('attachment_qcloudlive_play_txtime')">
                                 <p class="text-muted">
@@ -451,7 +451,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">推流域名</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入推流域名PushDomain"
+                                <input type="text" class="form-control" placeholder="请输入推流域名PushDomain"
                                        name="attachment_qcloudlive_pushdomain"
                                        value="#option('attachment_qcloudlive_pushdomain')">
                                 <p class="text-muted">
@@ -464,7 +464,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">推流鉴权key</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入推流鉴权key"
+                                <input type="text" class="form-control" placeholder="请输入推流鉴权key"
                                        name="attachment_qcloudlive_push_key"
                                        value="#option('attachment_qcloudlive_push_key')">
                                 <p class="text-muted"> 推流鉴权key： 云直播控制台 > 域名管理（选择推流域名）点击管理 > 推流配置（鉴权配置）</p>
@@ -474,7 +474,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">推流地址有效时间</label>
                             <div class="col-sm-6">
-                                <input type="input" class="form-control" placeholder="请输入推流地址有效时间pushTxTime"
+                                <input type="text" class="form-control" placeholder="请输入推流地址有效时间pushTxTime"
                                        name="attachment_qcloudlive_txtime"
                                        value="#option('attachment_qcloudlive_txtime')">
                                 <p class="text-muted"> 推流地址有效时间： 云直播控制台 > 域名管理（选择推流域名）点击管理 > 推流配置（推流地址生成器）</p>

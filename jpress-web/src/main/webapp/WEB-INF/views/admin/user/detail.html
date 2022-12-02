@@ -12,14 +12,14 @@
             <label class="col-sm-2 col-form-label">登录账号</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" value="#(user.username ??)" readonly>
+                <input type="text" class="form-control" value="#(user.username ??)" readonly>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">昵称</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="取个好听的昵称..."
+                <input type="text" class="form-control" placeholder="取个好听的昵称..."
                        value="#(user.nickname ??)" name="user.nickname">
             </div>
         </div>
@@ -28,7 +28,7 @@
             <label class="col-sm-2 col-form-label">身份</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" placeholder="设计师？程序员？..."
+                <input type="text" class="form-control" placeholder="设计师？程序员？..."
                        value="#(user.identity ??)" name="user.identity">
             </div>
         </div>
@@ -62,7 +62,7 @@
             <label class="col-sm-2 col-form-label">注册日期</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" value="#date(user.created)" readonly>
+                <input type="text" class="form-control" value="#date(user.created)" readonly>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
             <label class="col-sm-2 col-form-label">激活日期</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" value="#date(user.activated)" readonly>
+                <input type="text" class="form-control" value="#date(user.activated)" readonly>
             </div>
         </div>
 
@@ -78,7 +78,7 @@
             <label class="col-sm-2 col-form-label">最后登录时间</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" value="#date(user.logged)" readonly>
+                <input type="text" class="form-control" value="#date(user.logged)" readonly>
             </div>
         </div>
 
@@ -86,7 +86,7 @@
             <label class="col-sm-2 col-form-label">来源</label>
 
             <div class="col-sm-8">
-                <input type="input" class="form-control" value="#(user.sourceString ??)" readonly>
+                <input type="text" class="form-control" value="#(user.sourceString ??)" readonly>
             </div>
         </div>
 

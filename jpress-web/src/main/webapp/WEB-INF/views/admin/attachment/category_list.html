@@ -50,7 +50,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label"><span class="text-danger mr-2">*</span> 名称 </label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="取个适合的分类名称..." required
+                                    <input type="text" class="form-control" placeholder="取个适合的分类名称..." required
                                            value="#(category.title ??)" name="category.title">
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">排序</label>
                                 <div class="col-sm-9">
-                                    <input type="input" class="form-control" placeholder="此分类排序的序号"
+                                    <input type="text" class="form-control" placeholder="此分类排序的序号"
                                            value="#(category.order_number ??)"
                                            name="category.order_number">
                                     <p class="text-muted"> 越小的数字越靠前 </p>

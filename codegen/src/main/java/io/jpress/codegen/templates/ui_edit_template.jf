@@ -46,13 +46,13 @@
 		                                <div class="col-sm-6">
 
 		                                #if("java.util.Date"==cm.javaType)
-										    <input type="input" class="form-control datetime" placeholder="点击选择"
+										    <input type="text" class="form-control datetime" placeholder="点击选择"
 		                       						name="#(modelAttrName)" value="#('#date(')#(modelAttrName) ?? now,'yyyy-MM-dd')" >
 										 #elseif("java.lang.Boolean"==cm.javaType)
 										   <input type="checkbox" class="switchery" data-for="#(modelAttrName_)" #('#')checkedIf(#(modelAttrName) ??)>
                                            <input type="hidden" id="#(modelAttrName_)" name="#(modelAttrName)">
 										#else
-										   <input type="input" name="#(modelAttrName)" class="form-control" value="#('#(')#(modelAttrName) ??)"
+										   <input type="text" name="#(modelAttrName)" class="form-control" value="#('#(')#(modelAttrName) ??)"
 		                                           placeholder="">
 										#end
 		                                </div>

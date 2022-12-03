@@ -72,6 +72,7 @@ public class JPressHandler extends Handler {
             requestContext.set(request);
             request.setAttribute("VERSION", JPressConsts.VERSION);
             request.setAttribute("CPATH", request.getContextPath());
+            request.setAttribute("CURRENT_TIME", System.currentTimeMillis());
 
             // SPATH 默认值为 "" 空字符串
             request.setAttribute("SPATH", "");

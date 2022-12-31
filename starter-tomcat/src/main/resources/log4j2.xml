@@ -45,7 +45,7 @@
             <TimeBasedTriggeringPolicy/>
         </RollingFile>
 
-        <RollingFile name="RollingFile" fileName="${LOG_HOME}/rar.log"
+        <RollingFile name="rollingLog" fileName="${LOG_HOME}/rar.log"
                      filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout charset="UTF-8"
                            pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
@@ -65,7 +65,7 @@
             <appender-ref ref="allLog"/>
             <appender-ref ref="debugLog"/>
             <appender-ref ref="errorLog"/>
-            <appender-ref ref="RollingFile"/>
+            <appender-ref ref="rollingLog"/>
         </root>
     </loggers>
 </configuration>

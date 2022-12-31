@@ -17,7 +17,8 @@
         #if(SITES && SITES.size() > 0)
         <!-- 站点信息 -->
         <li class="nav-item dropdown">
-            <button class="btn btn-sm btn-secondary dropdown-toggle" style="background: #464c52" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+            <<button class="btn btn-sm btn-secondary dropdown-toggle" style="background: #464c52;height: 28px"
+                     type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                 当前站点：#(SITE.name ?? '主站点')
             </button>
             <div class="dropdown-menu" style="margin-top: 8px" aria-labelledby="dropdownMenuButton">
@@ -35,8 +36,8 @@
 
         <!-- 头像信息 -->
         <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center">
-                <img src="#(USER.avatar ??)" class="img-circle" style="width: 30px;height:30px;">
+            <a class="nav-link" data-toggle="dropdown" href="javascript:;" style="display: flex;align-items: center;">
+                <img src="#(USER.avatar ??)" class="img-circle" style="width: 25px;height:25px;margin-right: 5px"> #(USER.showName ??)
                 <i class="fas fa-caret-down"></i>
             </a>
 

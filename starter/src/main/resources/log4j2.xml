@@ -60,12 +60,12 @@
     </appenders>
     <!--root 默认加载-->
     <loggers>
-        <root level="WARN">
+        <root level="INFO">
             <appender-ref ref="Console"/>
-            <!--<appender-ref ref="allLog"/>-->
-            <!--<appender-ref ref="debugLog"/>-->
-            <!--<appender-ref ref="errorLog"/>-->
-            <!--<appender-ref ref="RollingFile"/>-->
+            <appender-ref ref="allLog"/>
+            <appender-ref ref="debugLog"/>
+            <appender-ref ref="errorLog"/>
+            <appender-ref ref="RollingFile"/>
         </root>
     </loggers>
 </configuration>

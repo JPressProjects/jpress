@@ -55,16 +55,16 @@
             <div class="col-md-2">
 
                 <div class="card card-outline card-primary">
-                    <div class="card-body card-profile text-center">
+                    <div class="card-body card-profile text-center" style="padding: 1.25rem 1.25rem 0 1.25rem">
                         <a href="#(CPATH)/admin/user/detail/avatar/#(user.id)"><img
                                 class="profile-user-img img-responsive img-circle" src="#(user.avatar ??)"></a>
-                        <h3 class="profile-username text-center">#(user.nickname ??)</h3>
+                        <h3 class="profile-username text-center">#(user.showName ??)</h3>
                         <p class="text-muted">#(user.identity ??)</p>
                     </div>
 
                     <div class="card-body">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                            data-accordion="false" style="border-top: 1px solid #eee;" id="nav">
+                            data-accordion="false" id="nav">
                             #hasPermission('/admin/user/detail')
                             <li class="nav-item" id="detail-base">
                                 <a class="nav-link" href="#(CPATH)/admin/user/detail/#(user.id)"><i

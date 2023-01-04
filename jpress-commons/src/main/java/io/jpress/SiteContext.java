@@ -58,7 +58,6 @@ public class SiteContext {
     }
 
 
-
     public static String getSitePath() {
         Controller controller = JbootControllerContext.get();
         if (controller == null) {
@@ -97,11 +96,11 @@ public class SiteContext {
             JbootCache cache = JbootCacheManager.me().getCache();
             try {
                 setSiteId(siteId);
-                cache.setThreadCacheNamePrefix("site" + siteId + ":");
+                cache.setThreadCacheNamePrefix("site" + siteId);
                 callable.call();
             } finally {
                 setSiteId(currentSiteId);
-                cache.setThreadCacheNamePrefix("site" + currentSiteId + ":");
+                cache.setThreadCacheNamePrefix("site" + currentSiteId);
             }
         }
     }
@@ -114,11 +113,11 @@ public class SiteContext {
             JbootCache cache = JbootCacheManager.me().getCache();
             try {
                 setSiteId(siteId);
-                cache.setThreadCacheNamePrefix("site" + siteId + ":");
+                cache.setThreadCacheNamePrefix("site" + siteId);
                 return callable.call();
             } finally {
                 setSiteId(currentSiteId);
-                cache.setThreadCacheNamePrefix("site" + currentSiteId + ":");
+                cache.setThreadCacheNamePrefix("site" + currentSiteId);
             }
         }
     }

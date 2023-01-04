@@ -215,7 +215,7 @@ public class TemplateRender extends Render {
             if (StrUtil.isBlank(url)
                     || url.startsWith("//")
                     || url.toLowerCase().startsWith("http")
-                    || (attrName.equals("src") && url.startsWith("data:image/"))
+                    || ("src".equals(attrName) && url.startsWith("data:"))
                     || element.hasAttr("cdn-exclude")) {
                 continue;
             }

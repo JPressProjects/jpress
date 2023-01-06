@@ -841,3 +841,11 @@ label:not(.form-check-label):not(.custom-file-label) {
     top: 0;
     display: none;
 }
+
+.custom-file-input:lang(zh) ~ .custom-file-label::after {
+    content: "浏览";
+}
+
+.custom-file-label::after {
+    content: "浏览";
+}

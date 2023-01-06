@@ -523,6 +523,12 @@ function initCommentComponent() {
     });
 
 
+    $('body').on('click','.toReplyComment', function () {
+        $('#comment-pid').val($(this).attr('data-cid'));
+        $('.comment-textarea textarea').val('回复 @' + $(this).attr('data-author') + " ：");
+        $('.comment-textarea textarea').focus();
+    });
+
 }
 
 

@@ -80,37 +80,14 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
         article.update();
     }
 
-    @Override
-    public Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status) {
-
-        return _paginateByBaseColumns(page
-                , pagesize
-                , title
-                , categoryId
-                , Columns.create("article.status", status));
-    }
 
     @Override
-    public Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId) {
+    public Page<Article> _paginateByColumns(int page, int pagesize, Columns columns, String orderBy) {
 
-        return _paginateByBaseColumns(page
-                , pagesize
-                , title
-                , categoryId
-                , Columns.create().ne("article.status", Article.STATUS_TRASH));
-    }
-
-
-    public Page<Article> _paginateByBaseColumns(int page, int pagesize, String title, Long categoryId, Columns baseColumns) {
-
-        Columns columns = baseColumns;
-        columns.eq("m.category_id", categoryId);
-        columns.likeAppendPercent("article.title", title);
-
-        Page<Article> dataPage = DAO.leftJoinIf("article_category_mapping", categoryId != null)
-                .as("m")
-                .on("article.id = m.article_id")
-                .paginateByColumns(page, pagesize, columns, "id desc");
+        Page<Article> dataPage = DAO.leftJoinIf("article_category_mapping", columns.containsName("mapping.category_id"))
+                .as("mapping")
+                .on("article.id = mapping.article_id")
+                .paginateByColumns(page, pagesize, columns, StrUtil.obtainDefault(orderBy,"id desc"));
 
 
         return joinUserInfo(dataPage);

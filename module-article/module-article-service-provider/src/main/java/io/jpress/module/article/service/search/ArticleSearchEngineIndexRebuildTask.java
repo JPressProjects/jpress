@@ -17,6 +17,7 @@ package io.jpress.module.article.service.search;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.NamedThreadPools;
 import io.jpress.JPressOptions;
 import io.jpress.module.article.model.Article;
@@ -42,7 +43,8 @@ public class ArticleSearchEngineIndexRebuildTask implements JPressOptions.Option
                 ArticleService articleService = Aop.get(ArticleService.class);
                 int page = 1;
                 int pagesize = 100;
-                Page<Article> articlePage = articleService._paginateByStatus(page, pagesize, null, null, Article.STATUS_NORMAL);
+                Page<Article> articlePage = articleService._paginateByColumns(page, pagesize
+                        , Columns.create("status",Article.STATUS_NORMAL),null);
                 do {
                     for (Article article : articlePage.getList()) {
                         ArticleSearcherFactory.getSearcher().updateArticle(article);

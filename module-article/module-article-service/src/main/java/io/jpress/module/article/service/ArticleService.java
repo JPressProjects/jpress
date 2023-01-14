@@ -120,9 +120,7 @@ public interface ArticleService extends JbootServiceJoiner {
 
     List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);
 
-    Page<Article> _paginateByStatus(int page, int pagesize, String title, Long categoryId, String status);
-
-    Page<Article> _paginateWithoutTrash(int page, int pagesize, String title, Long categoryId);
+    Page<Article> _paginateByColumns(int page, int pagesize, Columns baseColumns,String orderBy);
 
     Page<Article> _paginateByUserId(int page, int pagesize, Long userId);
 

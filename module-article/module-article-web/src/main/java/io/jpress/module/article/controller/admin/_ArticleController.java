@@ -18,6 +18,8 @@ package io.jpress.module.article.controller.admin;
 import com.jfinal.aop.Inject;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
+import io.jboot.db.model.Columns;
+import io.jboot.utils.DateUtil;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.controller.annotation.RequestMapping;
 import io.jboot.web.validate.EmptyValidate;
@@ -36,7 +38,6 @@ import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -61,10 +62,35 @@ public class _ArticleController extends AdminControllerBase {
         String status = getPara("status");
         String title = getPara("title");
         Long categoryId = getParaToLong("categoryId");
+        Long userId = getParaToLong("userId");
 
-        Page<Article> page = StringUtils.isBlank(status)
-                        ? articleService._paginateWithoutTrash(getPagePara(), getPageSizePara(), title, categoryId)
-                        : articleService._paginateByStatus(getPagePara(), getPageSizePara(), title, categoryId, status);
+        Date startDate = null;
+        Date endDate = null;
+
+        String dateRange = getPara("dateRange");
+        if (StrUtil.isNotBlank(dateRange) && dateRange.contains("~")) {
+            String[] startAndEndDateStrings = dateRange.split("~");
+            startDate = DateUtil.parseDate(startAndEndDateStrings[0].trim());
+            endDate = DateUtil.parseDate(startAndEndDateStrings[1].trim());
+        }
+
+        Columns columns = Columns.create("mapping.category_id", categoryId);
+
+        if (startDate != null && endDate != null) {
+            columns.gt("article.created", startDate);
+            columns.le("article.created", DateUtil.addDays(endDate, 1));
+        }
+
+        columns.eq("article.user_id", userId);
+        columns.likeAppendPercent("article.title", title);
+
+        if (StrUtil.isBlank(status)) {
+            columns.ne("article.status", Article.STATUS_TRASH);
+        } else {
+            columns.eq("article.status", status);
+        }
+
+        Page<Article> page = articleService._paginateByColumns(getPagePara(), getPageSizePara(), columns, null);
 
         setAttr("page", page);
 
@@ -190,18 +216,18 @@ public class _ArticleController extends AdminControllerBase {
             }
         }
 
-        if (article.getCreated() == null){
+        if (article.getCreated() == null) {
             article.setCreated(new Date());
         }
 
-        if (article.getModified() == null){
+        if (article.getModified() == null) {
             article.setModified(new Date());
         }
 
         if (article.getOrderNumber() == null) {
             article.setOrderNumber(0);
         }
-        if(getLoginedUser() != null){
+        if (getLoginedUser() != null) {
             //文章作者
             article.setAuthor(getLoginedUser().getNickname());
         }
@@ -214,7 +240,7 @@ public class _ArticleController extends AdminControllerBase {
 
 
         Long[] saveBeforeCategoryIds = null;
-        if (article.getId() != null){
+        if (article.getId() != null) {
             saveBeforeCategoryIds = categoryService.findCategoryIdsByArticleId(article.getId());
         }
 
@@ -250,7 +276,7 @@ public class _ArticleController extends AdminControllerBase {
 
         Set<String> tagset = new HashSet<>();
         for (String tag : tags) {
-            tagset.addAll(StrUtil.splitToSet(tag,","));
+            tagset.addAll(StrUtil.splitToSet(tag, ","));
         }
 
         List<ArticleCategory> categories = categoryService.doCreateOrFindByTagString(tagset.toArray(new String[0]));
@@ -380,7 +406,6 @@ public class _ArticleController extends AdminControllerBase {
         categoryService.deleteById(getIdPara());
         renderOkJson();
     }
-
 
 
     @AdminMenu(text = "设置", groupId = "article", order = 6)

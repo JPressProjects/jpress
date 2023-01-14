@@ -242,15 +242,15 @@ function initDatePicker() {
                 timepicker: timepicker,
                 clearButton: true,
                 todayButton: new Date(),
-                onShow: function (dp, animationCompleted) {
-                    if (!animationCompleted) {
-                        var inputDate = dp.$el.val();
-                        if (inputDate) {
-                            var date = new Date(inputDate.replace(/-/g, "/"));
-                            dp.selectDate(date);
-                        }
-                    }
-                }
+                // onShow: function (dp, animationCompleted) {
+                //     if (!animationCompleted) {
+                //         var inputDate = dp.$el.val();
+                //         if (inputDate) {
+                //             var date = new Date(inputDate.replace(/-/g, "/"));
+                //             dp.selectDate(date);
+                //         }
+                //     }
+                // }
             })
         });
     }

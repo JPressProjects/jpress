@@ -75,7 +75,14 @@
                     <form class=" admin-search-panel" action="" method="get">
                         <div class="row">
                             <div class="form-group col-lg-2">
-                                <input type="text" class="form-control" placeholder="请输入标题" name="title" value="#para('title')">
+                                <input type="text" class="form-control" placeholder="文章标题" name="title" value="#para('title')">
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <input type="text"
+                                       data-range="true"
+                                       data-multiple-dates-separator=" ~ "
+                                       data-language="zh"
+                                       class="form-control date" placeholder="发布时间开始 ~ 结束" name="dateRange" value="#para('dateRange')">
                             </div>
                              <div class="form-group col-lg-2">
                                  <select class="form-control" name="categoryId">
@@ -85,6 +92,18 @@
                                      #end
                                  </select>
                             </div>
+                            <div class="input-group col-lg-2">
+                                <input type="text" class="form-control" placeholder="发布用户" readonly id="userName" name="userName" value="#para('userName')">
+                                <div class="form-control-clear d-none"><i class="fas fa-times"></i></div>
+                                <input type="hidden" class="clear" name="userId"  id="userId" value="#para('userId')">
+                                <div class="input-group-append">
+                                    <button class="btn input-group-text" type="button" open-type="layer"
+                                            data-layer-title="请选择用户"
+                                            data-layer-content="#(CPATH)/commons/select/user"
+                                            data-layer-binds="#userName:nickname,#userId:id"><i class="fas fa-user-plus"></i></button>
+                                </div>
+                            </div>
+
                             <div class="form-group col-lg-2">
                                 <button type="submit" class="btn btn-primary ">查询</button>
                                 <button type="reset" class="btn btn-default">重置</button>
@@ -102,6 +121,7 @@
                                 <th style="width: 10px">
                                     <input class="tableCheckAll"  type="checkbox">
                                 </th>
+                                <th style="width: 50px">序号</th>
                                 <th style="width: 450px">标题</th>
                                 <th>分类</th>
                                 <th>标签</th>
@@ -119,6 +139,9 @@
                         <tr >
                             <td>
                                 <input name="tableItem"  type="checkbox" value="#(item.id)"/>
+                            </td>
+                            <td>
+                                #(item.id)
                             </td>
                             <td>
                                 <strong>

@@ -120,6 +120,12 @@ div.dataTables_wrapper {
     padding: 15px 0.5rem 10px 0.5rem;
 }
 
+.attr-tag{
+    background: #1c73e8;
+    color: #fff;
+    padding: 0 6px;
+    border-radius: 2px;
+}
 
 .btn-group > .active {
     background-color: #e9ecef;

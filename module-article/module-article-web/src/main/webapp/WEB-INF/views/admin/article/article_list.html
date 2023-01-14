@@ -99,14 +99,6 @@
                     <table class="table table-striped table-action">
                         <thead>
                             <tr>
-<!--                                <th style="width: 10px">-->
-<!--                                    <input class="tableCheckAll"  type="checkbox">-->
-<!--                                </th>-->
-<!--                                <th style="width: 450px">标题</th>-->
-<!--                                <th>固定链接</th>-->
-<!--                                <th>样式</th>-->
-<!--                                <th style="width: 100px">发布时间</th>-->
-
                                 <th style="width: 10px">
                                     <input class="tableCheckAll"  type="checkbox">
                                 </th>
@@ -130,10 +122,16 @@
                             </td>
                             <td>
                                 <strong>
-                                    <a href="#(CPATH)/admin/article/write/#(item.id)">#(item.title ??)</a>
-                                    #if(item.isDraft())
-                                    （草稿）
-                                    #end
+                                    <a href="#(CPATH)/admin/article/write/#(item.id)">
+                                        #(item.title ??)
+                                    </a>
+
+                                    #if(item.isDraft())（草稿）#end
+
+                                    #if(item.withHot ??)<span class="attr-tag">热</span>#end
+                                    #if(item.withTop ??)<span class="attr-tag">顶</span>#end
+                                    #if(item.withLeadNews ??)<span class="attr-tag">头条</span>#end
+
                                 </strong>
                                 <div class="jp-action-card">
                                         #if(item.isNormal())

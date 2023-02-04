@@ -120,7 +120,7 @@ public interface ArticleService extends JbootServiceJoiner {
 
     List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);
 
-    Page<Article> _paginateByColumns(int page, int pagesize, Columns baseColumns,String orderBy);
+    Page<Article> _paginateByColumns(int page, int pagesize, Columns baseColumns, String orderBy);
 
     Page<Article> _paginateByUserId(int page, int pagesize, Long userId);
 
@@ -128,7 +128,7 @@ public interface ArticleService extends JbootServiceJoiner {
 
     Page<Article> paginateInNormal(int page, int pagesize, String orderBy);
 
-    Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy);
+    Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, boolean includeChildren, String orderBy);
 
     void doIncArticleViewCount(long articleId);
 

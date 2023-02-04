@@ -85,7 +85,7 @@ public class ArticleApiController extends ApiControllerBase {
             , @ApiPara("每页的数据数量") @DefaultValue("10") int pageSize) {
         Page<Article> page = categoryId == null
                 ? articleService.paginateInNormal(pageNumber, pageSize, orderBy)
-                : articleService.paginateByCategoryIdInNormal(pageNumber, pageSize, categoryId, orderBy);
+                : articleService.paginateByCategoryIdInNormal(pageNumber, pageSize, categoryId, false, orderBy);
 
         return Ret.ok().set("page", page);
     }

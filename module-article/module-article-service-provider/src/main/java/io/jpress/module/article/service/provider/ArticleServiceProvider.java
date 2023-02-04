@@ -87,7 +87,7 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
         Page<Article> dataPage = DAO.leftJoinIf("article_category_mapping", columns.containsName("mapping.category_id"))
                 .as("mapping")
                 .on("article.id = mapping.article_id")
-                .paginateByColumns(page, pagesize, columns, StrUtil.obtainDefault(orderBy,"id desc"));
+                .paginateByColumns(page, pagesize, columns, StrUtil.obtainDefault(orderBy, "id desc"));
 
 
         return joinUserInfo(dataPage);
@@ -117,13 +117,19 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
 
     @Override
     @Cacheable(name = "articles")
-    public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, String orderBy) {
+    public Page<Article> paginateByCategoryIdInNormal(int page, int pagesize, long categoryId, boolean includeChildren, String orderBy) {
 
         Columns columns = new Columns();
-        columns.eq("m.category_id", categoryId);
+        //查询子级数据
+        if (includeChildren) {
+            Long[] thisAndChildrenIds = categoryService.findCategoryIdsByParentId(categoryId);
+            columns.in("m.category_id", thisAndChildrenIds);
+        } else {
+            columns.eq("m.category_id", categoryId);
+        }
         columns.eq("article.status", Article.STATUS_NORMAL);
 
-        Page<Article> dataPage = DAO.leftJoin("article_category_mapping")
+        Page<Article> dataPage = DAO.distinct("article.id").leftJoin("article_category_mapping")
                 .as("m").on("article.id=m.`article_id`")
                 .paginateByColumns(page, pagesize, columns, StrUtil.obtainDefault(orderBy, DEFAULT_ORDER_BY));
         return joinUserInfo(dataPage);

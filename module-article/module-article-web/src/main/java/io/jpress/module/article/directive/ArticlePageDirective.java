@@ -50,6 +50,10 @@ public class ArticlePageDirective extends JbootDirectiveBase {
         int pageSize = getParaToInt("pageSize", scope, 10);
         String orderBy = getPara("orderBy", scope, "id desc");
 
+        //是否查询子分类的内容，默认为 true
+        boolean includeChildren = getParaToBool("includeChildren", scope, true);
+
+
         // 可以指定当前的分类ID
         Long categoryId = getParaToLong("categoryId", scope, 0L);
         ArticleCategory category = controller.getAttr("category");
@@ -60,7 +64,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
 
         Page<Article> articlePage = categoryId == 0
                 ? service.paginateInNormal(page, pageSize, orderBy)
-                : service.paginateByCategoryIdInNormal(page, pageSize, categoryId, orderBy);
+                : service.paginateByCategoryIdInNormal(page, pageSize, categoryId, includeChildren, orderBy);
 
         scope.setGlobal("articlePage", articlePage);
         renderBody(env, scope, writer);

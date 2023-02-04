@@ -30,7 +30,6 @@
         <module>module-article-search-db</module>
         <module>module-article-search-lucene</module>
         <module>module-article-search-es</module>
-        <module>module-article-search-opensearch</module>
     </modules>
 
     <build>

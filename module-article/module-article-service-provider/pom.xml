@@ -60,12 +60,6 @@
             <version>5.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-article-search-opensearch</artifactId>
-            <version>5.0</version>
-        </dependency>
-
     </dependencies>
 
 

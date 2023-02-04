@@ -20,7 +20,6 @@ import com.jfinal.aop.Aop;
 import io.jboot.core.spi.JbootSpiLoader;
 import io.jboot.utils.StrUtil;
 import io.jpress.JPressOptions;
-import io.jpress.module.product.search.AliyunOpenSearcher;
 import io.jpress.module.product.search.ElasticSearcher;
 import io.jpress.module.product.searcher.DbSearcher;
 import io.jpress.module.product.searcher.LuceneSearcher;
@@ -57,8 +56,6 @@ public class ProductSearcherFactory {
                 return Aop.get(LuceneSearcher.class);
             case "es":
                 return Aop.get(ElasticSearcher.class);
-            case "aliopensearch":
-                return Aop.get(AliyunOpenSearcher.class);
             default:
         }
 

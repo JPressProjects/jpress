@@ -29,7 +29,6 @@
         <module>module-product-search-db</module>
         <module>module-product-search-es</module>
         <module>module-product-search-lucene</module>
-        <module>module-product-search-opensearch</module>
     </modules>
 
     <build>

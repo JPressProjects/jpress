@@ -4,11 +4,11 @@ import io.jboot.Jboot;
 import io.jboot.aop.annotation.Bean;
 import io.jboot.components.cache.annotation.Cacheable;
 import io.jboot.db.model.Column;
+import io.jboot.utils.ArrayUtil;
 import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.module.product.model.ProductImage;
 import io.jpress.module.product.model.base.BaseProductImage;
 import io.jpress.module.product.service.ProductImageService;
-import org.apache.commons.lang.ArrayUtils;
 
 import java.util.Comparator;
 import java.util.List;
@@ -49,7 +49,7 @@ public class ProductImageServiceProvider extends JPressServiceBase<ProductImage>
         List<ProductImage> productImages = findListByProductId(productId);
         if (productImages != null) {
             for (ProductImage image : productImages) {
-                if (!ArrayUtils.contains(imageIds, image.getId().toString())) {
+                if (!ArrayUtil.contains(imageIds, image.getId().toString())) {
                     DAO.deleteById(image.getId());
                 }
             }

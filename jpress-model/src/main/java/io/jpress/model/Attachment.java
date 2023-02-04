@@ -86,7 +86,7 @@ public class Attachment extends BaseAttachment<Attachment> {
     }
 
     private boolean suffixIn(List<String> suffixList) {
-        String suffix = StrUtil.obtainDefaultIfBlank(getSuffix(),FileUtil.getSuffix(getPath()));
+        String suffix = StrUtil.obtainDefault(getSuffix(),FileUtil.getSuffix(getPath()));
         return suffix != null && suffixList.contains(suffix.toLowerCase());
     }
 

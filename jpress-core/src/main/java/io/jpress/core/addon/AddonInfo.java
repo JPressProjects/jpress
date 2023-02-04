@@ -78,7 +78,7 @@ public class AddonInfo implements Serializable {
         this.description = properties.getProperty("description");
         this.author = properties.getProperty("author");
         this.authorWebsite = properties.getProperty("authorWebsite");
-        this.version = StrUtil.obtainDefaultIfBlank(properties.getProperty("version"), "v1.0.0");
+        this.version = StrUtil.obtainDefault(properties.getProperty("version"), "v1.0.0");
         this.versionCode = Integer.valueOf(properties.getProperty("versionCode", "1"));
     }
 

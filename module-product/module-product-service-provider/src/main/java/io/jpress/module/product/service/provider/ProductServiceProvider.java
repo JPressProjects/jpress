@@ -119,7 +119,7 @@ public class ProductServiceProvider extends JPressServiceBase<Product> implement
     @Override
     @Cacheable(name = "products")
     public Page<Product> paginateInNormal(int page, int pagesize, String orderBy) {
-        orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
+        orderBy = StrUtil.obtainDefault(orderBy, DEFAULT_ORDER_BY);
         Columns columns = new Columns();
         columns.eq("status", Product.STATUS_NORMAL);
         Page<Product> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
@@ -146,7 +146,7 @@ public class ProductServiceProvider extends JPressServiceBase<Product> implement
 
         Page<Product> dataPage = DAO.leftJoinIf("product_category_mapping",categoryId != null).as("m")
                 .on("product.id = m.`product_id`")
-                .paginateByColumns(page,pagesize,columns,StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY));
+                .paginateByColumns(page,pagesize,columns,StrUtil.obtainDefault(orderBy, DEFAULT_ORDER_BY));
 
         return joinUserInfo(dataPage);
     }

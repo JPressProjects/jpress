@@ -107,7 +107,7 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
     @Override
     @Cacheable(name = "articles")
     public Page<Article> paginateInNormal(int page, int pagesize, String orderBy) {
-        orderBy = StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY);
+        orderBy = StrUtil.obtainDefault(orderBy, DEFAULT_ORDER_BY);
         Columns columns = new Columns();
         columns.eq("status", Article.STATUS_NORMAL);
         Page<Article> dataPage = DAO.paginateByColumns(page, pagesize, columns, orderBy);
@@ -125,7 +125,7 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
 
         Page<Article> dataPage = DAO.leftJoin("article_category_mapping")
                 .as("m").on("article.id=m.`article_id`")
-                .paginateByColumns(page, pagesize, columns, StrUtil.obtainDefaultIfBlank(orderBy, DEFAULT_ORDER_BY));
+                .paginateByColumns(page, pagesize, columns, StrUtil.obtainDefault(orderBy, DEFAULT_ORDER_BY));
         return joinUserInfo(dataPage);
     }
 

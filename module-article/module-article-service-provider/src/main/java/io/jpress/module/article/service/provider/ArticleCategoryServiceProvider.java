@@ -44,7 +44,7 @@ public class ArticleCategoryServiceProvider extends JPressServiceBase<ArticleCat
 
 
     @Override
-    @Cacheable(name = "articleCategory")
+    @Cacheable(name = "articleCategory", returnCopyEnable = true)
     public List<ArticleCategory> findAll() {
         return super.findAll();
     }

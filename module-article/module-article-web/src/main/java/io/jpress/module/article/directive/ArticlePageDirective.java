@@ -51,7 +51,7 @@ public class ArticlePageDirective extends JbootDirectiveBase {
         String orderBy = getPara("orderBy", scope, "id desc");
 
         //是否查询子分类的内容，默认为 true
-        boolean includeChildren = getParaToBool("includeChildren", scope, true);
+        boolean includeChildren = getParaToBool("includeChildren", scope, false);
 
 
         // 可以指定当前的分类ID

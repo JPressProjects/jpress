@@ -121,13 +121,14 @@
                                 <th style="width: 10px">
                                     <input class="tableCheckAll"  type="checkbox">
                                 </th>
-                                <th style="width: 50px">编号</th>
+                                <th style="width: 50px">ID</th>
                                 <th style="width: 450px">标题</th>
                                 <th>分类</th>
                                 <th>标签</th>
                                 <th>样式</th>
                                 <th style="width: 100px">作者</th>
-                                <th style="width: 50px"><i class="fas fa-comment-dots"></i></th>
+                                <th style="width: 50px"><i class="far fa-comment-dots"></i></th>
+                                <th style="width: 50px"><i class="far fa-eye"></i></th>
                                 <th style="width: 110px">发布时间</th>
 
                             </tr>
@@ -205,6 +206,7 @@
                                     #(item.comment_count ??)
                                 </a>
                             </td>
+                            <td>#(item.view_count ??)</td>
                             <td>#date(item.created ??)</td>
                         </tr>
                         #end

@@ -130,6 +130,7 @@ public class JsoupUtils {
             addAttributes("img", "align", "alt", "src", "title");
             addAttributes("ol", "start");
             addAttributes("q", "cite");
+            addAttributes("font", "face");
             addAttributes("table", "summary");
             addAttributes("td", "abbr", "axis", "colspan", "rowspan", "width");
             addAttributes("th", "abbr", "axis", "colspan", "rowspan", "scope", "width");
@@ -138,7 +139,7 @@ public class JsoupUtils {
             addAttributes("param", "name", "value");
             addAttributes("embed", "src", "quality", "width", "height", "allowFullScreen", "allowScriptAccess", "flashvars", "name", "type", "pluginspage");
 
-            addAttributes(":all", "class", "style", "height", "width", "type", "id", "name", "data-id", "data-role", "data-width", "data-height");
+            addAttributes(":all", "class", "style","height", "width", "type", "id", "name", "data-id", "data-role", "data-width", "data-height");
 
 //
             addProtocols("blockquote", "cite", "http", "https");

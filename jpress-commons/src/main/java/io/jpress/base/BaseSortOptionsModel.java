@@ -14,7 +14,7 @@ public class BaseSortOptionsModel<M extends BaseSortOptionsModel<M>> extends Bas
 
     private int layerNumber;
     private M parent;
-    private List<M> childs;
+    private List<M> children;
 
     @Override
     public boolean isTop() {
@@ -41,26 +41,31 @@ public class BaseSortOptionsModel<M extends BaseSortOptionsModel<M>> extends Bas
         return parent;
     }
 
+//    @Override
+//    public void setChilds(List childs) {
+//        this.children = childs;
+//    }
+
     @Override
-    public void setChilds(List childs) {
-        this.childs = childs;
+    public void setChildren(List<M> children) {
+        this.children = children;
     }
 
     @Override
     public void addChild(M child) {
-        if (childs == null) {
-            childs = new ArrayList<>();
+        if (children == null) {
+            children = new ArrayList<>();
         }
-        childs.add(child);
+        children.add(child);
     }
 
     @Override
-    public List<M> getChilds() {
-        return childs;
+    public List<M> getChildren() {
+        return children;
     }
 
     public boolean hasChild() {
-        return childs != null && !childs.isEmpty();
+        return children != null && !children.isEmpty();
     }
 
     @Override
@@ -91,21 +96,21 @@ public class BaseSortOptionsModel<M extends BaseSortOptionsModel<M>> extends Bas
     }
 
     public boolean isMyChild(long id) {
-        if (childs == null || childs.isEmpty()) {
+        if (children == null || children.isEmpty()) {
             return false;
         }
 
-        return isMyChild(childs, id);
+        return isMyChild(children, id);
     }
 
-    private boolean isMyChild(List<M> childs, long id) {
-        for (M child : childs) {
+    private boolean isMyChild(List<M> children, long id) {
+        for (M child : children) {
             if (child.getId().equals(id)) {
                 return true;
             }
 
-            if (child.getChilds() != null) {
-                boolean isChild = isMyChild(child.getChilds(), id);
+            if (child.getChildren() != null) {
+                boolean isChild = isMyChild(child.getChildren(), id);
                 if (isChild) {
                     return true;
                 }

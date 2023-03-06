@@ -36,11 +36,29 @@ public interface SortModel<M extends SortModel> {
 
     public M getParent();
 
-    public void setChilds(List<M> childs);
+
+    /**
+     * 兼容旧版本
+     */
+    @Deprecated
+    default void setChilds(List<M> children) {
+        setChildren(children);
+    }
+
+
+    public void setChildren(List<M> children);
 
     public void addChild(M child);
 
-    public List<M> getChilds();
+    /**
+     * 兼容旧版本
+     */
+    @Deprecated
+    default List<M> getChilds() {
+        return getChildren();
+    }
+
+    public List<M> getChildren();
 
     public void setLayerNumber(int layerNumber);
 

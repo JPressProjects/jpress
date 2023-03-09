@@ -167,7 +167,7 @@ module.exports = {
                     title: 'API 接口',
                     collapsable: true,
                     children: [
-                        {title: '概述', path: '/development/api/start'},
+                        // {title: '概述', path: '/development/api/start'},
                         {title: '文章', path: '/development/api/api_article'},
                         {title: '文章分类', path: '/development/api/api_article_category'},
                         {title: '文章评论', path: '/development/api/api_article_comment'},

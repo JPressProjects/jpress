@@ -65,7 +65,7 @@ public class Installer {
     }
 
     public static void notifyAllListeners() {
-        JbootEventManager.me().pulish(new JbootEvent(INSTALL_EVENT, null));
+        JbootEventManager.me().publish(new JbootEvent(INSTALL_EVENT, null));
     }
 
 }

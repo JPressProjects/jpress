@@ -177,7 +177,8 @@
 
     #for(article :articles)
 
-    #(article.title ??)
+    <a href="#(article.url)">#(article.title ??)</a>
+
 
     #end
 
@@ -198,6 +199,7 @@
 * withTop:是否置顶文章 boolean类型
 * withHot：是否热门文章 boolean类型
 * withLeadNews:是否是头条 boolean类型
+* withSite:读取哪些站点的内容，不传入默认为当前站带你，传入 * 为所有站点，可以传入站点 id，例如： withSite = "1,2,3"
 
 ------
 
@@ -214,7 +216,7 @@
 
     #for(article : articles)
 
-    #(article.title ??)
+    <a href="#(article.url)">#(article.title ??)</a>
 
     #end
 
@@ -246,7 +248,7 @@
 
     #for(article : articles)
 
-    #(article.title ??)
+    <a href="#(article.url ??)">#(article.title ??)</a>
 
     #end
 
@@ -382,14 +384,14 @@
 <div>
     #nextArticle()
 
-    #(next.title ??)
+    <a href="#(next.url)">#(next.title ??)</a>
 
     #end
 </div>
 ```
 
-> 此指令 用于文章详情：article.html 需在对应的 controller 中传入当前的 article 对象 以获取下一篇文章
-
+> 此指令 用于文章详情：article.html 
+> 
 ------
 
 ### #previousArticle() 的使用
@@ -403,14 +405,13 @@
 <div>
     #previousArticle()
 
-    #(next.title ??)
+    <a href="#(previous.url)">#(previous.title ??)</a>
 
     #end
 </div>
 ```
 
-> 此指令 用于文章详情：article.html 需在对应的 controller 中传入当前的 article 对象 以获取上一篇文章
-
+> 此指令 用于文章详情：article.html
 ------
 
 ### #relevantArticles() 的使用
@@ -425,8 +426,8 @@
     #relevantArticles(article,5)
 
     #for(article :relevantArticles)
-
-    #(article.title ??)
+    
+    <a href="#(article.url)">#(article.title ??)</a>
 
     #end
 
@@ -456,7 +457,7 @@
 
     #for(category : categories)
 
-    #(category.title ??)
+    <a href="#(category.url)">#(category.title ??)</a>
 
     #end
 
@@ -471,7 +472,7 @@
 * flag：文章标识
 * parentFlag：父级文章标识
 * parentId：父级ID
-* isTree 是否以树状的数据格式返回,默认是false,返回全部分类,可通过 item.childs 方式获取子级分类列表
+* asTree 是否以树状的数据格式返回,默认是false,返回全部分类,可通过 item.childs 方式获取子级分类列表
 
 ------
 
@@ -488,7 +489,7 @@
 
     #for(tag : tags)
 
-    #(tag.title ??)
+    <a href="#(tag.url)"> #(tag.title ??)</a>
 
     #end
 
@@ -518,7 +519,7 @@
 
     #for(category : categories)
 
-    #(category.title ??)
+    <a href="#(category.url)">#(category.title ??)</a>
 
     #end
 

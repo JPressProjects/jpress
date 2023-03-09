@@ -1,4 +1,4 @@
-FROM fuhai/jpress:v5.0.8
+FROM fuhai/jpress:v5.0.9
 LABEL maintainer="Michael Yang<fuhai999@gmail.com>"
 
 WORKDIR /opt/jpress

@@ -882,6 +882,43 @@ function initCkEdtiorComponent() {
 function initCkEdtior(selector) {
     ClassicEditor
         .create(document.querySelector(selector), {
+            fontSize: {
+                options: [
+                    9,
+                    11,
+                    13,
+                    'default',
+                    17,
+                    19,
+                    21,
+                    22,
+                    24,
+                    26,
+                    28,
+                    30,
+                    36,
+                    48,
+                ]
+            },
+            fontFamily: {
+                options: [
+                    'default',
+                    '宋体',
+                    '黑体',
+                    '仿宋, 仿宋_GB2312',
+                    '楷体,楷体_GB2312',
+                    '幼圆',
+                    '微软雅黑',
+                    '宋体隶书,隶书',
+                    'Arial',
+                    'Helvetica',
+                    'sans-serif',
+                    'Times New Roman, Times, serif',
+                    'Verdana',
+
+                ],
+                supportAllValues: true
+            },
             toolbar: {
                 items: [
                     'heading',
@@ -894,6 +931,7 @@ function initCkEdtior(selector) {
                     'bulletedList',
                     'numberedList',
                     '|',
+                    'fontFamily',
                     'fontSize',
                     'fontColor',
                     'fontBackgroundColor',

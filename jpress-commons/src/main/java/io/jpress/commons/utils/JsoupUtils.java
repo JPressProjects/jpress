@@ -138,6 +138,7 @@ public class JsoupUtils {
             addAttributes("object", "width", "height", "classid", "codebase");
             addAttributes("param", "name", "value");
             addAttributes("embed", "src", "quality", "width", "height", "allowFullScreen", "allowScriptAccess", "flashvars", "name", "type", "pluginspage");
+            addAttributes("oembed", "src", "quality", "width", "height", "allowFullScreen", "allowScriptAccess", "flashvars", "name", "type", "pluginspage");
 
             addAttributes(":all", "class", "style","height", "width", "type", "id", "name", "data-id", "data-role", "data-width", "data-height");
 

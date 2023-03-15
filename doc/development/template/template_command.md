@@ -244,7 +244,7 @@
 ```html
 
 <div>
-    #categoryArticles(categoryId = 1,categoryFlag = "jpress",hasThumbnail = false,orderBy="id desc",count = 1)
+    #categoryArticles(categoryId = 1,orderBy="id desc",count = 3)
 
     #for(article : articles)
 
@@ -265,7 +265,11 @@
 * hasThumbnail：是否有缩略图 boolean类型
 * orderBy：根据属性进行排序 例如 "id desc"
 * count：需要查询的数量
-
+* withRecommend：是否推荐
+* withTop：是否指定
+* withHot：是否热门
+* withLeadNews：是否头条
+* includeChildren：是否包含子分类内容
 ------
 
 ### #articlePage() 的使用

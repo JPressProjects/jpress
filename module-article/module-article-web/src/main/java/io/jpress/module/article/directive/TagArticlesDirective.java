@@ -64,7 +64,7 @@ public class TagArticlesDirective extends JbootDirectiveBase {
 
         scope.setLocal("tag", category);
 
-        List<Article> articles = service.findListByCategoryId(category.getId(), hasThumbnail, orderBy, count);
+        List<Article> articles = service.findListByCategoryId(category.getId(), false,null, orderBy, count);
 
         if (articles == null || articles.isEmpty()) {
             return;

@@ -116,7 +116,7 @@ public interface ArticleService extends JbootServiceJoiner {
 
     List<Article> findListByColumns(Columns columns, String orderBy, Integer count);
 
-    List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count);
+    List<Article> findListByCategoryId(long categoryId, boolean includeChildren, Columns columns, String orderBy, Integer count);
 
     List<Article> findRelevantListByArticleId(long ArticleId, String status, Integer count);
 

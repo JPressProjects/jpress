@@ -236,14 +236,20 @@ public class ArticleServiceProvider extends JPressServiceBase<Article> implement
     }
 
     @Override
-    @Cacheable(name = "articles", key = "findListByCategoryId:#(categoryId)-#(hasThumbnail)-#(orderBy)-#(count)")
-    public List<Article> findListByCategoryId(long categoryId, Boolean hasThumbnail, String orderBy, Integer count) {
+    @Cacheable(name = "articles")
+    public List<Article> findListByCategoryId(long categoryId, boolean includeChildren, Columns baseColumns, String orderBy, Integer count) {
+        Columns columns = Columns.create();
+        if (includeChildren) {
+            Long[] thisAndChildrenIds = categoryService.findCategoryIdsByParentId(categoryId);
+            columns.in("m.category_id", thisAndChildrenIds);
+        } else {
+            columns.eq("m.category_id", categoryId);
+        }
+        columns.eq("article.status", Article.STATUS_NORMAL);
 
-        Columns columns = Columns
-                .create("m.category_id", categoryId)
-                .eq("article.status", Article.STATUS_NORMAL)
-                .isNotNullIf("article.thumbnail", hasThumbnail != null && hasThumbnail)
-                .isNullIf("article.thumbnail", hasThumbnail != null && !hasThumbnail);
+        if (baseColumns != null) {
+            columns.append(baseColumns);
+        }
 
         List<Article> articles = DAO.leftJoin("article_category_mapping").as("m")
                 .on("article.id = m.`article_id`")

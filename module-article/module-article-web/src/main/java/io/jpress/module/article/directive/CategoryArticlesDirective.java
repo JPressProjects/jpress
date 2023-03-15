@@ -19,9 +19,11 @@ import com.jfinal.aop.Inject;
 import com.jfinal.template.Env;
 import com.jfinal.template.io.Writer;
 import com.jfinal.template.stat.Scope;
+import io.jboot.db.model.Columns;
 import io.jboot.utils.StrUtil;
 import io.jboot.web.directive.annotation.JFinalDirective;
 import io.jboot.web.directive.base.JbootDirectiveBase;
+import io.jpress.commons.service.SiteModelProxy;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
 import io.jpress.module.article.service.ArticleCategoryService;
@@ -57,6 +59,11 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
         Boolean hasThumbnail = getParaToBool("hasThumbnail", scope);
         String orderBy = getPara("orderBy", scope, "order_number desc,id desc");
         int count = getParaToInt("count", scope, 10);
+        Boolean withRecommend = getParaToBool("withRecommend", scope);
+        Boolean withTop = getParaToBool("withTop", scope);
+        Boolean withHot = getParaToBool("withHot", scope);
+        Boolean withLeadNews = getParaToBool("withLeadNews", scope);
+        boolean includeChildren = getParaToBool("includeChildren", scope, true);
 
         ArticleCategory category = categoryId != null
                 ? categoryService.findById(categoryId)
@@ -67,10 +74,25 @@ public class CategoryArticlesDirective extends JbootDirectiveBase {
 
         scope.setLocal("category", category);
 
-        List<Article> articles = service.findListByCategoryId(category.getId(), hasThumbnail, orderBy, count);
-        if (articles != null && !articles.isEmpty()){
-            scope.setLocal("articles", articles);
-            renderBody(env, scope, writer);
+        Columns columns = Columns.create();
+        columns.eq("with_recommend", withRecommend);
+        columns.eq("with_top", withTop);
+        columns.eq("with_hot", withHot);
+        columns.eq("with_lead_news", withLeadNews);
+        columns.isNotNullIf("article.thumbnail", hasThumbnail != null && hasThumbnail)
+                .isNullIf("article.thumbnail", hasThumbnail != null && !hasThumbnail);
+
+
+        try {
+            //分类的内容，可以直接读取跨站内容
+            SiteModelProxy.useAllSites();
+            List<Article> articles = service.findListByCategoryId(category.getId(), includeChildren, columns, orderBy, count);
+            if (articles != null && !articles.isEmpty()) {
+                scope.setLocal("articles", articles);
+                renderBody(env, scope, writer);
+            }
+        } finally {
+            SiteModelProxy.clearUsed();
         }
 
     }

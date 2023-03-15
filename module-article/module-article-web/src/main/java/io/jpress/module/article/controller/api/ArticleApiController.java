@@ -102,7 +102,7 @@ public class ArticleApiController extends ApiControllerBase {
     @ApiResp(field = "list", notes = "文章列表", dataType = List.class, genericTypes = Article.class)
     public Ret listByCategoryId(@ApiPara("文章分类ID") @NotNull Long categoryId
             , @ApiPara("查询数量") @DefaultValue("10") int count) {
-        List<Article> articles = articleService.findListByCategoryId(categoryId, null, "id desc", count);
+        List<Article> articles = articleService.findListByCategoryId(categoryId, true,null, "id desc", count);
         return Ret.ok().set("list", articles);
     }
 
@@ -123,7 +123,7 @@ public class ArticleApiController extends ApiControllerBase {
             return Rets.FAIL;
         }
 
-        List<Article> articles = articleService.findListByCategoryId(category.getId(), null, "id desc", count);
+        List<Article> articles = articleService.findListByCategoryId(category.getId(), true,null, "id desc", count);
         return Ret.ok().set("list", articles);
     }
 

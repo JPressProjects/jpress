@@ -21,7 +21,6 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import io.jpress.JPressConsts;
 import io.jpress.model.Role;
 import io.jpress.model.User;
-import io.jpress.model.UserTag;
 import io.jpress.model.Utm;
 import io.jpress.service.*;
 import io.jpress.web.base.AdminControllerBase;
@@ -73,25 +72,6 @@ public class _UserInfoController extends AdminControllerBase {
 
         render("user/detail_role.html");
     }
-
-
-    public void tag(){
-        Long uid = getParaToLong();
-        User user = userService.findById(uid);
-        setAttr("user", user);
-
-        List<UserTag> userTags = userTagService.findListByUserId(uid);
-        setAttr("userTags",userTags);
-
-        List<UserTag> hotTags = userTagService.findHotList(50);
-        setAttr("hotTags",hotTags);
-
-        render("user/detail_tag.html");
-    }
-
-
-
-
 
 
 

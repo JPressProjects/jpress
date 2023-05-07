@@ -37,8 +37,6 @@
             <artifactId>jpress-service-provider</artifactId>
         </dependency>
 
-
-
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-article-web</artifactId>
@@ -64,21 +62,6 @@
             <version>5.0</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-job-web</artifactId>
-            <version>5.0</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-job-service-provider</artifactId>
-            <version>5.0</version>
-        </dependency>
-
-
         <dependency>
             <groupId>io.jpress</groupId>
             <artifactId>module-page-web</artifactId>
@@ -91,18 +74,6 @@
             <version>5.0</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-product-web</artifactId>
-            <version>5.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jpress</groupId>
-            <artifactId>module-product-service-provider</artifactId>
-            <version>5.0</version>
-        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -186,19 +157,10 @@
                                     <directory>${basedir}/../module-page/module-page-web/src/main/webapp</directory>
                                 </resource>
                                 <resource>
-                                    <directory>${basedir}/../module-article/module-article-web/src/main/webapp
-                                    </directory>
+                                    <directory>${basedir}/../module-article/module-article-web/src/main/webapp</directory>
                                 </resource>
                                 <resource>
-                                    <directory>${basedir}/../module-job/module-job-web/src/main/webapp
-                                    </directory>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../module-form/module-form-web/src/main/webapp
-                                    </directory>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../module-product/module-product-web/src/main/webapp</directory>
+                                    <directory>${basedir}/../module-form/module-form-web/src/main/webapp</directory>
                                 </resource>
                             </resources>
                         </configuration>

@@ -23,8 +23,6 @@
 
         <module>module-article</module>
         <module>module-page</module>
-        <module>module-product</module>
-        <module>module-job</module>
         <module>module-form</module>
 
         <module>starter</module>

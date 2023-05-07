@@ -16,7 +16,6 @@
 package io.jpress.web.admin;
 
 import com.jfinal.aop.Inject;
-import com.jfinal.core.ActionKey;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.Ret;
 import com.jfinal.plugin.activerecord.Page;
@@ -101,16 +100,6 @@ public class _UserController extends AdminControllerBase {
         render("user/list.html");
     }
 
-    @AdminMenu(text = "用户标签", groupId = JPressConsts.SYSTEM_MENU_USER, order = 1)
-    public void tag() {
-
-        Page<UserTag> page = userTagService.paginateByColumns(getPagePara(), 10, Columns.EMPTY, "id desc");
-        setAttr("page", page);
-
-        setAttr("tag", userTagService.findById(getPara()));
-
-        render("user/tag_list.html");
-    }
 
 
     @EmptyValidate({
@@ -127,9 +116,6 @@ public class _UserController extends AdminControllerBase {
         }
 
         Object id = userTagService.saveOrUpdate(tag);
-//        categoryService.doUpdateArticleCount(category.getId());
-
-
         renderOkJson();
     }
 
@@ -206,14 +192,6 @@ public class _UserController extends AdminControllerBase {
 
 
 
-
-    @AdminMenu(text = "发消息", groupId = JPressConsts.SYSTEM_MENU_USER, order = 5)
-    public void sendMsg() {
-        List<UserTag> hotTags = userTagService.findHotList(50);
-        setAttr("hotTags", hotTags);
-        render("user/msg_email.html");
-    }
-
     public void doSendEmail() {
         Long[] tagIds = getTagIds(getParaValues("userTags"));
 
@@ -223,54 +201,6 @@ public class _UserController extends AdminControllerBase {
         String cc = getPara("cc");
 
         renderJson(AdminMessageSender.sendEmail(title, content, cc, users));
-    }
-
-    @ActionKey("/admin/user/sendMsg/wechat")
-    public void sendWechatMsg() {
-        List<UserTag> hotTags = userTagService.findHotList(50);
-        setAttr("hotTags", hotTags);
-        render("user/msg_wechat.html");
-    }
-
-    public void doSendWechat() {
-        Long[] tagIds = getTagIds(getParaValues("userTags"));
-
-        List<User> users = userService.findListByTagIds(Columns.create(), tagIds);
-        String cc = getPara("cc");
-
-        String templateId = getPara("templateId");
-        String url = getPara("url");
-        String first = getPara("first");
-        String remark = getPara("remark");
-        String keyword1 = getPara("keyword1");
-        String keyword2 = getPara("keyword2");
-        String keyword3 = getPara("keyword3");
-        String keyword4 = getPara("keyword4");
-
-
-        renderJson(AdminMessageSender.sendWechat(templateId, url, first, remark, keyword1, keyword2, keyword3, keyword4, users, cc));
-    }
-
-
-    @ActionKey("/admin/user/sendMsg/sms")
-    public void sendSmsMsg() {
-        List<UserTag> hotTags = userTagService.findHotList(50);
-        setAttr("hotTags", hotTags);
-        render("user/msg_sms.html");
-    }
-
-
-    public void doSendSms() {
-        Long[] tagIds = getTagIds(getParaValues("userTags"));
-
-        List<User> users = userService.findListByTagIds(Columns.create(), tagIds);
-        String cc = getPara("cc");
-
-        String smsTemplate = getPara("sms_template");
-        String smsSign = getPara("sms_sign");
-
-
-        renderJson(AdminMessageSender.sendSms(smsTemplate, smsSign, cc, users));
     }
 
 

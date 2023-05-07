@@ -57,7 +57,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
 
     @JsonIgnore
     public String getUrl() {
-        String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/article/tag/";
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/category/" : "/tag/";
         return UrlUtils.getUrl(prefix, getSlug());
     }
 
@@ -67,7 +67,7 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
             return getUrl();
         }
 
-        String prefix = TYPE_CATEGORY.equals(getType()) ? "/article/category/" : "/article/tag/";
+        String prefix = TYPE_CATEGORY.equals(getType()) ? "/category/" : "/tag/";
         return UrlUtils.getUrl(prefix, getSlug(),"-",pageNumber);
     }
 

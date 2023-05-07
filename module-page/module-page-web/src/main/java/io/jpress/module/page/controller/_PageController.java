@@ -125,13 +125,6 @@ public class _PageController extends AdminControllerBase {
     }
 
 
-
-    @AdminMenu(text = "设置", groupId = "page", order = 6)
-    public void setting() {
-        render("page/setting.html");
-    }
-
-
     @EmptyValidate({
             @Form(name = "id", message = "页面ID不能为空"),
             @Form(name = "mode", message = "页面编辑模式不能为空")
@@ -223,7 +216,7 @@ public class _PageController extends AdminControllerBase {
     }
 
 
-    @AdminMenu(text = "分类", groupId = "page", order = 2)
+    @AdminMenu(text = "分组", groupId = "page", order = 9)
     public void category() {
         List<SinglePageCategory> categories = categoryService.findAll();
         setAttr("categories", categories);

@@ -70,11 +70,6 @@
                                 <a class="nav-link" href="#(CPATH)/admin/user/detail/#(user.id)"><i
                                         class="fas fa-user"></i> 基本资料</a></li>
                             #end
-                            #hasPermission('/admin/user/detail/tag')
-                            <li class="nav-item" id="detail-tag"><a class="nav-link"
-                                                             href="#(CPATH)/admin/user/detail/tag/#(user.id)"><i
-                                    class="fas fa-tags"></i> 用户标签</a></li>
-                            #end
                             #hasPermission('/admin/user/detail/role')
                             <li class="nav-item" id="detail-role"><a class="nav-link"
                                                               href="#(CPATH)/admin/user/detail/role/#(user.id)"><i

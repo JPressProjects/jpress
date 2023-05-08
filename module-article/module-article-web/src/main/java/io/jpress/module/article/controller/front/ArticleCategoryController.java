@@ -30,7 +30,7 @@ import io.jpress.web.base.TemplateControllerBase;
  * @Title:  文章分类的 Controller，主要是用过 {{@link io.jpress.module.article.directive.ArticlePageDirective 来渲染的}}
  * @Package io.jpress.module.article
  */
-@RequestMapping("/article/category")
+@RequestMapping("/category")
 public class ArticleCategoryController extends TemplateControllerBase {
 
     @Inject
@@ -40,7 +40,7 @@ public class ArticleCategoryController extends TemplateControllerBase {
     public void index() {
 
         if (StrUtil.isBlank(getPara())) {
-            redirect("/article/category/index");
+            redirect("/category/index");
             return;
         }
 
@@ -59,9 +59,9 @@ public class ArticleCategoryController extends TemplateControllerBase {
 
         //文章首页高亮
         if (currentCategory == null) {
-            setMenuActive(menu -> menu.isUrlEquals("/article/category")
-                    || menu.isUrlEquals("/article/category/")
-                    || menu.isUrlEquals("/article/category/index"));
+            setMenuActive(menu -> menu.isUrlEquals("/category")
+                    || menu.isUrlEquals("/category/")
+                    || menu.isUrlEquals("/category/index"));
         } else {
             setMenuActive(menu -> {
                 if (menu.isUrlEquals(CommonsUtils.removeSuffix(currentCategory.getUrl()))) {

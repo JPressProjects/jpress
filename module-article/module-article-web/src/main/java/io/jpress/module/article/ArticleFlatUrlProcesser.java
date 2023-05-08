@@ -8,8 +8,8 @@ public class ArticleFlatUrlProcesser extends CommonsFlatUrlProcesser {
 
     private static Map<String,String> prefixAndTargets = new LinkedHashMap<>();
     static {
-        prefixAndTargets.put("/article-category-","/article/category/");
-        prefixAndTargets.put("/article-tag-","/article/tag/");
+        prefixAndTargets.put("/category-","/category/");
+        prefixAndTargets.put("/tag-","/tag/");
         prefixAndTargets.put("/article-","/article/");
         prefixAndTargets.put("/articles-","/articles/");
     }

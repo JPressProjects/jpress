@@ -27,7 +27,7 @@ import io.jpress.web.base.TemplateControllerBase;
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
  * @version V1.0
  */
-@RequestMapping("/article/tag")
+@RequestMapping("/tag")
 public class ArticleTagController extends TemplateControllerBase {
 
     @Inject

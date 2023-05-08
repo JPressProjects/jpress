@@ -29,7 +29,7 @@ public class ArticleSearchController extends TemplateControllerBase {
     public void index() {
 
         /**
-         * 不让页面大于100，我认为：
+         * 不让页面大于100，理由是：
          * 1、当一个真实用户在搜索某个关键字的内容，通过翻页去找对应数据，不可能翻到100页以上。
          * 2、翻页翻到100页以上，一般是机器：可能是来抓取数据的。
          */

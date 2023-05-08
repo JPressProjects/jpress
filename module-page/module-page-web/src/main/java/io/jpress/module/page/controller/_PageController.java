@@ -30,7 +30,6 @@ import io.jpress.core.template.TemplateManager;
 import io.jpress.module.page.model.SinglePage;
 import io.jpress.module.page.model.SinglePageCategory;
 import io.jpress.module.page.service.SinglePageCategoryService;
-import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
@@ -48,9 +47,6 @@ public class _PageController extends AdminControllerBase {
 
     @Inject
     private SinglePageService sps;
-
-    @Inject
-    private SinglePageCommentService commentService;
 
     @Inject
     private SinglePageCategoryService categoryService;
@@ -171,8 +167,6 @@ public class _PageController extends AdminControllerBase {
         }
 
         long id = (long) sps.saveOrUpdate(page);
-        //更新该页面的评论总数commentCount
-        sps.doUpdateCommentCount(id);
 
         if(page.getCategoryId() != null){
             //更新该分类的内容数量

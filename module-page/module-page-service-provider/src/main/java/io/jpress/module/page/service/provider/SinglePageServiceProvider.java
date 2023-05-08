@@ -15,7 +15,6 @@
  */
 package io.jpress.module.page.service.provider;
 
-import com.jfinal.aop.Inject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import io.jboot.aop.annotation.Bean;
@@ -25,7 +24,6 @@ import io.jboot.utils.StrUtil;
 import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.module.page.model.SinglePage;
-import io.jpress.module.page.service.SinglePageCommentService;
 import io.jpress.module.page.service.SinglePageService;
 import io.jpress.web.seoping.SeoManager;
 
@@ -34,8 +32,6 @@ import java.util.List;
 @Bean
 public class SinglePageServiceProvider extends JPressServiceBase<SinglePage> implements SinglePageService {
 
-    @Inject
-    private SinglePageCommentService commentService;
 
     @Override
     public void deleteCacheById(Object id) {
@@ -177,16 +173,5 @@ public class SinglePageServiceProvider extends JPressServiceBase<SinglePage> imp
         return DAO.paginateByColumns(page, pageSize, columns, "id desc");
     }
 
-    @Override
-    public void doUpdateCommentCount(long pageId) {
-        SinglePage singlePage = findById(pageId);
-        if (singlePage == null) {
-            return;
-        }
-
-        long count = commentService.findCountByPageId(pageId);
-        singlePage.setCommentCount(count);
-        singlePage.update();
-    }
 
 }

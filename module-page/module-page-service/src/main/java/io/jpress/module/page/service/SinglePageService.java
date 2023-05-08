@@ -137,11 +137,6 @@ public interface SinglePageService extends JbootServiceJoiner {
      */
     Page<SinglePage> _paginateByColumns(int page, int pageSize, Columns col);
 
-    /**
-     * 更新 model的comment_count
-     * @param pageId
-     */
-    void doUpdateCommentCount(long pageId);
 
-    public List<SinglePage> findListByColumns(Columns columns, String orderBy, Integer count);
+     List<SinglePage> findListByColumns(Columns columns, String orderBy, Integer count);
 }

@@ -17,7 +17,6 @@ package io.jpress.module.page;
 
 import com.jfinal.aop.Aop;
 import com.jfinal.core.Controller;
-import com.jfinal.template.Engine;
 import io.jboot.db.model.Columns;
 import io.jboot.utils.DateUtil;
 import io.jpress.core.menu.MenuGroup;
@@ -87,11 +86,5 @@ public class PageModuleInitializer extends ModuleBase {
 
         return "page/_dashboard_box.html";
     }
-
-    @Override
-    public void onEngineConfig(Engine engine) {
-        engine.addSharedFunction("/WEB-INF/views/commons/page/defaultPageCommentPage.html");
-    }
-
 
 }

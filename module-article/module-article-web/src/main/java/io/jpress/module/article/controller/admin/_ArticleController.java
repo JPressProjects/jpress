@@ -27,13 +27,18 @@ import io.jboot.web.validate.Form;
 import io.jpress.JPressConsts;
 import io.jpress.commons.layer.SortKit;
 import io.jpress.core.menu.annotation.AdminMenu;
+import io.jpress.core.support.smartfield.SmartField;
 import io.jpress.core.template.Template;
 import io.jpress.core.template.TemplateManager;
 import io.jpress.model.Menu;
 import io.jpress.module.article.ArticleFields;
 import io.jpress.module.article.model.Article;
 import io.jpress.module.article.model.ArticleCategory;
+import io.jpress.module.article.model.ArticleMetaInfo;
+import io.jpress.module.article.model.ArticleMetaRecord;
 import io.jpress.module.article.service.ArticleCategoryService;
+import io.jpress.module.article.service.ArticleMetaInfoService;
+import io.jpress.module.article.service.ArticleMetaRecordService;
 import io.jpress.module.article.service.ArticleService;
 import io.jpress.service.MenuService;
 import io.jpress.web.base.AdminControllerBase;
@@ -51,10 +56,19 @@ public class _ArticleController extends AdminControllerBase {
 
     @Inject
     private ArticleService articleService;
+
     @Inject
     private ArticleCategoryService categoryService;
+
     @Inject
     private MenuService menuService;
+
+    @Inject
+    private ArticleMetaInfoService metaInfoService;
+
+    @Inject
+    private ArticleMetaRecordService metaRecordService;
+
 
     @AdminMenu(text = "文章管理", groupId = "article", order = 0)
     public void list() {
@@ -133,6 +147,25 @@ public class _ArticleController extends AdminControllerBase {
 
             Long[] categoryIds = categoryService.findCategoryIdsByArticleId(editArticle.getId());
             flagCheck(categories, categoryIds);
+
+
+            List<ArticleMetaInfo> metaInfos = metaInfoService.findAll();
+
+            if (metaInfos != null && metaInfos.size() > 0) {
+                Map<String, String> values = new HashMap<>();
+                for (ArticleMetaInfo inf : metaInfos) {
+                    ArticleMetaRecord record = metaRecordService.findByArticleIdAndFieldName(editArticle.getId(), inf.getFieldName());
+                    if (record != null && StrUtil.isNotBlank(record.getValue())) {
+                        values.put(record.getFieldName(), record.getValue());
+                    }
+                }
+
+                if (!values.isEmpty()) {
+                    //必须保证 articleMeta 和 ArticleMetaInfo.toSmartField() 里的setName 一致
+                    //具体原因在 SmartField.doGetDataFromControllerByName 的时候，自动去找到这个map
+                    set("articleMeta", values);
+                }
+            }
         }
 
         //初始化文章的编辑模式（编辑器）
@@ -141,6 +174,7 @@ public class _ArticleController extends AdminControllerBase {
 
         //设置文章当前的样式
         initStylesAttr("article_");
+
 
         render("article/article_write.html");
     }
@@ -237,6 +271,7 @@ public class _ArticleController extends AdminControllerBase {
 
         setAttr("articleId", id);
         setAttr("article", article);
+        doSaveMetaInfos(article);
 
 
         Long[] saveBeforeCategoryIds = null;
@@ -268,6 +303,61 @@ public class _ArticleController extends AdminControllerBase {
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
     }
+
+
+
+    private void doSaveMetaInfos(Article article) {
+
+        List<ArticleMetaInfo> metaInfos = metaInfoService.findAll();
+        if (metaInfos == null || metaInfos.size() == 0) {
+            return;
+        }
+        if (article == null || article.getId() == null) {
+            return;
+        }
+        List<ArticleMetaRecord> records = new ArrayList<>();
+        for (ArticleMetaInfo inf : metaInfos) {
+
+            if (!inf.isEnable()) {
+                continue;
+            }
+
+            String key = ArticleMetaInfo.buildFieldName(inf);
+            String value = SmartField.TYPE_CHECKBOX.equals(inf.getType())
+                    ? getValue(getParaValues(key))
+                    : getPara(key);
+
+            ArticleMetaRecord record = new ArticleMetaRecord();
+            record.setArticleId(article.getId());
+            record.setFieldName(inf.getFieldName());
+            record.setValue(value);
+            records.add(record);
+        }
+
+        metaRecordService.batchSaveOrUpdate(records);
+    }
+
+
+    private static String getValue(String[] values) {
+        if (values == null) {
+            return null;
+        }
+        if (values.length == 1) {
+            return values[0];
+        }
+
+        int iMax = values.length - 1;
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; ; i++) {
+            b.append(values[i]);
+            if (i == iMax) {
+                return b.toString();
+            }
+            b.append(",");
+        }
+    }
+
+
 
     private Long[] getTagIds(String[] tags) {
         if (tags == null || tags.length == 0) {

@@ -618,13 +618,13 @@
                                 </div>
 
 
-                                <!--分类-->
+                                <!--分组-->
                                 <div class="card">
                                     <div class="card-header" id="heading3">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left text-dark" type="button"
                                                     data-toggle="collapse" data-target="#category-card">
-                                                分类
+                                                分组
                                                 <span class="float-right"><i class="bi bi-chevron-down"></i></span>
                                             </button>
                                         </h2>
@@ -632,6 +632,14 @@
                                     <div id="category-card" class="collapse">
                                         <div class="card-body">
                                             <div class="form-group">
+                                                #if(categories)
+                                                <div>
+                                                    <label>
+                                                        <input type="radio" name="page.category_id" value="" #if(!page || !page.categoryId) checked #end/>
+                                                        不归属任何分组
+                                                    </label>
+                                                </div>
+                                                #end
                                                 #for(category : categories)
                                                 <div>
                                                     <label>
@@ -641,7 +649,7 @@
                                                     </label>
                                                 </div>
                                                 #else
-                                                暂无分类
+                                                暂无分组
                                                 #end
                                             </div>
                                         </div>

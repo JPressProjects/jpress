@@ -15,8 +15,11 @@
  */
 package io.jpress.module.article;
 
+import com.jfinal.aop.Aop;
 import io.jboot.utils.StrUtil;
 import io.jpress.core.support.smartfield.SmartField;
+import io.jpress.module.article.model.ArticleMetaInfo;
+import io.jpress.module.article.service.ArticleMetaInfoService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,6 +37,15 @@ public class ArticleFields {
 
     public static ArticleFields me() {
         return me;
+    }
+
+    public void init(){
+        List<ArticleMetaInfo> metaInfos = Aop.get(ArticleMetaInfoService.class).findAll();
+        if (metaInfos != null) {
+            for (ArticleMetaInfo inf : metaInfos) {
+               addField(inf.toSmartField());
+            }
+        }
     }
 
     public void addField(SmartField field) {

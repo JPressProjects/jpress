@@ -1,0 +1,166 @@
+#@layout()
+
+#define content()
+
+    <section class="content-header">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h1>
+                                元信息编辑
+                                <small data-toggle="tooltip" title="" data-placement="right"
+                                       data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                                <small> 首页 / 文章 / 元信息管理 / 元信息编辑</small>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+                <div class="card card-outline card-primary">
+
+                    <form class=" form-setting autoAjaxSubmit"  autocomplete="off"
+                          action="#(CPATH)/admin/article/meta/doSave"
+                          method="POST"
+                          data-ok-href="#(CPATH)/admin/article/meta/list"
+                    >
+                        <input type="hidden" name="meta.id" value="#(meta.id ??)">
+                        <div class="card-body">
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">名称</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="请填写该元信息的名称..."
+                                           value="#(meta.label ??)" name="meta.label">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Id属性值</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="ID属性值..."
+                                           value="#(meta.field_id ??)" name="meta.field_id">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Name属性值</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="Name属性值..."
+                                           value="#(meta.field_name ??)" name="meta.field_name">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">占位符内容</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="占位符内容..."
+                                           value="#(meta.placeholder ??)" name="meta.placeholder">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">类型</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="meta.type">
+                                        <option value="input" #selectedIf(meta && meta.type == 'input') >输入框</option>
+                                        <option value="textarea" #selectedIf(meta && meta.type == 'textarea') >文本框（多行输入）</option>
+                                        <option value="select" #selectedIf(meta && meta.type == 'select') >下拉选择框</option>
+                                        <option value="checkbox" #selectedIf(meta && meta.type == 'checkbox') >复选框</option>
+                                        <option value="radio" #selectedIf(meta && meta.type == 'radio') >单选框</option>
+                                        <option value="switch" #selectedIf(meta && meta.type == 'switch') >开关按钮</option>
+                                        <option value="date" #selectedIf(meta && meta.type == 'date') >日期选择器</option>
+                                        <option value="datetime" #selectedIf(meta && meta.type == 'datetime') >时间选择器</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Value值（列表）</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control"
+                                              placeholder="..."
+                                              name="meta.value">#(meta.value ??)</textarea>
+                                    <p class="text-muted"> 多个值用英文逗号（,）隔开，下拉选择框、复选框和单选框可能需要填写多个值。 </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Value值文本</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control"
+                                              placeholder="..."
+                                              name="meta.value_text">#(meta.value_text ??)</textarea>
+                                    <p class="text-muted"> 务必要保证和以上填写的 <b>Value值（列表）</b> 数量上保持一致。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">排序</label>
+                                <div class="col-sm-6">
+                                    <input type="input" class="form-control" placeholder="此分类排序的序号"
+                                           value="#(meta.order_no ??)"
+                                           name="meta.order_no">
+                                    <p class="text-muted"> 越小的数字越靠前。 </p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">其他属性</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control"
+                                              placeholder="..."
+                                              name="meta.attrs">#(meta.attrs ??)</textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">备注</label>
+                                <div class="col-sm-6">
+                                    <textarea rows="3" class="form-control"
+                                              placeholder="..."
+                                              name="meta.remarks">#(meta.remarks ??)</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">启用</label>
+                                <div class="col-sm-6">
+                                    <input type="checkbox" class="switchery" data-for="meta_enable" #checkedIf(meta && meta.enable)>
+                                    <input type="hidden" id="meta_enable" name="meta.enable">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="offset-sm-2 col-sm-10 submit-block">
+                                <div class="card-submit">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-footer -->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+#end

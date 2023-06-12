@@ -1,0 +1,136 @@
+#@layout()
+
+#define script()
+<script>
+
+    function doDel(id) {
+        ajaxGet("#(CPATH)/admin/article/meta/doMetaDel?id=" + id);
+    }
+
+</script>
+#end
+
+#define content()
+
+<section class="content-header">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1>
+                            元信息管理
+                            <small data-toggle="tooltip" title="" data-placement="right"
+                                   data-trigger="hover"><i class="nav-icon far fa-question-circle"></i></small>
+                            <small> 首页 / 文章 / 元信息管理</small>
+                        </h1>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-sm-6 ">
+                <div class="float-sm-right" style="padding-top:15px ">
+                    <a href="#(CPATH)/admin/article/meta/edit" class="btn btn-primary ">
+                        <i class="fas fa-plus"></i> 新建
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="card card-outline card-primary">
+
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <th style="width: 10px">
+                            <input class="tableCheckAll" id="checkall" type="checkbox"/>
+                        </th>
+                        <th style="width: 30%">名称</th>
+                        <th>类型</th>
+                        <th>ID属性</th>
+                        <th>排序</th>
+                        <th>备注</th>
+                    </tr>
+                    #for(meta : page.list)
+                    <tr>
+                        <td><input name="tableItem" type="checkbox" value="#(meta.id)"/>
+                        </td>
+                        <td>
+                            <strong>
+                                <a href="#(CPATH)/admin/article/meta/edit?id=#(meta.id)"> #(meta.label ??) </a>
+                                #if(!meta.isEnable())
+                                （未启用）
+                                #end
+                            </strong>
+                            <div class="jp-action-card">
+                                <div class="jp-action-body">
+                                    <a href="#(CPATH)/admin/article/meta/edit?id=#(meta.id)">编辑</a> |
+                                    <a href="javascript:;" class="red-action" onclick="doDel('#(meta.id)')">删除</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>#(meta.type ??)</td>
+                        <td>#(meta.field_id ??)</td>
+                        <td>#(meta.order_no ??)</td>
+                        <td>#(meta.remarks ??)</td>
+                    </tr>
+                    #else
+                    <tr class="nodata">
+                        <td colspan="999">暂无数据</td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input tableCheckAll" id="checkall" type="checkbox">
+                                    <label class="form-check-label" for="checkall">全选</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-3">
+                                <select class="form-control" name="action">
+                                    <option value="">请选择...</option>
+                                    <option value="doDelByIds" open-type="del-confirm">
+                                        批量删除
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-lg-3">
+                                <button type="button" class="btn btn-outline-primary batchExec">批量操作</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        #@_paginate()
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.card -->
+    </div>
+</section>
+#end

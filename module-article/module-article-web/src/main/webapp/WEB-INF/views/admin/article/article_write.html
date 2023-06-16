@@ -36,7 +36,6 @@
     $(".submitBtn").on("click", function () {
         $("#articleStatus").val($(this).attr("data-status"));
         doSubmit()
-
     });
 
 
@@ -48,19 +47,32 @@
             $("#content").val(window.currentVditor.getHTML());
         }
 
+        var articleStatus = $("#articleStatus").val();
+        if (articleStatus == 'normal') {
+            $('#publisher').attr('disabled', 'disabled');
+            $('#publisher i').addClass('fa-spin');
+        }
+
         ajaxSubmit("#form", function (data) {
-            $("#articleId").attr("value", data.id);
-            window.history.replaceState({}, '', `#(CPATH)/admin/article/write/` + data.id)
-            toastr.success('文章保存成功。')
+            if (articleStatus == 'normal') {
+                showMessage("文章发布成功！","#(CPATH)/admin/article/list")
+            } else {
+                $("#articleId").attr("value", data.id);
+                window.history.replaceState({}, '', `#(CPATH)/admin/article/write/` + data.id)
+                toastr.success('文章保存成功。')
 
-            //设置预览路劲
-            $("#preview").attr("href", "#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/" + data.id);
+                //设置预览路劲
+                $("#preview").attr("href", "#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/" + data.id);
 
-            //如果是通过预览按钮 来保存 那么打开预览窗口
-            if (openPreview === true) {
-                window.open("#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/" + data.id);
+                //如果是通过预览按钮 来保存 那么打开预览窗口
+                if (openPreview === true) {
+                    window.open("#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/" + data.id);
+                }
             }
-
+        }, function (data) {
+            $('#publisher').removeAttr('disabled');
+            $('#publisher i').removeClass('fa-spin');
+            showErrorMessage(data.message);
         });
     };
 
@@ -138,8 +150,6 @@
                         } else if (currentVditor) {
                             currentVditor.insertValue('附件：[' + layer.data.title + '](' + src + ')')
                         }
-
-
                     }
 
                     //image ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"
@@ -494,7 +504,9 @@
                    href="#(CPATH)/admin/preview?url=#(CPATH)/admin/article/preview/#(article.id ??)" #else
                    onclick="previewArticle(this)" #end
                    id="preview" class="btn btn-secondary mr-2"><span>预览</span></a>
-                <button type="button" data-status="normal" class="btn btn-primary mr-2 submitBtn">发布</button>
+                <button type="button" id="publisher" data-status="normal" class="btn btn-primary mr-2 submitBtn">
+                    <i class="fa-solid fa-rotate-right"  style="font-size: 14px"></i> 发布
+                </button>
                 <span class="switch-btn" id="rightSwitch"><i class="bi bi-gear" style="font-size:18px"></i></span>
                 <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="pl-2"><i
                         class="bi bi-three-dots-vertical"></i></span>

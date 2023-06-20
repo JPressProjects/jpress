@@ -15,13 +15,12 @@
  */
 package io.jpress.commons.utils;
 
+import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
-import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.Map;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -32,8 +31,7 @@ public class CommonsUtils {
 
 
     public static String generateCode() {
-        Random random = new Random();
-        return String.valueOf(random.nextInt(9999 - 1000 + 1) + 1000);
+        return String.valueOf(ThreadLocalRandom.current().nextInt(9999 - 1000 + 1) + 1000);
     }
 
     public static void quietlyClose(AutoCloseable... autoCloseables) {
@@ -93,38 +91,31 @@ public class CommonsUtils {
      * @param model
      */
     public static void escapeModel(Model model, String... ignoreAttrs) {
-        String[] attrNames = model._getAttrNames();
+        Set<String> attrNames = CPI.getModifyFlag(model);
         for (String attr : attrNames) {
 
-            if (ArrayUtils.contains(ignoreAttrs, attr)) {
+            if (containsAttr(ignoreAttrs, attr)) {
                 continue;
             }
 
             Object value = model.get(attr);
 
-            if (value != null && value instanceof String) {
+            if (value instanceof String) {
                 model.set(attr, StrUtil.escapeHtml(value.toString()));
             }
         }
     }
 
-    public static void escapeMap(Map map, Object... ignoreKeys) {
-        if (map == null || map.isEmpty()) {
-            return;
+    public static boolean containsAttr(String[] attrs, String attr) {
+        if (attrs == null || attrs.length == 0 || attr == null) {
+            return false;
         }
-
-        Set<? extends Object> keys = map.keySet();
-        for (Object key : keys) {
-            if (ArrayUtils.contains(ignoreKeys, key)) {
-                continue;
-            }
-
-            Object value = map.get(key);
-
-            if (value != null && value instanceof String) {
-                map.put(key, StrUtil.escapeHtml(value.toString()));
+        for (String s : attrs) {
+            if (attr.equalsIgnoreCase(s)) {
+                return true;
             }
         }
+        return false;
     }
 
 

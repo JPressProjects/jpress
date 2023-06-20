@@ -15,6 +15,7 @@
  */
 package io.jpress.commons.utils;
 
+import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Model;
 import io.jboot.utils.StrUtil;
 import org.jsoup.Jsoup;
@@ -25,6 +26,7 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class JsoupUtils {
 
@@ -88,14 +90,15 @@ public class JsoupUtils {
         if (attrs != null && attrs.length == 0) {
             return;
         }
-
-        for (String attr : attrs) {
-            Object data = model.get(attr);
-            if (data == null || !(data instanceof String)) {
-                continue;
+        Set<String> attrNames = CPI.getModifyFlag(model);
+        for (String attrName : attrNames) {
+            if (CommonsUtils.containsAttr(attrs, attrName)) {
+                Object data = model.get(attrName);
+                if (!(data instanceof String)) {
+                    continue;
+                }
+                model.set(attrName, clean((String) data));
             }
-
-            model.set(attr, clean((String) data));
         }
     }
 
@@ -138,9 +141,8 @@ public class JsoupUtils {
             addAttributes("object", "width", "height", "classid", "codebase");
             addAttributes("param", "name", "value");
             addAttributes("embed", "src", "quality", "width", "height", "allowFullScreen", "allowScriptAccess", "flashvars", "name", "type", "pluginspage");
-            addAttributes("oembed", "src", "quality", "width", "height", "allowFullScreen", "allowScriptAccess", "flashvars", "name", "type", "pluginspage");
 
-            addAttributes(":all", "class", "style","height", "width", "type", "id", "name", "data-id", "data-role", "data-width", "data-height");
+            addAttributes(":all", "class", "style", "height", "width", "type", "id", "name", "data-id", "data-role", "data-width", "data-height");
 
 //
             addProtocols("blockquote", "cite", "http", "https");

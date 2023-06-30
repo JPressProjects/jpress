@@ -1,16 +1,5 @@
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-SET NAMES utf8mb4;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE='NO_AUTO_VALUE_ON_ZERO', SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
 # 转储表 article
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `article`;
 
 CREATE TABLE `article` (
                            `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -60,8 +49,6 @@ CREATE TABLE `article` (
 # 转储表 article_category
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `article_category`;
-
 CREATE TABLE `article_category` (
                                     `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                     `pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父级分类的ID',
@@ -98,8 +85,6 @@ CREATE TABLE `article_category` (
 # 转储表 article_category_mapping
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `article_category_mapping`;
-
 CREATE TABLE `article_category_mapping` (
                                             `article_id` int(11) unsigned NOT NULL COMMENT '文章ID',
                                             `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
@@ -110,8 +95,6 @@ CREATE TABLE `article_category_mapping` (
 
 # 转储表 article_comment
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `article_comment`;
 
 CREATE TABLE `article_comment` (
                                    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -138,10 +121,44 @@ CREATE TABLE `article_comment` (
 
 
 
-# 转储表 attachment
+# 转储表 article_meta_info
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `attachment`;
+CREATE TABLE `article_meta_info` (
+                                     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                                     `field_id` varchar(32) DEFAULT NULL,
+                                     `field_name` varchar(64) DEFAULT NULL,
+                                     `label` varchar(128) DEFAULT NULL,
+                                     `placeholder` varchar(512) DEFAULT NULL,
+                                     `help_text` varchar(512) DEFAULT NULL,
+                                     `type` varchar(32) DEFAULT NULL,
+                                     `value` varchar(512) DEFAULT NULL,
+                                     `value_text` varchar(512) DEFAULT NULL,
+                                     `attrs` varchar(256) DEFAULT NULL,
+                                     `order_no` int(11) DEFAULT NULL,
+                                     `enable` tinyint(1) DEFAULT NULL,
+                                     `remarks` text,
+                                     PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+# 转储表 article_meta_record
+# ------------------------------------------------------------
+
+CREATE TABLE `article_meta_record` (
+                                       `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                                       `article_id` int(11) unsigned DEFAULT NULL,
+                                       `field_name` varchar(64) DEFAULT NULL,
+                                       `value` text,
+                                       PRIMARY KEY (`id`),
+                                       UNIQUE KEY `article_id_and_field_name` (`article_id`,`field_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+# 转储表 attachment
+# ------------------------------------------------------------
 
 CREATE TABLE `attachment` (
                               `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID主键',
@@ -170,8 +187,6 @@ CREATE TABLE `attachment` (
 # 转储表 attachment_category
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `attachment_category`;
-
 CREATE TABLE `attachment_category` (
                                        `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                        `title` varchar(512) DEFAULT NULL COMMENT '标题',
@@ -186,8 +201,6 @@ CREATE TABLE `attachment_category` (
 
 # 转储表 attachment_video
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `attachment_video`;
 
 CREATE TABLE `attachment_video` (
                                     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -220,8 +233,6 @@ CREATE TABLE `attachment_video` (
 # 转储表 attachment_video_category
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `attachment_video_category`;
-
 CREATE TABLE `attachment_video_category` (
                                              `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                              `title` varchar(512) DEFAULT NULL COMMENT '标题',
@@ -236,8 +247,6 @@ CREATE TABLE `attachment_video_category` (
 
 # 转储表 form_datasource
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `form_datasource`;
 
 CREATE TABLE `form_datasource` (
                                    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -260,8 +269,6 @@ CREATE TABLE `form_datasource` (
 # 转储表 form_datasource_item
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `form_datasource_item`;
-
 CREATE TABLE `form_datasource_item` (
                                         `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                                         `pid` int(11) unsigned DEFAULT NULL COMMENT '上级ID，级联数据源的时候用到',
@@ -279,8 +286,6 @@ CREATE TABLE `form_datasource_item` (
 
 # 转储表 form_info
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `form_info`;
 
 CREATE TABLE `form_info` (
                              `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -306,106 +311,8 @@ CREATE TABLE `form_info` (
 
 
 
-# 转储表 job
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `job`;
-
-CREATE TABLE `job` (
-                       `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                       `title` varchar(128) DEFAULT NULL COMMENT '职位名称或者标题',
-                       `content` text COMMENT '描述',
-                       `department` varchar(256) DEFAULT NULL COMMENT '对应部门',
-                       `category_id` int(11) unsigned DEFAULT NULL COMMENT '对应分类id',
-                       `address_id` int(11) unsigned DEFAULT NULL COMMENT '工作地点',
-                       `age_limit_start` int(11) DEFAULT NULL COMMENT '年龄开始',
-                       `age_limit_end` int(11) DEFAULT NULL COMMENT '年龄结束',
-                       `education` tinyint(2) DEFAULT NULL COMMENT '学历',
-                       `years_limit_type` tinyint(2) DEFAULT NULL COMMENT '工作年限',
-                       `with_notify` tinyint(1) DEFAULT NULL COMMENT '有建立申请时，是否通知',
-                       `notify_emails` varchar(512) DEFAULT NULL COMMENT '通知的邮箱',
-                       `notify_title` varchar(256) DEFAULT NULL COMMENT '通知的邮件标题',
-                       `notify_content` text COMMENT '通知的邮件内容',
-                       `with_remote` tinyint(1) DEFAULT NULL COMMENT '是否属于远程工作',
-                       `with_apply` tinyint(1) DEFAULT NULL COMMENT '是否允许在线投递',
-                       `with_hurry` tinyint(1) DEFAULT NULL COMMENT '急招',
-                       `work_type` tinyint(2) DEFAULT NULL COMMENT '工作类型',
-                       `recruit_type` tinyint(2) DEFAULT NULL COMMENT '招聘类型',
-                       `recruit_numbers` int(11) DEFAULT NULL COMMENT '岗位招聘人数',
-                       `expired_to` datetime DEFAULT NULL COMMENT '岗位有效时间',
-                       `meta_title` varchar(512) DEFAULT NULL COMMENT 'SEO标题',
-                       `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
-                       `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
-                       `created` datetime DEFAULT NULL COMMENT '创建日期',
-                       `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-                       `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
-                       PRIMARY KEY (`id`),
-                       KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='工作岗位表';
-
-
-
-# 转储表 job_apply
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `job_apply`;
-
-CREATE TABLE `job_apply` (
-                             `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                             `job_id` int(10) unsigned DEFAULT NULL COMMENT '申请的职位ID',
-                             `user_name` varchar(32) DEFAULT NULL COMMENT '用户名称',
-                             `mobile` varchar(32) DEFAULT NULL COMMENT '手机号',
-                             `mobile_area` varchar(16) DEFAULT NULL COMMENT '手机区号，中国 +86',
-                             `email` varchar(32) DEFAULT NULL COMMENT '邮箱',
-                             `gender` tinyint(2) DEFAULT NULL COMMENT '性别',
-                             `birthday` datetime DEFAULT NULL COMMENT '出生日期',
-                             `work_years` int(11) DEFAULT NULL COMMENT '工作年限',
-                             `education` tinyint(4) DEFAULT NULL COMMENT '最高学历',
-                             `last_company` varchar(256) DEFAULT NULL COMMENT '最近工作的公司',
-                             `cv_path` varchar(256) DEFAULT NULL COMMENT '上传的简历',
-                             `attachment` varchar(256) DEFAULT NULL COMMENT '上传的其他附件',
-                             `referral_code` varchar(32) DEFAULT NULL COMMENT '推荐码',
-                             `with_viewed` tinyint(1) DEFAULT NULL COMMENT '是否已经查看',
-                             `with_disposed` tinyint(1) DEFAULT NULL COMMENT '是否已经处理',
-                             `disposed_content` varchar(512) DEFAULT NULL COMMENT '处理意见，处理内容',
-                             `disposed_time` datetime DEFAULT NULL COMMENT '处理时间',
-                             `created` datetime DEFAULT NULL COMMENT '创建时间',
-                             `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
-                             PRIMARY KEY (`id`),
-                             KEY `job_id` (`job_id`),
-                             KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='职位申请信息';
-
-
-
-# 转储表 job_category
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `job_category`;
-
-CREATE TABLE `job_category` (
-                                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                                `type` varchar(32) DEFAULT NULL COMMENT '分类的类型：category、address',
-                                `pid` int(11) unsigned DEFAULT NULL COMMENT '父id',
-                                `title` varchar(255) DEFAULT NULL COMMENT '分类名称',
-                                `summary` varchar(255) DEFAULT NULL COMMENT '摘要',
-                                `count` int(11) unsigned DEFAULT NULL COMMENT '该分类下的岗位数量',
-                                `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
-                                `flag` varchar(256) DEFAULT NULL COMMENT '标识',
-                                `created` datetime DEFAULT NULL COMMENT '创建日期',
-                                `modified` datetime DEFAULT NULL COMMENT '修改日期',
-                                `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
-                                PRIMARY KEY (`id`),
-                                KEY `site_id` (`site_id`),
-                                KEY `type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位分类表';
-
-
-
 # 转储表 menu
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `menu`;
 
 CREATE TABLE `menu` (
                         `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
@@ -432,8 +339,6 @@ CREATE TABLE `menu` (
 # 转储表 option
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `option`;
-
 CREATE TABLE `option` (
                           `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                           `key` varchar(128) DEFAULT NULL COMMENT '配置KEY',
@@ -447,8 +352,6 @@ CREATE TABLE `option` (
 
 # 转储表 permission
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `permission`;
 
 CREATE TABLE `permission` (
                               `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -464,157 +367,8 @@ CREATE TABLE `permission` (
 
 
 
-# 转储表 product
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `product`;
-
-CREATE TABLE `product` (
-                           `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-                           `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
-                           `title` varchar(256) DEFAULT '' COMMENT '标题',
-                           `content` longtext COMMENT '内容',
-                           `summary` text COMMENT '摘要',
-                           `usp` text COMMENT '产品卖点',
-                           `thumbnail` varchar(512) DEFAULT NULL COMMENT '缩略图',
-                           `style` varchar(32) DEFAULT NULL COMMENT '样式',
-                           `order_number` int(11) DEFAULT '0' COMMENT '排序编号',
-                           `price` decimal(10,2) DEFAULT NULL COMMENT '商品价格',
-                           `origin_price` decimal(10,2) DEFAULT NULL COMMENT '原始价格',
-                           `limited_price` decimal(10,2) DEFAULT NULL COMMENT '限时优惠价（早鸟价）',
-                           `status` tinyint(2) DEFAULT NULL COMMENT '状态',
-                           `comment_status` tinyint(1) DEFAULT '1' COMMENT '评论状态，默认允许评论',
-                           `comment_count` int(11) unsigned DEFAULT '0' COMMENT '评论总数',
-                           `comment_time` datetime DEFAULT NULL COMMENT '最后评论时间',
-                           `view_count` int(11) unsigned DEFAULT '0' COMMENT '访问量',
-                           `sales_count` int(11) unsigned DEFAULT '0' COMMENT '销售量，用于放在前台显示',
-                           `buy_link` varchar(255) DEFAULT NULL COMMENT '购买链接',
-                           `video_id` varchar(64) DEFAULT NULL COMMENT '视频ID',
-                           `created` datetime DEFAULT NULL COMMENT '创建日期',
-                           `modified` datetime DEFAULT NULL COMMENT '最后更新日期',
-                           `flag` varchar(64) DEFAULT NULL COMMENT '标识，通常用于对某几个商品进行标识，从而实现单独查询',
-                           `meta_title` varchar(512) DEFAULT NULL COMMENT 'SEO标题',
-                           `meta_keywords` varchar(512) DEFAULT NULL COMMENT 'SEO关键字',
-                           `meta_description` varchar(512) DEFAULT NULL COMMENT 'SEO描述信息',
-                           `remarks` text COMMENT '备注信息',
-                           `options` text COMMENT 'json 扩展',
-                           `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
-                           PRIMARY KEY (`id`) USING BTREE,
-                           UNIQUE KEY `slug` (`slug`) USING BTREE,
-                           KEY `created` (`created`) USING BTREE,
-                           KEY `view_count` (`view_count`) USING BTREE,
-                           KEY `order_number` (`order_number`) USING BTREE,
-                           KEY `sales_count` (`sales_count`) USING BTREE,
-                           KEY `status` (`status`) USING BTREE,
-                           KEY `flag` (`flag`) USING BTREE,
-                           KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品表';
-
-
-
-# 转储表 product_category
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `product_category`;
-
-CREATE TABLE `product_category` (
-                                    `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-                                    `pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父级分类的ID',
-                                    `user_id` int(11) unsigned DEFAULT NULL COMMENT '分类创建的用户ID',
-                                    `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
-                                    `title` varchar(512) DEFAULT NULL COMMENT '标题',
-                                    `content` text COMMENT '内容描述',
-                                    `summary` text COMMENT '摘要',
-                                    `style` varchar(32) DEFAULT NULL COMMENT '模板样式',
-                                    `type` varchar(32) DEFAULT NULL COMMENT '类型，比如：分类、tag、专题',
-                                    `icon` varchar(128) DEFAULT NULL COMMENT '图标',
-                                    `with_recommend` tinyint(1) DEFAULT NULL COMMENT '是否推荐',
-                                    `with_top` tinyint(1) DEFAULT NULL COMMENT '是否置顶',
-                                    `ornament` varchar(512) DEFAULT NULL COMMENT '装饰图',
-                                    `thumbnail` varchar(512) DEFAULT NULL COMMENT '缩略图',
-                                    `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的内容数量',
-                                    `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
-                                    `flag` varchar(64) DEFAULT NULL COMMENT '标识',
-                                    `meta_title` varchar(256) DEFAULT NULL COMMENT 'SEO标题',
-                                    `meta_keywords` varchar(256) DEFAULT NULL COMMENT 'SEO关键字',
-                                    `meta_description` varchar(256) DEFAULT NULL COMMENT 'SEO描述内容',
-                                    `options` text,
-                                    `created` datetime DEFAULT NULL COMMENT '创建日期',
-                                    `modified` datetime DEFAULT NULL COMMENT '修改日期',
-                                    `site_id` int(10) unsigned DEFAULT NULL COMMENT '站点ID',
-                                    PRIMARY KEY (`id`) USING BTREE,
-                                    KEY `typeslug` (`type`,`slug`) USING BTREE,
-                                    KEY `order_number` (`order_number`) USING BTREE,
-                                    KEY `pid` (`pid`) USING BTREE,
-                                    KEY `flag` (`flag`) USING BTREE,
-                                    KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品分类表。标签、专题、类别等都属于category。';
-
-
-
-# 转储表 product_category_mapping
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `product_category_mapping`;
-
-CREATE TABLE `product_category_mapping` (
-                                            `product_id` int(11) unsigned NOT NULL COMMENT '商品ID',
-                                            `category_id` int(11) unsigned NOT NULL COMMENT '分类ID',
-                                            PRIMARY KEY (`product_id`,`category_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品和分类的多对多关系表';
-
-
-
-# 转储表 product_comment
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `product_comment`;
-
-CREATE TABLE `product_comment` (
-                                   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-                                   `pid` int(11) unsigned DEFAULT NULL COMMENT '回复的评论ID',
-                                   `product_id` int(11) unsigned DEFAULT NULL COMMENT '评论的产品ID',
-                                   `user_id` int(11) unsigned DEFAULT NULL COMMENT '评论的用户ID',
-                                   `author` varchar(128) DEFAULT NULL COMMENT '评论的作者',
-                                   `content` text COMMENT '评论的内容',
-                                   `reply_count` int(11) unsigned DEFAULT '0' COMMENT '评论的回复数量',
-                                   `order_number` int(11) DEFAULT '0' COMMENT '排序编号，常用语置顶等',
-                                   `vote_up` int(11) unsigned DEFAULT '0' COMMENT '“顶”的数量',
-                                   `vote_down` int(11) unsigned DEFAULT '0' COMMENT '“踩”的数量',
-                                   `status` tinyint(2) DEFAULT NULL COMMENT '评论的状态',
-                                   `created` datetime DEFAULT NULL COMMENT '评论的时间',
-                                   `site_id` int(11) unsigned DEFAULT NULL COMMENT '站点ID',
-                                   PRIMARY KEY (`id`) USING BTREE,
-                                   KEY `product_id` (`product_id`) USING BTREE,
-                                   KEY `user_id` (`user_id`) USING BTREE,
-                                   KEY `status` (`status`) USING BTREE,
-                                   KEY `pid` (`pid`) USING BTREE,
-                                   KEY `site_id` (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品评论表';
-
-
-
-# 转储表 product_image
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `product_image`;
-
-CREATE TABLE `product_image` (
-                                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-                                 `product_id` int(11) unsigned NOT NULL,
-                                 `src` varchar(512) NOT NULL,
-                                 `order_number` int(11) DEFAULT NULL,
-                                 `created` datetime DEFAULT NULL,
-                                 PRIMARY KEY (`id`) USING BTREE,
-                                 KEY `productid` (`product_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='产品图片表';
-
-
-
 # 转储表 role
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
                         `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -631,8 +385,6 @@ CREATE TABLE `role` (
 # 转储表 role_permission_mapping
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `role_permission_mapping`;
-
 CREATE TABLE `role_permission_mapping` (
                                            `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
                                            `permission_id` int(11) unsigned NOT NULL COMMENT '权限ID',
@@ -643,8 +395,6 @@ CREATE TABLE `role_permission_mapping` (
 
 # 转储表 single_page
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `single_page`;
 
 CREATE TABLE `single_page` (
                                `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -681,8 +431,6 @@ CREATE TABLE `single_page` (
 # 转储表 single_page_category
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `single_page_category`;
-
 CREATE TABLE `single_page_category` (
                                         `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
                                         `title` varchar(512) DEFAULT NULL COMMENT '标题',
@@ -704,8 +452,6 @@ CREATE TABLE `single_page_category` (
 
 # 转储表 single_page_comment
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `single_page_comment`;
 
 CREATE TABLE `single_page_comment` (
                                        `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -735,8 +481,6 @@ CREATE TABLE `single_page_comment` (
 # 转储表 site_info
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `site_info`;
-
 CREATE TABLE `site_info` (
                              `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
                              `site_id` int(11) unsigned DEFAULT NULL COMMENT '自定义站点ID',
@@ -755,8 +499,6 @@ CREATE TABLE `site_info` (
 # 转储表 template_block_option
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `template_block_option`;
-
 CREATE TABLE `template_block_option` (
                                          `template_id` varchar(64) NOT NULL COMMENT '模板ID',
                                          `site_id` int(11) unsigned NOT NULL COMMENT '站点 ID',
@@ -768,8 +510,6 @@ CREATE TABLE `template_block_option` (
 
 # 转储表 user
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
                         `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
@@ -815,8 +555,6 @@ CREATE TABLE `user` (
 # 转储表 user_openid
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user_openid`;
-
 CREATE TABLE `user_openid` (
                                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                                `user_id` int(11) unsigned DEFAULT NULL COMMENT '用户ID',
@@ -839,8 +577,6 @@ CREATE TABLE `user_openid` (
 # 转储表 user_role_mapping
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user_role_mapping`;
-
 CREATE TABLE `user_role_mapping` (
                                      `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
                                      `role_id` int(11) unsigned NOT NULL COMMENT '角色ID',
@@ -849,44 +585,8 @@ CREATE TABLE `user_role_mapping` (
 
 
 
-# 转储表 user_tag
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user_tag`;
-
-CREATE TABLE `user_tag` (
-                            `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-                            `slug` varchar(128) DEFAULT NULL COMMENT 'slug',
-                            `title` varchar(512) DEFAULT NULL COMMENT '标题',
-                            `content` text COMMENT '内容描述',
-                            `type` varchar(32) DEFAULT NULL COMMENT 'tag类别，用于以后扩展',
-                            `count` int(11) unsigned DEFAULT '0' COMMENT '该分类的用户数量',
-                            `order_number` int(11) DEFAULT '0' COMMENT '排序编码',
-                            `options` text,
-                            `created` datetime DEFAULT NULL COMMENT '创建日期',
-                            `modified` datetime DEFAULT NULL COMMENT '修改日期',
-                            PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户标签。';
-
-
-
-# 转储表 user_tag_mapping
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `user_tag_mapping`;
-
-CREATE TABLE `user_tag_mapping` (
-                                    `user_id` int(11) unsigned NOT NULL COMMENT '用户ID',
-                                    `tag_id` int(11) unsigned NOT NULL COMMENT '标签ID',
-                                    PRIMARY KEY (`user_id`,`tag_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户和标签的多对多关系表';
-
-
-
 # 转储表 utm
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `utm`;
 
 CREATE TABLE `utm` (
                        `id` varchar(32) NOT NULL DEFAULT '',
@@ -922,8 +622,6 @@ CREATE TABLE `utm` (
 # 转储表 wechat_menu
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `wechat_menu`;
-
 CREATE TABLE `wechat_menu` (
                                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                                `pid` int(11) unsigned DEFAULT NULL COMMENT '父级ID',
@@ -943,8 +641,6 @@ CREATE TABLE `wechat_menu` (
 # 转储表 wechat_reply
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `wechat_reply`;
-
 CREATE TABLE `wechat_reply` (
                                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                                 `keyword` varchar(128) DEFAULT NULL COMMENT '关键字',
@@ -957,14 +653,3 @@ CREATE TABLE `wechat_reply` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户自定义关键字回复表';
 
 
-INSERT INTO `article` (`id`, `pid`, `slug`, `title`, `author`, `content`, `edit_mode`, `summary`, `link_to`, `thumbnail`, `style`, `user_id`, `order_number`, `status`, `comment_status`, `comment_count`, `comment_time`, `view_count`, `created`, `modified`, `flag`, `meta_title`, `meta_keywords`, `meta_description`, `with_recommend`, `with_top`, `with_hot`, `with_lead_news`, `with_allow_search`, `options`, `site_id`)
-VALUES
-    (1, NULL, NULL, '欢迎使用JPress', NULL, '<p>欢迎使用 JPress，这是一篇 JPress 自动为您创建的测试文章，您可以进入 JPress 的后台，在文章管理里进行修改或者删除。</p>', 'html', NULL, NULL, NULL, NULL, 1, 0, 'normal', 1, 0, NULL, 0, '2022-08-18 12:00:00', '2022-08-18 12:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

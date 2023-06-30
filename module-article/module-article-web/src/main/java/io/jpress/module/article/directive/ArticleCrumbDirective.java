@@ -53,9 +53,20 @@ public class ArticleCrumbDirective extends JbootDirectiveBase {
         //首页的文字内容
         String indexText = getParaToString("indexText", scope, "首页");
 
+        //显示的最大层级
+        int maxLevelCount = getParaToInt("maxLevelCStt", scope, 5);
+
+        //面包屑的分隔符
+        String separator = getParaToString("separator", scope, " &gt; ");
+
         Multimap<Integer, ArticleCategory> crumbCategories = HashMultimap.create();
 
         List<ArticleCategory> allArticleCategories = articleCategoryService.findAll();
+
+        //移除移除 tag 等类型
+        allArticleCategories.removeIf(c -> !ArticleCategory.TYPE_CATEGORY.equals(c.getType()));
+
+
         SortKit.toLayer(allArticleCategories);
 
         List<ArticleCategory> currentCategories = null;
@@ -81,7 +92,7 @@ public class ArticleCrumbDirective extends JbootDirectiveBase {
         crumb.append("<a  href=\"").append(indexUrl).append("\" class=\"").append(aClass).append("\" >").append(indexText).append("</a>");
 
         if (!crumbCategories.isEmpty()) {
-            crumb.append(" &gt; ");
+            crumb.append(separator);
             List<Integer> keys = crumbCategories.keySet().stream().sorted(Comparator.comparingInt(o -> o)).collect(Collectors.toList());
             int i = 0;
             for (Integer key : keys) {
@@ -97,8 +108,12 @@ public class ArticleCrumbDirective extends JbootDirectiveBase {
                     }
                 }
 
+                if (maxLevelCount > 0 && i + 1 >= maxLevelCount) {
+                    break;
+                }
+
                 if (++i != keys.size()) {
-                    crumb.append(" &gt; ");
+                    crumb.append(separator);
                 }
             }
         }

@@ -252,8 +252,8 @@ public class ImageUtils {
 
         } catch (Exception e) {
             log.warn("ImageUtils pressImage error", e);
-        }finally {
-            if (graphics != null){
+        } finally {
+            if (graphics != null) {
                 graphics.dispose();
             }
         }
@@ -313,7 +313,7 @@ public class ImageUtils {
             top = Math.min(Math.max(0, top), bi.getHeight() - height);
 
             BufferedImage subimage = bi.getSubimage(left, top, width, height);
-            BufferedImage resizeImage = resize(subimage, 200, 200);
+            BufferedImage resizeImage = resize(subimage, width, height);
 
             save(resizeImage, destImageFile);
 

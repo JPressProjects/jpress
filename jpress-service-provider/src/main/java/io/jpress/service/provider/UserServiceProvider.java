@@ -32,10 +32,8 @@ import io.jpress.commons.service.JPressServiceBase;
 import io.jpress.commons.utils.SqlUtils;
 import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
-import io.jpress.model.UserTag;
 import io.jpress.service.UserOpenidService;
 import io.jpress.service.UserService;
-import io.jpress.service.UserTagService;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -47,8 +45,6 @@ public class UserServiceProvider extends JPressServiceBase<User> implements User
     @Inject
     private UserOpenidService openidService;
 
-    @Inject
-    private UserTagService tagService;
 
     @Override
     public boolean deleteByIds(Object... ids) {
@@ -67,23 +63,13 @@ public class UserServiceProvider extends JPressServiceBase<User> implements User
 
 
     @Override
-    public Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId, String tag) {
+    public Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId) {
 
         StringBuilder sqlBuilder = new StringBuilder("from `user` u ");
 
         if (memberGroupId != null) {
             sqlBuilder.append(" left join member m on u.id = m.user_id ");
             columns.eq("m.group_id", memberGroupId);
-        }
-
-
-        if (StrUtil.isNotBlank(tag)) {
-            UserTag userTag = tagService.findFirstByTag(tag);
-            if (userTag == null) {
-                return null;
-            }
-            sqlBuilder.append("left join user_tag_mapping utm on u.id = utm.user_id");
-            columns.eq("utm.tag_id", userTag.getId());
         }
 
         sqlBuilder.append(SqlUtils.toWhereSql(columns));

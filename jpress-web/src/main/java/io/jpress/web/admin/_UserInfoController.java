@@ -49,10 +49,6 @@ public class _UserInfoController extends AdminControllerBase {
     @Inject
     private UtmService utmService;
 
-    @Inject
-    private UserTagService userTagService;
-
-
 
     public void index() {
         Long uid = getParaToLong();

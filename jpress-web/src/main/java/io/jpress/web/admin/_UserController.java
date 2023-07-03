@@ -35,15 +35,18 @@ import io.jpress.core.menu.annotation.AdminMenu;
 import io.jpress.model.Permission;
 import io.jpress.model.Role;
 import io.jpress.model.User;
-import io.jpress.model.UserTag;
-import io.jpress.service.*;
+import io.jpress.service.PermissionService;
+import io.jpress.service.RoleService;
+import io.jpress.service.UserService;
+import io.jpress.service.UtmService;
 import io.jpress.web.admin.kits.PermissionKits;
 import io.jpress.web.base.AdminControllerBase;
-import io.jpress.web.commons.email.AdminMessageSender;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -68,9 +71,6 @@ public class _UserController extends AdminControllerBase {
     private UtmService utmService;
 
 
-    @Inject
-    private UserTagService userTagService;
-
 
     @AdminMenu(text = "用户管理", groupId = JPressConsts.SYSTEM_MENU_USER, order = 0)
     public void list() {
@@ -81,7 +81,7 @@ public class _UserController extends AdminControllerBase {
         columns.likeAppendPercent("mobile", getTrimPara("mobile"));
         columns.eq("create_source", getPara("create_source"));
 
-        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"), getPara("tag"));
+        Page<User> page = userService._paginate(getPagePara(), 10, columns, getParaToLong("group_id"));
 
         int lockedCount = userService.findCountByStatus(User.STATUS_LOCK);
         int regCount = userService.findCountByStatus(User.STATUS_REG);
@@ -100,30 +100,6 @@ public class _UserController extends AdminControllerBase {
         render("user/list.html");
     }
 
-
-
-    @EmptyValidate({
-            @Form(name = "tag.title", message = "标签名称不能为空"),
-    })
-    public void doTagSave() {
-        UserTag tag = getModel(UserTag.class, "tag");
-        tag.setSlug(tag.getTitle());
-
-        String slug = tag.getSlug();
-        if (slug == null || slug.contains("-") || StrUtil.isNumeric(slug)) {
-            renderJson(Ret.fail("message", "固定连接不能以数字结尾"));
-            return;
-        }
-
-        Object id = userTagService.saveOrUpdate(tag);
-        renderOkJson();
-    }
-
-
-    public void doTagDel() {
-        userTagService.deleteById(getPara());
-        renderOkJson();
-    }
 
 
     public void permissions() {
@@ -192,17 +168,6 @@ public class _UserController extends AdminControllerBase {
 
 
 
-    public void doSendEmail() {
-        Long[] tagIds = getTagIds(getParaValues("userTags"));
-
-        List<User> users = userService.findListByTagIds(Columns.create(), tagIds);
-        String title = getPara("title");
-        String content = getCleanedOriginalPara("content");
-        String cc = getPara("cc");
-
-        renderJson(AdminMessageSender.sendEmail(title, content, cc, users));
-    }
-
 
     public void doDelRolePermission(long roleId, long permissionId) {
         roleService.delPermission(roleId, permissionId);
@@ -253,27 +218,6 @@ public class _UserController extends AdminControllerBase {
         renderOkJson();
     }
 
-
-    public void doUpdateUserTags() {
-        Long[] tagIds = getTagIds(getParaValues("tag"));
-        userTagService.doUpdateTags(getParaToLong("userId"), tagIds);
-        renderOkJson();
-    }
-
-    private Long[] getTagIds(String[] tags) {
-        if (tags == null || tags.length == 0) {
-            return null;
-        }
-
-        Set<String> tagset = new HashSet<>();
-        for (String tag : tags) {
-            tagset.addAll(StrUtil.splitToSet(tag,","));
-        }
-
-        List<UserTag> userTags = userTagService.findOrCreateByTagString(tagset.toArray(new String[0]));
-        long[] ids = userTags.stream().mapToLong(value -> value.getId()).toArray();
-        return ArrayUtils.toObject(ids);
-    }
 
 
     @EmptyValidate({

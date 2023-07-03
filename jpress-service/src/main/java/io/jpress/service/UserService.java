@@ -89,7 +89,7 @@ public interface UserService extends JbootServiceJoiner {
      */
     boolean update(User model);
 
-    Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId, String tag);
+    Page<User> _paginate(int page, int pagesize, Columns columns, Long memberGroupId);
 
 
     User findByUsernameOrEmail(String usernameOrEmail);

@@ -43,7 +43,7 @@ public class SelectUserController extends AdminControllerBase {
                 .likeAppendPercent("nickname",get("nickname"))
                 .likeAppendPercent("mobile",get("mobile"));
 
-        Page<User> page = userService._paginate(getPagePara(), getPageSizePara(), columns, null, null);
+        Page<User> page = userService._paginate(getPagePara(), getPageSizePara(), columns, null);
         setAttr("page", page);
         render("user/commons_select_user.html");
     }

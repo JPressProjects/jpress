@@ -413,7 +413,6 @@ public class _ArticleController extends AdminControllerBase {
 
     @EmptyValidate({
             @Form(name = "category.title", message = "分类名称不能为空"),
-            @Form(name = "category.slug", message = "slug 不能为空")
     })
     public void doCategorySave() {
         ArticleCategory category = getModel(ArticleCategory.class, "category");

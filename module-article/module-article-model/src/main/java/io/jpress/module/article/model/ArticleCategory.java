@@ -58,17 +58,22 @@ public class ArticleCategory extends BaseArticleCategory<ArticleCategory> {
     @JsonIgnore
     public String getUrl() {
         String prefix = TYPE_CATEGORY.equals(getType()) ? "/category/" : "/tag/";
-        return UrlUtils.getUrl(prefix, getSlug());
+        return UrlUtils.getUrl(prefix, getSlugOrId());
+    }
+
+    private String getSlugOrId() {
+        String slug = getSlug();
+        return StrUtil.isNotBlank(slug) ? slug : getId().toString();
     }
 
 
-    public String getUrlWithPageNumber(int pageNumber){
+    public String getUrlWithPageNumber(int pageNumber) {
         if (pageNumber <= 1) {
             return getUrl();
         }
 
         String prefix = TYPE_CATEGORY.equals(getType()) ? "/category/" : "/tag/";
-        return UrlUtils.getUrl(prefix, getSlug(),"-",pageNumber);
+        return UrlUtils.getUrl(prefix, getSlug(), "-", pageNumber);
     }
 
     @JsonIgnore

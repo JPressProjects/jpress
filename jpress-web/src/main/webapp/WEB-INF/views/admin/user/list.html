@@ -117,7 +117,6 @@
                                 <th style="width: 80px">ID</th>
                                 <th style="width: 20%">登录名</th>
                                 <th style="width: 10%">昵称</th>
-                                <th>标签</th>
                                 <th>邮箱</th>
                                 <th>手机号</th>
                                 <th>来源</th>
@@ -168,18 +167,8 @@
                                     </div>
                                 </td>
                                 <td>#(user.nickname ??)</td>
-                                <td>
-                                    #userTags(userId = user.id)
-                                        #for(t : tags)
-                                            #(t.title ??)
-                                            #if(!for.last) , #end
-                                        #end
-                                    #end
-                                </td>
-
                                 <td>#(user.email ??)</td>
                                 <td>#(user.mobile ??)</td>
-
                                 <td>#(user.sourceString ??)</td>
                                 <td>#date(user.created ??)</td>
                             </tr>

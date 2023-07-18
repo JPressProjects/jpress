@@ -33,13 +33,11 @@ import io.jpress.commons.utils.ImageUtils;
 import io.jpress.core.menu.annotation.UCenterMenu;
 import io.jpress.model.User;
 import io.jpress.model.UserOpenid;
-import io.jpress.service.*;
+import io.jpress.service.UserOpenidService;
+import io.jpress.service.UserService;
 import io.jpress.web.base.UcenterControllerBase;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Michael Yang 杨福海 （fuhai999@gmail.com）
@@ -106,22 +104,6 @@ public class UserCenterController extends UcenterControllerBase {
     @UCenterMenu(text = "修改密码", groupId = JPressConsts.UCENTER_MENU_PERSONAL_INFO, icon = "<i class=\"fas fa-key\"></i>",order = 50)
     public void pwd() {
         render("pwd.html");
-    }
-
-
-    /**
-     * 账号绑定
-     */
-    @UCenterMenu(text = "账号绑定", groupId = JPressConsts.UCENTER_MENU_PERSONAL_INFO, icon = "<i class=\"fas fa-random\"></i>",order = 60)
-    public void bind() {
-        UserOpenidService openidService = Aop.get(UserOpenidService.class);
-        List<UserOpenid> list = openidService.findListByUserId(getLoginedUser().getId());
-        Map<String, UserOpenid> map = new HashMap<>();
-        if (list != null) {
-            list.forEach(userOpenid -> map.put(userOpenid.getType(), userOpenid));
-        }
-        setAttr("userOpenidMap", map);
-        render("bind.html");
     }
 
     /**

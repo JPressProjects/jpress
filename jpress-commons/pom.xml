@@ -72,7 +72,7 @@
         <dependency>
             <groupId>nl.basjes.parse.useragent</groupId>
             <artifactId>yauaa</artifactId>
-            <version>7.3.0</version>
+            <version>7.9.0</version>
         </dependency>
 
         <dependency>

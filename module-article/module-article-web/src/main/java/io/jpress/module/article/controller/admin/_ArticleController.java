@@ -201,6 +201,13 @@ public class _ArticleController extends AdminControllerBase {
         //默认情况下，请求会被 escape，通过 getOriginalPara 获得非 escape 的数据
         article.setContent(getCleanedOriginalPara("article.content"));
 
+        //对外链参数进行安全校验，防止存储型 XSS 攻击
+        Ret linkToValidRet = validateLinkTo(article);
+        if (linkToValidRet.isFail()) {
+            renderJson(linkToValidRet);
+            return;
+        }
+
         Ret validRet = validateSlug(article);
         if (validRet.isFail()) {
             renderJson(validRet);
@@ -267,6 +274,48 @@ public class _ArticleController extends AdminControllerBase {
 
         Ret ret = id > 0 ? Ret.ok().set("id", id) : Ret.fail();
         renderJson(ret);
+    }
+
+    /**
+     * 校验文章外链（link_to）参数，防止存储型 XSS 攻击。
+     * 外链参数最终会被渲染到页面中（后台编辑页通过 #unescape 输出），
+     * 因此必须拒绝可能注入 html 标签、引号或危险协议的内容。
+     */
+    private Ret validateLinkTo(Article article) {
+        String linkTo = article.getLinkTo();
+        if (StrUtil.isBlank(linkTo)) {
+            return Ret.ok();
+        }
+
+        //去除不可见控制字符，防止通过换行、TAB 等字符绕过安全校验
+        StringBuilder sb = new StringBuilder(linkTo.length());
+        for (char c : linkTo.toCharArray()) {
+            if (c >= ' ' && c != 0x7F) {
+                sb.append(c);
+            }
+        }
+        linkTo = sb.toString().trim();
+        article.setLinkTo(linkTo);
+
+        //外链中不允许包含 html 标签或引号，防止在页面中被当作 html 执行
+        if (linkTo.contains("<")
+                || linkTo.contains(">")
+                || linkTo.contains("\"")
+                || linkTo.contains("'")
+                || linkTo.contains("`")) {
+            return Ret.fail("message", "外链地址不合法，请勿包含脚本或特殊字符");
+        }
+
+        //禁止使用 javascript、vbscript、data、file 等可执行危险协议，只允许 http/https 等常规地址
+        String lowerLinkTo = linkTo.toLowerCase();
+        if (lowerLinkTo.startsWith("javascript:")
+                || lowerLinkTo.startsWith("vbscript:")
+                || lowerLinkTo.startsWith("data:")
+                || lowerLinkTo.startsWith("file:")) {
+            return Ret.fail("message", "外链地址不合法，请使用 http 或 https 协议");
+        }
+
+        return Ret.ok();
     }
 
     private Long[] getTagIds(String[] tags) {
